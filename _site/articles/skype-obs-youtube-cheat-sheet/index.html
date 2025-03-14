@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ru-RU">
+  <head>
+    <meta charset="utf-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Шпаргалка по трансляции из Skype в YouTube</title>
+    <meta name="description" content="A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others">
+    <meta name="yandex-verification" content="54e7e416b90929b5" />
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="http://192.168.5.71:4000/articles/skype-obs-youtube-cheat-sheet/">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png">
+    <link type="application/atom+xml" rel="alternate" href="http://192.168.5.71:4000/feed.xml" title="UnixBSDShell" />
+  </head>
+  <body>
+    
+    <header>
+  <a id="home" href="/"><img src="/img/logo.png" alt="На главную" /></a>
+</header>
+
+<nav id="menu">
+  <ul>
+    <li><a href="/articles"><span class="icon-articles"></span> Articles</a></li>
+    <li><a href="/posts"><span class="icon-blog"></span> Blog</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h1>Шпаргалка по трансляции из Skype в YouTube<br /><small>С помощью OBS Studio</small></h1>
+
+
+<p>Сделал две трансляции Skype-интервью в YouTube. Измучился, исстрадался, оба раза затянул начало. Алгоритм запуска состоит из множества шагов. При повторном интервью шаги забываются, их приходится восстанавливать.</p>
+
+<p>Чтобы упростить себе (и другим) трансляции, решил сделать шпаргалку.</p>
+
+<h2 id="важно">Важно</h2>
+
+<p>Одна вещь, которую я не понял из документации, а понял только во время первой трансляции. <strong>Вам надо два разных компьютера, чтобы вести трансляцию.</strong> Иначе будут сложности с настройкой камеры и звука. Наверное, их можно как-то обойти и мы даже их обошли. Но, тем не менее.</p>
+
+<p>В идеальном мире, за вторым компьютером должен сидеть режиссёр, который будет управлять трансляцией. В нашем мире эту работу вы можете делать сами. Придётся помнить, какой мышкой и какой клавиатурой пользоваться в каждый момент времени, а так — ничего сложного.</p>
+
+<p>Второй неочевидный пункт, следующий из первого — <strong>вам надо две разных учётных записи Skype</strong>. Я завёл вторую запись на вторую почту.</p>
+
+<p>Далее я буду называть компьютер и учётку, которые управляют трансляцией — <em>компьютером режиссёра</em> и <em>учёткой режиссёра</em>.</p>
+
+<h2 id="предварительные-требования">Предварительные требования</h2>
+
+<p>Всё, что касается установки и настройки есть в <a href="https://obsproject.com/forum/attachments/live-streaming-on-youtube-using-skype-and-obs-by-trajano-roberto-revc-pdf.49949/">документе</a>.</p>
+
+<p>PDF, английский язык.</p>
+
+<p>Установите <strong>Skype for Content Creators</strong>, <strong>OBS Studio</strong> и плагин <strong>OBS-NDI</strong> на <em>компьютер режиссёра</em>.
+После установки OBS Studio запустите программу для настройки. <strong>Во время настройки OBS Studio не подключайтесь к YouTube.</strong></p>
+
+<h2 id="чек-лист">Чек-лист</h2>
+
+<h3 id="заранее">Заранее</h3>
+
+<h4 id="заранее-создайте-трансляцию-в-youtube">Заранее создайте трансляцию в YouTube</h4>
+
+<p>Трансляция может быть создана заранее. Когда я делаю анонс мероприятия, мне уже нужна ссылка на трансляцию, а это происходит за две недели до самого события.</p>
+
+<p>Зайдите в Творческую студию и нажмите кнопку <em>Создать</em>. Выберите <em>Начать трансляцию</em>.</p>
+
+<p><img src="/img//skype-obs-youtube-04.png" alt="Начать трансляцию YouTube" class="picture" /></p>
+
+<p>Откроется страница управления трансляциями. Нажмите кнопку <em>Запланировать трансляцию</em>. Пре первом запуске вам потребуется настроить параметры трансляции, при последующих вы можете использовать настройки предыдущей трансляции. Выбирайте вариант <em>Reuse settings</em>.</p>
+
+<p><img src="/img//skype-obs-youtube-05.png" alt="Использовать настройки предыдущей трансляции" class="picture" /></p>
+
+<p>Поменяйте <em>Название</em> и <em>Описание</em>. <strong>Не забудьте поменять <em>Значок</em>, если они разные в ваших трансляциях.</strong></p>
+
+<p>Остальные настройки заполняйте по своему усмотрению. На последней экране выберите дату и время трансляции.</p>
+
+<p>После создания скопируйте ссылку для анонса. Нажмите стрелку в правом верхнем углу (на рисунке обведена), чтобы открыть окно <em>Поделиться</em>. Ссылка на трансляцию — в нижней части окна.</p>
+
+<p><img src="/img//skype-obs-youtube-06.png" alt="Поделиться ссылкой" class="picture" /></p>
+
+<h4 id="заранее-установите-контакты-со-всеми-собеседниками">Заранее установите контакты со всеми собеседниками</h4>
+
+<p>Собеседников надо добавлять в контакты <strong>режиссёрской учётки</strong>. Рекомендую созвониться с каждым и проверить связь.</p>
+
+<h3 id="начало-трансляции">Начало трансляции</h3>
+
+<h4 id="проверьте-что-в-skype-разрешено-использование-ndi">Проверьте, что в Skype разрешено использование NDI</h4>
+
+<p>Зайдите в настройки Skype на <strong>компьютере режиссёра</strong>.</p>
+
+<p><img src="/img//skype-obs-youtube-01.png" alt="Зайти в настройки Skype" class="picture" /></p>
+
+<p>Выберите <em>Звонки</em>, затем <em>Дополнительно</em>.</p>
+
+<p><img src="/img//skype-obs-youtube-02.png" alt="Выбрать дополнительные настройки звонков" class="picture" /></p>
+
+<p>Разрешите использование NDI. <strong>Важно. Этот шаг надо повторять каждый раз. Skype время от времени снимает этот переключатель. Кажется, что при выходе-входе.</strong></p>
+
+<p><img src="/img//skype-obs-youtube-03.png" alt="Разрешить использование NDI" class="picture" /></p>
+
+<h4 id="создайте-групповой-чат-в-skype">Создайте групповой чат в Skype</h4>
+
+<p>В <strong>режиссёрской учётке</strong> создайте групповой чат.</p>
+
+<p><img src="/img//skype-obs-youtube-07.png" alt="Создать групповой чат в Skype" class="picture" /></p>
+
+<p>Введите название группы. В качестве названия я беру название мероприятия. Нажмите кнопку <em>Далее</em>.</p>
+
+<p>На втором экране выберите своих собеседников из списка контактов.</p>
+
+<p>После создания группы, зайдите в неё, и нажмите кнопку <em>Позвонить</em>.</p>
+
+<p><img src="/img//skype-obs-youtube-08.png" alt="Начать звонок" class="picture" /></p>
+
+<h4 id="создайтенастройте-сцену-в-obs-studio">Создайте/настройте сцену в OBS Studio</h4>
+
+<p>OBS Studio позволяет создать <em>коллаж</em> из нескольких видеопотоков и статических картинок. Видеопотоки и картинки называются в программе <em>Источниками</em>.</p>
+
+<p>В OBS Studio нет проектов в разных файлах. Ваши проекты — это <em>Сцены</em> (<em>Scenes</em>) слева внизу экрана.
+Чтобы создать новую сцену для трансляции, нажмите <em>+</em>. Сцены можно переиспользовать, особенное, если состав участников постоянен.</p>
+
+<p>В сцены можно добавлять <em>Источники</em> (<em>Sources</em>).</p>
+
+<p>Пример того, как выглядит сцена с тремя источниками: статической картинкой на фоне и двумя собеседниками.</p>
+
+<p><img src="/img//skype-obs-youtube-09.png" alt="Пример настройки сцены в OBS Studio" class="picture" /></p>
+
+<p>Чтобы добавить собеседника, нажмите <em>+</em> на панели <em>Sources</em> и затем <em>NDI™ Source</em>. После начала звонка в поле <em>Source name</em> можно выбрать любого собеседника из группового чата.</p>
+
+<p>Пример настройки собеседника с ником <em>markshevchenko</em>.</p>
+
+<p><img src="/img//skype-obs-youtube-10.png" alt="Пример настройки источника NDI™ Source" class="picture" /></p>
+
+<p><em>TODO: доразобраться и дописать, как правильно настроить Transform для источника</em></p>
+
+<p><img src="/img//skype-obs-youtube-11.png" alt="Пример настройки трансформации" class="picture" /></p>
+
+<h4 id="запустите-трансляцию">Запустите трансляцию</h4>
+
+<p>Скопируйте в буфер обмена ключ трансляции со страницы YouTube.</p>
+
+<p><img src="/img//skype-obs-youtube-12.png" alt="Скопируйте ключ трансляции" class="picture" /></p>
+
+<p>Вернитесь в OBS Studio, нажмите кнопку <em>Settings</em>.</p>
+
+<p><img src="/img//skype-obs-youtube-13.png" alt="Нажмите кнопку Settings" class="picture" /></p>
+
+<p>На вкладке <em>Stream</em> нажмите кнопку <em>Use Stream Key (advanced)</em>.</p>
+
+<p><img src="/img//skype-obs-youtube-14.png" alt="Нажмите кнопку Use Stream Key" class="picture" /></p>
+
+<p>Вставьте ключ из буфера обмена в текстовое поле.</p>
+
+<p><img src="/img//skype-obs-youtube-15.png" alt="Вставьте ключ" class="picture" /></p>
+
+<p>Нажмите кнопку <em>Ok</em>. Нажмите кнопку <em>Start Streaming</em>.</p>
+
+<p>На одном из компьютеров у меня появилось сообщение об ошибке <em>Your current video card driver does not support this NVENC version, please update your drivers</em>. Вылечилось обновлением драйверов на видеокарту NVIDIA.</p>
+
+<p>Если всё прошло без проблем, кнопка <em>Начать трансляцию</em> на странице YouTube станет доступна. Самое время её нажать.
+У вас откроется страница трансляции. Оставьте её для контроля, только отключите звук в ролике YouTube.</p>
+
+<p><img src="/img//skype-obs-youtube-16.png" alt="Пример настройки трансформации" class="picture" /></p>
+
+
+
+
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = 'https://markshevchenko.pro/articles/skype-obs-youtube-cheat-sheet/';
+this.page.identifier = 'skype-obs-youtube-cheat-sheet';
+};
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://markshevchenko-pro.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+</main>
+
+<nav id="profiles">
+  <ul>
+    <li><a href="https://github.com/markshevchenko"><span class="icon-github"></span> GitHub</a></li>
+    <li><a href="https://stackoverflow.com/users/1051621/mark-shevchenko"><span class="icon-stackoverflow"></span> Stack Overflow</a></li>
+    <li><a href="https://ru.stackoverflow.com/users/182162/mark-shevchenko"><span class="icon-stackoverflow"></span> Stack Overflow/рус</a></li>
+  </ul>
+</nav>
+
+<footer>
+  Write to me at <a href="tg://resolve?domain=markshevchenko"><img src="https://img.icons8.com/color/50/000000/telegram-app.png" style="width: auto; height: 1em" />Telegram</a>
+</footer>
+
+  </body>
+</html>

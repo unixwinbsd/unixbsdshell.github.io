@@ -1,0 +1,1040 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru-RU"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://192.168.5.71:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://192.168.5.71:4000/" rel="alternate" type="text/html" hreflang="ru-RU" /><updated>2025-03-15T02:58:23+07:00</updated><id>http://192.168.5.71:4000/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>Iwan Setiawan</name></author><entry><title type="html">Simple LDAP server setup and configuration on OpenBSD</title><link href="http://192.168.5.71:4000/2025/01/15/setup-configuration-ldap-server-on-openbsd/" rel="alternate" type="text/html" title="Simple LDAP server setup and configuration on OpenBSD" /><published>2025-01-15T15:00:00+07:00</published><updated>2025-01-15T15:00:00+07:00</updated><id>http://192.168.5.71:4000/2025/01/15/setup-configuration-ldap-server-on-openbsd</id><content type="html" xml:base="http://192.168.5.71:4000/2025/01/15/setup-configuration-ldap-server-on-openbsd/"><![CDATA[<p>Let’s say you have a bunch of user accounts that you want to sync across multiple systems and other application services. How do you do it? Is it even possible? To answer these questions, you can use Ansible/Puppet/Chef or more advanced scripts. Or, we can solve this problem and bring systems and services together in one place. That place is LDAP!.</p>
+
+<p>LDAP (Lightweight Directory Access Protocol) is a standard method used to access data in databases. Although LDAP is not actually a database. What exactly is a database? In this article, we will not discuss databases. While there are many reasons why you would not want to use LDAP, one argument for using it is that almost any service you want to authenticate to can communicate with an LDAP server.</p>
+
+<p>In this tutorial, we will walk you through how to install OpenLDAP on OpenBSD. OpenLDAP is an open source software suite that provides a directory service, similar to Microsoft’s Active Directory. OpenLDAP is a lightweight, secure, and scalable directory service that can be used to manage user accounts and access control for applications.</p>]]></content><author><name>Iwan Setiawan</name></author><summary type="html"><![CDATA[LDAP (Lightweight Directory Access Protocol) is a standard method used to access data in a database.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://192.168.5.71:4000/img/markshevchenko.jpg" /><media:content medium="image" url="http://192.168.5.71:4000/img/markshevchenko.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">FreeBSD Knot Resolver — реализация DNS Caching Resolver</title><link href="http://192.168.5.71:4000/2024/12/18/freebsd-knot-resover-dns-caching-resolver/" rel="alternate" type="text/html" title="FreeBSD Knot Resolver — реализация DNS Caching Resolver" /><published>2024-12-18T23:00:00+07:00</published><updated>2024-12-18T23:00:00+07:00</updated><id>http://192.168.5.71:4000/2024/12/18/freebsd-knot-resover-dns-caching-resolver</id><content type="html" xml:base="http://192.168.5.71:4000/2024/12/18/freebsd-knot-resover-dns-caching-resolver/"><![CDATA[<p>Knot Resolver — это кэширующий DNS-резолвер, который можно использовать в крупных сетях, например, у интернет-провайдеров, а также настоятельно рекомендуется для использования на маршрутизаторах домашних сетей. Knot Resolver — это современная реализация решателя, разработанная для масштабируемости, надежности и гибкости. Конструкция разрешителя узлов отличается от других разрешителей. Его базовая архитектура небольшая и эффективная, а большинство его функций можно реализовать в виде дополнительных модулей, что ограничивает поверхность атаки и повышает производительность Knot Resolver.</p>
+
+<p>Knot DNS Resolver включает в себя полное приложение для реализации кэш-резолвера, написанное на LuaJIT и C. В Knot resolver есть много модулей, которые вы можете использовать, например, API-модули для расширений и многое другое. В целом существует три встроенных модуля: итератор, кэш, валидатор и множество других внешних модулей.</p>
+
+<p>В модуле Lua кэш-преобразователь Knot является маршрутизируемым и общим, а быстрая привязка FFI делает его отличным для использования в процессе разрешения или для использования в вашей рекурсивной службе DNS. Это OpenResty DNS.</p>
+
+<p>Сервер-резолвер DNS Knot использует иную стратегию масштабирования, чем другие рекурсивные DNS-серверы: он работает без потоковой передачи, не имеет общей архитектуры (за исключением общего кэша MVCC). Вы можете запускать и останавливать дополнительные узлы в зависимости от их загруженности без простоя.</p>
+
+<p>В этой статье мы узнаем, как установить, настроить и использовать резолвер Knot на машине FreeBSD.</p>
+
+<h2 id="a-процесс-установки-решателя-узлов">A. Процесс установки решателя узлов</h2>
+
+<p>Как и большинство приложений, работающих на FreeBSD, он использует PKG и порты для процесса установки. Аналогично с устройством разрешения узлов вы можете использовать либо систему PKG, либо систему портов. Хотя процесс установки с помощью системы портов занимает много времени, установленные библиотеки весьма полны. Поэтому мы рекомендуем вам использовать портовую систему для начала установки решателя узлов.</p>
+
+<p>Введите следующую команду, чтобы начать установку решателя узлов.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/dns/knot-resolver
+root@ns3:/usr/ports/dns/knot-resolver # make config
+root@ns3:/usr/ports/dns/knot-resolver # make install clean
+</code></pre></div></div>
+
+<p>В команде «make config» появится меню опций, которые необходимо активировать. Если он активен, просто нажмите «ОК».</p>
+
+<p>После запуска команды «make install clean» система портов FreeBSD автоматически выполнит процесс установки. Дождитесь завершения процесса.</p>
+
+<p>Оказывается, установить Knot resolver довольно просто, это может сделать каждый. Оказывается, процесс на этом не останавливается. Остается процесс настройки и порядок его использования.</p>
+
+<h2 id="b-процесс-настройки-преобразователя-узлов">B. Процесс настройки преобразователя узлов</h2>
+
+<p>Конфигурация — самый важный этап, вам предстоит изменять, добавлять и удалять скрипты, содержащиеся в файле конфигурации. По умолчанию каталогом резолвера Knot является «/usr/local/etc/knot-resolver», а его файл конфигурации называется «kresd.conf».</p>
+
+<p>Откройте файл «kresd.conf», отредактируйте скрипт и настройте его в соответствии со спецификациями вашего сервера FreeBSD. В качестве руководства вы можете использовать скрипт «kresd.conf», как показано ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net.listen('192.168.5.2', 53, { kind = 'dns' })
+
+
+-- Load useful modules
+modules = {
+	'hints &gt; iterate',  -- Allow loading /etc/hosts or custom root hints
+	'stats',            -- Track internal statistics
+	'predict',          -- Prefetch expiring/frequent records
+}
+
+internal_domains = policy.todnames({
+  'datainchi.com.'
+})
+
+-- The authoritative server runs on 127.0.0.1, port 2153
+policy.add(policy.suffix(policy.STUB({'127.0.0.1@2153'}), internal_domains))
+
+-- Cache size
+cache.size = 100 * MB
+
+policy.add(
+  policy.all(
+    policy.TLS_FORWARD({
+      {'8.8.8.8', hostname='dns.google' },
+      {'8.8.4.4', hostname='dns.google' },
+      {'1.1.1.1', hostname='cloudflare-dns.com' },
+      {'1.0.0.1', hostname='cloudflare-dns.com' },
+      {'9.9.9.9', hostname='dns.quad9.net' }
+    })
+))
+</code></pre></div></div>
+
+<p>IP «192.168.5.2» — это локальный IP-адрес сервера FreeBSD, а IP «8.8.8.8,8.8.4.4,1.1.1.1,1.0.0.1,9.9.9.9» — это публичные IP-адреса DNS. Таким образом, резолвер Knot будет «перенаправлять» запросы на публичный DNS-IP. Локальное доменное имя в приведенном выше скрипте — «datainchi.com».</p>
+
+<p>После настройки файла «kresd.conf» перейдите к редактированию файла «/etc/resolv.conf». Введите приведенный ниже скрипт в файл.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /etc/resolv.conf
+
+domain datainchi.com
+nameserver 192.168.5.2
+</code></pre></div></div>
+
+<h2 id="c-как-использовать-knot-resolver">C. Как использовать Knot Resolver</h2>
+
+<p>Несмотря на то, что вы настроили файл «kresd.conf», резолвер Knot еще не готов к использованию, он установлен, но не запущен. Чтобы автоматически запустить резолвер Knot, откройте файл «/etc/rc.conf» и введите в него приведенный ниже скрипт.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kresd_enable="YES"
+kresd_config="/usr/local/etc/knot-resolver/kresd.conf"
+kresd_user="kresd"
+kresd_group="kresd"
+kresd_rundir="/var/run/kresd"
+
+krescachegc_enable="YES"
+krescachegc_millis="1000"
+</code></pre></div></div>
+
+<p>После этого вы запускаете команду «chown», чтобы предоставить право собственности на файл.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chown -R kresd:kresd /usr/local/etc/knot-resolver
+</code></pre></div></div>
+
+<p>Перезагрузить (перезапустить) решатель узлов.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service kresd restart
+root@ns3:~ # service krescachegc restart
+</code></pre></div></div>
+
+<p>Теперь ваш разрешитель узлов активен и готов к использованию. Попробуйте провести тестирование с помощью команды «dig».</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # dig google.com
+
+; &lt;&lt;&gt;&gt; DiG 9.18.20 &lt;&lt;&gt;&gt; google.com
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 52479
+;; flags: qr rd ra; QUERY: 1, ANSWER: 6, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;google.com.                    IN      A
+
+;; ANSWER SECTION:
+google.com.             162     IN      A       142.251.10.113
+google.com.             162     IN      A       142.251.10.138
+google.com.             162     IN      A       142.251.10.139
+google.com.             162     IN      A       142.251.10.100
+google.com.             162     IN      A       142.251.10.101
+google.com.             162     IN      A       142.251.10.102
+
+;; Query time: 94 msec
+;; SERVER: 192.168.5.2#53(192.168.5.2) (UDP)
+;; WHEN: Mon Jan 29 16:57:48 WIB 2024
+;; MSG SIZE  rcvd: 135
+</code></pre></div></div>
+
+<p>Обратите внимание на синий скрипт. Вы успешно запустили резолвер Knot, поскольку на DNS-вызов google.com отвечает локальный IP-адрес вашего сервера FreeBSD. Повторите тест, используя команду ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # dig oracle.com +trace
+root@ns3:~ # dig -x 108.59.161.1
+root@ns3:~ # nslookup facebook.com
+root@ns3:~ # dig oracle.com +short
+root@ns3:~ # dig NS +short unixwinbsd.site
+</code></pre></div></div>
+
+<p>В этой статье вы узнали, как установить пакет knot-resolver, настроить его и запустить на сервере FreeBSD. Вы можете изменить файл «kresd.conf», чтобы максимально эффективно использовать приложение Knot resolver. Содержание этой статьи ограничивается только базовой теорией решателя узлов, мы продолжим в следующем обсуждении, чтобы вы могли ощутить преимущества всех функций решателя узлов.</p>]]></content><author><name>Iwan Setiawan</name></author><summary type="html"><![CDATA[Knot DNS Resolver включает в себя полное приложение для реализации кэш-резолвера, написанное на LuaJIT и C.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://192.168.5.71:4000/img/markshevchenko.jpg" /><media:content medium="image" url="http://192.168.5.71:4000/img/markshevchenko.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Установка DNS-сервера ISC Bind с использованием OpenBSD</title><link href="http://192.168.5.71:4000/2024/12/01/install-isc-dns-bind-on-openbsd/" rel="alternate" type="text/html" title="Установка DNS-сервера ISC Bind с использованием OpenBSD" /><published>2024-12-01T21:00:00+07:00</published><updated>2024-12-01T21:00:00+07:00</updated><id>http://192.168.5.71:4000/2024/12/01/install-isc-dns-bind-on-openbsd</id><content type="html" xml:base="http://192.168.5.71:4000/2024/12/01/install-isc-dns-bind-on-openbsd/"><![CDATA[<p>Для тех из вас, у кого медленный интернет, кэширование DNS-сервера является разумным решением для увеличения скорости интернет-серфинга. В общем случае приложение DNS-сервера выполняет функцию преобразования имен в числа. Каждое введенное вами имя веб-сайта будет преобразовано в IP-адрес, поэтому веб-страница будет отображаться так, как вы ее видите в Google Chrome или Firefox.</p>
+
+<p>В целом существует несколько типов DNS-серверов. Кэширующий тип — это тип, который не содержит необработанного сопоставления имен с адресами. Этот тип называется авторитетным DNS-сервером, который можно разделить на главный, подчиненный и скрытый. Кэширующий DNS-сервер также называется рекурсивным сервером. Все типы DNS-серверов могут называться серверами имен.</p>
+
+<p>Принцип работы кэширующего сервера DNS заключается в том, что когда сервер DNS находит запрошенный вами адрес DNS, он немедленно отправляет его тому, кто запросил адрес DNS, а затем сохраняет адрес DNS в своей базе данных. Позже, когда ваш друг запросит тот же DNS-адрес, сервер кэширования DNS возьмет DNS-адрес из своей базы данных. Таким образом, это может ускорить время обработки DNS-запросов.</p>
+
+<p>Чем медленнее ваше интернет-соединение, тем полезнее кэш DNS-сервера для улучшения доступа в интернет. Для поддержания точности на сервере существует настраиваемое время истечения срока действия (время жизни/TTL), которое заставляет его периодически обращаться в Интернет за обновлениями.</p>
+
+<h2 id="1-как-установить-dns-сервер-isc-bind">1. Как установить DNS-сервер ISC Bind</h2>
+
+<p>Одним из преимуществ ISC Bind является то, что его можно установить на все операционные системы, такие как Windows, MacOS, Linux и BSD, включая OpenBSD. Однако каждая система имеет свой способ настройки. В этом разделе мы узнаем, как установить, настроить и использовать ISC Bind на сервере OpenBSD.</p>
+
+<p>Поскольку DNS Bind уже хорошо знаком, как и в других операционных системах, в OpenBSD ISC Bind уже доступен в репозитории pkg_add. Для установки ISC Bind на OpenBSD вы можете выполнить команду ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# pkg_add isc-bind-9.18.25v3
+</code></pre></div></div>
+
+<p>После завершения процесса установки приложение ISC Bind по умолчанию создает пользователя и группу с именем _bind:_bind. Этот пользователь будет очень полезен при настройке. Расположение каталога ISC Bind в OpenBSD немного отличается от расположения в FreeBSD. OpenBSD помещает приложение ISC Bind в /var/named. Все файлы конфигурации хранятся в этом каталоге.</p>
+
+<p>По умолчанию каталог /var/named содержит две папки, а именно /etc и /tmp, в процессе настройки мы добавим в этот каталог несколько папок, таких как /master, /standard и другие.</p>
+
+<h2 id="2-процесс-настройки">2. Процесс настройки</h2>
+
+<p>В этом разделе мы обсудим шаги по настройке ISC Bind. Файл конфигурации ISC Bind называется «named.conf». В этом файле вы можете задать все необходимые параметры кэширования DNS-сервера.</p>
+
+<h3 id="а-включение-привязки-isc">а. Включение привязки ISC</h3>
+<p>Перед настройкой ISC Bind сначала включите DNS-сервер Bind, выполнив команду ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# rcctl enable isc_named
+foo# rcctl restart isc_named
+isc_named(ok)
+isc_named(ok)
+</code></pre></div></div>
+
+<p>Приведенная выше команда включает ISC Bind и создает файл rndc.key. Попробуйте открыть содержимое файла скрипта rndc.key с помощью команды cat.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# cat /var/named/etc/rndc.key
+key "rndc-key" {
+        algorithm hmac-sha256;
+        secret "sLhSyJAo609lksFnU2Z0y5MbiSnoVJfTMz21foPVv3g=";
+};
+</code></pre></div></div>
+
+<h3 id="б-отредактируйте-файл-конфигурации-с-именем-conf">б. Отредактируйте файл конфигурации с именем .conf.</h3>
+<p>Мы будем использовать все содержимое файла скрипта rndc.key для настройки файла named.conf. Теперь откройте файл named.conf, затем удалите все содержимое скрипта и замените его скриптом, приведенным ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/named/etc/named.conf
+key "rndc-key" {
+	algorithm hmac-sha256;
+	secret "sLhSyJAo609lksFnU2Z0y5MbiSnoVJfTMz21foPVv3g=";
+};
+
+ 
+ controls {
+ 	inet 127.0.0.1 port 953
+ 		allow { 127.0.0.1; } keys { "rndc-key"; };
+ };
+
+acl clients {
+	192.168.7.0/24;
+	127.0.0.1;
+};
+acl IP_LAN { 192.168.7.3; };
+
+options {
+	directory "/tmp";
+	version "dns foo.kursor.my.id";
+	listen-on port 53 { IP_LAN; };
+	#listen-on-v6 { any; };
+	allow-recursion { clients; };
+	allow-query { clients; };
+	allow-query-cache { clients; };
+        allow-transfer { none; };
+	empty-zones-enable yes;
+	recursion yes;
+	auth-nxdomain no;
+	dnssec-validation yes;
+};
+
+zone "localhost" {
+        type master;
+        file "standard/localhost";
+        allow-transfer { 127.0.0.1; };
+};
+
+zone "127.in-addr.arpa" {
+        type master;
+        file "standard/loopback";
+        allow-transfer { 127.0.0.1; };
+};
+
+zone "." {
+  type forward;
+  forward first;
+  forwarders { 1.1.1.1; 8.8.8.8; };
+};
+
+zone "kursor.my.id" in {
+        type master;
+        file "master/internal.lan";
+};
+
+zone "7.168.192.in-addr.arpa" in {
+        type master;
+        file "master/insternal.rev";
+};
+</code></pre></div></div>
+
+<h3 id="в-добавление-настроек-зоны">в. Добавление настроек зоны</h3>
+<p>В приведенном выше скрипте файла named.conf есть несколько зон, которые будут использоваться ISC Bind. Мы настроим создание зоны согласно приведенному выше сценарию. Первым шагом является создание каталога для зоны.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# mkdir -p /var/named/standard
+foo# mkdir -p /var/named/master
+foo# touch /var/named/standard/localhost
+foo# touch /var/named/standard/loopback
+foo# touch /var/named/master/internal.lan
+foo# touch /var/named/master/internal.rev
+</code></pre></div></div>
+
+<p>После этого в файл зоны добавляется скрипт, как в примере ниже. Как обычно, мы используем текстовый редактор nano.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/named/standard/localhost
+$ORIGIN localhost.
+$TTL 6h
+
+@       IN      SOA     localhost. root.localhost. (
+                        1       ; serial
+                        1h      ; refresh
+                        30m     ; retry
+                        7d      ; expiration
+                        1h )    ; minimum
+
+                NS      localhost.
+                A       127.0.0.1
+                AAAA    ::1
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/named/standard/loopback
+$ORIGIN 127.in-addr.arpa.
+$TTL 6h
+
+@       IN      SOA     localhost. root.localhost. (
+                        1       ; serial
+                        1h      ; refresh
+                        30m     ; retry
+                        7d      ; expiration
+                        1h )    ; minimum
+
+                NS      localhost.
+1.0.0           PTR     localhost.
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/named/master/internal.lan
+$ORIGIN .
+$TTL    86400   ; 24 hours
+kursor.my.id    IN SOA  foo.kursor.my.id. root.foo.kursor.my.id. (
+                        2010022201 ; Serial
+                        86400           ; Refresh (24 hours)
+                        3600             ; Retry (1 hour)
+                        172800         ; Expire (48 hours)
+                        3600             ; Minimum (1 hour)
+                )
+kursor.my.id.		IN	NS      foo.kursor.my.id.
+
+$ORIGIN kursor.my.id.
+foo.kursor.my.id.	IN	A       192.168.7.3
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/named/master/insternal.rev
+$ORIGIN .
+$TTL    86400   ; 24 hours
+7.168.192.in-addr.arpa	IN	SOA	foo.kursor.my.id. root.foo.kursor.my.id. (
+                                2010022201      ; Serial
+                                86400           ; Refresh (24 hours)
+                                3600            ; Retry (1 hour)
+                                172800          ; Expire (48 hours)
+                                3600            ; Minimum (1 hour)
+                                )
+	IN	NS      foo.kursor.my.id.
+
+$ORIGIN 7.168.192.in-addr.arpa.
+100	IN     PTR     foo.kursor.my.id.
+</code></pre></div></div>
+
+<h3 id="г-изменение-разрешений-и-права-собственности">г. Изменение разрешений и права собственности</h3>
+<p>Как мы объяснили выше, по умолчанию ISB Bind, работающий в OpenBSD, имеет пользователя и группу «_bind». Выполните команду ниже, чтобы узнать права доступа к файлу и права собственности.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# cd /var/named
+foo# chown -R _bind:_bind master standard var tmp
+</code></pre></div></div>
+
+<h3 id="е-файл-корневых-ссылок">е. Файл корневых ссылок</h3>
+<p>Файл корневых подсказок — это файл, содержащий имена и IP-адреса авторитетных серверов имен для корневой зоны, чтобы программное обеспечение могло инициировать процесс разрешения DNS. Вам следует загрузить этот файл из официального репозитория сайта Iana.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# wget https://www.internic.net/domain/named.root -P /var/named/etc
+</code></pre></div></div>
+
+<h3 id="ф-отредактируйте-файл-resolvconf">ф. Отредактируйте файл resolv.conf</h3>
+<p>Файл resolv.conf в OpenBSD используется для подключения сервера OpenBSD к системе доменных имен (DNS). Вам необходимо будет заполнить этот файл DNS, который вы будете использовать. Поскольку вы используете ISC Bind в качестве кэширующего DNS-сервера, мы заполним этот файл частными IP-адресами серверов OpenBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /etc/resolv.conf
+domain kursor.my.id
+nameserver 192.168.7.3
+</code></pre></div></div>
+
+<h3 id="г-зона-проверки">г. Зона проверки</h3>
+<p>Чтобы убедиться в отсутствии ошибок в созданных вами зонах, выполните проверку с помощью команды ниже. Сначала мы проверяем основной файл конфигурации с именем .conf.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# named-checkconf /var/named/etc/named.conf
+</code></pre></div></div>
+
+<p>Затем вы переходите к проверке зон, которые вы создали выше.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# named-checkzone kursor.my.id /var/named/master/internal.lan
+zone kursor.my.id/IN: loaded serial 2010022201
+OK
+foo# named-checkzone 7.168.192.in-addr.arpa /var/named/master/internal.rev
+zone 7.168.192.in-addr.arpa/IN: loaded serial 2010022201
+OK
+</code></pre></div></div>
+
+<h3 id="час-проверьте-dns-серверы-имен">час Проверьте DNS-серверы имен</h3>
+<p>Если все в порядке, продолжаем проверку сервера имен DNS. Данная проверка призвана гарантировать правильную работу DNS-сервера ISB Bind. Мы используем команду dig для проверки сервера имен DNS. Взгляните на примеры команд ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# dig yahoo.com
+
+; &lt;&lt;&gt;&gt; dig 9.10.8-P1 &lt;&lt;&gt;&gt; yahoo.com
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 59861
+;; flags: qr rd ra; QUERY: 1, ANSWER: 6, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;yahoo.com.                     IN      A
+
+;; ANSWER SECTION:
+yahoo.com.              1800    IN      A       74.6.231.21
+yahoo.com.              1800    IN      A       98.137.11.163
+yahoo.com.              1800    IN      A       74.6.143.25
+yahoo.com.              1800    IN      A       74.6.231.20
+yahoo.com.              1800    IN      A       98.137.11.164
+yahoo.com.              1800    IN      A       74.6.143.26
+
+;; Query time: 27 msec
+;; SERVER: 192.168.7.3#53(192.168.7.3)
+;; WHEN: Wed Apr 17 16:40:48 WIB 2024
+;; MSG SIZE  rcvd: 134
+</code></pre></div></div>
+
+<p>Вот несколько команд dig, которые можно использовать для проверки DNS-серверов ISC Bind.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# dig @192.168.7.3 azion.com
+foo# dig facebook.com +trace
+foo# dig -x 172.217.14.238
+foo# dig google.com +short
+forcesafesearch.google.com.
+216.239.38.120
+</code></pre></div></div>
+
+<p>Помимо команды dig, вы также можете использовать команду nslookup. Ниже мы приводим пример использования nslookup.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nslookup -type=ns google.com
+Server:         192.168.7.3
+Address:        192.168.7.3#53
+
+Non-authoritative answer:
+google.com      nameserver = ns2.google.com.
+google.com      nameserver = ns3.google.com.
+google.com      nameserver = ns4.google.com.
+google.com      nameserver = ns1.google.com.
+
+Authoritative answers can be found from:
+ns1.google.com  internet address = 216.239.32.10
+ns2.google.com  internet address = 216.239.34.10
+ns3.google.com  internet address = 216.239.36.10
+ns4.google.com  internet address = 216.239.38.10
+ns1.google.com  has AAAA address 2001:4860:4802:32::a
+ns2.google.com  has AAAA address 2001:4860:4802:34::a
+ns3.google.com  has AAAA address 2001:4860:4802:36::a
+ns4.google.com  has AAAA address 2001:4860:4802:38::a
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nslookup -type=mx yahoo.com
+foo# nslookup -type=soa facebook.com
+foo# nslookup -type=txt google.com
+foo# nslookup google.com ns1.google.com
+</code></pre></div></div>
+
+<p>Следуя этому руководству, вы сможете использовать ISB Bind в качестве своего личного DNS-сервера. Вы можете использовать его на своем компьютере под управлением Windows, установив IP-адрес DNS-сервера на IP-адрес 192.168.7.3. Теперь оцените скорость доступа в Интернет с помощью DNS-сервера ISC Bind. Вы наверняка почувствуете разницу.</p>]]></content><author><name>Iwan Setiawan</name></author><summary type="html"><![CDATA[Принцип работы кэширующего DNS-сервера заключается в том, что когда DNS-сервер находит запрошенный вами DNS-адрес, он немедленно отправляет его тому, кто запросил DNS-адрес, а затем сохраняет DNS-адрес в своей базе данных.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://192.168.5.71:4000/img/markshevchenko.jpg" /><media:content medium="image" url="http://192.168.5.71:4000/img/markshevchenko.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Настройка FreeBSD Lighttpd CGI BIN для программ Perl</title><link href="http://192.168.5.71:4000/2024/11/28/setup-freebsd-lighttpd-cgi-bin-perl/" rel="alternate" type="text/html" title="Настройка FreeBSD Lighttpd CGI BIN для программ Perl" /><published>2024-11-28T23:00:00+07:00</published><updated>2024-11-28T23:00:00+07:00</updated><id>http://192.168.5.71:4000/2024/11/28/setup-freebsd-lighttpd-cgi-bin-perl</id><content type="html" xml:base="http://192.168.5.71:4000/2024/11/28/setup-freebsd-lighttpd-cgi-bin-perl/"><![CDATA[<p>Приложения CGI могут читать и писать на любом компьютерном языке, который является производным от STDIN и выводится в STDOUT, независимо от того, интерпретируется ли программа оболочкой Unix и скомпилирована ли она на C или C++, или на их комбинации, например, Perl. Первые программы CGI были написаны на языке C и их нужно было компилировать в исполняемые двоичные файлы. Поэтому каталог, в котором выполняется скомпилированная CGI-программа, называется cgi-bin, а каталог исходного файла — cgi-src. Большинство современных серверов поставляются с предварительно настроенными каталогами для CGI-программ.</p>
+
+<p>Взаимодействие между браузерами и веб-серверами регулируется протоколом передачи гипертекста (HTTP), который в настоящее время является официальным стандартом Интернета. HTTP использует простую модель запроса и ответа. Например, клиент устанавливает TCP-соединение с сервером и отправляет запрос, сервер отправляет ответ, и соединение закрывается. Эти запросы и ответы имеют форму сообщений, написанных в виде серии простых строк текста.</p>
+
+<p>Сообщения HTTP-запроса и ответа состоят из двух частей. Первый — заголовок, содержащий описательную информацию о запросе или ответе. Различные типы заголовков и их возможное содержимое полностью определяются протоколом HTTP. За заголовком следует пустая строка, затем тело сообщения. Тело сообщения — это фактическое содержимое сообщения, например HTML-страница или GIF-изображение.</p>
+
+<h2 id="1-о-интерфейсе-общего-шлюза-cgi">1. О интерфейсе общего шлюза (CGI)</h2>
+
+<p>Common Gateway Interface или сокращенно CGI — это стандарт для подключения различных прикладных программ к веб-страницам. CGI похож на компьютерную программу, которая действует как посредник между стандартами HTML, создающими веб-дисплеи, и другими программами, такими как базы данных. Результаты, полученные в процессе поиска, отправляются обратно на веб-страницу для отображения в формате HTML.</p>
+
+<p>Первоначально CGI представлял собой подход, используемый для приложений программирования на стороне сервера. Обычно используются программы CGI на языках C++ и Perl. CGI — это часть веб-сервера, которая может взаимодействовать с другими программами на сервере. С помощью CGI веб-серверы могут вызывать программы, созданные на различных языках программирования (Common). Взаимодействие между пользователями и различными приложениями, например, базами данных, может быть организовано с помощью CGI (Gateway). Эту возможность CGI можно использовать для веб-сервера IIS.</p>
+
+<p>Протокол HTTP позволяет клиентам и серверам понимать друг друга, передавая всю информацию между ними с помощью заголовков, где каждый заголовок представляет собой пару ключ-значение. При отправке формы программа CGI ищет заголовки, содержащие входную информацию, обрабатывает полученные данные, например, запрашивает ключевые слова, указанные через форму, в базе данных и по готовности возвращает ответ на форму. Клиент отправит специальный заголовок, сообщающий клиенту, какой тип информации ему следует ожидать, а затем саму информацию. Сервер может отправлять дополнительные заголовки, но это необязательно. Смотрите изображение ниже.</p>
+
+<p>CGI часто используется как механизм получения информации от пользователей посредством заполнения форм, доступа к базам данных или создания динамических страниц. Хотя в принципе механизм CGI не имеет уязвимостей в безопасности, программы или скрипты, созданные как CGI, могут иметь уязвимости в безопасности или быть непреднамеренными. Потенциальные уязвимости безопасности, которые могут возникнуть при использовании CGI, включают в себя:</p>
+
+<ul>
+  <li>Злоумышленник может установить CGI-скрипт, который может отправлять файл паролей посетителям, запустившим CGI.</li>
+  <li>Программы CGI вызываются несколько раз, в результате чего сервер оказывается перегруженным, поскольку ему приходится запускать несколько программ CGI, которые потребляют память и циклы ЦП веб-сервера.</li>
+</ul>
+
+<h2 id="2-установка-языка-perl">2. Установка языка Perl</h2>
+<p>Поскольку мы будем включать мод CGI BIN, вам сначала потребуется установить язык Perl. Сервер FreeBSD имеет собственную систему упаковки двоичных файлов. Это облегчит вам установку и управление программным обеспечением. С помощью этой системы пакетов вы также можете управлять установкой модулей Perl.</p>
+
+<p>Введите следующую команду для установки Perl5.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # pkg install perl5.38-5.38.2_1
+</code></pre></div></div>
+
+<p>Приведенная выше команда установит Perl5 на ваш сервер FreeBSD, а двоичный путь к Perl будет /usr/local/bin/Perl.</p>
+
+<p>Поскольку в репозиториях пакетов FreeBSD имеется множество версий Perl, необходимо указать версию Perl в файле /etc/make.conf.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # ee /etc/make.conf
+
+DEFAULT_VERSIONS+=  perl5=5.30
+</code></pre></div></div>
+
+<h2 id="3-включить-cgi-мод-на-lighttpd">3. Включить CGI-мод на Lighttpd</h2>
+<p>Принципы CGI и способы написания CGI-приложений не являются предметом данного обсуждения. Однако понимание конфигурации CGI помогает понять код mod_cgi, который мы реализуем для настройки lighttpd для запуска процессов CGI.</p>
+
+<p>Прежде чем продолжить обсуждение этой статьи, чтобы упростить настройку CGI-мода на Lighttpd, вам следует прочитать нашу предыдущую статью.</p>
+
+<p>Перед включением мода CGI сначала установим несколько PHP-приложений, которые требуются Lighttpd для включения мода CGI. Введите эту команду, чтобы установить зависимости мода CGI.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # pkg install php82 mod_php82 php82-mysqli php82-xmlwriter
+root@ns5:~ # pkg install php82-gd php82-phar php82-ctype php82-filter php82-iconv php82-curl php82-mysqli php82-pdo php82-tokenizer php82-mbstring php82-session php82-simplexml php82-xml php82-zlib php82-zip php82-dom php82-pdo_mysql php82-ctype
+</code></pre></div></div>
+
+<p>Хорошо, теперь перейдем к включению мода CGI. Откройте файл «/usr/local/etc/lighttpd/modules.conf» и поместите в него mod_cgi.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server.modules = (
+#  "mod_rewrite",
+  "mod_access",
+#  "mod_auth",
+#  "mod_authn_file",
+#  "mod_redirect",
+#  "mod_setenv",
+"mod_alias",
+"mod_cgi",
+"mod_fastcgi"
+)
+</code></pre></div></div>
+
+<p>Теперь, когда модуль CGI активен, мы запустим его. Откройте файл «/usr/local/etc/lighttpd/conf.d/cgi.conf» и удалите в нем все скрипты, а затем замените их скриптами, приведенными ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$HTTP["url"] =~ "/cgi-bin/" {
+cgi.assign                 = ( ".pl"  =&gt; "/usr/local/bin/perl",
+                               ".cgi" =&gt; "/usr/local/bin/perl",
+                               ".rb"  =&gt; "/usr/bin/ruby",
+                               ".erb" =&gt; "/usr/bin/eruby",
+                               ".py"  =&gt; "/usr/local/bin/python" )
+}
+</code></pre></div></div>
+
+<p>Документы, заканчивающиеся на «.pl», «.cgi» и «.py», будут считаться программами CGI. Переводчики для этой программы будут добавлены в ближайшее время. Следующий шаг — перезапуск Lighttpd.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # service lighttpd restart
+</code></pre></div></div>
+
+<h2 id="4-запуск-lighttpd-mod_cgi">4. Запуск Lighttpd mod_cgi</h2>
+<p>После завершения настройки проверьте, может ли указанная выше конфигурация работать на веб-сервере Lighttpd. Вы создаете папку «/usr/local/www/data/cgi-bin», затем создаете файл «arrays.pl».</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # mkdir -p /usr/local/www/data/cgi-bin
+root@ns5:~ # cd /usr/local/www/data/cgi-bin
+root@ns5:/usr/local/www/data/cgi-bin # touch arrays.pl
+root@ns5:/usr/local/www/data/cgi-bin # chown -R www:www /usr/local/www/data/cgi-bin
+</code></pre></div></div>
+
+<p>В файл «/usr/local/www/data/cgi-bin/arrays.pl» вставляем следующий скрипт.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/perl
+use strict;
+use warnings;
+
+# initializing arrays
+my @places = ('Bangalore', 'Chennai', 'Coimbatore');
+my @prime_numbers = (2, 3, 5, 7);
+my @books;
+$books[0] = 'Harry Potter';
+$books[1] = 'Sherlock Holmes';
+$books[2] = 'To Kill a Mocking Bird';
+my @mixed_arr = ('Hello', 1, 'q', @places, $books[0]);
+
+# ----- printing entire array -----
+print "\@places: @places\n";
+print "\@prime_numbers: @prime_numbers\n";
+print "\@mixed_arr: @mixed_arr\n";
+# use join to connect array items with preferred characters
+print "My favorite books: ".join(', ', @books)."\n\n";
+
+# ----- printing individual item -----
+print "First item in \@places: $places[0]\n";
+print "Last  item in \@places: $places[-1]\n";
+print "Third last item in \@mixed_arr: $mixed_arr[-3]\n";
+
+# ----- printing array slice -----
+print "2nd and 3rd item in \@prime_numbers: @prime_numbers[1..2]\n\n";
+
+# ----- array size -----
+print "Index of last item in \@places: $#places\n";
+my $arr_size = @places;
+print "Number of items in \@places:    $arr_size\n\n";
+
+# ----- manipulating array -----
+# Add an item, same as $places[$#places + 1]
+$places[3] = "Salem";
+print "Manually add item: @places\n";
+
+# Delete first item and shift left
+shift(@places);
+print "shift:             @places\n";
+# Delete last item
+pop(@places);
+print "pop:               @places\n";
+
+# Add an item at end of array
+push(@places, "Mysore");
+print "push:              @places\n";
+# Add an item at beginning of array
+unshift(@places, "Hyderabad");
+print "unshift:           @places\n";
+
+# change array size by assigning value to $#places
+# Change no. of items to 2
+$#places = 1;
+print "\$#places = 1       @places\n";
+# Change no. of items to 0
+$#places = -1;
+print "\$#places = -1      @places\n";
+</code></pre></div></div>
+
+<p>Откройте веб-браузер Google Chrome или Yandex, введите «http://192.168.5.2/cgi-bin/arrays.pl».</p>
+
+<p>Продолжим тестирование файла .cgi. По-прежнему в папке «/usr/local/www/data/cgi-bin» создайте файл «cgiperl.cgi».</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:/usr/local/www/data/cgi-bin # touch cgiperl.cgi
+root@ns5:/usr/local/www/data/cgi-bin # chown -R www:www cgiperl.cgi
+</code></pre></div></div>
+
+<p>Введите следующий скрипт в файл «/usr/local/www/data/cgi-bin/cgiperl.cgi».</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/local/bin/perl
+
+print "Content-type: text/html\n\n";
+print &lt;&lt;htmlcode;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;CGI Perl Example&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;CGI Perl Example&lt;/h1&gt;
+&lt;h3&gt;&lt;p&gt;Congratulations on successfully configuring the Perl mod on Apache24!&lt;/p&gt;&lt;h3&gt;
+&lt;/body&gt;
+</code></pre></div></div>
+
+<p>Снова открываем Google Chrome, вводим «http://192.168.5.2/cgi-bin/cgiperl.cgi». Пожалуйста, посмотрите результаты.</p>
+
+<p>Настройка CGI-скриптов на веб-сервере Lighttpd — относительно простой процесс, который можно выполнить, следуя руководству, содержащемуся в этой статье. Включение поддержки CGI, создание CGI-скриптов, настройка Lighttpd для распознавания скриптов и тестирование скриптов являются важными этапами настройки CGI-скриптов в Lighttpd. С помощью этих шагов вы сможете создавать динамичные и интерактивные веб-страницы, которые можно использовать для предоставления информации или услуг посетителям вашего сайта.</p>]]></content><author><name>Iwan Setiawan</name></author><summary type="html"><![CDATA[Первые программы CGI были написаны на языке C и их нужно было компилировать в исполняемые двоичные файлы.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://192.168.5.71:4000/img/markshevchenko.jpg" /><media:content medium="image" url="http://192.168.5.71:4000/img/markshevchenko.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Балансировщик нагрузки Relayd с httpd на OpenBSD</title><link href="http://192.168.5.71:4000/2024/11/21/relayd-load-balancer-httpd-openbsd/" rel="alternate" type="text/html" title="Балансировщик нагрузки Relayd с httpd на OpenBSD" /><published>2024-11-21T23:00:00+07:00</published><updated>2024-11-21T23:00:00+07:00</updated><id>http://192.168.5.71:4000/2024/11/21/relayd-load-balancer-httpd-openbsd</id><content type="html" xml:base="http://192.168.5.71:4000/2024/11/21/relayd-load-balancer-httpd-openbsd/"><![CDATA[<p>Балансировщик нагрузки или система — это устройство, которое может перенаправлять входящий трафик на один или несколько реальных серверов. По своему назначению он похож на простое пересылающее реле. Коммерческие решения, такие как Cisco Local Director, предоставляют расширенные функции и набор алгоритмов, которые позволяют выбрать подходящий сервер, включая опрос доступности кандидатов или доступности агентов/клиентов. Из-за особенностей реализации их часто называют машинами обратного NAT или обратными прокси-серверами.</p>
+
+<p>Relayd — это демон для динамической пересылки и маршрутизации входящих соединений к хостам назначения. Его основная цель — выступать в качестве балансировщика нагрузки, шлюза прикладного уровня или прозрачного прокси-сервера. Демон может контролировать доступность группы хостов, которая определяется путем проверки определенных служб, которые являются общими для этой группы хостов. После подтверждения доступности настраиваются службы пересылки уровня 3 и/или уровня 7 посредством повторной передачи.</p>
+
+<p>Этот репозиторий включает в себя копию исходного дерева потокового кода, которая время от времени обновляется, а также экспериментальные ветви, которыми следует поделиться с другими. Это не переносимая версия и предназначена только для OpenBSD! Этот репозиторий может содержать в значительной степени экспериментальные изменения; не используйте его в производстве. Основные разработки происходят в дереве CVS OpenBSD.</p>
+
+<p>Для обеспечения доступности веб-сайтов в OpenBSD предусмотрено несколько функциональных решений, которые отлично работают вместе; relayd и httpd.</p>
+
+<h2 id="1-что-такое-ретрансляция">1. Что такое ретрансляция</h2>
+
+<p>Relayd — это балансировщик нагрузки с открытым исходным кодом, способный обрабатывать протоколы уровней 3, 4 и 7. Relayd, ранее известный как hoststated, — это новейшее приложение для балансировки нагрузки, разработанное группой OpenBSD. Relayd можно настроить как прямой, обратный или ретранслятор типа TCP-порта или перенаправления, а также использовать в качестве ускорителя SSL. Relayd — это быстрый, безопасный и стабильный интерфейс для веб-сервера или веб-кластера.</p>
+
+<p>Httpd — веб-сервер, официально поддерживаемый и разрабатываемый OpenBSD. Около 20 лет назад OpenBSD впервые импортировала модифицированный сервер Apache httpd в свою базовую версию. Позже, по мере роста популярности nginx, после его выпуска он в конечном итоге стал веб-сервером, хотя nginx также был исправлен для соответствия более строгим правилам безопасности OpenBSD. Затем, в 2015 году, OpenBSD выпустила собственный httpd, основанный на Relayd, в качестве веб-сервера по умолчанию.</p>
+
+<p>Relayd и httpd могут работать вместе, обеспечивая простое, но высокодоступное решение для веб-хостинга и многого другого. В этой статье будет показано, как развернуть две виртуальные машины OpenBSD httpd, работающие за виртуальной машиной OpenBSD, используя реле в качестве балансировщика нагрузки. Два сервера httpd должны быть доступны только через балансировку нагрузки, а конфигурация должна быть способна обрабатывать ситуации, когда один из двух серверов httpd может оказаться недоступным во время исправления или перезапуска. Конфигурация также должна иметь рейтинг A на ssllabs.com.</p>
+
+<p>Ниже приведены основные функции relayd:</p>
+<ol>
+  <li>Демон общего назначения доступен в OpenBSD начиная с версии 4.3*:
+    <ul>
+      <li>балансировщик нагрузки.</li>
+      <li>шлюз прикладного уровня.</li>
+      <li>прозрачный прокси.</li>
+    </ul>
+  </li>
+  <li>Возможность мониторинга групп хостов на предмет высокой доступности.</li>
+  <li>Функционирует как:
+    <ul>
+      <li>Перенаправление уровня 3 через связь с pf.</li>
+      <li>Ретрансляция уровня 7 с фильтрацией на уровне приложений.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="2-настройте-relaydconf">2. Настройте relayd.conf</h2>
+
+<p>Первый шаг, который вам необходимо сделать, — это настроить файл relayd.conf. Ниже приведен пример скрипта relayd.conf.</p>
+
+<p>Чтобы в любой момент отобразить набор заблокированных адресов в таблице SSHguard, введите следующую команду.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ext_addr = “1.1.1.1”
+web_srvr = “10.1.1.10”
+log state changes
+log connection
+http protocol httpFilter {
+ #return error
+ http headerlen 4096
+ match request header set “X-Forwarded-For” value “$REMOTE_ADDR”
+ match request header set “X-Forwarded-SPort” value “$REMOTE_PORT”
+ match request header set “X-Forwarded-DPort” value “$SERVER_PORT”
+ match response header remove “Server” value “*”
+ match header log “Host”
+ match header log “X-Forwarded-For”
+ match header log “User-Agent”
+ match header log “X-Req-Status”
+ match url log
+ match request tag “BAD_METHOD”
+ match request method GET tag “OK_METH”
+ match request method HEAD tag “OK_METH”
+ block request quick tagged “BAD_METHOD”
+ match request header “Host” value “domain.com” tag “OK_REQ”
+ match request header “Host” value “www.domain.com" tag “OK_REQ”
+ match request header “Host” value “another.domain.com” tag “OK_REQ”
+ block request quick tagged “OK_METH” tag “BAD_HH”
+ block request quick path “*.php” tag NO_PHP
+ block request quick path “*.cgi” tag NO_CGI
+ block request quick path “*.js” tag NO_JS
+ block request quick path “*.asp” tag NO_ASP
+ block tag “BAD_REQ”
+ pass request tagged “OK_REQ”
+}
+http protocol httpsFilter {
+ #return error
+ http headerlen 4096
+ tls ciphers “ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA256”
+ tls edh
+ match request header set “X-Forwarded-For” value “$REMOTE_ADDR”
+ match request header set “X-Forwarded-SPort” value “$REMOTE_PORT”
+ match request header set “X-Forwarded-DPort” value “$SERVER_PORT”
+ match response header remove “Server” value “*”
+ match header log “Host”
+ match header log “X-Forwarded-For”
+ match header log “User-Agent”
+ match header log “X-Req-Status”
+ match url log
+ match response header set “Strict-Transport-Security” value “max-age=63072000; includeSubdomains; preload”
+ match request tag “BAD_METHOD”
+ match request method GET tag “OK_METH”
+ match request method HEAD tag “OK_METH”
+ block request quick tagged “BAD_METHOD”
+ match request header “Host” value “domain.com” tag “OK_REQ”
+ match request header “Host” value “www.domain.com" tag “OK_REQ”
+ match request header “Host” value “another.domain.com” tag “OK_REQ”
+ block request quick tagged “OK_METH” tag “BAD_HH”
+ block request quick path “*.php” tag NO_PHP
+ block request quick path “*.cgi” tag NO_CGI
+ block request quick path “*.js” tag NO_JS
+ block request quick path “*.asp” tag NO_ASP
+ block tag “BAD_REQ”
+ pass request tagged “OK_REQ”
+}
+relay www {
+ listen on $ext_addr port 80
+ protocol httpFilter
+ forward to $web_srvr port 80
+}
+relay wwwssl {
+ listen on $ext_addr port 443 tls
+ protocol httpsFilter
+ forward to $web_srvr port 80
+}
+</code></pre></div></div>
+
+<p>В качестве IP-адреса мы рекомендуем использовать localhost, чтобы relayd прослушивал порт 127.0.0.1, и использовать правило rdr-to в pf. Внутренний веб-сервер использует адреса RFC1918.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ext_addr = "127.0.0.1"
+web_srvr = "10.1.1.10"
+</code></pre></div></div>
+
+<p>Полезно для записи дополнительной информации и идентификации тех, кто тестирует конфигурации TLS.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>log state changes
+log connection
+</code></pre></div></div>
+
+<p>Вот пример конфигурации файла httpd.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server "example.com" {
+    alias "chat.example.com"
+    listen on * port 80
+    location "/.well-known/acme-challenge/*" {
+            root "/acme"
+            request strip 2
+    }
+    location * {
+            block return 301 "https://$HTTP_HOST$REQUEST_URI"
+    }
+}
+
+server "example.com" {
+    listen on * port 8080
+    location * {
+            root "/htdocs/www/public/"
+    }
+}
+</code></pre></div></div>
+
+<p>В этом заключительном разделе мы кратко рассмотрим настройку балансировщика нагрузки для приема http- и https-соединений и пересылки запросов на внутренний http-сервер. Вы должны иметь возможность безопасно исправить и перезагрузить один из серверов httpd, не теряя при этом доступа клиентов ни к одному из сайтов. Однако еще одно замечание: было бы разумно заблокировать pf на балансировщике нагрузки, если вы сочтете это целесообразным, поскольку он также действует как брандмауэр для ваших двух серверов httpd.</p>]]></content><author><name>Iwan Setiawan</name></author><summary type="html"><![CDATA[Relayd — это демон для динамической пересылки и маршрутизации входящих соединений к хостам назначения. Его основная цель — выступать в качестве балансировщика нагрузки, шлюза прикладного уровня или прозрачного прокси-сервера.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://192.168.5.71:4000/img/markshevchenko.jpg" /><media:content medium="image" url="http://192.168.5.71:4000/img/markshevchenko.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Установка и настройка FreeBSD Lighttpd Plus Mod OpenSSL</title><link href="http://192.168.5.71:4000/2024/09/27/freebsd-lighttpd-mod-openssl/" rel="alternate" type="text/html" title="Установка и настройка FreeBSD Lighttpd Plus Mod OpenSSL" /><published>2024-09-27T20:00:00+07:00</published><updated>2024-09-27T20:00:00+07:00</updated><id>http://192.168.5.71:4000/2024/09/27/freebsd-lighttpd-mod-openssl</id><content type="html" xml:base="http://192.168.5.71:4000/2024/09/27/freebsd-lighttpd-mod-openssl/"><![CDATA[<p>Этот веб-сервер, распространяемый по лицензии BSD, является одним из самых легких, безопасных и быстрых веб-серверов. Lighttpd очень надежен в высокопроизводительных средах с небольшим объемом памяти по сравнению с другими веб-серверами и служит для эффективного управления загрузкой ЦП расширенного набора функций, таких как SCGI, сжатие вывода, аутентификация, FastCGI, перезапись URL и многие другие.</p>
+
+<p>Для пользователей, испытывающих нагрузку при работе с веб-сервером, Lighttpd является идеальным решением для серверов, испытывающих проблемы с рабочей нагрузкой. Lighttpd — отличная альтернатива широко используемым веб-серверам Nginx и Apache. Потому что Lighttpd — это легкий веб-сервер с открытым исходным кодом, оптимизированный для высокоскоростных сред и низкого потребления ресурсов, что снижает производительность ЦП.</p>
+
+<p>Что касается процесса веб-сервера, вы, должно быть, знаете, что некоторые сайты обрабатывают тысячи файлов параллельно, поэтому требуется большой объем памяти, а максимальное количество потоков или процессов также велико.</p>
+
+<p>Чтобы решить эту проблему, Дэн Кегель подробно описал проблемы с обработкой тысяч одновременных запросов на своей странице, посвященной проблемам C10K. В 2003 году немецкий разработчик MySQL по имени Ян Кнешке заинтересовался этой проблемой и решил, что он сможет написать более быстрый веб-сервер, чем Apache, сосредоточившись на правильных методах.</p>
+
+<p>Затем Ян Кнешке разработал lighttpd как единый процесс с одним потоком и неблокируемым вводом-выводом. Lighttpd также использует самый быстрый обработчик событий в целевой системе: polling, epoll, kqueue или /dev/polling. Lighttpd предпочитает неподключенные системные вызовы, такие как sendfile, вместо чтения и записи. Результатом его усилий стало то, что через несколько месяцев lighttpd начал обрабатывать статические файлы быстрее, чем Apache.</p>
+
+<p>В этой статье вы узнаете, как установить и настроить Lighttpd на сервере FreeBSD. Мало того, для повышения безопасности веб-сервера Lighttp мы также добавили режим Openssl в содержание этой статьи.</p>
+
+<h1 id="технические-характеристики-системы">Технические характеристики системы</h1>
+
+<p>ОС: FreeBSD 13.2 Стабильная
+Имя хоста: ns5
+IP-адрес: 192.168.5.2
+Домен: datainchi.com
+Версия Lighttpd: lighttpd/1.4.67 (ssl) - легкий и быстрый веб-сервер</p>
+
+<h2 id="а-процесс-установки-lighttpd">А. Процесс установки Lighttpd</h2>
+
+<p>Как вы знаете, на серверах FreeBSD существует два способа установки каждого приложения, а именно система портов и пакет PKG. Специально для установок Lighttp мы предпочитаем использовать систему портов, поскольку она может собирать все библиотеки, необходимые Lighttpd.</p>
+
+<p>Перед началом процесса установки Lighttpd необходимо сначала установить зависимости Lighttpd, а именно «Зависимости сборки» и «Зависимости библиотеки». Вот как установить эти зависимости.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # pkg install cmake-core ninja pkgconf
+</code></pre></div></div>
+
+<p>Приведенная выше команда используется для установки «Зависимостей сборки». Теперь установим «Библиотечные зависимости», которые будет использовать Lighttpd.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # pkg install pcre2 nettle lua54
+</code></pre></div></div>
+
+<p>Мы установили все зависимости, давайте продолжим установку Lighttpd.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # cd /usr/ports/www/lighttpd
+root@ns5:/usr/ports/www/lighttpd # make config
+</code></pre></div></div>
+
+<p>В команде «make config» необходимо включить некоторые параметры, поскольку мы будем использовать мод OpenSSL, включите параметр «OPENSSL».</p>
+
+<p>Используйте команду «make install clean», чтобы начать процесс установки.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:/usr/ports/www/lighttpd # make install clean
+</code></pre></div></div>
+
+<h2 id="b-создать-start-up-rcd">B. Создать Start Up rc.d</h2>
+
+<p>Вы, конечно, не хотите, чтобы каждое приложение запускалось вручную. Что бы произошло, если бы Lighttpd запускался вручную? Конечно, это было бы очень хлопотно. Вот как автоматически запустить Lighttpd на вашем сервере FreeBSD.</p>
+
+<p>В Linux есть systemd для автоматического запуска приложений, а во FreeBSD — rc.d. Чтобы Lihttpd запускался автоматически, откройте файл «/etc/rc/conf» и введите в него следующую команду.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lighttpd_enable="YES"
+lighttpd_conf="/usr/local/etc/lighttpd/lighttpd.conf"
+lighttpd_pidfile="/var/run/lighttpd.pid"
+lighttpd_instances=""
+</code></pre></div></div>
+
+<p>В приведенном выше скрипте файл конфигурации Lighttpd находится в папке «/usr/local/etc/lighttpd» с именем файла конфигурации «lighttpd.conf».</p>
+
+<p>Вы можете запустить Lighttpd с помощью следующей команды.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # service lighttpd restart
+</code></pre></div></div>
+
+<h2 id="c-конфигурация-lighttpd">C. Конфигурация Lighttpd</h2>
+
+<p>Основной файл конфигурации Lighttpd — «/usr/local/etc/lighttpd/lighttpd.conf», вы открываете этот файл и редактируете только те скрипты, которые вам нужны. Чтобы включить частные порты и IP-адреса, запустите скрипт ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server.port = 80
+server.use-ipv6 = "disable"
+server.bind = "192.168.5.2"
+server.username  = "www"
+server.groupname = "www"
+server.document-root = "/usr/local/www" + "/data"
+server.pid-file = state_dir + "/lighttpd.pid"
+</code></pre></div></div>
+
+<p>Для тех из вас, кто только начинает работать с Lighttpd, конфигурация «журнала» важна, поскольку часто что-то выходит из строя или Lighttpd не запускается из-за неправильной конфигурации «журнала». Для настройки «log» следуйте приведенному ниже сценарию.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server.errorlog-use-syslog = "enable"
+include conf_dir + "/conf.d/debug.conf"
+</code></pre></div></div>
+
+<p>Приведенная выше конфигурация журнала предоставит LightTPD привилегии для управления собственными журналами.</p>
+
+<p>Часто при запуске LightTPD появляется сообщение об ошибке, подобное следующему.</p>
+
+<p>2024-01-15 10:31:51: (configfile.c.1287) ПРЕДУПРЕЖДЕНИЕ: неизвестный config-key: dir-listing.encoding (игнорируется)
+2024-01-15 10:31:51: (configfile.c.1287) ПРЕДУПРЕЖДЕНИЕ: неизвестный config-key: dir-listing.exclude (игнорируется)</p>
+
+<p>Чтобы обойти эту проблему, вы можете включить опцию «dir-listing.activate» в файле «/usr/local/etc/lighttpd/lighttpd.conf».</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>include conf_dir + "/conf.d/dirlisting.conf"
+dir-listing.activate = "enable"
+</code></pre></div></div>
+
+<p>Теперь вы используете Lighttpd.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # service lighttpd restart
+Performing sanity check on lighttpd configuration:
+Stopping lighttpd.
+Waiting for PIDS: 12730.
+Starting lighttpd.
+</code></pre></div></div>
+
+<p>Полный скрипт для файла “/usr/local/etc/lighttpd/lighttpd.conf” можно увидеть на Github unixwinbsd.</p>
+
+<p>Все данные Lighttpd хранятся в папке «/usr/local/www/data». Создайте файл index.html и введите скрипт, который вы скачали на Github unixwinbsd.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # cd /usr/local/www
+root@ns5:/usr/local/www # mkdir -p data
+root@ns5:/usr/local/www # cd data
+root@ns5:/usr/local/www/data # touch index.html
+root@ns5:/usr/local/www/data # chown -R www:www /usr/local/www/data/
+</code></pre></div></div>
+
+<h2 id="d-создать-openssl-mod">D. Создать Openssl Mod</h2>
+
+<p>Основная функция шифрования — преобразование обычных текстовых сообщений в зашифрованный текст, который не может быть прочитан посторонними лицами. Все конфиденциальные данные пользователя, такие как учетные данные для входа и личная информация, шифруются перед отправкой по сети. После этого доступ к веб-сайту смогут получить только получатели, имеющие правильный ключ дешифрования.</p>
+
+<p>В целом, на веб-серверах используются два основных протокола шифрования, а именно:</p>
+<ul>
+  <li>SSL: протокол защищенных сокетов.</li>
+  <li>TLS: Transport Layer Security (замена SSL).</li>
+</ul>
+
+<p>Lighttpd также обладает весьма продвинутыми возможностями шифрования. Существует множество способов шифрования веб-сервера. В этой статье мы обсуждаем только шифрование с помощью OpenSSL.</p>
+
+<p>На первом этапе мы сгенерируем закрытые ключи и CSR. Мы сохраним закрытый ключ и файлы CSR в каталоге FreeBSD, а именно /etc/ssl. Включите каталог и выполните команду ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:~ # cd /etc/ssl
+root@ns5:/etc/ssl # openssl genrsa -out /etc/ssl/unixwinbsd.key 4096
+Generating RSA private key, 4096 bit long modulus (2 primes)
+....................................................................................................................................................++++
+.........................++++
+e is 65537 (0x010001)
+</code></pre></div></div>
+
+<p>Для большей безопасности установите ограниченные права доступа к файлам на уровне 400 или 600.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:/etc/ssl # chmod 400 /etc/ssl/unixwinbsd.key
+</code></pre></div></div>
+
+<p>Следующим шагом является создание файла .csr, который содержит необходимые сведения о домене/организации вашего веб-сайта.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:/etc/ssl # openssl req -new -sha256 -key /etc/ssl/unixwinbsd.key -out /etc/ssl/unixwinbsd.csr
+</code></pre></div></div>
+
+<p>Подпишите свой CSR-файл.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:/etc/ssl # openssl x509 -req -days 365 -in unixwinbsd.csr -signkey unixwinbsd.key -out unixwinbsd.crt
+Signature ok
+</code></pre></div></div>
+
+<p>Объедините первичный сертификат, промежуточный сертификат и закрытый ключ в один.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:/etc/ssl # cat unixwinbsd.crt unixwinbsd.key &gt; unixwinbsd-ssl.pem
+</code></pre></div></div>
+
+<p>После успешного создания SSL-сертификата отредактируйте файл конфигурации Lighttpd, который называется «/usr/local/etc/lighttpd/lighttpd.conf».</p>
+
+<p>Введите скрипт ниже, чтобы включить OpenSSL в Lighttpd.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server.modules += ( "mod_openssl" )
+ssl.pemfile = "/etc/ssl/unixwinbsd-ssl.pem"
+
+   $SERVER["socket"] == "*:443" {
+     ssl.engine  = "enable"
+   }
+</code></pre></div></div>
+
+<h2 id="e-тест-lighttpd">E. Тест Lighttpd</h2>
+
+<p>В качестве последнего шага в приведенной выше конфигурации мы проводим тест, сначала запуская веб-сервер Lighttpd с помощью следующей команды.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:/etc/ssl # service lighttpd restart
+</code></pre></div></div>
+
+<p>Если при выполнении команды выше возникает ошибка в файле SSL, поскольку Lighttpd часто медленно реагирует на созданный вами файл SSL, чтобы избежать этого, вы можете повторить команду.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns5:/etc/ssl # openssl x509 -req -days 365 -in unixwinbsd.csr -signkey unixwinbsd.key -out unixwinbsd.crt
+root@ns5:/etc/ssl # cat unixwinbsd.crt unixwinbsd.key &gt; unixwinbsd-ssl.pem
+</code></pre></div></div>
+
+<p>Теперь откройте веб-браузер Google Chrome, в адресной строке введите «http://192.168.5.2» или «https://192.168.5.2».</p>
+
+<p>В заключение следует отметить, что Lighttpd — это легкий, эффективный, надежный и универсальный веб-сервер, который выделяется среди многих других программных средств веб-серверов, таких как NGINX и Apache. Его событийно-ориентированная архитектура, расширенные функции и ориентация на безопасность делают его отличным выбором для обслуживания веб-контента в различных средах.</p>]]></content><author><name>Iwan Setiawan</name></author><summary type="html"><![CDATA[Lighttpd очень надежен в высокопроизводительных средах с небольшим объемом памяти по сравнению с другими веб-серверами и служит для эффективного управления загрузкой ЦП расширенного набора функций, таких как SCGI, сжатие вывода, аутентификация, FastCGI, перезапись URL.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://192.168.5.71:4000/img/markshevchenko.jpg" /><media:content medium="image" url="http://192.168.5.71:4000/img/markshevchenko.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Демон FreeBSD INETD и файл конфигурации inetd conf</title><link href="http://192.168.5.71:4000/2024/09/02/freebsd-inetd-daemon-conf-file/" rel="alternate" type="text/html" title="Демон FreeBSD INETD и файл конфигурации inetd conf" /><published>2024-09-02T14:00:00+07:00</published><updated>2024-09-02T14:00:00+07:00</updated><id>http://192.168.5.71:4000/2024/09/02/freebsd-inetd-daemon-conf-file</id><content type="html" xml:base="http://192.168.5.71:4000/2024/09/02/freebsd-inetd-daemon-conf-file/"><![CDATA[<p>В операционной системе FreeBS существует множество демонов, файлы которых имеют расширение .conf, расположенное в каталоге /etc и других каталогах. Среди этих демонов наиболее важным и чувствительным, к которому следует относиться серьезно, является inetd или то, что часто называют «суперсервером». Задача inetd — прослушивать соединения на определенном наборе сетевых портов и запускать соответствующий серверный процесс при поступлении запроса.</p>
+
+<p>Например, inetd отвечает за telnet-соединения; Если ваша система FreeBSD поддерживает Telnet, вы можете открыть соединение Telnet и получить приглашение на вход в систему без предварительного запуска процесса telnetd на сервере. Каждый раз, когда система получает запрос на подключение через порт 23, она создает новый процесс telnetd для обработки подключения.</p>
+
+<p>Поэтому неудивительно, что большинство людей называют inetd Интернет-суперсервером, поскольку он управляет соединениями для нескольких служб. Когда inetd получает соединение, inetd определяет, для какой программы предназначено соединение, затем запускает определенный процесс и делегирует ему сокет.</p>
+
+<p>Когда одноранговый узел подключается к порту, управляемому inetd, inetd выполняет команду в подпроцессе для обработки входящего запроса. Подпроцессу предоставляются дескрипторы файлов сокетов в качестве стандартного ввода, стандартного вывода и стандартной ошибки. После завершения подпроцесса, например, после печати запрошенной веб-страницы на его STDOUT, подпроцесс завершается, возвращая управление inetd.</p>
+
+<p>В традиционном сценарии Unix один серверный процесс (демон) отслеживает соединения на определенном порту и обрабатывает входящие запросы. В этом случае, если сервер предлагает много служб, необходимо запустить много процессов-демонов, большинство из которых находятся в состоянии ожидания, но все еще используют ресурсы, такие как память. Интернет-суперсервер inetd — это способ решения этой проблемы. Inetd будет ожидать подключений на некотором порту, и когда он получит запрос на обслуживание, он определит, какое приложение должно обслужить запрос, и запустит экземпляр этой программы.</p>
+
+<h2 id="1-конфигурация-inetd">1. Конфигурация inetd</h2>
+
+<p>Файл конфигурации inetd находится по адресу /etc/inetd.conf. Каждая строка этого файла конфигурации представляет собой приложение, которое может быть запущено inetd. По умолчанию каждая строка начинается с комментария (#), что означает, что inetd не прослушивает никакие приложения. Если вы хотите включить определенное приложение или порт в inetd, удалите знак «#» в начале скрипта.</p>
+
+<p>Обратите внимание на содержимое файла-скрипта /etc/inetd.conf.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /etc/inetd.conf
+# $FreeBSD$
+#
+# Internet server configuration database
+#
+# Define *both* IPv4 and IPv6 entries for dual-stack support.
+# To disable a service, comment it out by prefixing the line with '#'.
+# To enable a service, remove the '#' at the beginning of the line.
+#
+#ftp    stream  tcp     nowait  root    /usr/libexec/ftpd       ftpd -l
+#ftp    stream  tcp6    nowait  root    /usr/libexec/ftpd       ftpd -l
+#ssh    stream  tcp     nowait  root    /usr/sbin/sshd          sshd -i -4
+#ssh    stream  tcp6    nowait  root    /usr/sbin/sshd          sshd -i -6
+#telnet stream  tcp     nowait  root    /usr/libexec/telnetd    telnetd
+#telnet stream  tcp6    nowait  root    /usr/libexec/telnetd    telnetd
+#shell  stream  tcp     nowait  root    /usr/local/sbin/rshd    rshd
+#shell  stream  tcp6    nowait  root    /usr/local/sbin/rshd    rshd
+#login  stream  tcp     nowait  root    /usr/local/sbin/rlogind rlogind
+#login  stream  tcp6    nowait  root    /usr/local/sbin/rlogind rlogind
+#finger stream  tcp     nowait/3/10 nobody /usr/libexec/fingerd fingerd -k -s
+#finger stream  tcp6    nowait/3/10 nobody /usr/libexec/fingerd fingerd -k -s
+#
+# run comsat as root to be able to print partial mailbox contents w/ biff,
+# or use the safer tty:tty to just print that new mail has been received.
+#comsat dgram   udp     wait    tty:tty /usr/libexec/comsat     comsat
+#
+# ntalk is required for the 'talk' utility to work correctly
+#ntalk  dgram   udp     wait    tty:tty /usr/libexec/ntalkd     ntalkd
+#tftp   dgram   udp     wait    root    /usr/libexec/tftpd      tftpd -l -s /tftpboot
+#tftp   dgram   udp6    wait    root    /usr/libexec/tftpd      tftpd -l -s /tftpboot
+#bootps dgram   udp     wait    root    /usr/libexec/bootpd     bootpd
+</code></pre></div></div>
+
+<p>Если вы хотите, чтобы одно из вышеперечисленных приложений было активным и пригодным для использования, удалите знак «#». После этого, чтобы включить суперсервер inetd, необходимо вставить следующий скрипт в файл /etc/rc.conf.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /etc/rc.conf
+inetd_enable="YES"
+</code></pre></div></div>
+
+<p>Перезагрузите компьютер, чтобы inetd мог запуститься автоматически.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # service inetd restart
+Stopping inetd.
+Waiting for PIDS: 2500.
+Starting inetd.
+</code></pre></div></div>
+
+<h2 id="2-как-читать-скрипт-inetdconf">2. Как читать скрипт inetd.conf</h2>
+
+<p>В файле /etc/inetd.conf выше мы видим, что содержимое файла состоит из трех столбцов, как в следующем примере (взятом из файла /etc/inetd.conf выше).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#ftp    stream  tcp     nowait  root    /usr/libexec/ftpd       ftpd -l
+</code></pre></div></div>
+
+<p>Хорошо, теперь давайте обсудим, что означает каждый столбец.</p>
+
+<p>а. Название услуги
+Имя службы или программы, отражающее номер порта, на котором inetd должен прослушивать входящие соединения. Это может быть десятичное число или имя службы, указанное в /etc/services, например ftp, ssh, telnet, login и другие.</p>
+
+<p>б. тип розетки
+Тип сокета, который inetd использует для связи. Тип сокета должен быть одним из следующих: stream, dgram, raw, rdm и seqpacket.
+stream” для потоковых сокетов, dgram для UDP-сервисов, raw для двоичных сокетов, rdm для гарантированной доставки сообщений и seqpacket для зарезервированных пакетных сокетов. Наиболее распространенными типами сокетов являются stream и dgram.</p>
+
+<p>в. Протокол
+Тип протокола, используемый Inetd, может быть TCP или UDP, IP4 или IP6.</p>
+
+<p>г. подожди/неподожди
+Это поле сообщит inetd, следует ли ждать завершения работы серверной программы или немедленно вернуться к обработке новых подключений. Многие соединения с сервером требуют ответа после завершения передачи данных, в то время как другие могут продолжать передавать данные непрерывно, в последнем случае ситуация называется «nowait», а в первом случае — «wait». В большинстве случаев это значение соответствует типу сокета, например, потоковое соединение будет соответствовать значению «nowait».</p>
+
+<p>е. имя пользователя[:группа]
+Имя пользователя или группы, используемое inetd.</p>
+
+<p>ф. серверная программа
+Расположение каталога программы, которая будет запущена или выполнена inetd.</p>
+
+<p>г. список аргументов
+В последнем столбце содержится список аргументов для запуска программы, включая имя программы и любые дополнительные аргументы программы, которые может потребоваться предоставить системному администратору. В inetd все службы или демоны, запускаемые inetd, должны соответствовать службам, перечисленным в файле /etc/services. Это определяет, какой порт inetd прослушивает входящие подключения к службе. При использовании пользовательских служб их необходимо сначала добавить в /etc/services.</p>
+
+<p>Хотя inetd и позиционируется как суперсервер, на самом деле многие демоны, работающие под управлением inetd, не уделяют внимания безопасности. Некоторые демоны, такие как fingerd, могут предоставлять информацию, которая может быть полезна злоумышленнику. Включайте только необходимые службы и следите за системой на предмет чрезмерных попыток подключения.</p>]]></content><author><name>Iwan Setiawan</name></author><summary type="html"><![CDATA[В операционной системе FreeBS существует множество демонов, файлы которых имеют расширение .conf, расположенное в каталоге /etc и других каталогах.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://192.168.5.71:4000/img/markshevchenko.jpg" /><media:content medium="image" url="http://192.168.5.71:4000/img/markshevchenko.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Установка и настройка FreeBSD Apache OFBiz Crm и Erp Platform</title><link href="http://192.168.5.71:4000/2024/08/30/installation-apache-ofbiz-crm-erp-freebsd/" rel="alternate" type="text/html" title="Установка и настройка FreeBSD Apache OFBiz Crm и Erp Platform" /><published>2024-08-30T23:00:00+07:00</published><updated>2024-08-30T23:00:00+07:00</updated><id>http://192.168.5.71:4000/2024/08/30/installation-apache-ofbiz-crm-erp-freebsd</id><content type="html" xml:base="http://192.168.5.71:4000/2024/08/30/installation-apache-ofbiz-crm-erp-freebsd/"><![CDATA[]]></content><author><name>Iwan Setiawan</name></author><summary type="html"><![CDATA[Наличие ERP-систем не является ошибочным восприятием, и людей пугает то, что они потеряют работу и будут заменены компьютерами.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://192.168.5.71:4000/img/markshevchenko.jpg" /><media:content medium="image" url="http://192.168.5.71:4000/img/markshevchenko.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Руководство FreeBSD по созданию пользовательской темы Drupal</title><link href="http://192.168.5.71:4000/2024/07/24/freebsd-guide-creating-custom-drupal-theme/" rel="alternate" type="text/html" title="Руководство FreeBSD по созданию пользовательской темы Drupal" /><published>2024-07-24T13:00:00+07:00</published><updated>2024-07-24T13:00:00+07:00</updated><id>http://192.168.5.71:4000/2024/07/24/freebsd-guide-creating-custom-drupal-theme</id><content type="html" xml:base="http://192.168.5.71:4000/2024/07/24/freebsd-guide-creating-custom-drupal-theme/"><![CDATA[]]></content><author><name>Iwan Setiawan</name></author><summary type="html"><![CDATA[Надежность и гибкость Drupal помогут вам создавать темы очень высокой сложности и изысканности.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://192.168.5.71:4000/img/markshevchenko.jpg" /><media:content medium="image" url="http://192.168.5.71:4000/img/markshevchenko.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Утилита управления DNS на FreeBSD с Doggo</title><link href="http://192.168.5.71:4000/2024/06/19/dns-command-utility-in-freebsd-with-doggo/" rel="alternate" type="text/html" title="Утилита управления DNS на FreeBSD с Doggo" /><published>2024-06-19T23:00:00+07:00</published><updated>2024-06-19T23:00:00+07:00</updated><id>http://192.168.5.71:4000/2024/06/19/dns-command-utility-in-freebsd-with-doggo</id><content type="html" xml:base="http://192.168.5.71:4000/2024/06/19/dns-command-utility-in-freebsd-with-doggo/"><![CDATA[]]></content><author><name>Iwan Setiawan</name></author><summary type="html"><![CDATA[Doggo — современный DNS-клиент командной строки, написанный на Golang. Поэтому не будет ошибкой назвать его «dog + go = doggo».]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://192.168.5.71:4000/img/markshevchenko.jpg" /><media:content medium="image" url="http://192.168.5.71:4000/img/markshevchenko.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

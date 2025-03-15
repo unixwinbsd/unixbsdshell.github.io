@@ -10,7 +10,8 @@ gem "rake", "~> 12"
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.17.0"
   gem 'jekyll-paginate'
-  gem "jekyll-seo-tag", "~> 2.8.0"
+  #gem "jekyll-seo-tag", "~> 2.8.0"
+  gem 'jekyll-seo-tag', git: 'https://github.com/adamsdesk/jekyll-seo-tag.git', branch: 'fix-json-ld-alt'
   gem "jekyll-sitemap", "~> 1.4.0"
   gem "jekyll-compose", "~> 0.5"
   gem "jekyll-redirect-from", "~> 0.16.0"

@@ -4,55 +4,7 @@
     <meta charset="utf-8">
 
     
-<script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "{{ page.title }}",
-        "description": "{{ page.excerpt }}",
-  
-        
-  
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}"
-        },
-        "datePublished": "{{page.date}}",
-        "dateModified": "{% if page.modified %}{{page.modified}}{% else %}{{page.date}}{% endif %}",
-        "isAccessibleForFree": "True",
-        "isPartOf": {
-            "@type": ["CreativeWork", "Product", "Blog"],
-            "name": "Fight With Tools",
-            "productID": "aramzs.github.io"
-        },
-        "license": "https://creativecommons.org/licenses/by-sa/4.0/",
-        "author": {
-            "@type": "Person",
-            "name": "Aram Zucker-Scharff",
-            "description": "Aram Zucker-Scharff is Director for Ad Engineering at Washington Post, lead dev for PressForward and a consultant. Tech solutions for journo problems.",
-            "sameAs": "https://aramzs.github.io/aramzs/",
-            "image": {
-                "@type": "ImageObject",
-                "url": "https://pbs.twimg.com/profile_images/539484037765533698/7l6-pKY-_400x400.jpeg"
-            },
-            "givenName": "Aram",
-            "familyName": "Zucker-Scharff",
-            "alternateName": "AramZS",
-            "publishingPrinciples": "https://aramzs.github.io/about/"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Fight With Tools",
-            "description": "A site discussing how to imagine, build, analyze and use cool code and web tools. Better websites, better stories, better developers. Technology won't save the world, but you can.",
-            "sameAs": "https://aramzs.github.io",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://41.media.tumblr.com/709bb3c371b9924add351bfe3386e946/tumblr_nxdq8uFdx81qzocgko1_1280.jpg"
-            },
-            "publishingPrinciples": "https://aramzs.github.io/about/"
-        }
-    }
-</script>
+<script type="application/ld+json"> { "@context": "http://schema.org", "@type": "{% if page.type %}{{ page.type }}{% elsif page.is_post %}BlogPosting{% else %}WebPage{% endif %}", {% if page.title %}"name": "{{ page.title }}",{% endif %} {% if page.description %}"description": "{{ page.description }}",{% endif %} {% if page.author or site.author %}"author": { "@type": "Person", "name": "{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}" },{% endif %} {% if page.date %}"dateCreated": "{{ page.date }}",{% endif %} {% if page.breadcrumbs %}"breadcrumb": { "@type": "BreadcrumbList", "itemListElement": [{% for breadcrumb in page.breadcrumbs %} { "@type": "ListItem", "position": {{ forloop.index }}, "item": { "@type": "{% if breadcrumb.type %}{{ breadcrumb.type }}{% else %}WebPage{% endif %}", "@id": "{{ site.url }}{{ site.baseurl }}{% if breadcrumb.url == 'page.url' %}{{ page.url }}{% else %}{{ breadcrumb.url }}{% endif %}", "name": "{% if breadcrumb.title == 'page.title' %}{{ page.title }}{% else %}{{ breadcrumb.title }}{% endif %}" } }{% unless forloop.last %},{% endunless %} {% endfor %}] },{% endif %} "url": "{{ site.url }}{{ site.baseurl }}{{ page.url }}" } </script>
 
     
     

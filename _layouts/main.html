@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     {% if jekyll.environment == 'production' %}
     {% include google-analytics.html %}
+    {% include json-ld-page.md %}
     {% endif %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,8 +21,7 @@
   <body>
     {% if jekyll.environment == 'production' %}
     {% include yandex-metrika.html %}
-    {% include googledc9be5e5382da4fd.html %}
-    {% include json-ld-page.md %}
+    {% include googledc9be5e5382da4fd.html %}    
     {% endif %}
     {{ content }}
   </body>

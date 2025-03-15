@@ -10,7 +10,7 @@
   "@type": "BlogPosting",
   "url": "{{ site.url }}{{ page.url }}",
   "name": "{{ page.title }}",
-  "headline": {{ page.title }},
+  "headline": "{{ page.title }}",
   "keywords": {{ page.tags | join: ',' | jsonify }},
   "description": {{ page.excerpt | strip_newlines | strip | jsonify }},
   "articleBody": {{ page.content | strip_html | jsonify }},

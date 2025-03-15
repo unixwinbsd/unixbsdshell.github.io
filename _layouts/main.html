@@ -6,6 +6,15 @@
     {% include google-analytics.html %}
     {% include json-ld-page.md %}
     {% endif %}
+    {% if page.title %}
+        {% if page.jsonld %}
+            {% include {{page.jsonld}}.html %}
+        {% else %}
+            {% include postJSONLD.html %}
+        {% endif %}
+    {% else %}
+        {% include homeJSONLD.html %}
+    {% endif %} 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>

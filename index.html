@@ -11,21 +11,19 @@
   "url": "{{ site.url }}{{ page.url }}",
   "name": "{{ page.title }}",
   "headline": "{{ page.title }}",
-  "keywords": {{ page.tags | join: ',' | jsonify }},
-  "description": {{ page.excerpt | strip_newlines | strip | jsonify }},
-  "articleBody": {{ page.content | strip_html | jsonify }},
-  "datePublished": {{ page.date | jsonify }},
+  "keywords": "{{ page.tags }}",
+  "description": "{{ page.excerpt }}",
+  "articleBody": "{{ page.content }}",
+  "datePublished": "{{ page.date }}",
   "dateModified": {{ page.last_modified_at | default: page.date | jsonify }},
   "author": {
     "@type": "Person",
-    "name": {{ site.author_name | jsonify }},
-    "givenName": {{ site.author_first_name | jsonify }},
-    "familyName": {{ site.author_last_name | jsonify }},
-    "email": {{ site.email | jsonify }}
+    "name": "{{ site.author_name }}",
+    "email": "{{ site.email }}"
   },
   "publisher": {
     "@type": "Organization",
-    "name": {{ site.title | jsonify }},
+    "name": "{{ site.title }}",
     "url": "{{ site.url }}",
     "logo": {
       "@type": "ImageObject",

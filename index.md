@@ -1,6 +1,6 @@
 ---
 layout: page
-excerpt: The website of Mark Shevchenko, a programmer, team leader, and organizer of meetings of the Moscow Programmers Club.
+excerpt: A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others
 ---
 
 <img src="{{ "/img/markshevchenko.jpg" | relative_url}}" alt="собственной персоной" style="float: right; margin: 0 0 16pt 16pt; width: 20%" />

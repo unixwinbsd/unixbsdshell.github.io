@@ -15,7 +15,7 @@
   "description": "{{ page.excerpt }}",
   "articleBody": "{{ page.content }}",
   "datePublished": "{{ page.date }}",
-  "dateModified": {{ page.last_modified_at | default: page.date | jsonify }},
+  "dateModified": "{{ page.last_modified_at }}",
   "author": {
     "@type": "Person",
     "name": "{{ site.author_name }}",

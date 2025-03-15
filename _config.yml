@@ -8,8 +8,8 @@ email: datainchi@gmail.com
 author: "Iwan Setiawan"
 domain: penaadventure.com
 #baseurl: "/unixbsdshell"
-#baseurl: "https://penaadventure.com/"
-url: "https://penaadventure.com/"
+baseurl: "https://penaadventure.com"
+url: "https://penaadventure.com"
 github_username: unixwinbsd
 
 permalink: pretty

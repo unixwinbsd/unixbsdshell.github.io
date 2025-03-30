@@ -154,43 +154,14 @@ if err != nil {
 
 HTML templates are files that contain the layout and content of application pages. We can include placeholders for dynamic data that will be passed by the controller function. For example, here's a simple HTML template that displays a list of users. Type the script below in the file.
 
+
+
 ```
 root@ns1:~ # cd /var/GoogleBlog
 root@ns1:/var/GoogleBlog # ee index.html
-
-<html>
-<head>
-        <title>{{.Title}}</title>
-</head>
-<body>
-        <h1>{{.Title}}</h1>
-        <ul>
-                {{range .Users}}
-                        <li>{{.Name}} ({{.Age}} years old)</li>
-                {{end}}
-        </ul>
-</body>
-<html>
-<head>
-        <title>{{.Title}}</title>
-</head>
-<body>
-        <h1>{{.Title}}</h1>
-        <ul>
-                {{range .Users}}
-                        <li>{{.Name}} ({{.Age}} years old)</li>
-                {{end}}
-        </ul>
-        <form action="/add" method="post">
-                <label>Name: <input type="text" name="name"></label>
-                <br>
-                <label>Age: <input type="number" name="age"></label>
-                <br>
-                <input type="submit" value="Add user">
-        </form>
-</body>
-</html>
 ```
+[Example index.html](https://github.com/unixwinbsd/integralist/blob/main/index.html)
+
 
 After that, we create the main Go file which we name "/var/GoogleBlog./main.go" and enter the script below in the "main.go" file.
 

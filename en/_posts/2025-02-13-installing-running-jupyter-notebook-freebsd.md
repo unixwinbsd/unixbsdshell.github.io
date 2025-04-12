@@ -91,6 +91,14 @@ root@ns3:~/.jupyter # jupyter notebook --allow-root
 ## 3. Test Jupyter Notebook
 The final step of this article is etching. If there is no wrong configuration, your monitor screen will display the Login menu. Open Google Chrome, type "http://192.168.5.2:8888/", if successful it will appear as shown in the image below.
 
+![token authentication jupyter notebook](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/token%20authentication%20jupyter%20notebook.jpg?ref_type=heads)
+
+In the image above there is a Password or token menu. To fill in the Password column, you can take it from the blue script above, when you run the command "jupyter notebook --allow-root". If the password you type is correct, it will appear as shown in the image below.
+
+![folder list jupyter notebook](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/folder%20list%20jupyter%20notebook.jpg?ref_type=heads)
+
+If it appears like the image above, you have successfully installed Jupyter Notebook on FreeBSD. Use Jupyter Notebook to increase productivity and gain deeper insights from data. Due to its interactive nature, language agnosticism, strong visualization capabilities, support for documentation, and increased reproducibility, Jupyter Notebook is currently the top choice for data developers.
+
 
 
 

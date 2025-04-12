@@ -97,7 +97,7 @@ In the image above there is a Password or token menu. To fill in the Password co
 
 If the Token you type matches the command above, it will appear as in the image below.
 
-![folder list jupyter notebook]([https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/folder%20list%20jupyter%20notebook.jpg?ref_type=heads](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/folder_list_jupyter_notebook.jpg))
+![folder list jupyter notebook](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/folder_list_jupyter_notebook.jpg)
 
 If it appears like the image above, you have successfully installed Jupyter Notebook on FreeBSD. Use Jupyter Notebook to increase productivity and gain deeper insights from data. Due to its interactive nature, language agnosticism, strong visualization capabilities, support for documentation, and increased reproducibility, Jupyter Notebook is currently the top choice for data developers.
 

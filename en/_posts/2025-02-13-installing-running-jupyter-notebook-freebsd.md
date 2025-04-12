@@ -93,7 +93,9 @@ The final step of this article is etching. If there is no wrong configuration, y
 
 ![token authentication jupyter notebook](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/token%20authentication%20jupyter%20notebook.jpg?ref_type=heads)
 
-In the image above there is a Password or token menu. To fill in the Password column, you can take it from the blue script above, when you run the command **"jupyter notebook --allow-root"**. If the password you type is correct, it will appear as shown in the image below.
+In the image above there is a Password or token menu. To fill in the Password column, you can take it from the blue script above, when you run the command **"jupyter notebook --allow-root"**. The result of the command you get the token "e352ecf595618fb5ac6eaaeb849b0a1b60fa50b589f6986b".
+
+If the Token you type matches the command above, it will appear as in the image below.
 
 ![folder list jupyter notebook](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/folder%20list%20jupyter%20notebook.jpg?ref_type=heads)
 

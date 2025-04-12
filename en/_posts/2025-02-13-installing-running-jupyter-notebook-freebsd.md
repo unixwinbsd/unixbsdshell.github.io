@@ -30,3 +30,11 @@ According to Nature, Jupyter is the gold standard for organizing data because of
 
 Data exploration using Jupyter provides a computational narrative, a document to which can be added the analysis, hypotheses, and decisions made by a data scientist. Well, you can learn more about Jupyter in Glints ExpertClass. Come on, click here to add and hone your skills to become a reliable data scientist.
 
+**1.** **Install Dependencies Jupyter Notebook**
+
+Even though Jupyter Notebook is written in 3 programming languages, in general the Python language is more dominant than the Julia and R languages. So it is very natural that more Jupyter dependencies use the Pyrhon package. It could even be said that almost all installation and configuration work uses the Python language.  
+
+Jupyter Notebook uses Python as its main language because it is used to connect with third party applications such as AWS, Digital Ocean and others. Python is also used to connect Jupyter with web browsers such as Google Chrome.  
+
+On FreeBSD all Jupyter dependencies are available in the PKG or ports repository. You choose one to install the dependencies. In this article we will use PKG to install Jupyter dependencies, because apart from being fast PKG is very easy to use. Here is an example of installing Jupyter dependencies on FreeBSD.
+

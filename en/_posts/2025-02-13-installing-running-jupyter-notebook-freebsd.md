@@ -38,15 +38,15 @@ Jupyter Notebook uses Python as its main language because it is used to connect 
 On FreeBSD all Jupyter dependencies are available in the PKG or ports repository. You choose one to install the dependencies. In this article we will use PKG to install Jupyter dependencies, because apart from being fast PKG is very easy to use. Here is an example of installing Jupyter dependencies on FreeBSD.
 
 ```
-root@ns3:~ # pkg install py39-setuptools desktop-file-utils py39-ipykernel py39-referencing py39-jsonschema-specifications py39-graphviz
-root@ns3:~ # pkg install py39-jsonschema py39-nbformat py39-nbclient py39-nbconvert py39-maturin py39-pyzmq libzmq4 py39-twisted
+root@ns3:~ # pkg install py311-setuptools desktop-file-utils py311-ipykernel py311-referencing py311-jsonschema-specifications py311-graphviz
+root@ns3:~ # pkg install py311-jsonschema py311-nbformat py311-nbclient py311-nbconvert py311-maturin py311-pyzmq libzmq4 py311-twisted
 ```
 
 ## 2. Install Jupyter Notebook
 After you have finished installing dependencies, the next step is to install Jupyter Notebook. the same as the dependencies above, the Jupyter Notebook repository is also available in the PKG package. Here is how to install Jupyter Notebook with PKG.
 
 ```
-root@ns3:~ # pkg install py39-notebook
+root@ns3:~ # pkg install py311-notebook
 ```
 
 py39 means we install Jupyter Notebook with Python39, because on FreeBSD 13.3 the Jupyter application can only be installed with Python39.

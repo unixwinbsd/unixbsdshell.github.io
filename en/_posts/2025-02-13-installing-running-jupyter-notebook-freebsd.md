@@ -30,7 +30,7 @@ According to Nature, Jupyter is the gold standard for organizing data because of
 
 Data exploration using Jupyter provides a computational narrative, a document to which can be added the analysis, hypotheses, and decisions made by a data scientist. Well, you can learn more about Jupyter in Glints ExpertClass. Come on, click here to add and hone your skills to become a reliable data scientist.
 
-**1.** **Install Dependencies Jupyter Notebook**
+**1. Install Dependencies Jupyter Notebook**
 
 Even though Jupyter Notebook is written in 3 programming languages, in general the Python language is more dominant than the Julia and R languages. So it is very natural that more Jupyter dependencies use the Pyrhon package. It could even be said that almost all installation and configuration work uses the Python language.  
 

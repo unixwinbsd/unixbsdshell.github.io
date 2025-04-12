@@ -91,13 +91,13 @@ root@ns3:~/.jupyter # jupyter notebook --allow-root
 ## 3. Test Jupyter Notebook
 The final step of this article is etching. If there is no wrong configuration, your monitor screen will display the Login menu. Open Google Chrome, type "http://192.168.5.2:8888/", if successful it will appear as shown in the image below.
 
-![token authentication jupyter notebook](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/token%20authentication%20jupyter%20notebook.jpg?ref_type=heads)
+![token authentication jupyter notebook]([https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/token%20authentication%20jupyter%20notebook.jpg?ref_type=heads](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/token_authentication_jupyter_notebook.jpg))
 
 In the image above there is a Password or token menu. To fill in the Password column, you can take it from the blue script above, when you run the command **"jupyter notebook --allow-root"**. The result of the command you get the token "e352ecf595618fb5ac6eaaeb849b0a1b60fa50b589f6986b".
 
 If the Token you type matches the command above, it will appear as in the image below.
 
-![folder list jupyter notebook](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/folder%20list%20jupyter%20notebook.jpg?ref_type=heads)
+![folder list jupyter notebook]([https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/folder%20list%20jupyter%20notebook.jpg?ref_type=heads](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/folder_list_jupyter_notebook.jpg))
 
 If it appears like the image above, you have successfully installed Jupyter Notebook on FreeBSD. Use Jupyter Notebook to increase productivity and gain deeper insights from data. Due to its interactive nature, language agnosticism, strong visualization capabilities, support for documentation, and increased reproducibility, Jupyter Notebook is currently the top choice for data developers.
 

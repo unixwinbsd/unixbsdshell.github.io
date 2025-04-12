@@ -51,6 +51,9 @@ root@ns3:~ # pkg install py311-notebook
 
 py39 means we install Jupyter Notebook with Python39, because on FreeBSD 13.3 the Jupyter application can only be installed with Python39.
 
+## 3. Menjalankan Jupyter Notebook dengan user root
+Secara default pada FreeBSD, file konfigurasi Jupyter terletak di /root.
+
 We will create a Jupyter configuration file, in this way Generate initial configuration. This configuration file has the extension *.py and is used to manage all Jupyter Notebook functions and features. Run the command below to generate a *.py configuration file.
 
 ```
@@ -88,13 +91,24 @@ root@ns3:~/.jupyter # jupyter notebook --allow-root
      or http://127.0.0.1:8888/?token=e352ecf595618fb5ac6eaaeb849b0a1b60fa50b589f6986b
 ```
 
-## 3. Test Jupyter Notebook
+## 4. Menjalankan Jupyter Notebook dengan user lainnya
+Selain dengan user root, anda dapat menjalankan Jupyter dengan user lainnya
+
+### a. Create a new user
+Untuk menjalankan Jupyter selain user "root", anda harus membuat user baru. Pada contoh artikel ini kami akan membuat user dengan nama "steve".
+
+```
+pw add user -n steve -m -s /bin/sh -c "Jupyter Notebook"
+```
+
+
+## 5. Test Jupyter Notebook
 The final step of this article is etching. If there is no wrong configuration, your monitor screen will display the Login menu. Open Google Chrome, type "http://192.168.5.2:8888/", if successful it will appear as shown in the image below.
 
 ![token authentication jupyter notebook](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/token_authentication_jupyter_notebook.jpg)
 
 
-![token authentication jupyter notebook](blob:https://colab.research.google.com/4daa8625-0a0c-43e9-8ae8-581c1cf2bbbc)
+
 
 In the image above there is a Password or token menu. To fill in the Password column, you can take it from the blue script above, when you run the command **"jupyter notebook --allow-root"**. The result of the command you get the token "e352ecf595618fb5ac6eaaeb849b0a1b60fa50b589f6986b".
 

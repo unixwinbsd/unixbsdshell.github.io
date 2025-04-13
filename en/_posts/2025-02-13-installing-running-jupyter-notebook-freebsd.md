@@ -98,14 +98,14 @@ Apart from the root user, you can run Jupyter with other users.
 To run Jupyter other than the "root" user, you must create a new user. In this article example we will create a user with the name "steve".
 
 ```
-pw add user -n steve -m -s /bin/sh -c "Jupyter Notebook"
+root@ns3:~ # pw add user -n steve -m -s /bin/sh -c "Jupyter Notebook"
 ```
 
 ### b. Create Password to Login
 After creating a user, continue by creating a password to log in to Jupyter.
 
 ```
-root@ns4:~ # su - steve -c 'jupyter notebook password'
+root@ns3:~ # su - steve -c 'jupyter notebook password'
 You can prevent the removal of a ZFS snapshot by using the hold subcommand.
 For example, to prevent the snapshot called milestone from deletion, run the
 following command:
@@ -133,7 +133,7 @@ Verify password:
 ### c. Create the file "jupyter_notebook_config.py"
 
 ```
-root@ns4:~ # su - steve -c "jupyter notebook --generate-config"
+root@ns3:~ # su - steve -c "jupyter notebook --generate-config"
 ```
 After that, type the script below in the file "/home/steve/.jupyter/jupyter_notebook_config.py"
 
@@ -153,7 +153,7 @@ To get the password "argon2:$argon2id$v=19$m=10240,t=10,p=8$IMgu5gvf8+CgulbJQyVL
 The final step is to run Jupyter with the user "steve".
 
 ```
-root@ns4:~ # su - steve -c 'jupyter notebook'
+root@ns3:~ # su - steve -c 'jupyter notebook'
 You can permanently set environment variables for your shell by putting them
 in a startup file for the shell.  The name of the startup file varies
 depending on the shell - csh and tcsh uses .login, bash, sh, ksh and zsh use

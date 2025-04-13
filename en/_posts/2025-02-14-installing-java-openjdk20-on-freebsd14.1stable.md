@@ -18,3 +18,12 @@ OpenJDK is an open-source implementation of Java Standard Edition (Java SE) and 
 
 ## Install Java OpenJDK on FreeBSD
 The first step you have to log in to the FreeBSD server as root, if you have successfully logged in, continue by opening Java Ports in the /usr/ports/java/openjdk20 folder.
+
+```
+root@router2:~ # cd /usr/ports/java/openjdk20
+root@router2:~ # make install clean
+```
+or
+```
+root@router2:~ # pkg install openjdk20
+```

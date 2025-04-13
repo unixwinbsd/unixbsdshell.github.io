@@ -27,7 +27,25 @@ or
 ```
 root@router2:~ # pkg install openjdk20
 ```
+Once the installation is complete, you will be shown the following command shell screen:
 
+gambar
+Now we continue according to the instructions above, type the script mount -t fdescfs fdesc /dev/fd and mount -t procfs proc /proc.
+
+```
+root@hostname1:/var/db/pkg/repos/FreeBSD # mount -t fdescfs fdesc /dev/fd
+root@hostname1:/var/db/pkg/repos/FreeBSD # mount -t procfs proc /proc
+```
+
+After that, you add the two scripts above to the "/etc/fstab" file.
+
+```
+root@router2:~ # ee /etc/fstab
+fdesc   /dev/fd         fdescfs         rw      0       0
+proc    /proc             procfs          rw      0       0
+```
+
+After that, if you want to check whether Java is installed on FreeBSD, do a check by checking the Java version, to check it use the "java -version" script.
 
 
 Memasang dan Mengkonfigurasi Java OpenJDK 20 di FreeBSD 14.1 Stable

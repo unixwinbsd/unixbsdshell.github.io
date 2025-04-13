@@ -51,8 +51,8 @@ root@ns3:~ # pkg install py311-notebook
 
 py39 means we install Jupyter Notebook with Python39, because on FreeBSD 13.3 the Jupyter application can only be installed with Python39.
 
-## 3. Menjalankan Jupyter Notebook dengan user root
-Secara default pada FreeBSD, file konfigurasi Jupyter terletak di /root.
+## 3. Running Jupyter Notebook with root user
+By default on FreeBSD, the Jupyter configuration files are located in "/root".
 
 We will create a Jupyter configuration file, in this way Generate initial configuration. This configuration file has the extension *.py and is used to manage all Jupyter Notebook functions and features. Run the command below to generate a *.py configuration file.
 
@@ -147,7 +147,49 @@ After that, type the script below in the file "/home/steve/.jupyter/jupyter_note
 
 > c.ServerApp.password = 'argon2:$argon2id$v=19$m=10240,t=10,p=8$IMgu5gvf8+CgulbJQyVLTw$FxXNv9WMqONpPMRi9ia7ACb4ggIeWLfrKiky+dFBECo'
 
-To get the password "argon2:$argon2id$v=19$m=10240,t=10,p=8$IMgu5gvf8+CgulbJQyVLTw$FxXNv9WMqONpPMRi9ia7ACb4ggIeWLfrKiky+dFBECo", you can open the file "/home/steve/.jupyter/jupyter_server_config.json"
+To get the password "argon2:$argon2id$v=19$m=10240,t=10,p=8$IMgu5gvf8+CgulbJQyVLTw$FxXNv9WMqONpPMRi9ia7ACb4ggIeWLfrKiky+dFBECo", you can open the file "/home/steve/.jupyter/jupyter_server_config.json".
+
+### d. Running Jupyter with User "steve"
+The final step is to run Jupyter with the user "steve".
+
+```
+root@ns4:~ # su - steve -c 'jupyter notebook'
+You can permanently set environment variables for your shell by putting them
+in a startup file for the shell.  The name of the startup file varies
+depending on the shell - csh and tcsh uses .login, bash, sh, ksh and zsh use
+.profile.  When using bash, sh, ksh or zsh, don't forget to export the
+variable.
+[I 2025-04-13 06:45:04.145 ServerApp] Extension package jupyter_lsp took 0.2221s to import
+[I 2025-04-13 06:45:04.329 ServerApp] Extension package jupyter_server_terminals took 0.1837s to import
+[I 2025-04-13 06:45:08.662 ServerApp] jupyter_lsp | extension was successfully linked.
+[I 2025-04-13 06:45:08.669 ServerApp] jupyter_server_terminals | extension was successfully linked.
+[I 2025-04-13 06:45:08.676 ServerApp] jupyterlab | extension was successfully linked.
+[W 2025-04-13 06:45:08.679 JupyterNotebookApp] 'ip' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[W 2025-04-13 06:45:08.680 JupyterNotebookApp] 'notebook_dir' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[W 2025-04-13 06:45:08.680 JupyterNotebookApp] 'notebook_dir' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[W 2025-04-13 06:45:08.680 JupyterNotebookApp] 'port' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[W 2025-04-13 06:45:08.684 ServerApp] ServerApp.password config is deprecated in 2.0. Use PasswordIdentityProvider.hashed_password.
+[W 2025-04-13 06:45:08.684 ServerApp] notebook_dir is deprecated, use root_dir
+[I 2025-04-13 06:45:08.685 ServerApp] notebook | extension was successfully linked.
+[I 2025-04-13 06:45:08.686 ServerApp] Writing Jupyter server cookie secret to /home/steve/.local/share/jupyter/runtime/jupyter_cookie_secret
+[I 2025-04-13 06:45:12.428 ServerApp] notebook_shim | extension was successfully linked.
+[I 2025-04-13 06:45:12.776 ServerApp] notebook_shim | extension was successfully loaded.
+[I 2025-04-13 06:45:12.780 ServerApp] jupyter_lsp | extension was successfully loaded.
+[I 2025-04-13 06:45:12.781 ServerApp] jupyter_server_terminals | extension was successfully loaded.
+[I 2025-04-13 06:45:12.807 LabApp] JupyterLab extension loaded from /usr/local/lib/python3.11/site-packages/jupyterlab
+[I 2025-04-13 06:45:12.807 LabApp] JupyterLab application directory is /usr/local/share/jupyter/lab
+[I 2025-04-13 06:45:12.808 LabApp] Extension Manager is 'pypi'.
+[I 2025-04-13 06:45:16.420 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2025-04-13 06:45:16.426 ServerApp] notebook | extension was successfully loaded.
+[I 2025-04-13 06:45:16.427 ServerApp] Serving notebooks from local directory: /tmp
+[I 2025-04-13 06:45:16.427 ServerApp] Jupyter Server 2.15.0 is running at:
+[I 2025-04-13 06:45:16.427 ServerApp] http://192.168.5.71:8888/tree
+[I 2025-04-13 06:45:16.427 ServerApp]     http://127.0.0.1:8888/tree
+[I 2025-04-13 06:45:16.427 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+```
+
+
+
 
 ## 5. Test Jupyter Notebook
 The final step of this article is etching. If there is no wrong configuration, your monitor screen will display the Login menu. Open Google Chrome, type "http://192.168.5.2:8888/", if successful it will appear as shown in the image below.

@@ -29,7 +29,8 @@ root@router2:~ # pkg install openjdk20
 ```
 Once the installation is complete, you will be shown the following command shell screen:
 
-gambar
+![freebsd14 java openjdk install](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/freebsd_14_java_openjdk_install.jpg)
+
 Now we continue according to the instructions above, type the script mount -t fdescfs fdesc /dev/fd and mount -t procfs proc /proc.
 
 ```
@@ -46,6 +47,68 @@ proc    /proc             procfs          rw      0       0
 ```
 
 After that, if you want to check whether Java is installed on FreeBSD, do a check by checking the Java version, to check it use the "java -version" script.
+
+```
+root@ns4:~ # java -version
+openjdk version "20.0.2" 2023-07-18
+OpenJDK Runtime Environment (build 20.0.2+9-1)
+OpenJDK 64-Bit Server VM (build 20.0.2+9-1, mixed mode, sharing)
+root@ns4:~ #
+```
+
+The next step is to set JAVA as the JAVA_HOME Environment. JAVA_HOME is an operating system environment variable for the Java Development Kit (JDK) or Java Runtime Environment (JRE). JAVA_HOME can be optionally set after the JDK or JRE installation is complete.
+
+The JAVA_HOME variable points to the location where the JDK or JRE is installed on a FreeBSD system. Java applications use this variable to find where the runtime is installed. On FreeBSD, you need to set the JAVA_HOME environment in /etc/csh.cshrc.
+Open the csh.cshrc file and add the following two lines:
+
+```
+root@router2:~ # ee /etc/csh.cshrc
+# $FreeBSD$
+#
+# System-wide .cshrc file for csh(1).
+setenv JAVA_VERSION "20.0+"
+setenv JAVA_HOME /usr/local/openjdk20
+```
+
+After that, you type the script below into /etc/csh.cshrc, the goal is to activate or execute the environment variable (PATH).
+
+If the script above fails to execute the Java environment variable (PATH), you can add the JAVA_HOME Environment to $PATH in the root ~/.zshrc. Add $JAVA_HOME/bin to the .bashrc file in the /root folder.
+
+```
+root@router2:~ # ee .cshrc
+set path = ($JAVA_HOME/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
+```
+
+## 2. Test Java that has been installed on FreeBSD
+The last step is to test the JAVA program. To test the JAVA program, we create a file in the /usr/local/openjdk20 folder. We name the file test.java.
+
+```
+root@router2:~ # cd /usr/local/openjdk20
+root@router2:/usr/local/openjdk20 # touch test.java
+root@router2:/usr/local/openjdk20 # ee test.java
+```
+
+Enter the following script into the "test.java" file.
+
+```
+public class test {
+    public static void main(String[] args) {
+        System.out.println("Test Program JAVA 20 Di FreeBSD 14.1 Stable");
+    }
+}
+```
+
+Now we compile or run the test.java file.
+
+```
+root@router2:~ # cd /usr/local/openjdk20
+root@router2:/usr/local/openjdk17 # java test.java
+```
+
+Java offers developers a versatile and powerful programming platform for developing a variety of applications. With platform independence, an extensive standard library, and an active community, Java continues to grow and evolve, maintaining its relevance and popularity among developers worldwide.
+
+In this article, you have learned how to install Java 20 on a stable FreeBSD 14.1 system. With the output of the JAVA program test results above, you have successfully run a JAVA program on FreeBSD 14. I suggest you try other JAVA versions to install on FreeBSD Server.
+
 
 
 Memasang dan Mengkonfigurasi Java OpenJDK 20 di FreeBSD 14.1 Stable

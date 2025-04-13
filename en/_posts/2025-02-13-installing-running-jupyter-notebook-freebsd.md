@@ -91,7 +91,7 @@ root@ns3:~/.jupyter # jupyter notebook --allow-root
      or http://127.0.0.1:8888/?token=e352ecf595618fb5ac6eaaeb849b0a1b60fa50b589f6986b
 ```
 
-## 4. Menjalankan Jupyter Notebook dengan user lainnya
+## 4. Running Jupyter Notebook with other users
 Selain dengan user root, anda dapat menjalankan Jupyter dengan user lainnya
 
 ### a. Create a new user
@@ -100,6 +100,49 @@ Untuk menjalankan Jupyter selain user "root", anda harus membuat user baru. Pada
 ```
 pw add user -n steve -m -s /bin/sh -c "Jupyter Notebook"
 ```
+
+### b. Create Password to Login
+After creating a user, continue by creating a password to log in to Jupyter.
+
+```
+root@ns4:~ # su - steve -c 'jupyter notebook password'
+You can prevent the removal of a ZFS snapshot by using the hold subcommand.
+For example, to prevent the snapshot called milestone from deletion, run the
+following command:
+
+# zfs hold milestone_hold mypool/projects@my_milestone
+
+The "zfs holds" command will list all current snapshots that are protected
+this way (-r for a recursive list):
+
+# zfs holds -r mypool
+
+The TIMESTAMP column in the output of the above command is from when the
+hold was created, not the snapshot it holds. The "zfs destroy" command will
+echo a "dataset is busy" message on the console when it encounters a hold.
+Use "zfs release" to release the hold on the snapshot:
+
+# zfs release milestone_hold mypool/projects@my_milestone
+
+                -- Benedict Reuschling <bcr@FreeBSD.org>
+Enter password:
+Verify password:
+[JupyterPasswordApp] Wrote hashed password to /home/steve/.jupyter/jupyter_server_config.json
+```
+
+### c. Create the file "jupyter_notebook_config.py"
+
+```
+root@ns4:~ # su - steve -c "jupyter notebook --generate-config"
+```
+Setelah itu anda ketikkan skrip di bawah ini di file "/home/steve/.jupyter/jupyter_notebook_config.py"
+
+> c.NotebookApp.ip = '192.168.5.71'
+> c.NotebookApp.notebook_dir = '/tmp'
+> c.NotebookApp.open_browser = False
+> c.NotebookApp.port = 8888
+> c.ServerApp.password = 'argon2:$argon2id$v=19$m=10240,t=10,p=8$IMgu5gvf8+CgulbJQyVLTw$FxXNv9WMqONpPMRi9ia7ACb4ggIeWLfrKiky+dFBECo'
+
 
 
 ## 5. Test Jupyter Notebook

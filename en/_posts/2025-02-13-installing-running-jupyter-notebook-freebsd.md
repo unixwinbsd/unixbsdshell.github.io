@@ -137,7 +137,7 @@ root@ns4:~ # su - steve -c "jupyter notebook --generate-config"
 ```
 After that, type the script below in the file "/home/steve/.jupyter/jupyter_notebook_config.py"
 
-> c.NotebookApp.ip = '192.168.5.71'
+> c.NotebookApp.ip = '192.168.5.2'
 
 > c.NotebookApp.notebook_dir = '/tmp'
 
@@ -183,21 +183,15 @@ variable.
 [I 2025-04-13 06:45:16.426 ServerApp] notebook | extension was successfully loaded.
 [I 2025-04-13 06:45:16.427 ServerApp] Serving notebooks from local directory: /tmp
 [I 2025-04-13 06:45:16.427 ServerApp] Jupyter Server 2.15.0 is running at:
-[I 2025-04-13 06:45:16.427 ServerApp] http://192.168.5.71:8888/tree
+[I 2025-04-13 06:45:16.427 ServerApp] http://192.168.5.2:8888/tree
 [I 2025-04-13 06:45:16.427 ServerApp]     http://127.0.0.1:8888/tree
 [I 2025-04-13 06:45:16.427 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
 ```
-
-
-
 
 ## 5. Test Jupyter Notebook
 The final step of this article is etching. If there is no wrong configuration, your monitor screen will display the Login menu. Open Google Chrome, type "http://192.168.5.2:8888/", if successful it will appear as shown in the image below.
 
 ![token authentication jupyter notebook](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/token_authentication_jupyter_notebook.jpg)
-
-
-
 
 In the image above there is a Password or token menu. To fill in the Password column, you can take it from the blue script above, when you run the command **"jupyter notebook --allow-root"**. The result of the command you get the token "e352ecf595618fb5ac6eaaeb849b0a1b60fa50b589f6986b".
 
@@ -206,8 +200,3 @@ If the Token you type matches the command above, it will appear as in the image 
 ![folder list jupyter notebook](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/folder_list_jupyter_notebook.jpg)
 
 If it appears like the image above, you have successfully installed Jupyter Notebook on FreeBSD. Use Jupyter Notebook to increase productivity and gain deeper insights from data. Due to its interactive nature, language agnosticism, strong visualization capabilities, support for documentation, and increased reproducibility, Jupyter Notebook is currently the top choice for data developers.
-
-
-
-
-

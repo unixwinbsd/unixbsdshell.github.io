@@ -50,6 +50,75 @@ root@ns4:~ # pkg install libzookeeper
 ```
 
 ### a. Install Java OpenJDK
-ZooKeeper is written in Java and requires Java to run properly. On FreeBSD the Java OpenJDK repository is available, for a guide to installing Java OpenJDK you can read the previous article.
+ZooKeeper is written in Java and requires Java to run properly. On FreeBSD the Java OpenJDK repository is available, for a guide to installing Java OpenJDK you can read [the previous article](https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/).
 
 So, in this article we do not explain the process of installing Java OpenJDK on FreeBSD, you can read the article above which explains the process of installing Java.
+
+### b. Install Apache ZooKeeper
+ZooKeeper repository has been added to FreeBSD system since 2012, so it is very easy for you to install it. Because ZooKeeper repository is available, you only need to make a few changes such as enabling it in the "/etc/rc.conf" file.
+
+```
+root@ns4:~ # pkg install zookeeper
+```
+
+## 4. Configure ZooKeeper in Standalone Mode
+For testing or development purposes, ZooKeeper runs in the Standalone mode. Standalone mode is to install ZooKeeper on a single machine.
+
+### a. Set the machine id
+
+```
+root@ns4:~ # echo 1 > /var/db/zookeeper/myid1
+root@ns4:~ # echo 2 > /var/db/zookeeper/myid2
+root@ns4:~ # echo 3 > /var/db/zookeeper/myid3
+```
+
+After that you run the "chown" command. This command is used to change the owner and/or group of a file or directory in the file system. This command allows users to grant more specific access rights and control to existing files or directories.
+
+```
+root@ns4:~ # chown -R zookeeper:zookeeper /var/db/zookeeper
+root@ns4:~ # chown -R zookeeper:zookeeper /var/log/zookeeper
+```
+
+### b. Enable and Start zookeeper on Boot
+To enable ZooKeeper at boot, you need to add the script below in the **"/etc/rc.conf"** file.
+
+```
+root@ns4:~ # echo 'zookeeper_enable="YES"' >> /etc/rc.conf
+```
+
+### c. Create a configuration file
+Configuration files are very important to set the application to run as we wish. By default the "ZooKeeper" configuration file is located in the "/usr/local/etc/zookeeper" folder.
+
+```
+root@ns4:~ # cp /usr/local/etc/zookeeper/zoo.cfg.sample /usr/local/etc/zookeeper/zoo.cfg
+```
+
+After that, you type or activate the script below in the file "/usr/local/etc/zookeeper/zoo.cfg".
+
+```
+tickTime=2000
+initLimit=10
+syncLimit=5
+dataDir=/var/db/zookeeper
+clientPort=2181
+server.1=192.168.5.71:2888:3888
+server.2=192.168.5.72:2888:3888
+server.3=192.168.5.73:2888:3888
+```
+
+### d. Running ZooKeeper
+The final step is to run ZooKeeper with the "service" command.
+
+```
+root@ns4:~ # service zookeeper restart
+root@ns4:~ # service zookeeper status
+```
+
+Once the server is up and running, you can connect to the server using the zkCli.sh command
+and try out a few commands to verify that everything is working as expected.
+
+```
+root@ns4:~ # zkCli.sh -server 192.168.5.71:2181
+```
+
+In this article we have learned how to install Apache ZooKeeper on FreeBSD 14.1. This article explains how to install ZooKeeper and outlines all the steps to take before installing and running ZooKeeper.

@@ -16,7 +16,7 @@ Java has become one of the leading programming languages ​​in software appli
 
 OpenJDK is an open-source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK). OpenJDK comes with components such as a virtual machine, Java Class Library, and Java Compiler (javac). In this article, I will guide you on how to install and configure openjdk17 on FreeBSD 13. In this tutorial, we will install Java with FreeBSD Ports.
 
-## Install Java OpenJDK on FreeBSD
+## 1. Install Java OpenJDK on FreeBSD
 The first step you have to log in to the FreeBSD server as root, if you have successfully logged in, continue by opening Java Ports in the /usr/ports/java/openjdk20 folder.
 
 ```
@@ -108,7 +108,3 @@ root@router2:/usr/local/openjdk17 # java test.java
 Java offers developers a versatile and powerful programming platform for developing a variety of applications. With platform independence, an extensive standard library, and an active community, Java continues to grow and evolve, maintaining its relevance and popularity among developers worldwide.
 
 In this article, you have learned how to install Java 20 on a stable FreeBSD 14.1 system. With the output of the JAVA program test results above, you have successfully run a JAVA program on FreeBSD 14. I suggest you try other JAVA versions to install on FreeBSD Server.
-
-
-
-Memasang dan Mengkonfigurasi Java OpenJDK 20 di FreeBSD 14.1 Stable

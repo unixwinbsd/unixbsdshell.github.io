@@ -92,10 +92,10 @@ root@ns3:~/.jupyter # jupyter notebook --allow-root
 ```
 
 ## 4. Running Jupyter Notebook with other users
-Selain dengan user root, anda dapat menjalankan Jupyter dengan user lainnya
+Apart from the root user, you can run Jupyter with other users.
 
 ### a. Create a new user
-Untuk menjalankan Jupyter selain user "root", anda harus membuat user baru. Pada contoh artikel ini kami akan membuat user dengan nama "steve".
+To run Jupyter other than the "root" user, you must create a new user. In this article example we will create a user with the name "steve".
 
 ```
 pw add user -n steve -m -s /bin/sh -c "Jupyter Notebook"
@@ -135,7 +135,7 @@ Verify password:
 ```
 root@ns4:~ # su - steve -c "jupyter notebook --generate-config"
 ```
-Setelah itu anda ketikkan skrip di bawah ini di file "/home/steve/.jupyter/jupyter_notebook_config.py"
+After that, type the script below in the file "/home/steve/.jupyter/jupyter_notebook_config.py"
 
 > c.NotebookApp.ip = '192.168.5.71'
 
@@ -147,7 +147,7 @@ Setelah itu anda ketikkan skrip di bawah ini di file "/home/steve/.jupyter/jupyt
 
 > c.ServerApp.password = 'argon2:$argon2id$v=19$m=10240,t=10,p=8$IMgu5gvf8+CgulbJQyVLTw$FxXNv9WMqONpPMRi9ia7ACb4ggIeWLfrKiky+dFBECo'
 
-
+To get the password "argon2:$argon2id$v=19$m=10240,t=10,p=8$IMgu5gvf8+CgulbJQyVLTw$FxXNv9WMqONpPMRi9ia7ACb4ggIeWLfrKiky+dFBECo", you can open the file "/home/steve/.jupyter/jupyter_server_config.json"
 
 ## 5. Test Jupyter Notebook
 The final step of this article is etching. If there is no wrong configuration, your monitor screen will display the Login menu. Open Google Chrome, type "http://192.168.5.2:8888/", if successful it will appear as shown in the image below.

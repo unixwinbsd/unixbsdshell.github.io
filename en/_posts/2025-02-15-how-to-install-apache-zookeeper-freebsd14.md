@@ -32,12 +32,19 @@ Apache Zookeeper is an open-source distributed configuration and synchronization
 
 ## 2. System specifications
 OS: FreeBSD 14.1-STABLE
+
 Hostname: ns4
+
 IP Address: 192.168.5.71
+
 JAVA version: 
+
 openjdk version "20.0.2" 2023-07-18
+
 OpenJDK Runtime Environment (build 20.0.2+9-1)
+
 OpenJDK 64-Bit Server VM (build 20.0.2+9-1, mixed mode, sharing)
+
 ZooKeeper Version: apache-zookeeper-3.8.3
 
 ## 3. Installing Apache ZooKeeper on FreeBSD

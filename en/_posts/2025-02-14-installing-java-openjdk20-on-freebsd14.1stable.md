@@ -27,3 +27,7 @@ or
 ```
 root@router2:~ # pkg install openjdk20
 ```
+
+
+
+Memasang dan Mengkonfigurasi Java OpenJDK 20 di FreeBSD 14.1 Stable

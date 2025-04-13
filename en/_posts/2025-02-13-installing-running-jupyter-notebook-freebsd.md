@@ -138,9 +138,13 @@ root@ns4:~ # su - steve -c "jupyter notebook --generate-config"
 Setelah itu anda ketikkan skrip di bawah ini di file "/home/steve/.jupyter/jupyter_notebook_config.py"
 
 > c.NotebookApp.ip = '192.168.5.71'
+
 > c.NotebookApp.notebook_dir = '/tmp'
+
 > c.NotebookApp.open_browser = False
+
 > c.NotebookApp.port = 8888
+
 > c.ServerApp.password = 'argon2:$argon2id$v=19$m=10240,t=10,p=8$IMgu5gvf8+CgulbJQyVLTw$FxXNv9WMqONpPMRi9ia7ACb4ggIeWLfrKiky+dFBECo'
 
 

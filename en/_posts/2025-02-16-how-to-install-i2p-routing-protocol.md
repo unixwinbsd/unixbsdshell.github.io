@@ -86,12 +86,57 @@ In the /var/i2p directory, find a file named "clients.config.bak". Then you chan
 
 ```
 clientApp.0.args=7657 ::1,127.0.0.1 ./webapps/
-*change to*
+change to
 clientApp.0.args=7657 ::1,192.168.5.3 ./webapps/
 
 clientApp.4.args=http://127.0.0.1:7657/
-*change to*
+change to
 clientApp.4.args=http://192.168.5.3:7657/
 ```
+
+### b. Change the files in /var/i2p/clients.config.d
+Apart from the files mentioned above that you have to change, you also have to change several files in "/var/i2p/clients.config.d". Look for the file "/var/i2p/clients.config.d/00-net.i2p.router.web.RouterConsoleRunner-clients.config", then change the script as in the example below.
+
+```
+clientApp.0.args=7657 ::1,127.0.0.1 ./webapps/
+change to
+clientApp.0.args=7657 ::1,192.168.5.3 ./webapps/
+```
+
+After that, you also change the file "/var/i2p/clients.config.d/04-net.i2p.apps.systray.UrlLauncher-clients.config".
+
+```
+clientApp.0.args=http://127.0.0.1:7657/
+change to
+clientApp.0.args=http://192.168.5.3:7657/
+```
+
+### c. Reboot I2P
+The last step is you have to reboot your OpenBSD server, the goal is so that all configurations can be applied immediately in OpenBSD.
+
+```
+ns2# reboot
+```
+
+## 4. How to Run I2P
+Now we come to the final step, and this step is the step we have been waiting for. In this step we will run I2P. To run I2P you must use the Google Chrome, Yandex, Opera or other web browsers. In this article we will run I2P on Google Chrome, because it is commonly used by most people.
+
+Before you open Google Chrome, run the following command.
+
+```
+ns2# /usr/local/bin/i2prouter restart
+```
+
+After that, on the Google Chrome address bar menu, type the IP "192.168.5.3:7657", then press the enter button. The results can be seen as shown in the image below.
+
+gambar
+
+After appearing like the image above, you just have to follow the wizard menu displayed by I2P.
+
+Congratulations...! You have successfully installed I2P on OpenBSD.
+
+I2P is a great way to share services on a reliable and privacy-friendly network, it may not be fast but it won't stop you when you need it. Because it can easily bypass NAT or dynamic IP, I2P is perfect for remote systems that you need to access when you can use NAT or VPN.
+
+
 
 

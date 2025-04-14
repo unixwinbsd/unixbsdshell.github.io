@@ -64,7 +64,7 @@ ns2# pkg_add i2p
 ```
 
 ## 3. I2P Configuration Process
-In the configuration process we will set up I2P to run perfectly on OpenBSD. The first step you must do is run the following command:
+In the configuration process we will set I2P to run perfectly on OpenBSD. The first step you have to do is run the following command to run I2P.
 
 ```
 ns2# /usr/local/bin/i2prouter start

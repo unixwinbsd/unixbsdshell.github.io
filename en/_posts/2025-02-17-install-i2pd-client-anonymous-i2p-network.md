@@ -22,18 +22,16 @@ In the previous article, we have written about [I2P running on the OpenBSD syste
 Meanwhile, [I2PD](https://github.com/openbsd/ports/blob/master/net/i2p/pkg/DESCR) is a full-featured client for the I2P network written in C++. I2P (Invisible Internet Project) is a universal anonymous network layer. All communication over I2P is anonymous and end-to-end encrypted. Participants do not reveal their real IP addresses to each other. Both peer-to-peer (cryptocurrency, file sharing) and client-to-server (websites, instant messengers, chat servers) applications are supported.
 
 ## System Specifications
-Hostname: datainchi.com
-OS: OpenBSD 7.6 amd64
-Host: Acer Aspire M1800
-Uptime: 8 mins
-Packages: 42 (pkg_info)
-Shell: ksh v5.2.14 99/07/13.2
-Terminal: /dev/ttyp0
-CPU: Intel Core 2 Duo E8400 (2) @ 3.000GHz
-Memory: 35MiB / 1775MiB
-IP Address: 192.168.5.3
-Versi I2PD: i2pd-2.53.1p0
-Versi I2P: i2p-2.6.1
+> Hostname: datainchi.com 
+> OS: OpenBSD 7.6 amd64 
+> Host: Acer Aspire M1800  
+> Shell: ksh v5.2.14 99/07/13.2  
+> Terminal: /dev/ttyp0  
+> CPU: Intel Core 2 Duo E8400 (2) @ 3.000GHz 
+> Memory: 35MiB / 1775MiB 
+> IP Address: 192.168.5.3 
+> Versi I2PD: i2pd-2.53.1p0 
+> Versi I2P: i2p-2.6.1 
 
 ## 2. i2pd Installation Process
 After you know a little about i2pd and the system used, we will go straight to installing i2pd. Oops.... wait, before you install i2pd, there are some dependencies that you must install first.

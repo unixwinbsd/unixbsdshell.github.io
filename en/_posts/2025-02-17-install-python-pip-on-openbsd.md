@@ -34,6 +34,8 @@ Because PIP is used to make it easier to install Python packages, the main requi
 
 ```
 ns5# pkg_add python-3.11.10p0
+or
+ns5# pkg_add python-3.11.10p1
 ns5# pkg_add py-setuptools-44.1.1p0v0
 ```
 

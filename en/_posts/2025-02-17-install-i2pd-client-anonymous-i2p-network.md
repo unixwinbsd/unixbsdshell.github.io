@@ -21,7 +21,7 @@ In the previous article, we have written about [I2P running on the OpenBSD syste
 
 Meanwhile, [I2PD](https://github.com/openbsd/ports/blob/master/net/i2p/pkg/DESCR) is a full-featured client for the I2P network written in C++. I2P (Invisible Internet Project) is a universal anonymous network layer. All communication over I2P is anonymous and end-to-end encrypted. Participants do not reveal their real IP addresses to each other. Both peer-to-peer (cryptocurrency, file sharing) and client-to-server (websites, instant messengers, chat servers) applications are supported.
 
-## System Specifications
+## 1. System Specifications
 > Hostname: datainchi.com   
 > OS: OpenBSD 7.6 amd64   
 > Host: Acer Aspire M1800    

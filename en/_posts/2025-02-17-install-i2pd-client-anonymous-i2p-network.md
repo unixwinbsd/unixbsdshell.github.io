@@ -374,7 +374,7 @@ After you activate i2pd, we continue by running i2pd. To run i2pd we use the Goo
 
 If you don't miss any of the configurations above, an image like the one below will appear on your monitor screen.
 
-gambar
+![dashboard i2pd](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/Dashboard_i2pd.jpg)
 
 I2PD can be a very useful tool if you want to stay anonymous on the internet and increase your security while browsing. This tool has all the features of I2P and improves on them. It is more secure, cryptographically encrypted, and more performant since it is built in C++. If you have some sites that are censored in your country, I2PD can help you access them anonymously as well.
 

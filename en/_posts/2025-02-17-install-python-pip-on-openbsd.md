@@ -1,5 +1,5 @@
 ---
-title: How to Install Python and PIP on OpenBSD
+title: Installing Python Package Manager PIP on OpenBSD  7.6
 date: "2025-02-17 17:23:11 +0100"
 id: install-python-pip-on-openbsd
 lang: en
@@ -9,7 +9,7 @@ categories:
   - OpenBSD
 tags: "SysAdmin"
 excerpt: Pip is a package management system used to install and manage software packages written in Python.
-keywords: python, pip, venv, oepnbsd, unix, freebsd, poetry
+keywords: python, pip, venv, oepnbsd, unix, freebsd, poetry, Package Manager
 ---
 Pip is a package management system used to install and manage software packages written in Python. Pip stands for Pip Installs Packages. Pip allows you to install libraries and tools from the Python Package Index (PyPI) or other repositories.
 

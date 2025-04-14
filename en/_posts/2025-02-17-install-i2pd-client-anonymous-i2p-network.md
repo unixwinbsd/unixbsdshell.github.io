@@ -57,6 +57,7 @@ ns2# pkg_add i2pd
 This part is a very important part, because we will tinker with the i2pd file so that it can run on the OpenBSD server. The main i2pd configuration file is located at **"/etc/i2pd/i2pd.conf"**. Please open the file and change it according to your OpenBSD system needs or specifications. To make it easier, just follow the guide below.
 
 > /etc/i2pd/i2pd.conf
+
 ```
 ## Configuration file for a typical i2pd user
 ## See https://i2pd.readthedocs.io/en/latest/user-guide/configuration/
@@ -353,13 +354,14 @@ ns2# rcctl enable i2pd
 ns2# rcctl restart i2pd
 ```
 
-b. Creating I2PD Boot
+### b. Creating I2PD Boot
 In this section, you can manually start I2Pd, but it will not start automatically
 when the system boots. This section explains how to do this. The first thing to do is create a new login class to increase the number of files that I2Pd can open simultaneously.
 
 By default, OpenBSD limits this number to a value that is too low for I2Pd to work properly. Symptoms of too low a number include difficulty connecting to websites and high CPU usage. If you are using OpenBSD 7.5 or later or a newer OpenBSD, simply add the following line to the /etc/login.conf.d/i2pd file to create the login class.
 
 > /etc/login.conf.d/i2pd
+
 ```
 i2pd:\
     :openfiles-cur=102400:\

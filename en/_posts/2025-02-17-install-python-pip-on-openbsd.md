@@ -18,15 +18,15 @@ As a software developer, you can use pip to install various Python modules and p
 In this article, we will learn how to install/manage Python and Pip on OpenBSD.
 
 ## System specifications:
-> OS: OpenBSD 7.6-current amd64
-> Host: Acer Aspire M1800
-> Packages: 124 (pkg_info)
-> Shell: ksh v5.2.14 99/07/13.2
-> CPU: Intel Core 2 Duo E8400 (2) @ 3.000GHz
-> Memory: 181MiB / 1775MiB
-> IP Address: 192.168.5.3
-> Hostname: ns3
-> Versi Python: python-3.11.10p0
-> Versi PIP: py-pip-20.3.4p3
+> OS: OpenBSD 7.6-current amd64         
+> Host: Acer Aspire M1800         
+> Packages: 124 (pkg_info)            
+> Shell: ksh v5.2.14 99/07/13.2           
+> CPU: Intel Core 2 Duo E8400 (2) @ 3.000GHz       
+> Memory: 181MiB / 1775MiB        
+> IP Address: 192.168.5.3       
+> Hostname: ns3          
+> Versi Python: python-3.11.10p0        
+> Versi PIP: py-pip-20.3.4p3       
 
 

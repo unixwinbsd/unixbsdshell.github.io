@@ -39,6 +39,7 @@ In writing this article we used a computer with the following specifications:
 - CPU: Intel Core 2 Duo E8400 (2) @ 3.000GHz
 - Memory: 35MiB / 1775MiB
 - IP Address: 192.168.5.3
+- Java version:  jdk-21.0.6.7.1v0
 
 ## 2. I2P Installation Process
 The installation process is the most important part of all processes. In this process, there are many things you have to do, including:

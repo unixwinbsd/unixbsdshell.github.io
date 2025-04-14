@@ -111,6 +111,14 @@ change to
 clientApp.0.args=http://192.168.5.3:7657/
 ```
 
+The next step is to open the file "/usr/local/bin/i2prouter". In the file, find the script "#ALLOW_ROOT=true". Remove the "#" sign in the script.
+
+```
+# If you'd like to run I2P as root (not recommended), uncomment the
+# following line
+ALLOW_ROOT=true
+```
+
 ### c. Reboot I2P
 The last step is you have to reboot your OpenBSD server, the goal is so that all configurations can be applied immediately in OpenBSD.
 
@@ -129,7 +137,7 @@ ns2# /usr/local/bin/i2prouter restart
 
 After that, on the Google Chrome address bar menu, type the IP "192.168.5.3:7657", then press the enter button. The results can be seen as shown in the image below.
 
-gambar
+![openbsd i2p dashboard](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/openbsd_i2p_dashboard.jpg)
 
 After appearing like the image above, you just have to follow the wizard menu displayed by I2P.
 

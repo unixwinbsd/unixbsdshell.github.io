@@ -17,7 +17,7 @@ As a software developer, you can use pip to install various Python modules and p
 
 In this article, we will learn how to install/manage Python and Pip on OpenBSD.
 
-## System specifications:
+## A. System specifications:
 > OS: OpenBSD 7.6-current amd64         
 > Host: Acer Aspire M1800         
 > Packages: 124 (pkg_info)            
@@ -29,4 +29,71 @@ In this article, we will learn how to install/manage Python and Pip on OpenBSD.
 > Versi Python: python-3.11.10p0        
 > Versi PIP: py-pip-20.3.4p3       
 
+## B. Install Python-3.11
+Because PIP is used to make it easier to install Python packages, the main requirement for PIP to be used is that you must install Python.
 
+```
+ns5# pkg_add python-3.11.10p0
+ns5# pkg_add py-setuptools-44.1.1p0v0
+```
+
+### a. Create Python-3.11 Symlink
+Because there are so many python repositories in OpenBSD that will indirectly be installed when you install one of the programs. So to make sure which version of Python you are using, you have to create a symlink.
+
+```
+ns5# ln -s /usr/local/bin/python3.11 /usr/local/bin/python
+```
+
+### b. Checking Python Version
+This part is very important, not only to check the python version, but also to make sure whether Python has been installed or not on OpenBSD.
+
+```
+ns5# python --version
+Python 3.11.10
+```
+
+## C. Installing PIP
+Pip is a special program used to install Python packages onto your system. PIP is sometimes included automatically when Python is installed on your system, and sometimes you have to install it yourself. However, on OpenBSD systems, you must install PIP manually. This guide will help you install PIP on OpenBSD.
+
+```
+ns5# pkg_add -i py-pip
+```
+
+### a. Create PIP Symlink
+Similar to Python programs, you also need to create a symlink for PIP.
+
+```
+ns5# ln -sf /usr/local/bin/pip2.7 /usr/local/bin/pip
+```
+
+### b. Checking PIP Version
+The next step is almost the same as the Python program, we continue by checking the PIP version.
+
+```
+ns5# pip --version
+```
+
+## D. Installing Python Packages with PIP
+Once the PIP installation is complete, pip is installed and ready to use. As a result, we can start installing packages using PIP from PyPI. Most Python packages can be installed in a single command line. For example, here's how to install Requests, which is used to make API calls from Python programs.
+
+```
+ns5# pip install --user requests
+```
+
+In the example script above, PIP has downloaded the files needed to install Requests, and then managed the installation for us. The --user flag means that pip has made Requests available to us, but not to other users. This prevents individual Python packages from conflicting with each other on a multi-user system. It’s a good idea to use this flag unless you have a specific reason not to.
+
+### a. Removing Python packages with pip
+If you want to remove a Python installation package, you can use the request to do the removal as in the following example.
+
+```
+ns5# pip uninstall requests
+```
+
+### b. How to Update PIP
+Once PIP is installed, it is a good idea to update it from time to time. Usually pip will prompt you with instructions on how to update it when necessary, but you can try updating it manually at any time. For example, here is an example of the output for updating an older version of pip.
+
+```
+ns5# pip install --upgrade pip
+```
+
+Actually, if you want to use Pip to install Python-based GUI applications, you should use Pipx. Pip complies with the new Python guidelines. But this article does not discuss PIPX, you can read other articles that discuss PIPX.

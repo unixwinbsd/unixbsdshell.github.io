@@ -53,7 +53,7 @@ ns2# pkg_add jdk
 Once you have installed the Java JDK, continue by installing java-tanukiwrapper which we will use to troubleshoot a number of common problems that occur in many Java applications installed on Unix systems such as OpenBSD.
 
 ```
-ns2# java-tanukiwrapper
+ns2# pkg_add java-tanukiwrapper
 ```
 
 ### b. Install I2P

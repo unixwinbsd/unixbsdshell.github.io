@@ -59,3 +59,39 @@ ns2# java-tanukiwrapper
 ### b. Install I2P
 Then we continue by installing the main application that we will install, namely I2P. There are two ways to install I2P on OpenBSD, namely with the PKG and Ports packages. In this article we will install I2P with the PKG package.
 
+```
+ns2# pkg_add i2p
+```
+
+## 3. I2P Configuration Process
+In the configuration process we will set up I2P to run perfectly on OpenBSD. The first step you must do is run the following command:
+
+```
+ns2# /usr/local/bin/i2prouter start
+```
+
+Then you activate I2P, with the two commands below.
+
+```
+ns2# rcctl enable i2p
+ns2# rcctl restart i2p
+```
+
+After you run all the commands above, all I2P files will be saved in the /var/i2p directory.
+
+### a. Change/edit Files in /var/i2p
+Although you have installed I2P and activated I2P, I2P cannot be run yet. In order for I2P to run properly, there are several files that you must change the script for.
+
+In the /var/i2p directory, find a file named "clients.config.bak". Then you change only part of the script from the "/var/i2p/clients.config.bak" file, as in the following example.
+
+```
+clientApp.0.args=7657 ::1,127.0.0.1 ./webapps/
+*change to*
+clientApp.0.args=7657 ::1,192.168.5.3 ./webapps/
+
+clientApp.4.args=http://127.0.0.1:7657/
+*change to*
+clientApp.4.args=http://192.168.5.3:7657/
+```
+
+

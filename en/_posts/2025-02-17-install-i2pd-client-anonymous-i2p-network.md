@@ -347,4 +347,37 @@ verify = true
 # force = false
 ```
 
+### a. Enable I2PD
+Then we continue by enabling i2pd.
+
+```
+ns2# rcctl enable i2pd
+ns2# rcctl restart i2pd
+```
+
+b. Creating I2PD Boot
+In this section, you can manually start I2Pd, but it will not start automatically
+when the system boots. This section explains how to do this. The first thing to do is create a new login class to increase the number of files that I2Pd can open simultaneously.
+
+By default, OpenBSD limits this number to a value that is too low for I2Pd to work properly. Symptoms of too low a number include difficulty connecting to websites and high CPU usage. If you are using OpenBSD 7.5 or later or a newer OpenBSD, simply add the following line to the /etc/login.conf.d/i2pd file to create the login class.
+
+> /etc/login.conf.d/i2pd
+```
+i2pd:\
+    :openfiles-cur=102400:\
+    :openfiles-max=102400:\
+    :tc=daemon:
+```
+
+### c. Running I2PD
+After you activate i2pd, we continue by running i2pd. To run i2pd we use the Google Chrome web browser or others. In the address bar menu you type "http://192.168.5.3:7070/".
+
+If you don't miss any of the configurations above, an image like the one below will appear on your monitor screen.
+
+gambar
+
+I2PD can be a very useful tool if you want to stay anonymous on the internet and increase your security while browsing. This tool has all the features of I2P and improves on them. It is more secure, cryptographically encrypted, and more performant since it is built in C++. If you have some sites that are censored in your country, I2PD can help you access them anonymously as well.
+
+Therefore, this tool is useful for people like journalists, news agencies, or general users who want privacy. This tool is very flexible and can be used in various applications. We recommend visiting its official website and analyzing the pros and cons of using it. This tool can certainly increase privacy and anonymity, but you should not rely on it. I2PD is still under development and is constantly being updated to improve.
+
 

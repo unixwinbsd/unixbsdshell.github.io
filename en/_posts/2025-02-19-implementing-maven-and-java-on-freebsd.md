@@ -37,3 +37,170 @@ If you have read the article above and have installed Java on FreeBSD, we contin
 ```
 root@ns7:~ # pkg install maven-wrapper
 ```
+
+Maven wrapper is used as a wrapper Script for various Maven installations. After the Maven wrapper script has been installed, we continue with installing Maven.
+
+```
+root@ns7:~ # pkg install maven39
+```
+
+The final step of this process is to validate whether Java and Maven are working, by checking the versions.
+
+```
+root@ns7:~ # java -version
+openjdk version "17.0.9" 2023-10-17
+OpenJDK Runtime Environment (build 17.0.9+9-1)
+OpenJDK 64-Bit Server VM (build 17.0.9+9-1, mixed mode, sharing)
+```
+
+```
+root@ns7:~ # mvn -version
+Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
+Maven home: /usr/local/share/java/apache-maven-3.9
+Java version: 17.0.9, vendor: OpenJDK BSD Porting Team, runtime: /usr/local/openjdk17
+Default locale: en, platform encoding: UTF-8
+OS name: "freebsd", version: "13.2-release", arch: "amd64", family: "unix"
+```
+
+If you see output like this, you know that Maven is available and ready to use. It is important for you to know, the Apache maven file is stored in the /usr/local/etc/maven-wrapper/instances.d folder with the file name "apache-maven-3.9".
+
+```
+root@ns7:~ # cd /usr/local/etc/maven-wrapper/instances.d
+root@ns7:/usr/local/etc/maven-wrapper/instances.d # ls
+apache-maven-3.9
+```
+
+Once we know where the Apache Maven files are, copy all the Maven files to the **/usr/local/etc/maven-wrapper/instances.d** folder.
+
+```
+root@ns7:~ # cd /usr/local/share/java/apache-maven-3.9
+root@ns7:/usr/local/share/java/apache-maven-3.9 # cp -R . /usr/local/etc/maven-wrapper/instances.d
+```
+
+## 3. Using Maven
+Now we will try to create a new project with Maven, we will save all the files from the project in /usr/local/etc/maven-wrapper/instances.d.
+
+```
+root@ns7:~ # cd /usr/local/etc/maven-wrapper/instances.d
+root@ns7:/usr/local/etc/maven-wrapper/instances.d # mvn archetype:generate
+```
+
+First, the utility displays a list of all available templates and prompts you to select one of them. By default, you are prompted to select  **2095**, this is an example project using Maven.
+
+Then, specify the archetype:generate version, just choose the default, namely  **8**. In the groupId option, write  **com.** in the artifactId write **com.package** and package write  **App**. For other options, just press the ENTER button. Look at the image below.
+
+gambar
+
+All configuration created in Maven will be stored in a file "**/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml"**. You can view its contents, and the program sources are located in the folder "**/usr/local/etc/maven-wrapper/instances.d/com.package/src/main/java/App/App.java"**.
+
+Open the "/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml" file, and search for the word "**maven-jar-plugin**". Then we edit the contents of the file, so that it becomes.
+
+```
+<plugin>
+<artifactId>maven-jar-plugin</artifactId>
+<version>3.0.2</version>
+	<configuration>
+	<archive>
+	<manifest>
+	<addClasspath>true</addClasspath>
+	<mainClass>App.App</mainClass>
+	</manifest>
+	</archive>
+	</configuration>
+</plugin>
+```
+
+After that, open the project folder that we created earlier and run it with the command **"mvn compile, mvn package and mvn install"**.
+
+```
+root@ns7:/usr/local/etc/maven-wrapper/instances.d # cd com.package
+root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn compile
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------------< com.:com.package >--------------------------
+[INFO] Building com.package 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.0.2:resources (default-resources) @ com.package ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/main/resources
+[INFO]
+[INFO] --- compiler:3.8.0:compile (default-compile) @ com.package ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.377 s
+[INFO] Finished at: 2023-12-26T20:36:17+07:00
+[INFO] ------------------------------------------------------------------------
+```
+
+```
+root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn package
+```
+
+gambar
+
+```
+root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn install
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------------< com.:com.package >--------------------------
+[INFO] Building com.package 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.0.2:resources (default-resources) @ com.package ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/main/resources
+[INFO]
+[INFO] --- compiler:3.8.0:compile (default-compile) @ com.package ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- resources:3.0.2:testResources (default-testResources) @ com.package ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/test/resources
+[INFO]
+[INFO] --- compiler:3.8.0:testCompile (default-testCompile) @ com.package ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- surefire:2.22.1:test (default-test) @ com.package ---
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running App.AppTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.079 s - in App.AppTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- jar:3.0.2:jar (default-jar) @ com.package ---
+[INFO] Building jar: /usr/local/etc/maven-wrapper/instances.d/com.package/target/com.package-1.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- install:2.5.2:install (default-install) @ com.package ---
+[INFO] Installing /usr/local/etc/maven-wrapper/instances.d/com.package/target/com.package-1.0-SNAPSHOT.jar to /root/.m2/repository/com/com.package/1.0-SNAPSHOT/com.package-1.0-SNAPSHOT.jar
+[INFO] Installing /usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml to /root/.m2/repository/com/com.package/1.0-SNAPSHOT/com.package-1.0-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.225 s
+[INFO] Finished at: 2023-12-26T20:38:23+07:00
+[INFO] ------------------------------------------------------------------------
+```
+
+The three commands above will execute the files in the "**/usr/local/etc/maven-wrapper/instances.d/com.package/src**" folder to the "**/usr/local/etc/maven-wrapper/instances.d/com.package/target**" folder. Look at the image below.
+
+gambar
+
+The final step is to test with the "JAR" file.
+
+```
+root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # java -jar target/com.package-1.0-SNAPSHOT.jar
+Hello World!
+```
+
+Installing Java and Maven on a FreeBSD server is a simple and easy process that can be completed in just a few easy steps. By following the steps outlined in this article, you will be able to set up a fully functional Java development environment on your FreeBSD system in no time. With Java and Maven installed, you'll be able to build and run Java applications easily, and take advantage of the many benefits that FreeBSD has to offer.

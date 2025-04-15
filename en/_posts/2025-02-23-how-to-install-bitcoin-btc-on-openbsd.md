@@ -40,3 +40,114 @@ The client offers a JSON-RPC interface over HTTP via sockets to perform various 
 ### i). User Interface
 Bitcoind's current user interface is command line, whereas previously it was based on wxWidgets. A graphical user interface is now available in version 0.5+ for the reference client.
 
+## B. Bitcoin BTC Installation Process on OpenBSD
+Before we start the Bitcoin installation process, there are many dependencies that you must set. The main function of these dependencies is to connect the client computer (OpenBSD) to the Bitcoin Blockchain network. Similar to other operating systems, dependencies are the main and basic things that must be done before installing Bitcoin.
+
+### 1. Install Bitcoin Dependencies
+On the OpenBSD system, there are many dependencies needed to run Bitcoin (BTC). You must install all of these dependencies, and don't miss any. Okay, let's just install the Bitcoin dependencies for OpenBSD.
+
+```
+ns5# pkg_add bash git gmake libevent libtool boost
+ns5# pkg_add autoconf automake python
+```
+
+Another very important dependency is sqlite3. This application will record all Bitcoin transactions and wallet addresses.
+
+```
+ns5# pkg_add sqlite3
+```
+
+### 2. Install bitcoind
+After all the above dependencies are installed, then we continue by installing the bitcoind wallet. There are two ways to install bitcoind, namely through the Github repository or through the pkg package in OpenBSD.
+
+However, because we are using the OpenBSD server, we recommend that you use the bitcoind pkg package in the OpenBSD repository. As a first step, we will update your OpenBSD pkg package.
+
+```
+ns5# pkg_add -uvi
+```
+
+After the update process is complete, we continue by installing bitcoin.
+
+```
+ns5# pkg_add bitcoin
+```
+
+gambar
+
+## C. Bitcoin BTC Configuration Process on OpenBSD
+After you have run all the steps above, you cannot run bitcoind. In order for bitcoind to run normally, you must set up some bitcoin scripts.
+
+1. Create RPC user and password
+To be able to connect securely to your Bitcoin wallet, you must create a Bitcoin user and password.
+
+```
+ns5# /usr/local/share/bitcoin/rpcauth.py unixwinbsd
+String to be appended to bitcoin.conf:
+rpcauth=unixwinbsd:7313031c969f8d09285f14df3ea4b4fc$f426ac2491495cee7cc1148c72273b87bc485b6360fc954708c3c6d1e32df4ba
+Your password:
+NfV8c-LBkMkxbX4y6wqAhCa9I6E7EYUF3lAf1WXy6sg
+```
+
+"unixwinbsd" is the Bitcoin RPC username, you can replace unixwinbsd as you wish.
+
+### 2. Edit the bitcoin.conf File
+The main Bitcoin configuration file is "bitcoin.conf". You must change this file so that Bitcoin can run according to the script instructions in it. Open the file and enter the password and RPC user that you created above.
+
+```
+port=8333
+rpcport=8332
+rpcuser=unixwinbsd
+rpcpassword=NfV8c-LBkMkxbX4y6wqAhCa9I6E7EYUF3lAf1WXy6sg
+prune=550
+```
+
+### 3. Copy the bitcoin.conf file to /root
+By default in OpenBSD, all the contents of the blocks and chainstate files are in /root. So you should change the path of bitcoin.conf in /etc. It's okay if you don't change it, but we recommend that you change the path of bitcoin.conf to /root. Follow the instructions below to copy the bitcoin.conf file to .root.
+
+```
+ns5# mkdir -p /root/.bitcoin
+ns5# cp -R /etc/bitcoin.conf /root/.bitcoin
+```
+
+Well, the configuration process is now complete. Now your bitcoind is ready to run.
+
+## D. Running Bitcoin BTC on OpenBSD
+This step is the last step and the one you have been waiting for, because we will test whether bitcoind has run well or not. Before you run bitcoind, first activate bitcoind on OpenBSD.
+
+```
+ns5# rcctl enable bitcoind
+ns5# rcctl restart bitcoind
+bitcoind(ok)
+bitcoind(ok)
+ns5#
+```
+
+Once bitcoind is active, you can run bitcoind with the "daemon" command.
+
+```
+ns5# bitcoind -daemon
+Bitcoin Core starting
+ns5#
+```
+
+Selain itu, Anda dapat memeriksa dan memantau bagaimana proses sinkronisasi berjalan dengan perintah ini.
+
+```
+ns5# bitcoin-cli getblockchaininfo | grep verification
+  "verificationprogress": 8.553447505757082e-10,
+```
+
+Note that the "verificationprogress" parameter does not need to reach 1.0000, as a value closer to 0.9999 will indicate that the node is already synchronized.
+
+Once the blockchain is synchronized, you can check its status with bitcoin-cli.
+
+```
+ns5# bitcoin-cli getconnectioncount
+10
+ns5# bitcoin-cli getblockcount
+0
+```
+
+Remember to reduce the blockchain size by pruning (removing) old blocks, otherwise you will have to download and verify the entire chain and this may take a few days. Check the prue value in /etc/bitcoin.conf. I prefer 550MB.
+
+That's it! You should now have a fully functional Bitcoin node!

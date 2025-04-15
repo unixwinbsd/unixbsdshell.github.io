@@ -29,8 +29,6 @@ Maven is written in the Java programming language and is used to build projects 
 
 If you want to use maven in your java project then first thing you have to do is install maven java compiler after installation is complete you can create your first maven project. A Maven repository is a directory of JAR files packed with some metadata. Maven metadata is the POM file associated with the project that each package JAR file has, including the external dependencies that each package JAR has. The Maven repository stores all your project jars, plugins, library jars, other artifacts, and their dependencies are any third party software required by your project. You will find three types of repositories in Maven – local, central, and remote. The local repository stores all Maven dependencies.
 
-gambar
-
 The Maven repository is a repository for JAR file dependencies written in a file called POM.XML. The POM.XML file contains Java classes, resources, and other dependencies. There are two types of Maven-like repositories that read pom.xml files. Maven can download dependencies specified in the pom.xml file into a local repository from a central or remote server repository. In the POM.XML file Maven can execute the lifecycle, phases, objectives and plugins defined in the pom.xml file.
 
 ## 3. Running Maven On FreeBSD
@@ -53,19 +51,19 @@ root@ns7:~ # pkg install maven39
 The final step of this process is to validate whether Java and Maven are working, by checking the versions.
 
 ```
-root@ns7:~ # java -version
-openjdk version "17.0.9" 2023-10-17
-OpenJDK Runtime Environment (build 17.0.9+9-1)
-OpenJDK 64-Bit Server VM (build 17.0.9+9-1, mixed mode, sharing)
+root@ns4:~ # java -version
+openjdk version "20.0.2" 2023-07-18
+OpenJDK Runtime Environment (build 20.0.2+9-1)
+OpenJDK 64-Bit Server VM (build 20.0.2+9-1, mixed mode, sharing)
 ```
 
 ```
-root@ns7:~ # mvn -version
-Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
+root@ns4:~ # mvn -version
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
 Maven home: /usr/local/share/java/apache-maven-3.9
-Java version: 17.0.9, vendor: OpenJDK BSD Porting Team, runtime: /usr/local/openjdk17
+Java version: 20.0.2, vendor: OpenJDK BSD Porting Team, runtime: /usr/local/openjdk20
 Default locale: en, platform encoding: UTF-8
-OS name: "freebsd", version: "13.2-release", arch: "amd64", family: "unix"
+OS name: "freebsd", version: "14.1-stable", arch: "amd64", family: "unix"
 ```
 
 If you see output like this, you know that Maven is available and ready to use. It is important for you to know, the Apache maven file is stored in the /usr/local/etc/maven-wrapper/instances.d folder with the file name "apache-maven-3.9".

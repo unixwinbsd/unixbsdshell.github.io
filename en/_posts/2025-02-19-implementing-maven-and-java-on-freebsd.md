@@ -6,8 +6,8 @@ lang: en
 layout: single
 author_profile: true
 categories:
-  - OpenBSD
-tags: "SysAdmin"
+  - FreeBSD
+tags: "WebServer"
 excerpt: We present this tutorial for FreeBSD users so they can get to know Maven better, so that people can understand that Maven can be run on FreeBSD.
 keywords: java, maven, freebsd, install, implementing, jar, unix, apache
 ---

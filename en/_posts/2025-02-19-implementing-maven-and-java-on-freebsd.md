@@ -16,11 +16,11 @@ This article discusses a Maven tutorial that provides basic and advanced concept
 Before we discuss Maven further, it's a good idea to get to know Maven. Since most people run Maven on Linux systems, it is rare to run Maven on FreeBSD. We deliberately present this tutorial for FreeBSD lovers to get to know Maven more closely, so that people don't think that Maven cannot be run on a FreeBSD system.
 
 ## 1. System Specifications:
-OS:  FreeBSD 14.1-STABLE stable/14-n268734-9f319352d7ac GENERIC amd64
-Hostname: ns4
-IP Address: 192.168.5.71
-Java version: openjdk version "20.0.2" 2023-07-18
-Maven version: Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+> OS:  FreeBSD 14.1-STABLE stable/14-n268734-9f319352d7ac GENERIC amd64    
+> Hostname: ns4      
+> IP Address: 192.168.5.71   
+> Java version: openjdk version "20.0.2" 2023-07-18  
+> Maven version: Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)   
 
 ## 2. What is Maven
 Maven is a popular open source development tool developed by the Apache Group, it includes a powerful project management tool that is based on POM (project object model). Maven is often used to build, publish, and deploy multiple projects at once for better project management. This tool allows developers to build and document a lifecycle framework.

@@ -72,8 +72,6 @@ After the update process is complete, we continue by installing bitcoin.
 ns5# pkg_add bitcoin
 ```
 
-gambar
-
 ## C. Bitcoin BTC Configuration Process on OpenBSD
 After you have run all the steps above, you cannot run bitcoind. In order for bitcoind to run normally, you must set up some bitcoin scripts.
 

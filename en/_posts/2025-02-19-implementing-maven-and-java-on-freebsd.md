@@ -101,10 +101,10 @@ All configuration created in Maven will be stored in a file "**/usr/local/etc/ma
 
 Open the file  **"/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml"**, and find the script  
 
-<plugin>
-<artifactId>maven-jar-plugin</artifactId>
-<version>3.4.2</version>
-</plugin> 
+> <plugin>     
+> <artifactId>maven-jar-plugin</artifactId>    
+> <version>3.4.2</version>    
+> </plugin>   
 
 Then we edit the contents of the file, so that it becomes.
 

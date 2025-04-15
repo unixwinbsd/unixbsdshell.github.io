@@ -25,5 +25,13 @@ For a list of torrent clients that support working via I2P, see the i2pd documen
 
 I2PSnark appeared almost simultaneously with the I2P network itself. Until recently, this client was part of the [Java I2P router](https://geti2p.net/ru/), which included a number of applications in addition to the main function of connecting users to hidden networks. I2PSnark interacts with the I2P router via the I2CP protocol, which is supported in the lighter and faster alternative i2pd router, which runs in C++. To use I2PSnark separately from the Java router, you must use I2PSnark standalone. You can build the binary yourself from source code, or use the version from the I2P+ project, which is a soft fork of the main I2P router with minor changes. Direct links to download the standalone I2PSnark binaries are available on the [i2pd documentation page](https://i2pd.readthedocs.io/en/latest/tutorials/filesharing/).
 
+## How to Download Torrent Files with I2PSnark
+Before you start downloading torrent files with i2psnark, there are several requirements that you must do, including:
+- Learn to Install Java JDK on OpenBSD
+- How to Install i2p routing protocol on OpenBSD
+- How to Install i2pd on OpenBSD - Client for Anonymous I2P Networks
+
+Before using I2PSnark standalone, you must enable the I2CP interface, which is disabled by default in i2pd. This is done through the i2pd.conf configuration file: uncomment the enabled = true line in the [i2cp] section and restart i2pd.
+
 
 

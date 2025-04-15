@@ -28,9 +28,12 @@ gambar
 The Maven repository is a repository for JAR file dependencies written in a file called POM.XML. The POM.XML file contains Java classes, resources, and other dependencies. There are two types of Maven-like repositories that read pom.xml files. Maven can download dependencies specified in the pom.xml file into a local repository from a central or remote server repository. In the POM.XML file Maven can execute the lifecycle, phases, objectives and plugins defined in the pom.xml file.
 
 ## 2. Running Maven On FreeBSD
-
 To run Maven on FreeBSD you must first install the Java OpenJDK application on FreeBSD, you can read the guide in the article below.
 
-Installing and Configuring Java openjdk17 in FreeBSD 14
+[Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable](https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/)
 
 If you have read the article above and have installed Java on FreeBSD, we continue by installing Maven. Write the command below to install Maven on FreeBSD.
+
+```
+root@ns7:~ # pkg install maven-wrapper
+```

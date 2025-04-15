@@ -91,11 +91,38 @@ root@ns7:~ # cd /usr/local/etc/maven-wrapper/instances.d
 root@ns7:/usr/local/etc/maven-wrapper/instances.d # mvn archetype:generate
 ```
 
-First, the utility displays a list of all available templates and prompts you to select one of them. By default, you are prompted to select  **2095**, this is an example project using Maven.
+First, the utility displays a list of all available templates and prompts you to select one of them. By default, you are prompted to select  **2229**, this is an example project using Maven.
 
 Then, specify the archetype:generate version, just choose the default, namely  **8**. In the groupId option, write  **com.** in the artifactId write **com.package** and package write  **App**. For other options, just press the ENTER button. Look at the image below.
 
-gambar
+```
+Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): 2229: 2229
+Choose org.apache.maven.archetypes:maven-archetype-quickstart version:
+1: 1.0-alpha-1
+2: 1.0-alpha-2
+3: 1.0-alpha-3
+4: 1.0-alpha-4
+5: 1.0
+6: 1.1
+7: 1.3
+8: 1.4
+9: 1.5
+Choose a number: 9: 9
+[INFO] Using property: javaCompilerVersion = 17
+[INFO] Using property: junitVersion = 5.11.0
+Define value for property 'groupId': com.
+Define value for property 'artifactId': com.package
+Define value for property 'version' 1.0-SNAPSHOT:
+Define value for property 'package' com.: App
+Confirm properties configuration:
+javaCompilerVersion: 17
+junitVersion: 5.11.0
+groupId: com.
+artifactId: com.package
+version: 1.0-SNAPSHOT
+package: App
+ Y: y
+```
 
 All configuration created in Maven will be stored in a file "**/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml"**. You can view its contents, and the program sources are located in the folder "**/usr/local/etc/maven-wrapper/instances.d/com.package/src/main/java/App/App.java"**.
 
@@ -156,7 +183,7 @@ root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn compile
 root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn package
 ```
 
-gambar
+![run mvn package](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/run_mvn_package.jpg)
 
 ```
 root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn install

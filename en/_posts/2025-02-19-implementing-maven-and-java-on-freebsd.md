@@ -235,7 +235,7 @@ root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn install
 
 The three commands above will execute the files in the "**/usr/local/etc/maven-wrapper/instances.d/com.package/src**" folder to the "**/usr/local/etc/maven-wrapper/instances.d/com.package/target**" folder. Look at the image below.
 
-gambar
+![apache maven compile target](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/Maven_Compile_Target.jpg)
 
 The final step is to test with the "JAR" file.
 

@@ -93,20 +93,27 @@ gambar
 
 All configuration created in Maven will be stored in a file "**/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml"**. You can view its contents, and the program sources are located in the folder "**/usr/local/etc/maven-wrapper/instances.d/com.package/src/main/java/App/App.java"**.
 
-Open the "/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml" file, and search for the word "**maven-jar-plugin**". Then we edit the contents of the file, so that it becomes.
+Open the file  **"/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml"**, and find the script  
+
+<plugin>
+<artifactId>maven-jar-plugin</artifactId>
+<version>3.4.2</version>
+</plugin> 
+
+Then we edit the contents of the file, so that it becomes.
 
 ```
 <plugin>
 <artifactId>maven-jar-plugin</artifactId>
-<version>3.0.2</version>
-	<configuration>
-	<archive>
-	<manifest>
-	<addClasspath>true</addClasspath>
-	<mainClass>App.App</mainClass>
-	</manifest>
-	</archive>
-	</configuration>
+<version>3.4.2</version>
+<configuration>
+<archive>
+<manifest>
+<addClasspath>true</addClasspath>
+<mainClass>App.App</mainClass>
+</manifest>
+</archive>
+</configuration>
 </plugin>
 ```
 

@@ -22,10 +22,10 @@ Additionally, Apache handles HTTP requests and Apache Tomcat is used to host Jav
 gambar
 
 ## 1. системные требования
-ОС: FreeBSD 13.2
+- ОС: FreeBSD 14.1
 Имя хоста: ns7
 IP-адрес: 192.168.5.2
-Версия Java: openjdk17
+Версия Java: openjdk version "20.0.2" 2023-07-18
 Версия Tomcat: tomcat9
 
 ## 2. Что такое Apache и Apache Tomcat

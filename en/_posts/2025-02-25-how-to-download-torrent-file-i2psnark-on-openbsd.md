@@ -31,7 +31,25 @@ Before you start downloading torrent files with i2psnark, there are several requ
 - How to Install i2p routing protocol on OpenBSD
 - How to Install i2pd on OpenBSD - Client for Anonymous I2P Networks
 
-Before using I2PSnark standalone, you must enable the I2CP interface, which is disabled by default in i2pd. This is done through the i2pd.conf configuration file: uncomment the enabled = true line in the [i2cp] section and restart i2pd.
+Before using I2PSnark standalone, you must enable the I2CP interface, which is disabled by default in i2pd. This is done through the **/etc/i2pd/i2pd.conf** configuration file: uncomment the enabled = true line in the [i2cp] section and restart i2pd.
+
+```
+[i2cp]
+## Enable the I2CP protocol (default: false)
+enabled = true
+## Address and port service will listen on (default: 127.0.0.1:7654)
+address = 192.168.5.3
+port = 7654
+```
+
+## Adding trackers to I2P
+As mentioned above, using trackers helps you detect peers, information about file parts, and various meta-data faster. The faster the peer is found, the faster the download will start. On the settings page below there is a section "Trackers", at the bottom there are three windows. Enter the data alternately in the fields.
+
+
+**Name    Website URL          Option        Announce URL**
+PTT       http://ptt.i2p/	      Open          http://5m3pd32zx43xk3uz6hvrdksj6tlg7abnjsc3j5kkd2yzctet4nmq.b32.i2p/announce
+KYTV	http://5mpvzxfbd4rtped3c7ln4ddw52e7i7t56s36ztky4ustxtxrjdpa.b32.i2p/	Open	http://5mpvzxfbd4rtped3c7ln4ddw52e7i7t56s36ztky4ustxtxrjdpa.b32.i2p/a
+OpenDiftracker	http://bikpeyxci4zuyy36eau5ycw665dplun4yxamn7vmsastejdqtfoq.b32.i2p/	Open	http://bikpeyxci4zuyy36eau5ycw665dplun4yxamn7vmsastejdqtfoq.b32.i2p/announce
 
 
 

@@ -23,7 +23,7 @@ gambar
 
 ## 1. системные требования
 - ОС: FreeBSD 14.1
-- Имя хоста: ns7
+- Имя хоста: ns1
 - IP-адрес: 192.168.5.2
 - Версия Java: openjdk version "20.0.2" 2023-07-18
 - Версия Tomcat: tomcat9
@@ -80,12 +80,12 @@ root@ns1:/usr/ports/www/tomcat9 # make install clean
 The commands from the script above are used to install Tomcat, wait until the installation is complete.
 
 ## 6. Конфигурация Tomcat
-Следующий шаг после процесса установки — процесс настройки. Первый шаг настройки Tomcat — создание скрипта Boot Start UP rc.d. Введите следующую команду в файл /etc/rc.conf.
+Следующий шаг после процесса установки — процесс настройки. Первый шаг настройки Tomcat — создание скрипта Boot Start UP rc.d. Введите следующую команду в файл **"/etc/rc.conf"**.
 
 ```
 root@ns1:~ # ee /etc/rc.conf
 tomcat9_enable="YES"
-tomcat9_java_home="/usr/local/openjdk17"
+tomcat9_java_home="tomcat9_java_home="/usr/local/openjdk20""
 tomcat9_catalina_user="www"
 tomcat9_catalina_home="/usr/local/apache-tomcat-9.0"
 tomcat_catalina_base="/usr/local/apache-tomcat-9.0/conf/server.xml"
@@ -108,7 +108,7 @@ Starting tomcat9.
 Из результатов скрипта выше, если мы читаем, Tomcat успешно ЗАПУЩЕН на сервере FreeBSD, мы можем увидеть это из слов "Starting tomcat9". Тогда что еще нам нужно сделать после Tomcat RUNNING. Следующий шаг - это шаг, которого мы ждали, а именно запуск Tomcat.
 
 ## 7. Запуск Tomcat
-Главный файл конфигурации или файл конфигурации Tomcat находится в папке /usr/local/apache-tomcat-9.0/conf. По умолчанию Tomcat работает на порту 8080 и IP-адресе 127.0.0.1. Поскольку IP-адрес loopback не может быть удаленным от компьютера Windows, мы заменим IP-адрес loopback 127.0.01 на частный IP-адрес нашего сервера FreeBSD, в этой статье частный IP-адрес FreeBSD — 192.168.5.2. Чтобы изменить IP-адрес, отредактируйте файл /usr/local/apache-tomcat-9.0/conf/server.xml.
+Главный файл конфигурации или файл конфигурации Tomcat находится в папке **"/usr/local/apache-tomcat-9.0/conf"**. По умолчанию Tomcat работает на порту 8080 и IP-адресе 127.0.0.1. Поскольку IP-адрес loopback не может быть удаленным от компьютера Windows, мы заменим IP-адрес loopback 127.0.01 на частный IP-адрес нашего сервера FreeBSD, в этой статье частный IP-адрес FreeBSD — 192.168.5.2. Чтобы изменить IP-адрес, отредактируйте файл **"/usr/local/apache-tomcat-9.0/conf/server.xml"**.
 
 По умолчанию IP-адрес 127.0.01 не записан в файле скрипта. Ниже приведен пример исходного скрипта до его редактирования.
 
@@ -131,7 +131,7 @@ Starting tomcat9.
                />
 ```
 
-В целях безопасности доступ к приложениям Tomcat Manager и Host Manager по умолчанию заблокирован для localhost (сервера, на котором они развернуты). Отредактируйте файл "/usr/local/apache-tomcat-9.0/conf/tomcat-users.xml".
+В целях безопасности доступ к приложениям Tomcat Manager и Host Manager по умолчанию заблокирован для localhost (сервера, на котором они развернуты). Отредактируйте файл **"/usr/local/apache-tomcat-9.0/conf/tomcat-users.xml"**.
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -148,7 +148,7 @@ Starting tomcat9.
 </tomcat-users>
 ```
 
-Для приложения Tomcat Manager введите следующий скрипт в файл «/usr/local/apache-tomcat-9.0/webapps/host-manager/META-INF/context.xml».
+Для приложения Tomcat Manager введите следующий скрипт в файл **«/usr/local/apache-tomcat-9.0/webapps/host-manager/META-INF/context.xml»**.
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -162,7 +162,7 @@ allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1|192.168.5.*"
 </Context>
 ```
 
-Для приложения Tomcat Manager введите следующий скрипт в файл «/usr/local/apache-tomcat-9.0/webapps/manager/META-INF/context.xml».
+Для приложения Tomcat Manager введите следующий скрипт в файл **«/usr/local/apache-tomcat-9.0/webapps/manager/META-INF/context.xml»**.
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -185,7 +185,7 @@ Waiting for PIDS: 3291.
 Starting tomcat9.
 ```
 
-Пришло время запустить Tomcat, поскольку Tomcat — это веб-сервер, для запуска Tomcat мы открываем Google Chrome, Yandex или другой браузер. В меню адресной строки введите IP выше, а именно «http://192.168.5.2:8080». Если с конфигурацией выше все в порядке, панель инструментов Tomcat появится в вашем веб-браузере.
+Пришло время запустить Tomcat, поскольку Tomcat — это веб-сервер, для запуска Tomcat мы открываем Google Chrome, Yandex или другой браузер. В меню адресной строки введите IP выше, а именно **«http://192.168.5.2:8080»**. Если с конфигурацией выше все в порядке, панель инструментов Tomcat появится в вашем веб-браузере.
 
 ![dashboard apache tomcat9](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/dashboard_apache_tomcat9.jpg)
 

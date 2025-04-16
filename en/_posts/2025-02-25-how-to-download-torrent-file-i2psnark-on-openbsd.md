@@ -45,11 +45,42 @@ port = 7654
 ## Adding trackers to I2P
 As mentioned above, using trackers helps you detect peers, information about file parts, and various meta-data faster. The faster the peer is found, the faster the download will start. On the settings page below there is a section "Trackers", at the bottom there are three windows. Enter the data alternately in the fields.
 
+![tabel i2p snark](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/table_i2psnark.jpg)
 
-**Name    Website URL          Option        Announce URL**
-PTT       http://ptt.i2p/	      Open          http://5m3pd32zx43xk3uz6hvrdksj6tlg7abnjsc3j5kkd2yzctet4nmq.b32.i2p/announce
-KYTV	http://5mpvzxfbd4rtped3c7ln4ddw52e7i7t56s36ztky4ustxtxrjdpa.b32.i2p/	Open	http://5mpvzxfbd4rtped3c7ln4ddw52e7i7t56s36ztky4ustxtxrjdpa.b32.i2p/a
-OpenDiftracker	http://bikpeyxci4zuyy36eau5ycw665dplun4yxamn7vmsastejdqtfoq.b32.i2p/	Open	http://bikpeyxci4zuyy36eau5ycw665dplun4yxamn7vmsastejdqtfoq.b32.i2p/announce
+![dashboard konfigurasi i2psnark di web browser](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/dashboard_konfigurasi_i2psnark_di_web_browser.jpg)
 
+## Get Torrent File
+To download torrent using I2PSnark, you need to add a file with the extension .torrent in the file directory (see above), or add a magnet link. Usually, the download does not start immediately: the client is just starting to recognize the peer.
 
+To get a torrent file to run in I2PSnark, you need to enable proxy in the Google chrome/Yandex web browser.
 
+![setting proxy i2p snark di web browser](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/setting_proxy_i2p_snark_di_web_browser.jpg)
+
+After the proxy in the web browser is active, you open the site **"http://tracker2.postman.i2p/"**. Then you look for the torrent file you need to download on i2pSnark.
+
+But, before you open the website, activate I2P and I2PD first with the following command.
+
+```
+ns2# /usr/local/bin/i2prouter restart
+ns2# rcctl restart i2pd i2p
+```
+
+After I2P is active, please open the site **"http://tracker2.postman.i2p/"**.
+
+![dashboard Postman I2P](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/dashboard_Postman_I2P.jpg)
+
+## Running the Torrent file download process
+In this process we will start downloading the torrent file that we have obtained from the site "http://tracker2.postman.i2p/". Open I2P in your browser by typing "http://192.168.5.3:7657/i2psnark/", then you select the "ADD TORRENT" button, after that take the torrent file or magnet url link that you have obtained from "http://tracker2.postman.i2p/".
+
+I2PSnark is not the only way to do this, and it is not the fastest. However, this method is easy, already in, and more than capable of uploading files quickly.
+
+### Below is a list of Trackers you can try:
+http://tracker2.postman.i2p/announce.php
+http://opentracker.dg2.i2p/a
+http://opentracker.r4sas.i2p/a
+http://opentracker.skank.i2p/a
+http://omitracker.i2p/announce.php
+http://w7tpbzncbcocrqtwwm3nezhnnsw4ozadvi2hmvzdhrqzfxfum7wa.b32.i2p/a
+http://tu5skej67ftbxjghnx3r2txp6fqz6ulkolkejc77be2er5v5zrfq.b32.i2p/announce.php
+http://ahsplxkbhemefwvvml7qovzl5a2b5xo5i7lyai7ntdunvcyfdtna.b32.i2p/announce.php
+http://lnQ6yoBTxQuQU8EQ1FlF395ITIQF-HGJxUeFvzETLFnoczNjQvKDbtSB7aHhn853zjVXrJBgwlB9sO57KakBDaJ50lUZgVPhjlI19TgJ-CxyHhHSCeKx5JzURdEW-ucdONMynr-b2zwhsx8VQCJwCEkARvt21YkOyQDaB9IdV8aTAmP~PUJQxRwceaTMn96FcVenwdXqleE16fI8CVFOV18jbJKrhTOYpTtcZKV4l1wNYBDwKgwPx5c0kcrRzFyw5~bjuAKO~GJ5dR7BQsL7AwBoQUS4k1lwoYrG1kOIBeDD3XF8BWb6K3GOOoyjc1umYKpur3G~FxBuqtHAsDRICkEbKUqJ9mPYQlTSujhNxiRIW-oLwMtvayCFci99oX8MvazPS7~97x0Gsm-onEK1Td9nBdmq30OqDxpRtXBimbzkLbR1IKObbg9HvrKs3L-kSyGwTUmHG9rSQSoZEvFMA-S0EXO~o4g21q1oikmxPMhkeVwQ22VHB0-LZJfmLr4SAAAA.i2p/announce.php

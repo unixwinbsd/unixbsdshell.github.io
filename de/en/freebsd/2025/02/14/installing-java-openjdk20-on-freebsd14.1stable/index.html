@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="de">
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/"/>
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/"/>
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable"><link rel="canonical" href="https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/">
+  <meta property="og:url" content="https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/"><meta property="og:description" content="OpenJDK is an open source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK)."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable">
+  <meta name="twitter:description" content="OpenJDK is an open source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK).">
+  <meta name="twitter:url" content="https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-02-14T16:11:19+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/de/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/de/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/de/favicon-16x16.png" />
+    <link rel="manifest" href="/de/site.webmanifest" />
+    <link rel="mask-icon" href="/de/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+
+  <meta http-equiv="Content-Language" content="de">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="ru" href="https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/" />
+  
+  <link rel="alternate" hreflang="de" href="https://penaadventure.com/de/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/" />
+  
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/de/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/de/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/de/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/de/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/de/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/de/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/de/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/de/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/de/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/de/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/de/categories/#02" itemprop="item"><span itemprop="name">02</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/de/categories/#14" itemprop="item"><span itemprop="name">14</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-02-14 16:11:19 +0300",
+"datePublished": "2025-02-14 16:11:19 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "OpenJDK is an open source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK)."
+},
+
+"datePublished": "2025-02-14 16:11:19 +0300",
+"dateModified": "2025-02-14 16:11:19 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/",
+"name": "Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/",
+"name": "WebServer"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/",
+  "name": "Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable",
+  "headline": "Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable",
+  "keywords": "WebServer",
+  "description": "OpenJDK is an open source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK).",
+  "articleBody": "Java has become one of the leading programming languages ​​in software application development. In order to write, compile, and run Java code, a runtime environment is required to provide the necessary tools. With continued incremental growth, Java 17 is currently the latest long-term release under the extensive collaboration of Oracle and other members of the worldwide Java developer community through the OpenJDK Community and the Java Community Process (JPC).\n\nOpenJDK is an open-source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK). OpenJDK comes with components such as a virtual machine, Java Class Library, and Java Compiler (javac). In this article, I will guide you on how to install and configure openjdk17 on FreeBSD 13. In this tutorial, we will install Java with FreeBSD Ports.\n\n1. Install Java OpenJDK on FreeBSD\nThe first step you have to log in to the FreeBSD server as root, if you have successfully logged in, continue by opening Java Ports in the /usr/ports/java/openjdk20 folder.\n\nroot@router2:~ # cd /usr/ports/java/openjdk20\nroot@router2:~ # make install clean\n\nor\nroot@router2:~ # pkg install openjdk20\n\nOnce the installation is complete, you will be shown the following command shell screen:\n\n\n\nNow we continue according to the instructions above, type the script mount -t fdescfs fdesc /dev/fd and mount -t procfs proc /proc.\n\nroot@hostname1:/var/db/pkg/repos/FreeBSD # mount -t fdescfs fdesc /dev/fd\nroot@hostname1:/var/db/pkg/repos/FreeBSD # mount -t procfs proc /proc\n\n\nAfter that, you add the two scripts above to the “/etc/fstab” file.\n\nroot@router2:~ # ee /etc/fstab\nfdesc   /dev/fd         fdescfs         rw      0       0\nproc    /proc             procfs          rw      0       0\n\n\nAfter that, if you want to check whether Java is installed on FreeBSD, do a check by checking the Java version, to check it use the “java -version” script.\n\nroot@ns4:~ # java -version\nopenjdk version \"20.0.2\" 2023-07-18\nOpenJDK Runtime Environment (build 20.0.2+9-1)\nOpenJDK 64-Bit Server VM (build 20.0.2+9-1, mixed mode, sharing)\nroot@ns4:~ #\n\n\nThe next step is to set JAVA as the JAVA_HOME Environment. JAVA_HOME is an operating system environment variable for the Java Development Kit (JDK) or Java Runtime Environment (JRE). JAVA_HOME can be optionally set after the JDK or JRE installation is complete.\n\nThe JAVA_HOME variable points to the location where the JDK or JRE is installed on a FreeBSD system. Java applications use this variable to find where the runtime is installed. On FreeBSD, you need to set the JAVA_HOME environment in /etc/csh.cshrc.\nOpen the csh.cshrc file and add the following two lines:\n\nroot@router2:~ # ee /etc/csh.cshrc\n# $FreeBSD$\n#\n# System-wide .cshrc file for csh(1).\nsetenv JAVA_VERSION \"20.0+\"\nsetenv JAVA_HOME /usr/local/openjdk20\n\n\nAfter that, you type the script below into /etc/csh.cshrc, the goal is to activate or execute the environment variable (PATH).\n\nIf the script above fails to execute the Java environment variable (PATH), you can add the JAVA_HOME Environment to $PATH in the root ~/.zshrc. Add $JAVA_HOME/bin to the .bashrc file in the /root folder.\n\nroot@router2:~ # ee .cshrc\nset path = ($JAVA_HOME/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)\n\n\n2. Test Java that has been installed on FreeBSD\nThe last step is to test the JAVA program. To test the JAVA program, we create a file in the /usr/local/openjdk20 folder. We name the file test.java.\n\nroot@router2:~ # cd /usr/local/openjdk20\nroot@router2:/usr/local/openjdk20 # touch test.java\nroot@router2:/usr/local/openjdk20 # ee test.java\n\n\nEnter the following script into the “test.java” file.\n\npublic class test {\n    public static void main(String[] args) {\n        System.out.println(\"Test Program JAVA 20 Di FreeBSD 14.1 Stable\");\n    }\n}\n\n\nNow we compile or run the test.java file.\n\nroot@router2:~ # cd /usr/local/openjdk20\nroot@router2:/usr/local/openjdk17 # java test.java\n\n\nJava offers developers a versatile and powerful programming platform for developing a variety of applications. With platform independence, an extensive standard library, and an active community, Java continues to grow and evolve, maintaining its relevance and popularity among developers worldwide.\n\nIn this article, you have learned how to install Java 20 on a stable FreeBSD 14.1 system. With the output of the JAVA program test results above, you have successfully run a JAVA program on FreeBSD 14. I suggest you try other JAVA versions to install on FreeBSD Server.\n",
+  "datePublished": "2025-02-14 16:11:19 +0300",
+  "dateModified": "2025-02-14 16:11:19 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- <script type="text/javascript">
+	atOptions = {
+		'key' : '67fb5d6234d340006720e0f69ca5be7f',
+		'format' : 'iframe',
+		'height' : 90,
+		'width' : 728,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//timdinosaur.com/67fb5d6234d340006720e0f69ca5be7f/invoke.js"></script> -->
+<!-- CoinAd - Ad Display Code -->
+<div id="adm-container-1743"></div><script data-cfasync="false" async type="text/javascript" src="//coinad.network/display/items.php?1743&564&728&90&4&0&0"></script>
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable"><meta itemprop="description" content="OpenJDK is an open source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK)."><meta itemprop="datePublished" content="2025-02-14"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-02-14T16:11:19+03:00">2025-02-14</time> </p><h1 class="page__title" itemprop="headline">Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable
+</h1></header><section class="page__content" itemprop="text">
+        <p>Java has become one of the leading programming languages ​​in software application development. In order to write, compile, and run Java code, a runtime environment is required to provide the necessary tools. With continued incremental growth, Java 17 is currently the latest long-term release under the extensive collaboration of Oracle and other members of the worldwide Java developer community through the OpenJDK Community and the Java Community Process (JPC).</p>
+
+<p>OpenJDK is an open-source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK). OpenJDK comes with components such as a virtual machine, Java Class Library, and Java Compiler (javac). In this article, I will guide you on how to install and configure openjdk17 on FreeBSD 13. In this tutorial, we will install Java with FreeBSD Ports.</p>
+
+<h2 id="1-install-java-openjdk-on-freebsd">1. Install Java OpenJDK on FreeBSD</h2>
+<p>The first step you have to log in to the FreeBSD server as root, if you have successfully logged in, continue by opening Java Ports in the /usr/ports/java/openjdk20 folder.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/ports/java/openjdk20
+root@router2:~ # make install clean
+</code></pre></div></div>
+<p>or</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # pkg install openjdk20
+</code></pre></div></div>
+<p>Once the installation is complete, you will be shown the following command shell screen:</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/freebsd_14_java_openjdk_install.jpg" alt="freebsd14 java openjdk install" /></p>
+
+<p>Now we continue according to the instructions above, type the script mount -t fdescfs fdesc /dev/fd and mount -t procfs proc /proc.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:/var/db/pkg/repos/FreeBSD # mount -t fdescfs fdesc /dev/fd
+root@hostname1:/var/db/pkg/repos/FreeBSD # mount -t procfs proc /proc
+</code></pre></div></div>
+
+<p>After that, you add the two scripts above to the “/etc/fstab” file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/fstab
+fdesc   /dev/fd         fdescfs         rw      0       0
+proc    /proc             procfs          rw      0       0
+</code></pre></div></div>
+
+<p>After that, if you want to check whether Java is installed on FreeBSD, do a check by checking the Java version, to check it use the “java -version” script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # java -version
+openjdk version "20.0.2" 2023-07-18
+OpenJDK Runtime Environment (build 20.0.2+9-1)
+OpenJDK 64-Bit Server VM (build 20.0.2+9-1, mixed mode, sharing)
+root@ns4:~ #
+</code></pre></div></div>
+
+<p>The next step is to set JAVA as the JAVA_HOME Environment. JAVA_HOME is an operating system environment variable for the Java Development Kit (JDK) or Java Runtime Environment (JRE). JAVA_HOME can be optionally set after the JDK or JRE installation is complete.</p>
+
+<p>The JAVA_HOME variable points to the location where the JDK or JRE is installed on a FreeBSD system. Java applications use this variable to find where the runtime is installed. On FreeBSD, you need to set the JAVA_HOME environment in /etc/csh.cshrc.
+Open the csh.cshrc file and add the following two lines:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/csh.cshrc
+# $FreeBSD$
+#
+# System-wide .cshrc file for csh(1).
+setenv JAVA_VERSION "20.0+"
+setenv JAVA_HOME /usr/local/openjdk20
+</code></pre></div></div>
+
+<p>After that, you type the script below into /etc/csh.cshrc, the goal is to activate or execute the environment variable (PATH).</p>
+
+<p>If the script above fails to execute the Java environment variable (PATH), you can add the JAVA_HOME Environment to $PATH in the root ~/.zshrc. Add $JAVA_HOME/bin to the .bashrc file in the /root folder.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee .cshrc
+set path = ($JAVA_HOME/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
+</code></pre></div></div>
+
+<h2 id="2-test-java-that-has-been-installed-on-freebsd">2. Test Java that has been installed on FreeBSD</h2>
+<p>The last step is to test the JAVA program. To test the JAVA program, we create a file in the /usr/local/openjdk20 folder. We name the file test.java.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/local/openjdk20
+root@router2:/usr/local/openjdk20 # touch test.java
+root@router2:/usr/local/openjdk20 # ee test.java
+</code></pre></div></div>
+
+<p>Enter the following script into the “test.java” file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class test {
+    public static void main(String[] args) {
+        System.out.println("Test Program JAVA 20 Di FreeBSD 14.1 Stable");
+    }
+}
+</code></pre></div></div>
+
+<p>Now we compile or run the test.java file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/local/openjdk20
+root@router2:/usr/local/openjdk17 # java test.java
+</code></pre></div></div>
+
+<p>Java offers developers a versatile and powerful programming platform for developing a variety of applications. With platform independence, an extensive standard library, and an active community, Java continues to grow and evolve, maintaining its relevance and popularity among developers worldwide.</p>
+
+<p>In this article, you have learned how to install Java 20 on a stable FreeBSD 14.1 system. With the output of the JAVA program test results above, you have successfully run a JAVA program on FreeBSD 14. I suggest you try other JAVA versions to install on FreeBSD Server.</p>
+</section>
+      <footer class="page__meta"><!-- <script type="text/javascript">
+	atOptions = {
+		'key' : '9f0fbeed81ad3c9bfba81d92c5429c29',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//timdinosaur.com/9f0fbeed81ad3c9bfba81d92c5429c29/invoke.js"></script> -->
+<!-- CoinAd - Ad Display Code -->
+<div id="adm-container-1744"></div><script data-cfasync="false" async type="text/javascript" src="//coinad.network/display/items.php?1744&564&970&250&4&0&0"></script>
+<!-- CoinAd - Ad Display Code -->
+
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-02-14T16:11:19+03:00">2025-02-14</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/de/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/de/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/de/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/en/freebsd/2025/02/13/installing-running-jupyter-notebook-freebsd/" class="pagination--pager" title="Installing and Running Jupyter Notebook on FreeBSD
+">Previous</a><a href="https://penaadventure.com/en/freebsd/2025/02/15/how-to-install-apache-zookeeper-freebsd14/" class="pagination--pager" title="How to Install Apache ZooKeeper on FreeBSD 14
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/de/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

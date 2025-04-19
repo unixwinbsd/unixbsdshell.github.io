@@ -1,7 +1,7 @@
 ---
-title: Installationsprozess und Beispiele zur Verwendung von Swoole PHP unter FreeBSD
+title: Installation process and examples for using Swoole PHP on FreeBSD
 date: "2025-04-19 20:10:15 +0100"
-id: openbsd-openntpd-ntp-time-server-clock
+id: installation-process-examples-using-swoole-php-freebsd
 lang: de
 layout: single
 author_profile: true

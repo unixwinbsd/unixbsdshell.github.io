@@ -1,8 +1,8 @@
 title: UnixBSDShell
 email: datainchi@gmail.com
 description: A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others
-languages: ["ru", "de", "en"]
-default_lang: "ru"
+lang: ["ru", "de", "en"]
+#default_lang: "ru"
 author: Iwan Setiawan
 domain: penaadventure.com
 baseurl: ""
@@ -13,7 +13,7 @@ github_username:  unixwinbsd
 github: [metadata]
 timezone: Europe/Moscow
 permalink: pretty
-destination: ./_posts
+#destination: /home/unixbsdshell.github.io/_site
 enforce_ssl: "unixwinbsd.github.io"
 
 author:
@@ -213,51 +213,7 @@ compress_html:
   ignore:
     envs: development
   
-#Posting defaults
-defaults:
-  # _posts
-  - scope:
-      path: /en/
-      type: posts
-    values:
-      category: "Blog"
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: false
-      share: true
-      related: true
-      permalink: en
-      destination: /_site/en/
-      lang: en.
- - scope:
-      path: /ru/
-      type: posts
-    values:
-      category: "Blog"
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: false
-      share: true
-      related: true
-      permalink: en
-      destination: /_site/ru/
-      lang: ru
- - scope:
-      path: /de/
-      type: posts
-    values:
-      category: "Blog"
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: false
-      share: true
-      related: true
-      permalink: en
-      destination: /_site/de/
-      lang: de
+
 
 atom_feed:
   path                   : feed.xml

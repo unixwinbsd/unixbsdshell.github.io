@@ -20,3 +20,9 @@ DNSSEC обеспечивает аутентификацию записей DNS 
 
 Unbound  это высокозащищенный проверяющий, рекурсивный и кэширующий DNS-сервер, разработанный компаниями NLnet Labs, VeriSign Inc, Nominet и Kirei. Это программное обеспечение распространяется бесплатно по лицензии BSD. Двоичные файлы написаны с повышенным вниманием к безопасности и очень строгим кодом на языке Си.
 
+![Root Authoritative DNS Servers](https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/Root_Authoritative_DNS_Servers.jpg)
+
+
+
+
+

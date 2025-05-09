@@ -84,6 +84,42 @@ root@ns4:~ # ee /etc/hosts
 127.0.0.1      localhost localhost.miner4pool.org
 192.168.5.71    ns4 ns4.miner4pool.org
 ```
+## C. Конфигурация Unbound
+Прежде чем мы начнем настраивать unbound.conf, для приложения unbound требуется файл "root.hints", в котором указан основной DNS-сервер. Приложение Unbound DNS Server содержит в своем коде список корневых DNS-серверов, но оно обеспечивает актуальную копию на каждом сервере. Рекомендуется обновлять этот файл каждые шесть месяцев.
+
+По умолчанию файл unbound.conf находится в каталоге /usr/local/etc/unbound. В консоли Putty введите следующую команду.
+
+```
+root@ns4:~ # wget ftp://FTP.INTERNIC.NET/domain/named.cache -O /usr/local/etc/unbound/root.hints
+--2025-05-08 08:55:15--  ftp://ftp.internic.net/domain/named.cache
+           => ‘/usr/local/etc/unbound/root.hints’
+Resolving ftp.internic.net (ftp.internic.net)... 192.0.47.9, 2620:0:2d0:200::9
+Connecting to ftp.internic.net (ftp.internic.net)|192.0.47.9|:21... connected.
+Logging in as anonymous ... Logged in!
+==> SYST ... done.    ==> PWD ... done.
+==> TYPE I ... done.  ==> CWD (1) /domain ... done.
+==> SIZE named.cache ... 3311
+==> PASV ... done.    ==> RETR named.cache ... done.
+Length: 3311 (3.2K) (unauthoritative)
+
+named.cache                     100%[====================================================>]   3.23K  --.-KB/s    in 0s
+
+2025-05-08 08:55:30 (369 MB/s) - ‘/usr/local/etc/unbound/root.hints’ saved [3311]
+```
+Кроме того, для Unbound требуется файл "auto-trust-anchor". Этот файл содержит ключи для проверки DNSSEC. Чтобы сгенерировать root.key, выполните следующую команду в консоли putty.
+```
+root@ns4:~ # unbound-anchor -a "/usr/local/etc/unbound/root.key"
+```
+Следующим шагом будет создание необходимых ключей для Unbound, которые будут управляться unbound-control. Введите команду ниже, чтобы запустить настройку unbound-control.
+```
+root@ns4:~ # unbound-control-setup /usr/local/etc/unbound
+setup in directory /usr/local/etc/unbound
+Certificate request self-signature ok
+subject=CN = unbound-control
+removing artifacts
+Setup success. Certificates created. Enable in unbound.conf file to use
+root@ns4:~ #
+```
 
 
 

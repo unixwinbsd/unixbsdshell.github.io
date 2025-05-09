@@ -319,8 +319,36 @@ root@ns4:~ #
 ```
 Из открытых портов выше мы видим, что открыты порты 853 и 53. Это указывает на то, что Server Unbound DNS Over TLS РАБОТАЕТ.
 
+### D. Создание Unbound файла журнала
+Последний шаг создание файла журнала. В консоли Putty введите команду ниже и введите скрипт в файл /etc/newsyslog.conf.
+```
+root@ns4:~ # ee /etc/newsyslog.conf
 
+/usr/local/etc/unbound/log/unbound.log  unbound:wheel     640  7     *    @T12  JBR   /usr/local/etc/unbound/log_reopen
+```
+Следующим шагом мы создаем файл log_reopen и вводим в него следующий скрипт.
 
+```
+root@ns4:~ # ee /usr/local/etc/unbound/log_reopen
 
+#!/bin/sh
+/usr/local/sbin/unbound-control -q log_reopen
+exit 0
+```
+Затем перезапустите несвязанные и системные файлы журнала.
 
+```
+root@ns4:~ # service unbound restart
+Stopping unbound.
+Waiting for PIDS: 974.
+Obtaining a trust anchor...
+Starting unbound.
+root@ns4:~ # service newsyslog restart
+Creating and/or trimming log files.
+root@ns4:~ #
+```
+DNS через TLS или DNS через TCP, но заключенный в сеанс TLS, будет шифровать ваши запросы и ответы сервера, а также опционально позволит вам проверить подлинность сервера.
 
+Преимущество — защита от прослушивания и манипуляции вашим трафиком DNS. Недостатком является небольшое снижение производительности и потенциальные проблемы обхода брандмауэра, поскольку он работает через нестандартный порт (TCP-порт 853), который может быть заблокирован в некоторых сетях.
+
+Это руководство помогло вам в настройке и конфигурировании Unbound DNS Over TLS. Эти руководства подробно обсуждаются и структурируются, с надеждой, что вы сможете легко их понять.

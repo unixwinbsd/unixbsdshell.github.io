@@ -1,7 +1,7 @@
 ---
 title: Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14
 date: "2025-05-09 20:10:15 +0100"
-id: installation-process-examples-using-swoole-php-freebsd
+id: Руководство-по-настройке-Unbound-freebsd14
 lang: de
 layout: single
 author_profile: true

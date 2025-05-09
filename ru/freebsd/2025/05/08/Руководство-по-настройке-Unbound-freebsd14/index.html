@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/ru/freebsd/2025/05/08/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5-Unbound-freebsd14/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14"><link rel="canonical" href="https://penaadventure.com/ru/freebsd/2025/05/08/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5-Unbound-freebsd14/">
+  <meta property="og:url" content="https://penaadventure.com/ru/freebsd/2025/05/08/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5-Unbound-freebsd14/"><meta property="og:description" content="DNSSEC обеспечивает аутентификацию записей DNS с использованием цифровых подписей, которые защищают их от возможной замены"><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14">
+  <meta name="twitter:description" content="DNSSEC обеспечивает аутентификацию записей DNS с использованием цифровых подписей, которые защищают их от возможной замены">
+  <meta name="twitter:url" content="https://penaadventure.com/ru/freebsd/2025/05/08/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5-Unbound-freebsd14/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-08T22:10:15+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+
+<script type="text/javascript">
+var clx = 'NDc2Mw';
+document.addEventListener("DOMContentLoaded", function() {
+    var links = document.getElementsByTagName('a');
+    for (var i = 0; i < links.length; i++) {
+        var link = links[i];
+        if (link.hostname !== location.hostname && 
+            link.href.indexOf('javascript:') === -1 && 
+            link.href.indexOf('#') !== 0) {
+            var original_url = btoa(link.href);
+            link.href = 'https://k.adx.lol/serve/fp.php?user=' + clx + '&url=' + encodeURIComponent(original_url);
+            link.target = '_blank'; 
+        }
+    }
+});
+</script>
+
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/ru/freebsd/2025/05/08/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5-Unbound-freebsd14/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#ru" itemprop="item"><span itemprop="name">Ru</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#08" itemprop="item"><span itemprop="name">08</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-08 22:10:15 +0300",
+"datePublished": "2025-05-08 22:10:15 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "DNSSEC обеспечивает аутентификацию записей DNS с использованием цифровых подписей, которые защищают их от возможной замены"
+},
+
+"datePublished": "2025-05-08 22:10:15 +0300",
+"dateModified": "2025-05-08 22:10:15 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/ru/freebsd/2025/05/08/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5-Unbound-freebsd14/",
+"name": "Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/ru/freebsd/2025/05/08/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5-Unbound-freebsd14/",
+"name": "DNSServer"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/ru/freebsd/2025/05/08/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5-Unbound-freebsd14/",
+  "name": "Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14",
+  "headline": "Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14",
+  "keywords": "DNSServer",
+  "description": "DNSSEC обеспечивает аутентификацию записей DNS с использованием цифровых подписей, которые защищают их от возможной замены",
+  "articleBody": "Служба DNS или система доменных имен является базовой службой Интернета, а также других сетей, работающих на основе семейства протоколов TCP/IP, и используется для получения соответствующего имени хоста в сети с соответствующим цифровым адресом. Несмотря на простоту описания, DNS, пожалуй, самая сложная сетевая служба по своей структуре и набору взаимодействий, и ее надежная работа зависит от надежной работы всех и вся.\n\nDNSSEC обеспечивает аутентификацию записей DNS с использованием цифровых подписей, которые защищают их от возможной замены. Однако, в то же время, все данные всегда передаются в открытом виде и никоим образом не защищены от просмотра во время передачи. При отсутствии цифровой подписи, при желании, ее можно легко модифицировать для различных целей  от криминальных до цензурных.\n\nВ этой статье объясняется, как настроить и использовать несвязанный Unbound DNS server как в качестве кэширующего, DNSSEC, так и в качестве DNS по протоколу TLS.\n\nUnbound  это высокозащищенный проверяющий, рекурсивный и кэширующий DNS-сервер, разработанный компаниями NLnet Labs, VeriSign Inc, Nominet и Kirei. Это программное обеспечение распространяется бесплатно по лицензии BSD. Двоичные файлы написаны с повышенным вниманием к безопасности и очень строгим кодом на языке Си.\n\n\n\nЧтобы улучшить конфиденциальность в Интернете, Unbound поддерживает DNS-over-TLS и DNS-over-HTTPS, что позволяет клиентам шифровать свои сообщения. Кроме того, он поддерживает различные современные стандарты, которые ограничивают объем данных, обмениваемых с официальными серверами. Этот стандарт не только улучшает конфиденциальность, но и помогает повысить надежность DNS.\n\nНаиболее важными из них являются минимизация имен запросов, активное использование кэша, проверенного DNSSEC, и поддержка зон полномочий, которые можно использовать для загрузки копии корневой зоны.\n\nA. Технические характеристики системы\nOS: FreeBSD 14.3-PRERELEASE stable/14-c0c5d01e5374\nHostname: ns4\nDomain: miner4pool.org\nIP LAN Private: 192.168.5.71/24\nUnbound Caching DNS Server: 192.168.5.71@53\nUnbound Caching DNS over TLS: 192.168.5.71@853\nUnbound version : Version 1.19.3\nBind-Tools version : bind-tools-9.18.26_1\nWGET version: wget-1-24.5\n\nB. Unbound установка\nКак правило, для установки Unbound на сервер FreeBSD вы можете использовать две вещи, а именно порты и pkg. В этой статье мы обсудим установку с помощью pkg.\n\nНа первом этапе, пожалуйста, войдите на свой сервер FreeBSD через консоль FreeBSD или удаленный SSH с помощью PuTTY, затем запустите следующие командные строки:\n\nroot@ns4:~ #  pkg update\nroot@ns4:~ #  pkg upgrade\n\nПосле завершения обновления пакета pkg мы продолжаем установку unbound, введите следующую команду для установки unbound.\n\nroot@ns4:~ #  pkg install unbound bind-tools ca_root_nss\n\n\nЧтобы unbound сервер мог запускаться автоматически при каждом выключении или перезапуске сервера FreeBSD, вы должны сначала добавить следующую команду в rc.conf, введя приведенный ниже сценарий в файл /etc/rc.conf.\n\n### example /etc/rc.conf ###\n\nroot@miner4:~ # ee /etc/rc.conf\n\nunbound_enable=\"YES\"\nunbound_config=\"/usr/local/etc/unbound/unbound.conf\"\nunbound_pidfile=\"/usr/local/etc/unbound/unbound.pid\"\nunbound_anchorflags=\"\"\n\n\nПосле этого в файле “resolv.conf” введите скрипт, указанный ниже. Для добавления скрипта используйте приложение FreeBSD по умолчанию, а именно “ee”.\n\n### example /etc/resolv.conf ###\n\nroot@miner4:~ # ee /etc/resolv.conf\n\ndomain miner4pool.org\nnameserver 192.168.5.71\n\nОтредактируйте файл hosts, используйте команду ee /etc/hosts, затем введите следующий синтаксис.\n### example /etc/hosts ###\n\nroot@ns4:~ # ee /etc/hosts\n\n127.0.0.1      localhost localhost.miner4pool.org\n192.168.5.71    ns4 ns4.miner4pool.org\n\nC. Конфигурация Unbound\nПрежде чем мы начнем настраивать unbound.conf, для приложения unbound требуется файл “root.hints”, в котором указан основной DNS-сервер. Приложение Unbound DNS Server содержит в своем коде список корневых DNS-серверов, но оно обеспечивает актуальную копию на каждом сервере. Рекомендуется обновлять этот файл каждые шесть месяцев.\n\nПо умолчанию файл unbound.conf находится в каталоге /usr/local/etc/unbound. В консоли Putty введите следующую команду.\n\nroot@ns4:~ # wget ftp://FTP.INTERNIC.NET/domain/named.cache -O /usr/local/etc/unbound/root.hints\n--2025-05-08 08:55:15--  ftp://ftp.internic.net/domain/named.cache\n           =&gt; ‘/usr/local/etc/unbound/root.hints’\nResolving ftp.internic.net (ftp.internic.net)... 192.0.47.9, 2620:0:2d0:200::9\nConnecting to ftp.internic.net (ftp.internic.net)|192.0.47.9|:21... connected.\nLogging in as anonymous ... Logged in!\n==&gt; SYST ... done.    ==&gt; PWD ... done.\n==&gt; TYPE I ... done.  ==&gt; CWD (1) /domain ... done.\n==&gt; SIZE named.cache ... 3311\n==&gt; PASV ... done.    ==&gt; RETR named.cache ... done.\nLength: 3311 (3.2K) (unauthoritative)\n\nnamed.cache                     100%[====================================================&gt;]   3.23K  --.-KB/s    in 0s\n\n2025-05-08 08:55:30 (369 MB/s) - ‘/usr/local/etc/unbound/root.hints’ saved [3311]\n\nКроме того, для Unbound требуется файл “auto-trust-anchor”. Этот файл содержит ключи для проверки DNSSEC. Чтобы сгенерировать root.key, выполните следующую команду в консоли putty.\nroot@ns4:~ # unbound-anchor -a \"/usr/local/etc/unbound/root.key\"\n\nСледующим шагом будет создание необходимых ключей для Unbound, которые будут управляться unbound-control. Введите команду ниже, чтобы запустить настройку unbound-control.\nroot@ns4:~ # unbound-control-setup /usr/local/etc/unbound\nsetup in directory /usr/local/etc/unbound\nCertificate request self-signature ok\nsubject=CN = unbound-control\nremoving artifacts\nSetup success. Certificates created. Enable in unbound.conf file to use\nroot@ns4:~ #\n\nПосле этого создайте файл журнала Unbound.\n\nroot@ns4:~ # mkdir -p /usr/local/etc/unbound/log\nroot@ns4:~ # touch /usr/local/etc/unbound/log/unbound.log\nroot@ns4:~ # chown -R unbound:unbound /usr/local/etc/unbound/log\n\nСледующий шаг — редактирование файла unbound.conf, который находится по адресу /usr/local/etc/unbound/unbound.conf\n\nПрежде чем редактировать файл unbound.conf, в этом разделе мы разделим его на 3 сеанса, а именно:\n\n\n  Unbound Server как DNS-кэширование (порт 53).\n  Server Unbound как DNS-кэширование и DNS через TLS (порт 853)\n\n\nЭто было специально создано, чтобы читателям было легче понять и изучить Unbound-сервер.\n\na. Unbound Server как DNS-кэширование (порт 53)\nЧтобы unbound функционировал как DNS-кэширование, мы должны отредактировать файл unbound.conf. В этом файле вы активируете только несколько скриптов, а именно, удаляя знак “#” перед скриптом. Скрипт ниже является примером скрипта, который вы должны активировать в файле “/usr/local/etc/unbound”.\n\ninterface: 192.168.5.71\ninterface: 127.0.0.1\nport: 53\ndo-ip4: yes\ndo-udp: yes\ndo-tcp: yes\naccess-control: 192.168.5.0/24 allow\naccess-control: 127.0.0.0/8 allow\nusername: \"unbound\"\ndirectory: \"/usr/local/etc/unbound\"\nlogfile: \"/usr/local/etc/unbound/log/unbound.log\"\npidfile: \"/usr/local/etc/unbound/unbound.pid\"\nroot-hints: \"/usr/local/etc/unbound/root.hints\"\nhide-identity: yes\nhide-version: yes\nprivate-domain: \"miner4pool.org\"\ndomain-insecure: \"miner4pool.org\"\ndomain-insecure: \"5.168.192.in-addr.arpa\"\ncontrol-interface: 127.0.0.1\ncontrol-port: 8953\nserver-key-file: \"/usr/local/etc/unbound/unbound_server.key\"\nserver-cert-file: \"/usr/local/etc/unbound/unbound_server.pem\"\ncontrol-key-file: \"/usr/local/etc/unbound/unbound_control.key\"\ncontrol-cert-file: \"/usr/local/etc/unbound/unbound_control.pem\"\nforward-zone:\n  name: \".\"\n  forward-addr: 1.1.1.1\n  forward-addr: 1.0.0.1\n  forward-addr: 68.105.28.12\n  forward-addr: 68.105.29.11\n  forward-addr: 8.8.8.8\n\nВ скрипте интерфейса введите IP-адрес в соответствии с IP-адресом вашего сервера FreeBSD.\n\nПосле завершения процесса редактирования файла unbound.conf перезапустите unbound-сервер с помощью команды “restart”.\n\nroot@ns4:~ # service unbound restart\n\nПосле этого мы делаем тест, несвязанный DNS-сервер как кэширующий. Мы протестируем “linkedin.com”. Сконфигурированный нами выше несвязанный DNS сервер работает нормально или нет?\n\nroot@ns4:~ # dig linkedin.com\n\n; &lt;&lt;&gt;&gt; DiG 9.18.26 &lt;&lt;&gt;&gt; linkedin.com\n;; global options: +cmd\n;; Got answer:\n;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 60421\n;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n;; QUESTION SECTION:\n;linkedin.com.                  IN      A\n\n;; ANSWER SECTION:\nlinkedin.com.           300     IN      A       150.171.22.12\n\n;; Query time: 37 msec\n;; SERVER: 192.168.5.71#53(192.168.5.71) (UDP)\n;; WHEN: Thu May 08 09:34:13 WIB 2025\n;; MSG SIZE  rcvd: 57\n\nИз примера команды выше, unbound dns запустился нормально. Мы видим, что IP linkedin.com был кэширован unbound dns IP вашего сервера FreeBSD. Обратите внимание на IP 192.168.5.71, этот IP является IP unbound сервера, который вы настроили.\n\nТеперь мы используем команду nslookup для проверки unbound DNS.\n\nroot@ns4:~ # nslookup linkedin.com\nServer:         192.168.5.71\nAddress:        192.168.5.71#53\n\nNon-authoritative answer:\nName:   linkedin.com\nAddress: 150.171.22.12\nName:   linkedin.com\nAddress: 2620:1ec:50::12\n\n\nДо этого момента вы успешно запускали несвязанный DNS-сервер как DNS-кэширующий. Теперь мы продолжим, настроив несвязанный DNS Over TLS, работающий на порту 853.\n\nUnbound Server как DNS Caching и DNS Over TLS\nДругим более современным способом защиты DNS-трафика является протокол DNS-over-TLS, описанный в стандарте RFC7858, который представляет собой инкапсуляцию данных в стандартный TLS. Мы рекомендуем использовать порт 853 для доступа. Как и DNSCrypt, предполагается, что DNS-клиент, который обычно является тем же локальным кэширующим DNS, обращается к удаленному серверу, который поддерживает DNS-over-TLS.\n\nВышеупомянутый Unbound имеет встроенную поддержку этого протокола, поэтому для его использования не требуется дополнительного программного уровня, как в случае с DNSCrypt.\n\nДля запуска Unbound как DNS-over-TLS ему нужен только список серверов в зоне пересылки, как и в файле конфигурации выше, но есть несколько вещей, которые необходимо изменить. Настройка Unbound как сервера, обслуживающего запросы DNS-over-TLS, также проста. Для этого можно использовать существующий сертификат TLS, например openssl.\n\nПервый шаг, который необходимо предпринять для реализации unbound как сервера DNS Over TLS, — это создание сертификата SSL. Мы поместим этот файл unbound SSL в каталог /etc/ssl/unbound. Для этого в меню консоли Putty введите следующую команду.\n\nroot@ns4:~ # cd /etc\nroot@ns4:/etc # mkdir -p ssl\nroot@ns4:/etc # mkdir -p /etc/ssl/unbound\nroot@ns4:/etc # cd /etc/ssl/unbound\nroot@ns4:/etc/ssl/unbound #\n\n\nВ текущем активном каталоге (/etc/ssl/unbound) вы создаете SSL сертификат с помощью команды openssl, как в примере ниже.\n\nroot@ns4:/etc/ssl/unbound # openssl genrsa -des3 -out myCA.key 2048\nroot@ns4:/etc/ssl/unbound # openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem\nroot@ns4:/etc/ssl/unbound # openssl req -new -newkey rsa:2048 -nodes -keyout mydomain.key -out mydomain.csr\nroot@ns4:/etc/ssl/unbound # openssl x509 -req -in mydomain.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out mydomain.pem -days 1825 -sha256\n\nПосле завершения создания SSL-сертификата продолжите, изменив файл скрипта “/usr/local/etc/unbound/unbound.conf”.\n\nВ файле “/usr/local/etc/unbound/unbound.conf” вы активируете еще несколько скриптов, которые соответствуют непривязанной конфигурации для порта 853. Ниже приведен пример скрипта, который необходимо активировать в файле “/usr/local/etc/unbound/unbound.conf”.\n\ninterface: 192.168.5.71@853\ntcp-upstream: yes\ndo-not-query-localhost: no\ntls-service-key: \"/etc/ssl/unbound/mydomain.key\"\ntls-service-pem: \"/etc/ssl/unbound/mydomain.pem\"\ntls-port: 853\nforward-zone:\nname: \".\"\nforward-first: no\nforward-ssl-upstream: yes\nforward-addr: 1.1.1.1@853\nforward-addr: 1.0.0.1@853\nforward-addr: 68.105.28.12@853\nforward-addr: 68.105.29.11@853\nforward-addr: 8.8.8.8@853\n\nПрежде чем запустить unbound, мы сначала проверим SSL-сертификат, который мы создали выше для защиты Unbound DNS сервера. Запустите команду ниже, чтобы проверить SSL-сертификат.\n\nroot@ns4:~ # openssl s_client -connect 192.168.5.71:853\nroot@ns4:~ # openssl s_client -connect 1.1.1.1:853\n\nПосле этого перезапустите непривязанный сервер.\nroot@ns4:~ # service unbound restart\nStopping unbound.\nWaiting for PIDS: 941.\nObtaining a trust anchor...\nStarting unbound.\n\nСледующий шаг  проверить unbound, запущен ли unbound на порту 853. Используйте команду dig для проверки unbound.\nroot@ns4:~ # dig linkedin.com -p 853\n\n; &lt;&lt;&gt;&gt; DiG 9.18.26 &lt;&lt;&gt;&gt; linkedin.com -p 853\n;; global options: +cmd\n;; Got answer:\n;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 63430\n;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n;; QUESTION SECTION:\n;linkedin.com.                  IN      A\n\n;; ANSWER SECTION:\nlinkedin.com.           187     IN      A       150.171.22.12\n\n;; Query time: 112 msec\n;; SERVER: 192.168.5.71#853(192.168.5.71) (UDP)\n;; WHEN: Thu May 08 10:51:57 WIB 2025\n;; MSG SIZE  rcvd: 57\n\nroot@ns4:~ #\n\nОтвет сервер: 192.168.5.71#853, это означает, что порт NDS Over TLS 853 непривязанного сервера активен.\n\nЧтобы проверить, открыт ли порт 853 или нет. Введите следующую команду, чтобы увидеть DNS-порт 853, работающий на вашем сервере FreeBSD.\nroot@ns4:~ # sockstat -P udp -p 53,853\nUSER     COMMAND    PID   FD  PROTO  LOCAL ADDRESS         FOREIGN ADDRESS\nunbound  unbound      974 3   udp4   192.168.5.71:53       *:*\nunbound  unbound      974 5   udp4   127.0.0.1:53          *:*\nunbound  unbound      974 7   udp4   192.168.5.71:853      *:*\nroot@ns4:~ #\n\nИз открытых портов выше мы видим, что открыты порты 853 и 53. Это указывает на то, что Server Unbound DNS Over TLS РАБОТАЕТ.\n\nD. Создание Unbound файла журнала\nПоследний шаг создание файла журнала. В консоли Putty введите команду ниже и введите скрипт в файл /etc/newsyslog.conf.\nroot@ns4:~ # ee /etc/newsyslog.conf\n\n/usr/local/etc/unbound/log/unbound.log  unbound:wheel     640  7     *    @T12  JBR   /usr/local/etc/unbound/log_reopen\n\nСледующим шагом мы создаем файл log_reopen и вводим в него следующий скрипт.\n\nroot@ns4:~ # ee /usr/local/etc/unbound/log_reopen\n\n#!/bin/sh\n/usr/local/sbin/unbound-control -q log_reopen\nexit 0\n\nЗатем перезапустите несвязанные и системные файлы журнала.\n\nroot@ns4:~ # service unbound restart\nStopping unbound.\nWaiting for PIDS: 974.\nObtaining a trust anchor...\nStarting unbound.\nroot@ns4:~ # service newsyslog restart\nCreating and/or trimming log files.\nroot@ns4:~ #\n\nDNS через TLS или DNS через TCP, но заключенный в сеанс TLS, будет шифровать ваши запросы и ответы сервера, а также опционально позволит вам проверить подлинность сервера.\n\nПреимущество — защита от прослушивания и манипуляции вашим трафиком DNS. Недостатком является небольшое снижение производительности и потенциальные проблемы обхода брандмауэра, поскольку он работает через нестандартный порт (TCP-порт 853), который может быть заблокирован в некоторых сетях.\n\nЭто руководство помогло вам в настройке и конфигурировании Unbound DNS Over TLS. Эти руководства подробно обсуждаются и структурируются, с надеждой, что вы сможете легко их понять.\n",
+  "datePublished": "2025-05-08 22:10:15 +0300",
+  "dateModified": "2025-05-08 22:10:15 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- <script type="text/javascript">
+	atOptions = {
+		'key' : '67fb5d6234d340006720e0f69ca5be7f',
+		'format' : 'iframe',
+		'height' : 90,
+		'width' : 728,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//timdinosaur.com/67fb5d6234d340006720e0f69ca5be7f/invoke.js"></script> -->
+<!-- CoinAd - Ad Display Code -->
+<div id="adm-container-1743"></div><script data-cfasync="false" async type="text/javascript" src="//coinad.network/display/items.php?1743&564&728&90&4&0&0"></script>
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14"><meta itemprop="description" content="DNSSEC обеспечивает аутентификацию записей DNS с использованием цифровых подписей, которые защищают их от возможной замены"><meta itemprop="datePublished" content="2025-05-08"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-08T22:10:15+03:00">2025-05-08</time> </p><h1 class="page__title" itemprop="headline">Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14
+</h1></header><section class="page__content" itemprop="text">
+        <p>Служба DNS или система доменных имен является базовой службой Интернета, а также других сетей, работающих на основе семейства протоколов TCP/IP, и используется для получения соответствующего имени хоста в сети с соответствующим цифровым адресом. Несмотря на простоту описания, DNS, пожалуй, самая сложная сетевая служба по своей структуре и набору взаимодействий, и ее надежная работа зависит от надежной работы всех и вся.</p>
+
+<p>DNSSEC обеспечивает аутентификацию записей DNS с использованием цифровых подписей, которые защищают их от возможной замены. Однако, в то же время, все данные всегда передаются в открытом виде и никоим образом не защищены от просмотра во время передачи. При отсутствии цифровой подписи, при желании, ее можно легко модифицировать для различных целей  от криминальных до цензурных.</p>
+
+<p>В этой статье объясняется, как настроить и использовать несвязанный Unbound DNS server как в качестве кэширующего, DNSSEC, так и в качестве DNS по протоколу TLS.</p>
+
+<p>Unbound  это высокозащищенный проверяющий, рекурсивный и кэширующий DNS-сервер, разработанный компаниями NLnet Labs, VeriSign Inc, Nominet и Kirei. Это программное обеспечение распространяется бесплатно по лицензии BSD. Двоичные файлы написаны с повышенным вниманием к безопасности и очень строгим кодом на языке Си.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/Root_Authoritative_DNS_Servers.jpg" alt="Root Authoritative DNS Servers" /></p>
+
+<p>Чтобы улучшить конфиденциальность в Интернете, Unbound поддерживает DNS-over-TLS и DNS-over-HTTPS, что позволяет клиентам шифровать свои сообщения. Кроме того, он поддерживает различные современные стандарты, которые ограничивают объем данных, обмениваемых с официальными серверами. Этот стандарт не только улучшает конфиденциальность, но и помогает повысить надежность DNS.</p>
+
+<p>Наиболее важными из них являются минимизация имен запросов, активное использование кэша, проверенного DNSSEC, и поддержка зон полномочий, которые можно использовать для загрузки копии корневой зоны.</p>
+
+<h2 id="a-технические-характеристики-системы">A. Технические характеристики системы</h2>
+<p>OS: FreeBSD 14.3-PRERELEASE stable/14-c0c5d01e5374
+Hostname: ns4
+Domain: miner4pool.org
+IP LAN Private: 192.168.5.71/24
+Unbound Caching DNS Server: 192.168.5.71@53
+Unbound Caching DNS over TLS: 192.168.5.71@853
+Unbound version : Version 1.19.3
+Bind-Tools version : bind-tools-9.18.26_1
+WGET version: wget-1-24.5</p>
+
+<h2 id="b-unbound-установка">B. Unbound установка</h2>
+<p>Как правило, для установки Unbound на сервер FreeBSD вы можете использовать две вещи, а именно порты и pkg. В этой статье мы обсудим установку с помощью pkg.</p>
+
+<p>На первом этапе, пожалуйста, войдите на свой сервер FreeBSD через консоль FreeBSD или удаленный SSH с помощью PuTTY, затем запустите следующие командные строки:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ #  pkg update
+root@ns4:~ #  pkg upgrade
+</code></pre></div></div>
+<p>После завершения обновления пакета pkg мы продолжаем установку unbound, введите следующую команду для установки unbound.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ #  pkg install unbound bind-tools ca_root_nss
+</code></pre></div></div>
+
+<p>Чтобы unbound сервер мог запускаться автоматически при каждом выключении или перезапуске сервера FreeBSD, вы должны сначала добавить следующую команду в rc.conf, введя приведенный ниже сценарий в файл /etc/rc.conf.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### example /etc/rc.conf ###
+
+root@miner4:~ # ee /etc/rc.conf
+
+unbound_enable="YES"
+unbound_config="/usr/local/etc/unbound/unbound.conf"
+unbound_pidfile="/usr/local/etc/unbound/unbound.pid"
+unbound_anchorflags=""
+</code></pre></div></div>
+
+<p>После этого в файле “resolv.conf” введите скрипт, указанный ниже. Для добавления скрипта используйте приложение FreeBSD по умолчанию, а именно “ee”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### example /etc/resolv.conf ###
+
+root@miner4:~ # ee /etc/resolv.conf
+
+domain miner4pool.org
+nameserver 192.168.5.71
+</code></pre></div></div>
+<p>Отредактируйте файл hosts, используйте команду ee /etc/hosts, затем введите следующий синтаксис.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### example /etc/hosts ###
+
+root@ns4:~ # ee /etc/hosts
+
+127.0.0.1      localhost localhost.miner4pool.org
+192.168.5.71    ns4 ns4.miner4pool.org
+</code></pre></div></div>
+<h2 id="c-конфигурация-unbound">C. Конфигурация Unbound</h2>
+<p>Прежде чем мы начнем настраивать unbound.conf, для приложения unbound требуется файл “root.hints”, в котором указан основной DNS-сервер. Приложение Unbound DNS Server содержит в своем коде список корневых DNS-серверов, но оно обеспечивает актуальную копию на каждом сервере. Рекомендуется обновлять этот файл каждые шесть месяцев.</p>
+
+<p>По умолчанию файл unbound.conf находится в каталоге /usr/local/etc/unbound. В консоли Putty введите следующую команду.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # wget ftp://FTP.INTERNIC.NET/domain/named.cache -O /usr/local/etc/unbound/root.hints
+--2025-05-08 08:55:15--  ftp://ftp.internic.net/domain/named.cache
+           =&gt; ‘/usr/local/etc/unbound/root.hints’
+Resolving ftp.internic.net (ftp.internic.net)... 192.0.47.9, 2620:0:2d0:200::9
+Connecting to ftp.internic.net (ftp.internic.net)|192.0.47.9|:21... connected.
+Logging in as anonymous ... Logged in!
+==&gt; SYST ... done.    ==&gt; PWD ... done.
+==&gt; TYPE I ... done.  ==&gt; CWD (1) /domain ... done.
+==&gt; SIZE named.cache ... 3311
+==&gt; PASV ... done.    ==&gt; RETR named.cache ... done.
+Length: 3311 (3.2K) (unauthoritative)
+
+named.cache                     100%[====================================================&gt;]   3.23K  --.-KB/s    in 0s
+
+2025-05-08 08:55:30 (369 MB/s) - ‘/usr/local/etc/unbound/root.hints’ saved [3311]
+</code></pre></div></div>
+<p>Кроме того, для Unbound требуется файл “auto-trust-anchor”. Этот файл содержит ключи для проверки DNSSEC. Чтобы сгенерировать root.key, выполните следующую команду в консоли putty.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # unbound-anchor -a "/usr/local/etc/unbound/root.key"
+</code></pre></div></div>
+<p>Следующим шагом будет создание необходимых ключей для Unbound, которые будут управляться unbound-control. Введите команду ниже, чтобы запустить настройку unbound-control.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # unbound-control-setup /usr/local/etc/unbound
+setup in directory /usr/local/etc/unbound
+Certificate request self-signature ok
+subject=CN = unbound-control
+removing artifacts
+Setup success. Certificates created. Enable in unbound.conf file to use
+root@ns4:~ #
+</code></pre></div></div>
+<p>После этого создайте файл журнала Unbound.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # mkdir -p /usr/local/etc/unbound/log
+root@ns4:~ # touch /usr/local/etc/unbound/log/unbound.log
+root@ns4:~ # chown -R unbound:unbound /usr/local/etc/unbound/log
+</code></pre></div></div>
+<p>Следующий шаг — редактирование файла unbound.conf, который находится по адресу /usr/local/etc/unbound/unbound.conf</p>
+
+<p>Прежде чем редактировать файл unbound.conf, в этом разделе мы разделим его на 3 сеанса, а именно:</p>
+
+<ol>
+  <li>Unbound Server как DNS-кэширование (порт 53).</li>
+  <li>Server Unbound как DNS-кэширование и DNS через TLS (порт 853)</li>
+</ol>
+
+<p>Это было специально создано, чтобы читателям было легче понять и изучить Unbound-сервер.</p>
+
+<h3 id="a-unbound-server-как-dns-кэширование-порт-53">a. Unbound Server как DNS-кэширование (порт 53)</h3>
+<p>Чтобы unbound функционировал как DNS-кэширование, мы должны отредактировать файл unbound.conf. В этом файле вы активируете только несколько скриптов, а именно, удаляя знак “#” перед скриптом. Скрипт ниже является примером скрипта, который вы должны активировать в файле “/usr/local/etc/unbound”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interface: 192.168.5.71
+interface: 127.0.0.1
+port: 53
+do-ip4: yes
+do-udp: yes
+do-tcp: yes
+access-control: 192.168.5.0/24 allow
+access-control: 127.0.0.0/8 allow
+username: "unbound"
+directory: "/usr/local/etc/unbound"
+logfile: "/usr/local/etc/unbound/log/unbound.log"
+pidfile: "/usr/local/etc/unbound/unbound.pid"
+root-hints: "/usr/local/etc/unbound/root.hints"
+hide-identity: yes
+hide-version: yes
+private-domain: "miner4pool.org"
+domain-insecure: "miner4pool.org"
+domain-insecure: "5.168.192.in-addr.arpa"
+control-interface: 127.0.0.1
+control-port: 8953
+server-key-file: "/usr/local/etc/unbound/unbound_server.key"
+server-cert-file: "/usr/local/etc/unbound/unbound_server.pem"
+control-key-file: "/usr/local/etc/unbound/unbound_control.key"
+control-cert-file: "/usr/local/etc/unbound/unbound_control.pem"
+forward-zone:
+  name: "."
+  forward-addr: 1.1.1.1
+  forward-addr: 1.0.0.1
+  forward-addr: 68.105.28.12
+  forward-addr: 68.105.29.11
+  forward-addr: 8.8.8.8
+</code></pre></div></div>
+<p>В скрипте интерфейса введите IP-адрес в соответствии с IP-адресом вашего сервера FreeBSD.</p>
+
+<p>После завершения процесса редактирования файла unbound.conf перезапустите unbound-сервер с помощью команды “restart”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # service unbound restart
+</code></pre></div></div>
+<p>После этого мы делаем тест, несвязанный DNS-сервер как кэширующий. Мы протестируем “linkedin.com”. Сконфигурированный нами выше несвязанный DNS сервер работает нормально или нет?</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # dig linkedin.com
+
+; &lt;&lt;&gt;&gt; DiG 9.18.26 &lt;&lt;&gt;&gt; linkedin.com
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 60421
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;linkedin.com.                  IN      A
+
+;; ANSWER SECTION:
+linkedin.com.           300     IN      A       150.171.22.12
+
+;; Query time: 37 msec
+;; SERVER: 192.168.5.71#53(192.168.5.71) (UDP)
+;; WHEN: Thu May 08 09:34:13 WIB 2025
+;; MSG SIZE  rcvd: 57
+</code></pre></div></div>
+<p>Из примера команды выше, unbound dns запустился нормально. Мы видим, что IP linkedin.com был кэширован unbound dns IP вашего сервера FreeBSD. Обратите внимание на IP 192.168.5.71, этот IP является IP unbound сервера, который вы настроили.</p>
+
+<p>Теперь мы используем команду nslookup для проверки unbound DNS.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # nslookup linkedin.com
+Server:         192.168.5.71
+Address:        192.168.5.71#53
+
+Non-authoritative answer:
+Name:   linkedin.com
+Address: 150.171.22.12
+Name:   linkedin.com
+Address: 2620:1ec:50::12
+</code></pre></div></div>
+
+<p>До этого момента вы успешно запускали несвязанный DNS-сервер как DNS-кэширующий. Теперь мы продолжим, настроив несвязанный DNS Over TLS, работающий на порту 853.</p>
+
+<h3 id="unbound-server-как-dns-caching-и-dns-over-tls">Unbound Server как DNS Caching и DNS Over TLS</h3>
+<p>Другим более современным способом защиты DNS-трафика является протокол DNS-over-TLS, описанный в стандарте RFC7858, который представляет собой инкапсуляцию данных в стандартный TLS. Мы рекомендуем использовать порт 853 для доступа. Как и DNSCrypt, предполагается, что DNS-клиент, который обычно является тем же локальным кэширующим DNS, обращается к удаленному серверу, который поддерживает DNS-over-TLS.</p>
+
+<p>Вышеупомянутый Unbound имеет встроенную поддержку этого протокола, поэтому для его использования не требуется дополнительного программного уровня, как в случае с DNSCrypt.</p>
+
+<p>Для запуска Unbound как DNS-over-TLS ему нужен только список серверов в зоне пересылки, как и в файле конфигурации выше, но есть несколько вещей, которые необходимо изменить. Настройка Unbound как сервера, обслуживающего запросы DNS-over-TLS, также проста. Для этого можно использовать существующий сертификат TLS, например openssl.</p>
+
+<p>Первый шаг, который необходимо предпринять для реализации unbound как сервера DNS Over TLS, — это создание сертификата SSL. Мы поместим этот файл unbound SSL в каталог /etc/ssl/unbound. Для этого в меню консоли Putty введите следующую команду.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # cd /etc
+root@ns4:/etc # mkdir -p ssl
+root@ns4:/etc # mkdir -p /etc/ssl/unbound
+root@ns4:/etc # cd /etc/ssl/unbound
+root@ns4:/etc/ssl/unbound #
+</code></pre></div></div>
+
+<p>В текущем активном каталоге (/etc/ssl/unbound) вы создаете SSL сертификат с помощью команды openssl, как в примере ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:/etc/ssl/unbound # openssl genrsa -des3 -out myCA.key 2048
+root@ns4:/etc/ssl/unbound # openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
+root@ns4:/etc/ssl/unbound # openssl req -new -newkey rsa:2048 -nodes -keyout mydomain.key -out mydomain.csr
+root@ns4:/etc/ssl/unbound # openssl x509 -req -in mydomain.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out mydomain.pem -days 1825 -sha256
+</code></pre></div></div>
+<p>После завершения создания SSL-сертификата продолжите, изменив файл скрипта “/usr/local/etc/unbound/unbound.conf”.</p>
+
+<p>В файле “/usr/local/etc/unbound/unbound.conf” вы активируете еще несколько скриптов, которые соответствуют непривязанной конфигурации для порта 853. Ниже приведен пример скрипта, который необходимо активировать в файле “/usr/local/etc/unbound/unbound.conf”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interface: 192.168.5.71@853
+tcp-upstream: yes
+do-not-query-localhost: no
+tls-service-key: "/etc/ssl/unbound/mydomain.key"
+tls-service-pem: "/etc/ssl/unbound/mydomain.pem"
+tls-port: 853
+forward-zone:
+name: "."
+forward-first: no
+forward-ssl-upstream: yes
+forward-addr: 1.1.1.1@853
+forward-addr: 1.0.0.1@853
+forward-addr: 68.105.28.12@853
+forward-addr: 68.105.29.11@853
+forward-addr: 8.8.8.8@853
+</code></pre></div></div>
+<p>Прежде чем запустить unbound, мы сначала проверим SSL-сертификат, который мы создали выше для защиты Unbound DNS сервера. Запустите команду ниже, чтобы проверить SSL-сертификат.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # openssl s_client -connect 192.168.5.71:853
+root@ns4:~ # openssl s_client -connect 1.1.1.1:853
+</code></pre></div></div>
+<p>После этого перезапустите непривязанный сервер.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # service unbound restart
+Stopping unbound.
+Waiting for PIDS: 941.
+Obtaining a trust anchor...
+Starting unbound.
+</code></pre></div></div>
+<p>Следующий шаг  проверить unbound, запущен ли unbound на порту 853. Используйте команду dig для проверки unbound.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # dig linkedin.com -p 853
+
+; &lt;&lt;&gt;&gt; DiG 9.18.26 &lt;&lt;&gt;&gt; linkedin.com -p 853
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 63430
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;linkedin.com.                  IN      A
+
+;; ANSWER SECTION:
+linkedin.com.           187     IN      A       150.171.22.12
+
+;; Query time: 112 msec
+;; SERVER: 192.168.5.71#853(192.168.5.71) (UDP)
+;; WHEN: Thu May 08 10:51:57 WIB 2025
+;; MSG SIZE  rcvd: 57
+
+root@ns4:~ #
+</code></pre></div></div>
+<p>Ответ сервер: 192.168.5.71#853, это означает, что порт NDS Over TLS 853 непривязанного сервера активен.</p>
+
+<p>Чтобы проверить, открыт ли порт 853 или нет. Введите следующую команду, чтобы увидеть DNS-порт 853, работающий на вашем сервере FreeBSD.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # sockstat -P udp -p 53,853
+USER     COMMAND    PID   FD  PROTO  LOCAL ADDRESS         FOREIGN ADDRESS
+unbound  unbound      974 3   udp4   192.168.5.71:53       *:*
+unbound  unbound      974 5   udp4   127.0.0.1:53          *:*
+unbound  unbound      974 7   udp4   192.168.5.71:853      *:*
+root@ns4:~ #
+</code></pre></div></div>
+<p>Из открытых портов выше мы видим, что открыты порты 853 и 53. Это указывает на то, что Server Unbound DNS Over TLS РАБОТАЕТ.</p>
+
+<h3 id="d-создание-unbound-файла-журнала">D. Создание Unbound файла журнала</h3>
+<p>Последний шаг создание файла журнала. В консоли Putty введите команду ниже и введите скрипт в файл /etc/newsyslog.conf.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # ee /etc/newsyslog.conf
+
+/usr/local/etc/unbound/log/unbound.log  unbound:wheel     640  7     *    @T12  JBR   /usr/local/etc/unbound/log_reopen
+</code></pre></div></div>
+<p>Следующим шагом мы создаем файл log_reopen и вводим в него следующий скрипт.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # ee /usr/local/etc/unbound/log_reopen
+
+#!/bin/sh
+/usr/local/sbin/unbound-control -q log_reopen
+exit 0
+</code></pre></div></div>
+<p>Затем перезапустите несвязанные и системные файлы журнала.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # service unbound restart
+Stopping unbound.
+Waiting for PIDS: 974.
+Obtaining a trust anchor...
+Starting unbound.
+root@ns4:~ # service newsyslog restart
+Creating and/or trimming log files.
+root@ns4:~ #
+</code></pre></div></div>
+<p>DNS через TLS или DNS через TCP, но заключенный в сеанс TLS, будет шифровать ваши запросы и ответы сервера, а также опционально позволит вам проверить подлинность сервера.</p>
+
+<p>Преимущество — защита от прослушивания и манипуляции вашим трафиком DNS. Недостатком является небольшое снижение производительности и потенциальные проблемы обхода брандмауэра, поскольку он работает через нестандартный порт (TCP-порт 853), который может быть заблокирован в некоторых сетях.</p>
+
+<p>Это руководство помогло вам в настройке и конфигурировании Unbound DNS Over TLS. Эти руководства подробно обсуждаются и структурируются, с надеждой, что вы сможете легко их понять.</p>
+</section>
+      <footer class="page__meta"><!-- <script type="text/javascript">
+	atOptions = {
+		'key' : '9f0fbeed81ad3c9bfba81d92c5429c29',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//timdinosaur.com/9f0fbeed81ad3c9bfba81d92c5429c29/invoke.js"></script> -->
+<!-- CoinAd - Ad Display Code -->
+<div id="adm-container-1744"></div><script data-cfasync="false" async type="text/javascript" src="//coinad.network/display/items.php?1744&564&970&250&4&0&0"></script>
+<!-- CoinAd - Ad Display Code -->
+
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-08T22:10:15+03:00">2025-05-08</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#dnsserver" class="page__taxonomy-item" rel="tag">DNSServer</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#ru" class="page__taxonomy-item" rel="tag">ru</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/de/openbsd/2025/04/18/openbsd-openntpd-ntp-time-server-clock/" class="pagination--pager" title="OpenBSD OpenNTPD Installations prozess zum Synchronisieren der Uhr mit dem NTP Server
+">Previous</a><a href="#" class="pagination--pager disabled">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

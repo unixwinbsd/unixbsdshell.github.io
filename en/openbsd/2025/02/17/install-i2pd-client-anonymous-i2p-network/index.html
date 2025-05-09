@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/openbsd/2025/02/17/install-i2pd-client-anonymous-i2p-network/"/>
+
+  <meta charset="utf-8">
+  
+  <title>How to Install i2pd on OpenBSD - Client For Anonymous I2P Network  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="How to Install i2pd on OpenBSD - Client For Anonymous I2P Network"><link rel="canonical" href="https://penaadventure.com/en/openbsd/2025/02/17/install-i2pd-client-anonymous-i2p-network/">
+  <meta property="og:url" content="https://penaadventure.com/en/openbsd/2025/02/17/install-i2pd-client-anonymous-i2p-network/"><meta property="og:description" content="I2pd or i2p daemon is a C++ based open source i2p client. It is an anonymous network layer where communication is encrypted and user IP addresses are not disclosed."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Install i2pd on OpenBSD - Client For Anonymous I2P Network">
+  <meta name="twitter:description" content="I2pd or i2p daemon is a C++ based open source i2p client. It is an anonymous network layer where communication is encrypted and user IP addresses are not disclosed.">
+  <meta name="twitter:url" content="https://penaadventure.com/en/openbsd/2025/02/17/install-i2pd-client-anonymous-i2p-network/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-02-17T11:11:39+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+
+<script type="text/javascript">
+var clx = 'NDc2Mw';
+document.addEventListener("DOMContentLoaded", function() {
+    var links = document.getElementsByTagName('a');
+    for (var i = 0; i < links.length; i++) {
+        var link = links[i];
+        if (link.hostname !== location.hostname && 
+            link.href.indexOf('javascript:') === -1 && 
+            link.href.indexOf('#') !== 0) {
+            var original_url = btoa(link.href);
+            link.href = 'https://k.adx.lol/serve/fp.php?user=' + clx + '&url=' + encodeURIComponent(original_url);
+            link.target = '_blank'; 
+        }
+    }
+});
+</script>
+
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/openbsd/2025/02/17/install-i2pd-client-anonymous-i2p-network/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#02" itemprop="item"><span itemprop="name">02</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#17" itemprop="item"><span itemprop="name">17</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Install i2pd on OpenBSD - Client For Anonymous I2P Network</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-02-17 11:11:39 +0300",
+"datePublished": "2025-02-17 11:11:39 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "How to Install i2pd on OpenBSD - Client For Anonymous I2P Network",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "I2pd or i2p daemon is a C++ based open source i2p client. It is an anonymous network layer where communication is encrypted and user IP addresses are not disclosed."
+},
+
+"datePublished": "2025-02-17 11:11:39 +0300",
+"dateModified": "2025-02-17 11:11:39 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/openbsd/2025/02/17/install-i2pd-client-anonymous-i2p-network/",
+"name": "How to Install i2pd on OpenBSD - Client For Anonymous I2P Network"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/openbsd/2025/02/17/install-i2pd-client-anonymous-i2p-network/",
+"name": "Anonymous"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/openbsd/2025/02/17/install-i2pd-client-anonymous-i2p-network/",
+  "name": "How to Install i2pd on OpenBSD - Client For Anonymous I2P Network",
+  "headline": "How to Install i2pd on OpenBSD - Client For Anonymous I2P Network",
+  "keywords": "Anonymous",
+  "description": "I2pd or i2p daemon is a C++ based open source i2p client. It is an anonymous network layer where communication is encrypted and user IP addresses are not disclosed.",
+  "articleBody": "Security is very important in this digital age. Network protocols like Invisible Internet Protocol or I2P, a network layer that allows you to remain anonymous on the Internet. With I2P, your request passes through several network computer nodes. This makes it difficult to track the original user and helps maintain anonymity. Because of I2P sometimes you can also access government censored sites anonymously.\n\nI2pd or i2p daemon is an open source i2p client based on C++. It is an anonymous network layer where communication is encrypted and the user’s IP address is not revealed. Started in 2014 by the PURPRLEI2P team and first released in 2015. This technology is designed to be more secure, reliable and perform better than I2P.\n\nIn the previous article, we have written about I2P running on the OpenBSD system. You may ask, what is the difference between I2P and I2PD. Well, to clarify the discussion above, we will try to explain between I2P and I2PD.\n\nI2P is an anonymous overlay network, a network within a network. It is intended to protect communications from surveillance and monitoring by third parties such as ISPs. I2P is used by many people who care about their privacy: activists, oppressed people, journalists and whistleblowers, and ordinary people. No network can be “truly anonymous.” The ongoing goal of I2P is to make attacks increasingly difficult. Its anonymity will only get stronger as the network grows in size and with continued academic review.\n\nMeanwhile, I2PD is a full-featured client for the I2P network written in C++. I2P (Invisible Internet Project) is a universal anonymous network layer. All communication over I2P is anonymous and end-to-end encrypted. Participants do not reveal their real IP addresses to each other. Both peer-to-peer (cryptocurrency, file sharing) and client-to-server (websites, instant messengers, chat servers) applications are supported.\n\n1. System Specifications\n\n  Hostname: ns2\nOS: OpenBSD 7.6 amd64 \nHost: Acer Aspire M1800  \nShell: ksh v5.2.14 99/07/13.2  \nTerminal: /dev/ttyp0  \nCPU: Intel Core 2 Duo E8400 (2) @ 3.000GHz  \nMemory: 35MiB / 1775MiB \nIP Address: 192.168.5.3 \nVersi I2PD: i2pd-2.53.1p0 \nVersi I2P: i2p-2.6.1\n\n\n2. i2pd Installation Process\nAfter you know a little about i2pd and the system used, we will go straight to installing i2pd. Oops…. wait, before you install i2pd, there are some dependencies that you must install first.\n\na. I2P Installation Guide\nThe first dependency you have to install is I2P. In this article we will not explain how to install I2P on OpenBSD. Just read the installation process in the previous article.\n\nb. Install cmake boost miniupnpc\nThe next dependency you need to install is cmake boost miniupnpc.\n\nns2# pkg_add cmake boost miniupnpc\n\n\nc. Install I2PD\nAfter all the above dependencies have been installed, we continue by installing i2pd.\n\nns2# pkg_add i2pd\n\n\n3. i2pd Configuration Process\nThis part is a very important part, because we will tinker with the i2pd file so that it can run on the OpenBSD server. The main i2pd configuration file is located at “/etc/i2pd/i2pd.conf”. Please open the file and change it according to your OpenBSD system needs or specifications. To make it easier, just follow the guide below.\n\n\n  /etc/i2pd/i2pd.conf\n\n\n## Configuration file for a typical i2pd user\n## See https://i2pd.readthedocs.io/en/latest/user-guide/configuration/\n## for more options you can use in this file.\n\n## Lines that begin with \"## \" try to explain what's going on. Lines\n## that begin with just \"#\" are disabled commands: you can enable them\n## by removing the \"#\" symbol.\n\n## Tunnels config file\n## Default: ~/.i2pd/tunnels.conf or /var/lib/i2pd/tunnels.conf\n# tunconf = /var/lib/i2pd/tunnels.conf\n\n## Tunnels config files path\n## Use that path to store separated tunnels in different config files.\n## Default: ~/.i2pd/tunnels.d or /var/lib/i2pd/tunnels.d\n# tunnelsdir = /var/lib/i2pd/tunnels.d\n\n## Path to certificates used for verifying .su3, families\n## Default: ~/.i2pd/certificates or /var/lib/i2pd/certificates\n# certsdir = /var/lib/i2pd/certificates\n\n## Where to write pidfile (default: /run/i2pd.pid, not used in Windows)\n# pidfile = /run/i2pd.pid\n\n## Logging configuration section\n## By default logs go to stdout with level 'info' and higher\n## For Windows OS by default logs go to file with level 'warn' and higher\n##\n## Logs destination (valid values: stdout, file, syslog)\n##  * stdout - print log entries to stdout\n##  * file - log entries to a file\n##  * syslog - use syslog, see man 3 syslog\n# log = file\n## Path to logfile (default: autodetect)\n# logfile = /var/log/i2pd/i2pd.log\n## Log messages above this level (debug, info, *warn, error, critical, none)\n## If you set it to none, logging will be disabled\n# loglevel = warn\n## Write full CLF-formatted date and time to log (default: write only time)\n# logclftime = true\n\n## Daemon mode. Router will go to background after start. Ignored on Windows\n## (default: true)\ndaemon = true\n\n## Specify a family, router belongs to (default - none)\n# family =\n\n## Network interface to bind to\n## Updates address4/6 options if they are not set\n# ifname =\n## You can specify different interfaces for IPv4 and IPv6\n# ifname4 =\n# ifname6 =\n\n## Local address to bind transport sockets to\n## Overrides host option if:\n## For ipv4: if ipv4 = true and nat = false\n## For ipv6: if 'host' is not set or ipv4 = true\n# address4 =\n# address6 =\n\n## External IPv4 or IPv6 address to listen for connections\n## By default i2pd sets IP automatically\n## Sets published NTCP2v4/SSUv4 address to 'host' value if nat = true\n## Sets published NTCP2v6/SSUv6 address to 'host' value if ipv4 = false\n# host = 1.2.3.4\n\n## Port to listen for connections\n## By default i2pd picks random port. You MUST pick a random number too,\n## don't just uncomment this\nport = 4567\n\n## Enable communication through ipv4 (default: true)\nipv4 = true\n## Enable communication through ipv6 (default: false)\nipv6 = false\n\n## Bandwidth configuration\n## L limit bandwidth to 32 KB/sec, O - to 256 KB/sec, P - to 2048 KB/sec,\n## X - unlimited\n## Default is L (regular node) and X if floodfill mode enabled.\n## If you want to share more bandwidth without floodfill mode, uncomment\n## that line and adjust value to your possibilities. Value can be set to\n## integer in kilobytes, it will apply that limit and flag will be used\n## from next upper limit (example: if you set 4096 flag will be X, but real\n## limit will be 4096 KB/s). Same can be done when floodfill mode is used,\n## but keep in mind that low values may be negatively evaluated by Java\n## router algorithms.\n# bandwidth = L\n## Max % of bandwidth limit for transit. 0-100 (default: 100)\n# share = 100\n\n## Router will not accept transit tunnels, disabling transit traffic completely\n## (default: false)\n# notransit = true\n\n## Router will be floodfill (default: false)\n## Note: that mode uses much more network connections and CPU!\n# floodfill = true\n\n[ntcp2]\n## Enable NTCP2 transport (default: true)\n# enabled = true\n## Publish address in RouterInfo (default: true)\n# published = true\n## Port for incoming connections (default is global port option value)\n# port = 4567\n\n[ssu2]\n## Enable SSU2 transport (default: true)\n# enabled = true\n## Publish address in RouterInfo (default: true)\n# published = true\n## Port for incoming connections (default is global port option value)\n# port = 4567\n\n[http]\n## Web Console settings\n## Enable the Web Console (default: true)\nenabled = true\n## Address and port service will listen on (default: 127.0.0.1:7070)\naddress = 192.168.5.3\nport = 7070\n## Path to web console (default: /)\n# webroot = /\n## Enable Web Console authentication (default: false)\n## You should not use Web Console via public networks without additional encryption.\n## HTTP authentication is not encryption layer!\n# auth = true\n# user = i2pd\n# pass = changeme\n## Select webconsole language\n## Currently supported english (default), afrikaans, armenian, chinese, czech, french,\n## german, italian, polish, portuguese, russian, spanish, turkish, turkmen, ukrainian\n## and uzbek languages\n# lang = english\n\n[httpproxy]\n## Enable the HTTP proxy (default: true)\nenabled = true\n## Address and port service will listen on (default: 127.0.0.1:4444)\naddress = 192.168.5.3\nport = 4444\n## Optional keys file for proxy local destination (default: http-proxy-keys.dat)\n# keys = http-proxy-keys.dat\n## Enable address helper for adding .i2p domains with \"jump URLs\" (default: true)\n## You should disable this feature if your i2pd HTTP Proxy is public,\n## because anyone could spoof the short domain via addresshelper and forward other users to phishing links\n# addresshelper = true\n## Address of a proxy server inside I2P, which is used to visit regular Internet\noutproxy = http://false.i2p\n## httpproxy section also accepts I2CP parameters, like \"inbound.length\" etc.\n\n[socksproxy]\n## Enable the SOCKS proxy (default: true)\n# enabled = true\n## Address and port service will listen on (default: 127.0.0.1:4447)\naddress = 192.168.5.3\nport = 4447\n## Optional keys file for proxy local destination (default: socks-proxy-keys.dat)\n# keys = socks-proxy-keys.dat\n## Socks outproxy. Example below is set to use Tor for all connections except i2p\n## Enable using of SOCKS outproxy (works only with SOCKS4, default: false)\n# outproxy.enabled = false\n## Address and port of outproxy\noutproxy = 192.168.5.3\noutproxyport = 9050\n## socksproxy section also accepts I2CP parameters, like \"inbound.length\" etc.\n\n[sam]\n## Enable the SAM bridge (default: true)\n# enabled = false\n## Address and ports service will listen on (default: 127.0.0.1:7656, udp: 7655)\n# address = 127.0.0.1\n# port = 7656\n# portudp = 7655\n\n[bob]\n## Enable the BOB command channel (default: false)\n# enabled = false\n## Address and port service will listen on (default: 127.0.0.1:2827)\n# address = 127.0.0.1\n# port = 2827\n\n[i2cp]\n## Enable the I2CP protocol (default: false)\n# enabled = false\n## Address and port service will listen on (default: 127.0.0.1:7654)\naddress = 192.168.5.3\nport = 7654\n\n[i2pcontrol]\n## Enable the I2PControl protocol (default: false)\n# enabled = false\n## Address and port service will listen on (default: 127.0.0.1:7650)\naddress = 192.168.5.3\nport = 7650\n## Authentication password (default: itoopie)\n# password = itoopie\n\n[precomputation]\n## Enable or disable elgamal precomputation table\n## By default, enabled on i386 hosts\n# elgamal = true\n\n[upnp]\n## Enable or disable UPnP: automatic port forwarding (enabled by default in WINDOWS, ANDROID)\n# enabled = false\n## Name i2pd appears in UPnP forwardings list (default: I2Pd)\n# name = I2Pd\n\n[meshnets]\n## Enable connectivity over the Yggdrasil network  (default: false)\n# yggdrasil = false\n## You can bind address from your Yggdrasil subnet 300::/64\n## The address must first be added to the network interface\n# yggaddress =\n\n[reseed]\n## Options for bootstrapping into I2P network, aka reseeding\n## Enable reseed data verification (default: true)\nverify = true\n## URLs to request reseed data from, separated by comma\n## Default: \"mainline\" I2P Network reseeds\n# urls = https://reseed.i2p-projekt.de/,https://i2p.mooo.com/netDb/,https://netdb.i2p2.no/\n## Reseed URLs through the Yggdrasil, separated by comma\n# yggurls = http://[324:71e:281a:9ed3::ace]:7070/\n## Path to local reseed data file (.su3) for manual reseeding\n# file = /path/to/i2pseeds.su3\n## or HTTPS URL to reseed from\n# file = https://legit-website.com/i2pseeds.su3\n## Path to local ZIP file or HTTPS URL to reseed from\n# zipfile = /path/to/netDb.zip\n## If you run i2pd behind a proxy server, set proxy server for reseeding here\n## Should be http://address:port or socks://address:port\n# proxy = http://127.0.0.1:8118\n## Minimum number of known routers, below which i2pd triggers reseeding (default: 25)\n# threshold = 25\n\n[addressbook]\n## AddressBook subscription URL for initial setup\n## Default: reg.i2p at \"mainline\" I2P Network\n# defaulturl = http://shx5vqsw7usdaunyzr2qmes2fq37oumybpudrd4jjj4e4vk4uusa.b32.i2p/hosts.txt\n## Optional subscriptions URLs, separated by comma\n# subscriptions = http://reg.i2p/hosts.txt,http://identiguy.i2p/hosts.txt,http://stats.i2p/cgi-bin/newhosts.txt,http://rus.i2p/hosts.txt\n\n[limits]\n## Maximum active transit sessions (default: 5000)\n## This value is doubled if floodfill mode is enabled!\n# transittunnels = 5000\n## Limit number of open file descriptors (0 - use system limit)\n# openfiles = 0\n## Maximum size of corefile in Kb (0 - use system limit)\n# coresize = 0\n\n[trust]\n## Enable explicit trust options. (default: false)\n# enabled = true\n## Make direct I2P connections only to routers in specified Family.\n# family = MyFamily\n## Make direct I2P connections only to routers specified here. Comma separated list of base64 identities.\n# routers =\n## Should we hide our router from other routers? (default: false)\n# hidden = true\n\n[exploratory]\n## Exploratory tunnels settings with default values\n# inbound.length = 2\n# inbound.quantity = 3\n# outbound.length = 2\n# outbound.quantity = 3\n\n[persist]\n## Save peer profiles on disk (default: true)\n# profiles = true\n## Save full addresses on disk (default: true)\n# addressbook = true\n\n[cpuext]\n## Use CPU AES-NI instructions set when work with cryptography when available (default: true)\n# aesni = true\n## Force usage of CPU instructions set, even if they not found (default: false)\n## DO NOT TOUCH that option if you really don't know what are you doing!\n# force = false\n\n\na. Enable I2PD\nThen we continue by enabling i2pd.\n\nns2# rcctl enable i2pd\nns2# rcctl restart i2pd\n\n\nb. Creating I2PD Boot\nIn this section, you can manually start I2Pd, but it will not start automatically\nwhen the system boots. This section explains how to do this. The first thing to do is create a new login class to increase the number of files that I2Pd can open simultaneously.\n\nBy default, OpenBSD limits this number to a value that is too low for I2Pd to work properly. Symptoms of too low a number include difficulty connecting to websites and high CPU usage. If you are using OpenBSD 7.5 or later or a newer OpenBSD, simply add the following line to the /etc/login.conf.d/i2pd file to create the login class.\n\n\n  /etc/login.conf.d/i2pd\n\n\ni2pd:\\\n    :openfiles-cur=102400:\\\n    :openfiles-max=102400:\\\n    :tc=daemon:\n\n\nc. Running I2PD\nAfter you activate i2pd, we continue by running i2pd. To run i2pd we use the Google Chrome web browser or others. In the address bar menu you type “http://192.168.5.3:7070/”.\n\nIf you don’t miss any of the configurations above, an image like the one below will appear on your monitor screen.\n\n\n\nI2PD can be a very useful tool if you want to stay anonymous on the internet and increase your security while browsing. This tool has all the features of I2P and improves on them. It is more secure, cryptographically encrypted, and more performant since it is built in C++. If you have some sites that are censored in your country, I2PD can help you access them anonymously as well.\n\nTherefore, this tool is useful for people like journalists, news agencies, or general users who want privacy. This tool is very flexible and can be used in various applications. We recommend visiting its official website and analyzing the pros and cons of using it. This tool can certainly increase privacy and anonymity, but you should not rely on it. I2PD is still under development and is constantly being updated to improve.\n\n",
+  "datePublished": "2025-02-17 11:11:39 +0300",
+  "dateModified": "2025-02-17 11:11:39 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- <script type="text/javascript">
+	atOptions = {
+		'key' : '67fb5d6234d340006720e0f69ca5be7f',
+		'format' : 'iframe',
+		'height' : 90,
+		'width' : 728,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//timdinosaur.com/67fb5d6234d340006720e0f69ca5be7f/invoke.js"></script> -->
+<!-- CoinAd - Ad Display Code -->
+<div id="adm-container-1743"></div><script data-cfasync="false" async type="text/javascript" src="//coinad.network/display/items.php?1743&564&728&90&4&0&0"></script>
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="How to Install i2pd on OpenBSD - Client For Anonymous I2P Network"><meta itemprop="description" content="I2pd or i2p daemon is a C++ based open source i2p client. It is an anonymous network layer where communication is encrypted and user IP addresses are not disclosed."><meta itemprop="datePublished" content="2025-02-17"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-02-17T11:11:39+03:00">2025-02-17</time> </p><h1 class="page__title" itemprop="headline">How to Install i2pd on OpenBSD - Client For Anonymous I2P Network
+</h1></header><section class="page__content" itemprop="text">
+        <p>Security is very important in this digital age. Network protocols like Invisible Internet Protocol or I2P, a network layer that allows you to remain anonymous on the Internet. With I2P, your request passes through several network computer nodes. This makes it difficult to track the original user and helps maintain anonymity. Because of I2P sometimes you can also access government censored sites anonymously.</p>
+
+<p>I2pd or i2p daemon is an open source i2p client based on C++. It is an anonymous network layer where communication is encrypted and the user’s IP address is not revealed. Started in 2014 by the <a href="https://github.com/PurpleI2P/i2pd">PURPRLEI2P</a> team and first released in 2015. This technology is designed to be more secure, reliable and perform better than I2P.</p>
+
+<p>In the previous article, we have written about <a href="https://penaadventure.com/en/openbsd/2025/02/16/how-to-install-i2p-routing-protocol/">I2P running on the OpenBSD system</a>. You may ask, what is the difference between I2P and I2PD. Well, to clarify the discussion above, we will try to explain between I2P and I2PD.</p>
+
+<p><a href="https://github.com/openbsd/ports/blob/master/net/i2p/pkg/DESCR">I2P</a> is an anonymous overlay network, a network within a network. It is intended to protect communications from surveillance and monitoring by third parties such as ISPs. I2P is used by many people who care about their privacy: activists, oppressed people, journalists and whistleblowers, and ordinary people. No network can be “truly anonymous.” The ongoing goal of I2P is to make attacks increasingly difficult. Its anonymity will only get stronger as the network grows in size and with continued academic review.</p>
+
+<p>Meanwhile, <a href="https://github.com/openbsd/ports/blob/master/net/i2p/pkg/DESCR">I2PD</a> is a full-featured client for the I2P network written in C++. I2P (Invisible Internet Project) is a universal anonymous network layer. All communication over I2P is anonymous and end-to-end encrypted. Participants do not reveal their real IP addresses to each other. Both peer-to-peer (cryptocurrency, file sharing) and client-to-server (websites, instant messengers, chat servers) applications are supported.</p>
+
+<h2 id="1-system-specifications">1. System Specifications</h2>
+<blockquote>
+  <p>Hostname: ns2
+OS: OpenBSD 7.6 amd64 <br />
+Host: Acer Aspire M1800  <br />
+Shell: ksh v5.2.14 99/07/13.2  <br />
+Terminal: /dev/ttyp0  <br />
+CPU: Intel Core 2 Duo E8400 (2) @ 3.000GHz  <br />
+Memory: 35MiB / 1775MiB <br />
+IP Address: 192.168.5.3 <br />
+Versi I2PD: i2pd-2.53.1p0 <br />
+Versi I2P: i2p-2.6.1</p>
+</blockquote>
+
+<h2 id="2-i2pd-installation-process">2. i2pd Installation Process</h2>
+<p>After you know a little about i2pd and the system used, we will go straight to installing i2pd. Oops…. wait, before you install i2pd, there are some dependencies that you must install first.</p>
+
+<h3 id="a-i2p-installation-guide">a. I2P Installation Guide</h3>
+<p>The first dependency you have to install is I2P. In this article we will not explain how to install I2P on OpenBSD. Just read the installation process <a href="https://penaadventure.com/en/openbsd/2025/02/16/how-to-install-i2p-routing-protocol/">in the previous article</a>.</p>
+
+<h3 id="b-install-cmake-boost-miniupnpc">b. Install cmake boost miniupnpc</h3>
+<p>The next dependency you need to install is cmake boost miniupnpc.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# pkg_add cmake boost miniupnpc
+</code></pre></div></div>
+
+<h3 id="c-install-i2pd">c. Install I2PD</h3>
+<p>After all the above dependencies have been installed, we continue by installing i2pd.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# pkg_add i2pd
+</code></pre></div></div>
+
+<h2 id="3-i2pd-configuration-process">3. i2pd Configuration Process</h2>
+<p>This part is a very important part, because we will tinker with the i2pd file so that it can run on the OpenBSD server. The main i2pd configuration file is located at <strong>“/etc/i2pd/i2pd.conf”</strong>. Please open the file and change it according to your OpenBSD system needs or specifications. To make it easier, just follow the guide below.</p>
+
+<blockquote>
+  <p>/etc/i2pd/i2pd.conf</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Configuration file for a typical i2pd user
+## See https://i2pd.readthedocs.io/en/latest/user-guide/configuration/
+## for more options you can use in this file.
+
+## Lines that begin with "## " try to explain what's going on. Lines
+## that begin with just "#" are disabled commands: you can enable them
+## by removing the "#" symbol.
+
+## Tunnels config file
+## Default: ~/.i2pd/tunnels.conf or /var/lib/i2pd/tunnels.conf
+# tunconf = /var/lib/i2pd/tunnels.conf
+
+## Tunnels config files path
+## Use that path to store separated tunnels in different config files.
+## Default: ~/.i2pd/tunnels.d or /var/lib/i2pd/tunnels.d
+# tunnelsdir = /var/lib/i2pd/tunnels.d
+
+## Path to certificates used for verifying .su3, families
+## Default: ~/.i2pd/certificates or /var/lib/i2pd/certificates
+# certsdir = /var/lib/i2pd/certificates
+
+## Where to write pidfile (default: /run/i2pd.pid, not used in Windows)
+# pidfile = /run/i2pd.pid
+
+## Logging configuration section
+## By default logs go to stdout with level 'info' and higher
+## For Windows OS by default logs go to file with level 'warn' and higher
+##
+## Logs destination (valid values: stdout, file, syslog)
+##  * stdout - print log entries to stdout
+##  * file - log entries to a file
+##  * syslog - use syslog, see man 3 syslog
+# log = file
+## Path to logfile (default: autodetect)
+# logfile = /var/log/i2pd/i2pd.log
+## Log messages above this level (debug, info, *warn, error, critical, none)
+## If you set it to none, logging will be disabled
+# loglevel = warn
+## Write full CLF-formatted date and time to log (default: write only time)
+# logclftime = true
+
+## Daemon mode. Router will go to background after start. Ignored on Windows
+## (default: true)
+daemon = true
+
+## Specify a family, router belongs to (default - none)
+# family =
+
+## Network interface to bind to
+## Updates address4/6 options if they are not set
+# ifname =
+## You can specify different interfaces for IPv4 and IPv6
+# ifname4 =
+# ifname6 =
+
+## Local address to bind transport sockets to
+## Overrides host option if:
+## For ipv4: if ipv4 = true and nat = false
+## For ipv6: if 'host' is not set or ipv4 = true
+# address4 =
+# address6 =
+
+## External IPv4 or IPv6 address to listen for connections
+## By default i2pd sets IP automatically
+## Sets published NTCP2v4/SSUv4 address to 'host' value if nat = true
+## Sets published NTCP2v6/SSUv6 address to 'host' value if ipv4 = false
+# host = 1.2.3.4
+
+## Port to listen for connections
+## By default i2pd picks random port. You MUST pick a random number too,
+## don't just uncomment this
+port = 4567
+
+## Enable communication through ipv4 (default: true)
+ipv4 = true
+## Enable communication through ipv6 (default: false)
+ipv6 = false
+
+## Bandwidth configuration
+## L limit bandwidth to 32 KB/sec, O - to 256 KB/sec, P - to 2048 KB/sec,
+## X - unlimited
+## Default is L (regular node) and X if floodfill mode enabled.
+## If you want to share more bandwidth without floodfill mode, uncomment
+## that line and adjust value to your possibilities. Value can be set to
+## integer in kilobytes, it will apply that limit and flag will be used
+## from next upper limit (example: if you set 4096 flag will be X, but real
+## limit will be 4096 KB/s). Same can be done when floodfill mode is used,
+## but keep in mind that low values may be negatively evaluated by Java
+## router algorithms.
+# bandwidth = L
+## Max % of bandwidth limit for transit. 0-100 (default: 100)
+# share = 100
+
+## Router will not accept transit tunnels, disabling transit traffic completely
+## (default: false)
+# notransit = true
+
+## Router will be floodfill (default: false)
+## Note: that mode uses much more network connections and CPU!
+# floodfill = true
+
+[ntcp2]
+## Enable NTCP2 transport (default: true)
+# enabled = true
+## Publish address in RouterInfo (default: true)
+# published = true
+## Port for incoming connections (default is global port option value)
+# port = 4567
+
+[ssu2]
+## Enable SSU2 transport (default: true)
+# enabled = true
+## Publish address in RouterInfo (default: true)
+# published = true
+## Port for incoming connections (default is global port option value)
+# port = 4567
+
+[http]
+## Web Console settings
+## Enable the Web Console (default: true)
+enabled = true
+## Address and port service will listen on (default: 127.0.0.1:7070)
+address = 192.168.5.3
+port = 7070
+## Path to web console (default: /)
+# webroot = /
+## Enable Web Console authentication (default: false)
+## You should not use Web Console via public networks without additional encryption.
+## HTTP authentication is not encryption layer!
+# auth = true
+# user = i2pd
+# pass = changeme
+## Select webconsole language
+## Currently supported english (default), afrikaans, armenian, chinese, czech, french,
+## german, italian, polish, portuguese, russian, spanish, turkish, turkmen, ukrainian
+## and uzbek languages
+# lang = english
+
+[httpproxy]
+## Enable the HTTP proxy (default: true)
+enabled = true
+## Address and port service will listen on (default: 127.0.0.1:4444)
+address = 192.168.5.3
+port = 4444
+## Optional keys file for proxy local destination (default: http-proxy-keys.dat)
+# keys = http-proxy-keys.dat
+## Enable address helper for adding .i2p domains with "jump URLs" (default: true)
+## You should disable this feature if your i2pd HTTP Proxy is public,
+## because anyone could spoof the short domain via addresshelper and forward other users to phishing links
+# addresshelper = true
+## Address of a proxy server inside I2P, which is used to visit regular Internet
+outproxy = http://false.i2p
+## httpproxy section also accepts I2CP parameters, like "inbound.length" etc.
+
+[socksproxy]
+## Enable the SOCKS proxy (default: true)
+# enabled = true
+## Address and port service will listen on (default: 127.0.0.1:4447)
+address = 192.168.5.3
+port = 4447
+## Optional keys file for proxy local destination (default: socks-proxy-keys.dat)
+# keys = socks-proxy-keys.dat
+## Socks outproxy. Example below is set to use Tor for all connections except i2p
+## Enable using of SOCKS outproxy (works only with SOCKS4, default: false)
+# outproxy.enabled = false
+## Address and port of outproxy
+outproxy = 192.168.5.3
+outproxyport = 9050
+## socksproxy section also accepts I2CP parameters, like "inbound.length" etc.
+
+[sam]
+## Enable the SAM bridge (default: true)
+# enabled = false
+## Address and ports service will listen on (default: 127.0.0.1:7656, udp: 7655)
+# address = 127.0.0.1
+# port = 7656
+# portudp = 7655
+
+[bob]
+## Enable the BOB command channel (default: false)
+# enabled = false
+## Address and port service will listen on (default: 127.0.0.1:2827)
+# address = 127.0.0.1
+# port = 2827
+
+[i2cp]
+## Enable the I2CP protocol (default: false)
+# enabled = false
+## Address and port service will listen on (default: 127.0.0.1:7654)
+address = 192.168.5.3
+port = 7654
+
+[i2pcontrol]
+## Enable the I2PControl protocol (default: false)
+# enabled = false
+## Address and port service will listen on (default: 127.0.0.1:7650)
+address = 192.168.5.3
+port = 7650
+## Authentication password (default: itoopie)
+# password = itoopie
+
+[precomputation]
+## Enable or disable elgamal precomputation table
+## By default, enabled on i386 hosts
+# elgamal = true
+
+[upnp]
+## Enable or disable UPnP: automatic port forwarding (enabled by default in WINDOWS, ANDROID)
+# enabled = false
+## Name i2pd appears in UPnP forwardings list (default: I2Pd)
+# name = I2Pd
+
+[meshnets]
+## Enable connectivity over the Yggdrasil network  (default: false)
+# yggdrasil = false
+## You can bind address from your Yggdrasil subnet 300::/64
+## The address must first be added to the network interface
+# yggaddress =
+
+[reseed]
+## Options for bootstrapping into I2P network, aka reseeding
+## Enable reseed data verification (default: true)
+verify = true
+## URLs to request reseed data from, separated by comma
+## Default: "mainline" I2P Network reseeds
+# urls = https://reseed.i2p-projekt.de/,https://i2p.mooo.com/netDb/,https://netdb.i2p2.no/
+## Reseed URLs through the Yggdrasil, separated by comma
+# yggurls = http://[324:71e:281a:9ed3::ace]:7070/
+## Path to local reseed data file (.su3) for manual reseeding
+# file = /path/to/i2pseeds.su3
+## or HTTPS URL to reseed from
+# file = https://legit-website.com/i2pseeds.su3
+## Path to local ZIP file or HTTPS URL to reseed from
+# zipfile = /path/to/netDb.zip
+## If you run i2pd behind a proxy server, set proxy server for reseeding here
+## Should be http://address:port or socks://address:port
+# proxy = http://127.0.0.1:8118
+## Minimum number of known routers, below which i2pd triggers reseeding (default: 25)
+# threshold = 25
+
+[addressbook]
+## AddressBook subscription URL for initial setup
+## Default: reg.i2p at "mainline" I2P Network
+# defaulturl = http://shx5vqsw7usdaunyzr2qmes2fq37oumybpudrd4jjj4e4vk4uusa.b32.i2p/hosts.txt
+## Optional subscriptions URLs, separated by comma
+# subscriptions = http://reg.i2p/hosts.txt,http://identiguy.i2p/hosts.txt,http://stats.i2p/cgi-bin/newhosts.txt,http://rus.i2p/hosts.txt
+
+[limits]
+## Maximum active transit sessions (default: 5000)
+## This value is doubled if floodfill mode is enabled!
+# transittunnels = 5000
+## Limit number of open file descriptors (0 - use system limit)
+# openfiles = 0
+## Maximum size of corefile in Kb (0 - use system limit)
+# coresize = 0
+
+[trust]
+## Enable explicit trust options. (default: false)
+# enabled = true
+## Make direct I2P connections only to routers in specified Family.
+# family = MyFamily
+## Make direct I2P connections only to routers specified here. Comma separated list of base64 identities.
+# routers =
+## Should we hide our router from other routers? (default: false)
+# hidden = true
+
+[exploratory]
+## Exploratory tunnels settings with default values
+# inbound.length = 2
+# inbound.quantity = 3
+# outbound.length = 2
+# outbound.quantity = 3
+
+[persist]
+## Save peer profiles on disk (default: true)
+# profiles = true
+## Save full addresses on disk (default: true)
+# addressbook = true
+
+[cpuext]
+## Use CPU AES-NI instructions set when work with cryptography when available (default: true)
+# aesni = true
+## Force usage of CPU instructions set, even if they not found (default: false)
+## DO NOT TOUCH that option if you really don't know what are you doing!
+# force = false
+</code></pre></div></div>
+
+<h3 id="a-enable-i2pd">a. Enable I2PD</h3>
+<p>Then we continue by enabling i2pd.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# rcctl enable i2pd
+ns2# rcctl restart i2pd
+</code></pre></div></div>
+
+<h3 id="b-creating-i2pd-boot">b. Creating I2PD Boot</h3>
+<p>In this section, you can manually start I2Pd, but it will not start automatically
+when the system boots. This section explains how to do this. The first thing to do is create a new login class to increase the number of files that I2Pd can open simultaneously.</p>
+
+<p>By default, OpenBSD limits this number to a value that is too low for I2Pd to work properly. Symptoms of too low a number include difficulty connecting to websites and high CPU usage. If you are using OpenBSD 7.5 or later or a newer OpenBSD, simply add the following line to the /etc/login.conf.d/i2pd file to create the login class.</p>
+
+<blockquote>
+  <p>/etc/login.conf.d/i2pd</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i2pd:\
+    :openfiles-cur=102400:\
+    :openfiles-max=102400:\
+    :tc=daemon:
+</code></pre></div></div>
+
+<h3 id="c-running-i2pd">c. Running I2PD</h3>
+<p>After you activate i2pd, we continue by running i2pd. To run i2pd we use the Google Chrome web browser or others. In the address bar menu you type “http://192.168.5.3:7070/”.</p>
+
+<p>If you don’t miss any of the configurations above, an image like the one below will appear on your monitor screen.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/Dashboard_i2pd.jpg" alt="dashboard i2pd" /></p>
+
+<p>I2PD can be a very useful tool if you want to stay anonymous on the internet and increase your security while browsing. This tool has all the features of I2P and improves on them. It is more secure, cryptographically encrypted, and more performant since it is built in C++. If you have some sites that are censored in your country, I2PD can help you access them anonymously as well.</p>
+
+<p>Therefore, this tool is useful for people like journalists, news agencies, or general users who want privacy. This tool is very flexible and can be used in various applications. We recommend visiting its official website and analyzing the pros and cons of using it. This tool can certainly increase privacy and anonymity, but you should not rely on it. I2PD is still under development and is constantly being updated to improve.</p>
+
+</section>
+      <footer class="page__meta"><!-- <script type="text/javascript">
+	atOptions = {
+		'key' : '9f0fbeed81ad3c9bfba81d92c5429c29',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//timdinosaur.com/9f0fbeed81ad3c9bfba81d92c5429c29/invoke.js"></script> -->
+<!-- CoinAd - Ad Display Code -->
+<div id="adm-container-1744"></div><script data-cfasync="false" async type="text/javascript" src="//coinad.network/display/items.php?1744&564&970&250&4&0&0"></script>
+<!-- CoinAd - Ad Display Code -->
+
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-02-17T11:11:39+03:00">2025-02-17</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#anonymous" class="page__taxonomy-item" rel="tag">Anonymous</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/en/openbsd/2025/02/16/how-to-install-i2p-routing-protocol/" class="pagination--pager" title="How to Install i2p routing protocol on OpenBSD 7.6
+">Previous</a><a href="https://penaadventure.com/en/openbsd/2025/02/17/install-python-pip-on-openbsd/" class="pagination--pager" title="Installing Python Package Manager PIP on OpenBSD  7.6
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

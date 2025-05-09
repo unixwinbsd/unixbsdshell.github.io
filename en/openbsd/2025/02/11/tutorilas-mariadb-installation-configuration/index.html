@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/openbsd/2025/02/11/tutorilas-mariadb-installation-configuration/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Tutorial MariaDB on OpenBSD 7 - Installlation and Configuration  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Tutorial MariaDB on OpenBSD 7 - Installlation and Configuration"><link rel="canonical" href="https://penaadventure.com/en/openbsd/2025/02/11/tutorilas-mariadb-installation-configuration/">
+  <meta property="og:url" content="https://penaadventure.com/en/openbsd/2025/02/11/tutorilas-mariadb-installation-configuration/"><meta property="og:description" content="MariaDB is a branch of MySQL. The developers developed this RDBMS to maintain the structure and features of MySQL"><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Tutorial MariaDB on OpenBSD 7 - Installlation and Configuration">
+  <meta name="twitter:description" content="MariaDB is a branch of MySQL. The developers developed this RDBMS to maintain the structure and features of MySQL">
+  <meta name="twitter:url" content="https://penaadventure.com/en/openbsd/2025/02/11/tutorilas-mariadb-installation-configuration/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-02-11T21:05:11+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+
+<script type="text/javascript">
+var clx = 'NDc2Mw';
+document.addEventListener("DOMContentLoaded", function() {
+    var links = document.getElementsByTagName('a');
+    for (var i = 0; i < links.length; i++) {
+        var link = links[i];
+        if (link.hostname !== location.hostname && 
+            link.href.indexOf('javascript:') === -1 && 
+            link.href.indexOf('#') !== 0) {
+            var original_url = btoa(link.href);
+            link.href = 'https://k.adx.lol/serve/fp.php?user=' + clx + '&url=' + encodeURIComponent(original_url);
+            link.target = '_blank'; 
+        }
+    }
+});
+</script>
+
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/openbsd/2025/02/11/tutorilas-mariadb-installation-configuration/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#02" itemprop="item"><span itemprop="name">02</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#11" itemprop="item"><span itemprop="name">11</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Tutorial MariaDB on OpenBSD 7 - Installlation and Configuration</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-02-11 21:05:11 +0300",
+"datePublished": "2025-02-11 21:05:11 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Tutorial MariaDB on OpenBSD 7 - Installlation and Configuration",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "MariaDB is a branch of MySQL. The developers developed this RDBMS to maintain the structure and features of MySQL"
+},
+
+"datePublished": "2025-02-11 21:05:11 +0300",
+"dateModified": "2025-02-11 21:05:11 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/openbsd/2025/02/11/tutorilas-mariadb-installation-configuration/",
+"name": "Tutorial MariaDB on OpenBSD 7 - Installlation and Configuration"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/openbsd/2025/02/11/tutorilas-mariadb-installation-configuration/",
+"name": "WebServer"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/openbsd/2025/02/11/tutorilas-mariadb-installation-configuration/",
+  "name": "Tutorial MariaDB on OpenBSD 7 - Installlation and Configuration",
+  "headline": "Tutorial MariaDB on OpenBSD 7 - Installlation and Configuration",
+  "keywords": "WebServer",
+  "description": "MariaDB is a branch of MySQL. The developers developed this RDBMS to maintain the structure and features of MySQL",
+  "articleBody": "In website development, databases play a very important role in storing and managing data. Well, the two most popular databases today are MySQL and MariaDB.\n\nAlthough they have a similar structure, both have different features and elements. Therefore, you should understand the differences between MariaDB and MySQL so that you can choose which one best suits your needs and optimize the performance of your web application.\n\n1. What is MariaDB?\nMariaDB is a branch of MySQL. The developers developed this RDBMS to maintain the structure and features of MySQL.\n\nBecause, at that time there was an acquisition process by Oracle, the company behind Oracle Database which is MySQL’s biggest competitor. It is feared that after this acquisition MySQL will not be continued anymore.\n\nMariaDB developers ensure that each release is compatible with the related MySQL version. MariaDB not only adopts MySQL data files and table definitions, but also uses the same client protocol, client API, port, and socket so that MySQL users can switch to MariaDB without any problems. Then, just like MySQL, MariaDB can be modified using SQL statements.\n\nMariaDB is currently one of the popular relational database management systems (RDBMS). The MariaDB database is open source licensed under the GNU GPL 2, and is ready to be used by communities and companies with a long history and extensive knowledge to manage and maintain it.\n\nThere are two packages of MariaDB on OpenBSD.\n\n  mariadb-server:  The MariaDB server.\n  mariadb-client:  The client side of MariaDB server including mysqlclient library and headers for the MariaDB client API.\n\n\n2. How to find MariaDB packages\nBefore you start installing MariaDB on OpenBSD, you should pay attention to which version you are going to install. To find out all versions of MariaDB that are in the OpenBSD package you can run the pkg_info command.\n\nhostname1# pkg_info -Q mariadb\n\n\nOr you can also use the following command.\n\nhostname1# pkg_info -Q mariadb | grep php\n\n\n3. Install Database MariaDB Server\nOnce you are sure about the version of MariaDB to be installed, let’s start the installation process.\n\nhostname1# pkg_add mariadb-server\nquirks-6.122 signed on 2023-09-01T21:25:11Z\nmariadb-server-10.9.4v1:(...): ok\nmariadb-server-10.9.4v1: ok\nThe following new rcscripts were installed: /etc/rc.d/mysqld\nSee rcctl(8) for details.\nNew and changed readme(s):\n\t/usr/local/share/doc/pkg-readmes/mariadb-server\n\n\nIf you want to install the MariaDB client, run the following command.\n\nhostname1# pkg_add -v mariadb-client\n\n\nTo enable and control daemons and services on OpenBSD use the rcctl command.\n\nhostname1# rcctl enable mysqld\nhostname1# rcctl start mysqld\n\n\nAfter that you run the mysql_install_db command to create the necessary system tables and binary files.\n\nhostname1# mysql_install_db\n\n\n4. Check if MariaDB port is open\nThis check is very important, because we can make sure whether the MariaDB service is running or not. The check can be done by checking mysqld or also by checking the MariaDB port.\n\nhostname1# rcctl check mysqld\n\n\nRun the grep command to search for the mysql application process.\n\nhostname1# pgrep mysqld\n\n\nYou can also use the following command to check the MariaDB application running on OpenBSD.\n\nhostname1# ps aux | grep mysqld\n\n\nIf you want to check the open tcp ports, run the following command.\n\nhostname1# netstat -f inet -na\nhostname1# netstat -f inet -na | grep 3306\n\n\n5. Configure MariaDB\nRun the mysql_secure_installation command to remove the database and any insecure default settings that could compromise your production server. Select the desired settings when prompted and set a strong root password.\n\nhostname1# mysql_secure_installation\n\n\nNext step, you Enable the mysql socket in /var/run/mysql.sock and allow MariaDB to listen for client connections on port 3306. Open /etc/my.cnf in your favorite editor.\n\nhostname1# nano /etc/my/cnf\n[client-server]\nsocket=/var/run/mysql/mysql.sock\nport=3306\n\n\n6. Login MariaDB\nIn the section above you have created a username and password that we will use to log in to the MariaDB server. Okay now let’s go straight to the MariaDB server.\n\nLogin to MariaDB\nhostname1# mysql -u root -p\nWelcome to the MariaDB monitor.  Commands end with ; or \\g.\nYour MariaDB connection id is 11\nServer version: 10.9.4-MariaDB OpenBSD port: mariadb-server-10.9.4v1\n\nCopyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.\n\nType 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.\n\nMariaDB [(none)]&gt;\n\n\nEnter the root password you created in the previous section.\n\nAfter you have successfully logged in to the MariaDB database server, we will try to practice by creating a database.\n\nMariaDB [(none)]&gt; CREATE DATABASE openbsd \\\nCHARACTER SET utf8mb4 \\\nCOLLATE utf8mb4_unicode_ci;\n\n\ncreate user.\n\nMariaDB [(none)]&gt; GRANT ALL PRIVILEGES \\\n    ON openbsd.* \\\n    TO mary@'localhost' \\\n    IDENTIFIED BY 'mary123';\n\n\nreload privileges\n\nMariaDB [(none)]&gt; FLUSH PRIVILEGES;\n\n\nCongratulations, you have successfully installed and configured MariaDB on OpenBSD 7, and the database server can connect with other applications installed on the server, including web stacks such as Nginx, httpd, and apache2-httpd via run time sockets and PHP.\n",
+  "datePublished": "2025-02-11 21:05:11 +0300",
+  "dateModified": "2025-02-11 21:05:11 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- <script type="text/javascript">
+	atOptions = {
+		'key' : '67fb5d6234d340006720e0f69ca5be7f',
+		'format' : 'iframe',
+		'height' : 90,
+		'width' : 728,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//timdinosaur.com/67fb5d6234d340006720e0f69ca5be7f/invoke.js"></script> -->
+<!-- CoinAd - Ad Display Code -->
+<div id="adm-container-1743"></div><script data-cfasync="false" async type="text/javascript" src="//coinad.network/display/items.php?1743&564&728&90&4&0&0"></script>
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Tutorial MariaDB on OpenBSD 7 - Installlation and Configuration"><meta itemprop="description" content="MariaDB is a branch of MySQL. The developers developed this RDBMS to maintain the structure and features of MySQL"><meta itemprop="datePublished" content="2025-02-11"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-02-11T21:05:11+03:00">2025-02-11</time> </p><h1 class="page__title" itemprop="headline">Tutorial MariaDB on OpenBSD 7 - Installlation and Configuration
+</h1></header><section class="page__content" itemprop="text">
+        <p>In website development, databases play a very important role in storing and managing data. Well, the two most popular databases today are MySQL and MariaDB.</p>
+
+<p>Although they have a similar structure, both have different features and elements. Therefore, you should understand the differences between MariaDB and MySQL so that you can choose which one best suits your needs and optimize the performance of your web application.</p>
+
+<h2 id="1-what-is-mariadb">1. What is MariaDB?</h2>
+<p>MariaDB is a branch of MySQL. The developers developed this RDBMS to maintain the structure and features of MySQL.</p>
+
+<p>Because, at that time there was an acquisition process by Oracle, the company behind Oracle Database which is MySQL’s biggest competitor. It is feared that after this acquisition MySQL will not be continued anymore.</p>
+
+<p>MariaDB developers ensure that each release is compatible with the related MySQL version. MariaDB not only adopts MySQL data files and table definitions, but also uses the same client protocol, client API, port, and socket so that MySQL users can switch to MariaDB without any problems. Then, just like MySQL, MariaDB can be modified using SQL statements.</p>
+
+<p>MariaDB is currently one of the popular relational database management systems (RDBMS). The MariaDB database is open source licensed under the GNU GPL 2, and is ready to be used by communities and companies with a long history and extensive knowledge to manage and maintain it.</p>
+
+<p>There are two packages of MariaDB on OpenBSD.</p>
+<ol>
+  <li><strong>mariadb-server:</strong>  The MariaDB server.</li>
+  <li><strong>mariadb-client:</strong>  The client side of MariaDB server including mysqlclient library and headers for the MariaDB client API.</li>
+</ol>
+
+<h2 id="2-how-to-find-mariadb-packages">2. How to find MariaDB packages</h2>
+<p>Before you start installing MariaDB on OpenBSD, you should pay attention to which version you are going to install. To find out all versions of MariaDB that are in the OpenBSD package you can run the pkg_info command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# pkg_info -Q mariadb
+</code></pre></div></div>
+
+<p>Or you can also use the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# pkg_info -Q mariadb | grep php
+</code></pre></div></div>
+
+<h2 id="3-install-database-mariadb-server">3. Install Database MariaDB Server</h2>
+<p>Once you are sure about the version of MariaDB to be installed, let’s start the installation process.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# pkg_add mariadb-server
+quirks-6.122 signed on 2023-09-01T21:25:11Z
+mariadb-server-10.9.4v1:(...): ok
+mariadb-server-10.9.4v1: ok
+The following new rcscripts were installed: /etc/rc.d/mysqld
+See rcctl(8) for details.
+New and changed readme(s):
+	/usr/local/share/doc/pkg-readmes/mariadb-server
+</code></pre></div></div>
+
+<p>If you want to install the MariaDB client, run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# pkg_add -v mariadb-client
+</code></pre></div></div>
+
+<p>To enable and control daemons and services on OpenBSD use the rcctl command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# rcctl enable mysqld
+hostname1# rcctl start mysqld
+</code></pre></div></div>
+
+<p>After that you run the mysql_install_db command to create the necessary system tables and binary files.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# mysql_install_db
+</code></pre></div></div>
+
+<h2 id="4-check-if-mariadb-port-is-open">4. Check if MariaDB port is open</h2>
+<p>This check is very important, because we can make sure whether the MariaDB service is running or not. The check can be done by checking mysqld or also by checking the MariaDB port.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# rcctl check mysqld
+</code></pre></div></div>
+
+<p>Run the grep command to search for the mysql application process.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# pgrep mysqld
+</code></pre></div></div>
+
+<p>You can also use the following command to check the MariaDB application running on OpenBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# ps aux | grep mysqld
+</code></pre></div></div>
+
+<p>If you want to check the open tcp ports, run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# netstat -f inet -na
+hostname1# netstat -f inet -na | grep 3306
+</code></pre></div></div>
+
+<h2 id="5-configure-mariadb">5. Configure MariaDB</h2>
+<p>Run the mysql_secure_installation command to remove the database and any insecure default settings that could compromise your production server. Select the desired settings when prompted and set a strong root password.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# mysql_secure_installation
+</code></pre></div></div>
+
+<p>Next step, you Enable the mysql socket in /var/run/mysql.sock and allow MariaDB to listen for client connections on port 3306. Open /etc/my.cnf in your favorite editor.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# nano /etc/my/cnf
+[client-server]
+socket=/var/run/mysql/mysql.sock
+port=3306
+</code></pre></div></div>
+
+<h2 id="6-login-mariadb">6. Login MariaDB</h2>
+<p>In the section above you have created a username and password that we will use to log in to the MariaDB server. Okay now let’s go straight to the MariaDB server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Login to MariaDB
+hostname1# mysql -u root -p
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 11
+Server version: 10.9.4-MariaDB OpenBSD port: mariadb-server-10.9.4v1
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]&gt;
+</code></pre></div></div>
+
+<p>Enter the root password you created in the previous section.</p>
+
+<p>After you have successfully logged in to the MariaDB database server, we will try to practice by creating a database.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB [(none)]&gt; CREATE DATABASE openbsd \
+CHARACTER SET utf8mb4 \
+COLLATE utf8mb4_unicode_ci;
+</code></pre></div></div>
+
+<p>create user.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB [(none)]&gt; GRANT ALL PRIVILEGES \
+    ON openbsd.* \
+    TO mary@'localhost' \
+    IDENTIFIED BY 'mary123';
+</code></pre></div></div>
+
+<p>reload privileges</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MariaDB [(none)]&gt; FLUSH PRIVILEGES;
+</code></pre></div></div>
+
+<p>Congratulations, you have successfully installed and configured MariaDB on OpenBSD 7, and the database server can connect with other applications installed on the server, including web stacks such as Nginx, httpd, and apache2-httpd via run time sockets and PHP.</p>
+</section>
+      <footer class="page__meta"><!-- <script type="text/javascript">
+	atOptions = {
+		'key' : '9f0fbeed81ad3c9bfba81d92c5429c29',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//timdinosaur.com/9f0fbeed81ad3c9bfba81d92c5429c29/invoke.js"></script> -->
+<!-- CoinAd - Ad Display Code -->
+<div id="adm-container-1744"></div><script data-cfasync="false" async type="text/javascript" src="//coinad.network/display/items.php?1744&564&970&250&4&0&0"></script>
+<!-- CoinAd - Ad Display Code -->
+
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-02-11T21:05:11+03:00">2025-02-11</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/en/freebsd/2025/02/11/ruby-installation-openbsd-path-home/" class="pagination--pager" title="Ruby Installation Guide on OpenBSD with Ruby $HOME PATH Path
+">Previous</a><a href="https://penaadventure.com/en/openbsd/2025/02/12/ruby-rails-openbsd-instal-configuration/" class="pagination--pager" title="Ruby on Rails Installation and Configuration Guide on OpenBSD 7.6
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

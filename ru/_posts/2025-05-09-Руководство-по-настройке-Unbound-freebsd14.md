@@ -8,8 +8,8 @@ author_profile: true
 categories:
   - FreeBSD
 tags: "DNSServer"
-excerpt: Swoole ist in der Programmiersprache C oder C++ geschrieben und wird als PHP-Erweiterung installiert.
-keywords: swoole, php, framewotk, freebsd, unix, laravel
+excerpt: DNSSEC обеспечивает аутентификацию записей DNS с использованием цифровых подписей, которые защищают их от возможной замены
+keywords: unbound, freebsd, doh, dot, unix, dnssec, установить, конфигурация
 ---
 
 Служба DNS или система доменных имен является базовой службой Интернета, а также других сетей, работающих на основе семейства протоколов TCP/IP, и используется для получения соответствующего имени хоста в сети с соответствующим цифровым адресом. Несмотря на простоту описания, DNS, пожалуй, самая сложная сетевая служба по своей структуре и набору взаимодействий, и ее надежная работа зависит от надежной работы всех и вся.

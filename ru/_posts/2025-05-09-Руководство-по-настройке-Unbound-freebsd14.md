@@ -120,6 +120,205 @@ removing artifacts
 Setup success. Certificates created. Enable in unbound.conf file to use
 root@ns4:~ #
 ```
+После этого создайте файл журнала Unbound.
+
+```
+root@ns4:~ # mkdir -p /usr/local/etc/unbound/log
+root@ns4:~ # touch /usr/local/etc/unbound/log/unbound.log
+root@ns4:~ # chown -R unbound:unbound /usr/local/etc/unbound/log
+```
+Следующий шаг — редактирование файла unbound.conf, который находится по адресу /usr/local/etc/unbound/unbound.conf
+
+Прежде чем редактировать файл unbound.conf, в этом разделе мы разделим его на 3 сеанса, а именно:
+
+1. Unbound Server как DNS-кэширование (порт 53).
+2. Server Unbound как DNS-кэширование и DNS через TLS (порт 853)
+
+Это было специально создано, чтобы читателям было легче понять и изучить Unbound-сервер.
+
+### a. Unbound Server как DNS-кэширование (порт 53)
+Чтобы unbound функционировал как DNS-кэширование, мы должны отредактировать файл unbound.conf. В этом файле вы активируете только несколько скриптов, а именно, удаляя знак "#" перед скриптом. Скрипт ниже является примером скрипта, который вы должны активировать в файле "/usr/local/etc/unbound".
+
+```
+interface: 192.168.5.71
+interface: 127.0.0.1
+port: 53
+do-ip4: yes
+do-udp: yes
+do-tcp: yes
+access-control: 192.168.5.0/24 allow
+access-control: 127.0.0.0/8 allow
+username: "unbound"
+directory: "/usr/local/etc/unbound"
+logfile: "/usr/local/etc/unbound/log/unbound.log"
+pidfile: "/usr/local/etc/unbound/unbound.pid"
+root-hints: "/usr/local/etc/unbound/root.hints"
+hide-identity: yes
+hide-version: yes
+private-domain: "miner4pool.org"
+domain-insecure: "miner4pool.org"
+domain-insecure: "5.168.192.in-addr.arpa"
+control-interface: 127.0.0.1
+control-port: 8953
+server-key-file: "/usr/local/etc/unbound/unbound_server.key"
+server-cert-file: "/usr/local/etc/unbound/unbound_server.pem"
+control-key-file: "/usr/local/etc/unbound/unbound_control.key"
+control-cert-file: "/usr/local/etc/unbound/unbound_control.pem"
+forward-zone:
+  name: "."
+  forward-addr: 1.1.1.1
+  forward-addr: 1.0.0.1
+  forward-addr: 68.105.28.12
+  forward-addr: 68.105.29.11
+  forward-addr: 8.8.8.8
+```
+В скрипте интерфейса введите IP-адрес в соответствии с IP-адресом вашего сервера FreeBSD.
+
+После завершения процесса редактирования файла unbound.conf перезапустите unbound-сервер с помощью команды "restart".
+
+```
+root@ns4:~ # service unbound restart
+```
+После этого мы делаем тест, несвязанный DNS-сервер как кэширующий. Мы протестируем "linkedin.com". Сконфигурированный нами выше несвязанный DNS сервер работает нормально или нет?
+
+```
+root@ns4:~ # dig linkedin.com
+
+; <<>> DiG 9.18.26 <<>> linkedin.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 60421
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;linkedin.com.                  IN      A
+
+;; ANSWER SECTION:
+linkedin.com.           300     IN      A       150.171.22.12
+
+;; Query time: 37 msec
+;; SERVER: 192.168.5.71#53(192.168.5.71) (UDP)
+;; WHEN: Thu May 08 09:34:13 WIB 2025
+;; MSG SIZE  rcvd: 57
+```
+Из примера команды выше, unbound dns запустился нормально. Мы видим, что IP linkedin.com был кэширован unbound dns IP вашего сервера FreeBSD. Обратите внимание на IP 192.168.5.71, этот IP является IP unbound сервера, который вы настроили.
+
+Теперь мы используем команду nslookup для проверки unbound DNS.
+
+```
+root@ns4:~ # nslookup linkedin.com
+Server:         192.168.5.71
+Address:        192.168.5.71#53
+
+Non-authoritative answer:
+Name:   linkedin.com
+Address: 150.171.22.12
+Name:   linkedin.com
+Address: 2620:1ec:50::12
+```
+
+До этого момента вы успешно запускали несвязанный DNS-сервер как DNS-кэширующий. Теперь мы продолжим, настроив несвязанный DNS Over TLS, работающий на порту 853.
+
+### Unbound Server как DNS Caching и DNS Over TLS
+Другим более современным способом защиты DNS-трафика является протокол DNS-over-TLS, описанный в стандарте RFC7858, который представляет собой инкапсуляцию данных в стандартный TLS. Мы рекомендуем использовать порт 853 для доступа. Как и DNSCrypt, предполагается, что DNS-клиент, который обычно является тем же локальным кэширующим DNS, обращается к удаленному серверу, который поддерживает DNS-over-TLS.
+
+Вышеупомянутый Unbound имеет встроенную поддержку этого протокола, поэтому для его использования не требуется дополнительного программного уровня, как в случае с DNSCrypt.
+
+Для запуска Unbound как DNS-over-TLS ему нужен только список серверов в зоне пересылки, как и в файле конфигурации выше, но есть несколько вещей, которые необходимо изменить. Настройка Unbound как сервера, обслуживающего запросы DNS-over-TLS, также проста. Для этого можно использовать существующий сертификат TLS, например openssl.
+
+Первый шаг, который необходимо предпринять для реализации unbound как сервера DNS Over TLS, — это создание сертификата SSL. Мы поместим этот файл unbound SSL в каталог /etc/ssl/unbound. Для этого в меню консоли Putty введите следующую команду.
+
+```
+root@ns4:~ # cd /etc
+root@ns4:/etc # mkdir -p ssl
+root@ns4:/etc # mkdir -p /etc/ssl/unbound
+root@ns4:/etc # cd /etc/ssl/unbound
+root@ns4:/etc/ssl/unbound #
+```
+
+В текущем активном каталоге (/etc/ssl/unbound) вы создаете SSL сертификат с помощью команды openssl, как в примере ниже.
+
+```
+root@ns4:/etc/ssl/unbound # openssl genrsa -des3 -out myCA.key 2048
+root@ns4:/etc/ssl/unbound # openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
+root@ns4:/etc/ssl/unbound # openssl req -new -newkey rsa:2048 -nodes -keyout mydomain.key -out mydomain.csr
+root@ns4:/etc/ssl/unbound # openssl x509 -req -in mydomain.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out mydomain.pem -days 1825 -sha256
+```
+После завершения создания SSL-сертификата продолжите, изменив файл скрипта "/usr/local/etc/unbound/unbound.conf".
+
+В файле "/usr/local/etc/unbound/unbound.conf" вы активируете еще несколько скриптов, которые соответствуют непривязанной конфигурации для порта 853. Ниже приведен пример скрипта, который необходимо активировать в файле "/usr/local/etc/unbound/unbound.conf".
+
+```
+interface: 192.168.5.71@853
+tcp-upstream: yes
+do-not-query-localhost: no
+tls-service-key: "/etc/ssl/unbound/mydomain.key"
+tls-service-pem: "/etc/ssl/unbound/mydomain.pem"
+tls-port: 853
+forward-zone:
+name: "."
+forward-first: no
+forward-ssl-upstream: yes
+forward-addr: 1.1.1.1@853
+forward-addr: 1.0.0.1@853
+forward-addr: 68.105.28.12@853
+forward-addr: 68.105.29.11@853
+forward-addr: 8.8.8.8@853
+```
+Прежде чем запустить unbound, мы сначала проверим SSL-сертификат, который мы создали выше для защиты Unbound DNS сервера. Запустите команду ниже, чтобы проверить SSL-сертификат.
+
+```
+root@ns4:~ # openssl s_client -connect 192.168.5.71:853
+root@ns4:~ # openssl s_client -connect 1.1.1.1:853
+```
+После этого перезапустите непривязанный сервер.
+```
+root@ns4:~ # service unbound restart
+Stopping unbound.
+Waiting for PIDS: 941.
+Obtaining a trust anchor...
+Starting unbound.
+```
+Следующий шаг  проверить unbound, запущен ли unbound на порту 853. Используйте команду dig для проверки unbound.
+```
+root@ns4:~ # dig linkedin.com -p 853
+
+; <<>> DiG 9.18.26 <<>> linkedin.com -p 853
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 63430
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;linkedin.com.                  IN      A
+
+;; ANSWER SECTION:
+linkedin.com.           187     IN      A       150.171.22.12
+
+;; Query time: 112 msec
+;; SERVER: 192.168.5.71#853(192.168.5.71) (UDP)
+;; WHEN: Thu May 08 10:51:57 WIB 2025
+;; MSG SIZE  rcvd: 57
+
+root@ns4:~ #
+```
+Ответ сервер: 192.168.5.71#853, это означает, что порт NDS Over TLS 853 непривязанного сервера активен.
+
+Чтобы проверить, открыт ли порт 853 или нет. Введите следующую команду, чтобы увидеть DNS-порт 853, работающий на вашем сервере FreeBSD.
+```
+root@ns4:~ # sockstat -P udp -p 53,853
+USER     COMMAND    PID   FD  PROTO  LOCAL ADDRESS         FOREIGN ADDRESS
+unbound  unbound      974 3   udp4   192.168.5.71:53       *:*
+unbound  unbound      974 5   udp4   127.0.0.1:53          *:*
+unbound  unbound      974 7   udp4   192.168.5.71:853      *:*
+root@ns4:~ #
+```
+Из открытых портов выше мы видим, что открыты порты 853 и 53. Это указывает на то, что Server Unbound DNS Over TLS РАБОТАЕТ.
+
 
 
 

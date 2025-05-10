@@ -135,8 +135,10 @@ root@ns4:~ # chown -R unbound:unbound /usr/local/etc/unbound/log
 2. Server Unbound как DNS-кэширование и DNS через TLS (порт 853)
 
 Это было специально создано, чтобы читателям было легче понять и изучить Unbound-сервер.
-<p></p>
+<br/>
+<p>
 ## Поддерживать
+
 Если вы считаете, что моя статья ценна и полезна для вас.
 
 Пожалуйста, рассмотрите возможность сделать пожертвование.
@@ -150,8 +152,8 @@ root@ns4:~ # chown -R unbound:unbound /usr/local/etc/unbound/log
 ##### Faucetpay: datainchi@gmail.com
 ##### Bitcoin Payeer: 32RW6hDPRA5bNtcHS4HQX8S4FSGsEvmJ9T
 ##### Bitcoin Faucetpay: 1QPJFAXtrLZWJLi9PPTeYXVEZKwydXQoY
-<p></p>
-<p></p>
+</p>
+
 
 ### a. Unbound Server как DNS-кэширование (порт 53)
 Чтобы unbound функционировал как DNS-кэширование, мы должны отредактировать файл unbound.conf. В этом файле вы активируете только несколько скриптов, а именно, удаляя знак "#" перед скриптом. Скрипт ниже является примером скрипта, который вы должны активировать в файле "/usr/local/etc/unbound".

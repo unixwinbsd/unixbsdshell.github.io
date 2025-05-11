@@ -230,7 +230,7 @@ root@ns4:~ #
 
 | **Option**       | **Description**          | 
 | ----------- | -----------   | 
-| -a alignment | If specified, the gpart utility attempts to align the starting offset and partition size to be multiples of the alignment values.          | 
+| -a alignment | If specified, the gpart utility attempts to align the starting offset and partition size to be multiples of the alignment values. | 
 | -b start     | The logical block address where the partition will start. SI unit suffixes are allowed.      | 
 | -f flags         | Additional operational options     | 
 | -i index         | The index in the partition table where the new partition will be placed. The index specifies the device-specific filename used to represent the partition.  | 

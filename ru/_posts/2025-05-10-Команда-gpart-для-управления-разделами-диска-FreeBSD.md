@@ -229,14 +229,14 @@ root@ns4:~ #
 В таблице ниже показаны параметры команды gpart add, которые вы можете использовать:
 
 | **Option**       | **Description**          | 
-| -----------  | -----------   | 
-| -a alignment | If specified, the gpart utility attempts to align the starting offset and partition size to be multiples of the alignment values. | 
-| -b start     | The logical block address where the partition will start. SI unit suffixes are allowed.      | 
-| -f flags         | Additional operational options     | 
-| -i index         | The index in the partition table where the new partition will be placed. The index specifies the device-specific filename used to represent the partition.  | 
-| -l label    | The label attached to the partition. This option is only valid when used on a partition scheme that supports partition labels.  | 
-| -s size    | Create a partition with size size. SI unit suffixes are allowed.  | 
-| -t type      | Create a partition with type type. Partition types are discussed below in the section titled "PARTITION TYPES".  | 
+| -------------  | -----------   | 
+| -a alignment   | If specified, the gpart utility attempts to align the starting offset and partition size to be multiples of the alignment values. | 
+| -b start       | The logical block address where the partition will start. SI unit suffixes are allowed.      | 
+| -f flags       | Additional operational options     | 
+| -i index       | The index in the partition table where the new partition will be placed. The index specifies the device-specific filename used to represent the partition.  | 
+| -l label       | The label attached to the partition. This option is only valid when used on a partition scheme that supports partition labels.  | 
+| -s size        | Create a partition with size size. SI unit suffixes are allowed.  | 
+| -t type        | Create a partition with type type. Partition types are discussed below in the section titled "PARTITION TYPES".  | 
 
 Вы можете объединить эти параметры в одну команду.
 

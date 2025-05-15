@@ -8,7 +8,7 @@ author_profile: true
 categories:
   - FreeBSD
 tags: "SysAdmin"
-excerpt: OpenSSL - это набор инструментов с открытым исходным кодом и криптографическая библиотека, реализующая протоколы SSL (Secure Sockets Layer) и TLS (Transport Layer Security)
+excerpt: Каждый процесс обновления, выполняемый pfSense, включает в себя версию, которую он выпустил
 keywords: pfsense, update, freebsd, gui, shell, upgrade, command, line, browser, yandex
 ---
 

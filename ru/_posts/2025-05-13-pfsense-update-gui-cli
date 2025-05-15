@@ -75,17 +75,6 @@ pfSense, которая является частью продукта Netgate, 
 
 ```
 [2.7.0-RELEASE][root@ns5.kursor.my.id]/root: pkg update -f
-Updating pfSense-core repository catalogue...
-Fetching meta.conf: 100%    163 B   0.2kB/s    00:01    
-Fetching packagesite.pkg: 100%    1 KiB   1.5kB/s    00:01    
-Processing entries: 100%
-pfSense-core repository update completed. 4 packages processed.
-Updating pfSense repository catalogue...
-Fetching meta.conf: 100%    178 B   0.2kB/s    00:01    
-Fetching packagesite.pkg: 100%  157 KiB 160.4kB/s    00:01    
-Processing entries: 100%
-pfSense repository update completed. 550 packages processed.
-All repositories are up to date.
 ```
 После этого вы продолжите процесс обновления. Выполните приведенную ниже команду, чтобы запустить процесс обновления pfSense.
 

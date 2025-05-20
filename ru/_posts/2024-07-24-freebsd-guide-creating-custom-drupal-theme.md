@@ -1,7 +1,7 @@
 ---
 title: "Статья о FreeBSD : Создание пользовательской темы Drupal"
 date: 2024-07-24 09:00:00+03:00
-excerpt: "freebsd-guide-creating-custom-drupal-theme"
+id: "freebsd-guide-creating-custom-drupal-theme"
 id: freebsd-guide-creating-custom-drupal-theme
 lang: ru
 layout: single
@@ -9,6 +9,7 @@ author_profile: true
 categories:
   - FreeBSD
 tags: "WebServer"
+excerpt: Надежность и гибкость Drupal помогут вам создавать темы очень высокой сложности
 keywords: drupal, freebsd, theme, custome, php, composer, tutorials
 ---
 Надежность и гибкость Drupal помогут вам создавать темы очень высокой сложности. Система Drupal поможет вам найти множество способов решения возникающих проблем, но вам необходимо знать, как Drupal работает с темами, чтобы создать лучшую и наиболее адаптивную тему. Обладая знаниями, необходимыми для создания темы Drupal, вы можете минимизировать свой код и упростить последующее обслуживание.

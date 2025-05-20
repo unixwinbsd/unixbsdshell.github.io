@@ -205,8 +205,9 @@ root@ns3:/usr/local/www/drupal10/core/themes/custom/freebsdtheme/templates # tou
 
 [**/usr/local/www/drupal10/core/themes/custom/ freebsdtheme/templates/page--front.twig.html**](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/page--front.twig.html)
 
+## 5. Протестируйте и перепроверьте скрипт
+Прежде чем тестировать пользовательскую тему Drupal, которую вы создали выше, ознакомьтесь с остальной частью скрипта. Если не будет обнаружено никаких ошибок или пропусков, мы проведем тест. В веб-браузере Google Chrome введите "http://192.168.5.2/drupal/".
 
+Если с приведенным выше скриптом все в порядке, то созданная вами тема появится на экране вашего монитора.
 
-
-
-
+Creating a custom theme in Drupal is a tough job, but the results will give you extra motivation to continue developing the theme. The appearance of the theme you created yourself is not owned by anyone else, but is only displayed on your Drupal website. The guide in this article only helps you to start creating your own Drupal theme. You can read other articles to increase your knowledge about Drupal.

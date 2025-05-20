@@ -187,6 +187,10 @@ root@ns3:/usr/local/www/drupal10/core/themes/custom/freebsdtheme/css # touch boo
 
 [/usr/local/www/drupal10/core/themes/custom/freebsdtheme/css/bootstrap.css](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/bootstrap.css)
 
+[/usr/local/www/drupal10/core/themes/custom/freebsdtheme/css/style.css](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/style.css.)
+
+
+
 
 
 

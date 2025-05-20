@@ -97,7 +97,62 @@ root@ns7:~/.ssh # ls
 id_ed25519      known_hosts
 id_ed25519.pub  known_hosts.old
 ```
+Содержимое файла "id_ed25519.pub", который мы разместим в вашем аккаунте на Github.
 
+## 3. Как добавить ключи SSH на Github
 
+GitHub позволяет использовать ключи SSH для аутентификации. Убедитесь, что у вас есть учётная запись Github и вы вошли в систему. Вот как добавить ключи SSH на Github.
+- Откройте сайт Github по адресу https://github.com.
+- Нажмите на свой логотип в правом верхнем углу.
+- Нажмите на меню «Настройки».
+- В левой части нажмите «SSH и GPG ключи» со значком «ключ».
 
+После этого следуйте инструкциям на изображении ниже.
 
+![How to Insert SSH Keys into Github](https://gitflic.ru/project/iwanse1212/ispolzovanie-git-i-github-na-servere-freebsd/blob/raw?file=How%20to%20Insert%20SSH%20Keys%20into%20Github.jpg&commit=620f5526f1f99d1a63abf0aef3c6b3c2330026aa)
+
+gambar 2
+
+## 4. Как загрузить репозиторий на Github
+Теперь вы подключились к серверу Github через SSH-порт 22. Далее вы можете загрузить репозиторий с локального компьютера на сервер Github.
+
+Следуйте приведенным ниже инструкциям, чтобы загрузить репозиторий на Github.
+
+- Откройте сайт Github по адресу «https://github.com/».
+- Выберите учётную запись Github, если у вас их несколько.
+- Нажмите «Репозитории» вверху.
+- Нажмите кнопку «Новый репозиторий».
+- Следуйте инструкциям на картинке.
+gambar 3
+
+Теперь у вас есть общедоступный репозиторий под названием "blogmetatag", который мы разместим в папке "/usr/local/etc/". На вашем локальном компьютере откройте Putty и перейдите в папку "/usr/local/etc/blogmetatag".
+
+```
+root@ns7:~ # cd /usr/local/etc/blogmetatag
+root@ns7:/usr/local/etc/blogmetatag # ls
+COMMIT_EDITMSG  FETCH_HEAD      HEAD            Image           config          description     index           packed-refs
+root@ns7:/usr/local/etc/blogmetatag #
+```
+
+Мы начинаем с загрузки репозитория на сервер Github.
+
+```
+root@ns7:/usr/local/etc/blogmetatag # echo "# blogmetatag" >> README.md
+root@ns7:/usr/local/etc/blogmetatag # git init
+root@ns7:/usr/local/etc/blogmetatag # git add README.md
+root@ns7:/usr/local/etc/blogmetatag # git commit -m "first commit"
+root@ns7:/usr/local/etc/blogmetatag # git branch -M main
+root@ns7:/usr/local/etc/blogmetatag # git remote add origin git@github.com:unixwinbsd/blogmetatag.git
+root@ns7:/usr/local/etc/blogmetatag # git push -u origin main
+Enter passphrase for key '/root/.ssh/id_ed25519': Enter the SSH password
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 225 bytes | 225.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To github.com:unixwinbsd/blogmetatag.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+root@ns7:/usr/local/etc/blogmetatag #
+```
+
+".gitignore " - это текстовый файл, в котором перечислены файлы и каталоги, которые необходимо исключить. Файл ".gitignore" не отслеживается и не загружается в репозиторий git. Вы можете использовать его, чтобы прекратить отслеживание некоторых скрытых файлов или исключить загрузку больших файлов. Github ограничивает размер файла, максимальный размер каждого файла составляет 100 МБ.

@@ -45,10 +45,10 @@ gambar
 | -c          | The -c option changes the priority of the listed swap device or file.     | 
 | -d path          | The -d option removes the listed path from the kernel's list of swap devices or files.  | 
 | -k          | The -k option uses 1024 byte blocks instead of the default 512 byte.  | 
-| 04          | Udin sedunia  | 
-| 04          | Udin sedunia  | 
-| 04          | Udin sedunia  | 
-| 04          | Udin sedunia  | 
+| -l          | The -l option lists the current swap devices and files, and their usage statistics.  | 
+| -p priority          | The -p option sets the priority of swap devices or files to the priority argument.  | 
+| -s          | The -s option displays a single line summary of current swap statistics.  | 
+| -t blk | noblk          | This flag modifies the function of the -A option. The -t option allows the type of device to add to be specified. An argument of blk causes all block devices in /etc/fstab to be added. An argument of noblk causes all non-block devices in /etc/fstab to be added. This option is useful in early system startup, where swapping may be needed before all file systems are available, such as during disk checks of large file systems.  | 
 
 ### 2.1. Создание файла подкачки
 

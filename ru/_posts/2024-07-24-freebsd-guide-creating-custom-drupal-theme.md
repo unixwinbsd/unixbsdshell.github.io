@@ -189,6 +189,22 @@ root@ns3:/usr/local/www/drupal10/core/themes/custom/freebsdtheme/css # touch boo
 
 [/usr/local/www/drupal10/core/themes/custom/freebsdtheme/css/style.css](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/style.css.)
 
+[/usr/local/www/drupal10/core/themes/custom/freebsdtheme/global.js](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/global.js)
+
+## 4. Создайте папку с шаблонами
+
+Чтобы применить макет ко всем страницам вашего веб-сайта Drupal, используя пользовательскую тему, которую вы создали выше, создайте файл page-front.twig.html находится в каталоге / usr/local/www/drupal10/core/themes/custom/freebsdtheme / templates.
+
+```
+root@ns3:/usr/local/www/drupal10/core/themes/custom/freebsdtheme # mkdir -p templates
+root@ns3:/usr/local/www/drupal10/core/themes/custom/freebsdtheme # cd templates
+root@ns3:/usr/local/www/drupal10/core/themes/custom/freebsdtheme/templates # touch page--front.twig.html
+```
+
+После этого в файле "/usr/local/www/drupal10/core/themes/custom/freebsdtheme/templates/page--front.twig.html" добавьте скрипт ниже.
+
+[**/usr/local/www/drupal10/core/themes/custom/ freebsdtheme/templates/page--front.twig.html**](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/page--front.twig.html)
+
 
 
 

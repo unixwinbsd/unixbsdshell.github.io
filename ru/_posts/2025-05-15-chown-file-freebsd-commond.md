@@ -74,8 +74,86 @@ root@ns1:~ # ls -l
 
 В примере с xmrig.json, приведенном выше, пользователь-владелец: root и группа-владелец: wheel. Теперь мы даем файлу команду chown. Но сначала мы создадим пользователя и группу до этого. В этом случае мы создадим пользователя: gunung и группу: semeru. Рассмотрим следующий пример создания пользователя и группы "gunung и semeru".
 
+```
+root@ns1:~ # pw add group semeru
+root@ns1:~ # pw add user -n gunung -g semeru -s /sbin/nologin -c "gunung"
+```
 
+После того, как мы создадим пользователя и группу “gunung semeru", мы перейдем к предоставлению прав собственности на файл xmrig.json.
 
+```
+root@ns1:~ # chown gunung xmrig.json
+```
 
+Теперь давайте посмотрим на изменения,
 
-Menggunakan Perintah Chown di FreeBSD - Mengubah Kepemilikan File Secara Rekursif
+```
+root@ns1:~ # ls -l
+-r--r-x---  1 gunung  wheel         0 Aug  4 09:23 xmrig.json
+```
+
+"owner-user" был изменен, и root становится "Mount". Затем, как изменить группу владельцев, вот пример того, как изменить группу владельцев.
+
+```
+root@ns1:~ # chown :semeru xmrig.json
+root@ns1:~ # ls -l
+-r--r-x---  1 gunung  semeru         0 Aug  4 09:23 xmrig.json
+```
+
+В приведенном выше скрипте "группа владельцев" была изменена с wheel на semeru, не правда ли, это просто. Теперь мы снова тренируемся, чтобы изменить владельца-пользователя и группу владельцев putty file.exe.
+
+```
+root@ns1:~ # ls -l
+-rw-r--r--  1 root    wheel          0 Aug 11 07:28 putty.exe
+```
+
+Исходные файлы owner-user и owner-Group в putty files.exe до того, как была дана команда Chown. Теперь мы дадим команду Chown файлам owner-user и owner-Group. Вы увидите изменения.
+
+```
+root@ns1:~ # chown gunung:rinjani putty.exe
+root@ns1:~ # ls -l
+-rw-r--r--  1 gunung  rinjani   1647912 Feb 11 22:09 putty.exe
+```
+
+Владелец-пользователь и группа владельцев файлов putty.Исполняемый файл был изменен с root:wheel на Mount:rinjani. Теперь вы смогли понять, как использовать команду chown? Чтобы лучше понять это, мы применим на практике команду Chown в каталоге/папке. Обратите внимание на информацию из следующей папки с упражнениями.
+
+```
+root@ns1:~ # ls -l
+drwxr-xr-x  5 root    wheel         10 Aug  3 21:51 folderlatihan
+```
+
+Теперь мы используем команду Chown,
+
+```
+root@ns1:~ # chown danau:ranukumbolo folderlatihan
+root@ns1:~ # ls -l
+drwxr-xr-x  2 danau   ranukumbolo         2 Aug 11 07:39 folderlatihan
+```
+
+В другом примере мы создадим новую папку с именем "learning folder" в каталоге /usr/local/etc.
+
+```
+root@ns1:/usr/local/etc # mkdir -p /usr/local/etc/folderbelajar
+root@ns1:/usr/local/etc # ls -l
+drwxr-xr-x   2  root     wheel       2 Aug 11 07:44 folderbelajar
+```
+
+Отправьте запрос в каталог "/usr/local/etc/learning".
+
+```
+root@ns1:/usr/local/etc # chown gunung:semeru /usr/local/etc/folderbelajar
+root@ns1:/usr/local/etc # ls -l
+drwxr-xr-x   2 gunung   semeru       2 Aug 11 07:44 folderbelajar
+```
+
+Чтобы было понятнее, я приведу еще один пример.
+
+```
+root@ns1:~ # chown -R www:www /usr/local/www/apache24
+root@ns1:~ # ls -l /usr/local/www
+drwxr-xr-x   6 www  www   6 Aug  1 20:15 apache24
+```
+
+Опция -R, указанная выше, приведет к рекурсивному изменению владельца каталога вместе с его содержимым.
+
+Надеемся, что из приведенной выше статьи вы сможете понять команду chown и ее применение в системах FreeBSD. На что вам нужно обратить внимание, так это на написание заглавных и строчных букв, поскольку почти все команды, основанные на командной оболочке, чувствительны к заглавным и строчным буквам, и если вы неправильно напишете заглавные и строчные буквы, используемая вами команда не будет работать.

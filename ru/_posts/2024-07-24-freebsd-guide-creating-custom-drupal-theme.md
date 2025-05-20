@@ -91,44 +91,9 @@ datestamp: 1701646129
 После этого создайте другой файл с именем "FreeBSDTheme.библиотеки.yml". Введите приведенный ниже скрипт в файл "[/usr/local/www/drupal10/core/themes/custom/freebsdtheme/freebsdtheme.libraries.yml](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/freebsdtheme.libraries.yml)".
 
 
-Чтобы заполнить 2 файла, указанные выше, мы создаем еще один файл с именем "freebsdtheme.theme". Введите приведенный ниже скрипт в файл " /usr/local/www/drupal10/core/themes/custom/freebsdtheme / freebsdtheme.theme".
+Чтобы заполнить 2 файла, указанные выше, мы создаем еще один файл с именем "freebsdtheme.theme". Введите приведенный ниже скрипт в файл "[/usr/local/www/drupal10/core/themes/custom/freebsdtheme/freebsdtheme.theme](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/freebsdtheme.theme)".
 
-```
-<?php
 
-/**
- * @file
- * Functions to support theming in the SASS Starterkit subtheme.
- */
-
-use Drupal\Core\Form\FormStateInterface;
-
-/**
- * Implements hook_form_system_theme_settings_alter() for settings form.
- *
- * Replace Barrio setting options with subtheme ones.
- *
- * Example on how to alter theme settings form
- */
-function freebsdtheme_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
-  $form['components']['navbar']['bootstrap_barrio_navbar_top_background']['#options'] = [
-    'bg-primary' => t('Primary'),
-    'bg-secondary' => t('Secondary'),
-    'bg-light' => t('Light'),
-    'bg-dark' => t('Dark'),
-    'bg-white' => t('White'),
-    'bg-transparent' => t('Transparent'),
-  ];
-  $form['components']['navbar']['bootstrap_barrio_navbar_background']['#options'] = [
-    'bg-primary' => t('Primary'),
-    'bg-secondary' => t('Secondary'),
-    'bg-light' => t('Light'),
-    'bg-dark' => t('Dark'),
-    'bg-white' => t('White'),
-    'bg-transparent' => t('Transparent'),
-  ];
-}
-```
 
 ## 3. Добавьте css и js
 

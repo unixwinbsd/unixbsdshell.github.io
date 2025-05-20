@@ -42,3 +42,151 @@ root@ns3:/usr/local/www/drupal10/core/themes/custom/freebsdtheme #
 
 Все вышеперечисленные команды используются для создания пользовательской темы под названием "freebsdtheme". Теперь у нас есть новая папка для пользовательских тем, которую мы создадим сами.
 
+## 2. Create a *.info.yml File
+
+In the root folder of the FreeBSDTheme theme, create a main file with the extension "yml". This file is an important file in every Drupal theme. The name of this file must be the same as the theme folder named after the theme you created, namely FreeBSDTheme and also the info file. In our example, the theme yml file will be named "FreeBSDTheme.info.yml".
+
+```
+root@ns3:/usr/local/www/drupal10/core/themes/custom/FreeBSDTheme # touch FreeBSDTheme.info.yml.info.yml
+```
+
+Добавьте скрипт ниже в файл "/usr/local/www/drupal10/core/themes/custom/freebsdtheme/freebsdtheme.info.yml".
+
+```
+name: freebsdtheme
+type: theme
+description: "Basic structure for a Bootstrap Barrio SubTheme."
+core: 8.x
+core_version_requirement: ^8 || ^9 || ^10
+base theme: bootstrap_barrio
+
+libraries:
+  - freebsdtheme/bootstrap_cdn
+  - freebsdtheme/global-styling
+
+regions:
+  header: Header
+  header_form: "Header form"
+  primary_menu: "Primary menu"
+  secondary_menu: "Secondary menu"
+  page_top: "Page top"
+  page_bottom: "Page bottom"
+  highlighted: Highlighted
+  breadcrumb: Breadcrumb
+  featured_top: "Featured top"
+  content: Content
+  sidebar_first: "Sidebar first"
+  sidebar_second: "Sidebar second"
+  featured_bottom_first: "Featured bottom first"
+  featured_bottom_second: "Featured bottom second"
+  featured_bottom_third: "Featured bottom third"
+  footer_first: "Footer"
+
+# Information added by Drupal.org packaging script on 2023-12-03
+version: "5.5.16"
+project: "bootstrap_barrio"
+datestamp: 1701646129
+```
+
+После этого создайте другой файл с именем "FreeBSDTheme.библиотеки.yml". Введите приведенный ниже скрипт в файл " /usr/local/www/drupal10/core/themes/custom/freebsdtheme / freebsdtheme.библиотеки.yml".
+
+```
+global-styling:
+  version: VERSION
+  js:
+    js/global.js: {}
+  css:
+    component:
+      css/bootstrap.css: {}
+      css/colors.css: {}
+      css/style.css: {}
+bootstrap:
+  js:
+    /libraries/popper.js/dist/umd/popper.min.js: { weight: -19 }
+    /libraries/bootstrap/dist/js/bootstrap.min.js: { weight: -20 }
+  css:
+    component:
+      /libraries/bootstrap/dist/css/bootstrap.min.css: {}
+  dependencies:
+    - core/popperjs
+bootstrap_cdn:
+  js:
+    //cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js: {}
+  css:
+    component:
+      //cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css: {}
+  dependencies:
+    - core/popperjs
+color.preview:
+  version: VERSION
+  css:
+    theme:
+      color/preview.css: {}
+  js:
+    color/preview.js: {}
+  dependencies:
+    - color/drupal.color
+```
+
+Чтобы заполнить 2 файла, указанные выше, мы создаем еще один файл с именем "freebsdtheme.theme". Введите приведенный ниже скрипт в файл " /usr/local/www/drupal10/core/themes/custom/freebsdtheme / freebsdtheme.theme".
+
+```
+<?php
+
+/**
+ * @file
+ * Functions to support theming in the SASS Starterkit subtheme.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_system_theme_settings_alter() for settings form.
+ *
+ * Replace Barrio setting options with subtheme ones.
+ *
+ * Example on how to alter theme settings form
+ */
+function freebsdtheme_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
+  $form['components']['navbar']['bootstrap_barrio_navbar_top_background']['#options'] = [
+    'bg-primary' => t('Primary'),
+    'bg-secondary' => t('Secondary'),
+    'bg-light' => t('Light'),
+    'bg-dark' => t('Dark'),
+    'bg-white' => t('White'),
+    'bg-transparent' => t('Transparent'),
+  ];
+  $form['components']['navbar']['bootstrap_barrio_navbar_background']['#options'] = [
+    'bg-primary' => t('Primary'),
+    'bg-secondary' => t('Secondary'),
+    'bg-light' => t('Light'),
+    'bg-dark' => t('Dark'),
+    'bg-white' => t('White'),
+    'bg-transparent' => t('Transparent'),
+  ];
+}
+```
+
+## 3. Добавьте css и js
+
+В этом разделе мы создадим файлы CSS и Java. Kia создает две папки, а именно CSS и JS.
+
+```
+root@ns3:/usr/local/www/drupal10/core/themes/custom/freebsdtheme # mkdir -p css js
+```
+
+В папке CSS мы создаем сразу 3 файла, а именно bootstrap.css, colors.css и style.css.
+
+```
+root@ns3:/usr/local/www/drupal10/core/themes/custom/freebsdtheme # cd css
+root@ns3:/usr/local/www/drupal10/core/themes/custom/freebsdtheme/css # touch bootstrap.css colors.css style.css
+```
+
+Ниже приведен скрипт для этой последней версии.
+
+"/usr/local/www/drupal10/core/themes/custom/freebsdtheme/css/bootstrap.css".
+[bootstrap.css](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/bootstrap.css)
+
+
+
+

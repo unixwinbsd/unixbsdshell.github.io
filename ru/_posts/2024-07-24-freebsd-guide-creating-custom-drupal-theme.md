@@ -1,7 +1,6 @@
 ---
 title: "Статья о FreeBSD : Создание пользовательской темы Drupal"
 date: 2024-07-24 09:00:00+03:00
-id: "freebsd-guide-creating-custom-drupal-theme"
 id: freebsd-guide-creating-custom-drupal-theme
 lang: ru
 layout: single

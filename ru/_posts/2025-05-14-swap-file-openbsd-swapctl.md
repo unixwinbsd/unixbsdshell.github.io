@@ -40,8 +40,7 @@ gambar
 
 | Option| Description          | 
 | ----------- | -----------   | 
-| -A          | This option causes swapctl to read the /etc/fstab file for devices and files with an “sw” type, and adds  
-all these entries as swap devices. If no swap devices are configured, swapctl will exit with an error code.          | 
+| -A          | This option causes swapctl to read the /etc/fstab file for devices and files with an “sw” type, and adds all these entries as swap devices. If no swap devices are configured, swapctl will exit with an error code.          | 
 | 02          | Aminudin      | 
 | 03          | Salahudin     | 
 | 04          | Udin sedunia  | 

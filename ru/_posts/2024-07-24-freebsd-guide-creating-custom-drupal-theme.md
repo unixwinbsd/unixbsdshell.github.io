@@ -88,45 +88,8 @@ project: "bootstrap_barrio"
 datestamp: 1701646129
 ```
 
-После этого создайте другой файл с именем "FreeBSDTheme.библиотеки.yml". Введите приведенный ниже скрипт в файл " /usr/local/www/drupal10/core/themes/custom/freebsdtheme / freebsdtheme.библиотеки.yml".
+После этого создайте другой файл с именем "FreeBSDTheme.библиотеки.yml". Введите приведенный ниже скрипт в файл "[/usr/local/www/drupal10/core/themes/custom/freebsdtheme/freebsdtheme.libraries.yml](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/freebsdtheme.libraries.yml)".
 
-```
-global-styling:
-  version: VERSION
-  js:
-    js/global.js: {}
-  css:
-    component:
-      css/bootstrap.css: {}
-      css/colors.css: {}
-      css/style.css: {}
-bootstrap:
-  js:
-    /libraries/popper.js/dist/umd/popper.min.js: { weight: -19 }
-    /libraries/bootstrap/dist/js/bootstrap.min.js: { weight: -20 }
-  css:
-    component:
-      /libraries/bootstrap/dist/css/bootstrap.min.css: {}
-  dependencies:
-    - core/popperjs
-bootstrap_cdn:
-  js:
-    //cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js: {}
-  css:
-    component:
-      //cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css: {}
-  dependencies:
-    - core/popperjs
-color.preview:
-  version: VERSION
-  css:
-    theme:
-      color/preview.css: {}
-  js:
-    color/preview.js: {}
-  dependencies:
-    - color/drupal.color
-```
 
 Чтобы заполнить 2 файла, указанные выше, мы создаем еще один файл с именем "freebsdtheme.theme". Введите приведенный ниже скрипт в файл " /usr/local/www/drupal10/core/themes/custom/freebsdtheme / freebsdtheme.theme".
 

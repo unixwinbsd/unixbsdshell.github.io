@@ -1,15 +1,15 @@
 ---
-title: Руководство по обновлению pfSense с помощью команд оболочки и Яндекс-браузера
+title: Описание команды SWAP в OpenBSD — файл SWAP swapctl swapon
 date: "2025-05-14 08:09:19 +0100"
-id: pfsense-update-gui-cli
+id: swap-file-openbsd-swapctl
 lang: ru
 layout: single
 author_profile: true
 categories:
   - FreeBSD
 tags: "SysAdmin"
-excerpt: Каждый процесс обновления, выполняемый pfSense, включает в себя версию, которую он выпустил
-keywords: pfsense, update, freebsd, gui, shell, upgrade, command, line, browser, yandex
+excerpt: Команда swap в OpenBSD почти такая же, как и в NetBSD, в OpenBSD программа swapctl используется для добавления, удаления
+keywords: SWAP, freebsd, swapctl, swapon, hardisk, partition, memory, ram
 ---
 
 Когда вы используете OpenBSD, система использует сразу два типа памяти, а именно оперативную память (RAM) и файлы подкачки. В отличие от оперативной памяти, в которой данные сохраняются автоматически, файл подкачки будет работать, если он настроен на жестком диске. Другое отличие заключается в том, что в оперативной памяти хранятся только временные данные. При выключении компьютера из оперативной памяти будут удалены все хранящиеся в ней данные. В то время как файлы подкачки могут постоянно хранить данные на жестком диске.

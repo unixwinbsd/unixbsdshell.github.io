@@ -50,43 +50,8 @@ In the root folder of the FreeBSDTheme theme, create a main file with the extens
 root@ns3:/usr/local/www/drupal10/core/themes/custom/FreeBSDTheme # touch FreeBSDTheme.info.yml.info.yml
 ```
 
-Добавьте скрипт ниже в файл "/usr/local/www/drupal10/core/themes/custom/freebsdtheme/freebsdtheme.info.yml".
+Добавьте скрипт ниже в файл "[/usr/local/www/drupal10/core/themes/custom/freebsdtheme/freebsdtheme.info.yml](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/freebsdtheme.info.yml)".
 
-```
-name: freebsdtheme
-type: theme
-description: "Basic structure for a Bootstrap Barrio SubTheme."
-core: 8.x
-core_version_requirement: ^8 || ^9 || ^10
-base theme: bootstrap_barrio
-
-libraries:
-  - freebsdtheme/bootstrap_cdn
-  - freebsdtheme/global-styling
-
-regions:
-  header: Header
-  header_form: "Header form"
-  primary_menu: "Primary menu"
-  secondary_menu: "Secondary menu"
-  page_top: "Page top"
-  page_bottom: "Page bottom"
-  highlighted: Highlighted
-  breadcrumb: Breadcrumb
-  featured_top: "Featured top"
-  content: Content
-  sidebar_first: "Sidebar first"
-  sidebar_second: "Sidebar second"
-  featured_bottom_first: "Featured bottom first"
-  featured_bottom_second: "Featured bottom second"
-  featured_bottom_third: "Featured bottom third"
-  footer_first: "Footer"
-
-# Information added by Drupal.org packaging script on 2023-12-03
-version: "5.5.16"
-project: "bootstrap_barrio"
-datestamp: 1701646129
-```
 
 После этого создайте другой файл с именем "FreeBSDTheme.библиотеки.yml". Введите приведенный ниже скрипт в файл "[/usr/local/www/drupal10/core/themes/custom/freebsdtheme/freebsdtheme.libraries.yml](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/freebsdtheme.libraries.yml)".
 

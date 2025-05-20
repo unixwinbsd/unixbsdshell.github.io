@@ -41,8 +41,13 @@ gambar
 | Option| Description          | 
 | ----------- | -----------   | 
 | -A          | This option causes swapctl to read the /etc/fstab file for devices and files with an “sw” type, and adds all these entries as swap devices. If no swap devices are configured, swapctl will exit with an error code.          | 
-| 02          | Aminudin      | 
-| 03          | Salahudin     | 
+| -a          | The -a option requires that a path also be in the argument list. The path is added to the kernel's list of swap devices using the swapctl(2) system call. When using the swapon form of this command, the -a option is treated the same as the -A option, for backwards compatibility.      | 
+| -c          | The -c option changes the priority of the listed swap device or file.     | 
+| -d path          | The -d option removes the listed path from the kernel's list of swap devices or files.  | 
+| -k          | The -k option uses 1024 byte blocks instead of the default 512 byte.  | 
+| 04          | Udin sedunia  | 
+| 04          | Udin sedunia  | 
+| 04          | Udin sedunia  | 
 | 04          | Udin sedunia  | 
 
 ### 2.1. Создание файла подкачки

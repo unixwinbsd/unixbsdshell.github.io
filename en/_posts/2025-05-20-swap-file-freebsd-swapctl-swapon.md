@@ -36,6 +36,20 @@ The swap command on OpenBSD is almost the same as NetBSD, on OpenBSD the swapctl
 
 To run the swapctl command, you must understand some of the options that accompany it, as shown in the following table.
 
+| Option       | Description          | 
+| ----------- | -----------   | 
+| -A          | This option causes swapctl to read the /etc/fstab file for devices and files with an “sw” type, and adds all these entries as swap devices. If no swap devices are configured, swapctl will exit with an error code.          | 
+| -a          | The -a option requires that a path also be in the argument list. The path is added to the kernel's list of swap devices using the swapctl(2) system call. When using the swapon form of this command, the -a option is treated the same as the -A option, for backwards compatibility.      | 
+| -c          | The -c option changes the priority of the listed swap device or file.     | 
+| -d path          | The -d option removes the listed path from the kernel's list of swap devices or files.  | 
+| -k          | The -k option uses 1024 byte blocks instead of the default 512 byte.  | 
+| -l          | The -l option lists the current swap devices and files, and their usage statistics.  | 
+| -p priority          | The -p option sets the priority of swap devices or files to the priority argument.  | 
+| -s          | The -s option displays a single line summary of current swap statistics.  | 
+| -t blk | noblk          | This flag modifies the function of the -A option. The -t option allows the type of device to add to be specified. An argument of blk causes all block devices in /etc/fstab to be added. An argument of noblk causes all non-block devices in /etc/fstab to be added. This option is useful in early system startup, where swapping may be needed before all file systems are available, such as during disk checks of large file systems.  | 
+
+
+
 
 
 

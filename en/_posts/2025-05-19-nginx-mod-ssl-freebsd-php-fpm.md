@@ -116,9 +116,150 @@ root@ns4:/usr/local/etc/nginx/ssl #
 ```
 To prove it, open the Google Chrome web browser, and type "https://192.168.5.71/".
 
-3. Konfigurasi NGINX dengan PHP-FPM
-PHP-FPM (FastCGI Process Manager) merupakan implementasi PHP alternatif FastCGI yang paling populer. PHP (akronim dari PHP: Hypertext Preprocessor) merupakan salah satu bahasa pemrograman sumber terbuka paling populer di Internet, yang digunakan untuk platform pengembangan web seperti Magento, WordPress, atau Drupal. Meskipun awalnya dirancang untuk melakukan pra-proses teks biasa dalam format UTF-8.
+## 3. Configuring NGINX with PHP-FPM
 
+PHP-FPM (FastCGI Process Manager) is the most popular alternative PHP implementation of FastCGI. PHP (short for PHP: Hypertext Preprocessor) is one of the most popular open source programming languages ​​on the Internet, used for web development platforms such as Magento, WordPress, or Drupal. Although it was originally designed to pre-process plain text in UTF-8 format.
+
+In simple terms, PHP-FPM is a tool that helps web pages in PHP become faster and more efficient, allowing more people to access the website at the same time. It does this by splitting the processing of the PHP web server, which means that the web server can handle more requests at the same time without overloading the system.
+
+When using PHP-FPM, you can improve the performance of your server, allowing it to handle more requests simultaneously and reducing response times for end users.
+
+When a request is made to a PHP page, the web server sends the request to PHP-FPM, which then starts a separate PHP process to handle the request. This means that instead of the web server handling the request and running PHP on each request, PHP-FPM handles the PHP process separately, allowing the web server to handle more requests in parallel.
+
+PHP-FPM also provides resource management processes, such as the possibility to adjust the number of PHP processes running according to the load on the server and limit the resource usage of the server process.
+
+### a. Install PHP83
+
+In order for PHP-FPM to communicate with the NGINX server, you must first install PHP. You can run the PHP installation process with the PKG package or the ports system. In this example, we will install PHP with the ports system.
+
+Before you start installing PHP, enable OpenSSL in the **/etc/make.conf** file. In the file, type the script below.
+
+```
+DEFAULT_VERSIONS+=ssl=openssl
+```
+
+Once you have activated OpenSSL, start the PHP installation process.
+
+```
+root@ns4:~ # cd /usr/ports/lang/php83
+root@ns4:/usr/ports/lang/php83 # make install clean
+```
+
+At the beginning of the installation, you will see a message that requires you to choose some options that you should enable or disable. In order to work with nginx, FPM parameters are required for PHP development.
+
+### b. Install PHP83 Dependencies
+
+After installing PHP83, you also need to install PHP dependencies. There are many PHP83 dependencies, but to run PHP-FPM, you only need to install php83-ctype, php83-mbstring, php83-extensions and php83-mysqli dependencies. Below is an example of installing PHP83 dependencies.
+
+```
+root@ns4:~ # cd /usr/ports/textproc/php83-ctype
+root@ns4:/usr/ports/textproc/php83-ctype # make install clean
+root@ns4:/usr/ports/textproc/php83-ctype # cd /usr/ports/converters/php83-mbstring
+root@ns4:/usr/ports/converters/php83-mbstring # make install clean
+root@ns4:/usr/ports/converters/php83-mbstring # cd /usr/ports/lang/php83-extensions
+root@ns4:/usr/ports/lang/php83-extensions # make install clean
+root@ns4:/usr/ports/lang/php83-extensions # cd /usr/ports/databases/php83-mysqli
+root@ns4:/usr/ports/databases/php83-mysqli # make install clean
+```
+
+As a note, because I prefer to install application programs with the ports system. When installing php83-mysqli, if an error occurs, as a solution you must install php83-mysqli with the pkg package, then continue by reinstalling php83-mysqli with the ports system.
+
+Below is how to install php83-mysqli with the pkg package.
+
+```
+root@ns4:~ # pkg install databases/php83-mysqli
+```
+
+### c. php.ini File Configuration
+
+After the PHP installation process is complete, the main PHP configuration file is located in the /usr/local/etc/ directory. This directory contains two sample configurations php.ini-production and php.ini-development. The production version is used for production sites. Errors are only recorded in the web server log file. The development version is used during development. Errors are displayed on the web page and recorded in the log file.
+
+Go to the directory where the configuration file is located, and copy the php.ini-production or php.ini-development file to php.ini.
+
+```
+root@ns4:~ # cd /usr/local/etc
+root@ns4:/usr/local/etc # cp php.ini-production php.ini
+```
+
+Open the php.ini configuration file and make changes to the php.ini script. Set it according to your work needs and computer devices. In the **/usr/local/etc/php.ini** file, you activate the script below.
+
+```
+cgi.fix_pathinfo=0
+```
+
+### d. Configuration File /usr/local/etc/php-fpm.d/www.conf
+
+As we have discussed above, the main PHP83 configuration file is php.ini. While the PHP-FPM configuration file is /usr/local/etc/php-fpm.conf. Now you see the last script of the php-fpm.conf file there is a script include=/usr/local/etc/php-fpm.d/*.conf. This means that the PHP-FPM configuration is set with a pool, and the default pool is located in the /usr/local/etc/php-fpm.d directory.
+
+You can customize the default pool according to your needs. However, creating a separate pool is standard practice to have better control over resource allocation for each FPM process.
+
+This file contains all the main PHP-FPM settings. To run PHP-FPM with NGINX you must enable several scripts in the **/usr/local/etc/php-fpm.d/www.conf** file, as in the following example.
+
+```
+user = www
+group = www
+listen = /var/run/php-fpm.sock
+listen.owner = www
+listen.group = www
+listen.mode = 0660
+```
+
+### e. Configuration File /usr/local/etc/nginx/nginx.conf
+
+The purpose of this configuration is to connect NGINX with PHP-FPM. In order for PHP-FPM to run with NGINX, you must type a PHP script in the NGINX configuration file. Below is an example of a script that you must type in the /usr/local/etc/nginx/nginx.conf file.
+
+```
+location ~ \.php$ {
+        try_files $uri =404;
+	root  /usr/local/www/nginx;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/php-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $request_filename;
+        include fastcgi_params;
+    		   }
+```
+
+### f. Enable PHP-FPM
+
+After you set the PHP-FPM and NGINX configuration files, you need to enable it so that PHP-FPM can run during the boot process. In the **/etc/rc.conf** file, type the script below.
+
+```
+php_fpm_enable="YES"
+```
+
+To get PHP-FPM up and running, reload NGINX and PHP-FPM.
+
+```
+root@ns4:~ # service php-fpm restart
+Performing sanity check on php-fpm configuration:
+[15-May-2025 10:45:54] NOTICE: configuration file /usr/local/etc/php-fpm.conf test is successful
+Stopping php_fpm.
+Waiting for PIDS: 965.
+Performing sanity check on php-fpm configuration:
+[15-May-2025 10:45:54] NOTICE: configuration file /usr/local/etc/php-fpm.conf test is successful
+Starting php_fpm.
+
+
+root@ns4:~ # service nginx restart
+Stopping nginx.
+Waiting for PIDS: 798.
+Starting nginx.
+root@ns4:~ #
+```
+
+## 3. Checking nginx and PHP
+
+Make sure the UNIX socket is open by checking PHP-FPM whether it is using a UNIX socket, use the sockstat command below.
+
+```
+root@ns4:~ # sockstat -u | grep php-fpm
+www      php-fpm      807 9   stream /var/run/php-fpm.sock
+www      php-fpm      806 9   stream /var/run/php-fpm.sock
+root     php-fpm      805 5   stream -> [805 7]
+root     php-fpm      805 7   stream -> [805 5]
+root     php-fpm      805 8   stream /var/run/php-fpm.sock
+```
 
 
 

@@ -71,6 +71,19 @@ root@ns4:/usr/local/etc/nginx/ssl # openssl rsa -in server.key.backup -out serve
 writing RSA key
 ```
 
+The next step is to request a certificate signature.
+
+```
+root@ns4:/usr/local/etc/nginx/ssl # openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+Certificate request self-signature ok
+subject=C = AU, ST = washington, L = miami, O = mediatama, OU = networking, CN = datainchi.com, emailAddress = datainchi@gmail.com
+```
+Once the signature request is approved, create a symlink file from the server.crt file.
+
+```
+root@ns4:/usr/local/etc/nginx/ssl # ln -s /usr/local/etc/nginx/ssl/server.crt /usr/local/etc/nginx/ssl/ssl-bundle.crt
+```
+
 
 
 

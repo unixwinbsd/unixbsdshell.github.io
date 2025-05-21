@@ -261,12 +261,36 @@ root     php-fpm      805 7   stream -> [805 5]
 root     php-fpm      805 8   stream /var/run/php-fpm.sock
 ```
 
+Once everything is set up, the next step is to check it. Is PHP-FPM connected to NGINX. The first step you have to do is delete the default symlink directory "/usr/local/www/nginx" and create another directory.
 
+```
+root@ns4:~ # unlink /usr/local/www/nginx
+root@ns4:~ # mkdir -p /usr/local/www/nginx
+```
 
+Now go to '/usr/local/www' directory and copy the default 'index.html' file from 'nginx-dist' directory.
 
+```
+root@ns4:~ # cd /usr/local/www
+root@ns4:/usr/local/www # cp nginx-dist/index.html nginx/
+```
 
+To check all the above configurations, you create an index.php file in the /usr/local/www directory. In the /usr/local/www/index.php file, you type the script below.
 
+```
+<?php 
+phpinfo(); 
+?>
+```
 
+Now test the nginx configuration and make sure there are no errors, then restart the NGINX and PHP-FPM services.
 
+```
+root@ns4:~ # nginx -t
+root@ns4:~ # service nginx restart
+root@ns4:~ # service php-fpm restart
+```
 
-Mengatur NGINX dan FreeBSD 14 Dengan mod_SSL dan PHP-FPM
+Open your web browser and type the server IP address **"https://192.168.5.71/info.php"**, in your browser's address bar.
+
+Now you will get a snippet of information about your PHP installation and configuration. If it looks like the image above, you can be sure that the NGINX server is connected to PHP-FPM.

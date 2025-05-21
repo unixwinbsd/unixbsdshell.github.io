@@ -109,6 +109,17 @@ Below is the crontab syntax that you can run when working with a crontab file.
 
 You can see an example of its use below.
 
+```
+ns2# crontab -u root /etc/crontab
+ns2# crontab -e
+ns2# crontab -l
+ns2# crontab -r
+```
 
+To enable crontab, you can use the restart command.
 
+```
+ns2# /etc/rc.d/cron restart
+```
 
+Although the crontab file is not active by default in OpenBSD, you must enable the file, so that all daemons that work can be automated with the crontab file. Especially daemons that run repeatedly, such as updating the IP Address of the ddclient daemon and others.

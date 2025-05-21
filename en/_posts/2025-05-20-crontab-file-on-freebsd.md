@@ -40,4 +40,63 @@ ns2# chown root:wheel /etc/crontab
 ns2# chmod 0600 /etc/crontab
 ```
 
+Once you have created a crontab file, you can type a cron script into the file. For example, below we provide a script from the /etc/crontab file.
+
+```
+#	$OpenBSD: crontab,v 1.28 2020/04/18 17:22:43 jmc Exp $
+#
+# /var/cron/tabs/root - root's crontab
+#
+SHELL=/bin/sh
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+HOME=/var/log
+#
+#minute	hour	mday	month	wday	[flags] command
+#
+# rotate log files every hour, if necessary
+0	*	*	*	*	/usr/bin/newsyslog
+# send log file notifications, if necessary
+#1-59	*	*	*	*	/usr/bin/newsyslog -m
+#
+# do daily/weekly/monthly maintenance
+30	1	*	*	*	/bin/sh /etc/daily
+30	3	*	*	6	/bin/sh /etc/weekly
+30	5	1	*	*	/bin/sh /etc/monthly
+#~	*	*	*	*	/usr/libexec/spamd-setup
+
+#~	*	*	*	*	-ns rpki-client -v && bgpctl reload
+```
+
+To further clarify how to use the crontab script, we provide an example. Here is an example where we want to download the br.zone file every 12th of each month and it is done at 5:00 am.
+
+```
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name command to be executed
+0 5 12 * * root wget --no-check-certificate https://www.ipdeny.com/ipblocks/data/countries/br.zone -O /etc/tables/br.zone
+```
+
+To see the activity of downloading the br.zone file, you can view the log file with the following command.
+
+```
+ns2# tail -f /var/cron/log
+```
+
+## 3. What You Need to Know About the Crontab File
+
+Before we go any further, there are a few things you need to know about setting up the /etc/crontab file:
+
+- **Log file:** The log file for crontab is located in "/var/cron/log". This file is useful for tracking the correct execution of commands.
+- **Time to fetch file changes:** cron checks the modification time of the system crontab file every minute.
+- **File mode:** The crontab file will be ignored if it does not have the correct file mode. The mode must be 0600. The file must not be writable by users other than root and must not have the execute, set-user-ID, set-group-ID, or sticky bits set.
+- **Restart cron:** To reload the cron file run the command "/etc/rc.d/cron restart".
+- **Alternatively:** we can use the file /var/cron/tabs/root, to set the crontab file at the root level.
+
+
+
 

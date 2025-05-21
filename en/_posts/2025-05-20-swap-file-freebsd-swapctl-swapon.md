@@ -48,7 +48,40 @@ To run the swapctl command, you must understand some of the options that accompa
 | -s          | The -s option displays a single line summary of current swap statistics.  | 
 | -t blk  noblk          | This flag modifies the function of the -A option. The -t option allows the type of device to add to be specified. An argument of blk causes all block devices in /etc/fstab to be added. An argument of noblk causes all non-block devices in /etc/fstab to be added. This option is useful in early system startup, where swapping may be needed before all file systems are available, such as during disk checks of large file systems.  | 
 
+### 2.1. Creating a Swap File
 
+To add a swap file to your hard disk you must create a swap file. Use the dd command to create a swap file to the hard disk. Below is the dd command used to create a swap file (/var/swap1) with a size of 32MB.
+
+```
+# dd if=/dev/zero of=/var/swap1 bs=1k count=32768
+32768+0 records in
+32768+0 records out
+33554432 bytes transferred in 3.259 secs (10295928 bytes/sec)
+```
+
+After that, you set the file usage permission. The goal is so that not all users can use the swap file.
+
+```
+# chmod 0600 /var/swap1
+```
+
+Then you add the swap file to the kernel swap device list with the swapctl command, as in the following example.
+
+```
+# swapctl -a /var/swap1
+```
+
+Now you check whether the files have been added to the swap device correctly.
+
+```
+# swapctl -l
+Device      512-blocks     Used        Avail    Capacity  Priority
+/dev/wd0b      4160768         0     4160768         0%         0
+/var/swap1       65536         0       65536         0%         0
+Total          4226304         0      4226304        0%
+```
+
+Pada OpenBSD semua file swap di simpan di /etc/fstab. Anda dapat melihat file swap yang telah anda buat di atas dengan perintah berikut.
 
 
 

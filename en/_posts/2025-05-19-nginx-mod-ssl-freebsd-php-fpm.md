@@ -114,7 +114,10 @@ Waiting for PIDS: 1334.
 Starting nginx.
 root@ns4:/usr/local/etc/nginx/ssl #
 ```
+To prove it, open the Google Chrome web browser, and type "https://192.168.5.71/".
 
+3. Konfigurasi NGINX dengan PHP-FPM
+PHP-FPM (FastCGI Process Manager) merupakan implementasi PHP alternatif FastCGI yang paling populer. PHP (akronim dari PHP: Hypertext Preprocessor) merupakan salah satu bahasa pemrograman sumber terbuka paling populer di Internet, yang digunakan untuk platform pengembangan web seperti Magento, WordPress, atau Drupal. Meskipun awalnya dirancang untuk melakukan pra-proses teks biasa dalam format UTF-8.
 
 
 

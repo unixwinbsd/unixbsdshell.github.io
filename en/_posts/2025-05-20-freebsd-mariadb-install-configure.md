@@ -188,4 +188,133 @@ installation should now be secure.
 Thanks for using MariaDB!
 ```
 
+## 6. Running MariaDB
+Once you haven't missed any of the steps above and have configured everything, it's time to run MariaDB. The method is almost the same as MySQL Server. Now let's test whether MariaDB can enter the SQL command line menu or not?
 
+```
+root@ns1:~ # /usr/local/bin/mariadb -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 12
+Server version: 10.5.21-MariaDB FreeBSD Ports
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+root@localhost [(none)]>
+```
+
+From the command results above, MariaDB has successfully entered the MySQL database menu. Let's see the contents of the database table.
+
+```
+root@localhost [mysql]> show tables;
++---------------------------+
+| Tables_in_mysql           |
++---------------------------+
+| column_stats              |
+| columns_priv              |
+| db                        |
+| event                     |
+| func                      |
+| general_log               |
+| global_priv               |
+| gtid_slave_pos            |
+| help_category             |
+| help_keyword              |
+| help_relation             |
+| help_topic                |
+| index_stats               |
+| innodb_index_stats        |
+| innodb_table_stats        |
+| plugin                    |
+| proc                      |
+| procs_priv                |
+| proxies_priv              |
+| roles_mapping             |
+| servers                   |
+| slow_log                  |
+| table_stats               |
+| tables_priv               |
+| time_zone                 |
+| time_zone_leap_second     |
+| time_zone_name            |
+| time_zone_transition      |
+| time_zone_transition_type |
+| transaction_registry      |
+| user                      |
++---------------------------+
+31 rows in set (0.001 sec)
+```
+
+After successfully running MariaDB on FreeBSD, now you can use MariaDB to manage databases. The use of MaraDB is not much different from MySql Server, for those who are familiar with MySql Server it will be very easy to use MariaDB. In addition to being almost the same or you could say MariaDB is a sibling of MySQL Server, MariaDB has features that MySQL Server does not have. The following are the superior features of MariaDB.
+
+- Can use InnoDB with instant columnar addition as the default storage engine for MariaDB.
+- Parallel and multi-origin replication.
+- Can use FOR loops with MariaDB.
+- Transparent columns.
+- Latest version comes with Galera Cluster.
+- Can add sequences.
+- Columnar compression is now independent of the storage engine.
+
+## 7. Creating Mariadb Database Users
+One of the most important tasks of a database server is to grant access and permissions. MariaDB is a fully compatible open source relational database management system (RDBMS). The MariaDB client makes it easy to add new users and give them different levels of privileges.
+
+If your MariaDB database does not have a database yet, you should create one first. In MariaDB, we can do this easily by typing the following command in your MariaDB client shell.
+
+```
+root@ns1:~ # /usr/local/bin/mariadb -u root -p
+root@localhost [(none)]> CREATE DATABASE everest;
+Query OK, 1 row affected (0.133 sec)
+```
+
+Use the following command to view all databases in MariaDB.
+
+```
+root@localhost [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| everest            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.023 sec)
+```
+
+If you want to use the Everest database use the following command.
+
+```
+root@localhost [(none)]> use everest;
+Database changed
+```
+
+Once you have successfully created a database, we will continue by creating users who can access the Everest database.
+
+```
+root@localhost [everest]> CREATE USER 'jhondoe'@'localhost' IDENTIFIED BY 'router123';
+Query OK, 0 rows affected (0.039 sec)
+root@localhost [everest]> GRANT ALL PRIVILEGES ON everest.* TO 'jhondoe'@'localhost';
+Query OK, 0 rows affected (0.062 sec)
+root@localhost [everest]> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.013 sec)
+```
+
+With the above command, only the jhondoe user can open the Everest database. Meanwhile, other users cannot open the Everest database.
+
+If you want one user to be able to open all databases in MariaDB, use the following command.
+
+```
+root@localhost [everest]> CREATE USER 'mary'@'localhost' IDENTIFIED BY 'router123';
+Query OK, 0 rows affected (0.039 sec)
+root@localhost [everest]> GRANT ALL PRIVILEGES ON *.* TO 'mary'@'localhost';
+Query OK, 0 rows affected (0.037 sec)
+root@localhost [everest]> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.017 sec)
+```
+
+"GRANT ALL PRIVILEGES ON *.*" means to provide access to all databases on the MariaDB server.
+
+With the help of this article, you have successfully run a MariaDB server on FreeBSD. You also understand how to create users and grant access to each database. This article is only a part of the MariaDB material, there are still many that have not been discussed, you can read other articles about MariaDB.

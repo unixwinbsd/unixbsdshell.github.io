@@ -97,6 +97,18 @@ Before we go any further, there are a few things you need to know about setting 
 - **Restart cron:** To reload the cron file run the command "/etc/rc.d/cron restart".
 - **Alternatively:** we can use the file /var/cron/tabs/root, to set the crontab file at the root level.
 
+c.1. Crontab File Syntax
+
+A crontab file is a built-in automation tool for OpenBSD users to manage task scheduling. Each user can have a separate crontab that holds several cronjobs that will be executed periodically by the cron daemon.
+
+Below is the crontab syntax that you can run when working with a crontab file.
+- crontab [-u (for user)]
+- crontab [-e (edit)]
+- crontab [-l (list)]
+- crontab [-r (delete)]
+
+You can see an example of its use below.
+
 
 
 

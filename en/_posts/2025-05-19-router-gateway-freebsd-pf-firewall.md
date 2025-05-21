@@ -105,7 +105,7 @@ root@ns1:~ # ee /etc/sysctl.conf
 net.inet.ip.forwarding=1
 ```
 
-## 4. IPFW Firewall configuration
+## 4. PF Firewall configuration
 
 The next step is to create rules for PF Firewall. Enter the following script in the /etc/pf1.conf file that we created above.
 

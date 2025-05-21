@@ -84,6 +84,38 @@ Once the signature request is approved, create a symlink file from the server.cr
 root@ns4:/usr/local/etc/nginx/ssl # ln -s /usr/local/etc/nginx/ssl/server.crt /usr/local/etc/nginx/ssl/ssl-bundle.crt
 ```
 
+The certificate creation process is complete, now you can set up the NGINX configuration file.
+
+### b. Connecting NGINX with SSL Certificate
+
+To connect the SSL certificate that you have created above with NGINX, you must open the main NGINX configuration file, namely /usr/local/etc/nginx/nginx.conf. In that file, you only change a few scripts. An example of an NGINX SSL script can be seen as in the example below.
+
+```
+listen 443 ssl http2;
+server_name  localhost;
+ssl_certificate /usr/local/etc/nginx/ssl/ssl-bundle.crt;
+ssl_certificate_key /usr/local/etc/nginx/ssl/server.key;
+
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+ssl_session_cache shared:SSL:1m;
+ssl_session_timeout  5m;
+#ssl_ciphers  HIGH:!aNULL:!MD5;
+ssl_prefer_server_ciphers on;
+ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+add_header Strict-Transport-Security "max-age=63072000" always;
+```
+
+After you change the /usr/local/etc/nginx/nginx.conf script, reload the NGINX server.
+
+```
+root@ns4:/usr/local/etc/nginx/ssl # service nginx restart
+Stopping nginx.
+Waiting for PIDS: 1334.
+Starting nginx.
+root@ns4:/usr/local/etc/nginx/ssl #
+```
+
+
 
 
 

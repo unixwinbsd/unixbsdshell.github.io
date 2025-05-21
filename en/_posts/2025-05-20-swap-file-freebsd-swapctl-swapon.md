@@ -81,13 +81,51 @@ Device      512-blocks     Used        Avail    Capacity  Priority
 Total          4226304         0      4226304        0%
 ```
 
-Pada OpenBSD semua file swap di simpan di /etc/fstab. Anda dapat melihat file swap yang telah anda buat di atas dengan perintah berikut.
+On OpenBSD all swap files are stored in /etc/fstab. You can see the swap file that you have created above with the following command.
 
+```
+# cat /etc/fstab
+3b48513b4b0fa04e.b none swap sw
+3b48513b4b0fa04e.a / ffs rw 1 1
+3b48513b4b0fa04e.k /home ffs rw,nodev,nosuid 1 2
+3b48513b4b0fa04e.d /tmp ffs rw,nodev,nosuid 1 2
+3b48513b4b0fa04e.f /usr ffs rw,nodev 1 2
+3b48513b4b0fa04e.g /usr/X11R6 ffs rw,nodev 1 2
+3b48513b4b0fa04e.h /usr/local ffs rw,wxallowed,nodev 1 2
+3b48513b4b0fa04e.j /usr/obj ffs rw,nodev,nosuid 1 2
+3b48513b4b0fa04e.i /usr/src ffs rw,nodev,nosuid 1 2
+3b48513b4b0fa04e.e /var ffs rw,nodev,nosuid 1 2
+```
 
+### 2.2. Enabling Swap Files at Boot
 
+On NetBSD and OpenBSD, the swapctl tool can be used to enable swap devices or files at boot time. The following two commands are often run by default at NetBSD and OpenBSD startup to enable all block-type swap devices and swap files listed in /etc/fstab (with "sw").
 
+With the -t option the swapctl command can specify the type of device to be added. The blk argument causes all block devices in /etc/fstab to be added. The noblk argument causes all non-block devices in /etc/fstab to be added.
 
+These options are useful at initial system startup, where swapping may be required before all filesystems are available, such as during a disk check on a large file system.
 
+```
+# swapctl -A -t blk
+# swapctl -A -t noblk
+```
 
+### 2.3. Soft Update
 
+Soft Updates were designed by Greg Ganger and Yale Patt, and developed for FreeBSD by Kirk McKusick. Soft Updates partially change the order of operations with the buffer cache without removing the FFS write synchronization code in the catalog. This results in a significant speedup of write operations.
 
+The soft update mechanism must be enabled at the mount stage. When mounting using the mount command, you must specify whether soft updates should be applied to this partition. Here is an example of enabling soft updates for a single sd0a partition. Open the /etc/fstab file, type a script like the example below.
+
+```
+/dev/sd0a/ffsrw,softdep 1 1
+```
+
+### 2.4. Deleting Swap Files
+
+If the swap file you created is no longer used or you want to modify its size. You can delete the existing swap file with the following command.
+
+```
+# swapctl -d /var/swap1
+```
+
+I think you now have a good understanding of the swap file concept in OpenBSD. Now you can easily create a swap file or resize it as per your requirement.

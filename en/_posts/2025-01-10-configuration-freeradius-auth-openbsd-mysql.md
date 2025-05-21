@@ -1,7 +1,7 @@
 ---
 title: Configuring OpenBSD to Use Freeradius Auth with MySQL Server
-date: "2025-01-10 13:11:10 +0100"
-id: configuration-freeradius-auth-freebsd-mysql
+date: "2025-03-10 13:11:10 +0100"
+id: configuration-freeradius-auth-openbsd-mysql
 lang: en
 layout: single
 author_profile: true

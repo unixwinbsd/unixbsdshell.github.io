@@ -1,5 +1,5 @@
 ---
-title: SWAP Command In OpenBSD - SWAP File: swapctl swapon
+title: SWAP Command In OpenBSD - SWAP File swapctl swapon
 date: "2025-05-20 15:45:35 +0100"
 id: swap-file-freebsd-swapctl-swapon
 lang: en

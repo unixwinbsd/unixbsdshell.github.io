@@ -46,7 +46,7 @@ To run the swapctl command, you must understand some of the options that accompa
 | -l          | The -l option lists the current swap devices and files, and their usage statistics.  | 
 | -p priority          | The -p option sets the priority of swap devices or files to the priority argument.  | 
 | -s          | The -s option displays a single line summary of current swap statistics.  | 
-| -t blk | noblk          | This flag modifies the function of the -A option. The -t option allows the type of device to add to be specified. An argument of blk causes all block devices in /etc/fstab to be added. An argument of noblk causes all non-block devices in /etc/fstab to be added. This option is useful in early system startup, where swapping may be needed before all file systems are available, such as during disk checks of large file systems.  | 
+| -t blk  noblk          | This flag modifies the function of the -A option. The -t option allows the type of device to add to be specified. An argument of blk causes all block devices in /etc/fstab to be added. An argument of noblk causes all non-block devices in /etc/fstab to be added. This option is useful in early system startup, where swapping may be needed before all file systems are available, such as during disk checks of large file systems.  | 
 
 
 

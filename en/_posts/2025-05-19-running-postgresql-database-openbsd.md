@@ -126,7 +126,7 @@ ns2# rcctl check postgresql
 postgresql(ok)
 ```
 
-All databases and configuration files can be found in the /var/postgresql/data directory. You can change the contents of the script file "/var/postgresql/data/postgresql.conf", for example you want to use a private IP Address or you can also use localhost.
+All databases and configuration files can be found in the /var/postgresql/data directory. You can change the contents of the script file **"/var/postgresql/data/postgresql.conf"**, for example you want to use a private IP Address or you can also use localhost.
 
 ```
 # -----------------------------
@@ -951,6 +951,55 @@ default_text_search_config = 'pg_catalog.english'
 # Add settings for extensions here
 ```
 
+You have to adjust the IP for "listen_addresses" with your OpenBSD server IP Address. In writing this article our OpenBSD server uses the IP "192.168.5.3". After that you change a little script from the file **"/var/postgresql/data/pg_hba.conf"**, so that it can connect to the OpenBSD server IP Address.
 
+```
+host    all             all             192.168.5.0/24            trust
+host    replication     all             192.168.5.0/24            trust
+```
 
+## 6. Running PostgreSQL
 
+After you have set everything according to the instructions above, now we try to run PostgreSQL by creating a new database.
+
+```
+ns2# psql -U postgres
+Password for user postgres:
+psql (16.4)
+Type "help" for help.
+
+postgres=#
+```
+
+When you have successfully logged into the PostgreSQL database system, you can create users, databases or anything else related to the database.
+
+```
+postgres=# CREATE ROLE bromo SUPERUSER;
+postgres=# ALTER ROLE bromo PASSWORD 'ranupani1234'
+postgres-# ALTER USER bromo PASSWORD 'ranupani1234' LOGIN;
+postgres=# \q
+```
+
+After you exit the PostgreSQL database, now you log in with the user "bromo".
+
+```
+ns2# psql postgres bromo
+Password for user bromo:
+psql (16.4)
+Type "help" for help.
+
+postgres=# select user;
+ user
+-------
+ bromo
+(1 row)
+```
+
+After that, try creating a database named "oroombo".
+
+```
+postgres=# CREATE DATABASE oroombo;
+CREATE DATABASE
+```
+
+Of course, PostgreSQL can run fine on OpenBSD systems. PostgreSQL can also be managed via the integrated service handler, named rcctl and its rc scripts, as well as manually via PostgreSQL utilities (e.g., pg_ctl).

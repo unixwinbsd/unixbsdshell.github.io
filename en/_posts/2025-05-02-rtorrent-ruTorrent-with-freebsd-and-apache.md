@@ -7,7 +7,7 @@ layout: single
 author_profile: true
 categories:
   - FreeBSD
-tags: "SysAdmin"
+tags: "WebServer"
 excerpt: In the Torrent application environment, Rtorrent is the most stable and efficient. One of the main advantages of Rtorrent is its very flexible configuration and automation capabilities
 keywords: rtorrent, ruTorrent, freebsd, apache, php, php-fpm, fpm, web server, server, download, web browser
 ---

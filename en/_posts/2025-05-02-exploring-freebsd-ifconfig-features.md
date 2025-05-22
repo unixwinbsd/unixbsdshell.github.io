@@ -1,4 +1,16 @@
-
+---
+title: Exploring IFCONFIG Features On FreeBSD Servers
+date: "2025-05-02 09:11:35 +0100"
+id: exploring-freebsd-ifconfig-features
+lang: en
+layout: single
+author_profile: true
+categories:
+  - FreeBSD
+tags: "SysAdmin"
+excerpt: On the FreeBSD operating system or other BSD UNIX-based operating systems such as Linux, DragonflyBSD, GhostBSD, OpenBSD, and others, the command to configure or enable a network interface uses ifconfig
+keywords: ifconfig, features, freebsd,  command, shell, server, ip, address, network, land, card, interface
+---
 
 
 

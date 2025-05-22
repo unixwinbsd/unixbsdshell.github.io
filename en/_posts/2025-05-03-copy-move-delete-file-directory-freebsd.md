@@ -205,6 +205,7 @@ The above script will delete the practice folder in the /root folder.
 
 ```
 root@ns1:~ # rm -I -r -f /root/latihan
+
 recursively remove /root/latihan? y
 ```
 

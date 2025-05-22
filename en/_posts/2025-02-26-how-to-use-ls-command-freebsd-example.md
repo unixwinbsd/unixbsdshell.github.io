@@ -27,20 +27,21 @@ ls [ Options ] [File]
 ```
 Following are some frequently used options in the FreeBSD ls command:
 
-Opsi        Keterangan
-ls -a         daftar semua berkas termasuk berkas tersembunyi yang dimulai dengan '.'.
-ls -d         Melihat daftar direktori - dengan ' */'.
-ls -l         daftar dengan format panjang - tampilkan izin.
-ls -F Tambahkan indikator (salah satu dari */=>@|) ke entri.
-ls -lh Perintah ini akan menunjukkan ukuran berkas dalam format yang dapat dibaca manusia.
-ls -r daftar dalam urutan terbalik.
-ls -i daftar nomor inode(indeks) berkas.
-ls -ltr Lihat Urutan Keluaran Terbalik menurut Tanggal.
-ls -t urutkan menurut waktu & tanggal.
-ls -n Digunakan untuk mencetak ID grup dan ID pemilik, bukan nama mereka.
-ls -m Daftar entri yang dipisahkan oleh koma harus mengisi lebar.
-ls -g Ini memungkinkan Anda untuk mengecualikan kolom informasi pemilik dan grup.
-ls -q Paksa pencetakan karakter non-grafik dalam nama berkas sebagai karakter `?';. ls -Q Tempatkan tanda kutip ganda di sekitar nama entri.
+|  Option      | Description    |
+|  ----------- | -----------     |
+| ls -a        | daftar semua berkas termasuk berkas tersembunyi yang dimulai dengan '.'. |
+| ls -d         | Melihat daftar direktori - dengan ' */'. |
+| ls -l         | daftar dengan format panjang - tampilkan izin. |
+| ls -F | Tambahkan indikator (salah satu dari */=>@|) ke entri. |
+| ls -lh | Perintah ini akan menunjukkan ukuran berkas dalam format yang dapat dibaca manusia. |
+| ls -r | daftar dalam urutan terbalik. |
+| ls -i | daftar nomor inode(indeks) berkas. |
+| ls -ltr | Lihat Urutan Keluaran Terbalik menurut Tanggal. |
+| ls -t | urutkan menurut waktu & tanggal. |
+| ls -n | Digunakan untuk mencetak ID grup dan ID pemilik, bukan nama mereka. |
+| ls -m | Daftar entri yang dipisahkan oleh koma harus mengisi lebar. |
+| ls -g | Ini memungkinkan Anda untuk mengecualikan kolom informasi pemilik dan grup. |
+| ls -q | Paksa pencetakan karakter non-grafik dalam nama berkas sebagai karakter `?';. ls -Q Tempatkan tanda kutip ganda di sekitar nama entri. |
 
 ## 2. Basic example of ls command in FreeBSD
 Here, we will see a basic example of the ls command in a FreeBSD environment along with all the available options.

@@ -12,9 +12,6 @@ excerpt: In FreeBSD, the "ls" command is one of the most commonly used commands.
 keywords: ls, command, shell, freebsd, example, kernel
 ---
 
-
-
-
 In FreeBSD, the "ls" command is one of the most commonly used commands. This command is used to list the files and subdirectories in the current directory. If you are new to the command line, the first command you should learn is probably ls. This command can be used by both regular users and system administrators.
 
 The ability to see what files are in a directory is what makes ls so important. This command will be used most often to list the contents of a directory. While this is not a complicated command, it comes with a number of options to list files along with additional information. While ls is always sufficient for listing contents, you may find some of these options very useful.
@@ -29,19 +26,19 @@ Following are some frequently used options in the FreeBSD ls command:
 
 |  Option      | Description    |
 |  ----------- | -----------     |
-| ls -a        | daftar semua berkas termasuk berkas tersembunyi yang dimulai dengan '.'. |
-| ls -d         | Melihat daftar direktori - dengan ' */'. |
-| ls -l         | daftar dengan format panjang - tampilkan izin. |
-| ls -F | Tambahkan indikator (salah satu dari */=>@|) ke entri. |
-| ls -lh | Perintah ini akan menunjukkan ukuran berkas dalam format yang dapat dibaca manusia. |
-| ls -r | daftar dalam urutan terbalik. |
-| ls -i | daftar nomor inode(indeks) berkas. |
-| ls -ltr | Lihat Urutan Keluaran Terbalik menurut Tanggal. |
-| ls -t | urutkan menurut waktu & tanggal. |
-| ls -n | Digunakan untuk mencetak ID grup dan ID pemilik, bukan nama mereka. |
-| ls -m | Daftar entri yang dipisahkan oleh koma harus mengisi lebar. |
-| ls -g | Ini memungkinkan Anda untuk mengecualikan kolom informasi pemilik dan grup. |
-| ls -q | Paksa pencetakan karakter non-grafik dalam nama berkas sebagai karakter `?';. ls -Q Tempatkan tanda kutip ganda di sekitar nama entri. |
+| ls -a        | list all files including hidden files starting with '.'. |
+| ls -d         | View directory listings - with ' */'. |
+| ls -l         | long format list - show permissions. |
+| ls -F | Add an indicator (one of */=>@|) to the entry. |
+| ls -lh | This command will show the file size in human readable format. |
+| ls -r | list in reverse order. |
+| ls -i | list of inode(index) numbers of files. |
+| ls -ltr | View Reverse Output Order by Date. |
+| ls -t | Sort by time & date. |
+| ls -n | Used to print group ID and owner ID, not their names. |
+| ls -m | The list of entries separated by commas must fill the width. |
+| ls -g | This allows you to exclude the owner and group information columns. |
+| ls -q | Force printing of non-graphic characters in filenames as `?'; characters. ls -Q Place double quotes around entry names. |
 
 ## 2. Basic example of ls command in FreeBSD
 Here, we will see a basic example of the ls command in a FreeBSD environment along with all the available options.

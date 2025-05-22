@@ -150,7 +150,7 @@ The above script simply moves the unbound.conf file to the /usr/local/etc/exampl
 
 ### 2.2. Moving Files by Renaming
 
-``
+```
 root@ns1:~ # mv /root/latihan/named.conf /usr/local/etc/example/cpuminer.txt
 ```
 

@@ -195,4 +195,30 @@ Score: 100
 1. Create a file with the name /tmp/gunungargopuro.sh, then enter the script as in the example below.
 2. Run the file /tmp/gunungargopuro.sh.
 
+```
+root@ns1:~ # ee /tmp/gunungargopuro.sh
+#!/bin/sh
 
+num=100
+
+# output in decimal, octal, hex form
+printf "Decimal: %d\n" "$num"
+printf "Octal: %o\n" "$num"
+printf "Hex: %X\n" "$num"
+```
+
+```
+root@ns1:~ # chmod +x /tmp/gunungargopuro.sh
+```
+
+The output or result of the output file /tmp/gunungargopuro.sh.
+
+```
+root@ns1:~ # cd /tmp
+root@ns1:/tmp # ./gunungargopuro.sh
+Decimal: 100
+Octal: 144
+Hex: 64
+```
+
+The three commands above are basic commands in FreeBSD and you must master them if you want to jump straight in as a network system administrator or for those of you who want to deepen your knowledge of the UNIX BSD system.

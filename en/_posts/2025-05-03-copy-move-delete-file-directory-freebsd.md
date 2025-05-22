@@ -12,12 +12,7 @@ excerpt: In UNIX the command to copy files is written with the command "cp" whic
 keywords: copy, move, delete, cp, mv, rm, command, freebsd, shell, terminal
 ---
 
-Cara Menyalin Memindahkan Menghapus File dan Direktori di FreeBSD 14
-
-
-
-Artikel ini membahas cara menggunakan perintah copy move remove dan rename pada sistem FreeBSD. Isi artikel ini dapat dijalankan di hampir semua versi FreeBSD. Dalam penulisan artikel ini, sistem FreeBSD 14 digunakan.
-
+This article discusses how to use the copy move remove and rename commands on a FreeBSD system. The contents of this article can be run on almost all versions of FreeBSD. In writing this article, the FreeBSD 14 system is used.
 
 ## 1. How to Copy Files in FreeBSD
 In UNIX, the command to copy files is written with the command "cp" which means copy. The cp command is used to copy directories and files using the command line. With this command, you can transfer multiple files or folders, save attribute information, and back them up. The resulting cp command file is separate from the original file. So, it can be said that the cp command is useful for FreeBSD.
@@ -72,7 +67,9 @@ dnsserver	   httpd.txt	unbound.conf
 
 #### 1.2.2. Create an "example" folder in /usr/local/etc
 
+```
 root@ns1:~ # mkdir /usr/local/etc/example
+```
 
 After the folder has been created, now we will practice how to copy the folder.
 
@@ -104,22 +101,27 @@ Once the /usr/local/etc/example folder is empty, we continue by copying the fold
 ```
 root@ns1:~ # cp -R /root/latihan /usr/local/etc/example
 ```
+
 The above script will copy the practice folder to the /usr/local/etc/example folder. Now let's see the contents of the /usr/local/etc/example folder.
 
 ```
 root@ns1:~ # ls /usr/local/etc/example
 latihan
 ```
+
 The contents of the /usr/local/etc/example folder are just practice folders. Let's continue with another copy script. However, first, we delete the practice folder in the /usr/local/etc/example folder.
 
 ```
 root@ns1:~ # rm -fr /usr/local/etc/example/*
 ```
+
 Now try using the copy command below and see the difference with the copy command above.
+
 
 ```
 root@ns1:~ # cp -R /root/latihan/* /usr/local/etc/example
 ```
+
 The above script will copy files and folders in /root/exercise to /usr/local/etc/example. Let's see the contents of the /usr/local/etc/example folder.
 
 ```
@@ -131,10 +133,11 @@ Up to this point, do you understand how to use the copy command in FreeBSD? If y
 ## 2. How to Move Files in FreeBSD
 How to move files or move is almost the same as copying files, the difference is that in the copy command there is a "-R" option while in the move command there is no "-R" option. You can see the basic script for the move command below.
 
-
+<br/>
 mv [-f | -i | -n] [-hv] source target
-mv [-f | -i | -n] [-v] source ... directory
 
+mv [-f | -i | -n] [-v] source ... directory
+<br/>
 Using the mv script above, we will now practice how to move files in FreeBSD.
 
 ### 2.1. Moving Files Between Folders
@@ -149,12 +152,15 @@ The above script simply moves the unbound.conf file to the /usr/local/etc/exampl
 ``
 root@ns1:~ # mv /root/latihan/named.conf /usr/local/etc/example/cpuminer.txt
 ```
+
 The above script will move the named.conf file to the /usr/local/etc/example folder, and rename the file to cpuminer.txt.
+
 ### 2.3. Move all file contents in a folder
 
 ```
 root@ns1:~ # mv /root/latihan/* /usr/local/etc/example
 ```
+
 The script above will move all the contents of the file from the /root/exercise folder to the /usr/local/etc folder. With the script above, the contents of the folder and files in /root/exercise will be moved. So in general, if you use this script, the /root/exercise folder will be empty.
 
 ### 2.4. Moving a Folder to Another Folder
@@ -162,10 +168,13 @@ The script above will move all the contents of the file from the /root/exercise 
 ```
 root@ns1:~ # mv /root/latihan /usr/local/etc/example
 ```
+
 The script above will move the training folder to the /usr/local/etc folder. When using this script, the /root/exercise folder will be moved to /usr/local/etc. So, in the /root folder there is no more training folder because it has been moved.
 
 
+
 ## 3. How to Delete Files and Folders
+
 rm (short for remove) is a Unix command implemented in FreeBSD. The rm command is used to remove files from a file system. Typically, on most file systems, deleting a file requires write permission on the parent directory (and execute permission, to access that directory). In addition to deleting files, the rm command can also be used to remove directories/folders. Follow the steps below to remove files and directories.
 
 ### 3.1. How to Delete Files
@@ -173,6 +182,7 @@ rm (short for remove) is a Unix command implemented in FreeBSD. The rm command i
 ```
 root@ns1:~ # rm /root/latihan/unbound.conf
 ```
+
 The above script will delete the unbound.conf file located in the /root/exercise folder.
 
 ### 3.2. Deleting Files with Confirmation
@@ -187,6 +197,7 @@ remove /root/latihan/unbound.conf? y
 ```
 root@ns1:~ # rm -rf /root/latihan
 ```
+
 The above script will delete the practice folder in the /root folder.
 
 ### 3.4. Deleting Directories With Confirmation
@@ -201,7 +212,9 @@ recursively remove /root/latihan? y
 ```
 root@ns1:~ # rm -rf /root/latihan/*
 ```
+
 The above script will delete all contents in the /root/exercise folder.
+
 
 ### 3.6. Deleting Files with File Letter Prefix
 

@@ -60,12 +60,12 @@ Symbolic permissions, sometimes referred to as symbolic expressions, use charact
 | (operation)          | -  | Removing permissions          |
 | (operation)          | =  | Setting permissions explicitly          |
 |           |   |           |
-| 04          | Udin sedunia  | 47          |
-| 04          | Udin sedunia  | 47          |
-| 04          | Udin sedunia  | 47          |
-| 04          | Udin sedunia  | 47          |
-| 04          | Udin sedunia  | 47          |
-| 04          | Udin sedunia  | 47          |
+| (permissions)          | r  | Read          |
+| (permissions)          | w  | Write          |
+| (permissions)          | x  | Execute          |
+| (permissions)          | t  | Sticky bit          |
+| (permissions)          | s  | Set UID or GID          |
+
 
 
 

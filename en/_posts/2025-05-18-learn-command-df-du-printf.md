@@ -152,6 +152,7 @@ Basic script of printf command.
 printf [format] [arguments]
 
 Here is how to use the printf command.
+
 **1. Create a file named /tmp/example.sh and type the script below in the file /tmp/example.sh**
 
 ```

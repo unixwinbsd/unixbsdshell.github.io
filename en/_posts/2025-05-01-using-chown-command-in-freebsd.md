@@ -8,7 +8,7 @@ author_profile: true
 categories:
   - FreeBSD
 tags: "SysAdmin"
-excerpt: The FreeBSD Ports Collection provides a simple and centralized way to install FreeBSD software.
+excerpt: Managing file and directory ownership is very important when working with the FreeBSD operating system. Correct use of the chown command can prevent unwanted users from making changes to your files.
 keywords: chown, chmod, freebsd, shell, command, rw
 ---
 

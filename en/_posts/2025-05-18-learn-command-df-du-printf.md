@@ -134,12 +134,14 @@ The following is a description of the du command options:
 - du --time : Display modification time.
 
 The following is an implementation of the du command:
+
 ```
 root@ns1:~ # du
 root@ns1:~ # du -a
 root@ns1:~ # du -h
 root@ns1:~ # du -c
 ```
+
 
 ## Printf command
 
@@ -150,8 +152,9 @@ Basic script of printf command.
 printf [format] [arguments]
 
 Here is how to use the printf command.
-1. Create a file named /tmp/example.sh and type the script below in the file /tmp/example.sh
-``
+**1. Create a file named /tmp/example.sh and type the script below in the file /tmp/example.sh**
+
+```
 root@ns1:~ # ee /tmp/contoh.sh
 #!/bin/sh
 
@@ -174,7 +177,8 @@ printf "Score: %d\n" "$score"
 root@ns1:~ # chmod +x /tmp/contoh.sh
 ```
 
-2. Run the file /tmp/example.sh
+**2. Run the file /tmp/example.sh**
+
 
 ```
 root@ns1:~ # cd /tmp
@@ -185,6 +189,7 @@ Enter score: 100
 Name: gunung argopuro
 Score: 100
 ```
+
 
 **Another example of using printf.**
 1. Create a file with the name /tmp/gunungargopuro.sh, then enter the script as in the example below.

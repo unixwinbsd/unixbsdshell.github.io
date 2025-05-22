@@ -134,11 +134,11 @@ Up to this point, do you understand how to use the copy command in FreeBSD? If y
 ## 2. How to Move Files in FreeBSD
 How to move files or move is almost the same as copying files, the difference is that in the copy command there is a "-R" option while in the move command there is no "-R" option. You can see the basic script for the move command below.
 
-<br/>
+```
 mv [-f | -i | -n] [-hv] source target
-
 mv [-f | -i | -n] [-v] source ... directory
-<br/>
+```
+
 Using the mv script above, we will now practice how to move files in FreeBSD.
 
 ### 2.1. Moving Files Between Folders

@@ -134,8 +134,60 @@ The following is a description of the du command options:
 - du --time : Display modification time.
 
 The following is an implementation of the du command:
+```
+root@ns1:~ # du
+root@ns1:~ # du -a
+root@ns1:~ # du -h
+root@ns1:~ # du -c
+```
 
+## Printf command
 
+On Unix-like operating systems like FreeBSD, the printf command is used to insert arguments into a user-defined text string, thus producing formatted output. In other words, we can say that printf is the successor to the echo command.
 
+Basic script of printf command.
+
+printf [format] [arguments]
+
+Here is how to use the printf command.
+1. Create a file named /tmp/example.sh and type the script below in the file /tmp/example.sh
+``
+root@ns1:~ # ee /tmp/contoh.sh
+#!/bin/sh
+
+# take user name
+printf "Enter name: "
+read name
+
+# take user score
+printf "Enter score: "
+read score
+
+# display result
+echo "---Result---"
+printf "Name: %s\n" "$name"
+printf "Score: %d\n" "$score"
+
+```
+
+```
+root@ns1:~ # chmod +x /tmp/contoh.sh
+```
+
+2. Run the file /tmp/example.sh
+
+```
+root@ns1:~ # cd /tmp
+root@ns1:/tmp # ./contoh.sh
+Enter name: gunung argopuro
+Enter score: 100
+---Result---
+Name: gunung argopuro
+Score: 100
+```
+
+**Another example of using printf.**
+1. Create a file with the name /tmp/gunungargopuro.sh, then enter the script as in the example below.
+2. Run the file /tmp/gunungargopuro.sh.
 
 

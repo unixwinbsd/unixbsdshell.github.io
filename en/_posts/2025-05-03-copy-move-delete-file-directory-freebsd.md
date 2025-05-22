@@ -13,6 +13,7 @@ keywords: copy, move, delete, cp, mv, rm, command, freebsd, shell, terminal
 ---
 
 This article discusses how to use the copy move remove and rename commands on a FreeBSD system. The contents of this article can be run on almost all versions of FreeBSD. In writing this article, the FreeBSD 14 system is used.
+<br/>
 
 ## 1. How to Copy Files in FreeBSD
 In UNIX, the command to copy files is written with the command "cp" which means copy. The cp command is used to copy directories and files using the command line. With this command, you can transfer multiple files or folders, save attribute information, and back them up. The resulting cp command file is separate from the original file. So, it can be said that the cp command is useful for FreeBSD.

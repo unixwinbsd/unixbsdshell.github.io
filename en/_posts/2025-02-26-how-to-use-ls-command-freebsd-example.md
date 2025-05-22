@@ -1,4 +1,16 @@
-
+---
+title: How to Use the ls Command in FreeBSD with Examples
+date: "2025-02-26 07:55:45 +0100"
+id: how-to-use-ls-command-freebsd-example
+lang: en
+layout: single
+author_profile: true
+categories:
+  - FreeBSD
+tags: "SysAdmin"
+excerpt: In FreeBSD, the "ls" command is one of the most commonly used commands. This command is used to list the files and subdirectories in the current directory
+keywords: ls, command, shell, freebsd, example, kernel
+---
 
 
 

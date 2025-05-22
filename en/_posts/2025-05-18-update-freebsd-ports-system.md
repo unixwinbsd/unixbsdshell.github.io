@@ -152,7 +152,24 @@ or
 root@ns2:~ # portupgrade -PP apache24
 ```
 
+## 4. Cleaning Ports Trash
 
+Using the Ports Collection will take up disk space. After an application is installed and updated, it will leave cache files in the Ports collection. Running make clean inside the ports framework will delete the temporary working directory. Unless -K is specified, Portmaster automatically destroys this directory after installing and updating an application. For example, if apache24 is installed, the following command will delete all temporary files from the local copy of the Ports Collection.
 
+```
+root@ns2:~ # cd /usr/ports/www/apache24
+root@ns2:/usr/ports/www/apache24 # make install clean
+root@ns2:/usr/ports/www/apache24 # portsclean -C
+```
 
-Cara Update Sistem Ports FreeBSD
+The first script in the above command opens the /usr/ports/www/apache24 folder, the second script installs the apache24 application and the third script will remove the temporary dependency files used to install apache24. These files are usually located in the work folder. During the Apache installation process, the work folder is located in the /usr/ports/www/apache24/work folder.
+
+In addition, distribution files that come from the installation source are collected in the /usr/ports/distfiles folder. To remove all distfiles that are no longer referenced by any port, use Portupgrade. However, it is recommended that the files in the /usr/ports/distfiles folder are not deleted. Run the following command to remove the files in the /usr/ports/distfiles folder.
+
+```
+root@ns2:~ # portsclean -D
+or
+root@ns2:~ # portscleaning -DD
+```
+
+In addition to installing applications using ports, FreeBSD also provides a utility for installing ports, namely pkg. With pkg, program/application installation can take place quickly. Discussion about pkg will be explained in the next article.

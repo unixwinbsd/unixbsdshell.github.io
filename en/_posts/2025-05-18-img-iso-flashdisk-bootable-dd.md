@@ -112,6 +112,72 @@ root@ns2:/dev # gpart show da0
       4176  30830510       - free -  (15G)
 ```
 
+In the above display da0 is a USB disk drive and is formatted with the efi file system. To format the USB disk, we will provide several options.
+
+### 2.1. Format With FAT32
+
+For Windows systems, it only reads the FAT32 file system format, so that the contents of the files on our USB disk can be read in Windows, the format used is FAT32, the following is an example of the FAT32 format.
+
+```
+root@ns2:~ # gpart destroy -F /dev/da0
+da0 destroyed
+root@ns2:~ # gpart create -s mbr /dev/da0
+da0 created
+root@ns2:~ # gpart add -t fat32 /dev/da0
+da0s1 added
+root@ns2:~ # newfs_msdos -L FILES -F 32 /dev/da0s1
+/dev/da0s1: 30827008 sectors in 481672 FAT32 clusters (32768 bytes/cluster)
+BytesPerSec=512 SecPerClust=64 ResSectors=32 FATs=2 Media=0xf0 SecPerTrack=63 Heads=255 HiddenSecs=0 HugeSectors=30834625 FATsecs=3764 RootCluster=2 FSInfo=1 Backup=2
+```
+
+Now let's see the USB disk partition, whether it uses the FAT32 system.
+
+```
+root@ns2:~ # gpart show da0
+=>      63  30834625  da0  MBR  (15G)
+        63  30834625    1  fat32  (15G)
+```
+
+In the gpat show command above, our USB disk has been partitioned with the FAT32 file system, if our USB disk contains files, automatically when opened in Windows it will immediately read the contents of the files on the USB disk.
+
+### 2.2. Format with UFS
+
+Next, we will format the USB Disk with the UFS file system.
+
+```
+root@ns2:~ # gpart destroy -F /dev/da0
+da0 destroyed
+root@ns2:~ # gpart create -s gpt da0
+da0 created
+root@ns2:~ # gpart add -t freebsd-boot -s 512k da0
+da0p1 added
+root@ns2:~ # gpart bootcode -b /boot/pmbr -p /boot/gptboot -i 1 da0
+partcode written to da0p1
+bootcode written to da0
+root@ns2:~ # gpart add -t freebsd-ufs -b 1M -s 7G da0
+da0p2 added
+root@ns2:~ # gpart add -t freebsd-swap da0
+da0p3 added
+root@ns2:~ # newfs -U /dev/da0p2
+/dev/da0p2: 7168.0MB (14680064 sectors) block size 32768, fragment size 4096
+	using 12 cylinder groups of 625.22MB, 20007 blks, 80128 inodes.
+	with soft updates
+super-block backups (for fsck_ffs -b #) at:
+ 192, 1280640, 2561088, 3841536, 5121984, 6402432, 7682880, 8963328, 10243776, 11524224, 12804672, 14085120
+```
+
+Check if the USB disk is partitioned with UFS file system, use the gpart show script.
+
+```
+root@ns2:~ # gpart show da0
+=>      40  30834608  da0  GPT  (15G)
+        40      1024    1  freebsd-boot  (512K)
+      1064       984       - free -  (492K)
+      2048  14680064    2  freebsd-ufs  (7.0G)
+  14682112  16152536    3  freebsd-swap  (7.7G)
+```
+
+
 
 
 

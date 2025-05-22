@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/openbsd/2025/05/21/phpmyadmin-openbsd-nginx-php-fpm/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Configuring PHPMyAdmin and Nginx on OpenBSD 7.6  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Configuring PHPMyAdmin and Nginx on OpenBSD 7.6"><link rel="canonical" href="https://penaadventure.com/en/openbsd/2025/05/21/phpmyadmin-openbsd-nginx-php-fpm/">
+  <meta property="og:url" content="https://penaadventure.com/en/openbsd/2025/05/21/phpmyadmin-openbsd-nginx-php-fpm/"><meta property="og:description" content="PHPMyAdmin is an open source software introduced on September 9, 1998, written in PHP."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Configuring PHPMyAdmin and Nginx on OpenBSD 7.6">
+  <meta name="twitter:description" content="PHPMyAdmin is an open source software introduced on September 9, 1998, written in PHP.">
+  <meta name="twitter:url" content="https://penaadventure.com/en/openbsd/2025/05/21/phpmyadmin-openbsd-nginx-php-fpm/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-21T10:01:35+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="a08818ab2cd73c0eb3ababbd27d4f92f" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/openbsd/2025/05/21/phpmyadmin-openbsd-nginx-php-fpm/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#21" itemprop="item"><span itemprop="name">21</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Configuring PHPMyAdmin and Nginx on OpenBSD 7.6</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-21 10:01:35 +0300",
+"datePublished": "2025-05-21 10:01:35 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Configuring PHPMyAdmin and Nginx on OpenBSD 7.6",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "PHPMyAdmin is an open source software introduced on September 9, 1998, written in PHP."
+},
+
+"datePublished": "2025-05-21 10:01:35 +0300",
+"dateModified": "2025-05-21 10:01:35 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/openbsd/2025/05/21/phpmyadmin-openbsd-nginx-php-fpm/",
+"name": "Configuring PHPMyAdmin and Nginx on OpenBSD 7.6"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/openbsd/2025/05/21/phpmyadmin-openbsd-nginx-php-fpm/",
+"name": "DataBase"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/openbsd/2025/05/21/phpmyadmin-openbsd-nginx-php-fpm/",
+  "name": "Configuring PHPMyAdmin and Nginx on OpenBSD 7.6",
+  "headline": "Configuring PHPMyAdmin and Nginx on OpenBSD 7.6",
+  "keywords": "DataBase",
+  "description": "PHPMyAdmin is an open source software introduced on September 9, 1998, written in PHP.",
+  "articleBody": "What is PHPMyAdmin? PHPMyAdmin is an open-source PHP-based tool that is useful for handling MySQL/MariaDB database server administration through a Web-based interface. It has a simple interface that is easy to navigate and learn quickly.\n\nphpMyAdmin is widely used to manage MySQL and MariaDB databases. This tool offers an intuitive interface for database administrators, making it easy to perform various operations such as creating, modifying, and deleting databases, tables, and users.\n\nWith phpMyAdmin you can interact directly with MySQL databases, manage user accounts and privileges, execute SQL statements, import and export data in various data formats, and much more.\n\nphpMyAdmin is one of the applications that consists of XHTML, CSS, and JavaScript client code, making it easy for users to manage MySQL databases. This application is widely recognized as a leading application in the database field. Because it is open source since its inception, this application has been supported by many developers and translators around the world (it has been translated into 50 languages).\n\nWhile Nginx is an open source software that is used primarily as a web server, reverse proxy, cache server. It is also used as a load balancer, for media streaming, etc. In this article we will explain the installation process of PHPMyAdmin with Nginx running on an OpenBSD server.\n\n1. phpMyAdmin Features\n\nPHPMyAdmin is an open source software introduced on September 9, 1998, written in PHP. Basically, it is a third-party software for managing tables and data in a database. phpMyAdmin supports various types of operations on MariaDB and MySQL. The main purpose of phpMyAdmin is to handle MySQL administration via the web.\n\nphpMyAdmin supports several features that you can use to manage databases, including:\n\n  Supports foreign keys and InnoDB tables.\n  PHPMyAdmin can track changes made to databases, views, and tables.\n  We can also create PDF graphs of our database layout.\n  PHPMyAdmin can create, alter, search, and drop databases, views, tables, columns, and indexes.\n  It can display multiple result sets through queries and stored procedures.\n  phpMyAdmin uses stored procedures and queries to display multiple result sets.\n  phpMyAdmin can edit, execute, and tag SQL statements and even batch queries.\n  Using a set of predefined functions, it can convert stored data into any format. For example, BLOB data as images or download links.\n  Provides the facility to backup databases into various formats.\n  phpMyAdmin can be exported to various formats such as XML, CSV, PDF, ISO/IEC 26300 – OpenDocument Text and Spreadsheet.\n  Supports mysqli, which is an enhanced MySQL extension.\n  phpMyAdmin can interact with 80 different languages.\n\n\n2. System Specifications\n\n  OS: OPenBSD 7.6\n  IP Address: 192.168.5.3\n  Versi PHPMyAdmin: phpMyAdmin-5.2.2\n  Versi PHP: PHP 8.3.20\n  Versi Nginx: nginx/1.26.2\n  Dependensi PHP: pecl83-imagick php-gd-8.3.20  php-zip-8.3.20 pecl83-redis php-curl-8.3.20 php-bz2-8.3.20 php-intl-8.3.20 php-pdo_sqlite-8.3.20 php-mysqli-8.3.20 php-pdo_mysql-8.3.20\n\n\n3. PHPMyAdmin Installation Process\n\nThe PHPMyadmin program is available in the OpenBSD PKG package repository, you can install it directly. Run the pkg_add command to install PHPMyAdmin to the OpenBSD server.\n\n# pkg_add -D snap phpmyadmin\n\nquirks-7.111 signed on 2025-05-16T22:28:45Z\nphpMyAdmin-5.2.2:php-mysqli-8.2.28p0: ok\nphpMyAdmin-5.2.2: ok\nNew and changed readme(s):\n/usr/local/share/doc/pkg-readmes/phpMyAdmin\n\n\n3.1. PHP Extension Installation Process\n\nAs explained above, PHPMyAdmin is made with the PHP programming language, so it is very natural that the PHP extension is the most widely used dependency to run PHPMyAdmin. There are so many PHP extensions that you have to install, if there is even one dependency missing, then the way PHPMyAdmin works will be disrupted.\n\nYou can use the command below to install all PHPMyAdmin dependencies.\n\n# pkg_add pecl83-imagick php-gd-8.3.20  php-zip-8.3.20 pecl83-redis php-curl-8.3.20 php-bz2-8.3.20 php-intl-8.3.20 php-pdo_sqlite-8.3.20 php-mysqli-8.3.20 php-pdo_mysql-8.3.20\n\n\n3.2. Create PHP Extension Symlink\n\nOpenBSD is a bit different from other BSD systems, every time you install a PHP extension, the *.ini file is stored in the /etc/php-8.3.sample directory. All extension files must be placed in the /etc/php-8.3 directory. You can use the symlink command or copy directly to the destination directory. In this case I prefer to use the symlink command.\n\n# ln -sf /etc/php-8.3.sample/* /etc/php-8.3/\n\n\n3.3. Enable the /etc/php-8.3.ini Script\n\nAs we know the main PHP configuration file has the extension *.ini, each operating system has a different name. On OpenBSD the PHP configuration file is php-8.3.ini, the file contains PHP configuration scripts that you can set according to your needs.\n\nYou can enable or disable each script in the file. Because in this article we will use PHP to be used with Nginx and PHPMyadmin, so that PHP functions can run optimally, you must enable several scripts in the /etc/php-8.3.ini file as in the following example.\n\nexpose_php = Off\nmax_execution_time = 90\nmemory_limit = 512M\nopcache.enable=1\nopcache.enable_cli=1\nopcache.revalidate_freq=1\nopcache.enable=1\nopcache.memory_consumption=512\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.revalidate_freq=1\nopcache.save_comments=1\ncgi.fix_pathinfo=0\n\n\nWe created this article to be interrelated, to activate PHP-FPM you can read our previous article.\n\n3.4. Change Host config.inc.php\n\nThe main PHPMyAdmin configuration file is config.inc.php, which is located in the /var/www/phpMyAdmin directory. Check for the config.inc.php file in that directory. If it is not there, you can copy it from the existing sample file. To copy the config.inc.php file, use the following command.\n\n# cp -f /var/www/phpMyAdmin/config.sample.inc.php /var/www/phpMyAdmin/config.inc.php\n\n\nAfter that, in the /var/www/phpMyAdmin/config.inc.php file, look for the script “$cfg[‘Servers’][$i][‘host’] = ‘localhost’; replace localhosts with IP 127.0.0.1.\n\n$cfg['Servers'][$i]['host'] = '127.0.0.1';\n\n\n4. Create MariaDB Database\n\nCreating this database is very important, besides being used to connect to PHPMyAdmin. All your work will be stored in the database. You don’t have to use MariaDB, if you are used to using MysQL it is much better, because MySQL is very popular and easy to use.\n\nIn addition, the database is used to log in to the PHPMyAdmin server. The username and password that we create will be used to log in to PHPMyAdmin. Run the command mysql -u root -p to create a database login to PHPMyAdmin.\n\n# mysql -u root -p\nEnter password:\nWelcome to the MariaDB monitor.  Commands end with ; or \\g.\nYour MariaDB connection id is 3\nServer version: 10.9.8-MariaDB OpenBSD port: mariadb-server-10.9.8p1v1\n\nCopyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.\n\nType 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.\n\nMariaDB [(none)]&gt; CREATE DATABASE phpmyadmin;\nQuery OK, 1 row affected (0.035 sec)\n\nMariaDB [(none)]&gt; CREATE USER 'userphp'@'localhost' IDENTIFIED BY 'passwdphp';\nQuery OK, 0 rows affected (0.135 sec)\n\nMariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON phpmyadmin.* TO 'userphp'@'localhost';\nQuery OK, 0 rows affected (0.053 sec)\n\nMariaDB [(none)]&gt; FLUSH PRIVILEGES;\nQuery OK, 0 rows affected (0.001 sec)\n\nMariaDB [(none)]&gt;\n\n\nIn creating the database above, we create an account and password:\nDatabase name: phpmyadmin\nUser name: userphp\nDatabase password: passwdphp\nDatabase connection: 127.0.0.1\n\nFor the MariaDB installation and configuration process, you can read the article we wrote earlier about MariaDB.\n\n5. NGINX Configuration\n\nWe assume you have installed Nginx on OpenBSD. As a guide to connecting Nginx with PHPMyAdmin, below is an example of the nginx.conf script that we use.\n\nuser  www;\nworker_processes  1;\n\nerror_log  logs/error.log;\npid        logs/nginx.pid;\nworker_rlimit_nofile 1024;\n\nevents {\n    worker_connections  800;\n}\n\nhttp {\n    include       mime.types;\n    default_type  application/octet-stream;\n    index         index.html index.htm;\n\n    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\" '\n                      '$status $body_bytes_sent \"$http_referer\" '\n                      '\"$http_user_agent\" \"$http_x_forwarded_for\"';\n\n    access_log  logs/access.log  main;\n    keepalive_timeout  65;\n    server_tokens off;\n    \n#include /etc/nginx/vhosts.conf;\ninclude /etc/nginx/vhostsSSL.conf;\n}\n\n\nAt the bottom, note the script “include /etc/nginx/vhostsSSL.conf;”, we will create a vhostsSSL.conf file. The file contains the Nginx configuration script so that it can connect to PHPMyAdmin.\n\nBelow is an example script from the file “/etc/nginx/vhostsSSL.conf”.\nserver {\n        listen       443 ssl;\n        server_name  datainchi.com;\n        #root         /var/www/phpMyAdmin;\n\n        ssl_certificate      /etc/nginx/SSL/nginxssl.crt;\n        ssl_certificate_key  /etc/nginx/SSL/nginxssl.key;\n        ssl_session_timeout  5m;\n        ssl_session_cache    shared:SSL:1m;\n\n        ssl_ciphers  HIGH:!aNULL:!MD5:!RC4;\n        ssl_prefer_server_ciphers   on;\n\nlocation ~ \\.php$ {\n            try_files $uri =404;\n            fastcgi_split_path_info ^(.+\\.php)(/.+)$;\n            fastcgi_pass   unix:run/php-fpm.sock;\n            fastcgi_index index.php;\n            fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;\n            include fastcgi_params;\n\t    root         /var/www/phpMyAdmin;\n    }\n\nlocation / {\n     root         /var/www/phpMyAdmin;\n     index  index.html index.htm index.php;\n            autoindex on;\n            autoindex_exact_size off;\n            autoindex_localtime on;\n }\n\n location ~ ^/(doc|sql|setup)/ {\n    deny all;\n  }\n\nlocation = /robots.txt {\n    deny all;\n    log_not_found off;\n    access_log off;\n  }\n\n location ~ /\\. {\n    deny all;\n    access_log off;\n    log_not_found off;\n  }\n\n\n    }\n\n\n6. Run PHPMyAdmin\n\nAfter all configurations and dependencies have been installed, in this section we will run PHPMyAdmin. This section is very important, because if there are dependencies that are not installed or you type the script incorrectly, don’t expect PHPMyAdmin to run on the OpenBSD server.\n\nBefore you run PHPMyAdmin, reload all applications used with the command below.\n\n# rcctl restart mysqld\nmysqld(ok)\nmysqld(ok)\n# rcctl restart nginx\nnginx(ok)\nnginx(ok)\n# rcctl restart php83_fpm\nphp83_fpm(ok)\nphp83_fpm(ok)\n\n\nTo Run PHPMyAdmin, we just use the Google Chrome browser, at the top you type “https://192.168.5.3/index.php”, if everything is fine, your monitor screen will display the login menu.\n\nIn this login menu you type the username and password from MariaDB that you have created at the top.\n\nIf you successfully log in, the main dashboard will appear, you can set it according to your work needs.\n\nThe tutorial we created is a continuous tutorial. Between one article and another are interconnected. If you do not understand the article you are reading, you read the article we attached as a complement to the contents of the article we wrote.\n",
+  "datePublished": "2025-05-21 10:01:35 +0300",
+  "dateModified": "2025-05-21 10:01:35 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Configuring PHPMyAdmin and Nginx on OpenBSD 7.6"><meta itemprop="description" content="PHPMyAdmin is an open source software introduced on September 9, 1998, written in PHP."><meta itemprop="datePublished" content="2025-05-21"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-21T10:01:35+03:00">2025-05-21</time> </p><h1 class="page__title" itemprop="headline">Configuring PHPMyAdmin and Nginx on OpenBSD 7.6
+</h1></header><section class="page__content" itemprop="text">
+        <p>What is PHPMyAdmin? PHPMyAdmin is an open-source PHP-based tool that is useful for handling MySQL/MariaDB database server administration through a Web-based interface. It has a simple interface that is easy to navigate and learn quickly.</p>
+
+<p>phpMyAdmin is widely used to manage MySQL and MariaDB databases. This tool offers an intuitive interface for database administrators, making it easy to perform various operations such as creating, modifying, and deleting databases, tables, and users.</p>
+
+<p>With phpMyAdmin you can interact directly with MySQL databases, manage user accounts and privileges, execute SQL statements, import and export data in various data formats, and much more.</p>
+
+<p>phpMyAdmin is one of the applications that consists of XHTML, CSS, and JavaScript client code, making it easy for users to manage MySQL databases. This application is widely recognized as a leading application in the database field. Because it is open source since its inception, this application has been supported by many developers and translators around the world (it has been translated into 50 languages).</p>
+
+<p>While Nginx is an open source software that is used primarily as a web server, reverse proxy, cache server. It is also used as a load balancer, for media streaming, etc. In this article we will explain the installation process of PHPMyAdmin with Nginx running on an OpenBSD server.</p>
+
+<h2 id="1-phpmyadmin-features">1. phpMyAdmin Features</h2>
+
+<p>PHPMyAdmin is an open source software introduced on September 9, 1998, written in PHP. Basically, it is a third-party software for managing tables and data in a database. phpMyAdmin supports various types of operations on MariaDB and MySQL. The main purpose of phpMyAdmin is to handle MySQL administration via the web.</p>
+
+<p>phpMyAdmin supports several features that you can use to manage databases, including:</p>
+<ul>
+  <li>Supports foreign keys and InnoDB tables.</li>
+  <li>PHPMyAdmin can track changes made to databases, views, and tables.</li>
+  <li>We can also create PDF graphs of our database layout.</li>
+  <li>PHPMyAdmin can create, alter, search, and drop databases, views, tables, columns, and indexes.</li>
+  <li>It can display multiple result sets through queries and stored procedures.</li>
+  <li>phpMyAdmin uses stored procedures and queries to display multiple result sets.</li>
+  <li>phpMyAdmin can edit, execute, and tag SQL statements and even batch queries.</li>
+  <li>Using a set of predefined functions, it can convert stored data into any format. For example, BLOB data as images or download links.</li>
+  <li>Provides the facility to backup databases into various formats.</li>
+  <li>phpMyAdmin can be exported to various formats such as XML, CSV, PDF, ISO/IEC 26300 – OpenDocument Text and Spreadsheet.</li>
+  <li>Supports mysqli, which is an enhanced MySQL extension.</li>
+  <li>phpMyAdmin can interact with 80 different languages.</li>
+</ul>
+
+<h2 id="2-system-specifications">2. System Specifications</h2>
+<ul>
+  <li>OS: OPenBSD 7.6</li>
+  <li>IP Address: 192.168.5.3</li>
+  <li>Versi PHPMyAdmin: phpMyAdmin-5.2.2</li>
+  <li>Versi PHP: PHP 8.3.20</li>
+  <li>Versi Nginx: nginx/1.26.2</li>
+  <li>Dependensi PHP: pecl83-imagick php-gd-8.3.20  php-zip-8.3.20 pecl83-redis php-curl-8.3.20 php-bz2-8.3.20 php-intl-8.3.20 php-pdo_sqlite-8.3.20 php-mysqli-8.3.20 php-pdo_mysql-8.3.20</li>
+</ul>
+
+<h2 id="3-phpmyadmin-installation-process">3. PHPMyAdmin Installation Process</h2>
+
+<p>The PHPMyadmin program is available in the OpenBSD PKG package repository, you can install it directly. Run the pkg_add command to install PHPMyAdmin to the OpenBSD server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># pkg_add -D snap phpmyadmin
+
+quirks-7.111 signed on 2025-05-16T22:28:45Z
+phpMyAdmin-5.2.2:php-mysqli-8.2.28p0: ok
+phpMyAdmin-5.2.2: ok
+New and changed readme(s):
+/usr/local/share/doc/pkg-readmes/phpMyAdmin
+</code></pre></div></div>
+
+<h3 id="31-php-extension-installation-process">3.1. PHP Extension Installation Process</h3>
+
+<p>As explained above, PHPMyAdmin is made with the PHP programming language, so it is very natural that the PHP extension is the most widely used dependency to run PHPMyAdmin. There are so many PHP extensions that you have to install, if there is even one dependency missing, then the way PHPMyAdmin works will be disrupted.</p>
+
+<p>You can use the command below to install all PHPMyAdmin dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># pkg_add pecl83-imagick php-gd-8.3.20  php-zip-8.3.20 pecl83-redis php-curl-8.3.20 php-bz2-8.3.20 php-intl-8.3.20 php-pdo_sqlite-8.3.20 php-mysqli-8.3.20 php-pdo_mysql-8.3.20
+</code></pre></div></div>
+
+<h3 id="32-create-php-extension-symlink">3.2. Create PHP Extension Symlink</h3>
+
+<p>OpenBSD is a bit different from other BSD systems, every time you install a PHP extension, the *.ini file is stored in the /etc/php-8.3.sample directory. All extension files must be placed in the /etc/php-8.3 directory. You can use the symlink command or copy directly to the destination directory. In this case I prefer to use the symlink command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ln -sf /etc/php-8.3.sample/* /etc/php-8.3/
+</code></pre></div></div>
+
+<h3 id="33-enable-the-etcphp-83ini-script">3.3. Enable the /etc/php-8.3.ini Script</h3>
+
+<p>As we know the main PHP configuration file has the extension *.ini, each operating system has a different name. On OpenBSD the PHP configuration file is php-8.3.ini, the file contains PHP configuration scripts that you can set according to your needs.</p>
+
+<p>You can enable or disable each script in the file. Because in this article we will use PHP to be used with Nginx and PHPMyadmin, so that PHP functions can run optimally, you must enable several scripts in the /etc/php-8.3.ini file as in the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>expose_php = Off
+max_execution_time = 90
+memory_limit = 512M
+opcache.enable=1
+opcache.enable_cli=1
+opcache.revalidate_freq=1
+opcache.enable=1
+opcache.memory_consumption=512
+opcache.interned_strings_buffer=8
+opcache.max_accelerated_files=10000
+opcache.revalidate_freq=1
+opcache.save_comments=1
+cgi.fix_pathinfo=0
+</code></pre></div></div>
+
+<p>We created this article to be interrelated, to activate PHP-FPM you can read our previous article.</p>
+
+<h3 id="34-change-host-configincphp">3.4. Change Host config.inc.php</h3>
+
+<p>The main PHPMyAdmin configuration file is config.inc.php, which is located in the /var/www/phpMyAdmin directory. Check for the config.inc.php file in that directory. If it is not there, you can copy it from the existing sample file. To copy the config.inc.php file, use the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cp -f /var/www/phpMyAdmin/config.sample.inc.php /var/www/phpMyAdmin/config.inc.php
+</code></pre></div></div>
+
+<p>After that, in the /var/www/phpMyAdmin/config.inc.php file, look for the script “$cfg[‘Servers’][$i][‘host’] = ‘localhost’; replace localhosts with IP 127.0.0.1.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$cfg['Servers'][$i]['host'] = '127.0.0.1';
+</code></pre></div></div>
+
+<h2 id="4-create-mariadb-database">4. Create MariaDB Database</h2>
+
+<p>Creating this database is very important, besides being used to connect to PHPMyAdmin. All your work will be stored in the database. You don’t have to use MariaDB, if you are used to using MysQL it is much better, because MySQL is very popular and easy to use.</p>
+
+<p>In addition, the database is used to log in to the PHPMyAdmin server. The username and password that we create will be used to log in to PHPMyAdmin. Run the command mysql -u root -p to create a database login to PHPMyAdmin.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.9.8-MariaDB OpenBSD port: mariadb-server-10.9.8p1v1
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]&gt; CREATE DATABASE phpmyadmin;
+Query OK, 1 row affected (0.035 sec)
+
+MariaDB [(none)]&gt; CREATE USER 'userphp'@'localhost' IDENTIFIED BY 'passwdphp';
+Query OK, 0 rows affected (0.135 sec)
+
+MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON phpmyadmin.* TO 'userphp'@'localhost';
+Query OK, 0 rows affected (0.053 sec)
+
+MariaDB [(none)]&gt; FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [(none)]&gt;
+</code></pre></div></div>
+
+<p>In creating the database above, we create an account and password:
+Database name: phpmyadmin
+User name: userphp
+Database password: passwdphp
+Database connection: 127.0.0.1</p>
+
+<p>For the MariaDB installation and configuration process, you can read the article we wrote earlier about MariaDB.</p>
+
+<h2 id="5-nginx-configuration">5. NGINX Configuration</h2>
+
+<p>We assume you have installed Nginx on OpenBSD. As a guide to connecting Nginx with PHPMyAdmin, below is an example of the nginx.conf script that we use.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user  www;
+worker_processes  1;
+
+error_log  logs/error.log;
+pid        logs/nginx.pid;
+worker_rlimit_nofile 1024;
+
+events {
+    worker_connections  800;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    index         index.html index.htm;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  logs/access.log  main;
+    keepalive_timeout  65;
+    server_tokens off;
+    
+#include /etc/nginx/vhosts.conf;
+include /etc/nginx/vhostsSSL.conf;
+}
+</code></pre></div></div>
+
+<p>At the bottom, note the script “include /etc/nginx/vhostsSSL.conf;”, we will create a vhostsSSL.conf file. The file contains the Nginx configuration script so that it can connect to PHPMyAdmin.</p>
+
+<p>Below is an example script from the file <strong>“/etc/nginx/vhostsSSL.conf”</strong>.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
+        listen       443 ssl;
+        server_name  datainchi.com;
+        #root         /var/www/phpMyAdmin;
+
+        ssl_certificate      /etc/nginx/SSL/nginxssl.crt;
+        ssl_certificate_key  /etc/nginx/SSL/nginxssl.key;
+        ssl_session_timeout  5m;
+        ssl_session_cache    shared:SSL:1m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5:!RC4;
+        ssl_prefer_server_ciphers   on;
+
+location ~ \.php$ {
+            try_files $uri =404;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass   unix:run/php-fpm.sock;
+            fastcgi_index index.php;
+            fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi_params;
+	    root         /var/www/phpMyAdmin;
+    }
+
+location / {
+     root         /var/www/phpMyAdmin;
+     index  index.html index.htm index.php;
+            autoindex on;
+            autoindex_exact_size off;
+            autoindex_localtime on;
+ }
+
+ location ~ ^/(doc|sql|setup)/ {
+    deny all;
+  }
+
+location = /robots.txt {
+    deny all;
+    log_not_found off;
+    access_log off;
+  }
+
+ location ~ /\. {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+
+
+    }
+</code></pre></div></div>
+
+<h2 id="6-run-phpmyadmin">6. Run PHPMyAdmin</h2>
+
+<p>After all configurations and dependencies have been installed, in this section we will run PHPMyAdmin. This section is very important, because if there are dependencies that are not installed or you type the script incorrectly, don’t expect PHPMyAdmin to run on the OpenBSD server.</p>
+
+<p>Before you run PHPMyAdmin, reload all applications used with the command below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># rcctl restart mysqld
+mysqld(ok)
+mysqld(ok)
+# rcctl restart nginx
+nginx(ok)
+nginx(ok)
+# rcctl restart php83_fpm
+php83_fpm(ok)
+php83_fpm(ok)
+</code></pre></div></div>
+
+<p>To Run PHPMyAdmin, we just use the Google Chrome browser, at the top you type <strong>“https://192.168.5.3/index.php”</strong>, if everything is fine, your monitor screen will display the login menu.</p>
+
+<p>In this login menu you type the username and password from MariaDB that you have created at the top.</p>
+
+<p>If you successfully log in, the main dashboard will appear, you can set it according to your work needs.</p>
+
+<p>The tutorial we created is a continuous tutorial. Between one article and another are interconnected. If you do not understand the article you are reading, you read the article we attached as a complement to the contents of the article we wrote.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-21T10:01:35+03:00">2025-05-21</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#database" class="page__taxonomy-item" rel="tag">DataBase</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/en/freebsd/2025/05/20/crontab-file-on-freebsd/" class="pagination--pager" title="Setting up a crontab File on OpenBSD
+">Previous</a><a href="https://penaadventure.com/en/freebsd/2025/05/21/install-mod-java-apache-tomcat/" class="pagination--pager" title="How to Install mod_jk Module on Freebsd for Apache Tomcat
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

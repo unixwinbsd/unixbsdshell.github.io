@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/freebsd/2025/05/02/exploring-freebsd-ifconfig-features/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Exploring IFCONFIG Features On FreeBSD Servers  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Exploring IFCONFIG Features On FreeBSD Servers"><link rel="canonical" href="https://penaadventure.com/en/freebsd/2025/05/02/exploring-freebsd-ifconfig-features/">
+  <meta property="og:url" content="https://penaadventure.com/en/freebsd/2025/05/02/exploring-freebsd-ifconfig-features/"><meta property="og:description" content="On the FreeBSD operating system or other BSD UNIX-based operating systems such as Linux, DragonflyBSD, GhostBSD, OpenBSD, and others, the command to configure or enable a network interface uses ifconfig"><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Exploring IFCONFIG Features On FreeBSD Servers">
+  <meta name="twitter:description" content="On the FreeBSD operating system or other BSD UNIX-based operating systems such as Linux, DragonflyBSD, GhostBSD, OpenBSD, and others, the command to configure or enable a network interface uses ifconfig">
+  <meta name="twitter:url" content="https://penaadventure.com/en/freebsd/2025/05/02/exploring-freebsd-ifconfig-features/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-02T11:11:35+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="a08818ab2cd73c0eb3ababbd27d4f92f" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/freebsd/2025/05/02/exploring-freebsd-ifconfig-features/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#02" itemprop="item"><span itemprop="name">02</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Exploring IFCONFIG Features On FreeBSD Servers</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-02 11:11:35 +0300",
+"datePublished": "2025-05-02 11:11:35 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Exploring IFCONFIG Features On FreeBSD Servers",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "On the FreeBSD operating system or other BSD UNIX-based operating systems such as Linux, DragonflyBSD, GhostBSD, OpenBSD, and others, the command to configure or enable a network interface uses ifconfig"
+},
+
+"datePublished": "2025-05-02 11:11:35 +0300",
+"dateModified": "2025-05-02 11:11:35 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/freebsd/2025/05/02/exploring-freebsd-ifconfig-features/",
+"name": "Exploring IFCONFIG Features On FreeBSD Servers"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/freebsd/2025/05/02/exploring-freebsd-ifconfig-features/",
+"name": "SysAdmin"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/freebsd/2025/05/02/exploring-freebsd-ifconfig-features/",
+  "name": "Exploring IFCONFIG Features On FreeBSD Servers",
+  "headline": "Exploring IFCONFIG Features On FreeBSD Servers",
+  "keywords": "SysAdmin",
+  "description": "On the FreeBSD operating system or other BSD UNIX-based operating systems such as Linux, DragonflyBSD, GhostBSD, OpenBSD, and others, the command to configure or enable a network interface uses ifconfig",
+  "articleBody": "Have you ever encountered various network devices on a computer? But have you ever wondered how to enable, disable, or configure the network device on the computer. We only need a few lines of commands typed in the command shell menu to enable, disable, or configure the network interface.\n\nOn the FreeBSD operating system or other BSD UNIX-based operating systems such as Linux, DragonflyBSD, GhostBSD, OpenBSD, and others, the command to configure or enable a network interface uses ifconfig.\n\nThe ifconfig (interface configuration) command is used to configure a network interface or network interface located in the kernel. ifconfig is used at boot time to set the network interface as needed. In addition, ifconfig is usually used when debugging or when setting up the system. Not only that, the ifconfig command is also used to set the IP address and netmask on the network interface or to enable or disable a specific network interface.\n\nifconfig is a very necessary utility for a network system administrator. With ifconfig, an administrator can set up a network interface to monitor and perform system maintenance.\n\n1. Main Features of ifconfig\n\n  Displays detailed information about the interface.\n  Sets network (OSI Layer 3) and hardware (OSI Layer 2) addresses.\n  Sets the interface to random capture mode (useful during debugging).\n  Binds to one interface from multiple network addresses.\n\n\nThe following is an example of using the ifconfig command to view the network interface on a computer system.\n\nroot@ns1:~ # ifconfig\nnfe0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500\n\toptions=82008&lt;VLAN_MTU,WOL_MAGIC,LINKSTATE&gt;\n\tether 00:24:21:88:69:24\n\tinet 192.168.5.2 netmask 0xffffff00 broadcast 192.168.5.255\n\tmedia: Ethernet autoselect (100baseTX &lt;full-duplex&gt;)\n\tstatus: active\n\tnd6 options=29&lt;PERFORMNUD,IFDISABLED,AUTO_LINKLOCAL&gt;\nlo0: flags=8049&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; metric 0 mtu 16384\n\toptions=680003&lt;RXCSUM,TXCSUM,LINKSTATE,RXCSUM_IPV6,TXCSUM_IPV6&gt;\n\tinet6 ::1 prefixlen 128\n\tinet6 fe80::1%lo0 prefixlen 64 scopeid 0x2\n\tinet 127.0.0.1 netmask 0xff000000\n\tgroups: lo\n\tnd6 options=21&lt;PERFORMNUD,AUTO_LINKLOCAL&gt;\n\n\nThe above “ifconfig” command example displays information such as IP address, subnet mask, and default gateway for all network interfaces.\n\n\n  nfe0: It is a Lan Card or network adapter card used. Lan Card has a MAC address of 00:24:21:88:69:24 and an IP address of 192.168.5.2 netmask 255.255.255.0 with a broadcast of 192.168.5.255.\n  lo0: It is a loopback network with IP address 127.0.0.1.\n\n\n2. Example of using ifconfig on FreeBSD\n2.1. Displays all active and inactive interfaces\n\nroot@ns1:~ # ifconfig -a\n\n\n2.2. Displays a specific interface\n\nroot@ns1:~ # ifconfig nfe0\nnfe0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500\n\toptions=82008&lt;VLAN_MTU,WOL_MAGIC,LINKSTATE&gt;\n\tether 00:24:21:88:69:24\n\tinet 192.168.5.2 netmask 0xffffff00 broadcast 192.168.5.255\n\tmedia: Ethernet autoselect (100baseTX &lt;full-duplex&gt;)\n\tstatus: active\n\tnd6 options=29&lt;PERFORMNUD,IFDISABLED,AUTO_LINKLOCAL&gt;\n\n\n2.3. Disabling a Specific Network Interface\n\nroot@ns1:~ # ifconfig nfe0 down\n\n\nThe above script will shutdown the fe0 interface.\n\n2.4. Restarting Network Interface\nroot@ns1:~ # ifconfig nfe0 up\n\n\n2.5. Enter Netmask and Broadcast Static IP Address\nroot@ns1:~ # ifconfig nfe0 192.168.5.2 netmask 255.255.255.0 broadcast 192.168.5.255\n\n2.6. Change the Maximum Transmission Unit (MTU) value for nfe0 to 1500\nroot@ns1:~ # ifconfig nfe0 mtu 1500\n\n\n2.7. Looking for Other Features on the nfe0 Interface\nroot@ns1:~ # ifconfig -m nfe0\nnfe0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500\n\toptions=82008&lt;VLAN_MTU,WOL_MAGIC,LINKSTATE&gt;\n\tcapabilities=82008&lt;VLAN_MTU,WOL_MAGIC,LINKSTATE&gt;\n\tether 00:24:21:88:69:24\n\tinet 192.168.5.2 netmask 0xffffff00 broadcast 192.168.5.255\n\tmedia: Ethernet autoselect (100baseTX &lt;full-duplex&gt;)\n\tstatus: active\n\tsupported media:\n\t\tmedia autoselect mediaopt flowcontrol\n\t\tmedia autoselect\n\t\tmedia 1000baseT mediaopt full-duplex,flowcontrol,master\n\t\tmedia 1000baseT mediaopt full-duplex,flowcontrol\n\t\tmedia 1000baseT mediaopt full-duplex,master\n\t\tmedia 1000baseT mediaopt full-duplex\n\t\tmedia 1000baseT mediaopt master\n\t\tmedia 1000baseT\n\t\tmedia 100baseTX mediaopt full-duplex,flowcontrol\n\t\tmedia 100baseTX mediaopt full-duplex\n\t\tmedia 100baseTX\n\t\tmedia 10baseT/UTP mediaopt full-duplex,flowcontrol\n\t\tmedia 10baseT/UTP mediaopt full-duplex\n\t\tmedia 10baseT/UTP\n\t\tmedia none\n\tnd6 options=29&lt;PERFORMNUD,IFDISABLED,AUTO_LINKLOCAL&gt;\n\nAll of the examples above can only be used temporarily. If you want to set the network interface permanently, you can do so by typing the “ifconfig” command in the /etc/rc.conf file. Here is an example.\n\nroot@ns1:~ # ee /etc/rc.conf\nifconfig_nfe0=\"inet 192.168.5.2 netmask 255.255.255.0\"\ndefaultrouter=\"192.168.5.1\"\n\n\nTo get more complete information about using the “ifconfig” command, you can use the “man utilityname” command. An example is the following “man ifconfig”. Type this command in the FreeBSD command shell.\n",
+  "datePublished": "2025-05-02 11:11:35 +0300",
+  "dateModified": "2025-05-02 11:11:35 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Exploring IFCONFIG Features On FreeBSD Servers"><meta itemprop="description" content="On the FreeBSD operating system or other BSD UNIX-based operating systems such as Linux, DragonflyBSD, GhostBSD, OpenBSD, and others, the command to configure or enable a network interface uses ifconfig"><meta itemprop="datePublished" content="2025-05-02"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-02T11:11:35+03:00">2025-05-02</time> </p><h1 class="page__title" itemprop="headline">Exploring IFCONFIG Features On FreeBSD Servers
+</h1></header><section class="page__content" itemprop="text">
+        <p>Have you ever encountered various network devices on a computer? But have you ever wondered how to enable, disable, or configure the network device on the computer. We only need a few lines of commands typed in the command shell menu to enable, disable, or configure the network interface.</p>
+
+<p>On the FreeBSD operating system or other BSD UNIX-based operating systems such as Linux, DragonflyBSD, GhostBSD, OpenBSD, and others, the command to configure or enable a network interface uses ifconfig.</p>
+
+<p>The ifconfig (interface configuration) command is used to configure a network interface or network interface located in the kernel. ifconfig is used at boot time to set the network interface as needed. In addition, ifconfig is usually used when debugging or when setting up the system. Not only that, the ifconfig command is also used to set the IP address and netmask on the network interface or to enable or disable a specific network interface.</p>
+
+<p>ifconfig is a very necessary utility for a network system administrator. With ifconfig, an administrator can set up a network interface to monitor and perform system maintenance.</p>
+
+<h2 id="1-main-features-of-ifconfig">1. Main Features of ifconfig</h2>
+<ol>
+  <li>Displays detailed information about the interface.</li>
+  <li>Sets network (OSI Layer 3) and hardware (OSI Layer 2) addresses.</li>
+  <li>Sets the interface to random capture mode (useful during debugging).</li>
+  <li>Binds to one interface from multiple network addresses.</li>
+</ol>
+
+<p>The following is an example of using the ifconfig command to view the network interface on a computer system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ifconfig
+nfe0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
+	options=82008&lt;VLAN_MTU,WOL_MAGIC,LINKSTATE&gt;
+	ether 00:24:21:88:69:24
+	inet 192.168.5.2 netmask 0xffffff00 broadcast 192.168.5.255
+	media: Ethernet autoselect (100baseTX &lt;full-duplex&gt;)
+	status: active
+	nd6 options=29&lt;PERFORMNUD,IFDISABLED,AUTO_LINKLOCAL&gt;
+lo0: flags=8049&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; metric 0 mtu 16384
+	options=680003&lt;RXCSUM,TXCSUM,LINKSTATE,RXCSUM_IPV6,TXCSUM_IPV6&gt;
+	inet6 ::1 prefixlen 128
+	inet6 fe80::1%lo0 prefixlen 64 scopeid 0x2
+	inet 127.0.0.1 netmask 0xff000000
+	groups: lo
+	nd6 options=21&lt;PERFORMNUD,AUTO_LINKLOCAL&gt;
+</code></pre></div></div>
+
+<p>The above “ifconfig” command example displays information such as IP address, subnet mask, and default gateway for all network interfaces.</p>
+
+<ul>
+  <li><strong>nfe0:</strong> It is a Lan Card or network adapter card used. Lan Card has a MAC address of 00:24:21:88:69:24 and an IP address of 192.168.5.2 netmask 255.255.255.0 with a broadcast of 192.168.5.255.</li>
+  <li><strong>lo0:</strong> It is a loopback network with IP address 127.0.0.1.</li>
+</ul>
+
+<h2 id="2-example-of-using-ifconfig-on-freebsd">2. Example of using ifconfig on FreeBSD</h2>
+<h3 id="21-displays-all-active-and-inactive-interfaces">2.1. Displays all active and inactive interfaces</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ifconfig -a
+</code></pre></div></div>
+
+<h3 id="22-displays-a-specific-interface">2.2. Displays a specific interface</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ifconfig nfe0
+nfe0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
+	options=82008&lt;VLAN_MTU,WOL_MAGIC,LINKSTATE&gt;
+	ether 00:24:21:88:69:24
+	inet 192.168.5.2 netmask 0xffffff00 broadcast 192.168.5.255
+	media: Ethernet autoselect (100baseTX &lt;full-duplex&gt;)
+	status: active
+	nd6 options=29&lt;PERFORMNUD,IFDISABLED,AUTO_LINKLOCAL&gt;
+</code></pre></div></div>
+
+<h3 id="23-disabling-a-specific-network-interface">2.3. Disabling a Specific Network Interface</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ifconfig nfe0 down
+</code></pre></div></div>
+
+<p>The above script will shutdown the fe0 interface.</p>
+
+<h3 id="24-restarting-network-interface">2.4. Restarting Network Interface</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ifconfig nfe0 up
+</code></pre></div></div>
+
+<h3 id="25-enter-netmask-and-broadcast-static-ip-address">2.5. Enter Netmask and Broadcast Static IP Address</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ifconfig nfe0 192.168.5.2 netmask 255.255.255.0 broadcast 192.168.5.255
+</code></pre></div></div>
+<h3 id="26-change-the-maximum-transmission-unit-mtu-value-for-nfe0-to-1500">2.6. Change the Maximum Transmission Unit (MTU) value for nfe0 to 1500</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ifconfig nfe0 mtu 1500
+</code></pre></div></div>
+
+<h3 id="27-looking-for-other-features-on-the-nfe0-interface">2.7. Looking for Other Features on the nfe0 Interface</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ifconfig -m nfe0
+nfe0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
+	options=82008&lt;VLAN_MTU,WOL_MAGIC,LINKSTATE&gt;
+	capabilities=82008&lt;VLAN_MTU,WOL_MAGIC,LINKSTATE&gt;
+	ether 00:24:21:88:69:24
+	inet 192.168.5.2 netmask 0xffffff00 broadcast 192.168.5.255
+	media: Ethernet autoselect (100baseTX &lt;full-duplex&gt;)
+	status: active
+	supported media:
+		media autoselect mediaopt flowcontrol
+		media autoselect
+		media 1000baseT mediaopt full-duplex,flowcontrol,master
+		media 1000baseT mediaopt full-duplex,flowcontrol
+		media 1000baseT mediaopt full-duplex,master
+		media 1000baseT mediaopt full-duplex
+		media 1000baseT mediaopt master
+		media 1000baseT
+		media 100baseTX mediaopt full-duplex,flowcontrol
+		media 100baseTX mediaopt full-duplex
+		media 100baseTX
+		media 10baseT/UTP mediaopt full-duplex,flowcontrol
+		media 10baseT/UTP mediaopt full-duplex
+		media 10baseT/UTP
+		media none
+	nd6 options=29&lt;PERFORMNUD,IFDISABLED,AUTO_LINKLOCAL&gt;
+</code></pre></div></div>
+<p>All of the examples above can only be used temporarily. If you want to set the network interface permanently, you can do so by typing the “ifconfig” command in the /etc/rc.conf file. Here is an example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /etc/rc.conf
+ifconfig_nfe0="inet 192.168.5.2 netmask 255.255.255.0"
+defaultrouter="192.168.5.1"
+</code></pre></div></div>
+
+<p>To get more complete information about using the “ifconfig” command, you can use the “man utilityname” command. An example is the following “man ifconfig”. Type this command in the FreeBSD command shell.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-02T11:11:35+03:00">2025-05-02</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/en/freebsd/2025/05/01/using-chmod-command-in-freebsd/" class="pagination--pager" title="Using the chmod Command in FreeBSD Granting File and Directory Permissions
+">Previous</a><a href="https://penaadventure.com/en/freebsd/2025/05/02/rtorrent-ruTorrent-with-freebsd-and-apache/" class="pagination--pager" title="Installing rtorrent and ruTorrent with FreeBSD and Apache Web Server
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

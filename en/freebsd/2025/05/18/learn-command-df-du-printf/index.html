@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/freebsd/2025/05/18/learn-command-df-du-printf/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Learn FreeBSD Commands df du and printf  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Learn FreeBSD Commands df du and printf"><link rel="canonical" href="https://penaadventure.com/en/freebsd/2025/05/18/learn-command-df-du-printf/">
+  <meta property="og:url" content="https://penaadventure.com/en/freebsd/2025/05/18/learn-command-df-du-printf/"><meta property="og:description" content="The du and df commands are two basic commands in FreeBSD that are often run by system administrators. In this article we will learn how to use the df, du, and printf commands."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Learn FreeBSD Commands df du and printf">
+  <meta name="twitter:description" content="The du and df commands are two basic commands in FreeBSD that are often run by system administrators. In this article we will learn how to use the df, du, and printf commands.">
+  <meta name="twitter:url" content="https://penaadventure.com/en/freebsd/2025/05/18/learn-command-df-du-printf/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-18T13:45:35+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="a08818ab2cd73c0eb3ababbd27d4f92f" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/freebsd/2025/05/18/learn-command-df-du-printf/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#18" itemprop="item"><span itemprop="name">18</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Learn FreeBSD Commands df du and printf</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-18 13:45:35 +0300",
+"datePublished": "2025-05-18 13:45:35 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Learn FreeBSD Commands df du and printf",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "The du and df commands are two basic commands in FreeBSD that are often run by system administrators. In this article we will learn how to use the df, du, and printf commands."
+},
+
+"datePublished": "2025-05-18 13:45:35 +0300",
+"dateModified": "2025-05-18 13:45:35 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/freebsd/2025/05/18/learn-command-df-du-printf/",
+"name": "Learn FreeBSD Commands df du and printf"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/freebsd/2025/05/18/learn-command-df-du-printf/",
+"name": "SysAdmin"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/freebsd/2025/05/18/learn-command-df-du-printf/",
+  "name": "Learn FreeBSD Commands df du and printf",
+  "headline": "Learn FreeBSD Commands df du and printf",
+  "keywords": "SysAdmin",
+  "description": "The du and df commands are two basic commands in FreeBSD that are often run by system administrators. In this article we will learn how to use the df, du, and printf commands.",
+  "articleBody": "The du and df commands are two basic commands in FreeBSD that are often run by system administrators. In this article, we will learn how to use the df, du, and printf commands. All content in this article is implemented using the FreeBSD 13.2 system.\n\ndf Command\n\nThe df command is used to show the amount of free disk space on a file system. df reports how much disk space is used on a file system. The df command displays the amount of disk space available on a file system with each file name as an argument. For more details, see the following example.\n\nroot@ns1:~ # df\nFilesystem         1K-blocks    Used     Avail Capacity  Mounted on\nzroot/ROOT/default 223550888 7345232 216205656     3%    /\ndevfs                      1       1         0   100%    /dev\nlinprocfs                  4       4         0   100%    /compat/linux/proc\nlinsysfs                   4       4         0   100%    /compat/linux/sys\ntmpfs                2245952       4   2245948     0%    /compat/linux/dev/shm\nfdescfs                    1       1         0   100%    /dev/fd\nprocfs                     4       4         0   100%    /proc\nzroot/tmp          216425096  219440 216205656     0%    /tmp\nzroot/var/log      216206340     684 216205656     0%    /var/log\nzroot/usr/ports    225758656 9553000 216205656     4%    /usr/ports\nzroot/var/mail     216205784     128 216205656     0%    /var/mail\nzroot/var/tmp      216205760     104 216205656     0%    /var/tmp\nzroot/compat       216550388  344732 216205656     0%    /compat\nzroot              216205752      96 216205656     0%    /zroot\nzroot/var/crash    216205752      96 216205656     0%    /var/crash\nzroot/usr/home     216206524     868 216205656     0%    /usr/home\nzroot/var/audit    216205752      96 216205656     0%    /var/audit\nzroot/usr/src      216205752      96 216205656     0%    /usr/src\ndevfs                      1       1         0   100%    /compat/linux/dev\nfdescfs                    1       1         0   100%    /compat/linux/dev/fd\n\n\nIn the example, df is first called with no arguments. The default action is to display the used and free file space in blocks. In this particular case, the block size is 1K-blocks as shown in the output.\n\nThe first column displays the name of the disk partition or file system used by each directory, such as zroot/tmp, zroot/var/log, zroot/usr/ports, zroot/var/mail, zroot/var/tmp, and other directories. The second column shows the total space, allocated blocks, and available blocks. The third column shows the amount of capacity used as a percentage of the total file system capacity.\n\nThe Avail column is the amount of disk space available, the Capacity pool is the capacity used by the file system calculated as a percentage, and the last column shows where the file system is installed. This column is the directory where the file system is installed or placed in the file system tree.\n\nYou can see another example of the df command in the following script.\n\nroot@ns1:~ # df -i\nFilesystem         1K-blocks    Used     Avail Capacity iused      ifree %iused  Mounted on\nzroot/ROOT/default 223550912 7345248 216205664     3%  345029  432411328    0%   /\ndevfs                      1       1         0   100%       0          0     -   /dev\nlinprocfs                  4       4         0   100%       1          0  100%   /compat/linux/proc\nlinsysfs                   4       4         0   100%       1          0  100%   /compat/linux/sys\ntmpfs                2301624       4   2301620     0%       1 2147483646    0%   /compat/linux/dev/shm\nfdescfs                    1       1         0   100%       4      50343    0%   /dev/fd\nprocfs                     4       4         0   100%       1          0  100%   /proc\nzroot/tmp          216425104  219440 216205664     0%     280  432411328    0%   /tmp\nzroot/var/log      216206348     684 216205664     0%      47  432411328    0%   /var/log\nzroot/usr/ports    225758664 9553000 216205664     4%  762640  432411328    0%   /usr/ports\nzroot/var/mail     216205792     128 216205664     0%      26  432411328    0%   /var/mail\nzroot/var/tmp      216205768     104 216205664     0%      10  432411328    0%   /var/tmp\nzroot/compat       216550396  344732 216205664     0%    6111  432411328    0%   /compat\nzroot              216205760      96 216205664     0%       7  432411328    0%   /zroot\nzroot/var/crash    216205760      96 216205664     0%       8  432411328    0%   /var/crash\nzroot/usr/home     216206532     868 216205664     0%      57  432411328    0%   /usr/home\nzroot/var/audit    216205760      96 216205664     0%       9  432411328    0%   /var/audit\nzroot/usr/src      216205760      96 216205664     0%       7  432411328    0%   /usr/src\ndevfs                      1       1         0   100%       0          0     -   /compat/linux/dev\nfdescfs                    1       1         0   100%       4      50343    0%   /compat/linux/dev/fd\n\n\nIn the second example, df is called with the -i option. This option tells df to display information about inodes rather than block files.\n\nIf the output from the above script is too long and makes it difficult for you to read the meaning of each column, use the command below to make it easier for you to read the file system.\n\nroot@ns1:~ # df -h\nFilesystem            Size    Used   Avail Capacity  Mounted on\nzroot/ROOT/default    213G    7.0G    206G     3%    /\ndevfs                 1.0K    1.0K      0B   100%    /dev\nlinprocfs             4.0K    4.0K      0B   100%    /compat/linux/proc\nlinsysfs              4.0K    4.0K      0B   100%    /compat/linux/sys\ntmpfs                 2.2G    4.0K    2.2G     0%    /compat/linux/dev/shm\nfdescfs               1.0K    1.0K      0B   100%    /dev/fd\nprocfs                4.0K    4.0K      0B   100%    /proc\nzroot/var/log         206G    684K    206G     0%    /var/log\nzroot/usr/ports       215G    9.1G    206G     4%    /usr/ports\nzroot/var/mail        206G    128K    206G     0%    /var/mail\nzroot/var/tmp         206G    104K    206G     0%    /var/tmp\nzroot/compat          207G    337M    206G     0%    /compat\nzroot                 206G     96K    206G     0%    /zroot\nzroot/var/crash       206G     96K    206G     0%    /var/crash\nzroot/usr/home        206G    868K    206G     0%    /usr/home\nzroot/var/audit       206G     96K    206G     0%    /var/audit\nzroot/usr/src         206G     96K    206G     0%    /usr/src\ndevfs                 1.0K    1.0K      0B   100%    /compat/linux/dev\nfdescfs               1.0K    1.0K      0B   100%    /compat/linux/dev/fd\n\n\nBelow are the df commands that are often used by system administrators.\nroot@ns1:~ # df -h /\nFilesystem            Size    Used   Avail Capacity  Mounted on\nzroot/ROOT/default    213G    7.0G    206G     3%    /\n\n\nroot@ns1:~ # df -ih\nroot@ns1:~ # df -a\n\n\nThe du command\n\nThe du command or du command is an abbreviation of Disk Usage. du is used to check disk usage information for files and directories on the system. The du command will display all file names along with their respective sizes. By default the size given is written in kilobytes. The file name is used as an argument to get the file size.\n\nThe basic script for the du command is:\n\ndu [options] [directory/file]\n\nThe following is a description of the du command options:\n\n  du -a : View all file and directory sizes.\n  du -h : Display user-readable format.\n  du -c : Display total output.\n  du -s : Display only total count.\n  du -0/td&gt; : Final output with null bytes.\n  du –block-size= : Specify block size.\n  du –time : Display modification time.\n\n\nThe following is an implementation of the du command:\n\nroot@ns1:~ # du\nroot@ns1:~ # du -a\nroot@ns1:~ # du -h\nroot@ns1:~ # du -c\n\n\nPrintf command\n\nOn Unix-like operating systems like FreeBSD, the printf command is used to insert arguments into a user-defined text string, thus producing formatted output. In other words, we can say that printf is the successor to the echo command.\n\nBasic script of printf command.\n\nprintf [format] [arguments]\n\nHere is how to use the printf command.\n\n1. Create a file named /tmp/example.sh and type the script below in the file /tmp/example.sh\n\nroot@ns1:~ # ee /tmp/contoh.sh\n#!/bin/sh\n\n# take user name\nprintf \"Enter name: \"\nread name\n\n# take user score\nprintf \"Enter score: \"\nread score\n\n# display result\necho \"---Result---\"\nprintf \"Name: %s\\n\" \"$name\"\nprintf \"Score: %d\\n\" \"$score\"\n\n\n\nroot@ns1:~ # chmod +x /tmp/contoh.sh\n\n\n2. Run the file /tmp/example.sh\n\nroot@ns1:~ # cd /tmp\nroot@ns1:/tmp # ./contoh.sh\nEnter name: gunung argopuro\nEnter score: 100\n---Result---\nName: gunung argopuro\nScore: 100\n\n\nAnother example of using printf.\n\n  Create a file with the name /tmp/gunungargopuro.sh, then enter the script as in the example below.\n  Run the file /tmp/gunungargopuro.sh.\n\n\nroot@ns1:~ # ee /tmp/gunungargopuro.sh\n#!/bin/sh\n\nnum=100\n\n# output in decimal, octal, hex form\nprintf \"Decimal: %d\\n\" \"$num\"\nprintf \"Octal: %o\\n\" \"$num\"\nprintf \"Hex: %X\\n\" \"$num\"\n\n\nroot@ns1:~ # chmod +x /tmp/gunungargopuro.sh\n\n\nThe output or result of the output file /tmp/gunungargopuro.sh.\n\nroot@ns1:~ # cd /tmp\nroot@ns1:/tmp # ./gunungargopuro.sh\nDecimal: 100\nOctal: 144\nHex: 64\n\n\nThe three commands above are basic commands in FreeBSD and you must master them if you want to jump straight in as a network system administrator or for those of you who want to deepen your knowledge of the UNIX BSD system.\n",
+  "datePublished": "2025-05-18 13:45:35 +0300",
+  "dateModified": "2025-05-18 13:45:35 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Learn FreeBSD Commands df du and printf"><meta itemprop="description" content="The du and df commands are two basic commands in FreeBSD that are often run by system administrators. In this article we will learn how to use the df, du, and printf commands."><meta itemprop="datePublished" content="2025-05-18"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-18T13:45:35+03:00">2025-05-18</time> </p><h1 class="page__title" itemprop="headline">Learn FreeBSD Commands df du and printf
+</h1></header><section class="page__content" itemprop="text">
+        <p>The du and df commands are two basic commands in FreeBSD that are often run by system administrators. In this article, we will learn how to use the df, du, and printf commands. All content in this article is implemented using the FreeBSD 13.2 system.</p>
+
+<h2 id="df-command">df Command</h2>
+
+<p>The df command is used to show the amount of free disk space on a file system. df reports how much disk space is used on a file system. The df command displays the amount of disk space available on a file system with each file name as an argument. For more details, see the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # df
+Filesystem         1K-blocks    Used     Avail Capacity  Mounted on
+zroot/ROOT/default 223550888 7345232 216205656     3%    /
+devfs                      1       1         0   100%    /dev
+linprocfs                  4       4         0   100%    /compat/linux/proc
+linsysfs                   4       4         0   100%    /compat/linux/sys
+tmpfs                2245952       4   2245948     0%    /compat/linux/dev/shm
+fdescfs                    1       1         0   100%    /dev/fd
+procfs                     4       4         0   100%    /proc
+zroot/tmp          216425096  219440 216205656     0%    /tmp
+zroot/var/log      216206340     684 216205656     0%    /var/log
+zroot/usr/ports    225758656 9553000 216205656     4%    /usr/ports
+zroot/var/mail     216205784     128 216205656     0%    /var/mail
+zroot/var/tmp      216205760     104 216205656     0%    /var/tmp
+zroot/compat       216550388  344732 216205656     0%    /compat
+zroot              216205752      96 216205656     0%    /zroot
+zroot/var/crash    216205752      96 216205656     0%    /var/crash
+zroot/usr/home     216206524     868 216205656     0%    /usr/home
+zroot/var/audit    216205752      96 216205656     0%    /var/audit
+zroot/usr/src      216205752      96 216205656     0%    /usr/src
+devfs                      1       1         0   100%    /compat/linux/dev
+fdescfs                    1       1         0   100%    /compat/linux/dev/fd
+</code></pre></div></div>
+
+<p>In the example, df is first called with no arguments. The default action is to display the used and free file space in blocks. In this particular case, the block size is 1K-blocks as shown in the output.</p>
+
+<p>The first column displays the name of the disk partition or file system used by each directory, such as zroot/tmp, zroot/var/log, zroot/usr/ports, zroot/var/mail, zroot/var/tmp, and other directories. The second column shows the total space, allocated blocks, and available blocks. The third column shows the amount of capacity used as a percentage of the total file system capacity.</p>
+
+<p>The Avail column is the amount of disk space available, the Capacity pool is the capacity used by the file system calculated as a percentage, and the last column shows where the file system is installed. This column is the directory where the file system is installed or placed in the file system tree.</p>
+
+<p>You can see another example of the df command in the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # df -i
+Filesystem         1K-blocks    Used     Avail Capacity iused      ifree %iused  Mounted on
+zroot/ROOT/default 223550912 7345248 216205664     3%  345029  432411328    0%   /
+devfs                      1       1         0   100%       0          0     -   /dev
+linprocfs                  4       4         0   100%       1          0  100%   /compat/linux/proc
+linsysfs                   4       4         0   100%       1          0  100%   /compat/linux/sys
+tmpfs                2301624       4   2301620     0%       1 2147483646    0%   /compat/linux/dev/shm
+fdescfs                    1       1         0   100%       4      50343    0%   /dev/fd
+procfs                     4       4         0   100%       1          0  100%   /proc
+zroot/tmp          216425104  219440 216205664     0%     280  432411328    0%   /tmp
+zroot/var/log      216206348     684 216205664     0%      47  432411328    0%   /var/log
+zroot/usr/ports    225758664 9553000 216205664     4%  762640  432411328    0%   /usr/ports
+zroot/var/mail     216205792     128 216205664     0%      26  432411328    0%   /var/mail
+zroot/var/tmp      216205768     104 216205664     0%      10  432411328    0%   /var/tmp
+zroot/compat       216550396  344732 216205664     0%    6111  432411328    0%   /compat
+zroot              216205760      96 216205664     0%       7  432411328    0%   /zroot
+zroot/var/crash    216205760      96 216205664     0%       8  432411328    0%   /var/crash
+zroot/usr/home     216206532     868 216205664     0%      57  432411328    0%   /usr/home
+zroot/var/audit    216205760      96 216205664     0%       9  432411328    0%   /var/audit
+zroot/usr/src      216205760      96 216205664     0%       7  432411328    0%   /usr/src
+devfs                      1       1         0   100%       0          0     -   /compat/linux/dev
+fdescfs                    1       1         0   100%       4      50343    0%   /compat/linux/dev/fd
+</code></pre></div></div>
+
+<p>In the second example, df is called with the -i option. This option tells df to display information about inodes rather than block files.</p>
+
+<p>If the output from the above script is too long and makes it difficult for you to read the meaning of each column, use the command below to make it easier for you to read the file system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # df -h
+Filesystem            Size    Used   Avail Capacity  Mounted on
+zroot/ROOT/default    213G    7.0G    206G     3%    /
+devfs                 1.0K    1.0K      0B   100%    /dev
+linprocfs             4.0K    4.0K      0B   100%    /compat/linux/proc
+linsysfs              4.0K    4.0K      0B   100%    /compat/linux/sys
+tmpfs                 2.2G    4.0K    2.2G     0%    /compat/linux/dev/shm
+fdescfs               1.0K    1.0K      0B   100%    /dev/fd
+procfs                4.0K    4.0K      0B   100%    /proc
+zroot/var/log         206G    684K    206G     0%    /var/log
+zroot/usr/ports       215G    9.1G    206G     4%    /usr/ports
+zroot/var/mail        206G    128K    206G     0%    /var/mail
+zroot/var/tmp         206G    104K    206G     0%    /var/tmp
+zroot/compat          207G    337M    206G     0%    /compat
+zroot                 206G     96K    206G     0%    /zroot
+zroot/var/crash       206G     96K    206G     0%    /var/crash
+zroot/usr/home        206G    868K    206G     0%    /usr/home
+zroot/var/audit       206G     96K    206G     0%    /var/audit
+zroot/usr/src         206G     96K    206G     0%    /usr/src
+devfs                 1.0K    1.0K      0B   100%    /compat/linux/dev
+fdescfs               1.0K    1.0K      0B   100%    /compat/linux/dev/fd
+</code></pre></div></div>
+
+<p>Below are the df commands that are often used by system administrators.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # df -h /
+Filesystem            Size    Used   Avail Capacity  Mounted on
+zroot/ROOT/default    213G    7.0G    206G     3%    /
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # df -ih
+root@ns1:~ # df -a
+</code></pre></div></div>
+
+<h2 id="the-du-command">The du command</h2>
+
+<p>The du command or du command is an abbreviation of Disk Usage. du is used to check disk usage information for files and directories on the system. The du command will display all file names along with their respective sizes. By default the size given is written in kilobytes. The file name is used as an argument to get the file size.</p>
+
+<p>The basic script for the du command is:</p>
+
+<p>du [options] [directory/file]</p>
+
+<p>The following is a description of the du command options:</p>
+<ul>
+  <li>du -a : View all file and directory sizes.</li>
+  <li>du -h : Display user-readable format.</li>
+  <li>du -c : Display total output.</li>
+  <li>du -s : Display only total count.</li>
+  <li>du -0/td&gt; : Final output with null bytes.</li>
+  <li>du –block-size=<size> : Specify block size.</size></li>
+  <li>du –time : Display modification time.</li>
+</ul>
+
+<p>The following is an implementation of the du command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # du
+root@ns1:~ # du -a
+root@ns1:~ # du -h
+root@ns1:~ # du -c
+</code></pre></div></div>
+
+<h2 id="printf-command">Printf command</h2>
+
+<p>On Unix-like operating systems like FreeBSD, the printf command is used to insert arguments into a user-defined text string, thus producing formatted output. In other words, we can say that printf is the successor to the echo command.</p>
+
+<p>Basic script of printf command.</p>
+
+<p>printf [format] [arguments]</p>
+
+<p>Here is how to use the printf command.</p>
+
+<p><strong>1. Create a file named /tmp/example.sh and type the script below in the file /tmp/example.sh</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /tmp/contoh.sh
+#!/bin/sh
+
+# take user name
+printf "Enter name: "
+read name
+
+# take user score
+printf "Enter score: "
+read score
+
+# display result
+echo "---Result---"
+printf "Name: %s\n" "$name"
+printf "Score: %d\n" "$score"
+
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod +x /tmp/contoh.sh
+</code></pre></div></div>
+
+<p><strong>2. Run the file /tmp/example.sh</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cd /tmp
+root@ns1:/tmp # ./contoh.sh
+Enter name: gunung argopuro
+Enter score: 100
+---Result---
+Name: gunung argopuro
+Score: 100
+</code></pre></div></div>
+
+<p><strong>Another example of using printf.</strong></p>
+<ol>
+  <li>Create a file with the name /tmp/gunungargopuro.sh, then enter the script as in the example below.</li>
+  <li>Run the file /tmp/gunungargopuro.sh.</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /tmp/gunungargopuro.sh
+#!/bin/sh
+
+num=100
+
+# output in decimal, octal, hex form
+printf "Decimal: %d\n" "$num"
+printf "Octal: %o\n" "$num"
+printf "Hex: %X\n" "$num"
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod +x /tmp/gunungargopuro.sh
+</code></pre></div></div>
+
+<p>The output or result of the output file /tmp/gunungargopuro.sh.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cd /tmp
+root@ns1:/tmp # ./gunungargopuro.sh
+Decimal: 100
+Octal: 144
+Hex: 64
+</code></pre></div></div>
+
+<p>The three commands above are basic commands in FreeBSD and you must master them if you want to jump straight in as a network system administrator or for those of you who want to deepen your knowledge of the UNIX BSD system.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-18T13:45:35+03:00">2025-05-18</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/ru/freebsd/2025/05/14/github-ssh-connection-freebsd/" class="pagination--pager" title="Создание соединения с Github по SSH во FreeBSD
+">Previous</a><a href="https://penaadventure.com/en/freebsd/2025/05/18/update-freebsd-ports-system/" class="pagination--pager" title="How to Update the FreeBSD Ports System
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

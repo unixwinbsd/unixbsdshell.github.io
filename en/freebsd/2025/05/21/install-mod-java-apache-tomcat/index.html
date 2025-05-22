@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/freebsd/2025/05/21/install-mod-java-apache-tomcat/"/>
+
+  <meta charset="utf-8">
+  
+  <title>How to Install mod_jk Module on Freebsd for Apache Tomcat  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="How to Install mod_jk Module on Freebsd for Apache Tomcat"><link rel="canonical" href="https://penaadventure.com/en/freebsd/2025/05/21/install-mod-java-apache-tomcat/">
+  <meta property="og:url" content="https://penaadventure.com/en/freebsd/2025/05/21/install-mod-java-apache-tomcat/"><meta property="og:description" content="Mod_jk is a complete replacement for the old mod_jser module that handles communication between Tomcat and HTTP servers using the Apache JServ protocol. The Apache mod_jserv module is the old bridge between Java and Apache."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Install mod_jk Module on Freebsd for Apache Tomcat">
+  <meta name="twitter:description" content="Mod_jk is a complete replacement for the old mod_jser module that handles communication between Tomcat and HTTP servers using the Apache JServ protocol. The Apache mod_jserv module is the old bridge between Java and Apache.">
+  <meta name="twitter:url" content="https://penaadventure.com/en/freebsd/2025/05/21/install-mod-java-apache-tomcat/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-21T14:05:35+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="a08818ab2cd73c0eb3ababbd27d4f92f" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/freebsd/2025/05/21/install-mod-java-apache-tomcat/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#21" itemprop="item"><span itemprop="name">21</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Install mod_jk Module on Freebsd for Apache Tomcat</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-21 14:05:35 +0300",
+"datePublished": "2025-05-21 14:05:35 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "How to Install mod_jk Module on Freebsd for Apache Tomcat",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "Mod_jk is a complete replacement for the old mod_jser module that handles communication between Tomcat and HTTP servers using the Apache JServ protocol. The Apache mod_jserv module is the old bridge between Java and Apache."
+},
+
+"datePublished": "2025-05-21 14:05:35 +0300",
+"dateModified": "2025-05-21 14:05:35 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/freebsd/2025/05/21/install-mod-java-apache-tomcat/",
+"name": "How to Install mod_jk Module on Freebsd for Apache Tomcat"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/freebsd/2025/05/21/install-mod-java-apache-tomcat/",
+"name": "WebServer"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/freebsd/2025/05/21/install-mod-java-apache-tomcat/",
+  "name": "How to Install mod_jk Module on Freebsd for Apache Tomcat",
+  "headline": "How to Install mod_jk Module on Freebsd for Apache Tomcat",
+  "keywords": "WebServer",
+  "description": "Mod_jk is a complete replacement for the old mod_jser module that handles communication between Tomcat and HTTP servers using the Apache JServ protocol. The Apache mod_jserv module is the old bridge between Java and Apache.",
+  "articleBody": "Mod_jk is an Apache module or connector that connects the Apache Tomcat servlet container with a web server such as Apache, IIS, etc. Mod_jk is a complete replacement for the old mod_jser module that handles communication between Tomcat and HTTP servers using the Apache JServ protocol. The Apache mod_jserv module is the old bridge between Java and Apache.\n\nThe Apache mod_jk module is a bridge between the Apache Web Server and the Tomcat Server. Web requests over port 80 are handled by Apache and then Java Servlet and JSP requests are forwarded to the appropriate place such as the Tomcat server. This article will explain how to configure mod_jk with Apache http server and Tomcat. The Apache Tomcat connector allows the use of the Apache httpd server as a front-end for Apache Tomcat applications.\n\nTo run Tomcat and Apache simultaneously, Apache needs to load an “adapter” module, which uses a specific protocol, such as the Apache JServ Protocol (AJP), to communicate with Tomcat, over another TCP port (port 8009 is the default configuration in the server.xml file under the Tomcat server). When Apache server receives an HTTP request, it checks whether the request belongs to Tomcat server and if YES, it forwards it to Tomcat.\n\nAJP is a wire protocol and an optimized version of the HTTP protocol, which allows standalone http servers, such as Apache, to communicate with Tomcat. For many years, Apache http servers have been much faster than Tomcat at serving static content. The idea here is to let Apache http servers serve static content when possible, but use Apache http servers as a proxy to Tomcat servers for Tomcat related content.\n\nThe Apache Tomcat Connector project is part of the Tomcat project and provides web server plugins for connecting web servers to Tomcat and other backends. The supported web servers are:\n\n  Apache HTTP Server with a plugin (module) called mod_jk.\n  Microsoft IIS with a plugin (extension) called ISAPI redirector (or simply redirector).\n  iPlanet Web Server with a plugin called NSAPI redirector. iPlanet Web Server was previously known by various names, including Netscape Enterprise Server, SunOne Web Server, and Sun Enterprise System web server.\n\n\nIn all cases, the plugin uses a special protocol called Apache JServ Protocol or simply AJP to connect to the backend. Known backends that support AJP are Apache Tomcat, Jetty, and JBoss. Although there are 3 versions of the protocol, ajp12, ajp13, ajp14, most installations only use ajp13. The older ajp12 does not use persistent connections and is deprecated, the newer ajp14 version is still experimental. Sometimes ajp13 is called AJP 1.3 or AJPv13, but we mostly use the name ajp13.\n\nMost of the plugin features are the same for all web servers. Some details vary by web server. The documentation and configuration are divided into general sections and web server specific sections.\n\n1. Installing mod_jk on FreeBSD\n\nmod_jk is part of the “www” port system on FreeBSD. Installing mod_jk is very easy. We just type the command below to install mod_jk.\n\nroot@ns1:~ # cd /usr/ports/www/mod_jk\nroot@ns1:/usr/ports/www/mod_jk # make install clean\n\n\nNow, after the mod_jk module is installed, now check whether the module is active or not. The mod_jk module is in the “httpd.conf” file, open the /usr/local/etc/apache24/httpd.conf file and look for the “LoadModule jk_module libexec/apache24/mod_jk.so” script. To activate it, remove the “#” sign in front of the script, if the “#” sign is not there, it means the mod_jk module can be used.\n\n2. Mod_jk configuration\n\nAlthough mod_jk can be used, the module is not yet active, so how do I activate it? Here are the steps on how to activate the mod_jk module.\n\n2.1. Create a mod_jk.conf file\n\nWe will place the mod_jk.conf file in the /usr/local/etc/apache24/Includes folder, in the /usr/local/etc/apache24/Includes/mod_jk.conf file enter the script below.\n\nroot@ns1:~ # cd /usr/local/etc/apache24\nroot@ns1:/usr/local/etc/apache24 # touch Includes/mod_jk.conf\nroot@ns1:/usr/local/etc/apache24 # chmod +x Includes/mod_jk.conf\nroot@ns1:/usr/local/etc/apache24 # ee Includes/mod_jk.conf\n# Replace jsp-hostname with the hostname of your JSP server, as\n# specified in workers.properties.\n#\n&lt;IfModule mod_jk.c&gt;\n\tJkWorkersFile etc/apache24/workers.properties\n\tJkLogFile  /var/log/jk.log\n\tJkShmFile  /var/log/jk-runtime-status\n\tJkLogLevel error\n\n\t# Sample JkMounts.  Replace these with the paths you would\n\t# like to mount from your JSP server.\n\tJkMount /*.jsp jsp-hostname\n\tJkMount /servlet/* jsp-hostname\n\tJkMount /examples/* jsp-hostname\n&lt;/IfModule&gt;\n\n\nThe script above is used to create the /usr/local/etc/apache24/Includes/mod_jk.conf file, and the orange script is the CONTENTS script of the /usr/local/etc/apache24/Includes/mod_jk.conf file.\n\nAfter that, we create a file named “workers.properties” which we will place in the /usr/local/etc/apache24 folder. Follow the steps below to create a script in the /usr/local/etc/apache24/workers.properties file. In this article, use the “ee” editor to include the script in the /usr/local/etc/apache24/workers.properties file.\n\nroot@ns1:/usr/local/etc/apache24 # touch /usr/local/etc/apache24/workers.properties\nroot@ns1:/usr/local/etc/apache24 # chmod +x /usr/local/etc/apache24/workers.properties\nroot@ns1:/usr/local/etc/apache24 # ee /usr/local/etc/apache24/workers.properties\n# Incredibly simple workers.properties file, intended for connecting\n# to one host, via AJP13.  See the tomcat documentation for\n# information on more exotic configuration options.\n#\n# Change jsp-hostname to the hostname of your JSP server.\n#\nworker.list=jsp-hostname\n\nworker.jsp-hostname.port=8009\nworker.jsp-hostname.host=jsp-hostname\nworker.jsp-hostname.type=ajp13\nworker.jsp-hostname.lbfactor=1\nroot@ns1:/usr/local/etc/apache24 # chown -R www:www /usr/local/etc/apache24/workers.properties\n\n\nNow we create a log file and name the user group “www:www”.\n\nroot@ns1:~ # touch /var/log/jk.log\nroot@ns1:~ # touch /var/log/jk-runtime-status\nroot@ns1:~ # chown -R www:www /var/log/jk.log\nroot@ns1:~ # chown -R www:www /var/log/jk-runtime-status\n\n\nThe next step is to enable the mod_jk module on the Tomcat server. Open the /usr/local/apache-tomcat-9.0/conf/server.xml file, and find the following script.\n\n&lt;!-- dan --&gt;\n    &lt;Connector protocol=\"AJP/1.3\"\n               address=\"192.168.5.2\"\n               port=\"8009\"\n               redirectPort=\"8443\"\n               maxParameterCount=\"1000\"\n               /&gt;\n    --&gt;\n\n\nTo activate the mod_jk module, remove the “” signs in the script, so the result will be like below.\n\n&lt;Connector protocol=\"AJP/1.3\"\n               address=\"192.168.5.2\"\n               port=\"8009\"\n               redirectPort=\"8443\"\n               maxParameterCount=\"1000\"\n               /&gt;\n\n\nThen we restart the Apache24 application.\n\nroot@ns1:~ # service apache24 restart\nroot@ns1:~ # service tomcat9 restart\n\n\nThis tutorial only shows a small part of how to configure and use the mod_jk module on Apache24 and Tomcat9 servers. You can learn more from the official documentation on the websites of both applications.\n",
+  "datePublished": "2025-05-21 14:05:35 +0300",
+  "dateModified": "2025-05-21 14:05:35 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="How to Install mod_jk Module on Freebsd for Apache Tomcat"><meta itemprop="description" content="Mod_jk is a complete replacement for the old mod_jser module that handles communication between Tomcat and HTTP servers using the Apache JServ protocol. The Apache mod_jserv module is the old bridge between Java and Apache."><meta itemprop="datePublished" content="2025-05-21"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-21T14:05:35+03:00">2025-05-21</time> </p><h1 class="page__title" itemprop="headline">How to Install mod_jk Module on Freebsd for Apache Tomcat
+</h1></header><section class="page__content" itemprop="text">
+        <p>Mod_jk is an Apache module or connector that connects the Apache Tomcat servlet container with a web server such as Apache, IIS, etc. Mod_jk is a complete replacement for the old mod_jser module that handles communication between Tomcat and HTTP servers using the Apache JServ protocol. The Apache mod_jserv module is the old bridge between Java and Apache.</p>
+
+<p>The Apache mod_jk module is a bridge between the Apache Web Server and the Tomcat Server. Web requests over port 80 are handled by Apache and then Java Servlet and JSP requests are forwarded to the appropriate place such as the Tomcat server. This article will explain how to configure mod_jk with Apache http server and Tomcat. The Apache Tomcat connector allows the use of the Apache httpd server as a front-end for Apache Tomcat applications.</p>
+
+<p>To run Tomcat and Apache simultaneously, Apache needs to load an “adapter” module, which uses a specific protocol, such as the Apache JServ Protocol (AJP), to communicate with Tomcat, over another TCP port (port 8009 is the default configuration in the server.xml file under the Tomcat server). When Apache server receives an HTTP request, it checks whether the request belongs to Tomcat server and if YES, it forwards it to Tomcat.</p>
+
+<p>AJP is a wire protocol and an optimized version of the HTTP protocol, which allows standalone http servers, such as Apache, to communicate with Tomcat. For many years, Apache http servers have been much faster than Tomcat at serving static content. The idea here is to let Apache http servers serve static content when possible, but use Apache http servers as a proxy to Tomcat servers for Tomcat related content.</p>
+
+<p>The Apache Tomcat Connector project is part of the Tomcat project and provides web server plugins for connecting web servers to Tomcat and other backends. The supported web servers are:</p>
+<ul>
+  <li>Apache HTTP Server with a plugin (module) called mod_jk.</li>
+  <li>Microsoft IIS with a plugin (extension) called ISAPI redirector (or simply redirector).</li>
+  <li>iPlanet Web Server with a plugin called NSAPI redirector. iPlanet Web Server was previously known by various names, including Netscape Enterprise Server, SunOne Web Server, and Sun Enterprise System web server.</li>
+</ul>
+
+<p>In all cases, the plugin uses a special protocol called Apache JServ Protocol or simply AJP to connect to the backend. Known backends that support AJP are Apache Tomcat, Jetty, and JBoss. Although there are 3 versions of the protocol, ajp12, ajp13, ajp14, most installations only use ajp13. The older ajp12 does not use persistent connections and is deprecated, the newer ajp14 version is still experimental. Sometimes ajp13 is called AJP 1.3 or AJPv13, but we mostly use the name ajp13.</p>
+
+<p>Most of the plugin features are the same for all web servers. Some details vary by web server. The documentation and configuration are divided into general sections and web server specific sections.</p>
+
+<h2 id="1-installing-mod_jk-on-freebsd">1. Installing mod_jk on FreeBSD</h2>
+
+<p>mod_jk is part of the “www” port system on FreeBSD. Installing mod_jk is very easy. We just type the command below to install mod_jk.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cd /usr/ports/www/mod_jk
+root@ns1:/usr/ports/www/mod_jk # make install clean
+</code></pre></div></div>
+
+<p>Now, after the mod_jk module is installed, now check whether the module is active or not. The mod_jk module is in the “httpd.conf” file, open the /usr/local/etc/apache24/httpd.conf file and look for the “LoadModule jk_module libexec/apache24/mod_jk.so” script. To activate it, remove the “#” sign in front of the script, if the “#” sign is not there, it means the mod_jk module can be used.</p>
+
+<h2 id="2-mod_jk-configuration">2. Mod_jk configuration</h2>
+
+<p>Although mod_jk can be used, the module is not yet active, so how do I activate it? Here are the steps on how to activate the mod_jk module.</p>
+
+<h3 id="21-create-a-mod_jkconf-file">2.1. Create a mod_jk.conf file</h3>
+
+<p>We will place the mod_jk.conf file in the /usr/local/etc/apache24/Includes folder, in the /usr/local/etc/apache24/Includes/mod_jk.conf file enter the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cd /usr/local/etc/apache24
+root@ns1:/usr/local/etc/apache24 # touch Includes/mod_jk.conf
+root@ns1:/usr/local/etc/apache24 # chmod +x Includes/mod_jk.conf
+root@ns1:/usr/local/etc/apache24 # ee Includes/mod_jk.conf
+# Replace jsp-hostname with the hostname of your JSP server, as
+# specified in workers.properties.
+#
+&lt;IfModule mod_jk.c&gt;
+	JkWorkersFile etc/apache24/workers.properties
+	JkLogFile  /var/log/jk.log
+	JkShmFile  /var/log/jk-runtime-status
+	JkLogLevel error
+
+	# Sample JkMounts.  Replace these with the paths you would
+	# like to mount from your JSP server.
+	JkMount /*.jsp jsp-hostname
+	JkMount /servlet/* jsp-hostname
+	JkMount /examples/* jsp-hostname
+&lt;/IfModule&gt;
+</code></pre></div></div>
+
+<p>The script above is used to create the /usr/local/etc/apache24/Includes/mod_jk.conf file, and the orange script is the CONTENTS script of the /usr/local/etc/apache24/Includes/mod_jk.conf file.</p>
+
+<p>After that, we create a file named “workers.properties” which we will place in the /usr/local/etc/apache24 folder. Follow the steps below to create a script in the /usr/local/etc/apache24/workers.properties file. In this article, use the “ee” editor to include the script in the /usr/local/etc/apache24/workers.properties file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:/usr/local/etc/apache24 # touch /usr/local/etc/apache24/workers.properties
+root@ns1:/usr/local/etc/apache24 # chmod +x /usr/local/etc/apache24/workers.properties
+root@ns1:/usr/local/etc/apache24 # ee /usr/local/etc/apache24/workers.properties
+# Incredibly simple workers.properties file, intended for connecting
+# to one host, via AJP13.  See the tomcat documentation for
+# information on more exotic configuration options.
+#
+# Change jsp-hostname to the hostname of your JSP server.
+#
+worker.list=jsp-hostname
+
+worker.jsp-hostname.port=8009
+worker.jsp-hostname.host=jsp-hostname
+worker.jsp-hostname.type=ajp13
+worker.jsp-hostname.lbfactor=1
+root@ns1:/usr/local/etc/apache24 # chown -R www:www /usr/local/etc/apache24/workers.properties
+</code></pre></div></div>
+
+<p>Now we create a log file and name the user group “www:www”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # touch /var/log/jk.log
+root@ns1:~ # touch /var/log/jk-runtime-status
+root@ns1:~ # chown -R www:www /var/log/jk.log
+root@ns1:~ # chown -R www:www /var/log/jk-runtime-status
+</code></pre></div></div>
+
+<p>The next step is to enable the mod_jk module on the Tomcat server. Open the /usr/local/apache-tomcat-9.0/conf/server.xml file, and find the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!-- dan --&gt;
+    &lt;Connector protocol="AJP/1.3"
+               address="192.168.5.2"
+               port="8009"
+               redirectPort="8443"
+               maxParameterCount="1000"
+               /&gt;
+    --&gt;
+</code></pre></div></div>
+
+<p>To activate the mod_jk module, remove the “<!--" and "-->” signs in the script, so the result will be like below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector protocol="AJP/1.3"
+               address="192.168.5.2"
+               port="8009"
+               redirectPort="8443"
+               maxParameterCount="1000"
+               /&gt;
+</code></pre></div></div>
+
+<p>Then we restart the Apache24 application.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # service apache24 restart
+root@ns1:~ # service tomcat9 restart
+</code></pre></div></div>
+
+<p>This tutorial only shows a small part of how to configure and use the mod_jk module on Apache24 and Tomcat9 servers. You can learn more from the official documentation on the websites of both applications.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-21T14:05:35+03:00">2025-05-21</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/en/openbsd/2025/05/21/phpmyadmin-openbsd-nginx-php-fpm/" class="pagination--pager" title="Configuring PHPMyAdmin and Nginx on OpenBSD 7.6
+">Previous</a><a href="#" class="pagination--pager disabled">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

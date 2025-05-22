@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/freebsd/2025/05/01/using-chmod-command-in-freebsd/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Using the chmod Command in FreeBSD Granting File and Directory Permissions  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Using the chmod Command in FreeBSD Granting File and Directory Permissions"><link rel="canonical" href="https://penaadventure.com/en/freebsd/2025/05/01/using-chmod-command-in-freebsd/">
+  <meta property="og:url" content="https://penaadventure.com/en/freebsd/2025/05/01/using-chmod-command-in-freebsd/"><meta property="og:description" content="The chmod command is used to change the read, write, and execute permissions on a file or directory. Read permission, as it applies to files, means the ability to read the contents of the file."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Using the chmod Command in FreeBSD Granting File and Directory Permissions">
+  <meta name="twitter:description" content="The chmod command is used to change the read, write, and execute permissions on a file or directory. Read permission, as it applies to files, means the ability to read the contents of the file.">
+  <meta name="twitter:url" content="https://penaadventure.com/en/freebsd/2025/05/01/using-chmod-command-in-freebsd/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-01T17:25:45+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="a08818ab2cd73c0eb3ababbd27d4f92f" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/freebsd/2025/05/01/using-chmod-command-in-freebsd/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#01" itemprop="item"><span itemprop="name">01</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Using the chmod Command in FreeBSD Granting File and Directory Permissions</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-01 17:25:45 +0300",
+"datePublished": "2025-05-01 17:25:45 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Using the chmod Command in FreeBSD Granting File and Directory Permissions",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "The chmod command is used to change the read, write, and execute permissions on a file or directory. Read permission, as it applies to files, means the ability to read the contents of the file."
+},
+
+"datePublished": "2025-05-01 17:25:45 +0300",
+"dateModified": "2025-05-01 17:25:45 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/freebsd/2025/05/01/using-chmod-command-in-freebsd/",
+"name": "Using the chmod Command in FreeBSD Granting File and Directory Permissions"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/freebsd/2025/05/01/using-chmod-command-in-freebsd/",
+"name": "SysAdmin"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/freebsd/2025/05/01/using-chmod-command-in-freebsd/",
+  "name": "Using the chmod Command in FreeBSD Granting File and Directory Permissions",
+  "headline": "Using the chmod Command in FreeBSD Granting File and Directory Permissions",
+  "keywords": "SysAdmin",
+  "description": "The chmod command is used to change the read, write, and execute permissions on a file or directory. Read permission, as it applies to files, means the ability to read the contents of the file.",
+  "articleBody": "This article discusses how to use the chmod and chown commands on a FreeBSD system. The contents of this article can be run on almost all versions of FreeBSD. In writing this article, the FreeBSD 13.2 system is used.\n\n1. Chmod Command\n\nThe chmod command is used to change the read, write, and execute permissions on a file or directory. Read permission, as it applies to a file, means the ability to read the contents of the file. Read permission, as it applies to a directory, means the ability to list its contents (files or anything in the directory). Write permission, as it applies to files and directories, means the ability to change or delete its contents. Execute permission, as it applies to files, means the ability to load and run application programs.\n\nBy executing permission or permission, as it applies to a directory, means the ability to navigate with the cd command. Just like the chown command, you must be the superuser or owner of the file you want to change for this command to work.\n\nOn a FreeBSD system, each file and directory has a set of permissions and several utilities are provided to view and change those permissions. Understanding how file permissions work is necessary to ensure that users can access the files they need and cannot improperly access files that are used by the operating system or belong to other users.\n\nFreeBSD, as a direct descendant of BSD UNIX, is based on several key UNIX concepts. The first and most prominent is that FreeBSD is a multi-user operating system. It can handle multiple users all working simultaneously on completely unrelated tasks. It is responsible for properly sharing and managing the demands of hardware, peripherals, memory, and CPU time among each user.\n\n2. Permission Values\n\nBecause the system is capable of supporting multiple users, everything the system manages has a set of permissions that govern who can read, write, and execute resources. A total of nine bits represent the permissions on a file or directory. The nine bits are then divided into 3 octets so that they become 3 parts.\n\n\n  Permissions granted to the file owner (user).\n  Permissions granted to the group.\n  Permissions granted to others.\n\n\nPermissions are stored in the file’s inode mode field. Every user must have permission to change or modify a file.\n\n\n  \n    \n      Value\n      Permission\n      Directory Listing\n    \n  \n  \n    \n      0\n      No read, no write, no execute\n      —\n    \n    \n      1\n      No read, no write, execute\n      –x\n    \n    \n      2\n      No read, write, no execute\n      -w-\n    \n    \n      3\n      No read, write, execute\n      -wx\n    \n    \n      4\n      Read, no write, no execute\n      r–\n    \n    \n      5\n      Read, no write, execute\n      r-x\n    \n    \n      6\n      Read, write, no execute\n      rw-\n    \n    \n      7\n      Read, write, execute\n      rwx\n    \n  \n\n\n3. Symbolic Permissions\n\nSymbolic permissions, sometimes referred to as symbolic expressions, use characters instead of octal values ​​to assign permissions to a file or directory. Symbolic expressions use the syntax (who) (action) (permission), which provides the following values.\n\n\n  \n    \n      Option\n      Letter\n      Represents\n    \n  \n  \n    \n      (who)\n      u\n      User (owner)\n    \n    \n      (who)\n      g\n      Group\n    \n    \n      (who)\n      o\n      Other\n    \n    \n      (who)\n      a\n      All (user, group, and other)\n    \n    \n       \n       \n       \n    \n    \n      (operation)\n      +\n      Increase permissions\n    \n    \n      (operation)\n      -\n      Removing permissions\n    \n    \n      (operation)\n      =\n      Setting permissions explicitly\n    \n    \n       \n       \n       \n    \n    \n      (permissions)\n      r\n      Read\n    \n    \n      (permissions)\n      w\n      Write\n    \n    \n      (permissions)\n      x\n      Execute\n    \n    \n      (permissions)\n      t\n      Sticky bit\n    \n    \n      (permissions)\n      s\n      Set UID or GID\n    \n  \n\n\nTo see a long directory listing that includes columns with information about file permissions for the owner, file permissions for the group, and file permissions for everyone else, try looking at the contents of the /root directory below.\n\nroot@ns1:~ # ls -l\ntotal 51\ndrwxr-xr-x  2 root  wheel      3 Aug  3 13:25 .config\n-rw-r--r--  2 root  wheel   1023 Apr  7 11:19 .cshrc\n-rw-r--r--  1 root  wheel     80 Apr  7 11:29 .k5login\n-rw-r--r--  1 root  wheel    328 Apr  7 11:19 .login\n-rw-r--r--  2 root  wheel    507 Apr  7 11:19 .profile\n-rw-r--r--  1 root  wheel   1186 Apr  7 11:19 .shrc\ndrwx------  2 root  wheel      3 Jul 26 06:36 .ssh\ndrwxr-xr-x  5 root  wheel     10 Aug  3 21:51 latihan\n-rw-r--r--  1 root  wheel      0 Aug  3 16:23 xmrig.json\n\n\n4. How to Use chmod\n\nTo further deepen the discussion of the chmod command, here are some examples of how to use the chmod command.\n\nRemoving the write permission of the xmrig.json file.\n\nroot@ns1:~ # chmod -w xmrig.json\n-r--r--r--  1 root  wheel      0 Aug  3 16:23 xmrig.json\n\n\nEnable read, write, and execute mode permissions, and disable the set-user-ID bit, set-group-ID bit, and sticky bit attributes in the xmrig.json file. (This command is almost the same as 777).\n\nroot@ns1:~ # chmod a=rwx xmrig.json\n-rwxrwxrwx  1 root  wheel      0 Aug  3 16:23 xmrig.json\n\n\nRemove write permission for others on the xmrig.json file.\n\nroot@ns1:~ # chmod o-w xmrig.json\n-rwxrwxr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json\n\n\nGrants the xmrig.json file execution permission for the group.\n\nroot@ns1:~ # chmod g=x xmrig.json\n-rwx--xr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json\n\n\nDoes not grant permission to read the xmrig.json file for the user (owner).\n\nroot@ns1:~ # chmod u-r xmrig.json\n--wx--xr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json\n\n\nGive group read/write/execute permissions to the /root/latihan directory. The following files and their subdirectories.\n\nroot@ns1:~ # chmod -R g+rwx /root/latihan\n\n\nGive the group read and execute permissions to the /root/latihan folder.\n\nroot@ns1:~ # chmod g=rx /root/latihan\ndrwxr-xr-x  5 root  wheel     10 Aug  3 21:51 latihan\n\n\nSo that you understand better how to use the chmod command, look at the example below.\n\nroot@ns1:~ # chmod 644 xmrig.json\n-rw-r--r--  1 root  wheel      0 Aug  4 09:23 xmrig.json\n\n\nThe chmod 644 xmrig.json script has meaning.\n\n  Give read and write permissions to the xmrig.json file for the user (owner).\n  Give read permission only to the xmrig.json file for the group.\n  Give read-only permissions to the xmrig.json file for other people.\n\n\nroot@ns1:~ # chmod 755 xmrig.json\n-rwxr-xr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json\n\n\nThe script chmod 755 xmrig.json has meaning\n\n  Give read, write and execute permissions to the xmrig.json file for the user (owner)\n  Grant read and execute permissions to the xmrig.json file for the group\n  Give read and execute permissions to the xmrig.json file to other people\n\n\nroot@ns1:~ # chmod 450 xmrig.json\n-r--r-x---  1 root  wheel      0 Aug  4 09:23 xmrig.json\n\n\nThe chmod 450 script has meaning.\n\n  Give read permission only to the xmrig.json file for the user (owner).\n  Grant read and execute permissions to the xmrig.json file for the group.\n  Do not give read, write and execute permissions to the xmrig.json file to other people.\n\n\nFrom all the examples described above, you most likely already understand how to use the chmod command on FreeBSD. If you don’t understand, please read other articles that discuss chmod to deepen your knowledge of the chmod command.\n",
+  "datePublished": "2025-05-01 17:25:45 +0300",
+  "dateModified": "2025-05-01 17:25:45 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Using the chmod Command in FreeBSD Granting File and Directory Permissions"><meta itemprop="description" content="The chmod command is used to change the read, write, and execute permissions on a file or directory. Read permission, as it applies to files, means the ability to read the contents of the file."><meta itemprop="datePublished" content="2025-05-01"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-01T17:25:45+03:00">2025-05-01</time> </p><h1 class="page__title" itemprop="headline">Using the chmod Command in FreeBSD Granting File and Directory Permissions
+</h1></header><section class="page__content" itemprop="text">
+        <p>This article discusses how to use the chmod and chown commands on a FreeBSD system. The contents of this article can be run on almost all versions of FreeBSD. In writing this article, the FreeBSD 13.2 system is used.</p>
+
+<h2 id="1-chmod-command">1. Chmod Command</h2>
+
+<p>The chmod command is used to change the read, write, and execute permissions on a file or directory. Read permission, as it applies to a file, means the ability to read the contents of the file. Read permission, as it applies to a directory, means the ability to list its contents (files or anything in the directory). Write permission, as it applies to files and directories, means the ability to change or delete its contents. Execute permission, as it applies to files, means the ability to load and run application programs.</p>
+
+<p>By executing permission or permission, as it applies to a directory, means the ability to navigate with the cd command. Just like the chown command, you must be the superuser or owner of the file you want to change for this command to work.</p>
+
+<p>On a FreeBSD system, each file and directory has a set of permissions and several utilities are provided to view and change those permissions. Understanding how file permissions work is necessary to ensure that users can access the files they need and cannot improperly access files that are used by the operating system or belong to other users.</p>
+
+<p>FreeBSD, as a direct descendant of BSD UNIX, is based on several key UNIX concepts. The first and most prominent is that FreeBSD is a multi-user operating system. It can handle multiple users all working simultaneously on completely unrelated tasks. It is responsible for properly sharing and managing the demands of hardware, peripherals, memory, and CPU time among each user.</p>
+
+<h2 id="2-permission-values">2. Permission Values</h2>
+
+<p>Because the system is capable of supporting multiple users, everything the system manages has a set of permissions that govern who can read, write, and execute resources. A total of nine bits represent the permissions on a file or directory. The nine bits are then divided into 3 octets so that they become 3 parts.</p>
+
+<ol>
+  <li>Permissions granted to the file owner (user).</li>
+  <li>Permissions granted to the group.</li>
+  <li>Permissions granted to others.</li>
+</ol>
+
+<p>Permissions are stored in the file’s inode mode field. Every user must have permission to change or modify a file.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Permission</th>
+      <th>Directory Listing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>No read, no write, no execute</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>No read, no write, execute</td>
+      <td>–x</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>No read, write, no execute</td>
+      <td>-w-</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>No read, write, execute</td>
+      <td>-wx</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Read, no write, no execute</td>
+      <td>r–</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Read, no write, execute</td>
+      <td>r-x</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Read, write, no execute</td>
+      <td>rw-</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Read, write, execute</td>
+      <td>rwx</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="3-symbolic-permissions">3. Symbolic Permissions</h2>
+
+<p>Symbolic permissions, sometimes referred to as symbolic expressions, use characters instead of octal values ​​to assign permissions to a file or directory. Symbolic expressions use the syntax (who) (action) (permission), which provides the following values.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Letter</th>
+      <th>Represents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>(who)</td>
+      <td>u</td>
+      <td>User (owner)</td>
+    </tr>
+    <tr>
+      <td>(who)</td>
+      <td>g</td>
+      <td>Group</td>
+    </tr>
+    <tr>
+      <td>(who)</td>
+      <td>o</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <td>(who)</td>
+      <td>a</td>
+      <td>All (user, group, and other)</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>(operation)</td>
+      <td>+</td>
+      <td>Increase permissions</td>
+    </tr>
+    <tr>
+      <td>(operation)</td>
+      <td>-</td>
+      <td>Removing permissions</td>
+    </tr>
+    <tr>
+      <td>(operation)</td>
+      <td>=</td>
+      <td>Setting permissions explicitly</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>(permissions)</td>
+      <td>r</td>
+      <td>Read</td>
+    </tr>
+    <tr>
+      <td>(permissions)</td>
+      <td>w</td>
+      <td>Write</td>
+    </tr>
+    <tr>
+      <td>(permissions)</td>
+      <td>x</td>
+      <td>Execute</td>
+    </tr>
+    <tr>
+      <td>(permissions)</td>
+      <td>t</td>
+      <td>Sticky bit</td>
+    </tr>
+    <tr>
+      <td>(permissions)</td>
+      <td>s</td>
+      <td>Set UID or GID</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>To see a long directory listing that includes columns with information about file permissions for the owner, file permissions for the group, and file permissions for everyone else, try looking at the contents of the /root directory below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ls -l
+total 51
+drwxr-xr-x  2 root  wheel      3 Aug  3 13:25 .config
+-rw-r--r--  2 root  wheel   1023 Apr  7 11:19 .cshrc
+-rw-r--r--  1 root  wheel     80 Apr  7 11:29 .k5login
+-rw-r--r--  1 root  wheel    328 Apr  7 11:19 .login
+-rw-r--r--  2 root  wheel    507 Apr  7 11:19 .profile
+-rw-r--r--  1 root  wheel   1186 Apr  7 11:19 .shrc
+drwx------  2 root  wheel      3 Jul 26 06:36 .ssh
+drwxr-xr-x  5 root  wheel     10 Aug  3 21:51 latihan
+-rw-r--r--  1 root  wheel      0 Aug  3 16:23 xmrig.json
+</code></pre></div></div>
+
+<h2 id="4-how-to-use-chmod">4. How to Use chmod</h2>
+
+<p>To further deepen the discussion of the chmod command, here are some examples of how to use the chmod command.</p>
+
+<p>Removing the write permission of the xmrig.json file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod -w xmrig.json
+-r--r--r--  1 root  wheel      0 Aug  3 16:23 xmrig.json
+</code></pre></div></div>
+
+<p>Enable read, write, and execute mode permissions, and disable the set-user-ID bit, set-group-ID bit, and sticky bit attributes in the xmrig.json file. (This command is almost the same as 777).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod a=rwx xmrig.json
+-rwxrwxrwx  1 root  wheel      0 Aug  3 16:23 xmrig.json
+</code></pre></div></div>
+
+<p>Remove write permission for others on the xmrig.json file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod o-w xmrig.json
+-rwxrwxr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json
+</code></pre></div></div>
+
+<p>Grants the xmrig.json file execution permission for the group.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod g=x xmrig.json
+-rwx--xr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json
+</code></pre></div></div>
+
+<p>Does not grant permission to read the xmrig.json file for the user (owner).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod u-r xmrig.json
+--wx--xr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json
+</code></pre></div></div>
+
+<p>Give group read/write/execute permissions to the /root/latihan directory. The following files and their subdirectories.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod -R g+rwx /root/latihan
+</code></pre></div></div>
+
+<p>Give the group read and execute permissions to the /root/latihan folder.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod g=rx /root/latihan
+drwxr-xr-x  5 root  wheel     10 Aug  3 21:51 latihan
+</code></pre></div></div>
+
+<p>So that you understand better how to use the chmod command, look at the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod 644 xmrig.json
+-rw-r--r--  1 root  wheel      0 Aug  4 09:23 xmrig.json
+</code></pre></div></div>
+
+<p>The chmod 644 xmrig.json script has meaning.</p>
+<ol>
+  <li>Give read and write permissions to the xmrig.json file for the user (owner).</li>
+  <li>Give read permission only to the xmrig.json file for the group.</li>
+  <li>Give read-only permissions to the xmrig.json file for other people.</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod 755 xmrig.json
+-rwxr-xr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json
+</code></pre></div></div>
+
+<p>The script chmod 755 xmrig.json has meaning</p>
+<ol>
+  <li>Give read, write and execute permissions to the xmrig.json file for the user (owner)</li>
+  <li>Grant read and execute permissions to the xmrig.json file for the group</li>
+  <li>Give read and execute permissions to the xmrig.json file to other people</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chmod 450 xmrig.json
+-r--r-x---  1 root  wheel      0 Aug  4 09:23 xmrig.json
+</code></pre></div></div>
+
+<p>The chmod 450 script has meaning.</p>
+<ol>
+  <li>Give read permission only to the xmrig.json file for the user (owner).</li>
+  <li>Grant read and execute permissions to the xmrig.json file for the group.</li>
+  <li>Do not give read, write and execute permissions to the xmrig.json file to other people.</li>
+</ol>
+
+<p>From all the examples described above, you most likely already understand how to use the chmod command on FreeBSD. If you don’t understand, please read other articles that discuss chmod to deepen your knowledge of the chmod command.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-01T17:25:45+03:00">2025-05-01</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/en/freebsd/2025/05/01/using-chown-command-in-freebsd/" class="pagination--pager" title="Using the Chown Command in FreeBSD
+">Previous</a><a href="https://penaadventure.com/en/freebsd/2025/05/02/exploring-freebsd-ifconfig-features/" class="pagination--pager" title="Exploring IFCONFIG Features On FreeBSD Servers
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

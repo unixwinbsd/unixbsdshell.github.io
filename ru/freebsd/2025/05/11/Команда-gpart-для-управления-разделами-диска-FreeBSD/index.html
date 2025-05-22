@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/ru/freebsd/2025/05/11/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-gpart-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%81%D0%BA%D0%B0-FreeBSD/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Команда gpart для управления разделами диска в FreeBSD 2  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Команда gpart для управления разделами диска в FreeBSD 2"><link rel="canonical" href="https://penaadventure.com/ru/freebsd/2025/05/11/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-gpart-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%81%D0%BA%D0%B0-FreeBSD/">
+  <meta property="og:url" content="https://penaadventure.com/ru/freebsd/2025/05/11/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-gpart-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%81%D0%BA%D0%B0-FreeBSD/"><meta property="og:description" content="Команда gpart поддерживает различные схемы разделов, включая GPT (таблица разделов GUID), MBR (главная загрузочная запись) и метки BSD."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Команда gpart для управления разделами диска в FreeBSD 2">
+  <meta name="twitter:description" content="Команда gpart поддерживает различные схемы разделов, включая GPT (таблица разделов GUID), MBR (главная загрузочная запись) и метки BSD.">
+  <meta name="twitter:url" content="https://penaadventure.com/ru/freebsd/2025/05/11/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-gpart-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%81%D0%BA%D0%B0-FreeBSD/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-11T14:11:10+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="a08818ab2cd73c0eb3ababbd27d4f92f" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/ru/freebsd/2025/05/11/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-gpart-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%81%D0%BA%D0%B0-FreeBSD/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#ru" itemprop="item"><span itemprop="name">Ru</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#11" itemprop="item"><span itemprop="name">11</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Команда gpart для управления разделами диска в FreeBSD 2</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-11 14:11:10 +0300",
+"datePublished": "2025-05-11 14:11:10 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Команда gpart для управления разделами диска в FreeBSD 2",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "Команда gpart поддерживает различные схемы разделов, включая GPT (таблица разделов GUID), MBR (главная загрузочная запись) и метки BSD."
+},
+
+"datePublished": "2025-05-11 14:11:10 +0300",
+"dateModified": "2025-05-11 14:11:10 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/ru/freebsd/2025/05/11/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-gpart-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%81%D0%BA%D0%B0-FreeBSD/",
+"name": "Команда gpart для управления разделами диска в FreeBSD 2"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/ru/freebsd/2025/05/11/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-gpart-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%81%D0%BA%D0%B0-FreeBSD/",
+"name": "SysAdmin"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/ru/freebsd/2025/05/11/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-gpart-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%81%D0%BA%D0%B0-FreeBSD/",
+  "name": "Команда gpart для управления разделами диска в FreeBSD 2",
+  "headline": "Команда gpart для управления разделами диска в FreeBSD 2",
+  "keywords": "SysAdmin",
+  "description": "Команда gpart поддерживает различные схемы разделов, включая GPT (таблица разделов GUID), MBR (главная загрузочная запись) и метки BSD.",
+  "articleBody": "Эта статья является продолжением предыдущей статьи. В этой статье мы продолжим рассмотрение других команд gpart. Чтобы у вас не возникло трудностей с изучением команды gpart, предлагаю прочитать предыдущую статью. Если вы хотите глубже понять команду gpart и другие, я рекомендую прочитать написанную мной книгу “The FreeBSD Handbook - System Administrator”.\n\nВ предыдущей статье, а именно в пункте «C», обсуждение команды gpart дошло до пункта «f». В этой статье мы начнем с пункта «ж».\n\nг. Изменение атрибутов раздела - gpart modify\nКоманда gpart modify может изменить только тип раздела и метку раздела. Чтобы изменить тип и метку раздела, необходимо указать его с помощью параметра -i (индекс).\n\nЧтобы использовать каждую опцию изменения gpart, вы можете ознакомиться с ней в таблице ниже:\n\n\n  \n    \n      Option\n      Description\n    \n  \n  \n    \n      -f flags\n      Additional operational flags. See the section entitled  “OPERATIONAL FLAGS” below for a discussion about its use.\n    \n    \n      -i index\n      Specifies the index of the partition to be modified.\n    \n    \n      -l label\n      Change the partition label to label.\n    \n    \n      -t type\n      Change the partition type to type.\n    \n  \n\n\nВ таблице выше мы видим, что команда gpart modify может работать только с опциями -l и -t с учетом опции -i.\n\n\n\nПоддерживать\nЕсли вы считаете, что моя статья ценна и полезна для вас. Пожалуйста, рассмотрите возможность сделать пожертвование.\n\nВаше пожертвование очень ценно для написания следующих статей более высокого качества.\n\nСпасибо.\n\nPayeer: P1052173944\nPaypal: datainchi@gmail.com\nFaucetpay: datainchi@gmail.com\nBitcoin Payeer: 32RW6hDPRA5bNtcHS4HQX8S4FSGsEvmJ9T\nBitcoin Faucetpay: 1QPJFAXtrLZWJLi9PPTeYXVEZKwydXQoY\n\n\nг.1. Изменение метки раздела\nВ примере ниже мы покажем вам, как изменить метку жесткого диска.\n\nroot@ns4:~ # gpart show -l ada0\n=&gt;       40  488397088  ada0  GPT  (233G)\n         40       1024     1  gptboot0  (512K)\n       1064        984        - free -  (492K)\n       2048    4194304     2  swap0  (2.0G)\n    4196352  484200448     3  zfs0  (231G)\n  488396800        328        - free -  (164K)\n\nОбратите внимание на сообщения, отображаемые командой gpart show. В описании выше поясняется, что имя метки жесткого диска — «zfs0» с индексом 3. Мы изменим имя метки на «hard-disk-1» с помощью команды gpart modify, как в примере ниже.\n\nroot@ns4:~ # gpart modify -i 3 -l hard-disk-1 ada0\nada0p3 modified\n\nПосле изменения имени метки на hard-disk-1 выполните команду gpart show, чтобы увидеть, изменилось ли имя метки или нет.\n\nroot@ns4:~ # gpart show -l ada0\n=&gt;       40  488397088  ada0  GPT  (233G)\n         40       1024     1  gptboot0  (512K)\n       1064        984        - free -  (492K)\n       2048    4194304     2  swap0  (2.0G)\n    4196352  484200448     3  hard-disk-1  (231G)\n  488396800        328        - free -  (164K)\n\nВ приведенной выше команде мы видим, что имя метки «zfs0» было изменено на «hard-disk-1».\n\nroot@ns4:~ # diskinfo /dev/gpt/namalabel\n/dev/gpt/namalabel      512     2147483648      4194304 0       1048576 261     255     63\n\n\nг.2. Изменение типа раздела\nС помощью gpart modify вы также можете изменить тип раздела жесткого диска. Вы можете изменить тип существующих разделов, см. разделы Flashdisk ниже.\n\nroot@ns4:~ # gpart show da0\n=&gt;      40  30834608  da0  GPT  (15G)\n        40      2008       - free -  (1.0M)\n      2048  14680064    1  freebsd-ufs  (7.0G)\n  14682112   2097152    2  freebsd-ufs  (1.0G)\n  16779264   4194304    3  freebsd-ufs  (2.0G)\n  20973568   9861080       - free -  (4.7G)\n\n\nСуществует три типа разделов, а именно freebsd-ufs с индексами 1, 2 и 3. Поскольку вы хотите создать файл подкачки, мы изменим один из разделов freebsd-ufs на раздел подкачки, например, мы изменим индекс 2 на swap. Для этого просто выполните команду ниже.\n\nroot@ns4:~ # gpart modify -i 2 -t freebsd-swap da0\nda0p2 modified\n\n\nТеперь давайте посмотрим на изменения, произошедшие после выполнения команды выше с помощью gpart show.\n\nroot@ns4:~ # gpart show da0\n=&gt;      40  30834608  da0  GPT  (15G)\n        40      2008       - free -  (1.0M)\n      2048  14680064    1  freebsd-ufs  (7.0G)\n  14682112   2097152    2  freebsd-swap  (1.0G)\n  16779264   4194304    3  freebsd-ufs  (2.0G)\n  20973568   9861080       - free -  (4.7G)\n\nч. Изменить размер раздела - gpart resize\nКаждый раздел имеет предопределенный размер, но вы можете изменить размер раздела по своему желанию. Для изменения размера существующего раздела на диске можно использовать команду gpart resize.\n\nroot@ns4:~ # gpart show da0\n=&gt;      40  30834608  da0  GPT  (15G)\n        40       512    1  freebsd-boot  (256K)\n       552   2097152    2  freebsd-swap  (1.0G)\n   2097704  12582912    3  freebsd-ufs  (6.0G)\n  14680616  16154032       - free -  (7.7G)\n\n\nВ приведенной выше команде в конце диска имеется свободное место размером около 7,7 ГБ. Поскольку размер разделов можно изменять только до смежных участков пространства, чтобы изменить размер второго раздела (т. е. корневого раздела), нам нужно удалить третий раздел (что безопасно, поскольку раздел подкачки содержит только временные данные), изменить размер второго раздела, а затем заново создать раздел подкачки.\n\nЕсли вы активировали файл подкачки с помощью команды «swapon /dev/da0», сначала отключите файл подкачки в da0.\n\nroot@ns4:~ # swapoff /dev/da0\n\nСледующий шаг — удаление раздела подкачки. Поскольку файл подкачки находится в индексе №. 2, вы удаляете файл подкачки с помощью команды gpart delete.\n\nroot@ns4:~ # gpart delete -i 2 /dev/da0\n\nПосмотрите изменения, произошедшие после команды удаления раздела подкачки.\n\nroot@ns4:~ # gpart show /dev/da0\n=&gt;      40  30834608  da0  GPT  (15G)\n        40       512    1  freebsd-boot  (256K)\n       552   2097152       - free -  (1.0G)\n   2097704  12582912    3  freebsd-ufs  (6.0G)\n  14680616  16154032       - free -  (7.7G)\n\n\nЗатем меняем размер раздела freebsd-ufs на 12G. Обратите внимание на порядковый номер раздела freebsd-ufs. Чтобы изменить размер раздела freebsd-ufs с 6,0 ГБ до 12 ГБ, выполните команду ниже.\n\nroot@ns4:~ # gpart resize -i 3 -s 12G -a 4k da0\nda0p3 resized\n\nКак обычно, просмотрите результаты с помощью команды gpart show.\n\nroot@ns4:~ # gpart show da0\n=&gt;      40  30834608  da0  GPT  (15G)\n        40       512    1  freebsd-boot  (256K)\n       552   2097152       - free -  (1.0G)\n   2097704  25165824    3  freebsd-ufs  (12G)\n  27263528   3571120       - free -  (1.7G)\n\nПосле выполнения команды выше осталось еще 1,7 Гб свободного места. Оставшийся объем мы используем для хранения файла подкачки. Чтобы создать раздел подкачки, вы можете выполнить следующую команду.\n\nroot@ns4:~ # gpart add -t freebsd-swap -a 4k da0\nda0p2 added\n\nя. Установка загрузочного кода на раздел - gpart bootcode\nЧтобы установить загрузочный код в метаданные схемы разделов на диске, используйте команду gpart bootcode. Например, чтобы установить загрузочный код GPT на da0, используйте:\n\nroot@ns4:~ # gpart bootcode -b /boot/pmbr -p /boot/gptboot -i 1 da0\npartcode written to da0p1\nbootcode written to da0\n\n\nПриведенная выше команда установит загрузочный код GPT на первый раздел -i (индекс 1) на диске da0. При этом параметр -b указывает загрузочный код PMBR (Protective MBR), а параметр -p указывает загрузочный код GPT.\n\nЕсли вы хотите использовать загрузочный код ZFS, замените gptboot на gptzfsboot.\n\nroot@ns4:~ # gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 da0\npartcode written to da0p1\nbootcode written to da0\n\nдж. Создать резервный раздел - gpart backup\nСоздание резервного раздела очень важно для предотвращения сбоя системы. С помощью резервного копирования разделов мы можем легко восстановить поврежденные или утерянные разделы.\n\nРезервный раздел можно создать с помощью команды gpart backup. Эта команда отображает информацию о таблице разделов в специальном текстовом формате. Вы можете перенаправить эту информацию в файл или передать ее команде «gpart restore» для восстановления раздела.\n\nВот простая команда резервного копирования gpart.\n\nroot@ns4:~ # gpart backup ada0\nGPT 128\n1   freebsd-boot        40      1024 gptboot0\n2   freebsd-swap      2048   4194304 swap0\n3    freebsd-zfs   4196352 484200448 zfs0\n\n\nЧтобы команда резервного копирования gpart могла работать оптимально во время восстановления. Лучше создать специальный файл для резервного раздела, как в следующем примере.\n\nroot@ns4:~ # gpart backup da0 &gt; /mnt/da0.backup\n\nк. Восстановление раздела - gpart restore\nЕсли вы случайно уничтожили таблицу разделов схемы GPT, у вас все равно есть несколько вариантов ее восстановления. Обратите внимание, я сделал резервную копию раздела с помощью команды gpart backup, если нет, то вам предстоит сделать еще кое-что.\n\nИтак, если вы ранее создали резервную копию таблицы разделов с помощью команды gpart backup, то вам повезло, и, скорее всего, вам понадобится всего несколько команд оболочки, чтобы вернуть вашу систему в нормальное состояние.\n\nМы приведем пример запуска команды gpart restore для восстановления удаленного раздела. Выполняйте каждую продемонстрированную нами команду.\n\nк.1. Удалить раздел\nroot@ns4:~ # gpart destroy -F /dev/da0\n\n\nк.2. Создайте таблицу схем и типов разделов.\nroot@ns4:~ # gpart create -s gpt da0\nroot@ns4:~ # gpart add -s 64k -t freebsd-boot da0\nroot@ns4:~ # gpart add -s 6G -t freebsd-ufs da0\nroot@ns4:~ # gpart add -t freebsd-swap da0\nroot@ns4:~ # gpart bootcode -b /boot/pmbr -p /boot/gptboot -i 1 da0\n\nТеперь вы можете увидеть содержимое разделов на диске da0.\nroot@ns4:~ # gpart show da0\n=&gt;      40  30834608  da0  GPT  (15G)\n        40       128    1  freebsd-boot  (64K)\n       168  12582912    2  freebsd-ufs  (6.0G)\n  12583080  18251568    3  freebsd-swap  (8.7G)\n\n\nПриведенные выше команды полностью соответствуют настройкам FreeBSD по умолчанию во время процесса установки.\n\n\n  Первый раздел должен называться freebsd-boot, а его размер, скорее всего, составит 64 КБ.\n  Второй раздел — корневой раздел (freebsd-ufs).\n  Третий раздел — это раздел подкачки (freebsd-swap).\n  Остальные разделы зависят от вашей конфигурации.\n\n\nк.3. Создать резервный раздел\nroot@ns4:~ # gpart backup da0 &gt; /mnt/da0.backup\n\n\nк.4. Удалить раздел\n\nroot@ns4:~ # gpart destroy -F /dev/da0\n\n\nк.5. Восстановить раздел\n\nroot@ns4:~ # gpart restore -F da0 &lt; /mnt/da0.backup\n\n\nВ команде восстановления опция -F сначала полностью сотрет все существующие данные из таблицы разделов, а затем восстановит таблицу из файлов.\n\nПодробно рассмотрены основные команды gpart в man gpart. Вы просто запоминаете каждую выполняемую команду. Если у вас возникли трудности с изучением команды gpart, вы можете оставить комментарий или напрямую посетить официальный сайт gpart.\n",
+  "datePublished": "2025-05-11 14:11:10 +0300",
+  "dateModified": "2025-05-11 14:11:10 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Команда gpart для управления разделами диска в FreeBSD 2"><meta itemprop="description" content="Команда gpart поддерживает различные схемы разделов, включая GPT (таблица разделов GUID), MBR (главная загрузочная запись) и метки BSD."><meta itemprop="datePublished" content="2025-05-11"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-11T14:11:10+03:00">2025-05-11</time> </p><h1 class="page__title" itemprop="headline">Команда gpart для управления разделами диска в FreeBSD 2
+</h1></header><section class="page__content" itemprop="text">
+        <p>Эта статья является продолжением предыдущей статьи. В этой статье мы продолжим рассмотрение других команд gpart. Чтобы у вас не возникло трудностей с изучением команды gpart, предлагаю прочитать предыдущую статью. Если вы хотите глубже понять команду gpart и другие, я рекомендую прочитать написанную мной книгу “The FreeBSD Handbook - System Administrator”.</p>
+
+<p>В предыдущей статье, а именно в пункте «C», обсуждение команды gpart дошло до пункта «f». В этой статье мы начнем с пункта «ж».</p>
+
+<h3 id="г-изменение-атрибутов-раздела---gpart-modify">г. Изменение атрибутов раздела - gpart modify</h3>
+<p>Команда gpart modify может изменить только тип раздела и метку раздела. Чтобы изменить тип и метку раздела, необходимо указать его с помощью параметра -i (индекс).</p>
+
+<p>Чтобы использовать каждую опцию изменения gpart, вы можете ознакомиться с ней в таблице ниже:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>Option</strong></th>
+      <th><strong>Description</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-f flags</td>
+      <td>Additional operational flags. See the section entitled  “OPERATIONAL FLAGS” below for a discussion about its use.</td>
+    </tr>
+    <tr>
+      <td>-i index</td>
+      <td>Specifies the index of the partition to be modified.</td>
+    </tr>
+    <tr>
+      <td>-l label</td>
+      <td>Change the partition label to label.</td>
+    </tr>
+    <tr>
+      <td>-t type</td>
+      <td>Change the partition type to type.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>В таблице выше мы видим, что команда gpart modify может работать только с опциями -l и -t с учетом опции -i.</p>
+
+<p><br /><br /></p>
+
+<h3 id="поддерживать">Поддерживать</h3>
+<p>Если вы считаете, что моя статья ценна и полезна для вас. Пожалуйста, рассмотрите возможность сделать пожертвование.</p>
+
+<p>Ваше пожертвование очень ценно для написания следующих статей более высокого качества.</p>
+
+<h4 id="спасибо">Спасибо.</h4>
+
+<h5 id="payeer-p1052173944">Payeer: P1052173944</h5>
+<h5 id="paypal-datainchigmailcom">Paypal: datainchi@gmail.com</h5>
+<h5 id="faucetpay-datainchigmailcom">Faucetpay: datainchi@gmail.com</h5>
+<h5 id="bitcoin-payeer-32rw6hdpra5bntchs4hqx8s4fsgsevmj9t">Bitcoin Payeer: 32RW6hDPRA5bNtcHS4HQX8S4FSGsEvmJ9T</h5>
+<h5 id="bitcoin-faucetpay-1qpjfaxtrlzwjli9ppteyxvezkwydxqoy">Bitcoin Faucetpay: 1QPJFAXtrLZWJLi9PPTeYXVEZKwydXQoY</h5>
+<p><br /><br /></p>
+
+<h4 id="г1-изменение-метки-раздела">г.1. Изменение метки раздела</h4>
+<p>В примере ниже мы покажем вам, как изменить метку жесткого диска.
+<br /></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show -l ada0
+=&gt;       40  488397088  ada0  GPT  (233G)
+         40       1024     1  gptboot0  (512K)
+       1064        984        - free -  (492K)
+       2048    4194304     2  swap0  (2.0G)
+    4196352  484200448     3  zfs0  (231G)
+  488396800        328        - free -  (164K)
+</code></pre></div></div>
+<p>Обратите внимание на сообщения, отображаемые командой gpart show. В описании выше поясняется, что имя метки жесткого диска — «zfs0» с индексом 3. Мы изменим имя метки на «hard-disk-1» с помощью команды gpart modify, как в примере ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart modify -i 3 -l hard-disk-1 ada0
+ada0p3 modified
+</code></pre></div></div>
+<p>После изменения имени метки на hard-disk-1 выполните команду gpart show, чтобы увидеть, изменилось ли имя метки или нет.
+<br /></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show -l ada0
+=&gt;       40  488397088  ada0  GPT  (233G)
+         40       1024     1  gptboot0  (512K)
+       1064        984        - free -  (492K)
+       2048    4194304     2  swap0  (2.0G)
+    4196352  484200448     3  hard-disk-1  (231G)
+  488396800        328        - free -  (164K)
+</code></pre></div></div>
+<p>В приведенной выше команде мы видим, что имя метки «zfs0» было изменено на «hard-disk-1».</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # diskinfo /dev/gpt/namalabel
+/dev/gpt/namalabel      512     2147483648      4194304 0       1048576 261     255     63
+</code></pre></div></div>
+
+<h3 id="г2-изменение-типа-раздела">г.2. Изменение типа раздела</h3>
+<p>С помощью gpart modify вы также можете изменить тип раздела жесткого диска. Вы можете изменить тип существующих разделов, см. разделы Flashdisk ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show da0
+=&gt;      40  30834608  da0  GPT  (15G)
+        40      2008       - free -  (1.0M)
+      2048  14680064    1  freebsd-ufs  (7.0G)
+  14682112   2097152    2  freebsd-ufs  (1.0G)
+  16779264   4194304    3  freebsd-ufs  (2.0G)
+  20973568   9861080       - free -  (4.7G)
+</code></pre></div></div>
+
+<p>Существует три типа разделов, а именно freebsd-ufs с индексами 1, 2 и 3. Поскольку вы хотите создать файл подкачки, мы изменим один из разделов freebsd-ufs на раздел подкачки, например, мы изменим индекс 2 на swap. Для этого просто выполните команду ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart modify -i 2 -t freebsd-swap da0
+da0p2 modified
+</code></pre></div></div>
+
+<p>Теперь давайте посмотрим на изменения, произошедшие после выполнения команды выше с помощью gpart show.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show da0
+=&gt;      40  30834608  da0  GPT  (15G)
+        40      2008       - free -  (1.0M)
+      2048  14680064    1  freebsd-ufs  (7.0G)
+  14682112   2097152    2  freebsd-swap  (1.0G)
+  16779264   4194304    3  freebsd-ufs  (2.0G)
+  20973568   9861080       - free -  (4.7G)
+</code></pre></div></div>
+<h3 id="ч-изменить-размер-раздела---gpart-resize">ч. Изменить размер раздела - gpart resize</h3>
+<p>Каждый раздел имеет предопределенный размер, но вы можете изменить размер раздела по своему желанию. Для изменения размера существующего раздела на диске можно использовать команду gpart resize.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show da0
+=&gt;      40  30834608  da0  GPT  (15G)
+        40       512    1  freebsd-boot  (256K)
+       552   2097152    2  freebsd-swap  (1.0G)
+   2097704  12582912    3  freebsd-ufs  (6.0G)
+  14680616  16154032       - free -  (7.7G)
+</code></pre></div></div>
+
+<p>В приведенной выше команде в конце диска имеется свободное место размером около 7,7 ГБ. Поскольку размер разделов можно изменять только до смежных участков пространства, чтобы изменить размер второго раздела (т. е. корневого раздела), нам нужно удалить третий раздел (что безопасно, поскольку раздел подкачки содержит только временные данные), изменить размер второго раздела, а затем заново создать раздел подкачки.</p>
+
+<p>Если вы активировали файл подкачки с помощью команды «swapon /dev/da0», сначала отключите файл подкачки в da0.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # swapoff /dev/da0
+</code></pre></div></div>
+<p>Следующий шаг — удаление раздела подкачки. Поскольку файл подкачки находится в индексе №. 2, вы удаляете файл подкачки с помощью команды gpart delete.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart delete -i 2 /dev/da0
+</code></pre></div></div>
+<p>Посмотрите изменения, произошедшие после команды удаления раздела подкачки.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show /dev/da0
+=&gt;      40  30834608  da0  GPT  (15G)
+        40       512    1  freebsd-boot  (256K)
+       552   2097152       - free -  (1.0G)
+   2097704  12582912    3  freebsd-ufs  (6.0G)
+  14680616  16154032       - free -  (7.7G)
+</code></pre></div></div>
+
+<p>Затем меняем размер раздела freebsd-ufs на 12G. Обратите внимание на порядковый номер раздела freebsd-ufs. Чтобы изменить размер раздела freebsd-ufs с 6,0 ГБ до 12 ГБ, выполните команду ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart resize -i 3 -s 12G -a 4k da0
+da0p3 resized
+</code></pre></div></div>
+<p>Как обычно, просмотрите результаты с помощью команды gpart show.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show da0
+=&gt;      40  30834608  da0  GPT  (15G)
+        40       512    1  freebsd-boot  (256K)
+       552   2097152       - free -  (1.0G)
+   2097704  25165824    3  freebsd-ufs  (12G)
+  27263528   3571120       - free -  (1.7G)
+</code></pre></div></div>
+<p>После выполнения команды выше осталось еще 1,7 Гб свободного места. Оставшийся объем мы используем для хранения файла подкачки. Чтобы создать раздел подкачки, вы можете выполнить следующую команду.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart add -t freebsd-swap -a 4k da0
+da0p2 added
+</code></pre></div></div>
+<h3 id="я-установка-загрузочного-кода-на-раздел---gpart-bootcode">я. Установка загрузочного кода на раздел - gpart bootcode</h3>
+<p>Чтобы установить загрузочный код в метаданные схемы разделов на диске, используйте команду gpart bootcode. Например, чтобы установить загрузочный код GPT на da0, используйте:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart bootcode -b /boot/pmbr -p /boot/gptboot -i 1 da0
+partcode written to da0p1
+bootcode written to da0
+</code></pre></div></div>
+
+<p>Приведенная выше команда установит загрузочный код GPT на первый раздел -i (индекс 1) на диске da0. При этом параметр -b указывает загрузочный код PMBR (Protective MBR), а параметр -p указывает загрузочный код GPT.</p>
+
+<p>Если вы хотите использовать загрузочный код ZFS, замените gptboot на gptzfsboot.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 da0
+partcode written to da0p1
+bootcode written to da0
+</code></pre></div></div>
+<h3 id="дж-создать-резервный-раздел---gpart-backup">дж. Создать резервный раздел - gpart backup</h3>
+<p>Создание резервного раздела очень важно для предотвращения сбоя системы. С помощью резервного копирования разделов мы можем легко восстановить поврежденные или утерянные разделы.</p>
+
+<p>Резервный раздел можно создать с помощью команды gpart backup. Эта команда отображает информацию о таблице разделов в специальном текстовом формате. Вы можете перенаправить эту информацию в файл или передать ее команде «gpart restore» для восстановления раздела.</p>
+
+<p>Вот простая команда резервного копирования gpart.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart backup ada0
+GPT 128
+1   freebsd-boot        40      1024 gptboot0
+2   freebsd-swap      2048   4194304 swap0
+3    freebsd-zfs   4196352 484200448 zfs0
+</code></pre></div></div>
+
+<p>Чтобы команда резервного копирования gpart могла работать оптимально во время восстановления. Лучше создать специальный файл для резервного раздела, как в следующем примере.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart backup da0 &gt; /mnt/da0.backup
+</code></pre></div></div>
+<h3 id="к-восстановление-раздела---gpart-restore">к. Восстановление раздела - gpart restore</h3>
+<p>Если вы случайно уничтожили таблицу разделов схемы GPT, у вас все равно есть несколько вариантов ее восстановления. Обратите внимание, я сделал резервную копию раздела с помощью команды gpart backup, если нет, то вам предстоит сделать еще кое-что.</p>
+
+<p>Итак, если вы ранее создали резервную копию таблицы разделов с помощью команды gpart backup, то вам повезло, и, скорее всего, вам понадобится всего несколько команд оболочки, чтобы вернуть вашу систему в нормальное состояние.</p>
+
+<p>Мы приведем пример запуска команды gpart restore для восстановления удаленного раздела. Выполняйте каждую продемонстрированную нами команду.</p>
+
+<h4 id="к1-удалить-раздел">к.1. Удалить раздел</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart destroy -F /dev/da0
+</code></pre></div></div>
+
+<h4 id="к2-создайте-таблицу-схем-и-типов-разделов">к.2. Создайте таблицу схем и типов разделов.</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart create -s gpt da0
+root@ns4:~ # gpart add -s 64k -t freebsd-boot da0
+root@ns4:~ # gpart add -s 6G -t freebsd-ufs da0
+root@ns4:~ # gpart add -t freebsd-swap da0
+root@ns4:~ # gpart bootcode -b /boot/pmbr -p /boot/gptboot -i 1 da0
+</code></pre></div></div>
+<p>Теперь вы можете увидеть содержимое разделов на диске da0.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show da0
+=&gt;      40  30834608  da0  GPT  (15G)
+        40       128    1  freebsd-boot  (64K)
+       168  12582912    2  freebsd-ufs  (6.0G)
+  12583080  18251568    3  freebsd-swap  (8.7G)
+</code></pre></div></div>
+
+<p>Приведенные выше команды полностью соответствуют настройкам FreeBSD по умолчанию во время процесса установки.</p>
+
+<ol>
+  <li>Первый раздел должен называться freebsd-boot, а его размер, скорее всего, составит 64 КБ.</li>
+  <li>Второй раздел — корневой раздел (freebsd-ufs).</li>
+  <li>Третий раздел — это раздел подкачки (freebsd-swap).</li>
+  <li>Остальные разделы зависят от вашей конфигурации.</li>
+</ol>
+
+<h4 id="к3-создать-резервный-раздел">к.3. Создать резервный раздел</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart backup da0 &gt; /mnt/da0.backup
+</code></pre></div></div>
+
+<h4 id="к4-удалить-раздел">к.4. Удалить раздел</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart destroy -F /dev/da0
+</code></pre></div></div>
+
+<h4 id="к5-восстановить-раздел">к.5. Восстановить раздел</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart restore -F da0 &lt; /mnt/da0.backup
+</code></pre></div></div>
+
+<p>В команде восстановления опция -F сначала полностью сотрет все существующие данные из таблицы разделов, а затем восстановит таблицу из файлов.</p>
+
+<p>Подробно рассмотрены основные команды gpart в man gpart. Вы просто запоминаете каждую выполняемую команду. Если у вас возникли трудности с изучением команды gpart, вы можете оставить комментарий или напрямую посетить официальный сайт gpart.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-11T14:11:10+03:00">2025-05-11</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#ru" class="page__taxonomy-item" rel="tag">ru</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/ru/freebsd/2025/05/10/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-gpart-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%81%D0%BA%D0%B0-FreeBSD/" class="pagination--pager" title="Команда gpart для управления разделами диска в FreeBSD 1
+">Previous</a><a href="https://penaadventure.com/ru/freebsd/2025/05/12/tutorials-openssl-on-freebsd/" class="pagination--pager" title="Учебники OpenSSL на FreeBSD - Установка и настройка SSL сертификатов на FreeBSD
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

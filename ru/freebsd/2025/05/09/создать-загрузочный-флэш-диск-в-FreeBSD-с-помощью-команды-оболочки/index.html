@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/ru/freebsd/2025/05/09/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D1%8B%D0%B9-%D1%84%D0%BB%D1%8D%D1%88-%D0%B4%D0%B8%D1%81%D0%BA-%D0%B2-FreeBSD-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B-%D0%BE%D0%B1%D0%BE%D0%BB%D0%BE%D1%87%D0%BA%D0%B8/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Создание загрузочного флэш-диска на FreeBSD с помощью команд оболочки  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Создание загрузочного флэш-диска на FreeBSD с помощью команд оболочки"><link rel="canonical" href="https://penaadventure.com/ru/freebsd/2025/05/09/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D1%8B%D0%B9-%D1%84%D0%BB%D1%8D%D1%88-%D0%B4%D0%B8%D1%81%D0%BA-%D0%B2-FreeBSD-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B-%D0%BE%D0%B1%D0%BE%D0%BB%D0%BE%D1%87%D0%BA%D0%B8/">
+  <meta property="og:url" content="https://penaadventure.com/ru/freebsd/2025/05/09/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D1%8B%D0%B9-%D1%84%D0%BB%D1%8D%D1%88-%D0%B4%D0%B8%D1%81%D0%BA-%D0%B2-FreeBSD-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B-%D0%BE%D0%B1%D0%BE%D0%BB%D0%BE%D1%87%D0%BA%D0%B8/"><meta property="og:description" content="In UNIX commands, the dd command is often referred to as a disk or data duplicator, because it is capable of copying raw data from one source to another"><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Создание загрузочного флэш-диска на FreeBSD с помощью команд оболочки">
+  <meta name="twitter:description" content="In UNIX commands, the dd command is often referred to as a disk or data duplicator, because it is capable of copying raw data from one source to another">
+  <meta name="twitter:url" content="https://penaadventure.com/ru/freebsd/2025/05/09/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D1%8B%D0%B9-%D1%84%D0%BB%D1%8D%D1%88-%D0%B4%D0%B8%D1%81%D0%BA-%D0%B2-FreeBSD-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B-%D0%BE%D0%B1%D0%BE%D0%BB%D0%BE%D1%87%D0%BA%D0%B8/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-09T14:25:10+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="a08818ab2cd73c0eb3ababbd27d4f92f" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/ru/freebsd/2025/05/09/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D1%8B%D0%B9-%D1%84%D0%BB%D1%8D%D1%88-%D0%B4%D0%B8%D1%81%D0%BA-%D0%B2-FreeBSD-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B-%D0%BE%D0%B1%D0%BE%D0%BB%D0%BE%D1%87%D0%BA%D0%B8/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#ru" itemprop="item"><span itemprop="name">Ru</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#09" itemprop="item"><span itemprop="name">09</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Создание загрузочного флэш-диска на FreeBSD с помощью команд оболочки</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-09 14:25:10 +0300",
+"datePublished": "2025-05-09 14:25:10 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Создание загрузочного флэш-диска на FreeBSD с помощью команд оболочки",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "In UNIX commands, the dd command is often referred to as a disk or data duplicator, because it is capable of copying raw data from one source to another"
+},
+
+"datePublished": "2025-05-09 14:25:10 +0300",
+"dateModified": "2025-05-09 14:25:10 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/ru/freebsd/2025/05/09/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D1%8B%D0%B9-%D1%84%D0%BB%D1%8D%D1%88-%D0%B4%D0%B8%D1%81%D0%BA-%D0%B2-FreeBSD-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B-%D0%BE%D0%B1%D0%BE%D0%BB%D0%BE%D1%87%D0%BA%D0%B8/",
+"name": "Создание загрузочного флэш-диска на FreeBSD с помощью команд оболочки"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/ru/freebsd/2025/05/09/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D1%8B%D0%B9-%D1%84%D0%BB%D1%8D%D1%88-%D0%B4%D0%B8%D1%81%D0%BA-%D0%B2-FreeBSD-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B-%D0%BE%D0%B1%D0%BE%D0%BB%D0%BE%D1%87%D0%BA%D0%B8/",
+"name": "SysAdmin"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/ru/freebsd/2025/05/09/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D1%8B%D0%B9-%D1%84%D0%BB%D1%8D%D1%88-%D0%B4%D0%B8%D1%81%D0%BA-%D0%B2-FreeBSD-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B-%D0%BE%D0%B1%D0%BE%D0%BB%D0%BE%D1%87%D0%BA%D0%B8/",
+  "name": "Создание загрузочного флэш-диска на FreeBSD с помощью команд оболочки",
+  "headline": "Создание загрузочного флэш-диска на FreeBSD с помощью команд оболочки",
+  "keywords": "SysAdmin",
+  "description": "In UNIX commands, the dd command is often referred to as a disk or data duplicator, because it is capable of copying raw data from one source to another",
+  "articleBody": "Похоже, золотая эра CD-Room начинает клониться к закату, о его существовании постепенно забывают, и даже люди редко им пользуются. CD-комнаты, которые раньше были необходимы для процесса установки, теперь начинают приходить в упадок. Люди начинают переходить на флэш-накопители и другие носители, которые можно вставить в USB-слот.\n\nКомпактный и тонкий корпус, а также удобство переноски и использования делают флэш-диски очень популярными среди всех. Почти у каждого, кто работает в сфере компьютеров, наверняка есть предмет под названием флешка. Мало того, с помощью нескольких утилит, имеющихся в каждой операционной системе, флэш-диски начинают заменять роль CD-Rooms в процессе установки операционной системы.\n\nБыстрое развитие USB-слотов также увеличило скорость передачи данных этого устройства. Его скорость может превзойти CD-Room. Развитие на этом не останавливается: емкость флэш-дисков значительно превзошла емкость компакт-дисков. Поэтому было бы весьма разумно, если бы этот инструмент в настоящее время стал верным другом программистов или пользователей компьютеров в качестве резервного или установочного носителя.\n\nA. Загрузочное программное обеспечение Flashdisk для img и iso\n\nСуществует множество программ, которые можно использовать для создания загрузочного Flash-диска. Каждая операционная система имеет свои особенности. Есть программное обеспечение, которое может работать только на Windows, есть даже загрузочное программное обеспечение, которое можно использовать на всех операционных системах, таких как Linux, BSD и MacOS.\n\nИз множества программ, которые можно использовать для создания загрузочной флешки, есть несколько общеизвестных. Как правило, каждый человек по-разному выбирает, какое приложение использовать для создания загрузочного Flash-диска, это зависит от его вкуса. Тем не менее, Balena Etcher стоит попробовать. Balen Etcher может работать на Windows и Linux.\n\nПроцесс установки прост. Внешний вид привлекательный и удобный в использовании. Всего за несколько щелчков мыши вы успешно создали загрузочный Flash-диск. Если вы заинтересованы в использовании этого программного обеспечения, вы можете загрузить его непосредственно с официального сайта.\n\n\n\nКоманды графического интерфейса пользователя очень просты в использовании, но если вы используете сервер на базе Linux или FreeBSD, который не поддерживает приложения с графическим интерфейсом пользователя, этот инструмент использовать нельзя. Однако это не значит, что серверные компьютеры не могут создавать загрузочные флэш-диски. Системы на базе сервера поддерживают команды оболочки, которые не менее функциональны, чем графический интерфейс.\n\nСуществует множество приложений, которые запускаются с помощью команд оболочки для создания загрузочного Flash-диска. Даже его возможности не уступают приложениям с графическим интерфейсом. Даже если проанализировать, такие программы, как Balena Etcher, Rufus и другие, представляют собой практически одни и те же инструкции оболочки в FreeBSD и Linux.\n\nОдним из приложений оболочки, которое можно использовать для создания загрузочного флэш-диска, является команда «dd». Эта команда способна считывать и записывать все данные на Flash-диск.\n\nБ. О команде dd\nКоманда dd Dataset Definition — одна из команд оболочки в системе UNIX. Его использование широко распространено в различных операционных системах. В системе FreeBSD команда dd является одной из встроенных в систему команд по умолчанию. Вам не нужно его устанавливать, можно использовать команду dd напрямую.\n\nКоманда dd — это команда оболочки UNIX, которую FreeBSD использует с момента своего первого выпуска. Эта команда представляет собой мощную утилиту для низкоуровневого копирования и преобразования данных, в основном используемую для клонирования дисков, создания образов дисков, резервного копирования разделов и записи ISO-файлов на USB-накопители. Освоение команды dd имеет важное значение для системного администратора FreeBSD, поскольку она позволяет осуществлять точный контроль над манипулированием данными, процессами резервного копирования и восстановления дисков.\n\nВ командах UNIX команда dd часто называется дубликатором дисков или данных, поскольку она способна копировать необработанные данные из одного источника в другой. Утилита dd широко используется в таких задачах FreeBSD, как:\n\n\n  Может использоваться с резервным копированием на ленту.\n  Преобразование между системами, использующими разный порядок байтов.\n  Резервное копирование загрузочного сектора.\n  Чтение данных из недоступной или поврежденной файловой системы.\n\n\nКоманда dd копирует данные побайтно, поэтому вы можете контролировать процесс копирования вплоть до самого мелкого уровня. Эта функция делает его идеальным для таких задач, как резервное копирование точных разделов диска и клонирование целых дисков.\n\nВ этой статье мы рассмотрим только использование команды dd для создания загрузочного Flash-диска. Хорошо, давайте начнем урок. Пожалуйста, следуйте каждому шагу, описанному ниже.\n\nC. Просмотр списка дисков, установленных в системе\nПоскольку мы создадим загрузочный Flashdisk, первым шагом, который необходимо выполнить, является вставка Flashdisk в USB-слот сервера FreeBSD. Теперь проверьте, может ли система прочитать Flashdisk. Используйте команду camcontrol для просмотра всех дисков, смонтированных на FreeBSD.\n\nroot@ns4:~ # camcontrol devlist\n&lt;WDC WD2500AAKX-753CA1 19.01H19&gt;   at scbus1 target 0 lun 0 (pass0,ada0)\n&lt;JetFlash Transcend 16GB 1100&gt;     at scbus3 target 0 lun 0 (da0,pass1)\n\nОбратите внимание на вывод команды camcontrol выше. Из полученного вывода следует, что ваша система FreeBSD установлена:\n\n\n  Жесткий диск с маркой WDC (Western Digital).\n  Флэш-диск с JetFlash марки Transcend объемом 16 ГБ\n\n\nFreeBSD рассматривает USB-устройства как устройства SCSI. Чтобы просмотреть полную информацию о подключенном диске, можно использовать команду geom, как в следующем примере.\n\nroot@ns4:~ # geom disk list\nGeom name: ada0\nProviders:\n1. Name: ada0\n   Mediasize: 250059350016 (233G)\n   Sectorsize: 512\n   Mode: r2w2e3\n   descr: WDC WD2500AAKX-753CA1\n   lunid: 50014ee159e9ece4\n   ident: WD-WCAYV1684481\n   rotationrate: unknown\n   fwsectors: 63\n   fwheads: 16\n\nGeom name: da0\nProviders:\n1. Name: da0\n   Mediasize: 15787360256 (15G)\n   Sectorsize: 512\n   Mode: r0w0e0\n   descr: JetFlash Transcend 16GB\n   lunname: USB MEMORY BAR\n   lunid: 2020030102060804\n   ident: 17TYRSE65DEAAUTI\n   rotationrate: unknown\n   fwsectors: 63\n   fwheads: 255\n\nroot@ns4:~ #\n\n\nПомимо команд camcontrol и geom, вы также можете использовать команду dmesg для просмотра списка установленных дисков.\n\nroot@ns4:~ # dmesg\nTrying to mount root from zfs:zroot/ROOT/default []...\nuhub3: 2 ports with 2 removable, self powered\nuhub1: 2 ports with 2 removable, self powered\nuhub4: 2 ports with 2 removable, self powered\nuhub0: 2 ports with 2 removable, self powered\nRoot mount waiting for: usbus4 CAM\nRoot mount waiting for: usbus4 CAM\nada0 at ata2 bus 0 scbus1 target 0 lun 0\nada0: &lt;WDC WD2500AAKX-753CA1 19.01H19&gt; ATA8-ACS SATA 3.x device\nada0: Serial Number WD-WCAYV1684481\nada0: 150.000MB/s transfers (SATA, UDMA5, PIO 8192bytes)\nada0: 238475MB (488397168 512 byte sectors)\nuhub2: 8 ports with 8 removable, self powered\nichsmb0: &lt;Intel 82801GB (ICH7) SMBus controller&gt; port 0x400-0x41f irq 19 at device 31.3 on pci0\nsmbus0: &lt;System Management Bus&gt; on ichsmb0\nlo0: link state changed to UP\nvr0: link state changed to DOWN\nvr0: link state changed to UP\nusb_msc_auto_quirk: UQ_MSC_NO_PREVENT_ALLOW set for USB mass storage device JetFlash Mass Storage Device (0x8564:0x1000)\nugen4.2: &lt;JetFlash Mass Storage Device&gt; at usbus4\numass0 on uhub2\numass0: &lt;JetFlash Mass Storage Device, class 0/0, rev 2.10/11.00, addr 2&gt; on usbus4\numass0:  SCSI over Bulk-Only; quirks = 0x8000\numass0:3:0: Attached to scbus3\nda0 at umass-sim0 bus 0 scbus3 target 0 lun 0\nda0: &lt;JetFlash Transcend 16GB 1100&gt; Removable Direct Access SPC-4 SCSI device\nda0: Serial Number 17TYRSE65DEAAUTI\nda0: 40.000MB/s transfers\nda0: 15056MB (30834688 512 byte sectors)\nda0: quirks=0x12&lt;NO_6_BYTE,NO_RC16&gt;\nroot@ns4:~ #\n\nВ приведенной выше команде dmesg жесткий диск читается как ada0, а флэш-диск читается как da0. Между тем, чтобы прочитать характеристики флэш-диска Transcend JetFlash, используйте команду diskinfo.\n\nroot@ns4:~ # diskinfo -v da0\nda0\n        512             # sectorsize\n        15787360256     # mediasize in bytes (15G)\n        30834688        # mediasize in sectors\n        0               # stripesize\n        0               # stripeoffset\n        1919            # Cylinders according to firmware.\n        255             # Heads according to firmware.\n        63              # Sectors according to firmware.\n        JetFlash Transcend 16GB # Disk descr.\n        17TYRSE65DEAAUTI        # Disk ident.\n        umass-sim0      # Attachment\n        No              # TRIM/UNMAP support\n        Unknown         # Rotation rate in RPM\n        Not_Zoned       # Zone Mode\n\nroot@ns4:~ #\n\nЕсли вы хотите увидеть полную информацию о жестком диске, просто замените da0 выше на ada0.\n\nroot@ns4:~ # diskinfo -v ada0\nada0\n        512             # sectorsize\n        250059350016    # mediasize in bytes (233G)\n        488397168       # mediasize in sectors\n        0               # stripesize\n        0               # stripeoffset\n        484521          # Cylinders according to firmware.\n        16              # Heads according to firmware.\n        63              # Sectors according to firmware.\n        WDC WD2500AAKX-753CA1   # Disk descr.\n        WD-WCAYV1684481 # Disk ident.\n        ata2            # Attachment\n        No              # TRIM/UNMAP support\n        Unknown         # Rotation rate in RPM\n        Not_Zoned       # Zone Mode\n\nroot@ns4:~ #\n\nВ приведенной выше команде dmesg отображается слишком длинное сообщение. Если вы хотите, чтобы отображалось только несколько строк, добавьте опцию tail. Эта опция извлечет указанное вами количество сообщений. Попробуйте попрактиковаться, следуя примеру ниже.\n\nroot@ns4:~ # dmesg | tail -5\nroot@ns4:~ # dmesg | tail -9\n\nВ дополнение к приведенной выше команде, чтобы узнать информацию о жестком диске, установленном на FreeBSD, вы можете просмотреть файл /var/run/dmesg.boot. Этот файл содержит снимок буфера, сделанный после монтирования файловой системы при загрузке.\n\nD. Форматирование Flash-диска\nВ старых версиях FreeBSD для форматирования диска использовалась команда fdisk. В последних версиях FreeBSD, таких как FreeBSD 13 и 14, команда fdisk больше не используется. Вместо этого FreeBSD использует для управления разделами жесткого диска такие утилиты, как gpart. gpart — это утилита, которая обычно используется для создания, удаления и управления таблицами разделов на жестком диске или флэш-накопителе.\n\nПеред форматированием Flashdisk сначала проверьте раздел Flashdisk, который в данный момент используется, с помощью команды gpart.\n\nroot@ns4:~ # gpart show da0\n=&gt;      64  30834561  da0  GPT  (15G)\n        64   2374232    1  ms-basic-data  (1.1G)\n   2374296      8496    2  efi  (4.1M)\n   2382792       600    3  ms-basic-data  (300K)\n   2383392       480       - free -  (240K)\n   2383872  28448768    4  linux-data  (14G)\n  30832640      1985       - free -  (993K)\n\nroot@ns4:~ #\n\n\n\n\nПоддерживать\nЕсли вы считаете, что моя статья ценна и полезна для вас. Пожалуйста, рассмотрите возможность сделать пожертвование.\n\nВаше пожертвование очень ценно для написания следующих статей более высокого качества.\n\nСпасибо.\n\nPayeer: P1052173944\nPaypal: datainchi@gmail.com\nFaucetpay: datainchi@gmail.com\nBitcoin Payeer: 32RW6hDPRA5bNtcHS4HQX8S4FSGsEvmJ9T\nBitcoin Faucetpay: 1QPJFAXtrLZWJLi9PPTeYXVEZKwydXQoY\n\n\nВ приведенном выше отображении команды gpart da0 — это USB-диск, отформатированный в файловой системе efi. Чтобы отформатировать флэш-накопитель или другой USB-носитель, в примере ниже мы предлагаем несколько вариантов.\n\nа. Форматирование Flash-диска в FAT32\nФайловая система FAT32 — это усовершенствованная версия файловой системы FAT16, которая впервые появилась в Windows 95B. Файловая система FAT32 также поддерживается Windows 98, Windows 2000 и Windows XP, 7. Основное различие между файловыми системами FAT32 и FAT16 заключается в том, что таблица размещения файлов FAT может содержать 268 435 445 вместо 65 536 записей на отдельных кластерах.\n\nЕсли вы хотите использовать флэш-накопитель в системе Windows, используйте формат FAT32. Благодаря формату FAT32 все содержимое вашего флэш-диска может быть прочитано Windows. Ниже приведен пример формата FAT32.\n\nroot@ns4:~ # gpart destroy -F /dev/da0\nda0 destroyed\nroot@ns4:~ # gpart create -s mbr /dev/da0\nda0 created\nroot@ns4:~ # gpart add -t fat32 /dev/da0\nda0s1 added\nroot@ns4:~ # newfs_msdos -L FILES -F 32 /dev/da0s1\n/dev/da0s1: 30827008 sectors in 481672 FAT32 clusters (32768 bytes/cluster)\nBytesPerSec=512 SecPerClust=64 ResSectors=32 FATs=2 Media=0xf0 SecPerTrack=63 Heads=255 HiddenSecs=0 HugeSectors=30834625 FATsecs=3764 RootCluster=2 FSInfo=1 Backup=2\n\n\nТеперь давайте посмотрим на раздел Flashdisk, использует ли он систему FAT32.\n\nroot@ns4:~ # gpart show da0\n=&gt;      63  30834625  da0  MBR  (15G)\n        63  30834625    1  fat32  (15G)\n\nВ приведенной выше команде gpart ваш флэш-диск был размечен с файловой системой FAT32. Если вы подключите флэш-диск к системе Windows, система Windows автоматически прочитает все содержимое файлов на флэш-диске.\n\nб. Форматировать Flashdisk с UFS\nДалее мы отформатируем USB-диск в файловой системе UFS.\n\nroot@ns4:~ # gpart destroy -F /dev/da0\nda0 destroyed\nroot@ns4:~ # gpart create -s gpt da0\nda0 created\nroot@ns4:~ # gpart add -t freebsd-boot -s 512k da0\nda0p1 added\nroot@ns4:~ # gpart bootcode -b /boot/pmbr -p /boot/gptboot -i 1 da0\npartcode written to da0p1\nbootcode written to da0\nroot@ns4:~ # gpart add -t freebsd-ufs -b 1M -s 7G da0\nda0p2 added\nroot@ns4:~ # gpart add -t freebsd-swap da0\nda0p3 added\nroot@ns4:~ # newfs -U /dev/da0p2\n/dev/da0p2: 7168.0MB (14680064 sectors) block size 32768, fragment size 4096\nusing 12 cylinder groups of 625.22MB, 20007 blks, 80128 inodes.\nwith soft updates\nsuper-block backups (for fsck_ffs -b #) at:\n192, 1280640, 2561088, 3841536, 5121984, 6402432, 7682880, 8963328, 10243776, 11524224, 12804672, 14085120\n\nТеперь проверим, был ли Flashdisk, который мы отформатировали выше, разбит на разделы с файловой системой UFS, для отображения раздела Flashdisk используйте команду gpart show.\n\nroot@ns4:~ # gpart show da0\n=&gt; 40 30834608 da0 GPT (15G)\n40 1024 1 freebsd-boot (512K)\n1064 984 - free - (492K)\n2048 14680064 2 freebsd-ufs (7.0G)\n14682112 16152536 3 freebsd-swap (7.7G)\n\n\nПриведенная выше команда gpart show предоставляет информацию о том, что флэш-диск отформатирован с использованием раздела файловой системы UFS.\n\nв. Форматирование Flashdisk с EFI\nНа следующем этапе мы покажем вам, как отформатировать флеш-накопитель в файловой системе UFS. Выполните следующие действия.\n\nroot@ns4:~ # gpart destroy -F /dev/da0\nda0 destroyed\nroot@ns4:~ # gpart create -s gpt /dev/da0\nda0 created\nroot@ns4:~ # gpart add -t efi -l efiboot -a 4k -s 100M /dev/da0\nda0p1 added\nroot@ns4:~ # newfs_msdos -F 16 -c 1 /dev/da0p1\nnewfs_msdos: warning: FAT type limits file system to 66069 sectors\n/dev/da0p1: 65524 sectors in 65524 FAT16 clusters (512 bytes/cluster)\nBytesPerSec=512 SecPerClust=1 ResSectors=1 FATs=2 RootDirEnts=512 Media=0xf0 FATsecs=256 SecPerTrack=63 Heads=255 HiddenSecs=0 HugeSectors=66069\nroot@ns4:~ # mount -t msdosfs /dev/da0p1 /mnt\nroot@ns4:~ # mkdir -p /mnt/EFI/BOOT\nroot@ns4:~ # cp /boot/loader.efi /mnt/EFI/BOOT/BOOTX64.efi\nroot@ns4:~ # umount /mnt\nroot@ns4:~ #\n\nВыполните проверку раздела Flashdisk, отформатированного выше.\nroot@ns2:~ # gpart show da0\n=&gt; 40 30834608 da0 GPT (15G)\n40 204800 1 efi (100M)\n204840 30629808 - free - (15G)\n\n\nE. Загрузка главного файла установки FreeBSD\nСледующим шагом будет загрузка главного файла установки FreeBSD. На этом этапе постарайтесь убедиться, что файл FreeBSD имеет расширение *.img, поскольку если он имеет расширение *.iso, команда dd не сможет создать загрузочный Flashdisk с компьютера. Для тех, кто привык использовать Windows, вы можете загрузить файл FreeBSD с официального сайта FreeBSD, а затем после завершения загрузки перенести файл на серверный компьютер FreeBSD с программой WINSCP.\n\nЕсли вы хотите загрузить файлы FreeBSD непосредственно из системы FreeBSD, вы можете использовать команды wget или lynx. В этом примере мы приводим пример загрузки файла FreeBSD.img с помощью команды wget.\n\nroot@ns4:~ # cd /tmp\nroot@ns2:/tmp # wget https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-memstick.img\n--2023-07-04 12:42:17-- https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-memstick.img\nResolving download.freebsd.org (download.freebsd.org)... 203.80.16.151, 2404:a8:3ff::15:0\nConnecting to download.freebsd.org (download.freebsd.org)|203.80.16.151|:443... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 1280627200 (1.2G) [application/octet-stream]\nSaving to: ‘FreeBSD-13.2-RELEASE-amd64-memstick.img’\n\nFreeBSD-13.2-RELEASE-amd64-memstick.img 2%[=&gt; ] 29.63M 4.83MB/s eta 3m 17s\n\nДождитесь завершения процесса загрузки. После его завершения файл FreeBSD-13.2-RELEASE-amd64-memstick.img будет сохранен в папке /tmp. Далее создаем загрузочный Flashdisk. Чтобы создать загрузочный флэш-диск во FreeBSD с помощью команды dd, выполните следующую команду.\n\nroot@ns4:~ # cd /tmp\nroot@ns2:/tmp # dd if=FreeBSD-13.2-RELEASE-amd64-memstick.img of=/dev/da0 bs=1M conv=sync status=progress\n26214400 bytes (26 MB, 25 MiB) transferred 1.055s, 25 MB/s\n31+0 records in\n31+0 records out\n32505856 bytes transferred in 1.522773 secs (21346492 bytes/sec)\n\n\nПриведенная выше команда dd скопирует весь файл FreeBSD-13.2-RELEASE-amd64-memstick.img на флэш-диск и автоматически сделает его загрузочным, чтобы компьютер мог напрямую прочитать флэш-диск, содержащий команду установки.\n\nДля того чтобы Flashdisk начал процесс загрузки, необходимо настроить меню BIOS на компьютере. Измените порядок загрузки. Сделайте Flashdisk первой загрузочной флешкой. После этого автоматически начнется процесс установки FreeBSD. Вам просто нужно следовать всем инструкциям, отображаемым системой. Установка FreeBSD очень проста, как и установка Windows, имеются руководства и инструкции по установке.\n",
+  "datePublished": "2025-05-09 14:25:10 +0300",
+  "dateModified": "2025-05-09 14:25:10 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Создание загрузочного флэш-диска на FreeBSD с помощью команд оболочки"><meta itemprop="description" content="In UNIX commands, the dd command is often referred to as a disk or data duplicator, because it is capable of copying raw data from one source to another"><meta itemprop="datePublished" content="2025-05-09"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-09T14:25:10+03:00">2025-05-09</time> </p><h1 class="page__title" itemprop="headline">Создание загрузочного флэш-диска на FreeBSD с помощью команд оболочки
+</h1></header><section class="page__content" itemprop="text">
+        <p>Похоже, золотая эра CD-Room начинает клониться к закату, о его существовании постепенно забывают, и даже люди редко им пользуются. CD-комнаты, которые раньше были необходимы для процесса установки, теперь начинают приходить в упадок. Люди начинают переходить на флэш-накопители и другие носители, которые можно вставить в USB-слот.</p>
+
+<p>Компактный и тонкий корпус, а также удобство переноски и использования делают флэш-диски очень популярными среди всех. Почти у каждого, кто работает в сфере компьютеров, наверняка есть предмет под названием флешка. Мало того, с помощью нескольких утилит, имеющихся в каждой операционной системе, флэш-диски начинают заменять роль CD-Rooms в процессе установки операционной системы.</p>
+
+<p>Быстрое развитие USB-слотов также увеличило скорость передачи данных этого устройства. Его скорость может превзойти CD-Room. Развитие на этом не останавливается: емкость флэш-дисков значительно превзошла емкость компакт-дисков. Поэтому было бы весьма разумно, если бы этот инструмент в настоящее время стал верным другом программистов или пользователей компьютеров в качестве резервного или установочного носителя.</p>
+
+<h2 id="a-загрузочное-программное-обеспечение-flashdisk-для-img-и-iso">A. Загрузочное программное обеспечение Flashdisk для img и iso</h2>
+
+<p>Существует множество программ, которые можно использовать для создания загрузочного Flash-диска. Каждая операционная система имеет свои особенности. Есть программное обеспечение, которое может работать только на Windows, есть даже загрузочное программное обеспечение, которое можно использовать на всех операционных системах, таких как Linux, BSD и MacOS.</p>
+
+<p>Из множества программ, которые можно использовать для создания загрузочной флешки, есть несколько общеизвестных. Как правило, каждый человек по-разному выбирает, какое приложение использовать для создания загрузочного Flash-диска, это зависит от его вкуса. Тем не менее, Balena Etcher стоит попробовать. Balen Etcher может работать на Windows и Linux.</p>
+
+<p>Процесс установки прост. Внешний вид привлекательный и удобный в использовании. Всего за несколько щелчков мыши вы успешно создали загрузочный Flash-диск. Если вы заинтересованы в использовании этого программного обеспечения, вы можете загрузить его непосредственно с <a href="https://etcher.balena.io/">официального сайта</a>.</p>
+
+<p><img src="https://pbs.twimg.com/media/Gql2hOIbcAUVQLQ?format=jpg&amp;name=medium" alt="Balena Etcher" /></p>
+
+<p>Команды графического интерфейса пользователя очень просты в использовании, но если вы используете сервер на базе Linux или FreeBSD, который не поддерживает приложения с графическим интерфейсом пользователя, этот инструмент использовать нельзя. Однако это не значит, что серверные компьютеры не могут создавать загрузочные флэш-диски. Системы на базе сервера поддерживают команды оболочки, которые не менее функциональны, чем графический интерфейс.</p>
+
+<p>Существует множество приложений, которые запускаются с помощью команд оболочки для создания загрузочного Flash-диска. Даже его возможности не уступают приложениям с графическим интерфейсом. Даже если проанализировать, такие программы, как Balena Etcher, Rufus и другие, представляют собой практически одни и те же инструкции оболочки в FreeBSD и Linux.</p>
+
+<p>Одним из приложений оболочки, которое можно использовать для создания загрузочного флэш-диска, является команда «dd». Эта команда способна считывать и записывать все данные на Flash-диск.</p>
+
+<h2 id="б-о-команде-dd">Б. О команде dd</h2>
+<p>Команда dd Dataset Definition — одна из команд оболочки в системе UNIX. Его использование широко распространено в различных операционных системах. В системе FreeBSD команда dd является одной из встроенных в систему команд по умолчанию. Вам не нужно его устанавливать, можно использовать команду dd напрямую.</p>
+
+<p>Команда dd — это команда оболочки UNIX, которую FreeBSD использует с момента своего первого выпуска. Эта команда представляет собой мощную утилиту для низкоуровневого копирования и преобразования данных, в основном используемую для клонирования дисков, создания образов дисков, резервного копирования разделов и записи ISO-файлов на USB-накопители. Освоение команды dd имеет важное значение для системного администратора FreeBSD, поскольку она позволяет осуществлять точный контроль над манипулированием данными, процессами резервного копирования и восстановления дисков.</p>
+
+<p>В командах UNIX команда dd часто называется дубликатором дисков или данных, поскольку она способна копировать необработанные данные из одного источника в другой. Утилита dd широко используется в таких задачах FreeBSD, как:</p>
+
+<ol>
+  <li>Может использоваться с резервным копированием на ленту.</li>
+  <li>Преобразование между системами, использующими разный порядок байтов.</li>
+  <li>Резервное копирование загрузочного сектора.</li>
+  <li>Чтение данных из недоступной или поврежденной файловой системы.</li>
+</ol>
+
+<p>Команда dd копирует данные побайтно, поэтому вы можете контролировать процесс копирования вплоть до самого мелкого уровня. Эта функция делает его идеальным для таких задач, как резервное копирование точных разделов диска и клонирование целых дисков.</p>
+
+<p>В этой статье мы рассмотрим только использование команды dd для создания загрузочного Flash-диска. Хорошо, давайте начнем урок. Пожалуйста, следуйте каждому шагу, описанному ниже.</p>
+
+<h2 id="c-просмотр-списка-дисков-установленных-в-системе">C. Просмотр списка дисков, установленных в системе</h2>
+<p>Поскольку мы создадим загрузочный Flashdisk, первым шагом, который необходимо выполнить, является вставка Flashdisk в USB-слот сервера FreeBSD. Теперь проверьте, может ли система прочитать Flashdisk. Используйте команду camcontrol для просмотра всех дисков, смонтированных на FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # camcontrol devlist
+&lt;WDC WD2500AAKX-753CA1 19.01H19&gt;   at scbus1 target 0 lun 0 (pass0,ada0)
+&lt;JetFlash Transcend 16GB 1100&gt;     at scbus3 target 0 lun 0 (da0,pass1)
+</code></pre></div></div>
+<p>Обратите внимание на вывод команды camcontrol выше. Из полученного вывода следует, что ваша система FreeBSD установлена:</p>
+
+<ol>
+  <li>Жесткий диск с маркой WDC (Western Digital).</li>
+  <li>Флэш-диск с JetFlash марки Transcend объемом 16 ГБ</li>
+</ol>
+
+<p>FreeBSD рассматривает USB-устройства как устройства SCSI. Чтобы просмотреть полную информацию о подключенном диске, можно использовать команду geom, как в следующем примере.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # geom disk list
+Geom name: ada0
+Providers:
+1. Name: ada0
+   Mediasize: 250059350016 (233G)
+   Sectorsize: 512
+   Mode: r2w2e3
+   descr: WDC WD2500AAKX-753CA1
+   lunid: 50014ee159e9ece4
+   ident: WD-WCAYV1684481
+   rotationrate: unknown
+   fwsectors: 63
+   fwheads: 16
+
+Geom name: da0
+Providers:
+1. Name: da0
+   Mediasize: 15787360256 (15G)
+   Sectorsize: 512
+   Mode: r0w0e0
+   descr: JetFlash Transcend 16GB
+   lunname: USB MEMORY BAR
+   lunid: 2020030102060804
+   ident: 17TYRSE65DEAAUTI
+   rotationrate: unknown
+   fwsectors: 63
+   fwheads: 255
+
+root@ns4:~ #
+</code></pre></div></div>
+
+<p>Помимо команд camcontrol и geom, вы также можете использовать команду dmesg для просмотра списка установленных дисков.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # dmesg
+Trying to mount root from zfs:zroot/ROOT/default []...
+uhub3: 2 ports with 2 removable, self powered
+uhub1: 2 ports with 2 removable, self powered
+uhub4: 2 ports with 2 removable, self powered
+uhub0: 2 ports with 2 removable, self powered
+Root mount waiting for: usbus4 CAM
+Root mount waiting for: usbus4 CAM
+ada0 at ata2 bus 0 scbus1 target 0 lun 0
+ada0: &lt;WDC WD2500AAKX-753CA1 19.01H19&gt; ATA8-ACS SATA 3.x device
+ada0: Serial Number WD-WCAYV1684481
+ada0: 150.000MB/s transfers (SATA, UDMA5, PIO 8192bytes)
+ada0: 238475MB (488397168 512 byte sectors)
+uhub2: 8 ports with 8 removable, self powered
+ichsmb0: &lt;Intel 82801GB (ICH7) SMBus controller&gt; port 0x400-0x41f irq 19 at device 31.3 on pci0
+smbus0: &lt;System Management Bus&gt; on ichsmb0
+lo0: link state changed to UP
+vr0: link state changed to DOWN
+vr0: link state changed to UP
+usb_msc_auto_quirk: UQ_MSC_NO_PREVENT_ALLOW set for USB mass storage device JetFlash Mass Storage Device (0x8564:0x1000)
+ugen4.2: &lt;JetFlash Mass Storage Device&gt; at usbus4
+umass0 on uhub2
+umass0: &lt;JetFlash Mass Storage Device, class 0/0, rev 2.10/11.00, addr 2&gt; on usbus4
+umass0:  SCSI over Bulk-Only; quirks = 0x8000
+umass0:3:0: Attached to scbus3
+da0 at umass-sim0 bus 0 scbus3 target 0 lun 0
+da0: &lt;JetFlash Transcend 16GB 1100&gt; Removable Direct Access SPC-4 SCSI device
+da0: Serial Number 17TYRSE65DEAAUTI
+da0: 40.000MB/s transfers
+da0: 15056MB (30834688 512 byte sectors)
+da0: quirks=0x12&lt;NO_6_BYTE,NO_RC16&gt;
+root@ns4:~ #
+</code></pre></div></div>
+<p>В приведенной выше команде dmesg жесткий диск читается как ada0, а флэш-диск читается как da0. Между тем, чтобы прочитать характеристики флэш-диска Transcend JetFlash, используйте команду diskinfo.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # diskinfo -v da0
+da0
+        512             # sectorsize
+        15787360256     # mediasize in bytes (15G)
+        30834688        # mediasize in sectors
+        0               # stripesize
+        0               # stripeoffset
+        1919            # Cylinders according to firmware.
+        255             # Heads according to firmware.
+        63              # Sectors according to firmware.
+        JetFlash Transcend 16GB # Disk descr.
+        17TYRSE65DEAAUTI        # Disk ident.
+        umass-sim0      # Attachment
+        No              # TRIM/UNMAP support
+        Unknown         # Rotation rate in RPM
+        Not_Zoned       # Zone Mode
+
+root@ns4:~ #
+</code></pre></div></div>
+<p>Если вы хотите увидеть полную информацию о жестком диске, просто замените da0 выше на ada0.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # diskinfo -v ada0
+ada0
+        512             # sectorsize
+        250059350016    # mediasize in bytes (233G)
+        488397168       # mediasize in sectors
+        0               # stripesize
+        0               # stripeoffset
+        484521          # Cylinders according to firmware.
+        16              # Heads according to firmware.
+        63              # Sectors according to firmware.
+        WDC WD2500AAKX-753CA1   # Disk descr.
+        WD-WCAYV1684481 # Disk ident.
+        ata2            # Attachment
+        No              # TRIM/UNMAP support
+        Unknown         # Rotation rate in RPM
+        Not_Zoned       # Zone Mode
+
+root@ns4:~ #
+</code></pre></div></div>
+<p>В приведенной выше команде dmesg отображается слишком длинное сообщение. Если вы хотите, чтобы отображалось только несколько строк, добавьте опцию tail. Эта опция извлечет указанное вами количество сообщений. Попробуйте попрактиковаться, следуя примеру ниже.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # dmesg | tail -5
+root@ns4:~ # dmesg | tail -9
+</code></pre></div></div>
+<p>В дополнение к приведенной выше команде, чтобы узнать информацию о жестком диске, установленном на FreeBSD, вы можете просмотреть файл /var/run/dmesg.boot. Этот файл содержит снимок буфера, сделанный после монтирования файловой системы при загрузке.</p>
+
+<h2 id="d-форматирование-flash-диска">D. Форматирование Flash-диска</h2>
+<p>В старых версиях FreeBSD для форматирования диска использовалась команда fdisk. В последних версиях FreeBSD, таких как FreeBSD 13 и 14, команда fdisk больше не используется. Вместо этого FreeBSD использует для управления разделами жесткого диска такие утилиты, как gpart. gpart — это утилита, которая обычно используется для создания, удаления и управления таблицами разделов на жестком диске или флэш-накопителе.</p>
+
+<p>Перед форматированием Flashdisk сначала проверьте раздел Flashdisk, который в данный момент используется, с помощью команды gpart.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show da0
+=&gt;      64  30834561  da0  GPT  (15G)
+        64   2374232    1  ms-basic-data  (1.1G)
+   2374296      8496    2  efi  (4.1M)
+   2382792       600    3  ms-basic-data  (300K)
+   2383392       480       - free -  (240K)
+   2383872  28448768    4  linux-data  (14G)
+  30832640      1985       - free -  (993K)
+
+root@ns4:~ #
+</code></pre></div></div>
+
+<p><br /><br /></p>
+
+<h3 id="поддерживать">Поддерживать</h3>
+<p>Если вы считаете, что моя статья ценна и полезна для вас. Пожалуйста, рассмотрите возможность сделать пожертвование.</p>
+
+<p>Ваше пожертвование очень ценно для написания следующих статей более высокого качества.</p>
+
+<h4 id="спасибо">Спасибо.</h4>
+
+<h5 id="payeer-p1052173944">Payeer: P1052173944</h5>
+<h5 id="paypal-datainchigmailcom">Paypal: datainchi@gmail.com</h5>
+<h5 id="faucetpay-datainchigmailcom">Faucetpay: datainchi@gmail.com</h5>
+<h5 id="bitcoin-payeer-32rw6hdpra5bntchs4hqx8s4fsgsevmj9t">Bitcoin Payeer: 32RW6hDPRA5bNtcHS4HQX8S4FSGsEvmJ9T</h5>
+<h5 id="bitcoin-faucetpay-1qpjfaxtrlzwjli9ppteyxvezkwydxqoy">Bitcoin Faucetpay: 1QPJFAXtrLZWJLi9PPTeYXVEZKwydXQoY</h5>
+<p><br /><br /></p>
+
+<p>В приведенном выше отображении команды gpart da0 — это USB-диск, отформатированный в файловой системе efi. Чтобы отформатировать флэш-накопитель или другой USB-носитель, в примере ниже мы предлагаем несколько вариантов.</p>
+
+<h3 id="а-форматирование-flash-диска-в-fat32">а. Форматирование Flash-диска в FAT32</h3>
+<p>Файловая система FAT32 — это усовершенствованная версия файловой системы FAT16, которая впервые появилась в Windows 95B. Файловая система FAT32 также поддерживается Windows 98, Windows 2000 и Windows XP, 7. Основное различие между файловыми системами FAT32 и FAT16 заключается в том, что таблица размещения файлов FAT может содержать 268 435 445 вместо 65 536 записей на отдельных кластерах.</p>
+
+<p>Если вы хотите использовать флэш-накопитель в системе Windows, используйте формат FAT32. Благодаря формату FAT32 все содержимое вашего флэш-диска может быть прочитано Windows. Ниже приведен пример формата FAT32.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart destroy -F /dev/da0
+da0 destroyed
+root@ns4:~ # gpart create -s mbr /dev/da0
+da0 created
+root@ns4:~ # gpart add -t fat32 /dev/da0
+da0s1 added
+root@ns4:~ # newfs_msdos -L FILES -F 32 /dev/da0s1
+/dev/da0s1: 30827008 sectors in 481672 FAT32 clusters (32768 bytes/cluster)
+BytesPerSec=512 SecPerClust=64 ResSectors=32 FATs=2 Media=0xf0 SecPerTrack=63 Heads=255 HiddenSecs=0 HugeSectors=30834625 FATsecs=3764 RootCluster=2 FSInfo=1 Backup=2
+</code></pre></div></div>
+
+<p>Теперь давайте посмотрим на раздел Flashdisk, использует ли он систему FAT32.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show da0
+=&gt;      63  30834625  da0  MBR  (15G)
+        63  30834625    1  fat32  (15G)
+</code></pre></div></div>
+<p>В приведенной выше команде gpart ваш флэш-диск был размечен с файловой системой FAT32. Если вы подключите флэш-диск к системе Windows, система Windows автоматически прочитает все содержимое файлов на флэш-диске.</p>
+
+<h3 id="б-форматировать-flashdisk-с-ufs">б. Форматировать Flashdisk с UFS</h3>
+<p>Далее мы отформатируем USB-диск в файловой системе UFS.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart destroy -F /dev/da0
+da0 destroyed
+root@ns4:~ # gpart create -s gpt da0
+da0 created
+root@ns4:~ # gpart add -t freebsd-boot -s 512k da0
+da0p1 added
+root@ns4:~ # gpart bootcode -b /boot/pmbr -p /boot/gptboot -i 1 da0
+partcode written to da0p1
+bootcode written to da0
+root@ns4:~ # gpart add -t freebsd-ufs -b 1M -s 7G da0
+da0p2 added
+root@ns4:~ # gpart add -t freebsd-swap da0
+da0p3 added
+root@ns4:~ # newfs -U /dev/da0p2
+/dev/da0p2: 7168.0MB (14680064 sectors) block size 32768, fragment size 4096
+using 12 cylinder groups of 625.22MB, 20007 blks, 80128 inodes.
+with soft updates
+super-block backups (for fsck_ffs -b #) at:
+192, 1280640, 2561088, 3841536, 5121984, 6402432, 7682880, 8963328, 10243776, 11524224, 12804672, 14085120
+</code></pre></div></div>
+<p>Теперь проверим, был ли Flashdisk, который мы отформатировали выше, разбит на разделы с файловой системой UFS, для отображения раздела Flashdisk используйте команду gpart show.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart show da0
+=&gt; 40 30834608 da0 GPT (15G)
+40 1024 1 freebsd-boot (512K)
+1064 984 - free - (492K)
+2048 14680064 2 freebsd-ufs (7.0G)
+14682112 16152536 3 freebsd-swap (7.7G)
+</code></pre></div></div>
+
+<p>Приведенная выше команда gpart show предоставляет информацию о том, что флэш-диск отформатирован с использованием раздела файловой системы UFS.</p>
+
+<h3 id="в-форматирование-flashdisk-с-efi">в. Форматирование Flashdisk с EFI</h3>
+<p>На следующем этапе мы покажем вам, как отформатировать флеш-накопитель в файловой системе UFS. Выполните следующие действия.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # gpart destroy -F /dev/da0
+da0 destroyed
+root@ns4:~ # gpart create -s gpt /dev/da0
+da0 created
+root@ns4:~ # gpart add -t efi -l efiboot -a 4k -s 100M /dev/da0
+da0p1 added
+root@ns4:~ # newfs_msdos -F 16 -c 1 /dev/da0p1
+newfs_msdos: warning: FAT type limits file system to 66069 sectors
+/dev/da0p1: 65524 sectors in 65524 FAT16 clusters (512 bytes/cluster)
+BytesPerSec=512 SecPerClust=1 ResSectors=1 FATs=2 RootDirEnts=512 Media=0xf0 FATsecs=256 SecPerTrack=63 Heads=255 HiddenSecs=0 HugeSectors=66069
+root@ns4:~ # mount -t msdosfs /dev/da0p1 /mnt
+root@ns4:~ # mkdir -p /mnt/EFI/BOOT
+root@ns4:~ # cp /boot/loader.efi /mnt/EFI/BOOT/BOOTX64.efi
+root@ns4:~ # umount /mnt
+root@ns4:~ #
+</code></pre></div></div>
+<p>Выполните проверку раздела Flashdisk, отформатированного выше.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:~ # gpart show da0
+=&gt; 40 30834608 da0 GPT (15G)
+40 204800 1 efi (100M)
+204840 30629808 - free - (15G)
+</code></pre></div></div>
+
+<h2 id="e-загрузка-главного-файла-установки-freebsd">E. Загрузка главного файла установки FreeBSD</h2>
+<p>Следующим шагом будет загрузка главного файла установки FreeBSD. На этом этапе постарайтесь убедиться, что файл FreeBSD имеет расширение *.img, поскольку если он имеет расширение *.iso, команда dd не сможет создать загрузочный Flashdisk с компьютера. Для тех, кто привык использовать Windows, вы можете загрузить файл FreeBSD с официального сайта FreeBSD, а затем после завершения загрузки перенести файл на серверный компьютер FreeBSD с программой WINSCP.</p>
+
+<p>Если вы хотите загрузить файлы FreeBSD непосредственно из системы FreeBSD, вы можете использовать команды wget или lynx. В этом примере мы приводим пример загрузки файла FreeBSD.img с помощью команды wget.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # cd /tmp
+root@ns2:/tmp # wget https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-memstick.img
+--2023-07-04 12:42:17-- https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-memstick.img
+Resolving download.freebsd.org (download.freebsd.org)... 203.80.16.151, 2404:a8:3ff::15:0
+Connecting to download.freebsd.org (download.freebsd.org)|203.80.16.151|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1280627200 (1.2G) [application/octet-stream]
+Saving to: ‘FreeBSD-13.2-RELEASE-amd64-memstick.img’
+
+FreeBSD-13.2-RELEASE-amd64-memstick.img 2%[=&gt; ] 29.63M 4.83MB/s eta 3m 17s
+</code></pre></div></div>
+<p>Дождитесь завершения процесса загрузки. После его завершения файл FreeBSD-13.2-RELEASE-amd64-memstick.img будет сохранен в папке /tmp. Далее создаем загрузочный Flashdisk. Чтобы создать загрузочный флэш-диск во FreeBSD с помощью команды dd, выполните следующую команду.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # cd /tmp
+root@ns2:/tmp # dd if=FreeBSD-13.2-RELEASE-amd64-memstick.img of=/dev/da0 bs=1M conv=sync status=progress
+26214400 bytes (26 MB, 25 MiB) transferred 1.055s, 25 MB/s
+31+0 records in
+31+0 records out
+32505856 bytes transferred in 1.522773 secs (21346492 bytes/sec)
+</code></pre></div></div>
+
+<p>Приведенная выше команда dd скопирует весь файл FreeBSD-13.2-RELEASE-amd64-memstick.img на флэш-диск и автоматически сделает его загрузочным, чтобы компьютер мог напрямую прочитать флэш-диск, содержащий команду установки.</p>
+
+<p>Для того чтобы Flashdisk начал процесс загрузки, необходимо настроить меню BIOS на компьютере. Измените порядок загрузки. Сделайте Flashdisk первой загрузочной флешкой. После этого автоматически начнется процесс установки FreeBSD. Вам просто нужно следовать всем инструкциям, отображаемым системой. Установка FreeBSD очень проста, как и установка Windows, имеются руководства и инструкции по установке.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-09T14:25:10+03:00">2025-05-09</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#ru" class="page__taxonomy-item" rel="tag">ru</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/ru/freebsd/2025/05/08/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5-Unbound-freebsd14/" class="pagination--pager" title="Руководство по настройке Unbound для кэширования и DOT на портах 853 и 53 с FreeBSD 14
+">Previous</a><a href="https://penaadventure.com/ru/freebsd/2025/05/10/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-gpart-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%81%D0%BA%D0%B0-FreeBSD/" class="pagination--pager" title="Команда gpart для управления разделами диска в FreeBSD 1
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

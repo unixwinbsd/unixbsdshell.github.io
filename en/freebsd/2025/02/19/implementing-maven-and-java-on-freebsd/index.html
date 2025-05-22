@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/freebsd/2025/02/19/implementing-maven-and-java-on-freebsd/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Implementing Maven and Java on FreeBSD 14.1  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Implementing Maven and Java on FreeBSD 14.1"><link rel="canonical" href="https://penaadventure.com/en/freebsd/2025/02/19/implementing-maven-and-java-on-freebsd/">
+  <meta property="og:url" content="https://penaadventure.com/en/freebsd/2025/02/19/implementing-maven-and-java-on-freebsd/"><meta property="og:description" content="We present this tutorial for FreeBSD users so they can get to know Maven better, so that people can understand that Maven can be run on FreeBSD."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Implementing Maven and Java on FreeBSD 14.1">
+  <meta name="twitter:description" content="We present this tutorial for FreeBSD users so they can get to know Maven better, so that people can understand that Maven can be run on FreeBSD.">
+  <meta name="twitter:url" content="https://penaadventure.com/en/freebsd/2025/02/19/implementing-maven-and-java-on-freebsd/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-02-19T17:13:15+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="a08818ab2cd73c0eb3ababbd27d4f92f" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/freebsd/2025/02/19/implementing-maven-and-java-on-freebsd/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#02" itemprop="item"><span itemprop="name">02</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#19" itemprop="item"><span itemprop="name">19</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Implementing Maven and Java on FreeBSD 14.1</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-02-19 17:13:15 +0300",
+"datePublished": "2025-02-19 17:13:15 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Implementing Maven and Java on FreeBSD 14.1",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "We present this tutorial for FreeBSD users so they can get to know Maven better, so that people can understand that Maven can be run on FreeBSD."
+},
+
+"datePublished": "2025-02-19 17:13:15 +0300",
+"dateModified": "2025-02-19 17:13:15 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/freebsd/2025/02/19/implementing-maven-and-java-on-freebsd/",
+"name": "Implementing Maven and Java on FreeBSD 14.1"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/freebsd/2025/02/19/implementing-maven-and-java-on-freebsd/",
+"name": "WebServer"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/freebsd/2025/02/19/implementing-maven-and-java-on-freebsd/",
+  "name": "Implementing Maven and Java on FreeBSD 14.1",
+  "headline": "Implementing Maven and Java on FreeBSD 14.1",
+  "keywords": "WebServer",
+  "description": "We present this tutorial for FreeBSD users so they can get to know Maven better, so that people can understand that Maven can be run on FreeBSD.",
+  "articleBody": "This article discusses a Maven tutorial that provides basic and advanced concepts of Apache Maven technology. The entire contents of the tutorial are run on the FreeBSD system, but you can apply it to Linux systems such as Ubuntu, Debian and others.\n\nBefore we discuss Maven further, it’s a good idea to get to know Maven. Since most people run Maven on Linux systems, it is rare to run Maven on FreeBSD. We deliberately present this tutorial for FreeBSD lovers to get to know Maven more closely, so that people don’t think that Maven cannot be run on a FreeBSD system.\n\n1. System Specifications:\n\n  OS:  FreeBSD 14.1-STABLE stable/14-n268734-9f319352d7ac GENERIC amd64  \nHostname: ns4    \nIP Address: 192.168.5.71 \nJava version: openjdk version “20.0.2” 2023-07-18\nMaven version: Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)\n\n\n2. What is Maven\nMaven is a popular open source development tool developed by the Apache Group, it includes a powerful project management tool that is based on POM (project object model). Maven is often used to build, publish, and deploy multiple projects at once for better project management. This tool allows developers to build and document a lifecycle framework.\n\nMaven is written in the Java programming language and is used to build projects written in Scala, C#, Ruby, etc. Based on the Project Object Model (POM), this tool has made the life of Java developers easier while developing reports, checking builds, and testing setup automation.\n\nIf you want to use maven in your java project then first thing you have to do is install maven java compiler after installation is complete you can create your first maven project. A Maven repository is a directory of JAR files packed with some metadata. Maven metadata is the POM file associated with the project that each package JAR file has, including the external dependencies that each package JAR has. The Maven repository stores all your project jars, plugins, library jars, other artifacts, and their dependencies are any third party software required by your project. You will find three types of repositories in Maven – local, central, and remote. The local repository stores all Maven dependencies.\n\nThe Maven repository is a repository for JAR file dependencies written in a file called POM.XML. The POM.XML file contains Java classes, resources, and other dependencies. There are two types of Maven-like repositories that read pom.xml files. Maven can download dependencies specified in the pom.xml file into a local repository from a central or remote server repository. In the POM.XML file Maven can execute the lifecycle, phases, objectives and plugins defined in the pom.xml file.\n\n3. Running Maven On FreeBSD\nTo run Maven on FreeBSD you must first install the Java OpenJDK application on FreeBSD, you can read the guide in the article below.\n\nInstalling and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable\n\nIf you have read the article above and have installed Java on FreeBSD, we continue by installing Maven. Write the command below to install Maven on FreeBSD.\n\nroot@ns7:~ # pkg install maven-wrapper\n\n\nMaven wrapper is used as a wrapper Script for various Maven installations. After the Maven wrapper script has been installed, we continue with installing Maven.\n\nroot@ns7:~ # pkg install maven39\n\n\nThe final step of this process is to validate whether Java and Maven are working, by checking the versions.\n\nroot@ns4:~ # java -version\nopenjdk version \"20.0.2\" 2023-07-18\nOpenJDK Runtime Environment (build 20.0.2+9-1)\nOpenJDK 64-Bit Server VM (build 20.0.2+9-1, mixed mode, sharing)\n\n\nroot@ns4:~ # mvn -version\nApache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)\nMaven home: /usr/local/share/java/apache-maven-3.9\nJava version: 20.0.2, vendor: OpenJDK BSD Porting Team, runtime: /usr/local/openjdk20\nDefault locale: en, platform encoding: UTF-8\nOS name: \"freebsd\", version: \"14.1-stable\", arch: \"amd64\", family: \"unix\"\n\n\nIf you see output like this, you know that Maven is available and ready to use. It is important for you to know, the Apache maven file is stored in the /usr/local/etc/maven-wrapper/instances.d folder with the file name “apache-maven-3.9”.\n\nroot@ns7:~ # cd /usr/local/etc/maven-wrapper/instances.d\nroot@ns7:/usr/local/etc/maven-wrapper/instances.d # ls\napache-maven-3.9\n\n\nOnce we know where the Apache Maven files are, copy all the Maven files to the /usr/local/etc/maven-wrapper/instances.d folder.\n\nroot@ns7:~ # cd /usr/local/share/java/apache-maven-3.9\nroot@ns7:/usr/local/share/java/apache-maven-3.9 # cp -R . /usr/local/etc/maven-wrapper/instances.d\n\n\n4. Using Maven\nNow we will try to create a new project with Maven, we will save all the files from the project in /usr/local/etc/maven-wrapper/instances.d.\n\nroot@ns7:~ # cd /usr/local/etc/maven-wrapper/instances.d\nroot@ns7:/usr/local/etc/maven-wrapper/instances.d # mvn archetype:generate\n\n\nFirst, the utility displays a list of all available templates and prompts you to select one of them. By default, you are prompted to select  2229, this is an example project using Maven.\n\nThen, specify the archetype:generate version, just choose the default, namely  8. In the groupId option, write  com. in the artifactId write com.package and package write  App. For other options, just press the ENTER button. Look at the image below.\n\nChoose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): 2229: 2229\nChoose org.apache.maven.archetypes:maven-archetype-quickstart version:\n1: 1.0-alpha-1\n2: 1.0-alpha-2\n3: 1.0-alpha-3\n4: 1.0-alpha-4\n5: 1.0\n6: 1.1\n7: 1.3\n8: 1.4\n9: 1.5\nChoose a number: 9: 9\n[INFO] Using property: javaCompilerVersion = 17\n[INFO] Using property: junitVersion = 5.11.0\nDefine value for property 'groupId': com.\nDefine value for property 'artifactId': com.package\nDefine value for property 'version' 1.0-SNAPSHOT:\nDefine value for property 'package' com.: App\nConfirm properties configuration:\njavaCompilerVersion: 17\njunitVersion: 5.11.0\ngroupId: com.\nartifactId: com.package\nversion: 1.0-SNAPSHOT\npackage: App\n Y: y\n\n\nAll configuration created in Maven will be stored in a file “/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml”. You can view its contents, and the program sources are located in the folder “/usr/local/etc/maven-wrapper/instances.d/com.package/src/main/java/App/App.java”.\n\nOpen the file  “/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml”, and find the script\n\n&lt;plugin&gt;\n&lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;\n&lt;version&gt;3.4.2&lt;/version&gt;\n&lt;/plugin&gt;\n\n\nThen we edit the contents of the file, so that it becomes.\n\n&lt;plugin&gt;\n&lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;\n&lt;version&gt;3.4.2&lt;/version&gt;\n&lt;configuration&gt;\n&lt;archive&gt;\n&lt;manifest&gt;\n&lt;addClasspath&gt;true&lt;/addClasspath&gt;\n&lt;mainClass&gt;App.App&lt;/mainClass&gt;\n&lt;/manifest&gt;\n&lt;/archive&gt;\n&lt;/configuration&gt;\n&lt;/plugin&gt;\n\n\nAfter that, open the project folder that we created earlier and run it with the command “mvn compile, mvn package and mvn install”.\n\nroot@ns7:/usr/local/etc/maven-wrapper/instances.d # cd com.package\nroot@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn compile\n[INFO] Scanning for projects...\n[INFO]\n[INFO] --------------------------&lt; com.:com.package &gt;--------------------------\n[INFO] Building com.package 1.0-SNAPSHOT\n[INFO]   from pom.xml\n[INFO] --------------------------------[ jar ]---------------------------------\n[INFO]\n[INFO] --- resources:3.0.2:resources (default-resources) @ com.package ---\n[INFO] Using 'UTF-8' encoding to copy filtered resources.\n[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/main/resources\n[INFO]\n[INFO] --- compiler:3.8.0:compile (default-compile) @ com.package ---\n[INFO] Nothing to compile - all classes are up to date\n[INFO] ------------------------------------------------------------------------\n[INFO] BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO] Total time:  1.377 s\n[INFO] Finished at: 2023-12-26T20:36:17+07:00\n[INFO] ------------------------------------------------------------------------\n\n\nroot@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn package\n\n\n\n\nroot@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn install\n[INFO] Scanning for projects...\n[INFO]\n[INFO] --------------------------&lt; com.:com.package &gt;--------------------------\n[INFO] Building com.package 1.0-SNAPSHOT\n[INFO]   from pom.xml\n[INFO] --------------------------------[ jar ]---------------------------------\n[INFO]\n[INFO] --- resources:3.0.2:resources (default-resources) @ com.package ---\n[INFO] Using 'UTF-8' encoding to copy filtered resources.\n[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/main/resources\n[INFO]\n[INFO] --- compiler:3.8.0:compile (default-compile) @ com.package ---\n[INFO] Nothing to compile - all classes are up to date\n[INFO]\n[INFO] --- resources:3.0.2:testResources (default-testResources) @ com.package ---\n[INFO] Using 'UTF-8' encoding to copy filtered resources.\n[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/test/resources\n[INFO]\n[INFO] --- compiler:3.8.0:testCompile (default-testCompile) @ com.package ---\n[INFO] Nothing to compile - all classes are up to date\n[INFO]\n[INFO] --- surefire:2.22.1:test (default-test) @ com.package ---\n[INFO]\n[INFO] -------------------------------------------------------\n[INFO]  T E S T S\n[INFO] -------------------------------------------------------\n[INFO] Running App.AppTest\n[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.079 s - in App.AppTest\n[INFO]\n[INFO] Results:\n[INFO]\n[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0\n[INFO]\n[INFO]\n[INFO] --- jar:3.0.2:jar (default-jar) @ com.package ---\n[INFO] Building jar: /usr/local/etc/maven-wrapper/instances.d/com.package/target/com.package-1.0-SNAPSHOT.jar\n[INFO]\n[INFO] --- install:2.5.2:install (default-install) @ com.package ---\n[INFO] Installing /usr/local/etc/maven-wrapper/instances.d/com.package/target/com.package-1.0-SNAPSHOT.jar to /root/.m2/repository/com/com.package/1.0-SNAPSHOT/com.package-1.0-SNAPSHOT.jar\n[INFO] Installing /usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml to /root/.m2/repository/com/com.package/1.0-SNAPSHOT/com.package-1.0-SNAPSHOT.pom\n[INFO] ------------------------------------------------------------------------\n[INFO] BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO] Total time:  3.225 s\n[INFO] Finished at: 2023-12-26T20:38:23+07:00\n[INFO] ------------------------------------------------------------------------\n\n\nThe three commands above will execute the files in the “/usr/local/etc/maven-wrapper/instances.d/com.package/src” folder to the “/usr/local/etc/maven-wrapper/instances.d/com.package/target” folder. Look at the image below.\n\n\n\nThe final step is to test with the “JAR” file.\n\nroot@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # java -jar target/com.package-1.0-SNAPSHOT.jar\nHello World!\n\n\nInstalling Java and Maven on a FreeBSD server is a simple and easy process that can be completed in just a few easy steps. By following the steps outlined in this article, you will be able to set up a fully functional Java development environment on your FreeBSD system in no time. With Java and Maven installed, you’ll be able to build and run Java applications easily, and take advantage of the many benefits that FreeBSD has to offer.\n",
+  "datePublished": "2025-02-19 17:13:15 +0300",
+  "dateModified": "2025-02-19 17:13:15 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Implementing Maven and Java on FreeBSD 14.1"><meta itemprop="description" content="We present this tutorial for FreeBSD users so they can get to know Maven better, so that people can understand that Maven can be run on FreeBSD."><meta itemprop="datePublished" content="2025-02-19"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-02-19T17:13:15+03:00">2025-02-19</time> </p><h1 class="page__title" itemprop="headline">Implementing Maven and Java on FreeBSD 14.1
+</h1></header><section class="page__content" itemprop="text">
+        <p>This article discusses a Maven tutorial that provides basic and advanced concepts of Apache Maven technology. The entire contents of the tutorial are run on the FreeBSD system, but you can apply it to Linux systems such as Ubuntu, Debian and others.</p>
+
+<p>Before we discuss Maven further, it’s a good idea to get to know Maven. Since most people run Maven on Linux systems, it is rare to run Maven on FreeBSD. We deliberately present this tutorial for FreeBSD lovers to get to know Maven more closely, so that people don’t think that Maven cannot be run on a FreeBSD system.</p>
+
+<h2 id="1-system-specifications">1. System Specifications:</h2>
+<blockquote>
+  <p>OS:  FreeBSD 14.1-STABLE stable/14-n268734-9f319352d7ac GENERIC amd64  <br />
+Hostname: ns4    <br />
+IP Address: 192.168.5.71 <br />
+Java version: openjdk version “20.0.2” 2023-07-18<br />
+Maven version: Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)</p>
+</blockquote>
+
+<h2 id="2-what-is-maven">2. What is Maven</h2>
+<p>Maven is a popular open source development tool developed by the Apache Group, it includes a powerful project management tool that is based on POM (project object model). Maven is often used to build, publish, and deploy multiple projects at once for better project management. This tool allows developers to build and document a lifecycle framework.</p>
+
+<p>Maven is written in the Java programming language and is used to build projects written in Scala, C#, Ruby, etc. Based on the Project Object Model (POM), this tool has made the life of Java developers easier while developing reports, checking builds, and testing setup automation.</p>
+
+<p>If you want to use maven in your java project then first thing you have to do is install maven java compiler after installation is complete you can create your first maven project. A Maven repository is a directory of JAR files packed with some metadata. Maven metadata is the POM file associated with the project that each package JAR file has, including the external dependencies that each package JAR has. The Maven repository stores all your project jars, plugins, library jars, other artifacts, and their dependencies are any third party software required by your project. You will find three types of repositories in Maven – local, central, and remote. The local repository stores all Maven dependencies.</p>
+
+<p>The Maven repository is a repository for JAR file dependencies written in a file called POM.XML. The POM.XML file contains Java classes, resources, and other dependencies. There are two types of Maven-like repositories that read pom.xml files. Maven can download dependencies specified in the pom.xml file into a local repository from a central or remote server repository. In the POM.XML file Maven can execute the lifecycle, phases, objectives and plugins defined in the pom.xml file.</p>
+
+<h2 id="3-running-maven-on-freebsd">3. Running Maven On FreeBSD</h2>
+<p>To run Maven on FreeBSD you must first install the Java OpenJDK application on FreeBSD, you can read the guide in the article below.</p>
+
+<p><a href="https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/">Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable</a></p>
+
+<p>If you have read the article above and have installed Java on FreeBSD, we continue by installing Maven. Write the command below to install Maven on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install maven-wrapper
+</code></pre></div></div>
+
+<p>Maven wrapper is used as a wrapper Script for various Maven installations. After the Maven wrapper script has been installed, we continue with installing Maven.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install maven39
+</code></pre></div></div>
+
+<p>The final step of this process is to validate whether Java and Maven are working, by checking the versions.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # java -version
+openjdk version "20.0.2" 2023-07-18
+OpenJDK Runtime Environment (build 20.0.2+9-1)
+OpenJDK 64-Bit Server VM (build 20.0.2+9-1, mixed mode, sharing)
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # mvn -version
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: /usr/local/share/java/apache-maven-3.9
+Java version: 20.0.2, vendor: OpenJDK BSD Porting Team, runtime: /usr/local/openjdk20
+Default locale: en, platform encoding: UTF-8
+OS name: "freebsd", version: "14.1-stable", arch: "amd64", family: "unix"
+</code></pre></div></div>
+
+<p>If you see output like this, you know that Maven is available and ready to use. It is important for you to know, the Apache maven file is stored in the /usr/local/etc/maven-wrapper/instances.d folder with the file name “apache-maven-3.9”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # cd /usr/local/etc/maven-wrapper/instances.d
+root@ns7:/usr/local/etc/maven-wrapper/instances.d # ls
+apache-maven-3.9
+</code></pre></div></div>
+
+<p>Once we know where the Apache Maven files are, copy all the Maven files to the <strong>/usr/local/etc/maven-wrapper/instances.d</strong> folder.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # cd /usr/local/share/java/apache-maven-3.9
+root@ns7:/usr/local/share/java/apache-maven-3.9 # cp -R . /usr/local/etc/maven-wrapper/instances.d
+</code></pre></div></div>
+
+<h2 id="4-using-maven">4. Using Maven</h2>
+<p>Now we will try to create a new project with Maven, we will save all the files from the project in /usr/local/etc/maven-wrapper/instances.d.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # cd /usr/local/etc/maven-wrapper/instances.d
+root@ns7:/usr/local/etc/maven-wrapper/instances.d # mvn archetype:generate
+</code></pre></div></div>
+
+<p>First, the utility displays a list of all available templates and prompts you to select one of them. By default, you are prompted to select  <strong>2229</strong>, this is an example project using Maven.</p>
+
+<p>Then, specify the archetype:generate version, just choose the default, namely  <strong>8</strong>. In the groupId option, write  <strong>com.</strong> in the artifactId write <strong>com.package</strong> and package write  <strong>App</strong>. For other options, just press the ENTER button. Look at the image below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): 2229: 2229
+Choose org.apache.maven.archetypes:maven-archetype-quickstart version:
+1: 1.0-alpha-1
+2: 1.0-alpha-2
+3: 1.0-alpha-3
+4: 1.0-alpha-4
+5: 1.0
+6: 1.1
+7: 1.3
+8: 1.4
+9: 1.5
+Choose a number: 9: 9
+[INFO] Using property: javaCompilerVersion = 17
+[INFO] Using property: junitVersion = 5.11.0
+Define value for property 'groupId': com.
+Define value for property 'artifactId': com.package
+Define value for property 'version' 1.0-SNAPSHOT:
+Define value for property 'package' com.: App
+Confirm properties configuration:
+javaCompilerVersion: 17
+junitVersion: 5.11.0
+groupId: com.
+artifactId: com.package
+version: 1.0-SNAPSHOT
+package: App
+ Y: y
+</code></pre></div></div>
+
+<p>All configuration created in Maven will be stored in a file “<strong>/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml”</strong>. You can view its contents, and the program sources are located in the folder “<strong>/usr/local/etc/maven-wrapper/instances.d/com.package/src/main/java/App/App.java”</strong>.</p>
+
+<p>Open the file  <strong>“/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml”</strong>, and find the script</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;plugin&gt;
+&lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;
+&lt;version&gt;3.4.2&lt;/version&gt;
+&lt;/plugin&gt;
+</code></pre></div></div>
+
+<p>Then we edit the contents of the file, so that it becomes.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;plugin&gt;
+&lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;
+&lt;version&gt;3.4.2&lt;/version&gt;
+&lt;configuration&gt;
+&lt;archive&gt;
+&lt;manifest&gt;
+&lt;addClasspath&gt;true&lt;/addClasspath&gt;
+&lt;mainClass&gt;App.App&lt;/mainClass&gt;
+&lt;/manifest&gt;
+&lt;/archive&gt;
+&lt;/configuration&gt;
+&lt;/plugin&gt;
+</code></pre></div></div>
+
+<p>After that, open the project folder that we created earlier and run it with the command <strong>“mvn compile, mvn package and mvn install”</strong>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d # cd com.package
+root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn compile
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------------&lt; com.:com.package &gt;--------------------------
+[INFO] Building com.package 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.0.2:resources (default-resources) @ com.package ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/main/resources
+[INFO]
+[INFO] --- compiler:3.8.0:compile (default-compile) @ com.package ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.377 s
+[INFO] Finished at: 2023-12-26T20:36:17+07:00
+[INFO] ------------------------------------------------------------------------
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn package
+</code></pre></div></div>
+
+<p><img src="https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/run_mvn_package.jpg" alt="run mvn package" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn install
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------------&lt; com.:com.package &gt;--------------------------
+[INFO] Building com.package 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.0.2:resources (default-resources) @ com.package ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/main/resources
+[INFO]
+[INFO] --- compiler:3.8.0:compile (default-compile) @ com.package ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- resources:3.0.2:testResources (default-testResources) @ com.package ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/test/resources
+[INFO]
+[INFO] --- compiler:3.8.0:testCompile (default-testCompile) @ com.package ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- surefire:2.22.1:test (default-test) @ com.package ---
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running App.AppTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.079 s - in App.AppTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- jar:3.0.2:jar (default-jar) @ com.package ---
+[INFO] Building jar: /usr/local/etc/maven-wrapper/instances.d/com.package/target/com.package-1.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- install:2.5.2:install (default-install) @ com.package ---
+[INFO] Installing /usr/local/etc/maven-wrapper/instances.d/com.package/target/com.package-1.0-SNAPSHOT.jar to /root/.m2/repository/com/com.package/1.0-SNAPSHOT/com.package-1.0-SNAPSHOT.jar
+[INFO] Installing /usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml to /root/.m2/repository/com/com.package/1.0-SNAPSHOT/com.package-1.0-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.225 s
+[INFO] Finished at: 2023-12-26T20:38:23+07:00
+[INFO] ------------------------------------------------------------------------
+</code></pre></div></div>
+
+<p>The three commands above will execute the files in the “<strong>/usr/local/etc/maven-wrapper/instances.d/com.package/src</strong>” folder to the “<strong>/usr/local/etc/maven-wrapper/instances.d/com.package/target</strong>” folder. Look at the image below.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/Maven_Compile_Target.jpg" alt="apache maven compile target" /></p>
+
+<p>The final step is to test with the “JAR” file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # java -jar target/com.package-1.0-SNAPSHOT.jar
+Hello World!
+</code></pre></div></div>
+
+<p>Installing Java and Maven on a FreeBSD server is a simple and easy process that can be completed in just a few easy steps. By following the steps outlined in this article, you will be able to set up a fully functional Java development environment on your FreeBSD system in no time. With Java and Maven installed, you’ll be able to build and run Java applications easily, and take advantage of the many benefits that FreeBSD has to offer.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-02-19T17:13:15+03:00">2025-02-19</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/en/openbsd/2025/02/17/install-python-pip-on-openbsd/" class="pagination--pager" title="Installing Python Package Manager PIP on OpenBSD  7.6
+">Previous</a><a href="https://penaadventure.com/en/openbsd/2025/02/23/how-to-install-bitcoin-btc-on-openbsd/" class="pagination--pager" title="How to Install Bitcoin BTC on OpenBSD Server
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/freebsd/2025/05/18/img-iso-flashdisk-bootable-dd/"/>
+
+  <meta charset="utf-8">
+  
+  <title>FreeBSD Write img iso To Flashdisk For Bootable With dd Command  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="FreeBSD Write img iso To Flashdisk For Bootable With dd Command"><link rel="canonical" href="https://penaadventure.com/en/freebsd/2025/05/18/img-iso-flashdisk-bootable-dd/">
+  <meta property="og:url" content="https://penaadventure.com/en/freebsd/2025/05/18/img-iso-flashdisk-bootable-dd/"><meta property="og:description" content="In Unix commands, the dd utility is often referred to as a disk/data duplicator, it allows us to copy raw data from one source to another."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="FreeBSD Write img iso To Flashdisk For Bootable With dd Command">
+  <meta name="twitter:description" content="In Unix commands, the dd utility is often referred to as a disk/data duplicator, it allows us to copy raw data from one source to another.">
+  <meta name="twitter:url" content="https://penaadventure.com/en/freebsd/2025/05/18/img-iso-flashdisk-bootable-dd/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-18T23:01:35+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="a08818ab2cd73c0eb3ababbd27d4f92f" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/freebsd/2025/05/18/img-iso-flashdisk-bootable-dd/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#18" itemprop="item"><span itemprop="name">18</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">FreeBSD Write img iso To Flashdisk For Bootable With dd Command</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-18 23:01:35 +0300",
+"datePublished": "2025-05-18 23:01:35 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "FreeBSD Write img iso To Flashdisk For Bootable With dd Command",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "In Unix commands, the dd utility is often referred to as a disk/data duplicator, it allows us to copy raw data from one source to another."
+},
+
+"datePublished": "2025-05-18 23:01:35 +0300",
+"dateModified": "2025-05-18 23:01:35 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/freebsd/2025/05/18/img-iso-flashdisk-bootable-dd/",
+"name": "FreeBSD Write img iso To Flashdisk For Bootable With dd Command"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/freebsd/2025/05/18/img-iso-flashdisk-bootable-dd/",
+"name": "SysAdmin"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/freebsd/2025/05/18/img-iso-flashdisk-bootable-dd/",
+  "name": "FreeBSD Write img iso To Flashdisk For Bootable With dd Command",
+  "headline": "FreeBSD Write img iso To Flashdisk For Bootable With dd Command",
+  "keywords": "SysAdmin",
+  "description": "In Unix commands, the dd utility is often referred to as a disk/data duplicator, it allows us to copy raw data from one source to another.",
+  "articleBody": "The dd utility can be used to create a bootable USB Disk, the dd command copies standard input to standard output. Input data is read and written in 512-byte blocks. If the input read is short, the input from multiple reads is combined to form an output block. When finished, dd displays the number of complete input and output blocks and a portion of the truncated input record to the output.\n\nIn Unix commands, the dd utility is often referred to as a disk/data duplicator, it allows us to copy raw data from one source to another. The dd utility is widely used in Unix tasks such as:\n\n  Can work with tape backups.\n  Convert between systems that use different byte orders.\n  Back up boot sectors.\n  Read data from inaccessible or damaged file systems.\n\n\nTo create a bootable USB, we usually use GUI applications like Linux Live USB Creator and other applications available for Linux, FreeBSD, and Windows. A bootable USB is required whenever there is a need to install a new operating system or if we want to run an operating system live.\n\nIn Unix-like operating systems, dd is a command-line utility used to convert and copy files. It is a great tool that can be used for various purposes like backing up and restoring disks, converting data formats, converting file cases, etc. The best thing is that it comes pre-installed in many Linux distributions.\n\nIn this article, we will discuss how to create a bootable USB disk using the dd utility on a FreeBSD system.\n\n1. Display USB Disk List\n\nBefore creating a bootable USB disk, view the USB Disk list, so that we do not create a wrong bootable disk. Type the following command to view the USB Disk.\n\nroot@ns2:~ # dmesg\nda0: &lt;JetFlash Transcend 16GB 1100&gt; Removable Direct Access SPC-4 SCSI device\nda0: Serial Number 17TYRSE65DEAAUTI\nda0: 40.000MB/s transfers\nda0: 15056MB (30834688 512 byte sectors)\nda0: quirks=0x12&lt;NO_6_BYTE,NO_RC16&gt;\n\n\nIn the dmesg command above, it reads the USB Flash Drive named “da0”. FreeBSD stores the USB Disk data in the /dev/da0 folder branded Transcend 16 GB in size. To read the characteristics of the Transcend Flash Disk, use the diskinfo script.\n\nroot@ns2:/dev # diskinfo -v da0\nda0\n\t512         \t# sectorsize\n\t15787360256 \t# mediasize in bytes (15G)\n\t30834688    \t# mediasize in sectors\n\t0           \t# stripesize\n\t0           \t# stripeoffset\n\t1919        \t# Cylinders according to firmware.\n\t255         \t# Heads according to firmware.\n\t63          \t# Sectors according to firmware.\n\tJetFlash Transcend 16GB\t# Disk descr.\n\t17TYRSE65DEAAUTI\t# Disk ident.\n\tumass-sim0  \t# Attachment\n\tNo          \t# TRIM/UNMAP support\n\tUnknown     \t# Rotation rate in RPM\n\tNot_Zoned   \t# Zone Mode\n\n\nFreeBSD considers USB devices as SCSI devices, camcontrol script can be used to view a list of USB Stick Disk device information, use the script below.\n\nroot@ns2:/dev # camcontrol devlist\n&lt;ST3120813AS 3.AAD&gt;                at scbus1 target 0 lun 0 (pass0,ada0)\n&lt;JetFlash Transcend 16GB 1100&gt;     at scbus6 target 0 lun 0 (da0,pass1)\n\n\nOr you can also use the geom command.\n\nroot@ns2:/dev # geom disk list\nGeom name: ada0\nProviders:\n1. Name: ada0\n   Mediasize: 120034123776 (112G)\n   Sectorsize: 512\n   Mode: r2w2e3\n   descr: ST3120813AS\n   ident: 5LS10CHW\n   rotationrate: unknown\n   fwsectors: 63\n   fwheads: 16\n\nGeom name: da0\nProviders:\n1. Name: da0\n   Mediasize: 15787360256 (15G)\n   Sectorsize: 512\n   Mode: r0w0e0\n   descr: JetFlash Transcend 16GB\n   lunname: USB MEMORY BAR\n   lunid: 2020030102060804\n   ident: 17TYRSE65DEAAUTI\n   rotationrate: unknown\n   fwsectors: 63\n   fwheads: 255\n\n\n2. Formatting USB Disk\n\nBefore formatting the USB disk, first view the USB disk partition with the gpart command.\n\nroot@ns2:/dev # gpart show da0\n=&gt;       3  30834683  da0  GPT  (15G)\n         3        26    1  freebsd-boot  (13K)\n        29        51       - free -  (26K)\n        80      4096    2  efi  (2.0M)\n      4176  30830510       - free -  (15G)\n\n\nIn the above display da0 is a USB disk drive and is formatted with the efi file system. To format the USB disk, we will provide several options.\n\n2.1. Format With FAT32\n\nFor Windows systems, it only reads the FAT32 file system format, so that the contents of the files on our USB disk can be read in Windows, the format used is FAT32, the following is an example of the FAT32 format.\n\nroot@ns2:~ # gpart destroy -F /dev/da0\nda0 destroyed\nroot@ns2:~ # gpart create -s mbr /dev/da0\nda0 created\nroot@ns2:~ # gpart add -t fat32 /dev/da0\nda0s1 added\nroot@ns2:~ # newfs_msdos -L FILES -F 32 /dev/da0s1\n/dev/da0s1: 30827008 sectors in 481672 FAT32 clusters (32768 bytes/cluster)\nBytesPerSec=512 SecPerClust=64 ResSectors=32 FATs=2 Media=0xf0 SecPerTrack=63 Heads=255 HiddenSecs=0 HugeSectors=30834625 FATsecs=3764 RootCluster=2 FSInfo=1 Backup=2\n\n\nNow let’s see the USB disk partition, whether it uses the FAT32 system.\n\nroot@ns2:~ # gpart show da0\n=&gt;      63  30834625  da0  MBR  (15G)\n        63  30834625    1  fat32  (15G)\n\n\nIn the gpat show command above, our USB disk has been partitioned with the FAT32 file system, if our USB disk contains files, automatically when opened in Windows it will immediately read the contents of the files on the USB disk.\n\n2.2. Format with UFS\n\nNext, we will format the USB Disk with the UFS file system.\n\nroot@ns2:~ # gpart destroy -F /dev/da0\nda0 destroyed\nroot@ns2:~ # gpart create -s gpt da0\nda0 created\nroot@ns2:~ # gpart add -t freebsd-boot -s 512k da0\nda0p1 added\nroot@ns2:~ # gpart bootcode -b /boot/pmbr -p /boot/gptboot -i 1 da0\npartcode written to da0p1\nbootcode written to da0\nroot@ns2:~ # gpart add -t freebsd-ufs -b 1M -s 7G da0\nda0p2 added\nroot@ns2:~ # gpart add -t freebsd-swap da0\nda0p3 added\nroot@ns2:~ # newfs -U /dev/da0p2\n/dev/da0p2: 7168.0MB (14680064 sectors) block size 32768, fragment size 4096\n\tusing 12 cylinder groups of 625.22MB, 20007 blks, 80128 inodes.\n\twith soft updates\nsuper-block backups (for fsck_ffs -b #) at:\n 192, 1280640, 2561088, 3841536, 5121984, 6402432, 7682880, 8963328, 10243776, 11524224, 12804672, 14085120\n\n\nCheck if the USB disk is partitioned with UFS file system, use the gpart show script.\n\nroot@ns2:~ # gpart show da0\n=&gt;      40  30834608  da0  GPT  (15G)\n        40      1024    1  freebsd-boot  (512K)\n      1064       984       - free -  (492K)\n      2048  14680064    2  freebsd-ufs  (7.0G)\n  14682112  16152536    3  freebsd-swap  (7.7G)\n\n\nThe gpart show command shows that our USB disk has been partitioned with the UFS file system.\n\n2.3. Format With EFI\n\nNext, we will format the USB Disk with the UFS file system. Follow these steps.\n\nroot@ns2:~ # gpart destroy -F /dev/da0\nda0 destroyed\nroot@ns2:~ # gpart create -s gpt /dev/da0\nda0 created\nroot@ns2:~ # gpart add -t efi -l efiboot -a 4k -s 100M /dev/da0\nda0p1 added\nroot@ns2:~ # newfs_msdos -F 16 -c 1 /dev/da0p1\nnewfs_msdos: warning: FAT type limits file system to 66069 sectors\n/dev/da0p1: 65524 sectors in 65524 FAT16 clusters (512 bytes/cluster)\nBytesPerSec=512 SecPerClust=1 ResSectors=1 FATs=2 RootDirEnts=512 Media=0xf0 FATsecs=256 SecPerTrack=63 Heads=255 HiddenSecs=0 HugeSectors=66069\nroot@ns2:~ # mount -t msdosfs /dev/da0p1 /mnt\nroot@ns2:~ # mkdir -p /mnt/EFI/BOOT\nroot@ns2:~ # cp /boot/loader.efi /mnt/EFI/BOOT/BOOTX64.efi\nroot@ns2:~ # umount /mnt\nroot@ns2:~ #\n\n\nCheck disk partition\n\nroot@ns2:~ # gpart show da0\n=&gt;      40  30834608  da0  GPT  (15G)\n        40    204800    1  efi  (100M)\n    204840  30629808       - free -  (15G)\n\n\n3. Download FreeBSD img file\n\nThe next step is to download the FreeBSD parent file. In this step, try to make sure the FreeBSD file has the extension “img”, because if it has the extension “iso” the dd command will not be able to create a bootable USB disk. You can download the FreeBSD file from Windows, then after it is finished we transfer it to the FreeBSD computer with WINSCP.\n\nIf you want to download the FreeBSD file directly from the FreeBSD system, you can use the wget or lynx command. In this case, an example of downloading the FreeBSD.img file using the wget command will be given.\n\nroot@ns2:~ # cd /tmp\nroot@ns2:/tmp # wget https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-memstick.img\n--2023-07-04 12:42:17--  https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-memstick.img\nResolving download.freebsd.org (download.freebsd.org)... 203.80.16.151, 2404:a8:3ff::15:0\nConnecting to download.freebsd.org (download.freebsd.org)|203.80.16.151|:443... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 1280627200 (1.2G) [application/octet-stream]\nSaving to: ‘FreeBSD-13.2-RELEASE-amd64-memstick.img’\n\nFreeBSD-13.2-RELEASE-amd64-memstick.img      2%[=&gt;             ]  29.63M  4.83MB/s    eta 3m 17s\n\n\nWait until the download process is complete, if it is complete the FreeBSD-13.2-RELEASE-amd64-memstick.img file will be saved in the /tmp folder. Next, we create a bootable USB disk. Follow the command below to create a Bootable USB Flash Disk.\n\nroot@ns2:~ # cd /tmp\nroot@ns2:/tmp # dd if=FreeBSD-13.2-RELEASE-amd64-memstick.img of=/dev/da0 bs=1M conv=sync status=progress\n  26214400 bytes (26 MB, 25 MiB) transferred 1.055s, 25 MB/s\n31+0 records in\n31+0 records out\n32505856 bytes transferred in 1.522773 secs (21346492 bytes/sec)\n\n\nAfter finishing making Bootable USB Disk, install it on FreeBSD computer. Insert Flash Disk Drive in USB slot, turn on computer and enter BIOS. In bios menu, select boot or first boot is directed to Flash Disk, then save bios changes. Computer will automatically read Flash Disk Drive, follow the instructions in FreeBSD installation process, if still confused about how to install FreeBSD, can read article that reviews FreeBSD installation.\n",
+  "datePublished": "2025-05-18 23:01:35 +0300",
+  "dateModified": "2025-05-18 23:01:35 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="FreeBSD Write img iso To Flashdisk For Bootable With dd Command"><meta itemprop="description" content="In Unix commands, the dd utility is often referred to as a disk/data duplicator, it allows us to copy raw data from one source to another."><meta itemprop="datePublished" content="2025-05-18"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-18T23:01:35+03:00">2025-05-18</time> </p><h1 class="page__title" itemprop="headline">FreeBSD Write img iso To Flashdisk For Bootable With dd Command
+</h1></header><section class="page__content" itemprop="text">
+        <p>The dd utility can be used to create a bootable USB Disk, the dd command copies standard input to standard output. Input data is read and written in 512-byte blocks. If the input read is short, the input from multiple reads is combined to form an output block. When finished, dd displays the number of complete input and output blocks and a portion of the truncated input record to the output.</p>
+
+<p>In Unix commands, the dd utility is often referred to as a disk/data duplicator, it allows us to copy raw data from one source to another. The dd utility is widely used in Unix tasks such as:</p>
+<ul>
+  <li>Can work with tape backups.</li>
+  <li>Convert between systems that use different byte orders.</li>
+  <li>Back up boot sectors.</li>
+  <li>Read data from inaccessible or damaged file systems.</li>
+</ul>
+
+<p>To create a bootable USB, we usually use GUI applications like Linux Live USB Creator and other applications available for Linux, FreeBSD, and Windows. A bootable USB is required whenever there is a need to install a new operating system or if we want to run an operating system live.</p>
+
+<p>In Unix-like operating systems, dd is a command-line utility used to convert and copy files. It is a great tool that can be used for various purposes like backing up and restoring disks, converting data formats, converting file cases, etc. The best thing is that it comes pre-installed in many Linux distributions.</p>
+
+<p>In this article, we will discuss how to create a bootable USB disk using the dd utility on a FreeBSD system.</p>
+
+<h2 id="1-display-usb-disk-list">1. Display USB Disk List</h2>
+
+<p>Before creating a bootable USB disk, view the USB Disk list, so that we do not create a wrong bootable disk. Type the following command to view the USB Disk.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:~ # dmesg
+da0: &lt;JetFlash Transcend 16GB 1100&gt; Removable Direct Access SPC-4 SCSI device
+da0: Serial Number 17TYRSE65DEAAUTI
+da0: 40.000MB/s transfers
+da0: 15056MB (30834688 512 byte sectors)
+da0: quirks=0x12&lt;NO_6_BYTE,NO_RC16&gt;
+</code></pre></div></div>
+
+<p>In the dmesg command above, it reads the USB Flash Drive named “da0”. FreeBSD stores the USB Disk data in the /dev/da0 folder branded Transcend 16 GB in size. To read the characteristics of the Transcend Flash Disk, use the diskinfo script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:/dev # diskinfo -v da0
+da0
+	512         	# sectorsize
+	15787360256 	# mediasize in bytes (15G)
+	30834688    	# mediasize in sectors
+	0           	# stripesize
+	0           	# stripeoffset
+	1919        	# Cylinders according to firmware.
+	255         	# Heads according to firmware.
+	63          	# Sectors according to firmware.
+	JetFlash Transcend 16GB	# Disk descr.
+	17TYRSE65DEAAUTI	# Disk ident.
+	umass-sim0  	# Attachment
+	No          	# TRIM/UNMAP support
+	Unknown     	# Rotation rate in RPM
+	Not_Zoned   	# Zone Mode
+</code></pre></div></div>
+
+<p>FreeBSD considers USB devices as SCSI devices, camcontrol script can be used to view a list of USB Stick Disk device information, use the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:/dev # camcontrol devlist
+&lt;ST3120813AS 3.AAD&gt;                at scbus1 target 0 lun 0 (pass0,ada0)
+&lt;JetFlash Transcend 16GB 1100&gt;     at scbus6 target 0 lun 0 (da0,pass1)
+</code></pre></div></div>
+
+<p>Or you can also use the geom command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:/dev # geom disk list
+Geom name: ada0
+Providers:
+1. Name: ada0
+   Mediasize: 120034123776 (112G)
+   Sectorsize: 512
+   Mode: r2w2e3
+   descr: ST3120813AS
+   ident: 5LS10CHW
+   rotationrate: unknown
+   fwsectors: 63
+   fwheads: 16
+
+Geom name: da0
+Providers:
+1. Name: da0
+   Mediasize: 15787360256 (15G)
+   Sectorsize: 512
+   Mode: r0w0e0
+   descr: JetFlash Transcend 16GB
+   lunname: USB MEMORY BAR
+   lunid: 2020030102060804
+   ident: 17TYRSE65DEAAUTI
+   rotationrate: unknown
+   fwsectors: 63
+   fwheads: 255
+</code></pre></div></div>
+
+<h2 id="2-formatting-usb-disk">2. Formatting USB Disk</h2>
+
+<p>Before formatting the USB disk, first view the USB disk partition with the gpart command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:/dev # gpart show da0
+=&gt;       3  30834683  da0  GPT  (15G)
+         3        26    1  freebsd-boot  (13K)
+        29        51       - free -  (26K)
+        80      4096    2  efi  (2.0M)
+      4176  30830510       - free -  (15G)
+</code></pre></div></div>
+
+<p>In the above display da0 is a USB disk drive and is formatted with the efi file system. To format the USB disk, we will provide several options.</p>
+
+<h3 id="21-format-with-fat32">2.1. Format With FAT32</h3>
+
+<p>For Windows systems, it only reads the FAT32 file system format, so that the contents of the files on our USB disk can be read in Windows, the format used is FAT32, the following is an example of the FAT32 format.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:~ # gpart destroy -F /dev/da0
+da0 destroyed
+root@ns2:~ # gpart create -s mbr /dev/da0
+da0 created
+root@ns2:~ # gpart add -t fat32 /dev/da0
+da0s1 added
+root@ns2:~ # newfs_msdos -L FILES -F 32 /dev/da0s1
+/dev/da0s1: 30827008 sectors in 481672 FAT32 clusters (32768 bytes/cluster)
+BytesPerSec=512 SecPerClust=64 ResSectors=32 FATs=2 Media=0xf0 SecPerTrack=63 Heads=255 HiddenSecs=0 HugeSectors=30834625 FATsecs=3764 RootCluster=2 FSInfo=1 Backup=2
+</code></pre></div></div>
+
+<p>Now let’s see the USB disk partition, whether it uses the FAT32 system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:~ # gpart show da0
+=&gt;      63  30834625  da0  MBR  (15G)
+        63  30834625    1  fat32  (15G)
+</code></pre></div></div>
+
+<p>In the gpat show command above, our USB disk has been partitioned with the FAT32 file system, if our USB disk contains files, automatically when opened in Windows it will immediately read the contents of the files on the USB disk.</p>
+
+<h3 id="22-format-with-ufs">2.2. Format with UFS</h3>
+
+<p>Next, we will format the USB Disk with the UFS file system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:~ # gpart destroy -F /dev/da0
+da0 destroyed
+root@ns2:~ # gpart create -s gpt da0
+da0 created
+root@ns2:~ # gpart add -t freebsd-boot -s 512k da0
+da0p1 added
+root@ns2:~ # gpart bootcode -b /boot/pmbr -p /boot/gptboot -i 1 da0
+partcode written to da0p1
+bootcode written to da0
+root@ns2:~ # gpart add -t freebsd-ufs -b 1M -s 7G da0
+da0p2 added
+root@ns2:~ # gpart add -t freebsd-swap da0
+da0p3 added
+root@ns2:~ # newfs -U /dev/da0p2
+/dev/da0p2: 7168.0MB (14680064 sectors) block size 32768, fragment size 4096
+	using 12 cylinder groups of 625.22MB, 20007 blks, 80128 inodes.
+	with soft updates
+super-block backups (for fsck_ffs -b #) at:
+ 192, 1280640, 2561088, 3841536, 5121984, 6402432, 7682880, 8963328, 10243776, 11524224, 12804672, 14085120
+</code></pre></div></div>
+
+<p>Check if the USB disk is partitioned with UFS file system, use the gpart show script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:~ # gpart show da0
+=&gt;      40  30834608  da0  GPT  (15G)
+        40      1024    1  freebsd-boot  (512K)
+      1064       984       - free -  (492K)
+      2048  14680064    2  freebsd-ufs  (7.0G)
+  14682112  16152536    3  freebsd-swap  (7.7G)
+</code></pre></div></div>
+
+<p>The gpart show command shows that our USB disk has been partitioned with the UFS file system.</p>
+
+<h3 id="23-format-with-efi">2.3. Format With EFI</h3>
+
+<p>Next, we will format the USB Disk with the UFS file system. Follow these steps.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:~ # gpart destroy -F /dev/da0
+da0 destroyed
+root@ns2:~ # gpart create -s gpt /dev/da0
+da0 created
+root@ns2:~ # gpart add -t efi -l efiboot -a 4k -s 100M /dev/da0
+da0p1 added
+root@ns2:~ # newfs_msdos -F 16 -c 1 /dev/da0p1
+newfs_msdos: warning: FAT type limits file system to 66069 sectors
+/dev/da0p1: 65524 sectors in 65524 FAT16 clusters (512 bytes/cluster)
+BytesPerSec=512 SecPerClust=1 ResSectors=1 FATs=2 RootDirEnts=512 Media=0xf0 FATsecs=256 SecPerTrack=63 Heads=255 HiddenSecs=0 HugeSectors=66069
+root@ns2:~ # mount -t msdosfs /dev/da0p1 /mnt
+root@ns2:~ # mkdir -p /mnt/EFI/BOOT
+root@ns2:~ # cp /boot/loader.efi /mnt/EFI/BOOT/BOOTX64.efi
+root@ns2:~ # umount /mnt
+root@ns2:~ #
+</code></pre></div></div>
+
+<p>Check disk partition</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:~ # gpart show da0
+=&gt;      40  30834608  da0  GPT  (15G)
+        40    204800    1  efi  (100M)
+    204840  30629808       - free -  (15G)
+</code></pre></div></div>
+
+<h2 id="3-download-freebsd-img-file">3. Download FreeBSD img file</h2>
+
+<p>The next step is to download the FreeBSD parent file. In this step, try to make sure the FreeBSD file has the extension “img”, because if it has the extension “iso” the dd command will not be able to create a bootable USB disk. You can download the FreeBSD file from Windows, then after it is finished we transfer it to the FreeBSD computer with WINSCP.</p>
+
+<p>If you want to download the FreeBSD file directly from the FreeBSD system, you can use the wget or lynx command. In this case, an example of downloading the FreeBSD.img file using the wget command will be given.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:~ # cd /tmp
+root@ns2:/tmp # wget https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-memstick.img
+--2023-07-04 12:42:17--  https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-memstick.img
+Resolving download.freebsd.org (download.freebsd.org)... 203.80.16.151, 2404:a8:3ff::15:0
+Connecting to download.freebsd.org (download.freebsd.org)|203.80.16.151|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1280627200 (1.2G) [application/octet-stream]
+Saving to: ‘FreeBSD-13.2-RELEASE-amd64-memstick.img’
+
+FreeBSD-13.2-RELEASE-amd64-memstick.img      2%[=&gt;             ]  29.63M  4.83MB/s    eta 3m 17s
+</code></pre></div></div>
+
+<p>Wait until the download process is complete, if it is complete the FreeBSD-13.2-RELEASE-amd64-memstick.img file will be saved in the /tmp folder. Next, we create a bootable USB disk. Follow the command below to create a Bootable USB Flash Disk.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns2:~ # cd /tmp
+root@ns2:/tmp # dd if=FreeBSD-13.2-RELEASE-amd64-memstick.img of=/dev/da0 bs=1M conv=sync status=progress
+  26214400 bytes (26 MB, 25 MiB) transferred 1.055s, 25 MB/s
+31+0 records in
+31+0 records out
+32505856 bytes transferred in 1.522773 secs (21346492 bytes/sec)
+</code></pre></div></div>
+
+<p>After finishing making Bootable USB Disk, install it on FreeBSD computer. Insert Flash Disk Drive in USB slot, turn on computer and enter BIOS. In bios menu, select boot or first boot is directed to Flash Disk, then save bios changes. Computer will automatically read Flash Disk Drive, follow the instructions in FreeBSD installation process, if still confused about how to install FreeBSD, can read article that reviews FreeBSD installation.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-18T23:01:35+03:00">2025-05-18</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/en/freebsd/2025/05/18/update-freebsd-ports-system/" class="pagination--pager" title="How to Update the FreeBSD Ports System
+">Previous</a><a href="https://penaadventure.com/en/freebsd/2025/05/19/router-gateway-freebsd-pf-firewall/" class="pagination--pager" title="Creating an Internet Router Gateway With FreeBSD and PF Firewall
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

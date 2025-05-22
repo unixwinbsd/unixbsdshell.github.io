@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/freebsd/2025/05/20/crontab-file-on-freebsd/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Setting up a crontab File on OpenBSD  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Setting up a crontab File on OpenBSD"><link rel="canonical" href="https://penaadventure.com/en/freebsd/2025/05/20/crontab-file-on-freebsd/">
+  <meta property="og:url" content="https://penaadventure.com/en/freebsd/2025/05/20/crontab-file-on-freebsd/"><meta property="og:description" content="The active line in a crontab file is the setting of an environment variable or cron command. Setting an environment variable in a crontab file will create the environment in which any command in the crontab is run."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Setting up a crontab File on OpenBSD">
+  <meta name="twitter:description" content="The active line in a crontab file is the setting of an environment variable or cron command. Setting an environment variable in a crontab file will create the environment in which any command in the crontab is run.">
+  <meta name="twitter:url" content="https://penaadventure.com/en/freebsd/2025/05/20/crontab-file-on-freebsd/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-20T19:02:11+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://penaadventure.com",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://penaadventure.com/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="a08818ab2cd73c0eb3ababbd27d4f92f" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://penaadventure.com/en/freebsd/2025/05/20/crontab-file-on-freebsd/" />
+  
+<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
+<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
+<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://penaadventure.com/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/about/">Me</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://penaadventure.com/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://penaadventure.com/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#20" itemprop="item"><span itemprop="name">20</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Setting up a crontab File on OpenBSD</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-20 19:02:11 +0300",
+"datePublished": "2025-05-20 19:02:11 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://penaadventure.com/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://penaadventure.com",
+"inLanguage":"ru",
+"name": "Setting up a crontab File on OpenBSD",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://penaadventure.com",
+"caption": "The active line in a crontab file is the setting of an environment variable or cron command. Setting an environment variable in a crontab file will create the environment in which any command in the crontab is run."
+},
+
+"datePublished": "2025-05-20 19:02:11 +0300",
+"dateModified": "2025-05-20 19:02:11 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://penaadventure.com/en/freebsd/2025/05/20/crontab-file-on-freebsd/",
+"name": "Setting up a crontab File on OpenBSD"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://penaadventure.com/en/freebsd/2025/05/20/crontab-file-on-freebsd/",
+"name": "SysAdmin"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://penaadventure.com/en/freebsd/2025/05/20/crontab-file-on-freebsd/",
+  "name": "Setting up a crontab File on OpenBSD",
+  "headline": "Setting up a crontab File on OpenBSD",
+  "keywords": "SysAdmin",
+  "description": "The active line in a crontab file is the setting of an environment variable or cron command. Setting an environment variable in a crontab file will create the environment in which any command in the crontab is run.",
+  "articleBody": "A crontab file is one of the files that contains instructions to the cron daemon. Commands in any crontab file will be executed either as the user who owns the crontab or, in the case of a system crontab, as the user specified on the command line. Although crontabs are text files, they are not intended to be edited directly. Creating, modifying, and deleting crontabs must be done using crontab.\n\nThe active lines in a crontab file are either environment variable settings or cron commands. Setting environment variables in a crontab file creates the environment in which any commands in the crontab are executed.\n\nOn OpenBSD systems, crontab files are not directly active. You must activate the crontab file in order for it to run according to the instructions you give it. By default on OpenBSD systems, the crontab file is located in /etc/crontab.\n\n1. Overview of Crontab Files\n\nTo make it easier to understand crontab files, we will explain a little about crontab files. Crontab files are Unix commands that create a table or list of commands, each of which will be run by the operating system (OS) at a specific time and according to a schedule that you have specified. Crontab files are used to create crontab files (lists) and then used to change previously created crontab files.\n\nCrontab, which is short for cron table, is a file that contains a schedule of various cron entries that must be run at specific times. Another way to describe crontab is as a utility that allows tasks to run automatically at specific intervals in the background by the cron daemon (see below).\n\nA crontab file contains simple instructions for the daemon that mean “run this command at a specific time and on a specific date.” Crontab instructions specify which commands will be run, on what date, and at what time.\n\nWith this utility, it will be easier for users to run OpenBSD scripts or commands at specific times and intervals. This utility is ideal for repetitive tasks such as system maintenance, backups, and updates.\n\n2. How to Create a Crontab File\n\nAs we have discussed above, to run crontab you must activate it. In this section we will create a crontab file and activate it on the OpenBSD system.\n\nTo create a crontab file, you run the following command.\n\nns2# touch /etc/crontab\nns2# chown root:wheel /etc/crontab\nns2# chmod 0600 /etc/crontab\n\n\nOnce you have created a crontab file, you can type a cron script into the file. For example, below we provide a script from the /etc/crontab file.\n\n#\t$OpenBSD: crontab,v 1.28 2020/04/18 17:22:43 jmc Exp $\n#\n# /var/cron/tabs/root - root's crontab\n#\nSHELL=/bin/sh\nPATH=/bin:/sbin:/usr/bin:/usr/sbin\nHOME=/var/log\n#\n#minute\thour\tmday\tmonth\twday\t[flags] command\n#\n# rotate log files every hour, if necessary\n0\t*\t*\t*\t*\t/usr/bin/newsyslog\n# send log file notifications, if necessary\n#1-59\t*\t*\t*\t*\t/usr/bin/newsyslog -m\n#\n# do daily/weekly/monthly maintenance\n30\t1\t*\t*\t*\t/bin/sh /etc/daily\n30\t3\t*\t*\t6\t/bin/sh /etc/weekly\n30\t5\t1\t*\t*\t/bin/sh /etc/monthly\n#~\t*\t*\t*\t*\t/usr/libexec/spamd-setup\n\n#~\t*\t*\t*\t*\t-ns rpki-client -v &amp;&amp; bgpctl reload\n\n\nTo further clarify how to use the crontab script, we provide an example. Here is an example where we want to download the br.zone file every 12th of each month and it is done at 5:00 am.\n\n# Example of job definition:\n# .---------------- minute (0 - 59)\n# |  .------------- hour (0 - 23)\n# |  |  .---------- day of month (1 - 31)\n# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...\n# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat\n# |  |  |  |  |\n# *  *  *  *  * user-name command to be executed\n0 5 12 * * root wget --no-check-certificate https://www.ipdeny.com/ipblocks/data/countries/br.zone -O /etc/tables/br.zone\n\n\nTo see the activity of downloading the br.zone file, you can view the log file with the following command.\n\nns2# tail -f /var/cron/log\n\n\n3. What You Need to Know About the Crontab File\n\nBefore we go any further, there are a few things you need to know about setting up the /etc/crontab file:\n\n\n  Log file: The log file for crontab is located in “/var/cron/log”. This file is useful for tracking the correct execution of commands.\n  Time to fetch file changes: cron checks the modification time of the system crontab file every minute.\n  File mode: The crontab file will be ignored if it does not have the correct file mode. The mode must be 0600. The file must not be writable by users other than root and must not have the execute, set-user-ID, set-group-ID, or sticky bits set.\n  Restart cron: To reload the cron file run the command “/etc/rc.d/cron restart”.\n  Alternatively: we can use the file /var/cron/tabs/root, to set the crontab file at the root level.\n\n\nc.1. Crontab File Syntax\n\nA crontab file is a built-in automation tool for OpenBSD users to manage task scheduling. Each user can have a separate crontab that holds several cronjobs that will be executed periodically by the cron daemon.\n\nBelow is the crontab syntax that you can run when working with a crontab file.\n\n  crontab [-u (for user)]\n  crontab [-e (edit)]\n  crontab [-l (list)]\n  crontab [-r (delete)]\n\n\nYou can see an example of its use below.\n\nns2# crontab -u root /etc/crontab\nns2# crontab -e\nns2# crontab -l\nns2# crontab -r\n\n\nTo enable crontab, you can use the restart command.\n\nns2# /etc/rc.d/cron restart\n\n\nAlthough the crontab file is not active by default in OpenBSD, you must enable the file, so that all daemons that work can be automated with the crontab file. Especially daemons that run repeatedly, such as updating the IP Address of the ddclient daemon and others.\n",
+  "datePublished": "2025-05-20 19:02:11 +0300",
+  "dateModified": "2025-05-20 19:02:11 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://penaadventure.com/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Setting up a crontab File on OpenBSD"><meta itemprop="description" content="The active line in a crontab file is the setting of an environment variable or cron command. Setting an environment variable in a crontab file will create the environment in which any command in the crontab is run."><meta itemprop="datePublished" content="2025-05-20"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-20T19:02:11+03:00">2025-05-20</time> </p><h1 class="page__title" itemprop="headline">Setting up a crontab File on OpenBSD
+</h1></header><section class="page__content" itemprop="text">
+        <p>A crontab file is one of the files that contains instructions to the cron daemon. Commands in any crontab file will be executed either as the user who owns the crontab or, in the case of a system crontab, as the user specified on the command line. Although crontabs are text files, they are not intended to be edited directly. Creating, modifying, and deleting crontabs must be done using crontab.</p>
+
+<p>The active lines in a crontab file are either environment variable settings or cron commands. Setting environment variables in a crontab file creates the environment in which any commands in the crontab are executed.</p>
+
+<p>On OpenBSD systems, crontab files are not directly active. You must activate the crontab file in order for it to run according to the instructions you give it. By default on OpenBSD systems, the crontab file is located in /etc/crontab.</p>
+
+<h2 id="1-overview-of-crontab-files">1. Overview of Crontab Files</h2>
+
+<p>To make it easier to understand crontab files, we will explain a little about crontab files. Crontab files are Unix commands that create a table or list of commands, each of which will be run by the operating system (OS) at a specific time and according to a schedule that you have specified. Crontab files are used to create crontab files (lists) and then used to change previously created crontab files.</p>
+
+<p>Crontab, which is short for cron table, is a file that contains a schedule of various cron entries that must be run at specific times. Another way to describe crontab is as a utility that allows tasks to run automatically at specific intervals in the background by the cron daemon (see below).</p>
+
+<p>A crontab file contains simple instructions for the daemon that mean “run this command at a specific time and on a specific date.” Crontab instructions specify which commands will be run, on what date, and at what time.</p>
+
+<p>With this utility, it will be easier for users to run OpenBSD scripts or commands at specific times and intervals. This utility is ideal for repetitive tasks such as system maintenance, backups, and updates.</p>
+
+<h2 id="2-how-to-create-a-crontab-file">2. How to Create a Crontab File</h2>
+
+<p>As we have discussed above, to run crontab you must activate it. In this section we will create a crontab file and activate it on the OpenBSD system.</p>
+
+<p>To create a crontab file, you run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# touch /etc/crontab
+ns2# chown root:wheel /etc/crontab
+ns2# chmod 0600 /etc/crontab
+</code></pre></div></div>
+
+<p>Once you have created a crontab file, you can type a cron script into the file. For example, below we provide a script from the /etc/crontab file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#	$OpenBSD: crontab,v 1.28 2020/04/18 17:22:43 jmc Exp $
+#
+# /var/cron/tabs/root - root's crontab
+#
+SHELL=/bin/sh
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+HOME=/var/log
+#
+#minute	hour	mday	month	wday	[flags] command
+#
+# rotate log files every hour, if necessary
+0	*	*	*	*	/usr/bin/newsyslog
+# send log file notifications, if necessary
+#1-59	*	*	*	*	/usr/bin/newsyslog -m
+#
+# do daily/weekly/monthly maintenance
+30	1	*	*	*	/bin/sh /etc/daily
+30	3	*	*	6	/bin/sh /etc/weekly
+30	5	1	*	*	/bin/sh /etc/monthly
+#~	*	*	*	*	/usr/libexec/spamd-setup
+
+#~	*	*	*	*	-ns rpki-client -v &amp;&amp; bgpctl reload
+</code></pre></div></div>
+
+<p>To further clarify how to use the crontab script, we provide an example. Here is an example where we want to download the br.zone file every 12th of each month and it is done at 5:00 am.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name command to be executed
+0 5 12 * * root wget --no-check-certificate https://www.ipdeny.com/ipblocks/data/countries/br.zone -O /etc/tables/br.zone
+</code></pre></div></div>
+
+<p>To see the activity of downloading the br.zone file, you can view the log file with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# tail -f /var/cron/log
+</code></pre></div></div>
+
+<h2 id="3-what-you-need-to-know-about-the-crontab-file">3. What You Need to Know About the Crontab File</h2>
+
+<p>Before we go any further, there are a few things you need to know about setting up the /etc/crontab file:</p>
+
+<ul>
+  <li><strong>Log file:</strong> The log file for crontab is located in “/var/cron/log”. This file is useful for tracking the correct execution of commands.</li>
+  <li><strong>Time to fetch file changes:</strong> cron checks the modification time of the system crontab file every minute.</li>
+  <li><strong>File mode:</strong> The crontab file will be ignored if it does not have the correct file mode. The mode must be 0600. The file must not be writable by users other than root and must not have the execute, set-user-ID, set-group-ID, or sticky bits set.</li>
+  <li><strong>Restart cron:</strong> To reload the cron file run the command “/etc/rc.d/cron restart”.</li>
+  <li><strong>Alternatively:</strong> we can use the file /var/cron/tabs/root, to set the crontab file at the root level.</li>
+</ul>
+
+<h3 id="c1-crontab-file-syntax">c.1. Crontab File Syntax</h3>
+
+<p>A crontab file is a built-in automation tool for OpenBSD users to manage task scheduling. Each user can have a separate crontab that holds several cronjobs that will be executed periodically by the cron daemon.</p>
+
+<p>Below is the crontab syntax that you can run when working with a crontab file.</p>
+<ul>
+  <li>crontab [-u (for user)]</li>
+  <li>crontab [-e (edit)]</li>
+  <li>crontab [-l (list)]</li>
+  <li>crontab [-r (delete)]</li>
+</ul>
+
+<p>You can see an example of its use below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# crontab -u root /etc/crontab
+ns2# crontab -e
+ns2# crontab -l
+ns2# crontab -r
+</code></pre></div></div>
+
+<p>To enable crontab, you can use the restart command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# /etc/rc.d/cron restart
+</code></pre></div></div>
+
+<p>Although the crontab file is not active by default in OpenBSD, you must enable the file, so that all daemons that work can be automated with the crontab file. Especially daemons that run repeatedly, such as updating the IP Address of the ddclient daemon and others.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-20T19:02:11+03:00">2025-05-20</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://penaadventure.com/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://penaadventure.com/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://penaadventure.com/en/freebsd/2025/05/20/swap-file-freebsd-swapctl-swapon/" class="pagination--pager" title="SWAP Command In OpenBSD - SWAP File - swapctl swapon
+">Previous</a><a href="https://penaadventure.com/en/openbsd/2025/05/21/phpmyadmin-openbsd-nginx-php-fpm/" class="pagination--pager" title="Configuring PHPMyAdmin and Nginx on OpenBSD 7.6
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://penaadventure.com/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://penaadventure.com/assets/js/main.min.js"></script></body>
+</html>

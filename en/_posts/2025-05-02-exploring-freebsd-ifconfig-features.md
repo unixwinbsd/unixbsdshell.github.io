@@ -12,10 +12,6 @@ excerpt: On the FreeBSD operating system or other BSD UNIX-based operating syste
 keywords: ifconfig, features, freebsd,  command, shell, server, ip, address, network, land, card, interface
 ---
 
-
-
-
-
 Have you ever encountered various network devices on a computer? But have you ever wondered how to enable, disable, or configure the network device on the computer. We only need a few lines of commands typed in the command shell menu to enable, disable, or configure the network interface.
 
 On the FreeBSD operating system or other BSD UNIX-based operating systems such as Linux, DragonflyBSD, GhostBSD, OpenBSD, and others, the command to configure or enable a network interface uses ifconfig.
@@ -52,9 +48,8 @@ lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> metric 0 mtu 16384
 
 The above “ifconfig” command example displays information such as IP address, subnet mask, and default gateway for all network interfaces.
 
-nfe0: It is a Lan Card or network adapter card used. Lan Card has a MAC address of 00:24:21:88:69:24 and an IP address of 192.168.5.2 netmask 255.255.255.0 with a broadcast of 192.168.5.255.
-
-lo0: It is a loopback network with IP address 127.0.0.1.
+- **nfe0:** It is a Lan Card or network adapter card used. Lan Card has a MAC address of 00:24:21:88:69:24 and an IP address of 192.168.5.2 netmask 255.255.255.0 with a broadcast of 192.168.5.255.
+- **lo0:** It is a loopback network with IP address 127.0.0.1.
 
 
 ## 2. Example of using ifconfig on FreeBSD
@@ -100,7 +95,7 @@ root@ns1:~ # ifconfig nfe0 192.168.5.2 netmask 255.255.255.0 broadcast 192.168.5
 root@ns1:~ # ifconfig nfe0 mtu 1500
 ```
 
-### 2.6. Looking for Other Features on the nfe0 Interface
+### 2.7. Looking for Other Features on the nfe0 Interface
 ```
 root@ns1:~ # ifconfig -m nfe0
 nfe0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500

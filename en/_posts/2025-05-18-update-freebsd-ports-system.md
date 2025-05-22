@@ -1,6 +1,6 @@
 ---
 title: How to Update the FreeBSD Ports System
-date: "2025-05-18 11:45:35 +0100"
+date: "2025-05-18 16:15:35 +0100"
 id: update-freebsd-ports-system
 lang: en
 layout: single

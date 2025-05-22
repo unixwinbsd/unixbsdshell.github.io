@@ -52,8 +52,14 @@ Symbolic permissions, sometimes referred to as symbolic expressions, use charact
 | Option       | Letter          | Represents        | 
 | ----------- | -----------   | ----------- |
 | (who)          | u          | User (owner)          |
-| 02          | Aminudin      | 25          |
-| 03          | Salahudin     | 24          |
+| (who)          | g      | Group          |
+| (who)          | o     | Other          |
+| (who)          | a  | All (user, group, and other)          |
+|           |   |           |
+| 04          | Udin sedunia  | 47          |
+| 04          | Udin sedunia  | 47          |
+| 04          | Udin sedunia  | 47          |
+| 04          | Udin sedunia  | 47          |
 | 04          | Udin sedunia  | 47          |
 
 

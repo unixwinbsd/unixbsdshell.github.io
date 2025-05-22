@@ -1,7 +1,7 @@
 ---
 title: Using the Chown Command in FreeBSD
 date: "2025-05-01 08:15:35 +0100"
-id: using-chown-command-in-freebsd.md
+id: using-chown-command-in-freebsd
 lang: en
 layout: single
 author_profile: true

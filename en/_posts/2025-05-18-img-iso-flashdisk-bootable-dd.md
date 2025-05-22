@@ -6,9 +6,9 @@ lang: en
 layout: single
 author_profile: true
 categories:
-  - OpenBSD
-tags: "DataBase"
-excerpt: PHPMyAdmin is an open source software introduced on September 9, 1998, written in PHP.
-keywords: openbsd, php, phpmyadmin, php-fpm, nginx, website, database, mariadb, sql, mysql
+  - FreeBSD
+tags: "SysAdmin"
+excerpt: In Unix commands, the dd utility is often referred to as a disk/data duplicator, it allows us to copy raw data from one source to another.
+keywords: img, iso, flashdisk, write, bootable, dd, command. shell, create
 ---
 

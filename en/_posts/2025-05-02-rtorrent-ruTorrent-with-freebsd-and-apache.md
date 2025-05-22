@@ -1,8 +1,16 @@
-
-
-
-
-
+---
+title: Installing rtorrent and ruTorrent with FreeBSD and Apache Web Server
+date: "2025-05-02 16:10:35 +0100"
+id: rtorrent-ruTorrent-with-freebsd-and-apache
+lang: en
+layout: single
+author_profile: true
+categories:
+  - FreeBSD
+tags: "SysAdmin"
+excerpt: In the Torrent application environment, Rtorrent is the most stable and efficient. One of the main advantages of Rtorrent is its very flexible configuration and automation capabilities
+keywords: rtorrent, ruTorrent, freebsd, apache, php, php-fpm, fpm, web server, server, download, web browser
+---
 
 Rtorrent is a BitTorrents client program written in C++ for unix and uses the ncurses library to provide a textual user interface. Rtorrent can be used in a terminal session (SSH) together with a terminal multiplexer such as tmux, which provides a very efficient bittorrent solution. Using the XMLRPC remote control API, an alternative user interface can be provided by a web client such as ruTorrent, or a command line client such as pyrocore and its rtcontrol command.
 

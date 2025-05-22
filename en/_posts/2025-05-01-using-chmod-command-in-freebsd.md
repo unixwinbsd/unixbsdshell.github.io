@@ -66,15 +66,104 @@ Symbolic permissions, sometimes referred to as symbolic expressions, use charact
 | (permissions)          | t  | Sticky bit          |
 | (permissions)          | s  | Set UID or GID          |
 
+To see a long directory listing that includes columns with information about file permissions for the owner, file permissions for the group, and file permissions for everyone else, try looking at the contents of the /root directory below.
 
+```
+root@ns1:~ # ls -l
+total 51
+drwxr-xr-x  2 root  wheel      3 Aug  3 13:25 .config
+-rw-r--r--  2 root  wheel   1023 Apr  7 11:19 .cshrc
+-rw-r--r--  1 root  wheel     80 Apr  7 11:29 .k5login
+-rw-r--r--  1 root  wheel    328 Apr  7 11:19 .login
+-rw-r--r--  2 root  wheel    507 Apr  7 11:19 .profile
+-rw-r--r--  1 root  wheel   1186 Apr  7 11:19 .shrc
+drwx------  2 root  wheel      3 Jul 26 06:36 .ssh
+drwxr-xr-x  5 root  wheel     10 Aug  3 21:51 latihan
+-rw-r--r--  1 root  wheel      0 Aug  3 16:23 xmrig.json
+```
 
+## 4. How to Use chmod
 
+To further deepen the discussion of the chmod command, here are some examples of how to use the chmod command.
 
-2025-05-01-using-chmod-command-in-freebsd.md
+Removing the write permission of the xmrig.json file.
 
+```
+root@ns1:~ # chmod -w xmrig.json
+-r--r--r--  1 root  wheel      0 Aug  3 16:23 xmrig.json
+```
 
-Menggunakan Perintah chmod di FreeBSD Memberikan Izin File dan Direktori
+Enable read, write, and execute mode permissions, and disable the set-user-ID bit, set-group-ID bit, and sticky bit attributes in the xmrig.json file. (This command is almost the same as 777).
 
+```
+root@ns1:~ # chmod a=rwx xmrig.json
+-rwxrwxrwx  1 root  wheel      0 Aug  3 16:23 xmrig.json
+```
 
+Remove write permission for others on the xmrig.json file.
 
+```
+root@ns1:~ # chmod o-w xmrig.json
+-rwxrwxr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json
+```
 
+Grants the xmrig.json file execution permission for the group.
+
+```
+root@ns1:~ # chmod g=x xmrig.json
+-rwx--xr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json
+```
+
+Does not grant permission to read the xmrig.json file for the user (owner).
+
+```
+root@ns1:~ # chmod u-r xmrig.json
+--wx--xr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json
+```
+
+Give group read/write/execute permissions to the /root/latihan directory. The following files and their subdirectories.
+
+```
+root@ns1:~ # chmod -R g+rwx /root/latihan
+```
+
+Give the group read and execute permissions to the /root/latihan folder.
+
+```
+root@ns1:~ # chmod g=rx /root/latihan
+drwxr-xr-x  5 root  wheel     10 Aug  3 21:51 latihan
+```
+
+So that you understand better how to use the chmod command, look at the example below.
+
+```
+root@ns1:~ # chmod 644 xmrig.json
+-rw-r--r--  1 root  wheel      0 Aug  4 09:23 xmrig.json
+```
+
+The chmod 644 xmrig.json script has meaning.
+1. Give read and write permissions to the xmrig.json file for the user (owner).
+2. Give read permission only to the xmrig.json file for the group.
+3. Give read-only permissions to the xmrig.json file for other people.
+
+```
+root@ns1:~ # chmod 755 xmrig.json
+-rwxr-xr-x  1 root  wheel      0 Aug  4 09:23 xmrig.json
+```
+
+The script chmod 755 xmrig.json has meaning
+1. Give read, write and execute permissions to the xmrig.json file for the user (owner)
+2. Grant read and execute permissions to the xmrig.json file for the group
+2. Give read and execute permissions to the xmrig.json file to other people
+
+```
+root@ns1:~ # chmod 450 xmrig.json
+-r--r-x---  1 root  wheel      0 Aug  4 09:23 xmrig.json
+```
+
+The chmod 450 script has meaning.
+1. Give read permission only to the xmrig.json file for the user (owner).
+2. Grant read and execute permissions to the xmrig.json file for the group.
+3. Do not give read, write and execute permissions to the xmrig.json file to other people.
+
+From all the examples described above, you most likely already understand how to use the chmod command on FreeBSD. If you don't understand, please read other articles that discuss chmod to deepen your knowledge of the chmod command.

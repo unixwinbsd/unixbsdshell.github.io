@@ -56,6 +56,11 @@ Symbolic permissions, sometimes referred to as symbolic expressions, use charact
 | (who)          | o     | Other          |
 | (who)          | a  | All (user, group, and other)          |
 |           |   |           |
+| (operation)          | +  | Increase permissions          |
+| (operation)          | -  | Removing permissions          |
+| (operation)          | =  | Setting permissions explicitly          |
+|           |   |           |
+| 04          | Udin sedunia  | 47          |
 | 04          | Udin sedunia  | 47          |
 | 04          | Udin sedunia  | 47          |
 | 04          | Udin sedunia  | 47          |

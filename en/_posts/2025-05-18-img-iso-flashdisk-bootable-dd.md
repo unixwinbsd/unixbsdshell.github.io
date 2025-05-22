@@ -177,12 +177,67 @@ root@ns2:~ # gpart show da0
   14682112  16152536    3  freebsd-swap  (7.7G)
 ```
 
+The gpart show command shows that our USB disk has been partitioned with the UFS file system.
 
+### 2.3. Format With EFI
 
+Next, we will format the USB Disk with the UFS file system. Follow these steps.
 
+```
+root@ns2:~ # gpart destroy -F /dev/da0
+da0 destroyed
+root@ns2:~ # gpart create -s gpt /dev/da0
+da0 created
+root@ns2:~ # gpart add -t efi -l efiboot -a 4k -s 100M /dev/da0
+da0p1 added
+root@ns2:~ # newfs_msdos -F 16 -c 1 /dev/da0p1
+newfs_msdos: warning: FAT type limits file system to 66069 sectors
+/dev/da0p1: 65524 sectors in 65524 FAT16 clusters (512 bytes/cluster)
+BytesPerSec=512 SecPerClust=1 ResSectors=1 FATs=2 RootDirEnts=512 Media=0xf0 FATsecs=256 SecPerTrack=63 Heads=255 HiddenSecs=0 HugeSectors=66069
+root@ns2:~ # mount -t msdosfs /dev/da0p1 /mnt
+root@ns2:~ # mkdir -p /mnt/EFI/BOOT
+root@ns2:~ # cp /boot/loader.efi /mnt/EFI/BOOT/BOOTX64.efi
+root@ns2:~ # umount /mnt
+root@ns2:~ #
+```
 
+Check disk partition
 
+```
+root@ns2:~ # gpart show da0
+=>      40  30834608  da0  GPT  (15G)
+        40    204800    1  efi  (100M)
+    204840  30629808       - free -  (15G)
+```
 
+## 3. Download FreeBSD img file
 
+The next step is to download the FreeBSD parent file. In this step, try to make sure the FreeBSD file has the extension "img", because if it has the extension "iso" the dd command will not be able to create a bootable USB disk. You can download the FreeBSD file from Windows, then after it is finished we transfer it to the FreeBSD computer with WINSCP.
 
+If you want to download the FreeBSD file directly from the FreeBSD system, you can use the wget or lynx command. In this case, an example of downloading the FreeBSD.img file using the wget command will be given.
 
+```
+root@ns2:~ # cd /tmp
+root@ns2:/tmp # wget https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-memstick.img
+--2023-07-04 12:42:17--  https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-memstick.img
+Resolving download.freebsd.org (download.freebsd.org)... 203.80.16.151, 2404:a8:3ff::15:0
+Connecting to download.freebsd.org (download.freebsd.org)|203.80.16.151|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1280627200 (1.2G) [application/octet-stream]
+Saving to: ‘FreeBSD-13.2-RELEASE-amd64-memstick.img’
+
+FreeBSD-13.2-RELEASE-amd64-memstick.img      2%[=>             ]  29.63M  4.83MB/s    eta 3m 17s
+```
+
+Wait until the download process is complete, if it is complete the FreeBSD-13.2-RELEASE-amd64-memstick.img file will be saved in the /tmp folder. Next, we create a bootable USB disk. Follow the command below to create a Bootable USB Flash Disk.
+
+```
+root@ns2:~ # cd /tmp
+root@ns2:/tmp # dd if=FreeBSD-13.2-RELEASE-amd64-memstick.img of=/dev/da0 bs=1M conv=sync status=progress
+  26214400 bytes (26 MB, 25 MiB) transferred 1.055s, 25 MB/s
+31+0 records in
+31+0 records out
+32505856 bytes transferred in 1.522773 secs (21346492 bytes/sec)
+```
+
+After finishing making Bootable USB Disk, install it on FreeBSD computer. Insert Flash Disk Drive in USB slot, turn on computer and enter BIOS. In bios menu, select boot or first boot is directed to Flash Disk, then save bios changes. Computer will automatically read Flash Disk Drive, follow the instructions in FreeBSD installation process, if still confused about how to install FreeBSD, can read article that reviews FreeBSD installation.

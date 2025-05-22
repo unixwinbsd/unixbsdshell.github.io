@@ -150,7 +150,125 @@ Query OK, 0 rows affected (0.001 sec)
 MariaDB [(none)]>
 ```
 
+In creating the database above, we create an account and password:
+Database name: phpmyadmin
+User name: userphp
+Database password: passwdphp
+Database connection: 127.0.0.1
+
+For the MariaDB installation and configuration process, you can read the article we wrote earlier about MariaDB.
+
+## 5. NGINX Configuration
+
+We assume you have installed Nginx on OpenBSD. As a guide to connecting Nginx with PHPMyAdmin, below is an example of the nginx.conf script that we use.
+
+```
+user  www;
+worker_processes  1;
+
+error_log  logs/error.log;
+pid        logs/nginx.pid;
+worker_rlimit_nofile 1024;
+
+events {
+    worker_connections  800;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    index         index.html index.htm;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  logs/access.log  main;
+    keepalive_timeout  65;
+    server_tokens off;
+    
+#include /etc/nginx/vhosts.conf;
+include /etc/nginx/vhostsSSL.conf;
+}
+```
+
+At the bottom, note the script "include /etc/nginx/vhostsSSL.conf;", we will create a vhostsSSL.conf file. The file contains the Nginx configuration script so that it can connect to PHPMyAdmin.
+
+Below is an example script from the file **"/etc/nginx/vhostsSSL.conf"**.
+```
+server {
+        listen       443 ssl;
+        server_name  datainchi.com;
+        #root         /var/www/phpMyAdmin;
+
+        ssl_certificate      /etc/nginx/SSL/nginxssl.crt;
+        ssl_certificate_key  /etc/nginx/SSL/nginxssl.key;
+        ssl_session_timeout  5m;
+        ssl_session_cache    shared:SSL:1m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5:!RC4;
+        ssl_prefer_server_ciphers   on;
+
+location ~ \.php$ {
+            try_files $uri =404;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass   unix:run/php-fpm.sock;
+            fastcgi_index index.php;
+            fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi_params;
+	    root         /var/www/phpMyAdmin;
+    }
+
+location / {
+     root         /var/www/phpMyAdmin;
+     index  index.html index.htm index.php;
+            autoindex on;
+            autoindex_exact_size off;
+            autoindex_localtime on;
+ }
+
+ location ~ ^/(doc|sql|setup)/ {
+    deny all;
+  }
+
+location = /robots.txt {
+    deny all;
+    log_not_found off;
+    access_log off;
+  }
+
+ location ~ /\. {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
 
 
+    }
+```
 
+## 6. Run PHPMyAdmin
 
+After all configurations and dependencies have been installed, in this section we will run PHPMyAdmin. This section is very important, because if there are dependencies that are not installed or you type the script incorrectly, don't expect PHPMyAdmin to run on the OpenBSD server.
+
+Before you run PHPMyAdmin, reload all applications used with the command below.
+
+```
+# rcctl restart mysqld
+mysqld(ok)
+mysqld(ok)
+# rcctl restart nginx
+nginx(ok)
+nginx(ok)
+# rcctl restart php83_fpm
+php83_fpm(ok)
+php83_fpm(ok)
+```
+
+To Run PHPMyAdmin, we just use the Google Chrome browser, at the top you type **"https://192.168.5.3/index.php"**, if everything is fine, your monitor screen will display the login menu.
+
+In this login menu you type the username and password from MariaDB that you have created at the top.
+
+If you successfully log in, the main dashboard will appear, you can set it according to your work needs.
+
+The tutorial we created is a continuous tutorial. Between one article and another are interconnected. If you do not understand the article you are reading, you read the article we attached as a complement to the contents of the article we wrote.

@@ -83,6 +83,76 @@ root@ns2:/usr/ports # git config --global --add safe.directory /usr/ports
 
 To keep the Ports collection up to date and always display the latest version, the FreeBSD Ports collection must always be updated, this is done to ensure that applications that will be installed through the port system are the latest versions. To update the Ports collection, follow these steps.
 
+```
+root@ns2:~ # cd /usr/ports/lang/perl5.32
+root@ns2:/usr/ports/lang/perl5.38 # make install clean
+```
+
+The next step is to update the FreeBSD Ports collection with portmaster. Type the following command.
+
+```
+root@ns2:~ # cd /usr/ports/ports-mgmt/portmaster
+root@ns2:/usr/ports/ports-mgmt/portmaster # make install clean
+```
+
+portmaster will identify four categories of ports:
+- Root Port: The root port has no dependents and has no dependencies.
+- Trunk Port: The trunk port has no dependents, but depends on other ports.
+- Branch port: The branch port has dependencies and depends on other ports.
+- Leaf port: The leaf port has dependencies but does not depend on other ports.
+
+Portmaster is only installed once. To update the Portmaster or renew the Portmaster, you only need to type the following command.
+
+```
+root@ns2:~ # portmaster -L
+```
+
+To update or upgrade all legacy ports, use the following script.
+
+```
+root@ns2:~ # portmaster -a
+```
+
+We can also add -f to upgrade and rebuild all ports if a problem occurs during the upgrade process.
+
+```
+root@ns2:~ # portmaster -af
+```
+
+Portmaster can also be used to install new ports, updating all dependencies before building and installing new ports. To use this feature, specify the port location in the Ports Collection. The example below is to update the dependencies of the bash program.
+
+```
+root@ns2:~ # portmaster shells/bash
+```
+
+The next step to update the Port collection is with the portupgrade command.
+
+```
+root@ns2:~ # cd /usr/ports/ports-mgmt/portupgrade
+root@ns2:/usr/ports/ports-mgmt/portupgrade # make install clean
+```
+
+Use the following command to update all ports on a FreeBSD system.
+
+```
+root@ns2:~ # portupgrade -a
+```
+
+Alternatively, add -i to require confirmation for each port update.
+
+```
+root@ns2:~ # portupgrade -ai
+```
+
+To update only one application, use the following script.
+
+```
+root@ns2:~ # portupgrade -R apache24
+or
+root@ns2:~ # portupgrade -PP apache24
+```
+
+
 
 
 Cara Update Sistem Ports FreeBSD

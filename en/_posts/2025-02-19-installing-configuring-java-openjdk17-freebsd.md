@@ -12,8 +12,6 @@ excerpt: Java has become one of the prominent programming languages in software 
 keywords: java, maven, openjdk, freebsd, install, implementing, jar, unix, apache
 ---
 
-
-
 Java has become one of the prominent programming languages in software application development. To be able to write, compile, and run Java code, a runtime environment is needed to provide the necessary tools. With continued incremental growth, Java 17 is currently the latest long-term release under the extensive collaboration of Oracle and other members of the worldwide Java developer community through the OpenJDK Community and the Java Community Process (JPC).
 
 
@@ -30,7 +28,7 @@ After the installation is complete you will be shown the following display:
 
 ![mount java freebsd](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/mount_java_freebsd.jpg)
 
-Now we continue, according to the instructions above, type the script mount -t fdescfs fdesc /dev/fd and mount -t procfs proc /proc.
+Now we continue, according to the instructions above, type the script **mount -t fdescfs fdesc /dev/fd and mount -t procfs proc /proc**.
 
 ```
 root@router2:~ # mount -t fdescfs fdesc /dev/fd

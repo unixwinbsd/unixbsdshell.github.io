@@ -1,5 +1,5 @@
 ---
-title: Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD
+title: How to Install Redis Cache DB on OpenBSD
 date: "2025-05-22 19:11:15 +0100"
 id: how-to-install-redis-cache-db-openbsd
 lang: en
@@ -8,7 +8,7 @@ author_profile: true
 categories:
   - FreeBSD
 tags: "WebServer"
-excerpt: Ruby on Rails or commonly called Rails is a full-stack framework written in the Ruby programming language. Ruby on Rails or RoR is available for several operating systems such as FreeBSD, Linux, Windows and Mac OS and backend to build static websites.
+excerpt: Redis is one of the most popular key-value databases, ranking 4th in user satisfaction for NoSQL databases, Redis' popularity continues to grow, and many companies are looking for Redis developers for roles such as database administrators, etc.
 keywords: redis, cache, db, database, cachedb, openbsd, php, mysql, caching
 ---
 

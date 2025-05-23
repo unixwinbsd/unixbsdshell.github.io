@@ -20,3 +20,11 @@ Popular websites like YouTube, Facebook, Twitter, and Wikipedia have long used M
 
 The diagram below illustrates what your memcached infrastructure will look like when you implement memcached in your environment. You’ll notice that the memcached servers don’t communicate directly with your database servers. Instead, they live in their own pool and your application does all the work.
 
+![memcached infrastructure](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/memcached_infrastructure.jpg)
+
+
+
+
+
+
+

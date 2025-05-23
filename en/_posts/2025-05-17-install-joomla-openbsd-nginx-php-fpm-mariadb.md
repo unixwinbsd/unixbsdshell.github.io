@@ -411,12 +411,12 @@ class JConfig
 ```
 In the script above, the most important thing is the settings in the script, which you must adjust to the database you have created.
 
-public $sitename = 'unixwinbsd.site;';
-public $dbtype = 'mysqli';
-public $host = '127.0.0.1';
-public $user = 'userjoomla';
-public $password = 'passwdusejoomla';
-public $db = 'joomladb';
+- public $sitename = 'unixwinbsd.site;';
+- public $dbtype = 'mysqli';
+- public $host = '127.0.0.1';
+- public $user = 'userjoomla';
+- public $password = 'passwdusejoomla';
+- public $db = 'joomladb';
 
 After you have successfully logged in and set up Joomla, the /var/www/joomla/installation/configuration.php-dist file will be automatically deleted by the system.
 

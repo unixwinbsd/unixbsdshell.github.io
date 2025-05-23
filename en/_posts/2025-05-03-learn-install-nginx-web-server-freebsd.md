@@ -115,10 +115,7 @@ The final step is to test Nginx. Open a Web Browser program on Windows such as Y
 
 We will try to test Nginx in the Yandex browser, type our FreeBSD server IP, namely 192.168.9.3, continue by pressing the enter key on the keyboard. If you successfully install Nginx the results will be like the following image.
 
-
-
-halaman dashboard nginx
-
+![nginx dashboard page](https://gitea.com/iwanse1212/Nginx-Web-Server-On-FreeBSD-Port-80-443/raw/branch/main/nginx%20dashboard%20page.png)
 
 If it looks like the image above, it means your Nginx server is RUNNING.
 

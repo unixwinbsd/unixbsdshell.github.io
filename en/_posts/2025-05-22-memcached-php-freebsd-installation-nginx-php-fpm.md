@@ -80,6 +80,7 @@ To enable memcached to start automatically at boot, you must type the script in 
 ```
 root@ns4:~ # sysrc memcached_enable="YES"
 memcached_enable:  -> YES
+
 root@ns4:~ # sysrc memcached_flags="-l 192.168.5.71 -p 11211 -m 128 -c 1024"
 memcached_flags:  -> -l 192.168.5.71 -p 11211 -m 128 -c 1024
 ```
@@ -89,6 +90,7 @@ The above command is used to enable the memcached Server to Operation over TCP/I
 ```
 root@ns4:~ # sysrc memcached_enable="YES"
 memcached_enable:  -> YES
+
 root@ns4:~ # sysrc memcached_flags="-s /var/run/memcached/memcached.sock -a 700"
 memcached_flags:  -> -s /var/run/memcached/memcached.sock -a 700
 ```

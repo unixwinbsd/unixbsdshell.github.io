@@ -38,9 +38,9 @@
   {% for lang in site.languages %}{% if lang == site.default_lang %}{% continue %}{% endif %}
   <link rel="alternate" hreflang="{{lang}}" href="{{site.url}}/{{lang}}{{page.url}}" />
   {% endfor %}
-<link rel="alternate" hreflang="en" href="https://penaadventure.com/en" />
-<link rel="alternate" hreflang="ru" href="https://penaadventure.com/ru" />
-<link rel="alternate" hreflang="de" href="https://penaadventure.com/de" />
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en" />
+<link rel="alternate" hreflang="ru" href="https://unixwinbsd.site/ru" />
+<link rel="alternate" hreflang="de" href="https://unixwinbsd.site/de" />
 
   </head>
   <body class="layout--{{- page.layout | default: layout.layout -}}{%- if page.classes or layout.classes -%}{{- page.classes | default: layout.classes | join: ' ' | prepend: ' ' -}}{%- endif -%}">

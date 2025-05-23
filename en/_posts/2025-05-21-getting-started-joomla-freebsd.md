@@ -1,6 +1,6 @@
 ---
 title: Getting Started Joomla On FreeBSD With PostgreSQL
-date: "2025-05-21 12:05:35 +0100"
+date: "2025-05-21 20:25:35 +0100"
 id: getting-started-joomla-freebsd
 lang: en
 layout: single
@@ -8,7 +8,7 @@ author_profile: true
 categories:
   - FreeBSD
 tags: "WebServer"
-excerpt: Mod_jk is a complete replacement for the old mod_jser module that handles communication between Tomcat and HTTP servers using the Apache JServ protocol. The Apache mod_jserv module is the old bridge between Java and Apache.
+excerpt: With the Joomla application we can create almost any website-based project, with the support of the standard features that Joomla has, it allows us to do many things in designing a website.
 keywords: joomla, freebsd, apache, nginx, php, php-fpm, mod php, ekstensi php, module
 ---
 

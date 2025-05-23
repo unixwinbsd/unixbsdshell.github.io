@@ -97,6 +97,15 @@ You can choose from the two methods above. In this article, we will activate mem
 
 Below is a table of basic memcached startup parameters that you can use as a reference to activate memcached.
 
+| Description       | Parameters and default values          | 
+| ----------- | -----------   | 
+| -s          | Path to socket. Runs in socket mode (TCP/IP doesn't work)          | 
+| -a          | Socket access rights. The default value is 700.      | 
+| -l          | The IP addresses that Memcached listens on. By default, all addresses     | 
+| -p          | The port that Memcached listens on. The default is 11211 TCP.  | 
+| -m          | Maximum object size, in megabytes. The default size is 64Mb.          | 
+| -d          | Run as daemon          | 
+| -c          | Maximum simultaneous connections, default is 1024.          | 
 
 
 

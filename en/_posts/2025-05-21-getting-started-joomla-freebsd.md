@@ -88,7 +88,7 @@ root@ns1:/usr/ports/www/joomla4 #
 
 ## 4. Joomla configuration
 
-For the installation process, we just follow the Joomla developer's instructions above, open the file /usr/local/etc/apache24/httpd.conf and move the cursor to the bottom position of the script, then you copy the script above into that file.
+For the installation process, we just follow the Joomla developer's instructions above, open the file **/usr/local/etc/apache24/httpd.conf** and move the cursor to the bottom position of the script, then you copy the script above into that file.
 
 ```
 

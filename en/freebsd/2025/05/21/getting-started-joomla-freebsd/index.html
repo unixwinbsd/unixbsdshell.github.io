@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/freebsd/2025/05/21/getting-started-joomla-freebsd/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Getting Started Joomla On FreeBSD With PostgreSQL  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Getting Started Joomla On FreeBSD With PostgreSQL"><link rel="canonical" href="https://unixwinbsd.site/en/freebsd/2025/05/21/getting-started-joomla-freebsd/">
+  <meta property="og:url" content="https://unixwinbsd.site/en/freebsd/2025/05/21/getting-started-joomla-freebsd/"><meta property="og:description" content="With the Joomla application we can create almost any website-based project, with the support of the standard features that Joomla has, it allows us to do many things in designing a website."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Getting Started Joomla On FreeBSD With PostgreSQL">
+  <meta name="twitter:description" content="With the Joomla application we can create almost any website-based project, with the support of the standard features that Joomla has, it allows us to do many things in designing a website.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/en/freebsd/2025/05/21/getting-started-joomla-freebsd/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-21T22:25:35+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://unixwinbsd.site",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://unixwinbsd.site/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95812963, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true,
+        ecommerce:"dataLayer"
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="9d36c511817c5af4dffe6ea912f1754c" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en/freebsd/2025/05/21/getting-started-joomla-freebsd/" />
+  
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en" />
+<link rel="alternate" hreflang="ru" href="https://unixwinbsd.site/ru" />
+<link rel="alternate" hreflang="de" href="https://unixwinbsd.site/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://unixwinbsd.site/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/about/">Me</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#21" itemprop="item"><span itemprop="name">21</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Getting Started Joomla On FreeBSD With PostgreSQL</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-21 22:25:35 +0300",
+"datePublished": "2025-05-21 22:25:35 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://unixwinbsd.site/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "Getting Started Joomla On FreeBSD With PostgreSQL",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://unixwinbsd.site",
+"caption": "With the Joomla application we can create almost any website-based project, with the support of the standard features that Joomla has, it allows us to do many things in designing a website."
+},
+
+"datePublished": "2025-05-21 22:25:35 +0300",
+"dateModified": "2025-05-21 22:25:35 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site/en/freebsd/2025/05/21/getting-started-joomla-freebsd/",
+"name": "Getting Started Joomla On FreeBSD With PostgreSQL"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://unixwinbsd.site/en/freebsd/2025/05/21/getting-started-joomla-freebsd/",
+"name": "WebServer"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://unixwinbsd.site/en/freebsd/2025/05/21/getting-started-joomla-freebsd/",
+  "name": "Getting Started Joomla On FreeBSD With PostgreSQL",
+  "headline": "Getting Started Joomla On FreeBSD With PostgreSQL",
+  "keywords": "WebServer",
+  "description": "With the Joomla application we can create almost any website-based project, with the support of the standard features that Joomla has, it allows us to do many things in designing a website.",
+  "articleBody": "Apart from WordPress, Joomla is considered one of the most popular CMS. The name “Joomla” comes from the Swahili word “Jumla” (originating from the African region). This word is translated as “together”. The developers did the choice of name correctly, because this system has become very popular, and is currently used all over the world. With the help of a large community, Joomla is constantly updated and receives new features and changes interface that makes the system more attractive to potential users.\n\nWith the Joomla application we can create almost any website-based project, with the support of the standard features that Joomla has, it allows us to do many things in designing a website. However, if the function of this feature is felt to be less helpful. we can easily install the Joomla plugin. By using Joomla we don’t need to involve third party developers and learn programming languages. Everything is done simply and clearly.\n\nJoomla is a software product that allows us to create and design websites without knowledge of programming languages. Therefore, Joomla is often chosen by those who create their own websites. In terms of popularity, this engine ranks second in the world, second only to WordPress.\n\nIn this article we will discuss how to install and configure Joomla on a FreeBSD system. This article will explain the steps to install Joomla and PHP dependencies so that Joomla can run on a FreeBSD system.\n\n1. Understanding Joomla\n\nAs we have explained above, Joomla is an open source CMS or content management system. Code in Joomla allows us to develop various solutions to improve functionality. Moreover, each developer decides for himself whether to sell the plugin or distribute it for free. Like WordPress, this system is great for people who want to create their own project from scratch for the first time. Joomla also has a simple interface. There are more business opportunities here. The CMS itself is completely free, although you still have to pay to use some extensions. However, this is not always necessary.\n\nNo matter what type of website we are going to design, Joomla can easily design a powerful website, Blog, simple page or online store with many categories and products. Joomla allows us to create projects of very high complexity.\n\nThere are rarely any difficulties when installing Joomla CMS. And some hosting sites even offer automatic installation, which makes the process faster and easier. All you need to do is choose a hosting package and register a domain name. Immediately after installation, continue working directly with the site. By the way, Joomla is completely Russified, so knowledge of foreign languages is not required.\n\nIt is worth noting that the working interface can be displayed in any language, which is available thanks to the built-in administration functions. Even if we have no programming knowledge, with Joomla, we are in full control of website management without requiring additional investment in the system.\n\n2. System Specifications\n\n  OS: FreeBSD 13.2\n  Hostname/Domain: ns1@unixexplore.com\n  IP Address: 192.168.5.2\n  Joomla4\n  Apache24\n  PHP82\n  modul dan extension PHP\n  PostgreSQL 15.3\n\n\n3. Joomla installation\n\nEvery Joomla application that is installed on a server definitely requires a database to store Joomla data. In this article we will use the PostgreSQL 15.3 database as the backend of Joomla. You can read our article which discusses the PostgreSQL database installation process.\n\nFor the Joomla frontend, we will use Apache24, so that Joomla can connect to ports 80 and 443. What you need to pay attention to if you use Apache24 as a Joomla frontend, is that all PHP modules and extensions must be installed on the Apache24 system, if PHP, its modules and extensions are not yet installed. install don’t expect Joomla to run on a FreeBSD system. For the PHP installation process and its modules and extensions, you can search on the Blogspot search menu. We have written the complete PHP installation process along with its modules and extensions.\n\nOK, let’s just assume that Apache24 and PHP have been installed perfectly on our FreeBSD system, so now we just continue with the Joomla installation process on FreeBSD. In almost all Opensource operating systems, the Joomla installation process is very easy, with just a few commands Joomla can be successfully installed.\n\nroot@ns1:~ # cd /usr/ports/www/joomla4\nroot@ns1:/usr/ports/www/joomla4 # make config\nroot@ns1:/usr/ports/www/joomla4 # make install clean\n\n\nWhen you run the “make config” command, usually several options will appear that must be activated, because in this article we are using the PostgreSQL database, so you must activate the PostgreSQL option.\n\nJust follow and complete the installation process, and usually after the installation process is complete, the Joomla developer will notify you of the Joomla configuration process, as shown below.\n\n\n===&gt;  Installing for joomla4-4.3.2\n===&gt;  Checking if joomla4 is already installed\n===&gt;   Registering installation for joomla4-4.3.2\nInstalling joomla4-4.3.2...\n 1) Add the following to your Apache configuration, and restart the server:\n\n  Alias /joomla /usr/local/www/joomla/\n  AcceptPathInfo On\n\n  &lt;Directory /usr/local/www/joomla&gt;\n      AllowOverride None\n      Order Allow,Deny\n      Require all granted\n  &lt;/Directory&gt;\n\n 2) Visit your Joomla site with a browser (i.e. http://your.server.com/joomla/),\n    and you should be taken to the install.php script, which will lead you\n    through creating a config.php file and then setting up Joomla, creating\n    an admin account, etc.\n\n===&gt;  Cleaning for joomla4-4.3.2\nroot@ns1:/usr/ports/www/joomla4 #\n\n\n4. Joomla configuration\n\nFor the installation process, we just follow the Joomla developer’s instructions above, open the file /usr/local/etc/apache24/httpd.conf and move the cursor to the bottom position of the script, then you copy the script above into that file.\n\n\nroot@ns1:/usr/ports/www/joomla4 # ee /usr/local/etc/apache24/httpd.conf\n\n Alias /joomla /usr/local/www/joomla/\n  &lt;Directory /usr/local/www/joomla&gt;\n      AllowOverride None\n      Order Allow,Deny\n      Require all granted\n  &lt;/Directory&gt;\n\n\nFrom the script above we can read that the root folder of the Joomla application is in the /usr/local/www/joomla folder. To make sure, check the folder to see if there are Joomla files. By default the file will be directly in that folder.\n\n5. Running Joomla\n\nAfter the configuration and installation process above has been completed, now is the time for us to run Joomla. The first step to run Joomla is to restart Apache24.\n\n\nroot@ns1:~ # service apache24 restart\n\n\nAfter restarting Apache, open any web browser according to your taste, it can be Google Chrome. Yandex, Opera and others. In the address bar box, type the following command “http://192.168.5.2/joomla/installation/index.php”, if there is nothing wrong with the configuration above, you should be able to open Joomla in a web browser.\n\n6. Apache24 Default DocumentRoot\n\nIf using the above method Joomla cannot be opened in the Chrome or Yandex web browser, use Apache24’s default Document root. By default the Apache24 Document Root is located in the “/usr/local/www/apache24/data” folder. Now we will run Joomla from that folder, if Joomla cannot be opened using the method in sub-chapter 5.\n\nType the following command to copy all Joomla4 files to the “/usr/local/www/apache24/data” folder.\n\n\nroot@ns1:~ # cp -rf /usr/local/www/joomla4/ /usr/local/www/apache24/data/\n\n\nAfter that restart Apache24.\n\n\nroot@ns1:~ # service apache24 restart\n\n\nReopen the Google Chrome, Yandex, Firefox, Opera or other web browser and type “http://192.168.5.2/joomla/installation/index.php”.\n\nJoomla4 is an update that comes with a set of new features and improvements. This version offers improved performance and security, a better user experience, and a suite of modern technologies that make it easier to integrate with other web technologies.\n\nIf you believe that migrating your website to Joomla4 is the right choice, don’t hesitate to take action now. Migrating to Joomla4 is a simple process that can be done with the help of an experienced web developer. So, don’t wait any longer. Take the first step to migrate your website to Joomla4 today, and enjoy all the benefits that come with it.\n",
+  "datePublished": "2025-05-21 22:25:35 +0300",
+  "dateModified": "2025-05-21 22:25:35 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://unixwinbsd.site/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Getting Started Joomla On FreeBSD With PostgreSQL"><meta itemprop="description" content="With the Joomla application we can create almost any website-based project, with the support of the standard features that Joomla has, it allows us to do many things in designing a website."><meta itemprop="datePublished" content="2025-05-21"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-21T22:25:35+03:00">2025-05-21</time> </p><h1 class="page__title" itemprop="headline">Getting Started Joomla On FreeBSD With PostgreSQL
+</h1></header><section class="page__content" itemprop="text">
+        <p>Apart from WordPress, Joomla is considered one of the most popular CMS. The name “Joomla” comes from the Swahili word “Jumla” (originating from the African region). This word is translated as “together”. The developers did the choice of name correctly, because this system has become very popular, and is currently used all over the world. With the help of a large community, Joomla is constantly updated and receives new features and changes interface that makes the system more attractive to potential users.</p>
+
+<p>With the Joomla application we can create almost any website-based project, with the support of the standard features that Joomla has, it allows us to do many things in designing a website. However, if the function of this feature is felt to be less helpful. we can easily install the Joomla plugin. By using Joomla we don’t need to involve third party developers and learn programming languages. Everything is done simply and clearly.</p>
+
+<p>Joomla is a software product that allows us to create and design websites without knowledge of programming languages. Therefore, Joomla is often chosen by those who create their own websites. In terms of popularity, this engine ranks second in the world, second only to WordPress.</p>
+
+<p>In this article we will discuss how to install and configure Joomla on a FreeBSD system. This article will explain the steps to install Joomla and PHP dependencies so that Joomla can run on a FreeBSD system.</p>
+
+<h2 id="1-understanding-joomla">1. Understanding Joomla</h2>
+
+<p>As we have explained above, Joomla is an open source CMS or content management system. Code in Joomla allows us to develop various solutions to improve functionality. Moreover, each developer decides for himself whether to sell the plugin or distribute it for free. Like WordPress, this system is great for people who want to create their own project from scratch for the first time. Joomla also has a simple interface. There are more business opportunities here. The CMS itself is completely free, although you still have to pay to use some extensions. However, this is not always necessary.</p>
+
+<p>No matter what type of website we are going to design, Joomla can easily design a powerful website, Blog, simple page or online store with many categories and products. Joomla allows us to create projects of very high complexity.</p>
+
+<p>There are rarely any difficulties when installing Joomla CMS. And some hosting sites even offer automatic installation, which makes the process faster and easier. All you need to do is choose a hosting package and register a domain name. Immediately after installation, continue working directly with the site. By the way, Joomla is completely Russified, so knowledge of foreign languages is not required.</p>
+
+<p>It is worth noting that the working interface can be displayed in any language, which is available thanks to the built-in administration functions. Even if we have no programming knowledge, with Joomla, we are in full control of website management without requiring additional investment in the system.</p>
+
+<h2 id="2-system-specifications">2. System Specifications</h2>
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>Hostname/Domain: ns1@unixexplore.com</li>
+  <li>IP Address: 192.168.5.2</li>
+  <li>Joomla4</li>
+  <li>Apache24</li>
+  <li>PHP82</li>
+  <li>modul dan extension PHP</li>
+  <li>PostgreSQL 15.3</li>
+</ul>
+
+<h2 id="3-joomla-installation">3. Joomla installation</h2>
+
+<p>Every Joomla application that is installed on a server definitely requires a database to store Joomla data. In this article we will use the PostgreSQL 15.3 database as the backend of Joomla. You can read our article which discusses the PostgreSQL database installation process.</p>
+
+<p>For the Joomla frontend, we will use Apache24, so that Joomla can connect to ports 80 and 443. What you need to pay attention to if you use Apache24 as a Joomla frontend, is that all PHP modules and extensions must be installed on the Apache24 system, if PHP, its modules and extensions are not yet installed. install don’t expect Joomla to run on a FreeBSD system. For the PHP installation process and its modules and extensions, you can search on the Blogspot search menu. We have written the complete PHP installation process along with its modules and extensions.</p>
+
+<p>OK, let’s just assume that Apache24 and PHP have been installed perfectly on our FreeBSD system, so now we just continue with the Joomla installation process on FreeBSD. In almost all Opensource operating systems, the Joomla installation process is very easy, with just a few commands Joomla can be successfully installed.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cd /usr/ports/www/joomla4
+root@ns1:/usr/ports/www/joomla4 # make config
+root@ns1:/usr/ports/www/joomla4 # make install clean
+</code></pre></div></div>
+
+<p>When you run the “make config” command, usually several options will appear that must be activated, because in this article we are using the PostgreSQL database, so you must activate the PostgreSQL option.</p>
+
+<p>Just follow and complete the installation process, and usually after the installation process is complete, the Joomla developer will notify you of the Joomla configuration process, as shown below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+===&gt;  Installing for joomla4-4.3.2
+===&gt;  Checking if joomla4 is already installed
+===&gt;   Registering installation for joomla4-4.3.2
+Installing joomla4-4.3.2...
+ 1) Add the following to your Apache configuration, and restart the server:
+
+  Alias /joomla /usr/local/www/joomla/
+  AcceptPathInfo On
+
+  &lt;Directory /usr/local/www/joomla&gt;
+      AllowOverride None
+      Order Allow,Deny
+      Require all granted
+  &lt;/Directory&gt;
+
+ 2) Visit your Joomla site with a browser (i.e. http://your.server.com/joomla/),
+    and you should be taken to the install.php script, which will lead you
+    through creating a config.php file and then setting up Joomla, creating
+    an admin account, etc.
+
+===&gt;  Cleaning for joomla4-4.3.2
+root@ns1:/usr/ports/www/joomla4 #
+</code></pre></div></div>
+
+<h2 id="4-joomla-configuration">4. Joomla configuration</h2>
+
+<p>For the installation process, we just follow the Joomla developer’s instructions above, open the file <strong>/usr/local/etc/apache24/httpd.conf</strong> and move the cursor to the bottom position of the script, then you copy the script above into that file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+root@ns1:/usr/ports/www/joomla4 # ee /usr/local/etc/apache24/httpd.conf
+
+ Alias /joomla /usr/local/www/joomla/
+  &lt;Directory /usr/local/www/joomla&gt;
+      AllowOverride None
+      Order Allow,Deny
+      Require all granted
+  &lt;/Directory&gt;
+</code></pre></div></div>
+
+<p>From the script above we can read that the root folder of the Joomla application is in the <strong>/usr/local/www/joomla</strong> folder. To make sure, check the folder to see if there are Joomla files. By default the file will be directly in that folder.</p>
+
+<h2 id="5-running-joomla">5. Running Joomla</h2>
+
+<p>After the configuration and installation process above has been completed, now is the time for us to run Joomla. The first step to run Joomla is to restart Apache24.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+root@ns1:~ # service apache24 restart
+</code></pre></div></div>
+
+<p>After restarting Apache, open any web browser according to your taste, it can be Google Chrome. Yandex, Opera and others. In the address bar box, type the following command <strong>“http://192.168.5.2/joomla/installation/index.php”</strong>, if there is nothing wrong with the configuration above, you should be able to open Joomla in a web browser.</p>
+
+<h2 id="6-apache24-default-documentroot">6. Apache24 Default DocumentRoot</h2>
+
+<p>If using the above method Joomla cannot be opened in the Chrome or Yandex web browser, use Apache24’s default Document root. By default the Apache24 Document Root is located in the <strong>“/usr/local/www/apache24/data”</strong> folder. Now we will run Joomla from that folder, if Joomla cannot be opened using the method in sub-chapter 5.</p>
+
+<p>Type the following command to copy all Joomla4 files to the <strong>“/usr/local/www/apache24/data”</strong> folder.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+root@ns1:~ # cp -rf /usr/local/www/joomla4/ /usr/local/www/apache24/data/
+</code></pre></div></div>
+
+<p>After that restart Apache24.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+root@ns1:~ # service apache24 restart
+</code></pre></div></div>
+
+<p>Reopen the Google Chrome, Yandex, Firefox, Opera or other web browser and type <strong>“http://192.168.5.2/joomla/installation/index.php”</strong>.</p>
+
+<p>Joomla4 is an update that comes with a set of new features and improvements. This version offers improved performance and security, a better user experience, and a suite of modern technologies that make it easier to integrate with other web technologies.</p>
+
+<p>If you believe that migrating your website to Joomla4 is the right choice, don’t hesitate to take action now. Migrating to Joomla4 is a simple process that can be done with the help of an experienced web developer. So, don’t wait any longer. Take the first step to migrate your website to Joomla4 today, and enjoy all the benefits that come with it.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-21T22:25:35+03:00">2025-05-21</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://unixwinbsd.site/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://unixwinbsd.site/en/freebsd/2025/05/21/install-mod-java-apache-tomcat/" class="pagination--pager" title="How to Install mod_jk Module on Freebsd for Apache Tomcat
+">Previous</a><a href="https://unixwinbsd.site/en/freebsd/2025/05/22/memcached-php-freebsd-installation-nginx-php-fpm/" class="pagination--pager" title="FreeBSD Memcached - Installing and Configuring Memcached With PHP
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://unixwinbsd.site/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://unixwinbsd.site/assets/js/main.min.js"></script></body>
+</html>

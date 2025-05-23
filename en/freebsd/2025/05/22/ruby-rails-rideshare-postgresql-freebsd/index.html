@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/freebsd/2025/05/22/ruby-rails-rideshare-postgresql-freebsd/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD"><link rel="canonical" href="https://unixwinbsd.site/en/freebsd/2025/05/22/ruby-rails-rideshare-postgresql-freebsd/">
+  <meta property="og:url" content="https://unixwinbsd.site/en/freebsd/2025/05/22/ruby-rails-rideshare-postgresql-freebsd/"><meta property="og:description" content="Ruby on Rails or commonly called Rails is a full-stack framework written in the Ruby programming language. Ruby on Rails or RoR is available for several operating systems such as FreeBSD, Linux, Windows and Mac OS and backend to build static websites."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD">
+  <meta name="twitter:description" content="Ruby on Rails or commonly called Rails is a full-stack framework written in the Ruby programming language. Ruby on Rails or RoR is available for several operating systems such as FreeBSD, Linux, Windows and Mac OS and backend to build static websites.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/en/freebsd/2025/05/22/ruby-rails-rideshare-postgresql-freebsd/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-22T13:55:35+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://unixwinbsd.site",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://unixwinbsd.site/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95812963, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true,
+        ecommerce:"dataLayer"
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="9d36c511817c5af4dffe6ea912f1754c" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en/freebsd/2025/05/22/ruby-rails-rideshare-postgresql-freebsd/" />
+  
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en" />
+<link rel="alternate" hreflang="ru" href="https://unixwinbsd.site/ru" />
+<link rel="alternate" hreflang="de" href="https://unixwinbsd.site/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://unixwinbsd.site/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/about/">Me</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#22" itemprop="item"><span itemprop="name">22</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-22 13:55:35 +0300",
+"datePublished": "2025-05-22 13:55:35 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://unixwinbsd.site/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://unixwinbsd.site",
+"caption": "Ruby on Rails or commonly called Rails is a full-stack framework written in the Ruby programming language. Ruby on Rails or RoR is available for several operating systems such as FreeBSD, Linux, Windows and Mac OS and backend to build static websites."
+},
+
+"datePublished": "2025-05-22 13:55:35 +0300",
+"dateModified": "2025-05-22 13:55:35 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site/en/freebsd/2025/05/22/ruby-rails-rideshare-postgresql-freebsd/",
+"name": "Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://unixwinbsd.site/en/freebsd/2025/05/22/ruby-rails-rideshare-postgresql-freebsd/",
+"name": "WebServer"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://unixwinbsd.site/en/freebsd/2025/05/22/ruby-rails-rideshare-postgresql-freebsd/",
+  "name": "Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD",
+  "headline": "Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD",
+  "keywords": "WebServer",
+  "description": "Ruby on Rails or commonly called Rails is a full-stack framework written in the Ruby programming language. Ruby on Rails or RoR is available for several operating systems such as FreeBSD, Linux, Windows and Mac OS and backend to build static websites.",
+  "articleBody": "Ruby on Rails is not a computer programming language, but rather a website application framework. Ruby on Rails is an excellent framework for developing web applications using the Ruby language. Many people use Ruby as a language to create static websites. With the help of ruby on rails you can develop static web applications faster as compared to other frameworks. Ruby on Rails is a friendly, easy to use web framework that makes life easier by doing most of your website development work.\n\nRuby on Rails or commonly called Rails is a full-stack framework written in the Ruby programming language. Ruby on Rails or RoR is available for several operating systems such as FreeBSD, Linux, Windows and Mac OS and backend to build static websites.\n\nRuby on Rails was created based on a set of predefined patterns, libraries and frameworks that allow beginners and professionals to quickly implement various functions such as sending emails or reading data from MySQL, MariaDB or PostgreSQL databases. For example, Rails implements an object-relational mapper (ORM) pattern called Active Record, which makes it easy for developers to interact with databases using Ruby objects.\n\nBefore you dive into Rails, you need to know a little about the Ruby language. Ruby is an open source and general purpose programming language used for website development, automation, data processing and more. Ruby is a programming language that is very flexible and portable, meaning you can run it on almost any operating system. Ruby is almost the same as Python, namely it runs dynamically and uses minimalist syntax. In summary, it uses spaces to organize code instead of brackets or other symbols to define blocks in a script.\n\nIn this tutorial we will explain how to set up the Ruby on Rails framework on your FreeBSD machine and deploy a web application with a postgreSQL database. Why PostgreSQL? Many people like it and you need it for example for deployments on heroku and your website development environment.\n\nIn this article, we will demonstrate how to install Rideshare with Ruby on Rails and a PostgreSQL database. The entire content of this article was written using the following tools:\n\n  Operating system: FreeBSD 13.3\n  IP Addres: 192.168.5.2\n  Name server: ns3\n  Ruby version: ruby 3.1.4p223 (2023-03-30 revision 957bb7cb81) [amd64-freebsd13]\n  Bundler version: Bundler 2.3.6\n  Gem version: gems 3.5.7\n  Database: Postgresql15-server\n\n\n1. Create Database Rideshare\n\nAs explained above, we will use a PostgreSQL database to connect to the Rideshare application. In this article we assume, you have installed a PostgeSQL database. Before you install Ruby and others, first create a Rideshare database with PostgreSQL. Follow these commands to create a Rideshare database.\n\nroot@ns3:~ # su - postgres\n$ createuser userrideshare\n$ createdb rideshare -O userrideshare encoding='UTF8'\n$ psql rideshare\npsql (15.5)\nType \"help\" for help.\n\nrideshare=# alter user userrideshare with password 'router123';\nALTER ROLE\nrideshare=# exit\n$ exit\nroot@ns3:~ #\n\nThe command above is used to create a Rideshare database with the following conditions:\nuser: userrideshare\ndatabase: rideshare\nhost: localhost\npassword: router123\n\n2. Install Ruby on Rails\n\nTo install the Ruby on Rails environment, you must install Ruby on your FreeBSD machine. You need to know, in FreeBSD there are many versions of Ruby that will be installed automatically, to overcome this, you have to determine the version of Ruby that will be used on the FreeBSD machine. Add the script below to the /etc/make.conf file.\n\nroot@ns3:~ # ee /etc/make.conf\nDEFAULT_VERSIONS+=ruby=3.1\n\nAfter you have determined the version of Ruby you will use, namely Ruby31, run the Ruby installation process.\n\nroot@ns3:~ # pkg install ruby\n\nAfter that, you install the bundler and Gems.\n\nroot@ns3:~ # pkg install rubygem-bundler ruby31-gems\n\nYou also install Rails, to run Ruby applications.\n\nroot@ns3:~ # pkg install rubygem-rails60\n\n\n3. Cloning / Install Rideshare\n\nOn FreeBSD servers, rideshare is not available in the PKG repository or ports. You have to download it from the official site or Github server. In this article, we will clone rideshare from a Github server. Before you clone rideshare, run the command to install rideshare dependencies.\n\nroot@ns3:~ # pkg install graphviz rubygem-ruby-graphviz rbenv\n\nAfter that, you download rideshare from the Github server, we will place all the rideshare files in the /usr/local/www directory, run the command below.\n\nroot@ns3:~ # cd /usr/local/www\nroot@ns3:/usr/local/www # git clone https://github.com/andyatkinson/rideshare.git\n\n\n4. Setup Rideshare\n\nRideshare adalah aplikasi Ruby on Rails untuk buku, yang diciptakan pada tahun 2024 oleh Pragmatic Programmers. Diperlukan database PostgreSQL untuk menjalankan rideshare, karena rideshare termasuk salah satu aplikasi “High Performance PostgreSQL for Rails”, yang dapat dijalankan di sistem BSD, Linux, Windows dan MaxOS.\n\nRun the command below to install rideshare on FreeBSD.\n\nroot@ns3:/usr/local/www/rideshare # gem update --system\nroot@ns3:/usr/local/www/rideshare # bundle install\nroot@ns3:/usr/local/www/rideshare # gem install error_highlight -v 0.4.0\nroot@ns3:/usr/local/www/rideshare # bundle binstubs pgslice --force\nroot@ns3:/usr/local/www/rideshare # bundle update\n\nAfter that, run the import schema postgresql command.\n\nroot@ns3:/usr/local/www/rideshare # cd db\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d rideshare &gt; create_role_owner.sql\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d rideshare &gt; create_role_app_user.sql\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d rideshare &gt; create_role_app_readonly.sql\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d rideshare &gt; alter_default_privileges_readwrite.sql\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d rideshare &gt; alter_default_privileges_readonly.sql\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d alter_default_privileges_public.sql\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d create_database.sql\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d revoke_drop_public_schema.sql\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d create_schema.sql\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d create_grants_database.sql\nroot@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d create_grants_schema.sql\n\nRun migrations Rails the standard way.\n\nroot@ns3:/usr/local/www/rideshare # bin/rails db:migrate\n\nRun Rideshare.\n\nroot@ns3:/usr/local/www/rideshare # rails s -b 192.168.5.2\n\nBuild faster, more reliable Rails Rideshare applications by leveraging the best of PostgreSQL and Active Record capabilities, and use them to solve your application’s scale and growth challenges. Now you have successfully run the Rails Rideshare Application for the book “High Performance PostgreSQL for Rails” on the FreeBSD server.\n",
+  "datePublished": "2025-05-22 13:55:35 +0300",
+  "dateModified": "2025-05-22 13:55:35 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://unixwinbsd.site/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD"><meta itemprop="description" content="Ruby on Rails or commonly called Rails is a full-stack framework written in the Ruby programming language. Ruby on Rails or RoR is available for several operating systems such as FreeBSD, Linux, Windows and Mac OS and backend to build static websites."><meta itemprop="datePublished" content="2025-05-22"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-22T13:55:35+03:00">2025-05-22</time> </p><h1 class="page__title" itemprop="headline">Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD
+</h1></header><section class="page__content" itemprop="text">
+        <p>Ruby on Rails is not a computer programming language, but rather a website application framework. Ruby on Rails is an excellent framework for developing web applications using the Ruby language. Many people use Ruby as a language to create static websites. With the help of ruby on rails you can develop static web applications faster as compared to other frameworks. Ruby on Rails is a friendly, easy to use web framework that makes life easier by doing most of your website development work.</p>
+
+<p>Ruby on Rails or commonly called Rails is a full-stack framework written in the Ruby programming language. Ruby on Rails or RoR is available for several operating systems such as FreeBSD, Linux, Windows and Mac OS and backend to build static websites.</p>
+
+<p>Ruby on Rails was created based on a set of predefined patterns, libraries and frameworks that allow beginners and professionals to quickly implement various functions such as sending emails or reading data from MySQL, MariaDB or PostgreSQL databases. For example, Rails implements an object-relational mapper (ORM) pattern called Active Record, which makes it easy for developers to interact with databases using Ruby objects.</p>
+
+<p>Before you dive into Rails, you need to know a little about the Ruby language. Ruby is an open source and general purpose programming language used for website development, automation, data processing and more. Ruby is a programming language that is very flexible and portable, meaning you can run it on almost any operating system. Ruby is almost the same as Python, namely it runs dynamically and uses minimalist syntax. In summary, it uses spaces to organize code instead of brackets or other symbols to define blocks in a script.</p>
+
+<p>In this tutorial we will explain how to set up the Ruby on Rails framework on your FreeBSD machine and deploy a web application with a postgreSQL database. Why PostgreSQL? Many people like it and you need it for example for deployments on heroku and your website development environment.</p>
+
+<p>In this article, we will demonstrate how to install Rideshare with Ruby on Rails and a PostgreSQL database. The entire content of this article was written using the following tools:</p>
+<ul>
+  <li>Operating system: FreeBSD 13.3</li>
+  <li>IP Addres: 192.168.5.2</li>
+  <li>Name server: ns3</li>
+  <li>Ruby version: ruby 3.1.4p223 (2023-03-30 revision 957bb7cb81) [amd64-freebsd13]</li>
+  <li>Bundler version: Bundler 2.3.6</li>
+  <li>Gem version: gems 3.5.7</li>
+  <li>Database: Postgresql15-server</li>
+</ul>
+
+<h2 id="1-create-database-rideshare">1. Create Database Rideshare</h2>
+
+<p>As explained above, we will use a PostgreSQL database to connect to the Rideshare application. In this article we assume, you have installed a PostgeSQL database. Before you install Ruby and others, first create a Rideshare database with PostgreSQL. Follow these commands to create a Rideshare database.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # su - postgres
+$ createuser userrideshare
+$ createdb rideshare -O userrideshare encoding='UTF8'
+$ psql rideshare
+psql (15.5)
+Type "help" for help.
+
+rideshare=# alter user userrideshare with password 'router123';
+ALTER ROLE
+rideshare=# exit
+$ exit
+root@ns3:~ #
+</code></pre></div></div>
+<p>The command above is used to create a Rideshare database with the following conditions:
+user: userrideshare
+database: rideshare
+host: localhost
+password: router123</p>
+
+<h2 id="2-install-ruby-on-rails">2. Install Ruby on Rails</h2>
+
+<p>To install the Ruby on Rails environment, you must install Ruby on your FreeBSD machine. You need to know, in FreeBSD there are many versions of Ruby that will be installed automatically, to overcome this, you have to determine the version of Ruby that will be used on the FreeBSD machine. Add the script below to the <strong>/etc/make.conf</strong> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /etc/make.conf
+DEFAULT_VERSIONS+=ruby=3.1
+</code></pre></div></div>
+<p>After you have determined the version of Ruby you will use, namely Ruby31, run the Ruby installation process.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install ruby
+</code></pre></div></div>
+<p>After that, you install the bundler and Gems.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install rubygem-bundler ruby31-gems
+</code></pre></div></div>
+<p>You also install Rails, to run Ruby applications.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install rubygem-rails60
+</code></pre></div></div>
+
+<h2 id="3-cloning--install-rideshare">3. Cloning / Install Rideshare</h2>
+
+<p>On FreeBSD servers, rideshare is not available in the PKG repository or ports. You have to download it from the official site or Github server. In this article, we will clone rideshare from a Github server. Before you clone rideshare, run the command to install rideshare dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install graphviz rubygem-ruby-graphviz rbenv
+</code></pre></div></div>
+<p>After that, you download rideshare from the Github server, we will place all the rideshare files in the /usr/local/www directory, run the command below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/www
+root@ns3:/usr/local/www # git clone https://github.com/andyatkinson/rideshare.git
+</code></pre></div></div>
+
+<h2 id="4-setup-rideshare">4. Setup Rideshare</h2>
+
+<p>Rideshare adalah aplikasi Ruby on Rails untuk buku, yang diciptakan pada tahun 2024 oleh Pragmatic Programmers. Diperlukan database PostgreSQL untuk menjalankan rideshare, karena rideshare termasuk salah satu aplikasi “High Performance PostgreSQL for Rails”, yang dapat dijalankan di sistem BSD, Linux, Windows dan MaxOS.</p>
+
+<p>Run the command below to install rideshare on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/rideshare # gem update --system
+root@ns3:/usr/local/www/rideshare # bundle install
+root@ns3:/usr/local/www/rideshare # gem install error_highlight -v 0.4.0
+root@ns3:/usr/local/www/rideshare # bundle binstubs pgslice --force
+root@ns3:/usr/local/www/rideshare # bundle update
+</code></pre></div></div>
+<p>After that, run the import schema postgresql command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/rideshare # cd db
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d rideshare &gt; create_role_owner.sql
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d rideshare &gt; create_role_app_user.sql
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d rideshare &gt; create_role_app_readonly.sql
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d rideshare &gt; alter_default_privileges_readwrite.sql
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d rideshare &gt; alter_default_privileges_readonly.sql
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d alter_default_privileges_public.sql
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d create_database.sql
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d revoke_drop_public_schema.sql
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d create_schema.sql
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d create_grants_database.sql
+root@ns3:/usr/local/www/rideshare/db # pg_dump -U userrideshare -W -F p -d create_grants_schema.sql
+</code></pre></div></div>
+<p>Run migrations Rails the standard way.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/rideshare # bin/rails db:migrate
+</code></pre></div></div>
+<p>Run Rideshare.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/rideshare # rails s -b 192.168.5.2
+</code></pre></div></div>
+<p>Build faster, more reliable Rails Rideshare applications by leveraging the best of PostgreSQL and Active Record capabilities, and use them to solve your application’s scale and growth challenges. Now you have successfully run the Rails Rideshare Application for the book “High Performance PostgreSQL for Rails” on the FreeBSD server.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-22T13:55:35+03:00">2025-05-22</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://unixwinbsd.site/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://unixwinbsd.site/en/freebsd/2025/05/22/memcached-php-freebsd-installation-nginx-php-fpm/" class="pagination--pager" title="FreeBSD Memcached - Installing and Configuring Memcached With PHP
+">Previous</a><a href="#" class="pagination--pager disabled">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://unixwinbsd.site/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://unixwinbsd.site/assets/js/main.min.js"></script></body>
+</html>

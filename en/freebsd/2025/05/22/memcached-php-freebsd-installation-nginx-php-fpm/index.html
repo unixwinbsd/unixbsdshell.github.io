@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/freebsd/2025/05/22/memcached-php-freebsd-installation-nginx-php-fpm/"/>
+
+  <meta charset="utf-8">
+  
+  <title>FreeBSD Memcached - Installing and Configuring Memcached With PHP  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="FreeBSD Memcached - Installing and Configuring Memcached With PHP"><link rel="canonical" href="https://unixwinbsd.site/en/freebsd/2025/05/22/memcached-php-freebsd-installation-nginx-php-fpm/">
+  <meta property="og:url" content="https://unixwinbsd.site/en/freebsd/2025/05/22/memcached-php-freebsd-installation-nginx-php-fpm/"><meta property="og:description" content="To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="FreeBSD Memcached - Installing and Configuring Memcached With PHP">
+  <meta name="twitter:description" content="To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/en/freebsd/2025/05/22/memcached-php-freebsd-installation-nginx-php-fpm/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-22T10:15:35+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://unixwinbsd.site",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://unixwinbsd.site/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95812963, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true,
+        ecommerce:"dataLayer"
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="9d36c511817c5af4dffe6ea912f1754c" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en/freebsd/2025/05/22/memcached-php-freebsd-installation-nginx-php-fpm/" />
+  
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en" />
+<link rel="alternate" hreflang="ru" href="https://unixwinbsd.site/ru" />
+<link rel="alternate" hreflang="de" href="https://unixwinbsd.site/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://unixwinbsd.site/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/about/">Me</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#22" itemprop="item"><span itemprop="name">22</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">FreeBSD Memcached - Installing and Configuring Memcached With PHP</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-22 10:15:35 +0300",
+"datePublished": "2025-05-22 10:15:35 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://unixwinbsd.site/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "FreeBSD Memcached - Installing and Configuring Memcached With PHP",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://unixwinbsd.site",
+"caption": "To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time."
+},
+
+"datePublished": "2025-05-22 10:15:35 +0300",
+"dateModified": "2025-05-22 10:15:35 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site/en/freebsd/2025/05/22/memcached-php-freebsd-installation-nginx-php-fpm/",
+"name": "FreeBSD Memcached - Installing and Configuring Memcached With PHP"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://unixwinbsd.site/en/freebsd/2025/05/22/memcached-php-freebsd-installation-nginx-php-fpm/",
+"name": "WebServer"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://unixwinbsd.site/en/freebsd/2025/05/22/memcached-php-freebsd-installation-nginx-php-fpm/",
+  "name": "FreeBSD Memcached - Installing and Configuring Memcached With PHP",
+  "headline": "FreeBSD Memcached - Installing and Configuring Memcached With PHP",
+  "keywords": "WebServer",
+  "description": "To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time.",
+  "articleBody": "Memcached is often used in cases where you want to improve the performance of dynamic applications connected to a database. This in-memory database ensures, among other things, that data is retrieved from RAM without having to access the hard drive. Memcached is useful for lightening the load on the backend system and can also significantly reduce latency.\n\nIf you need to create large data samples such as the Comments/Best Articles column for daily or weekly, Directory Navigation menus, user profile data, etc.) or calculate in PHP some data that is not needed in real time, then the data needs to be cached. Memcached allows you to cache database queries from MySQL, MariaDB or other servers via PHP to reduce the load on the database.\n\nPopular websites like YouTube, Facebook, Twitter, and Wikipedia have long used Memcached to reduce latency and database load. But how exactly does Memcached work and what are the first steps to implementing it?\n\nThe diagram below illustrates what your memcached infrastructure will look like when you implement memcached in your environment. You’ll notice that the memcached servers don’t communicate directly with your database servers. Instead, they live in their own pool and your application does all the work.\n\n\n\nIn this article we will learn the installation procedure, configuration and how to use memcached on a FreeBSD 14.3 server.\n\n1. System Specifications\nFreeBSD System: FreeBSD 14.3-PRERELEASE\nIP Address: 192.168.5.71\nHostname: ns4\nPHP Version: PHP83\nMemcached Version: memcached 1.6.26\nNGINX Version: nginx/1.24.0\nDependencies: php83-ctype, php83-mbstring, php83-extensions dan php83-mysqli, php-fpm, pecl-memcached\n\n2. Why Memcached is Important\nWhat is Memcached? The simplest answer to that question is that it is a high-performance caching system developed almost twenty years ago by Danga Interactive for the LiveJournal Internet portal. This cache server was created to prevent the slowdown caused by database access when using sophisticated web applications.\n\nTo overcome this, an in-memory database was developed that makes cached items available to website users in a very short time. Since Memcached is able to store data in RAM, all the information the user needs can be accessed much faster. Memcached software is very easy to use, install, and configure. Furthermore, since it runs under the BSD license, it can also be freely used, modified, and copied.\n\nThe main purpose of Memcached is to optimize application performance by reducing the load on the database server. Especially in applications that require a lot of reading, caching this data provides a significant advantage over accessing the same data repeatedly. In this way, the database server operates with less load and can concentrate on other important operations.\n\nSome of the advantages and benefits of Memcached can be seen in the following table.\n\n\n  \n    \n      Method\n      Explanation\n      Benefit\n    \n  \n  \n    \n      Caching\n      Temporary storage for frequently accessed data\n      Reduce the load on the database and speed up response times\n    \n    \n      Database Optimization\n      Query and schema optimization.\n      Faster query execution, lower resource consumption\n    \n    \n      Load balancer\n      Distribution of traffic between multiple servers.\n      Maintains performance even in heavy traffic situations\n    \n    \n      Data partitioning\n      Splitting a large database into smaller parts\n      Faster query processing, better scalability\n    \n  \n\n\nIn addition to having many advantages, Memcached also has many disadvantages. The following table explains some of the advantages and disadvantages of using Memcached.\n\n\n  \n    \n      Advantages\n      Disadvantages\n    \n  \n  \n    \n      Multiprocess architecture enables vertical scalability of computing power.\n      Data is not visible, making it difficult to debug.\n    \n    \n      Very short response time thanks to storing values ​​in memory\n      It only stores data temporarily and loses data if the Memcached instance fails.\n    \n    \n      Supports open data formats and most common clients and programming languages.\n      Non-redundant, meaning it does not duplicate or back up data to protect against failure.\n    \n    \n      Offers ease of use and flexibility for application development\n      Lack of security mechanisms requires the use of additional firewalls\n    \n    \n      A mature open source solution with open data storage\n      The value key length is limited to 250 characters (1 MB)\n    \n  \n\n\n3. Installation Process\nIn this process there are many dependencies that you have to install, because Memcached is used with PHP with NGINX, PHP or others. So there will be many PHP dependencies that you have to install.\n3.1. Install PHP and PHP-FPM\nIn the section we will not discuss, to do this process you can read the previous article that explains the installation process. We assume you have activated PHP and PHP-FPM.\n3.2. Install Memcached\nIn this process we will use the ports system to install Memcached. On FreeBSD Memcached ports are located in the /usr/ports/databases/memcached directory. Run the command below to start the Memcached installation process.\n\nroot@ns4:~ # cd /usr/ports/databases/memcached\nroot@ns4:/usr/ports/databases/memcached # make install clean\n\n\n3.3. Enable Memcached to start automatically at boot.\nTo enable memcached to start automatically at boot, you must type the script in the /etc/rc.conf file. In addition to typing it directly, there is another alternative by running the sysrc command. This command is a command line utility that manages system services on a FreeBSD server. With the sysrc command you can directly enable memcached.\n\nroot@ns4:~ # sysrc memcached_enable=\"YES\"\nmemcached_enable:  -&gt; YES\n\nroot@ns4:~ # sysrc memcached_flags=\"-l 192.168.5.71 -p 11211 -m 128 -c 1024\"\nmemcached_flags:  -&gt; -l 192.168.5.71 -p 11211 -m 128 -c 1024\n\n\nThe above command is used to enable the memcached Server to Operation over TCP/IP Mode. If you want to enable memcached to # Memcached Server. UNIX socket mode, use the below command.\n\nroot@ns4:~ # sysrc memcached_enable=\"YES\"\nmemcached_enable:  -&gt; YES\n\nroot@ns4:~ # sysrc memcached_flags=\"-s /var/run/memcached/memcached.sock -a 700\"\nmemcached_flags:  -&gt; -s /var/run/memcached/memcached.sock -a 700\n\n\nYou can choose from the two methods above. In this article, we will activate memcached to TCP/IP mode, with IP 192.168.5.71 as the IP address of the FreeBSD server being used.\n\nBelow is a table of basic memcached startup parameters that you can use as a reference to activate memcached.\n\n\n  \n    \n      Description\n      Parameters and default values\n    \n  \n  \n    \n      -s\n      Path to socket. Runs in socket mode (TCP/IP doesn’t work)\n    \n    \n      -a\n      Socket access rights. The default value is 700.\n    \n    \n      -l\n      The IP addresses that Memcached listens on. By default, all addresses\n    \n    \n      -p\n      The port that Memcached listens on. The default is 11211 TCP.\n    \n    \n      -m\n      Maximum object size, in megabytes. The default size is 64Mb.\n    \n    \n      -d\n      Run as daemon\n    \n    \n      -c\n      Maximum simultaneous connections, default is 1024.\n    \n  \n\n\nOnce you have set everything according to the instructions above, run memcached with the service command.\n\nroot@ns4:~ # service memcached restart\n\n\nIf you have run memcached, check whether the memcached port 11212, which you have specified in the /etc/rc.conf file above, is open or not? Use the sockstat command to check the memcached port.\n\nroot@ns4:~ # sockstat -l | grep 11211\nnobody   memcached  35145 16  tcp4   192.168.5.71:11211    *:*\n\nroot@ns4:~ # sockstat -4 | grep 11211\nyou have mail\nnobody   memcached  80732 16  tcp4   192.168.5.71:11211    *:*\n\n\n4. Connect Memcached to PHP\nTo connect memcached to PHP, an extension is needed as a connecting medium. By default memcached has provided the extension, you can install it directly.\n\nThere are two independent PHP PECL extensions to work with the Memcached server:\n\n  Memcache, a lightweight extension with a minimal set of features for working with the server. Considered faster and more productive in operation.\n  Memcached, an extension with a full set of features for use. Provides full capabilities for working with the Memcached server.\n\n\nBelow is an example of installing both memcached extensions.\n\n### Method 1 ##\n\nroot@ns4:~ # cd /usr/ports/databases/pecl-memcache\nroot@ns4:/usr/ports/databases/pecl-memcache # make install clean\n\n\n### Method 2 ##\n\nroot@ns4:~ # cd /usr/ports/databases/pecl-memcached\nroot@ns4:/usr/ports/databases/pecl-memcached # make install clean\n\n\nAlthough these two extensions have slightly different syntax in some parameters, the way they are used is the same. In this article, we will use method 2, using PECL-Memcached.\n\nBefore we continue with the next configuration, let’s take a moment to see the memcached and PHP versions used.\n\nroot@ns4:~ # memcached --version\nmemcached 1.6.26\n\nroot@ns4:~ # php -v\nPHP 8.3.6 (cli) (built: May 15 2025 11:24:52) (ZTS)\n\n\n5. Checking Memcached with PHP and NGINX\nYou can test the memcached installation above with various testing methods. memcached can be tested with basic FreeBSD shell commands or with PHP scripts.\n\n5.1. Test memcached With Command Line\nThere are many command lines that you can use, in this article we will use command lines such as nc and telnet. First we test the memcached connection with the nc command.\n\nroot@ns4:~ # echo \"stats settings\" | nc 192.168.5.71 11211\n\n\nIf you want to use Telnet, run the following command.\n\nroot@ns4:~ # telnet 192.168.5.71 11211\nTrying 192.168.5.71...\nConnected to ns4.\nEscape character is '^]'.\nstats\n\nquit\n\n\nNote: If you are using Memcached with UDP support, the memcstat command will not be able to connect to the UDP port. You can use the following netcat command to verify connectivity.\n\nroot@ns4:~ # nc -u 192.168.5.71 11211 -vz\nConnection to 192.168.5.71 11211 port [udp/*] succeeded!\n\n\n5.2. Test memcached With PHP and NGINX\nMemcached is generally used together with NGINX or Apache. Thanks to PHP support, memcached is able to serve many user requests at the same time. To test whether memcached has connected to the NGINX server, you create a PHP script.\n\nBelow are some examples of PHP scripts that you can use to test memcached. We will create PHP files named test1.php, test2.php and test3.php. We will save all these files in the /usr/local/www/nginx directory. Pay attention to the writing of the PHP script below.\n\n### Contoh 1 (/usr/local/www/nginx/test1.php) ###\n\n&lt;?php\n// Kelas Memcached\n$cache = new Memcached();\n// Menambahkan server Memcached dengan soket UNIX.\n//$cache-&gt;addServer('/var/run/memcached/memcached.sock',0); //Port ditentukan sebagai 0\n// Menambahkan Server Memcached dengan TCP/IP.\n$cache-&gt;addServer('192.168.5.71',11211);\n\n// Data uji untuk caching.\n$data = 'Server Memcached sedang berjalan';\n\n// Penyimpanan data dalam cache.\n$cache-&gt;set('data_cache', $data, 15);\n//data_cache - kunci, $data - data yang di-cache, 15 - data waktu disimpan dalam cache.\n\n// Keluarkan data cache dari server Memcached dengan kunci 'data_cache' ke layar.\necho $cache-&gt;get('data_cache');\n?&gt;\n\n\n### Contoh 2 (/usr/local/www/nginx/test2.php) ###\n\n&lt;?php\n$cache = new Memcached();\n//$cache-&gt;addServer('/var/run/memcached/memcached.sock',0);\n$cache-&gt;addServer('192.168.5.71',11211);\n\n$u_active = $cache-&gt;get('active_users');\n\n// Jika tidak ada data di cache, gunakan kondisi berikut.\nif (empty($u_active)){\n$u_active = 'Selama menit terakhir, 1500 pengguna telah aktif.';\n$cache-&gt;set('active_users', $u_active, 60);\necho 'Data di-cache.'.\"\\n\";\n}\necho $u_active;\n?&gt;\n\n\n### Contoh 3 (/usr/local/www/nginx/test3.php) ###\n\n&lt;?php\n$memcache = new Memcached();\n$memcache-&gt;addServer('192.168.5.71', 11211);\n$memcache-&gt;setOption(Memcached::OPT_COMPRESSION, false);\n\n// set and get a Key\n$memcache-&gt;set('key01', 'value01');\nprint 'key01.value : ' . $memcache-&gt;get('key01') . \"\\n\";\n\n// append and get a Key\n$memcache-&gt;append('key01', ',value02');\nprint 'key01.value : ' . $memcache-&gt;get('key01') . \"\\n\";\n\n$memcache-&gt;set('key02', 1);\nprint 'key02.value : ' . $memcache-&gt;get('key02') . \"\\n\";\n\n// increment\n$memcache-&gt;increment('key02', 100);\nprint 'key02.value : ' . $memcache-&gt;get('key02') . \"\\n\";\n\n// decrement\n$memcache-&gt;decrement('key02', 51);\nprint 'key02.value : ' . $memcache-&gt;get('key02') . \"\\n\";\n\n?&gt;\n\n\nYou can run all three files with the command line or a web browser like Google Chrome. If you want to run the PHP file, use the php command, as in the following example.\n\nroot@ns4:~ # php /usr/local/www/nginx/test1.php\nServer Memcached sedang berjalan\n\n\nroot@ns4:~ # php /usr/local/www/nginx/test2.php\nData di-cache.\nSelama menit terakhir, 1500 pengguna telah aktif.\n\n\nroot@ns4:~ # php /usr/local/www/nginx/test3.php\nkey01.value : value01\nkey01.value : value01,value02\nkey02.value : 1\nkey02.value : 101\nkey02.value : 50\n\n\nIf you want to use Google Chrome on the “address bar” menu, type “https://192.168.5.71/test1.php”, “https://192.168.5.71/test2.php”, “https://192.168.5.71/test3.php. The results will be visible as shown in the following image.\n\n\n\nIn this tutorial, we covered PHP Memcached usage, installation, and configuration in detail. Memcached is a powerful caching system that can help you improve the performance of your PHP and NGINX applications. Now, you can start using the PHP Memcached library in your projects to cache data and optimize your web applications.\n",
+  "datePublished": "2025-05-22 10:15:35 +0300",
+  "dateModified": "2025-05-22 10:15:35 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://unixwinbsd.site/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="FreeBSD Memcached - Installing and Configuring Memcached With PHP"><meta itemprop="description" content="To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time."><meta itemprop="datePublished" content="2025-05-22"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-22T10:15:35+03:00">2025-05-22</time> </p><h1 class="page__title" itemprop="headline">FreeBSD Memcached - Installing and Configuring Memcached With PHP
+</h1></header><section class="page__content" itemprop="text">
+        <p>Memcached is often used in cases where you want to improve the performance of dynamic applications connected to a database. This in-memory database ensures, among other things, that data is retrieved from RAM without having to access the hard drive. Memcached is useful for lightening the load on the backend system and can also significantly reduce latency.</p>
+
+<p>If you need to create large data samples such as the Comments/Best Articles column for daily or weekly, Directory Navigation menus, user profile data, etc.) or calculate in PHP some data that is not needed in real time, then the data needs to be cached. Memcached allows you to cache database queries from MySQL, MariaDB or other servers via PHP to reduce the load on the database.</p>
+
+<p>Popular websites like YouTube, Facebook, Twitter, and Wikipedia have long used Memcached to reduce latency and database load. But how exactly does Memcached work and what are the first steps to implementing it?</p>
+
+<p>The diagram below illustrates what your memcached infrastructure will look like when you implement memcached in your environment. You’ll notice that the memcached servers don’t communicate directly with your database servers. Instead, they live in their own pool and your application does all the work.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/memcached_infrastructure.jpg" alt="memcached infrastructure" /></p>
+
+<p>In this article we will learn the installation procedure, configuration and how to use memcached on a FreeBSD 14.3 server.</p>
+
+<h2 id="1-system-specifications">1. System Specifications</h2>
+<p>FreeBSD System: FreeBSD 14.3-PRERELEASE
+IP Address: 192.168.5.71
+Hostname: ns4
+PHP Version: PHP83
+Memcached Version: memcached 1.6.26
+NGINX Version: nginx/1.24.0
+Dependencies: php83-ctype, php83-mbstring, php83-extensions dan php83-mysqli, php-fpm, pecl-memcached</p>
+
+<h2 id="2-why-memcached-is-important">2. Why Memcached is Important</h2>
+<p>What is Memcached? The simplest answer to that question is that it is a high-performance caching system developed almost twenty years ago by Danga Interactive for the LiveJournal Internet portal. This cache server was created to prevent the slowdown caused by database access when using sophisticated web applications.</p>
+
+<p>To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time. Since Memcached is able to store data in RAM, all the information the user needs can be accessed much faster. Memcached software is very easy to use, install, and configure. Furthermore, since it runs under the BSD license, it can also be freely used, modified, and copied.</p>
+
+<p>The main purpose of Memcached is to optimize application performance by reducing the load on the database server. Especially in applications that require a lot of reading, caching this data provides a significant advantage over accessing the same data repeatedly. In this way, the database server operates with less load and can concentrate on other important operations.</p>
+
+<p>Some of the advantages and benefits of Memcached can be seen in the following table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Explanation</th>
+      <th>Benefit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Caching</td>
+      <td>Temporary storage for frequently accessed data</td>
+      <td>Reduce the load on the database and speed up response times</td>
+    </tr>
+    <tr>
+      <td>Database Optimization</td>
+      <td>Query and schema optimization.</td>
+      <td>Faster query execution, lower resource consumption</td>
+    </tr>
+    <tr>
+      <td>Load balancer</td>
+      <td>Distribution of traffic between multiple servers.</td>
+      <td>Maintains performance even in heavy traffic situations</td>
+    </tr>
+    <tr>
+      <td>Data partitioning</td>
+      <td>Splitting a large database into smaller parts</td>
+      <td>Faster query processing, better scalability</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In addition to having many advantages, Memcached also has many disadvantages. The following table explains some of the advantages and disadvantages of using Memcached.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Advantages</th>
+      <th>Disadvantages</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Multiprocess architecture enables vertical scalability of computing power.</td>
+      <td>Data is not visible, making it difficult to debug.</td>
+    </tr>
+    <tr>
+      <td>Very short response time thanks to storing values ​​in memory</td>
+      <td>It only stores data temporarily and loses data if the Memcached instance fails.</td>
+    </tr>
+    <tr>
+      <td>Supports open data formats and most common clients and programming languages.</td>
+      <td>Non-redundant, meaning it does not duplicate or back up data to protect against failure.</td>
+    </tr>
+    <tr>
+      <td>Offers ease of use and flexibility for application development</td>
+      <td>Lack of security mechanisms requires the use of additional firewalls</td>
+    </tr>
+    <tr>
+      <td>A mature open source solution with open data storage</td>
+      <td>The value key length is limited to 250 characters (1 MB)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="3-installation-process">3. Installation Process</h2>
+<p>In this process there are many dependencies that you have to install, because Memcached is used with PHP with NGINX, PHP or others. So there will be many PHP dependencies that you have to install.</p>
+<h3 id="31-install-php-and-php-fpm">3.1. Install PHP and PHP-FPM</h3>
+<p>In the section we will not discuss, to do this process you can read the previous article that explains the installation process. We assume you have activated PHP and PHP-FPM.</p>
+<h3 id="32-install-memcached">3.2. Install Memcached</h3>
+<p>In this process we will use the ports system to install Memcached. On FreeBSD Memcached ports are located in the /usr/ports/databases/memcached directory. Run the command below to start the Memcached installation process.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # cd /usr/ports/databases/memcached
+root@ns4:/usr/ports/databases/memcached # make install clean
+</code></pre></div></div>
+
+<h3 id="33-enable-memcached-to-start-automatically-at-boot">3.3. Enable Memcached to start automatically at boot.</h3>
+<p>To enable memcached to start automatically at boot, you must type the script in the /etc/rc.conf file. In addition to typing it directly, there is another alternative by running the sysrc command. This command is a command line utility that manages system services on a FreeBSD server. With the sysrc command you can directly enable memcached.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # sysrc memcached_enable="YES"
+memcached_enable:  -&gt; YES
+
+root@ns4:~ # sysrc memcached_flags="-l 192.168.5.71 -p 11211 -m 128 -c 1024"
+memcached_flags:  -&gt; -l 192.168.5.71 -p 11211 -m 128 -c 1024
+</code></pre></div></div>
+
+<p>The above command is used to enable the memcached Server to Operation over TCP/IP Mode. If you want to enable memcached to # Memcached Server. UNIX socket mode, use the below command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # sysrc memcached_enable="YES"
+memcached_enable:  -&gt; YES
+
+root@ns4:~ # sysrc memcached_flags="-s /var/run/memcached/memcached.sock -a 700"
+memcached_flags:  -&gt; -s /var/run/memcached/memcached.sock -a 700
+</code></pre></div></div>
+
+<p>You can choose from the two methods above. In this article, we will activate memcached to TCP/IP mode, with IP 192.168.5.71 as the IP address of the FreeBSD server being used.</p>
+
+<p>Below is a table of basic memcached startup parameters that you can use as a reference to activate memcached.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Parameters and default values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-s</td>
+      <td>Path to socket. Runs in socket mode (TCP/IP doesn’t work)</td>
+    </tr>
+    <tr>
+      <td>-a</td>
+      <td>Socket access rights. The default value is 700.</td>
+    </tr>
+    <tr>
+      <td>-l</td>
+      <td>The IP addresses that Memcached listens on. By default, all addresses</td>
+    </tr>
+    <tr>
+      <td>-p</td>
+      <td>The port that Memcached listens on. The default is 11211 TCP.</td>
+    </tr>
+    <tr>
+      <td>-m</td>
+      <td>Maximum object size, in megabytes. The default size is 64Mb.</td>
+    </tr>
+    <tr>
+      <td>-d</td>
+      <td>Run as daemon</td>
+    </tr>
+    <tr>
+      <td>-c</td>
+      <td>Maximum simultaneous connections, default is 1024.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Once you have set everything according to the instructions above, run memcached with the service command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # service memcached restart
+</code></pre></div></div>
+
+<p>If you have run memcached, check whether the memcached port 11212, which you have specified in the /etc/rc.conf file above, is open or not? Use the sockstat command to check the memcached port.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # sockstat -l | grep 11211
+nobody   memcached  35145 16  tcp4   192.168.5.71:11211    *:*
+
+root@ns4:~ # sockstat -4 | grep 11211
+you have mail
+nobody   memcached  80732 16  tcp4   192.168.5.71:11211    *:*
+</code></pre></div></div>
+
+<h2 id="4-connect-memcached-to-php">4. Connect Memcached to PHP</h2>
+<p>To connect memcached to PHP, an extension is needed as a connecting medium. By default memcached has provided the extension, you can install it directly.</p>
+
+<p>There are two independent PHP PECL extensions to work with the Memcached server:</p>
+<ul>
+  <li>Memcache, a lightweight extension with a minimal set of features for working with the server. Considered faster and more productive in operation.</li>
+  <li>Memcached, an extension with a full set of features for use. Provides full capabilities for working with the Memcached server.</li>
+</ul>
+
+<p>Below is an example of installing both memcached extensions.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Method 1 ##
+
+root@ns4:~ # cd /usr/ports/databases/pecl-memcache
+root@ns4:/usr/ports/databases/pecl-memcache # make install clean
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Method 2 ##
+
+root@ns4:~ # cd /usr/ports/databases/pecl-memcached
+root@ns4:/usr/ports/databases/pecl-memcached # make install clean
+</code></pre></div></div>
+
+<p>Although these two extensions have slightly different syntax in some parameters, the way they are used is the same. In this article, we will use method 2, using PECL-Memcached.</p>
+
+<p>Before we continue with the next configuration, let’s take a moment to see the memcached and PHP versions used.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # memcached --version
+memcached 1.6.26
+
+root@ns4:~ # php -v
+PHP 8.3.6 (cli) (built: May 15 2025 11:24:52) (ZTS)
+</code></pre></div></div>
+
+<h2 id="5-checking-memcached-with-php-and-nginx">5. Checking Memcached with PHP and NGINX</h2>
+<p>You can test the memcached installation above with various testing methods. memcached can be tested with basic FreeBSD shell commands or with PHP scripts.</p>
+
+<h3 id="51-test-memcached-with-command-line">5.1. Test memcached With Command Line</h3>
+<p>There are many command lines that you can use, in this article we will use command lines such as nc and telnet. First we test the memcached connection with the nc command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # echo "stats settings" | nc 192.168.5.71 11211
+</code></pre></div></div>
+
+<p>If you want to use Telnet, run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # telnet 192.168.5.71 11211
+Trying 192.168.5.71...
+Connected to ns4.
+Escape character is '^]'.
+stats
+
+quit
+</code></pre></div></div>
+
+<p><strong>Note:</strong> If you are using Memcached with UDP support, the memcstat command will not be able to connect to the UDP port. You can use the following netcat command to verify connectivity.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # nc -u 192.168.5.71 11211 -vz
+Connection to 192.168.5.71 11211 port [udp/*] succeeded!
+</code></pre></div></div>
+
+<h3 id="52-test-memcached-with-php-and-nginx">5.2. Test memcached With PHP and NGINX</h3>
+<p>Memcached is generally used together with NGINX or Apache. Thanks to PHP support, memcached is able to serve many user requests at the same time. To test whether memcached has connected to the NGINX server, you create a PHP script.</p>
+
+<p>Below are some examples of PHP scripts that you can use to test memcached. We will create PHP files named test1.php, test2.php and test3.php. We will save all these files in the /usr/local/www/nginx directory. Pay attention to the writing of the PHP script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Contoh 1 (/usr/local/www/nginx/test1.php) ###
+
+&lt;?php
+// Kelas Memcached
+$cache = new Memcached();
+// Menambahkan server Memcached dengan soket UNIX.
+//$cache-&gt;addServer('/var/run/memcached/memcached.sock',0); //Port ditentukan sebagai 0
+// Menambahkan Server Memcached dengan TCP/IP.
+$cache-&gt;addServer('192.168.5.71',11211);
+
+// Data uji untuk caching.
+$data = 'Server Memcached sedang berjalan';
+
+// Penyimpanan data dalam cache.
+$cache-&gt;set('data_cache', $data, 15);
+//data_cache - kunci, $data - data yang di-cache, 15 - data waktu disimpan dalam cache.
+
+// Keluarkan data cache dari server Memcached dengan kunci 'data_cache' ke layar.
+echo $cache-&gt;get('data_cache');
+?&gt;
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Contoh 2 (/usr/local/www/nginx/test2.php) ###
+
+&lt;?php
+$cache = new Memcached();
+//$cache-&gt;addServer('/var/run/memcached/memcached.sock',0);
+$cache-&gt;addServer('192.168.5.71',11211);
+
+$u_active = $cache-&gt;get('active_users');
+
+// Jika tidak ada data di cache, gunakan kondisi berikut.
+if (empty($u_active)){
+$u_active = 'Selama menit terakhir, 1500 pengguna telah aktif.';
+$cache-&gt;set('active_users', $u_active, 60);
+echo 'Data di-cache.'."\n";
+}
+echo $u_active;
+?&gt;
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Contoh 3 (/usr/local/www/nginx/test3.php) ###
+
+&lt;?php
+$memcache = new Memcached();
+$memcache-&gt;addServer('192.168.5.71', 11211);
+$memcache-&gt;setOption(Memcached::OPT_COMPRESSION, false);
+
+// set and get a Key
+$memcache-&gt;set('key01', 'value01');
+print 'key01.value : ' . $memcache-&gt;get('key01') . "\n";
+
+// append and get a Key
+$memcache-&gt;append('key01', ',value02');
+print 'key01.value : ' . $memcache-&gt;get('key01') . "\n";
+
+$memcache-&gt;set('key02', 1);
+print 'key02.value : ' . $memcache-&gt;get('key02') . "\n";
+
+// increment
+$memcache-&gt;increment('key02', 100);
+print 'key02.value : ' . $memcache-&gt;get('key02') . "\n";
+
+// decrement
+$memcache-&gt;decrement('key02', 51);
+print 'key02.value : ' . $memcache-&gt;get('key02') . "\n";
+
+?&gt;
+</code></pre></div></div>
+
+<p>You can run all three files with the command line or a web browser like Google Chrome. If you want to run the PHP file, use the php command, as in the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # php /usr/local/www/nginx/test1.php
+Server Memcached sedang berjalan
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # php /usr/local/www/nginx/test2.php
+Data di-cache.
+Selama menit terakhir, 1500 pengguna telah aktif.
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # php /usr/local/www/nginx/test3.php
+key01.value : value01
+key01.value : value01,value02
+key02.value : 1
+key02.value : 101
+key02.value : 50
+</code></pre></div></div>
+
+<p>If you want to use Google Chrome on the “address bar” menu, type <strong>“https://192.168.5.71/test1.php”</strong>, <strong>“https://192.168.5.71/test2.php”</strong>, <strong>“https://192.168.5.71/test3.php</strong>. The results will be visible as shown in the following image.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/FreeBSD_Memcached_-_Menginstal_dan_Mengkonfigurasi_Memcached_Dengan_PHP.jpg" alt="Test Memcached" /></p>
+
+<p>In this tutorial, we covered PHP Memcached usage, installation, and configuration in detail. Memcached is a powerful caching system that can help you improve the performance of your PHP and NGINX applications. Now, you can start using the PHP Memcached library in your projects to cache data and optimize your web applications.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-22T10:15:35+03:00">2025-05-22</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://unixwinbsd.site/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://unixwinbsd.site/en/freebsd/2025/05/21/getting-started-joomla-freebsd/" class="pagination--pager" title="Getting Started Joomla On FreeBSD With PostgreSQL
+">Previous</a><a href="https://unixwinbsd.site/en/freebsd/2025/05/22/ruby-rails-rideshare-postgresql-freebsd/" class="pagination--pager" title="Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://unixwinbsd.site/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://unixwinbsd.site/assets/js/main.min.js"></script></body>
+</html>

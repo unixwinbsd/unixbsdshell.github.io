@@ -4,9 +4,9 @@ description: A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD
 lang: ["ru", "de", "en"]
 #default_lang: "ru"
 author: Iwan Setiawan
-domain: penaadventure.com
+domain: unixwinbsd.site
 baseurl: ""
-url: "https://penaadventure.com"
+url: "https://unixwinbsd.site"
 repository  : "unixwinbsd/unixbsdshell.github.io"
 #twitter_username: jekyllrb
 github_username:  unixwinbsd

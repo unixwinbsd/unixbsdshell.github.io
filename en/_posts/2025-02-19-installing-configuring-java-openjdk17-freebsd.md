@@ -38,7 +38,6 @@ root@router2:~ # mount -t procfs proc /proc
 Then add the two scripts above to the /etc/fstab file.
 
 ```
-
 root@router2:~ # ee /etc/fstab
 fdesc   /dev/fd         fdescfs         rw      0       0
 proc    /proc           procfs          rw      0       0
@@ -59,7 +58,6 @@ The JAVA_HOME variable points to the location where the JDK or JRE is installed 
 Open the csh.cshrc file and add the following two lines:
 
 ```
-
 root@router2:~ # ee /etc/csh.cshrc
 # $FreeBSD$
 #
@@ -80,7 +78,6 @@ OpenJDK 64-Bit Server VM (build 17.0.7+7-1, mixed mode, sharing)
 If the results do not show the above information, you can add Environment JAVA_HOME to $PATH in the root of ~/.cshrc. Add $JAVA_HOME/bin in the .cshrc file in the /root folder.
 
 ```
-
 root@router2:~ # ee .cshrc
 set path = ($JAVA_HOME/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
 ```
@@ -88,7 +85,6 @@ set path = ($JAVA_HOME/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/lo
 The final step is that we test the JAVA program. To test the JAVA program, we create a file in the /usr/local/openjdk17 folder. We will name the file test.java.
 
 ```
-
 root@router2:~ # cd /usr/local/openjdk17
 root@router2:/usr/local/openjdk17 # touch test.java
 root@router2:/usr/local/openjdk17 # ee test.java
@@ -107,7 +103,6 @@ public class test {
 Now we compile the test.java file.
 
 ```
-
 root@router2:~ # cd /usr/local/openjdk17
 root@router2:/usr/local/openjdk17 # java test.java
 ```

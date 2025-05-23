@@ -21,7 +21,6 @@ Joomla is a software product that allows us to create and design websites withou
 In this article we will discuss how to install and configure Joomla on a FreeBSD system. This article will explain the steps to install Joomla and PHP dependencies so that Joomla can run on a FreeBSD system.
 
 
-
 ## 1. Understanding Joomla
 
 As we have explained above, Joomla is an open source CMS or content management system. Code in Joomla allows us to develop various solutions to improve functionality. Moreover, each developer decides for himself whether to sell the plugin or distribute it for free. Like WordPress, this system is great for people who want to create their own project from scratch for the first time. Joomla also has a simple interface. There are more business opportunities here. The CMS itself is completely free, although you still have to pay to use some extensions. However, this is not always necessary.
@@ -34,14 +33,14 @@ It is worth noting that the working interface can be displayed in any language, 
 
 
 ## 2. System Specifications
-OS: FreeBSD 13.2
-Hostname/Domain: ns1@unixexplore.com
-IP Address: 192.168.5.2
-Joomla4
-Apache24
-PHP82
-modul dan extension PHP
-PostgreSQL 15.3
+- OS: FreeBSD 13.2
+- Hostname/Domain: ns1@unixexplore.com
+- IP Address: 192.168.5.2
+- Joomla4
+- Apache24
+- PHP82
+- modul dan extension PHP
+- PostgreSQL 15.3
 
 ## 3. Joomla installation
 

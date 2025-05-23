@@ -38,14 +38,14 @@ User management in Joomla allows the creation of user accounts, user groups and 
 - Domain: unixwinbsd.site
 - PHP version: PHP 8.3.21 (cli) (built: May  9 2025 07:05:21) (NTS)
 - Nginx version: nginx/1.26.3
-- PHP Dependencies: php-gd-8.3.21 php-zip-8.3.21 php-curl-8.3.21 php-bz2-8.3.21 php-intl-8.3.21 php-pdo_sqlite-8.3.21 php-mysqli-8.3.21 pecl83-imagick pecl83-redis
 - MariaDB Client: mariadb-client-11.4.5v1 (installed)
 - MariaDB Server: mariadb-server-11.4.5p0v1 (installed)
+- - PHP Dependencies: php-gd-8.3.21 php-zip-8.3.21 php-curl-8.3.21 php-bz2-8.3.21 php-intl-8.3.21 php-pdo_sqlite-8.3.21 php-mysqli-8.3.21 pecl83-imagick pecl83-redis
 
 ## 3. Editing the /etc/php-8.3.ini file
 The /etc/php.ini file is the main PHP configuration file. This file contains PHP setup scripts. Almost all operating systems have the same /etc/php.ini script. In order for PHP to serve Joomla optimally, you must reset the contents of this file script.
 
-In the /etc/php.ini file, you change or activate it, as in the following example:
+In the **/etc/php.ini** file, you change or activate it, as in the following example:
 
 ```
 expose_php = Off
@@ -83,7 +83,7 @@ Even though you have installed the PHP extension, you cannot use it yet. In orde
 ## 5. Create a MariaDB Database
 In order for PHP and Nginx to connect to Joomla, you must create a database. Otherwise, Joomla will not be able to connect to PHP and Nginx. The purpose of creating this database is none other than to store all the work activities that you do.
 
-In this article, we assume that you have installed MariaDB. So, we will continue by creating a database and username to login to Joomla.
+In this article, we assume that you have [installed MariaDB](https://unixwinbsd.site/en/openbsd/2025/02/11/tutorilas-mariadb-installation-configuration). So, we will continue by creating a database and username to login to Joomla.
 
 ```
 ns3# mysql -u root -p

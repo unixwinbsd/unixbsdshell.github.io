@@ -107,12 +107,190 @@ Below is a table of basic memcached startup parameters that you can use as a ref
 | -d          | Run as daemon          | 
 | -c          | Maximum simultaneous connections, default is 1024.          | 
 
+Once you have set everything according to the instructions above, run memcached with the service command.
+
+```
+root@ns4:~ # service memcached restart
+```
+
+If you have run memcached, check whether the memcached port 11212, which you have specified in the /etc/rc.conf file above, is open or not? Use the sockstat command to check the memcached port.
+
+```
+root@ns4:~ # sockstat -l | grep 11211
+nobody   memcached  35145 16  tcp4   192.168.5.71:11211    *:*
+
+root@ns4:~ # sockstat -4 | grep 11211
+you have mail
+nobody   memcached  80732 16  tcp4   192.168.5.71:11211    *:*
+```
+
+## 4. Connect Memcached to PHP
+To connect memcached to PHP, an extension is needed as a connecting medium. By default memcached has provided the extension, you can install it directly.
+
+There are two independent PHP PECL extensions to work with the Memcached server:
+- Memcache, a lightweight extension with a minimal set of features for working with the server. Considered faster and more productive in operation.
+- Memcached, an extension with a full set of features for use. Provides full capabilities for working with the Memcached server.
+
+Below is an example of installing both memcached extensions.
+
+```
+### Method 1 ##
+
+root@ns4:~ # cd /usr/ports/databases/pecl-memcache
+root@ns4:/usr/ports/databases/pecl-memcache # make install clean
+```
+
+```
+### Method 2 ##
+
+root@ns4:~ # cd /usr/ports/databases/pecl-memcached
+root@ns4:/usr/ports/databases/pecl-memcached # make install clean
+```
+
+Although these two extensions have slightly different syntax in some parameters, the way they are used is the same. In this article, we will use method 2, using PECL-Memcached.
+
+Before we continue with the next configuration, let's take a moment to see the memcached and PHP versions used.
+
+```
+root@ns4:~ # memcached --version
+memcached 1.6.26
+
+root@ns4:~ # php -v
+PHP 8.3.6 (cli) (built: May 15 2025 11:24:52) (ZTS)
+```
+
+## 5. Checking Memcached with PHP and NGINX
+You can test the memcached installation above with various testing methods. memcached can be tested with basic FreeBSD shell commands or with PHP scripts.
+
+### 5.1. Test memcached With Command Line
+There are many command lines that you can use, in this article we will use command lines such as nc and telnet. First we test the memcached connection with the nc command.
+
+```
+root@ns4:~ # echo "stats settings" | nc 192.168.5.71 11211
+```
+
+If you want to use Telnet, run the following command.
+
+```
+root@ns4:~ # telnet 192.168.5.71 11211
+Trying 192.168.5.71...
+Connected to ns4.
+Escape character is '^]'.
+stats
+
+quit
+```
+
+**Note:** If you are using Memcached with UDP support, the memcstat command will not be able to connect to the UDP port. You can use the following netcat command to verify connectivity.
+
+```
+root@ns4:~ # nc -u 192.168.5.71 11211 -vz
+Connection to 192.168.5.71 11211 port [udp/*] succeeded!
+```
+
+### 5.2. Test memcached With PHP and NGINX
+Memcached is generally used together with NGINX or Apache. Thanks to PHP support, memcached is able to serve many user requests at the same time. To test whether memcached has connected to the NGINX server, you create a PHP script.
+
+Below are some examples of PHP scripts that you can use to test memcached. We will create PHP files named test1.php, test2.php and test3.php. We will save all these files in the /usr/local/www/nginx directory. Pay attention to the writing of the PHP script below.
 
 
+```
+### Contoh 1 (/usr/local/www/nginx/test1.php) ###
 
+<?php
+// Kelas Memcached
+$cache = new Memcached();
+// Menambahkan server Memcached dengan soket UNIX.
+//$cache->addServer('/var/run/memcached/memcached.sock',0); //Port ditentukan sebagai 0
+// Menambahkan Server Memcached dengan TCP/IP.
+$cache->addServer('192.168.5.71',11211);
 
+// Data uji untuk caching.
+$data = 'Server Memcached sedang berjalan';
 
+// Penyimpanan data dalam cache.
+$cache->set('data_cache', $data, 15);
+//data_cache - kunci, $data - data yang di-cache, 15 - data waktu disimpan dalam cache.
 
+// Keluarkan data cache dari server Memcached dengan kunci 'data_cache' ke layar.
+echo $cache->get('data_cache');
+?>
+```
 
+```
+### Contoh 2 (/usr/local/www/nginx/test2.php) ###
 
+<?php
+$cache = new Memcached();
+//$cache->addServer('/var/run/memcached/memcached.sock',0);
+$cache->addServer('192.168.5.71',11211);
 
+$u_active = $cache->get('active_users');
+
+// Jika tidak ada data di cache, gunakan kondisi berikut.
+if (empty($u_active)){
+$u_active = 'Selama menit terakhir, 1500 pengguna telah aktif.';
+$cache->set('active_users', $u_active, 60);
+echo 'Data di-cache.'."\n";
+}
+echo $u_active;
+?>
+```
+
+```
+### Contoh 3 (/usr/local/www/nginx/test3.php) ###
+
+<?php
+$memcache = new Memcached();
+$memcache->addServer('192.168.5.71', 11211);
+$memcache->setOption(Memcached::OPT_COMPRESSION, false);
+
+// set and get a Key
+$memcache->set('key01', 'value01');
+print 'key01.value : ' . $memcache->get('key01') . "\n";
+
+// append and get a Key
+$memcache->append('key01', ',value02');
+print 'key01.value : ' . $memcache->get('key01') . "\n";
+
+$memcache->set('key02', 1);
+print 'key02.value : ' . $memcache->get('key02') . "\n";
+
+// increment
+$memcache->increment('key02', 100);
+print 'key02.value : ' . $memcache->get('key02') . "\n";
+
+// decrement
+$memcache->decrement('key02', 51);
+print 'key02.value : ' . $memcache->get('key02') . "\n";
+
+?>
+```
+
+You can run all three files with the command line or a web browser like Google Chrome. If you want to run the PHP file, use the php command, as in the following example.
+
+```
+root@ns4:~ # php /usr/local/www/nginx/test1.php
+Server Memcached sedang berjalan
+```
+
+```
+root@ns4:~ # php /usr/local/www/nginx/test2.php
+Data di-cache.
+Selama menit terakhir, 1500 pengguna telah aktif.
+```
+
+```
+root@ns4:~ # php /usr/local/www/nginx/test3.php
+key01.value : value01
+key01.value : value01,value02
+key02.value : 1
+key02.value : 101
+key02.value : 50
+```
+
+If you want to use Google Chrome on the "address bar" menu, type **"https://192.168.5.71/test1.php"**, **"https://192.168.5.71/test2.php"**, **"https://192.168.5.71/test3.php**. The results will be visible as shown in the following image.
+
+![Test Memcached](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/FreeBSD_Memcached_-_Menginstal_dan_Mengkonfigurasi_Memcached_Dengan_PHP.jpg)
+
+In this tutorial, we covered PHP Memcached usage, installation, and configuration in detail. Memcached is a powerful caching system that can help you improve the performance of your PHP and NGINX applications. Now, you can start using the PHP Memcached library in your projects to cache data and optimize your web applications.

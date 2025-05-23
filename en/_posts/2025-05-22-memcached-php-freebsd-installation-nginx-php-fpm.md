@@ -49,16 +49,17 @@ Some of the advantages and benefits of Memcached can be seen in the following ta
 | Load balancer          | Distribution of traffic between multiple servers.     | Maintains performance even in heavy traffic situations          |
 | Data partitioning          | Splitting a large database into smaller parts  | Faster query processing, better scalability          |
 
+In addition to having many advantages, Memcached also has many disadvantages. The following table explains some of the advantages and disadvantages of using Memcached.
 
 
 
-
-| Nomor       | Nama          | 
+| Advantages       | Disadvantages          | 
 | ----------- | -----------   | 
-| 01          | Udin          | 
-| 02          | Aminudin      | 
-| 03          | Salahudin     | 
-| 04          | Udin sedunia  | 
+| Multiprocess architecture enables vertical scalability of computing power.          | Data is not visible, making it difficult to debug.          | 
+| Very short response time thanks to storing values ​​in memory          | It only stores data temporarily and loses data if the Memcached instance fails.      | 
+| Supports open data formats and most common clients and programming languages.          | Non-redundant, meaning it does not duplicate or back up data to protect against failure.     | 
+| Offers ease of use and flexibility for application development          | Lack of security mechanisms requires the use of additional firewalls  | 
+| A mature open source solution with open data storage          | The value key length is limited to 250 characters (1 MB)  | 
 
 
 

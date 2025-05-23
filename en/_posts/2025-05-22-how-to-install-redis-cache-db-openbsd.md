@@ -14,7 +14,7 @@ keywords: redis, cache, db, database, cachedb, openbsd, php, mysql, caching
 
 Redis is often referred to as a data structure server. That is, Redis provides access to mutable data structures through a series of commands, which are sent using a client-server model with TCP sockets and a simple protocol. So, multiple processes can request and modify the same data structures in the same way.
 
-Redis can be compiled and used on Linux, OSX, OpenBSD, NetBSD, and FreeBSD operating systems. Redis' caching method is used in Gatsby and WordPress client sites, Nextcloud and others. As an in-memory cache, it handles traffic spikes very well.
+Redis can be compiled and used on Linux, OSX, OpenBSD, NetBSD, and FreeBSD operating systems. Redis caching is commonly used on client sites and many large companies such as Gatsby, WordPress, Nextcloud, and others use Redis as memory caching. As an in-memory cache, it handles traffic spikes very well.
 
 ## A. What is Redis Cache?
 

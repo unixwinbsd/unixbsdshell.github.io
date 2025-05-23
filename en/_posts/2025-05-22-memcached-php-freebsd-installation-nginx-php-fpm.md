@@ -22,6 +22,25 @@ The diagram below illustrates what your memcached infrastructure will look like 
 
 ![memcached infrastructure](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/memcached_infrastructure.jpg)
 
+In this article we will learn the installation procedure, configuration and how to use memcached on a FreeBSD 14.3 server.
+
+## 1. System Specifications
+FreeBSD System: FreeBSD 14.3-PRERELEASE
+IP Address: 192.168.5.71
+Hostname: ns4
+PHP Version: PHP83
+Memcached Version: memcached 1.6.26
+NGINX Version: nginx/1.24.0
+Dependencies: php83-ctype, php83-mbstring, php83-extensions dan php83-mysqli, php-fpm, pecl-memcached
+
+## 2. Why Memcached is Important
+What is Memcached? The simplest answer to that question is that it is a high-performance caching system developed almost twenty years ago by Danga Interactive for the LiveJournal Internet portal. This cache server was created to prevent the slowdown caused by database access when using sophisticated web applications.
+
+To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time. Since Memcached is able to store data in RAM, all the information the user needs can be accessed much faster. Memcached software is very easy to use, install, and configure. Furthermore, since it runs under the BSD license, it can also be freely used, modified, and copied.
+
+The main purpose of Memcached is to optimize application performance by reducing the load on the database server. Especially in applications that require a lot of reading, caching this data provides a significant advantage over accessing the same data repeatedly. In this way, the database server operates with less load and can concentrate on other important operations.
+
+Some of the advantages and benefits of Memcached can be seen in the following table.
 
 
 

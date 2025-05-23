@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/freebsd/2025/05/22/how-to-install-redis-cache-db-openbsd/"/>
+
+  <meta charset="utf-8">
+  
+  <title>How to Install Redis Cache DB on OpenBSD  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="How to Install Redis Cache DB on OpenBSD"><link rel="canonical" href="https://unixwinbsd.site/en/freebsd/2025/05/22/how-to-install-redis-cache-db-openbsd/">
+  <meta property="og:url" content="https://unixwinbsd.site/en/freebsd/2025/05/22/how-to-install-redis-cache-db-openbsd/"><meta property="og:description" content="Redis is one of the most popular key-value databases, ranking 4th in user satisfaction for NoSQL databases, Redis’ popularity continues to grow, and many companies are looking for Redis developers for roles such as database administrators, etc."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Install Redis Cache DB on OpenBSD">
+  <meta name="twitter:description" content="Redis is one of the most popular key-value databases, ranking 4th in user satisfaction for NoSQL databases, Redis’ popularity continues to grow, and many companies are looking for Redis developers for roles such as database administrators, etc.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/en/freebsd/2025/05/22/how-to-install-redis-cache-db-openbsd/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-22T21:11:15+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://unixwinbsd.site",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://unixwinbsd.site/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95812963, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true,
+        ecommerce:"dataLayer"
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="9d36c511817c5af4dffe6ea912f1754c" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en/freebsd/2025/05/22/how-to-install-redis-cache-db-openbsd/" />
+  
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en" />
+<link rel="alternate" hreflang="ru" href="https://unixwinbsd.site/ru" />
+<link rel="alternate" hreflang="de" href="https://unixwinbsd.site/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://unixwinbsd.site/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/about/">Me</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#22" itemprop="item"><span itemprop="name">22</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Install Redis Cache DB on OpenBSD</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-22 21:11:15 +0300",
+"datePublished": "2025-05-22 21:11:15 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://unixwinbsd.site/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "How to Install Redis Cache DB on OpenBSD",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://unixwinbsd.site",
+"caption": "Redis is one of the most popular key-value databases, ranking 4th in user satisfaction for NoSQL databases, Redis' popularity continues to grow, and many companies are looking for Redis developers for roles such as database administrators, etc."
+},
+
+"datePublished": "2025-05-22 21:11:15 +0300",
+"dateModified": "2025-05-22 21:11:15 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site/en/freebsd/2025/05/22/how-to-install-redis-cache-db-openbsd/",
+"name": "How to Install Redis Cache DB on OpenBSD"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://unixwinbsd.site/en/freebsd/2025/05/22/how-to-install-redis-cache-db-openbsd/",
+"name": "WebServer"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://unixwinbsd.site/en/freebsd/2025/05/22/how-to-install-redis-cache-db-openbsd/",
+  "name": "How to Install Redis Cache DB on OpenBSD",
+  "headline": "How to Install Redis Cache DB on OpenBSD",
+  "keywords": "WebServer",
+  "description": "Redis is one of the most popular key-value databases, ranking 4th in user satisfaction for NoSQL databases, Redis' popularity continues to grow, and many companies are looking for Redis developers for roles such as database administrators, etc.",
+  "articleBody": "Redis is often referred to as a data structure server. That is, Redis provides access to mutable data structures through a series of commands, which are sent using a client-server model with TCP sockets and a simple protocol. So, multiple processes can request and modify the same data structures in the same way.\n\nRedis can be compiled and used on Linux, OSX, OpenBSD, NetBSD, and FreeBSD operating systems. Redis caching is commonly used on client sites and many large companies such as Gatsby, WordPress, Nextcloud, and others use Redis as memory caching. As an in-memory cache, it handles traffic spikes very well.\n\nA. What is Redis Cache?\n\nCaching is essential to ensure a fast and smooth user experience in the digital world by storing frequently used data in fast-access storage. Caching minimizes data retrieval time and reduces backend load, allowing web applications to scale and handle high traffic volumes efficiently. Essentially, caching contributes to the responsiveness and scalability of a web platform.\n\nRedis is one of the most popular key-value databases, ranking 4th in user satisfaction for NoSQL databases, Redis’ popularity continues to grow, and many companies are looking for Redis developers for roles such as database administrators, etc. Redis is a popular, fast, and open-source in-memory data store that is used as a database, cache, and intermediary between site visitors and site administrators.\n\nAt its core, Redis operates by storing data in key-value pairs, making data retrieval very fast and efficient. When used as a cache, Redis temporarily stores frequently accessed data that would otherwise be expensive to retrieve or compute repeatedly. Here’s how it works:\n\n  Data Fetching: When an application requests data, it first checks the Redis cache.\n  Success or Failure: If the requested data is found in the cache (cache hit), Redis returns the data immediately, significantly reducing latency. If the data is not in the cache (cache fail), the application fetches the data from the primary database.\n  Data Storage: After fetching the data, the data is stored in the Redis cache, so that subsequent requests for the same data can be served faster.\n\n\nRedis client-side cache is also known as “tracking”, since Redis is a data structure-based solution, caching in Redis can be strings, hashes, lists, sets, or sorted sets. This cache uses streams and many other data structures, and you also need to know that reading and writing to the cache requires the use of GET and SET commands in Redis.\n\nB. How to Install Redis on OpenBSD\nYou can start installing Redis on OpenBSD with the ports system or with the available PKG packages. Most OpenBSD users prefer to install packages with PKG. You can follow each command below to start installing Redis.\n\nns2# pkg_add pecl82-redis\nns2# pkg_add redis\n\na. Redis Configuration\nThe main redis configuration file is located in “/etc/redis”, which consists of the files:\n\n  redis.conf, and\n  sentinel.conf\n\n\nYou change the script in the redis.conf file according to your needs and OpenBSD system specifications. Below is an example of the “/etc/redis/redis/redis.conf” file, which we have adjusted to the needs and OpenBSD system we are using.\n\nbind 127.0.0.1 -::1\nprotected-mode yes\nport 6379\ndaemonize yes\nrequirepass router123\ntcp-backlog 511\nunixsocket /var/run/redis/redis.sock\nunixsocketperm 770\ntimeout 0\ntcp-keepalive 300\npidfile /var/run/redis/redis_6379.pid\nloglevel notice\nsyslog-enabled yes\nsyslog-ident redis\nsyslog-facility daemon\ndatabases 16\nalways-show-logo no\nset-proc-title yes\nproc-title-template \"{title} {listen-addr} {server-mode}\"\nstop-writes-on-bgsave-error yes\nrdbcompression yes\nrdbchecksum yes\ndbfilename dump.rdb\nrdb-del-sync-files no\ndir /var/redis\nreplica-serve-stale-data yes\nreplica-read-only yes\nrepl-diskless-sync no\nrepl-diskless-sync-delay 5\nrepl-diskless-load disabled\nreplica-priority 100\nacllog-max-len 128\nmaxclients 96\nmaxmemory-policy noeviction\nmaxmemory 64mb\n\n\nb. Enable Redis\nOnce you have setup the redis.conf file, enable redis so that it can be run directly on OpenBSD.\n\nns2# rcctl enable redis\nns2# rcctl restart redis\n\nTo ensure that redis has been installed correctly, check whether the redis port is open or not.\n\nns2# ps -aux |grep redis\n_redis   55721  0.0  0.2 15908  3132 ??  S       4:19PM    0:00.05 redis-server: /usr/local/bin/redis-server 127.0.0.1:6379 (redis-server)\nroot     83550  0.0  0.0   108   324 p0  R+/0    4:19PM    0:00.00 grep redis\n\nFrom the display above, it is certain that Redis is active, because the port 127.0.0.1:6379 is open as we can see above.\n\nC. How to Run Redis on OpenBSD\nThis process is to run redis, so that it can be used as you wish. To run the Redis server you must use the redis-cli command.\n\na. Connect to Redis server\nRun the command below so you can connect to the redis server.\n\nns2# redis-cli\n127.0.0.1:6379&gt;\n\n\nb. Login to the redis server\nEven though you have connected to the redis server, you cannot use redis yet. In order for redis to be used, we must enter the password that we have created in the /etc/redis/redis.conf file above. In the file above, we have specified the password “router123”. Use this password to log in to the redis server.\n\n127.0.0.1:6379&gt; auth router123\nOK\n\n\nc. Create a user\nOnce you have successfully logged into the redis server, you can do anything with redis. We will show you how to create a user in redis.\n\n127.0.0.1:6379&gt; set name maryrose\nOK\n127.0.0.1:6379&gt; get name\n\"maryrose\"\n\nSo far, a high availability RedisCache Service has been built, you can connect redis with various other applications such as Wordpress, Nexcloud, Gatsby and others.\n",
+  "datePublished": "2025-05-22 21:11:15 +0300",
+  "dateModified": "2025-05-22 21:11:15 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://unixwinbsd.site/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="How to Install Redis Cache DB on OpenBSD"><meta itemprop="description" content="Redis is one of the most popular key-value databases, ranking 4th in user satisfaction for NoSQL databases, Redis’ popularity continues to grow, and many companies are looking for Redis developers for roles such as database administrators, etc."><meta itemprop="datePublished" content="2025-05-22"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-22T21:11:15+03:00">2025-05-22</time> </p><h1 class="page__title" itemprop="headline">How to Install Redis Cache DB on OpenBSD
+</h1></header><section class="page__content" itemprop="text">
+        <p>Redis is often referred to as a data structure server. That is, Redis provides access to mutable data structures through a series of commands, which are sent using a client-server model with TCP sockets and a simple protocol. So, multiple processes can request and modify the same data structures in the same way.</p>
+
+<p>Redis can be compiled and used on Linux, OSX, OpenBSD, NetBSD, and FreeBSD operating systems. Redis caching is commonly used on client sites and many large companies such as Gatsby, WordPress, Nextcloud, and others use Redis as memory caching. As an in-memory cache, it handles traffic spikes very well.</p>
+
+<h2 id="a-what-is-redis-cache">A. What is Redis Cache?</h2>
+
+<p>Caching is essential to ensure a fast and smooth user experience in the digital world by storing frequently used data in fast-access storage. Caching minimizes data retrieval time and reduces backend load, allowing web applications to scale and handle high traffic volumes efficiently. Essentially, caching contributes to the responsiveness and scalability of a web platform.</p>
+
+<p><a href="https://www.liquidweb.com/blog/redis-as-cache/#:~:text=Redis,%20while%20capable%20of%20functioning,the%20performance%20of%20your%20website">Redis</a> is one of the most popular key-value databases, ranking 4th in user satisfaction for NoSQL databases, Redis’ popularity continues to grow, and many companies are looking for Redis developers for roles such as database administrators, etc. Redis is a popular, fast, and open-source in-memory data store that is used as a database, cache, and intermediary between site visitors and site administrators.</p>
+
+<p>At its core, Redis operates by storing data in key-value pairs, making data retrieval very fast and efficient. When used as a cache, Redis temporarily stores frequently accessed data that would otherwise be expensive to retrieve or compute repeatedly. Here’s how it works:</p>
+<ul>
+  <li><strong>Data Fetching:</strong> When an application requests data, it first checks the Redis cache.</li>
+  <li><strong>Success or Failure:</strong> If the requested data is found in the cache (cache hit), Redis returns the data immediately, significantly reducing latency. If the data is not in the cache (cache fail), the application fetches the data from the primary database.</li>
+  <li><strong>Data Storage:</strong> After fetching the data, the data is stored in the Redis cache, so that subsequent requests for the same data can be served faster.</li>
+</ul>
+
+<p>Redis client-side cache is also known as “tracking”, since Redis is a data structure-based solution, caching in Redis can be strings, hashes, lists, sets, or sorted sets. This cache uses streams and many other data structures, and you also need to know that reading and writing to the cache requires the use of GET and SET commands in Redis.</p>
+
+<h2 id="b-how-to-install-redis-on-openbsd">B. How to Install Redis on OpenBSD</h2>
+<p>You can start installing Redis on OpenBSD with the ports system or with the available PKG packages. Most OpenBSD users prefer to install packages with PKG. You can follow each command below to start installing Redis.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# pkg_add pecl82-redis
+ns2# pkg_add redis
+</code></pre></div></div>
+<h3 id="a-redis-configuration">a. Redis Configuration</h3>
+<p>The main redis configuration file is located in “/etc/redis”, which consists of the files:</p>
+<ul>
+  <li>redis.conf, and</li>
+  <li>sentinel.conf</li>
+</ul>
+
+<p>You change the script in the redis.conf file according to your needs and OpenBSD system specifications. Below is an example of the <strong>“/etc/redis/redis/redis.conf”</strong> file, which we have adjusted to the needs and OpenBSD system we are using.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bind 127.0.0.1 -::1
+protected-mode yes
+port 6379
+daemonize yes
+requirepass router123
+tcp-backlog 511
+unixsocket /var/run/redis/redis.sock
+unixsocketperm 770
+timeout 0
+tcp-keepalive 300
+pidfile /var/run/redis/redis_6379.pid
+loglevel notice
+syslog-enabled yes
+syslog-ident redis
+syslog-facility daemon
+databases 16
+always-show-logo no
+set-proc-title yes
+proc-title-template "{title} {listen-addr} {server-mode}"
+stop-writes-on-bgsave-error yes
+rdbcompression yes
+rdbchecksum yes
+dbfilename dump.rdb
+rdb-del-sync-files no
+dir /var/redis
+replica-serve-stale-data yes
+replica-read-only yes
+repl-diskless-sync no
+repl-diskless-sync-delay 5
+repl-diskless-load disabled
+replica-priority 100
+acllog-max-len 128
+maxclients 96
+maxmemory-policy noeviction
+maxmemory 64mb
+</code></pre></div></div>
+
+<h3 id="b-enable-redis">b. Enable Redis</h3>
+<p>Once you have setup the redis.conf file, enable redis so that it can be run directly on OpenBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# rcctl enable redis
+ns2# rcctl restart redis
+</code></pre></div></div>
+<p>To ensure that redis has been installed correctly, check whether the redis port is open or not.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# ps -aux |grep redis
+_redis   55721  0.0  0.2 15908  3132 ??  S       4:19PM    0:00.05 redis-server: /usr/local/bin/redis-server 127.0.0.1:6379 (redis-server)
+root     83550  0.0  0.0   108   324 p0  R+/0    4:19PM    0:00.00 grep redis
+</code></pre></div></div>
+<p>From the display above, it is certain that Redis is active, because the port 127.0.0.1:6379 is open as we can see above.</p>
+
+<h2 id="c-how-to-run-redis-on-openbsd">C. How to Run Redis on OpenBSD</h2>
+<p>This process is to run redis, so that it can be used as you wish. To run the Redis server you must use the redis-cli command.</p>
+
+<h3 id="a-connect-to-redis-server">a. Connect to Redis server</h3>
+<p>Run the command below so you can connect to the redis server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns2# redis-cli
+127.0.0.1:6379&gt;
+</code></pre></div></div>
+
+<h3 id="b-login-to-the-redis-server">b. Login to the redis server</h3>
+<p>Even though you have connected to the redis server, you cannot use redis yet. In order for redis to be used, we must enter the password that we have created in the <strong>/etc/redis/redis.conf</strong> file above. In the file above, we have specified the password “router123”. Use this password to log in to the redis server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; auth router123
+OK
+</code></pre></div></div>
+
+<h3 id="c-create-a-user">c. Create a user</h3>
+<p>Once you have successfully logged into the redis server, you can do anything with redis. We will show you how to create a user in redis.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; set name maryrose
+OK
+127.0.0.1:6379&gt; get name
+"maryrose"
+</code></pre></div></div>
+<p>So far, a high availability RedisCache Service has been built, you can connect redis with various other applications such as Wordpress, Nexcloud, Gatsby and others.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-22T21:11:15+03:00">2025-05-22</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://unixwinbsd.site/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://unixwinbsd.site/en/freebsd/2025/05/22/ruby-rails-rideshare-postgresql-freebsd/" class="pagination--pager" title="Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD
+">Previous</a><a href="#" class="pagination--pager disabled">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://unixwinbsd.site/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://unixwinbsd.site/assets/js/main.min.js"></script></body>
+</html>

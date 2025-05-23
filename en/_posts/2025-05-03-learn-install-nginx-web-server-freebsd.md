@@ -12,11 +12,6 @@ excerpt: Nginx (pronounced "engine-x") is a powerful and versatile open-source s
 keywords: nginx, mod_jk, modul, java, apache, server, install, freebsd, learn, web, http, https
 ---
 
-
-
-
-Belajar Cara Menginstal Server Web NGINX di FreeBSD
-
 In this discussion, we will try to install and configure the Nginx application. I will not explain what Nginx is, its uses and functions. Regarding Nginx, you can search for information on the internet. Here we will focus on how Nginx can run on FreeBSD.
 
 We write this tutorial simply and systematically, to make it easier for readers to understand the contents of this article.
@@ -37,11 +32,7 @@ root@router2:~ # make install clean
 ```
 The installation is declared complete when the following image appears:
 
-
-
-perintah cara instal nginx di freebsd
-
-
+![command how to install nginx on freebsd](https://gitea.com/iwanse1212/Nginx-Web-Server-On-FreeBSD-Port-80-443/raw/branch/main/command%20how%20to%20install%20nginx%20on%20freebsd.png)
 
 In the final installation message in the image above it says the Nginx user and group are "www"
 

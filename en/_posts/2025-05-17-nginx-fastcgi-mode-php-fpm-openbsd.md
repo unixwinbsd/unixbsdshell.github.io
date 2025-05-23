@@ -45,7 +45,7 @@ In addition, another advantage of PHP-FPM is that it provides greater flexibilit
 ## 3. Install NGINX
 In this section we will not explain the Nginx installation process, you can read our previous article about the Nginx installation process on OpenBSD. You can adjust the Nginx version with this article, or you can also use a version below or above it.
 
-We assume you have installed Nginx and Nginx has run normally on OpenBSD. To make it easier for you to configure the **/etc//nginx conf** file. Below is an example of the nginx.conf file script that we use.
+We assume you have installed Nginx and Nginx has run normally on OpenBSD. To make it easier for you to configure the **"/etc//nginx conf"** file. Below is an example of the nginx.conf file script that we use.
 
 ```
 user  www;
@@ -76,7 +76,7 @@ http {
 include /etc/nginx/vhostsSSL.conf;
 }
 ```
-Note the example of the **/etc/nginx/nginx.conf** script above, you see the bottom script **"include /etc/nginx/vhostsSSL.conf;"**. PHP-FPM will be run with SSL OpenSSL mode. The location of the PHP-FPM configuration file is in the **/etc/nginx** directory with the name "vhostsSSL.conf".
+Note the example of the **/etc/nginx/nginx.conf** script above, you see the bottom script **"include /etc/nginx/vhostsSSL.conf;"**. PHP-FPM will be run with SSL OpenSSL mode. The location of the PHP-FPM configuration file is in the **/etc/nginx** directory with the name **"vhostsSSL.conf"**.
 
 ## 4. Install PHP (PHP-FPM)
 In this article we use PHP version 8.3.2, and by default that version is available in the OpenBSD package system. You can install it directly. You need to know, PHP-FPM is part of PHP, so when you install PHP, PHP-FPM is automatically installed too. Here is how to install PHP with the pkg_add command (choose number 3).
@@ -101,7 +101,7 @@ New and changed readme(s):
 This process is very important, because it will determine whether PHP-FPM can be integrated with Nginx or not. If you are wrong in this process, then do not expect PHP-FPM to run with Nginx.
 
 ### 5.1. Create Symlink File
-The PHP directory is located in /etc/php-8.3. At the beginning of the installation, this directory is still empty and will always be empty if you do not create a symlink. By default, every time you install a PHP extension, the extension file will be placed in the /etc/php-8.3.sample directory. Below is the command you can use to create a PHP symlink file.
+The PHP directory is located in /etc/php-8.3. At the beginning of the installation, this directory is still empty and will always be empty if you do not create a symlink. By default, every time you install a PHP extension, the extension file will be placed in the **/etc/php-8.3.sample** directory. Below is the command you can use to create a PHP symlink file.
 
 ```
 # ln -sf /etc/php-8.3.sample/* /etc/php-8.3/
@@ -115,7 +115,7 @@ In addition to the symlink files above, you also need to create 3 symlink files 
 ```
 
 ### 5.2. Change the Script files /etc/php-8.3.ini and /etc/php-fpm.conf
-All PHP configurations are stored in the /etc/php-8.3.ini file, you can set this file as needed. In this article we only enable a few scripts. Below are some /etc/php-8.3.ini scripts that you should enable (leave the others as default).
+All PHP configurations are stored in the /etc/php-8.3.ini file, you can set this file as needed. In this article we only enable a few scripts. Below are some **/etc/php-8.3.ini** scripts that you should enable (leave the others as default).
 
 ```
 memory_limit = 512M
@@ -125,7 +125,7 @@ allow_url_fopen = On
 ```
 In addition, you also have to activate some scripts in the /etc/php-fpm.conf file. The most important thing in this script file is that you have to activate what PHP-FPM can be run with. There are two ways to run PHP-FPM, namely with UNIX socket and IP Address. In this article, we will run PHP-FPM with UNIX socket.
 
-Below is an example of the /etc/php-fpm.conf script that we activate (leave the others as default).
+Below is an example of the **/etc/php-fpm.conf** script that we activate (leave the others as default).
 
 ```
 daemonize = yes
@@ -140,7 +140,7 @@ chroot = /var/www
 ```
 
 ### 5.3. Enable PHP (PHP-FPM)
-Even though you have installed PHP, but the PHP application is not active, you must activate PHP manually. Open the /etc/rc.conf.local file, and type the following script.
+Even though you have installed PHP, but the PHP application is not active, you must activate PHP manually. Open the **/etc/rc.conf.local** file, and type the following script.
 
 ```
 pkg_scripts=php83_fpm
@@ -156,7 +156,7 @@ php83_fpm(ok)
 Now that PHP-FPM is active, we continue by configuring Nginx.
 
 ## 6. NGINX Configuration
-This section is very important, because you will set how to connect PHP-FPM with the Nginx web server. Referring to the /etc/nginx/nginx.cong script, which we have discussed in point "3. Install NGINX". You create the /etc/nginx/vhostsSSL.conf file with the touch command.
+This section is very important, because you will set how to connect PHP-FPM with the Nginx web server. Referring to the /etc/nginx/nginx.cong script, which we have discussed in point "3. Install NGINX". You create the **/etc/nginx/vhostsSSL.conf** file with the touch command.
 
 ```
 # touch /etc/nginx/vhostsSSL.conf

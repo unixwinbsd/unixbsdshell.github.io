@@ -28,16 +28,11 @@ root@router2:~ # make install clean
 
 After the installation is complete you will be shown the following display:
 
-
-Menginstal dan Mengkonfigurasi Java openjdk17 di FreeBSD 14
-
-
-
+![mount java freebsd](https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/mount_java_freebsd.jpg)
 
 Now we continue, according to the instructions above, type the script mount -t fdescfs fdesc /dev/fd and mount -t procfs proc /proc.
 
 ```
-
 root@router2:~ # mount -t fdescfs fdesc /dev/fd
 root@router2:~ # mount -t procfs proc /proc
 ```

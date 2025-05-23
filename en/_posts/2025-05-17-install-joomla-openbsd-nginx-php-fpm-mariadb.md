@@ -40,7 +40,7 @@ User management in Joomla allows the creation of user accounts, user groups and 
 - Nginx version: nginx/1.26.3
 - MariaDB Client: mariadb-client-11.4.5v1 (installed)
 - MariaDB Server: mariadb-server-11.4.5p0v1 (installed)
-- - PHP Dependencies: php-gd-8.3.21 php-zip-8.3.21 php-curl-8.3.21 php-bz2-8.3.21 php-intl-8.3.21 php-pdo_sqlite-8.3.21 php-mysqli-8.3.21 pecl83-imagick pecl83-redis
+- PHP Dependencies: php-gd-8.3.21 php-zip-8.3.21 php-curl-8.3.21 php-bz2-8.3.21 php-intl-8.3.21 php-pdo_sqlite-8.3.21 php-mysqli-8.3.21 pecl83-imagick pecl83-redis
 
 ## 3. Editing the /etc/php-8.3.ini file
 The /etc/php.ini file is the main PHP configuration file. This file contains PHP setup scripts. Almost all operating systems have the same /etc/php.ini script. In order for PHP to serve Joomla optimally, you must reset the contents of this file script.
@@ -119,7 +119,7 @@ In the command above you create a database:
 ## 6. NGINX Configuration
 This section is very important, because with the help of Nginx Joomla applications can be displayed in a web browser and can be published to the public. In this article we assume you have installed Nginx. So, we immediately configure Nginx.
 
-To make it easier for you to understand, below is an example of the /etc/nginx/nginx.conf file that we use.
+To make it easier for you to understand, below is an example of the **/etc/nginx/nginx.conf** file that we use.
 
 ```
 user  www;
@@ -224,7 +224,7 @@ location ~ \.php$ {
 ```
 
 ## 7. Install Joomla
-On OpenBSD, Joomla repository is not available, you have to download Joomla from Github or the official Joomla website. In this article, we will download Joomla from the Github repository. Pay attention to the command below, how to download Joomla from Github and directly extract it to the /var/www/joomla directory.
+On OpenBSD, Joomla repository is not available, you have to download Joomla from Github or the official Joomla website. In this article, we will download Joomla from the Github repository. Pay attention to the command below, how to download Joomla from Github and directly extract it to the **/var/www/joomla** directory.
 
 ```
 ns3# mkdir -p /var/www/joomla
@@ -239,10 +239,11 @@ ns3# chown -R www:www /var/www/joomla
 ns3# chmod -R 775 /var/www/joomla
 ```
 
-7.1. Editing the File /var/www/joomla/installation/configuration.php-dist
-The /var/www/joomla/installation/configuration.php-dist file contains the Joomla configuration script to connect to PHP and Nginx. In this file there are database settings. You fill in the name, user and password of the MariaDB database that you created above.
+### 7.1. Editing the File /var/www/joomla/installation/configuration.php-dist
 
-Note the example of the /var/www/joomla/installation/configuration.php-dist file script, below.
+The **/var/www/joomla/installation/configuration.php-dist** file contains the Joomla configuration script to connect to PHP and Nginx. In this file there are database settings. You fill in the name, user and password of the MariaDB database that you created above.
+
+Note the example of the **/var/www/joomla/installation/configuration.php-dist** file script, below.
 
 ```
 <?php
@@ -419,7 +420,7 @@ public $db = 'joomladb';
 
 After you have successfully logged in and set up Joomla, the /var/www/joomla/installation/configuration.php-dist file will be automatically deleted by the system.
 
-8. Run Joomla
+## 8. Run Joomla
 After you have configured everything according to the instructions above, at the end of this article we will run Joomla. You can prove whether Joomla can be run on OpenbSD or there is a wrong configuration so that Joomla cannot be run.
 
 Before you run Joomla, reload all the applications that you have configured above, as in the example below.

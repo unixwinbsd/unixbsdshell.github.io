@@ -48,7 +48,7 @@ bind 127.0.0.1 -::1
 protected-mode yes
 port 6379
 daemonize yes
-requirepass puncakanjani
+requirepass router123
 tcp-backlog 511
 unixsocket /var/run/redis/redis.sock
 unixsocketperm 770
@@ -109,10 +109,10 @@ ns2# redis-cli
 ```
 
 ### b. Login to the redis server
-Even though you have connected to the redis server, you cannot use redis yet. In order for redis to be used, we must enter the password that we have created in the /etc/redis/redis.conf file above. In the file above, we have specified the password "puncakanjani". Use this password to log in to the redis server.
+Even though you have connected to the redis server, you cannot use redis yet. In order for redis to be used, we must enter the password that we have created in the **/etc/redis/redis.conf** file above. In the file above, we have specified the password "router123". Use this password to log in to the redis server.
 
 ```
-127.0.0.1:6379> auth puncakanjani
+127.0.0.1:6379> auth router123
 OK
 ```
 
@@ -120,9 +120,9 @@ OK
 Once you have successfully logged into the redis server, you can do anything with redis. We will show you how to create a user in redis.
 
 ```
-127.0.0.1:6379> set name udinsedunia
+127.0.0.1:6379> set name maryrose
 OK
 127.0.0.1:6379> get name
-"udinsedunia"
+"maryrose"
 ```
 So far, a high availability RedisCache Service has been built, you can connect redis with various other applications such as Wordpress, Nexcloud, Gatsby and others.

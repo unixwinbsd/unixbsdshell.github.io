@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/openbsd/2025/05/17/install-joomla-openbsd-nginx-php-fpm-mariadb/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB"><link rel="canonical" href="https://unixwinbsd.site/en/openbsd/2025/05/17/install-joomla-openbsd-nginx-php-fpm-mariadb/">
+  <meta property="og:url" content="https://unixwinbsd.site/en/openbsd/2025/05/17/install-joomla-openbsd-nginx-php-fpm-mariadb/"><meta property="og:description" content="What exactly is FastCGI Mode that makes it so popular and how can it improve the performance of your website to run fast?."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB">
+  <meta name="twitter:description" content="What exactly is FastCGI Mode that makes it so popular and how can it improve the performance of your website to run fast?.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/en/openbsd/2025/05/17/install-joomla-openbsd-nginx-php-fpm-mariadb/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-17T18:01:23+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://unixwinbsd.site",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://unixwinbsd.site/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95812963, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true,
+        ecommerce:"dataLayer"
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="9d36c511817c5af4dffe6ea912f1754c" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en/openbsd/2025/05/17/install-joomla-openbsd-nginx-php-fpm-mariadb/" />
+  
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en" />
+<link rel="alternate" hreflang="ru" href="https://unixwinbsd.site/ru" />
+<link rel="alternate" hreflang="de" href="https://unixwinbsd.site/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://unixwinbsd.site/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/about/">Me</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#17" itemprop="item"><span itemprop="name">17</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-17 18:01:23 +0300",
+"datePublished": "2025-05-17 18:01:23 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://unixwinbsd.site/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://unixwinbsd.site",
+"caption": "What exactly is FastCGI Mode that makes it so popular and how can it improve the performance of your website to run fast?."
+},
+
+"datePublished": "2025-05-17 18:01:23 +0300",
+"dateModified": "2025-05-17 18:01:23 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site/en/openbsd/2025/05/17/install-joomla-openbsd-nginx-php-fpm-mariadb/",
+"name": "Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://unixwinbsd.site/en/openbsd/2025/05/17/install-joomla-openbsd-nginx-php-fpm-mariadb/",
+"name": "WebServer"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://unixwinbsd.site/en/openbsd/2025/05/17/install-joomla-openbsd-nginx-php-fpm-mariadb/",
+  "name": "Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB",
+  "headline": "Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB",
+  "keywords": "WebServer",
+  "description": "What exactly is FastCGI Mode that makes it so popular and how can it improve the performance of your website to run fast?.",
+  "articleBody": "Website development and hosting is at the heart of any modern business, unless you’re already a professional web developer. You’ll need a fast, easy-to-manage, and reliable software system to help you get your website online.\n\nFor this, Joomla is often considered one of the best choices for web server hosting and website creation. Joomla is a free and open-source content management system (CMS) designed for building websites and online applications. Written in PHP, Joomla uses MySQL, MariaDB, or PostgreSQL databases to store content.\n\nJoomla is known for its flexibility, comprehensive features, and active community of developers and users. With Joomla you can create a website without using HTML or CSS. That, along with its low price, makes it a favorite choice among many businesses and non-profit organizations.\n\nJoomla offers a user-friendly interface, flexible features, and scalability. With Joomla, you can create different types of web pages, manage user access, customize the appearance, and extend its functionality using Joomla extensions. The Joomla CMS core is designed to allow the site to operate under high loads. Failure of one of the modules does not lead to a complete system crash.\n\nJoomla is actively developed by the community and is regularly updated and is compatible with all popular web servers such as Nginx, Apache, Microsoft IIS and others. The official Joomla catalog contains a large number of add-ons. The interface is widely translated into many languages, including Russian.\n\n1. What is Joomla? How Joomla CMS Works\nJoomla CMS is an easy-to-use platform for creating, managing, and customizing websites. The process begins with an installation process that sets up the CMS and provides access to the administration area, where you can use the Joomla auto-installer. The administration area serves as a control panel for managing the website, including configuring settings, creating and editing content, adding extensions, and customizing the design.\n\nContent creation and management in Joomla revolves around organizing articles into categories and using the built-in editor for formatting, embedding media, and styling. Templates play an important role in the visual appearance of the website, allowing users to choose from pre-designed templates or create their own. Templates can be customized to suit branding and design preferences.\n\nJoomla’s extensibility is one of its standout features, offering a wide range of components, modules and plugins. Components provide core functionality, modules display specific content and plugins add specific features. These extensions can enhance the capabilities of your website and tailor it to specific requirements.\n\nUser management in Joomla allows the creation of user accounts, user groups and permissions. This allows control over website access and contributions, making it suitable for websites with multiple contributors or varying levels of access.\n\n2. System Specifications\n\n  OS: OPenBSD 7.7\n  IP Address: 192.168.5.3\n  Hostname: ns3\n  Domain: unixwinbsd.site\n  PHP version: PHP 8.3.21 (cli) (built: May  9 2025 07:05:21) (NTS)\n  Nginx version: nginx/1.26.3\n  MariaDB Client: mariadb-client-11.4.5v1 (installed)\n  MariaDB Server: mariadb-server-11.4.5p0v1 (installed)\n  PHP Dependencies: php-gd-8.3.21 php-zip-8.3.21 php-curl-8.3.21 php-bz2-8.3.21 php-intl-8.3.21 php-pdo_sqlite-8.3.21 php-mysqli-8.3.21 pecl83-imagick pecl83-redis\n\n\n3. Editing the /etc/php-8.3.ini file\nThe /etc/php.ini file is the main PHP configuration file. This file contains PHP setup scripts. Almost all operating systems have the same /etc/php.ini script. In order for PHP to serve Joomla optimally, you must reset the contents of this file script.\n\nIn the /etc/php.ini file, you change or activate it, as in the following example:\n\nexpose_php = Off\nmax_execution_time = 90\nmemory_limit = 512M\nopcache.enable=1\nopcache.enable_cli=1\nupload_max_filesize = 64M\nopcache.revalidate_freq=1\nopcache.enable=1\nmax_execution_time = 120\npost_max_size = 64M\nopcache.memory_consumption=512\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.revalidate_freq=1\nopcache.save_comments=1\ncgi.fix_pathinfo=0\n\n\n4. Install PHP Extension\nPHP extensions are dependencies that PHP has. There are many types of PHP dependencies, for database use usually php-pdo_sqlite and php-mysqli dependencies. These two dependencies will connect PHP to the MariaDB or MySQL database.\n\nBelow is the command to install PHP extensions.\n\nns3# pkg_add php-gd-8.3.21 php-zip-8.3.21 php-curl-8.3.21 php-bz2-8.3.21 php-intl-8.3.21 php-pdo_sqlite-8.3.21 php-mysqli-8.3.21 pecl83-imagick pecl83-redis\n\nEven though you have installed the PHP extension, you cannot use it yet. In order for the extension to be directly connected to PHP, you must create a symlink file, as in the example below.\n\n# ln -sf /etc/php-8.3.sample/* /etc/php-8.3/\n\n\n5. Create a MariaDB Database\nIn order for PHP and Nginx to connect to Joomla, you must create a database. Otherwise, Joomla will not be able to connect to PHP and Nginx. The purpose of creating this database is none other than to store all the work activities that you do.\n\nIn this article, we assume that you have installed MariaDB. So, we will continue by creating a database and username to login to Joomla.\n\nns3# mysql -u root -p\nEnter password:\nWelcome to the MariaDB monitor.  Commands end with ; or \\g.\nYour MariaDB connection id is 3\nServer version: 11.4.5-MariaDB OpenBSD port: mariadb-server-11.4.5p0v1\n\nCopyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.\n\nType 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.\n\nMariaDB [(none)]&gt; CREATE DATABASE joomladb;\nQuery OK, 1 row affected (0.195 sec)\n\nMariaDB [(none)]&gt; CREATE USER 'userjoomla'@'localhost' IDENTIFIED BY 'passwdusejoomla';\nQuery OK, 0 rows affected (0.414 sec)\n\nMariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON joomladb.* TO 'userjoomla'@'localhost';\nQuery OK, 0 rows affected (0.252 sec)\n\nMariaDB [(none)]&gt; FLUSH PRIVILEGES;\nQuery OK, 0 rows affected (0.002 sec)\n\nMariaDB [(none)]&gt;\n\nIn the command above you create a database:\n\n  Database name: joomladb\n  Username: userjoomla\n  Password: passwdusejoomla\n  Connection: 127.0.0.1 (localhost)\n\n\n6. NGINX Configuration\nThis section is very important, because with the help of Nginx Joomla applications can be displayed in a web browser and can be published to the public. In this article we assume you have installed Nginx. So, we immediately configure Nginx.\n\nTo make it easier for you to understand, below is an example of the /etc/nginx/nginx.conf file that we use.\n\nuser  www;\nworker_processes  1;\n\nerror_log  logs/error.log;\npid        logs/nginx.pid;\nworker_rlimit_nofile 1024;\n\nevents {\n    worker_connections  800;\n}\n\nhttp {\n    include       mime.types;\n    default_type  application/octet-stream;\n    index         index.html index.htm;\n\n    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\" '\n                      '$status $body_bytes_sent \"$http_referer\" '\n                      '\"$http_user_agent\" \"$http_x_forwarded_for\"';\n\n    access_log  logs/access.log  main;\n    keepalive_timeout  65;\n    server_tokens off;\n    \n#include /etc/nginx/vhosts.conf;\ninclude /etc/nginx/vhostsSSL.conf;\n}\n\nAfter that we create the file “/etc/nginx/vhostsSSL.conf”.\n\nns3# touch /etc/nginx/vhostsSSL.conf\n\nIn the “/etc/nginx/vhostsSSL.conf” file, you type the script as in the following example.\n\nserver {\n        listen       443 ssl;\n        server_name  unixwinbsd.site;\n        root         /var/www/joomla;\n\tindex index.php index.html index.htm default.html default.htm;\n\n        ssl_certificate      /etc/nginx/SSL/nginxssl.crt;\n        ssl_certificate_key  /etc/nginx/SSL/nginxssl.key;\n        ssl_session_timeout  5m;\n        ssl_session_cache    shared:SSL:1m;\n\n        ssl_ciphers  HIGH:!aNULL:!MD5:!RC4;\n        ssl_prefer_server_ciphers   on;\n\ngzip on;\ngzip_static on;\ngzip_http_version 1.1;\ngzip_comp_level 6;\ngzip_min_length 1100;\ngzip_buffers 4 8k;\ngzip_types text/plain application/xhtml+xml text/css application/xml application/xml+rss text/javascript application/javascript application/x-javascript\ngzip_proxied any;\ngzip_disable \"MSIE [1-6]\\.\";\n\nlocation ~ \\.php$ {\n            try_files $uri =404;\n            fastcgi_split_path_info ^(.+\\.php)(/.+)$;\n            fastcgi_pass   unix:run/php-fpm.sock;\n            fastcgi_index index.php;\n            fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;\n            include fastcgi_params;\n\t    root         /var/www/joomla;\n    }\n\n # Support API\n    location /api/ {\n\ttry_files $uri $uri/ /api/index.php?$args;\n    }\n\n    # Support Clean (aka Search Engine Friendly) URLs\n    location / {\n        try_files $uri $uri/ /index.php?$args;\n    }\n\n # add global x-content-type-options header\n    add_header X-Content-Type-Options nosniff;\n\n    # deny running scripts inside writable directories\n    location ~* /(images|cache|media|logs|tmp)/.*\\.(php|pl|py|jsp|asp|sh|cgi)$ {\n        return 403;\n        error_page 403 /403_error.html;\n    }\n\n # caching of files \n    location ~* \\.(ico|pdf|flv)$ {\n        expires 1y;\n    }\n\n    location ~* \\.(js|css|png|jpg|jpeg|gif|swf|xml|txt)$ {\n        expires 14d;\n    }\n\n    }\n\n\n7. Install Joomla\nOn OpenBSD, Joomla repository is not available, you have to download Joomla from Github or the official Joomla website. In this article, we will download Joomla from the Github repository. Pay attention to the command below, how to download Joomla from Github and directly extract it to the /var/www/joomla directory.\n\nns3# mkdir -p /var/www/joomla\nns3# cd /var/www/joomla\nns3# curl -LO https://github.com/joomla/joomla-cms/releases/download/5.3.0/Joomla_5.3.0-Stable-Full_Package.tar.gz\nns3# tar -xzvf Joomla_5.3.0-Stable-Full_Package.tar.gz\n\nAfter that, you run the chown and chmod commands, as in the following example.\n\nns3# chown -R www:www /var/www/joomla\nns3# chmod -R 775 /var/www/joomla\n\n\n7.1. Editing the File /var/www/joomla/installation/configuration.php-dist\n\nThe /var/www/joomla/installation/configuration.php-dist file contains the Joomla configuration script to connect to PHP and Nginx. In this file there are database settings. You fill in the name, user and password of the MariaDB database that you created above.\n\nNote the example of the /var/www/joomla/installation/configuration.php-dist file script, below.\n\n&lt;?php\n/**\n * @package    Joomla.Installation\n *\n * @copyright  (C) 2005 Open Source Matters, Inc. &lt;https://www.joomla.org&gt;\n * @license    GNU General Public License version 2 or later; see LICENSE.txt\n *\n * -------------------------------------------------------------------------\n * THIS SHOULD ONLY BE USED AS A LAST RESORT WHEN THE WEB INSTALLER FAILS\n *\n * If you are installing Joomla! manually ie not using the web browser installer\n * then rename this file to configuration.php eg\n *\n * UNIX -&gt; mv configuration.php-dist configuration.php\n * Windows -&gt; rename configuration.php-dist configuration.php\n *\n * Now edit this file and configure the parameters for your site and\n * database.\n *\n * Finally move this file to the root folder of your Joomla installation eg\n *\n * UNIX -&gt; mv configuration.php ../\n * Windows -&gt; copy configuration.php ../\n *\n */\nclass JConfig\n{\n\t/* Site Settings */\n\tpublic $offline = false;\n\tpublic $offline_message = 'This site is down for maintenance.&lt;br&gt; Please check back again soon.';\n\tpublic $display_offline_message = 1;\n\tpublic $offline_image = '';\n\tpublic $sitename = 'unixwinbsd.site;';            // Name of Joomla site\n\tpublic $editor = 'tinymce';\n\tpublic $captcha = 0;\n\tpublic $list_limit = 20;\n\tpublic $access = 1;\n\tpublic $frontediting = 1;\n\n\t/* Database Settings */\n\tpublic $dbtype = 'mysqli';               // Normally mysqli\n\tpublic $host = '127.0.0.1';              // This is normally set to localhost\n\tpublic $user = 'userjoomla';                       // Database username\n\tpublic $password = 'passwdusejoomla';                   // Database password\n\tpublic $db = 'joomladb';                         // Database name\n\tpublic $dbprefix = 'jos_';               // Any random string ending with _\n\tpublic $dbencryption = 0;\n\tpublic $dbsslverifyservercert = false;\n\tpublic $dbsslkey = '';\n\tpublic $dbsslcert = '';\n\tpublic $dbsslca = '';\n\tpublic $dbsslcipher = '';\n\n\t/* Server Settings */\n\tpublic $secret = '';     // Use something very secure. For example on linux the following command `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-16} | head -n 1`\n\tpublic $gzip = false;\n\tpublic $error_reporting = 'default';\n\tpublic $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&amp;lang={langcode}';\n\tpublic $tmp_path = '/tmp';                // This path needs to be writable by Joomla!\n\tpublic $log_path = '/administrator/logs'; // This path needs to be writable by Joomla!\n\tpublic $live_site = '';                   // Optional, full URL to Joomla install eg https://www.example.com\n\tpublic $force_ssl = 0;                    // Force areas of the site to be SSL ONLY.  0 = None, 1 = Administrator, 2 = Both Site and Administrator\n\n\t/* Locale Settings */\n\tpublic $offset = 'UTC';\n\n\t/* Session settings */\n\tpublic $lifetime = 15;                    // Session time\n\tpublic $session_handler = 'database';\n\tpublic $shared_session = false;\n\tpublic $session_filesystem_path = '';\n\tpublic $session_memcached_server_host = 'localhost';\n\tpublic $session_memcached_server_port = 11211;\n\tpublic $session_metadata = true;\n\tpublic $session_redis_persist = 1;\n\tpublic $session_redis_server_auth = '';\n\tpublic $session_redis_server_db = 0;\n\tpublic $session_redis_server_host = 'localhost';\n\tpublic $session_redis_server_port = 6379;\n\n\t/* Mail Settings */\n\tpublic $mailonline  = true;\n\tpublic $mailer      = 'mail';\n\tpublic $mailfrom    = '';\n\tpublic $fromname    = '';\n\tpublic $massmailoff = false;\n\tpublic $replyto     = '';\n\tpublic $replytoname = '';\n\tpublic $sendmail    = '/usr/sbin/sendmail';\n\tpublic $smtpauth    = false;\n\tpublic $smtpuser    = '';\n\tpublic $smtppass    = '';\n\tpublic $smtphost    = 'localhost';\n\tpublic $smtpsecure  = 'none';\n\tpublic $smtpport    = 25;\n\n\t/* Cache Settings */\n\tpublic $caching = 0;\n\tpublic $cachetime = 15;\n\tpublic $cache_handler = 'file';\n\tpublic $cache_platformprefix = false;\n\tpublic $memcached_persist = true;\n\tpublic $memcached_compress = false;\n\tpublic $memcached_server_host = 'localhost';\n\tpublic $memcached_server_port = 11211;\n\tpublic $redis_persist = true;\n\tpublic $redis_server_host = 'localhost';\n\tpublic $redis_server_port = 6379;\n\tpublic $redis_server_auth = '';\n\tpublic $redis_server_db = 0;\n\n\t/* Log Settings */\n\tpublic $log_categories = '';\n\tpublic $log_category_mode = 0;\n\tpublic $log_deprecated = 0;\n\tpublic $log_everything = 0;\n\tpublic $log_priorities = array('0' =&gt; 'all');\n\n\t/* CORS Settings */\n\tpublic $cors = false;\n\tpublic $cors_allow_headers = 'Content-Type,X-Joomla-Token';\n\tpublic $cors_allow_methods = '';\n\tpublic $cors_allow_origin = '*';\n\n\t/* Proxy Settings */\n\tpublic $proxy_enable = false;\n\tpublic $proxy_host = '';\n\tpublic $proxy_port = '';\n\tpublic $proxy_user = '';\n\tpublic $proxy_pass = '';\n\n\t/* Debug Settings */\n\tpublic $debug = false;\n\tpublic $debug_lang = false;\n\tpublic $debug_lang_const = true;\n\n\t/* Meta Settings */\n\tpublic $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';\n\tpublic $MetaAuthor = true;\n\tpublic $MetaVersion = false;\n\tpublic $MetaRights = '';\n\tpublic $robots = '';\n\tpublic $sitename_pagetitles = 0;\n\n\t/* SEO Settings */\n\tpublic $sef = true;\n\tpublic $sef_rewrite = false;\n\tpublic $sef_suffix = false;\n\tpublic $unicodeslugs = false;\n\n\t/* Feed Settings */\n\tpublic $feed_limit = 10;\n\tpublic $feed_email = 'none';\n\n\t/* Cookie Settings */\n\tpublic $cookie_domain = '';\n\tpublic $cookie_path = '';\n\n\t/* Miscellaneous Settings */\n\tpublic $asset_id = 1;\n\tpublic $behind_loadbalancer = false;\n}\n\nIn the script above, the most important thing is the settings in the script, which you must adjust to the database you have created.\n\n\n  public $sitename = ‘unixwinbsd.site;’;\n  public $dbtype = ‘mysqli’;\n  public $host = ‘127.0.0.1’;\n  public $user = ‘userjoomla’;\n  public $password = ‘passwdusejoomla’;\n  public $db = ‘joomladb’;\n\n\nAfter you have successfully logged in and set up Joomla, the /var/www/joomla/installation/configuration.php-dist file will be automatically deleted by the system.\n\n8. Run Joomla\nAfter you have configured everything according to the instructions above, at the end of this article we will run Joomla. You can prove whether Joomla can be run on OpenbSD or there is a wrong configuration so that Joomla cannot be run.\n\nBefore you run Joomla, reload all the applications that you have configured above, as in the example below.\n\nns3# rcctl restart mysqld\nns3# rcctl restart php83_fpm\nns3# rcctl restart nginx\n\nAfter that you open Google Chrome, and type “https://192.168.5.3/index.php”. If the configuration above is not missed, on your monitor screen will display a menu for creating a user name and password, as shown in the following image.\n\n\n\n\n\nIf it appears like the image above, it means that Joomla can run on OpenbSD. You only need to set the menu as needed. In this section the process is easier, because you are guided by the wizard menu, just follow each instruction given.\n\nWhat you need to pay attention to is when filling in the “Database Configuration” menu. In the hostname column, do not fill in localhost, type the localhost IP “127.0.0.1”. If you type localhost, the Joomla dashboard will not open.\n\nThe image below is the main Joomla dashboard after you have successfully connected to Joomla.\n\n\n\nNow, your OpenBSD server has Joomla installed, you can create various beautiful and interesting websites with Joomla. Not only that, Joomla has been equipped with SEO techniques, you can use it by setting it in the settings menu.\n",
+  "datePublished": "2025-05-17 18:01:23 +0300",
+  "dateModified": "2025-05-17 18:01:23 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://unixwinbsd.site/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB"><meta itemprop="description" content="What exactly is FastCGI Mode that makes it so popular and how can it improve the performance of your website to run fast?."><meta itemprop="datePublished" content="2025-05-17"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-17T18:01:23+03:00">2025-05-17</time> </p><h1 class="page__title" itemprop="headline">Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB
+</h1></header><section class="page__content" itemprop="text">
+        <p>Website development and hosting is at the heart of any modern business, unless you’re already a professional web developer. You’ll need a fast, easy-to-manage, and reliable software system to help you get your website online.</p>
+
+<p>For this, Joomla is often considered one of the best choices for web server hosting and website creation. Joomla is a free and open-source content management system (CMS) designed for building websites and online applications. Written in PHP, Joomla uses MySQL, MariaDB, or PostgreSQL databases to store content.</p>
+
+<p>Joomla is known for its flexibility, comprehensive features, and active community of developers and users. With Joomla you can create a website without using HTML or CSS. That, along with its low price, makes it a favorite choice among many businesses and non-profit organizations.</p>
+
+<p>Joomla offers a user-friendly interface, flexible features, and scalability. With Joomla, you can create different types of web pages, manage user access, customize the appearance, and extend its functionality using Joomla extensions. The Joomla CMS core is designed to allow the site to operate under high loads. Failure of one of the modules does not lead to a complete system crash.</p>
+
+<p>Joomla is actively developed by the community and is regularly updated and is compatible with all popular web servers such as Nginx, Apache, Microsoft IIS and others. The official Joomla catalog contains a large number of add-ons. The interface is widely translated into many languages, including Russian.</p>
+
+<h2 id="1-what-is-joomla-how-joomla-cms-works">1. What is Joomla? How Joomla CMS Works</h2>
+<p>Joomla CMS is an easy-to-use platform for creating, managing, and customizing websites. The process begins with an installation process that sets up the CMS and provides access to the administration area, where you can use the Joomla auto-installer. The administration area serves as a control panel for managing the website, including configuring settings, creating and editing content, adding extensions, and customizing the design.</p>
+
+<p>Content creation and management in Joomla revolves around organizing articles into categories and using the built-in editor for formatting, embedding media, and styling. Templates play an important role in the visual appearance of the website, allowing users to choose from pre-designed templates or create their own. Templates can be customized to suit branding and design preferences.</p>
+
+<p>Joomla’s extensibility is one of its standout features, offering a wide range of components, modules and plugins. Components provide core functionality, modules display specific content and plugins add specific features. These extensions can enhance the capabilities of your website and tailor it to specific requirements.</p>
+
+<p>User management in Joomla allows the creation of user accounts, user groups and permissions. This allows control over website access and contributions, making it suitable for websites with multiple contributors or varying levels of access.</p>
+
+<h2 id="2-system-specifications">2. System Specifications</h2>
+<ul>
+  <li>OS: OPenBSD 7.7</li>
+  <li>IP Address: 192.168.5.3</li>
+  <li>Hostname: ns3</li>
+  <li>Domain: unixwinbsd.site</li>
+  <li>PHP version: PHP 8.3.21 (cli) (built: May  9 2025 07:05:21) (NTS)</li>
+  <li>Nginx version: nginx/1.26.3</li>
+  <li>MariaDB Client: mariadb-client-11.4.5v1 (installed)</li>
+  <li>MariaDB Server: mariadb-server-11.4.5p0v1 (installed)</li>
+  <li>PHP Dependencies: php-gd-8.3.21 php-zip-8.3.21 php-curl-8.3.21 php-bz2-8.3.21 php-intl-8.3.21 php-pdo_sqlite-8.3.21 php-mysqli-8.3.21 pecl83-imagick pecl83-redis</li>
+</ul>
+
+<h2 id="3-editing-the-etcphp-83ini-file">3. Editing the /etc/php-8.3.ini file</h2>
+<p>The /etc/php.ini file is the main PHP configuration file. This file contains PHP setup scripts. Almost all operating systems have the same /etc/php.ini script. In order for PHP to serve Joomla optimally, you must reset the contents of this file script.</p>
+
+<p>In the <strong>/etc/php.ini</strong> file, you change or activate it, as in the following example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>expose_php = Off
+max_execution_time = 90
+memory_limit = 512M
+opcache.enable=1
+opcache.enable_cli=1
+upload_max_filesize = 64M
+opcache.revalidate_freq=1
+opcache.enable=1
+max_execution_time = 120
+post_max_size = 64M
+opcache.memory_consumption=512
+opcache.interned_strings_buffer=8
+opcache.max_accelerated_files=10000
+opcache.revalidate_freq=1
+opcache.save_comments=1
+cgi.fix_pathinfo=0
+</code></pre></div></div>
+
+<h2 id="4-install-php-extension">4. Install PHP Extension</h2>
+<p>PHP extensions are dependencies that PHP has. There are many types of PHP dependencies, for database use usually php-pdo_sqlite and php-mysqli dependencies. These two dependencies will connect PHP to the MariaDB or MySQL database.</p>
+
+<p>Below is the command to install PHP extensions.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# pkg_add php-gd-8.3.21 php-zip-8.3.21 php-curl-8.3.21 php-bz2-8.3.21 php-intl-8.3.21 php-pdo_sqlite-8.3.21 php-mysqli-8.3.21 pecl83-imagick pecl83-redis
+</code></pre></div></div>
+<p>Even though you have installed the PHP extension, you cannot use it yet. In order for the extension to be directly connected to PHP, you must create a symlink file, as in the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ln -sf /etc/php-8.3.sample/* /etc/php-8.3/
+</code></pre></div></div>
+
+<h2 id="5-create-a-mariadb-database">5. Create a MariaDB Database</h2>
+<p>In order for PHP and Nginx to connect to Joomla, you must create a database. Otherwise, Joomla will not be able to connect to PHP and Nginx. The purpose of creating this database is none other than to store all the work activities that you do.</p>
+
+<p>In this article, we assume that you have <a href="https://unixwinbsd.site/en/openbsd/2025/02/11/tutorilas-mariadb-installation-configuration">installed MariaDB</a>. So, we will continue by creating a database and username to login to Joomla.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 11.4.5-MariaDB OpenBSD port: mariadb-server-11.4.5p0v1
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]&gt; CREATE DATABASE joomladb;
+Query OK, 1 row affected (0.195 sec)
+
+MariaDB [(none)]&gt; CREATE USER 'userjoomla'@'localhost' IDENTIFIED BY 'passwdusejoomla';
+Query OK, 0 rows affected (0.414 sec)
+
+MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON joomladb.* TO 'userjoomla'@'localhost';
+Query OK, 0 rows affected (0.252 sec)
+
+MariaDB [(none)]&gt; FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.002 sec)
+
+MariaDB [(none)]&gt;
+</code></pre></div></div>
+<p>In the command above you create a database:</p>
+<ul>
+  <li>Database name: joomladb</li>
+  <li>Username: userjoomla</li>
+  <li>Password: passwdusejoomla</li>
+  <li>Connection: 127.0.0.1 (localhost)</li>
+</ul>
+
+<h2 id="6-nginx-configuration">6. NGINX Configuration</h2>
+<p>This section is very important, because with the help of Nginx Joomla applications can be displayed in a web browser and can be published to the public. In this article we assume you have installed Nginx. So, we immediately configure Nginx.</p>
+
+<p>To make it easier for you to understand, below is an example of the <strong>/etc/nginx/nginx.conf</strong> file that we use.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user  www;
+worker_processes  1;
+
+error_log  logs/error.log;
+pid        logs/nginx.pid;
+worker_rlimit_nofile 1024;
+
+events {
+    worker_connections  800;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    index         index.html index.htm;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  logs/access.log  main;
+    keepalive_timeout  65;
+    server_tokens off;
+    
+#include /etc/nginx/vhosts.conf;
+include /etc/nginx/vhostsSSL.conf;
+}
+</code></pre></div></div>
+<p>After that we create the file <strong>“/etc/nginx/vhostsSSL.conf”</strong>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# touch /etc/nginx/vhostsSSL.conf
+</code></pre></div></div>
+<p>In the <strong>“/etc/nginx/vhostsSSL.conf”</strong> file, you type the script as in the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
+        listen       443 ssl;
+        server_name  unixwinbsd.site;
+        root         /var/www/joomla;
+	index index.php index.html index.htm default.html default.htm;
+
+        ssl_certificate      /etc/nginx/SSL/nginxssl.crt;
+        ssl_certificate_key  /etc/nginx/SSL/nginxssl.key;
+        ssl_session_timeout  5m;
+        ssl_session_cache    shared:SSL:1m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5:!RC4;
+        ssl_prefer_server_ciphers   on;
+
+gzip on;
+gzip_static on;
+gzip_http_version 1.1;
+gzip_comp_level 6;
+gzip_min_length 1100;
+gzip_buffers 4 8k;
+gzip_types text/plain application/xhtml+xml text/css application/xml application/xml+rss text/javascript application/javascript application/x-javascript
+gzip_proxied any;
+gzip_disable "MSIE [1-6]\.";
+
+location ~ \.php$ {
+            try_files $uri =404;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass   unix:run/php-fpm.sock;
+            fastcgi_index index.php;
+            fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi_params;
+	    root         /var/www/joomla;
+    }
+
+ # Support API
+    location /api/ {
+	try_files $uri $uri/ /api/index.php?$args;
+    }
+
+    # Support Clean (aka Search Engine Friendly) URLs
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+ # add global x-content-type-options header
+    add_header X-Content-Type-Options nosniff;
+
+    # deny running scripts inside writable directories
+    location ~* /(images|cache|media|logs|tmp)/.*\.(php|pl|py|jsp|asp|sh|cgi)$ {
+        return 403;
+        error_page 403 /403_error.html;
+    }
+
+ # caching of files 
+    location ~* \.(ico|pdf|flv)$ {
+        expires 1y;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|swf|xml|txt)$ {
+        expires 14d;
+    }
+
+    }
+</code></pre></div></div>
+
+<h2 id="7-install-joomla">7. Install Joomla</h2>
+<p>On OpenBSD, Joomla repository is not available, you have to download Joomla from Github or the official Joomla website. In this article, we will download Joomla from the Github repository. Pay attention to the command below, how to download Joomla from Github and directly extract it to the <strong>/var/www/joomla</strong> directory.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# mkdir -p /var/www/joomla
+ns3# cd /var/www/joomla
+ns3# curl -LO https://github.com/joomla/joomla-cms/releases/download/5.3.0/Joomla_5.3.0-Stable-Full_Package.tar.gz
+ns3# tar -xzvf Joomla_5.3.0-Stable-Full_Package.tar.gz
+</code></pre></div></div>
+<p>After that, you run the chown and chmod commands, as in the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# chown -R www:www /var/www/joomla
+ns3# chmod -R 775 /var/www/joomla
+</code></pre></div></div>
+
+<h3 id="71-editing-the-file-varwwwjoomlainstallationconfigurationphp-dist">7.1. Editing the File /var/www/joomla/installation/configuration.php-dist</h3>
+
+<p>The <strong>/var/www/joomla/installation/configuration.php-dist</strong> file contains the Joomla configuration script to connect to PHP and Nginx. In this file there are database settings. You fill in the name, user and password of the MariaDB database that you created above.</p>
+
+<p>Note the example of the <strong>/var/www/joomla/installation/configuration.php-dist</strong> file script, below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?php
+/**
+ * @package    Joomla.Installation
+ *
+ * @copyright  (C) 2005 Open Source Matters, Inc. &lt;https://www.joomla.org&gt;
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * -------------------------------------------------------------------------
+ * THIS SHOULD ONLY BE USED AS A LAST RESORT WHEN THE WEB INSTALLER FAILS
+ *
+ * If you are installing Joomla! manually ie not using the web browser installer
+ * then rename this file to configuration.php eg
+ *
+ * UNIX -&gt; mv configuration.php-dist configuration.php
+ * Windows -&gt; rename configuration.php-dist configuration.php
+ *
+ * Now edit this file and configure the parameters for your site and
+ * database.
+ *
+ * Finally move this file to the root folder of your Joomla installation eg
+ *
+ * UNIX -&gt; mv configuration.php ../
+ * Windows -&gt; copy configuration.php ../
+ *
+ */
+class JConfig
+{
+	/* Site Settings */
+	public $offline = false;
+	public $offline_message = 'This site is down for maintenance.&lt;br&gt; Please check back again soon.';
+	public $display_offline_message = 1;
+	public $offline_image = '';
+	public $sitename = 'unixwinbsd.site;';            // Name of Joomla site
+	public $editor = 'tinymce';
+	public $captcha = 0;
+	public $list_limit = 20;
+	public $access = 1;
+	public $frontediting = 1;
+
+	/* Database Settings */
+	public $dbtype = 'mysqli';               // Normally mysqli
+	public $host = '127.0.0.1';              // This is normally set to localhost
+	public $user = 'userjoomla';                       // Database username
+	public $password = 'passwdusejoomla';                   // Database password
+	public $db = 'joomladb';                         // Database name
+	public $dbprefix = 'jos_';               // Any random string ending with _
+	public $dbencryption = 0;
+	public $dbsslverifyservercert = false;
+	public $dbsslkey = '';
+	public $dbsslcert = '';
+	public $dbsslca = '';
+	public $dbsslcipher = '';
+
+	/* Server Settings */
+	public $secret = '';     // Use something very secure. For example on linux the following command `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-16} | head -n 1`
+	public $gzip = false;
+	public $error_reporting = 'default';
+	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&amp;lang={langcode}';
+	public $tmp_path = '/tmp';                // This path needs to be writable by Joomla!
+	public $log_path = '/administrator/logs'; // This path needs to be writable by Joomla!
+	public $live_site = '';                   // Optional, full URL to Joomla install eg https://www.example.com
+	public $force_ssl = 0;                    // Force areas of the site to be SSL ONLY.  0 = None, 1 = Administrator, 2 = Both Site and Administrator
+
+	/* Locale Settings */
+	public $offset = 'UTC';
+
+	/* Session settings */
+	public $lifetime = 15;                    // Session time
+	public $session_handler = 'database';
+	public $shared_session = false;
+	public $session_filesystem_path = '';
+	public $session_memcached_server_host = 'localhost';
+	public $session_memcached_server_port = 11211;
+	public $session_metadata = true;
+	public $session_redis_persist = 1;
+	public $session_redis_server_auth = '';
+	public $session_redis_server_db = 0;
+	public $session_redis_server_host = 'localhost';
+	public $session_redis_server_port = 6379;
+
+	/* Mail Settings */
+	public $mailonline  = true;
+	public $mailer      = 'mail';
+	public $mailfrom    = '';
+	public $fromname    = '';
+	public $massmailoff = false;
+	public $replyto     = '';
+	public $replytoname = '';
+	public $sendmail    = '/usr/sbin/sendmail';
+	public $smtpauth    = false;
+	public $smtpuser    = '';
+	public $smtppass    = '';
+	public $smtphost    = 'localhost';
+	public $smtpsecure  = 'none';
+	public $smtpport    = 25;
+
+	/* Cache Settings */
+	public $caching = 0;
+	public $cachetime = 15;
+	public $cache_handler = 'file';
+	public $cache_platformprefix = false;
+	public $memcached_persist = true;
+	public $memcached_compress = false;
+	public $memcached_server_host = 'localhost';
+	public $memcached_server_port = 11211;
+	public $redis_persist = true;
+	public $redis_server_host = 'localhost';
+	public $redis_server_port = 6379;
+	public $redis_server_auth = '';
+	public $redis_server_db = 0;
+
+	/* Log Settings */
+	public $log_categories = '';
+	public $log_category_mode = 0;
+	public $log_deprecated = 0;
+	public $log_everything = 0;
+	public $log_priorities = array('0' =&gt; 'all');
+
+	/* CORS Settings */
+	public $cors = false;
+	public $cors_allow_headers = 'Content-Type,X-Joomla-Token';
+	public $cors_allow_methods = '';
+	public $cors_allow_origin = '*';
+
+	/* Proxy Settings */
+	public $proxy_enable = false;
+	public $proxy_host = '';
+	public $proxy_port = '';
+	public $proxy_user = '';
+	public $proxy_pass = '';
+
+	/* Debug Settings */
+	public $debug = false;
+	public $debug_lang = false;
+	public $debug_lang_const = true;
+
+	/* Meta Settings */
+	public $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
+	public $MetaAuthor = true;
+	public $MetaVersion = false;
+	public $MetaRights = '';
+	public $robots = '';
+	public $sitename_pagetitles = 0;
+
+	/* SEO Settings */
+	public $sef = true;
+	public $sef_rewrite = false;
+	public $sef_suffix = false;
+	public $unicodeslugs = false;
+
+	/* Feed Settings */
+	public $feed_limit = 10;
+	public $feed_email = 'none';
+
+	/* Cookie Settings */
+	public $cookie_domain = '';
+	public $cookie_path = '';
+
+	/* Miscellaneous Settings */
+	public $asset_id = 1;
+	public $behind_loadbalancer = false;
+}
+</code></pre></div></div>
+<p>In the script above, the most important thing is the settings in the script, which you must adjust to the database you have created.</p>
+
+<ul>
+  <li>public $sitename = ‘unixwinbsd.site;’;</li>
+  <li>public $dbtype = ‘mysqli’;</li>
+  <li>public $host = ‘127.0.0.1’;</li>
+  <li>public $user = ‘userjoomla’;</li>
+  <li>public $password = ‘passwdusejoomla’;</li>
+  <li>public $db = ‘joomladb’;</li>
+</ul>
+
+<p>After you have successfully logged in and set up Joomla, the /var/www/joomla/installation/configuration.php-dist file will be automatically deleted by the system.</p>
+
+<h2 id="8-run-joomla">8. Run Joomla</h2>
+<p>After you have configured everything according to the instructions above, at the end of this article we will run Joomla. You can prove whether Joomla can be run on OpenbSD or there is a wrong configuration so that Joomla cannot be run.</p>
+
+<p>Before you run Joomla, reload all the applications that you have configured above, as in the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# rcctl restart mysqld
+ns3# rcctl restart php83_fpm
+ns3# rcctl restart nginx
+</code></pre></div></div>
+<p>After that you open Google Chrome, and type “https://192.168.5.3/index.php”. If the configuration above is not missed, on your monitor screen will display a menu for creating a user name and password, as shown in the following image.</p>
+
+<p><img src="https://media.licdn.com/dms/image/v2/D5612AQEwU1hxnuHADg/article-inline_image-shrink_1000_1488/B56Zb.8ENZHgAQ-/0/1748033881532?e=1753315200&amp;v=beta&amp;t=vvTfO2zg_pEgZvyRlfIWePx4AQKzn0NMkTSjiBYC3WI" alt="MEnu Login Joomla" /></p>
+
+<p><img src="https://media.licdn.com/dms/image/v2/D5612AQHeBI3t8CXy9Q/article-inline_image-shrink_1500_2232/B56Zb.8NZrHUAY-/0/1748033919486?e=1753315200&amp;v=beta&amp;t=mPlRZi4f1-OoPxgE01vC6lDtXL4k_X2jmmB7SIeALNo" alt="Database Configuration" /></p>
+
+<p>If it appears like the image above, it means that Joomla can run on OpenbSD. You only need to set the menu as needed. In this section the process is easier, because you are guided by the wizard menu, just follow each instruction given.</p>
+
+<p>What you need to pay attention to is when filling in the “Database Configuration” menu. In the hostname column, do not fill in localhost, type the localhost IP “127.0.0.1”. If you type localhost, the Joomla dashboard will not open.</p>
+
+<p>The image below is the main Joomla dashboard after you have successfully connected to Joomla.</p>
+
+<p><img src="https://media.licdn.com/dms/image/v2/D5612AQFJ-0f8qf8Ylw/article-inline_image-shrink_1500_2232/B56Zb.8R.QHcAU-/0/1748033938279?e=1753315200&amp;v=beta&amp;t=6CPh4pLfgAZtmVgLQDoWFYz5vHGl0-hU-DE3YATz8H0" alt="Dashboar Joomla" /></p>
+
+<p>Now, your OpenBSD server has Joomla installed, you can create various beautiful and interesting websites with Joomla. Not only that, Joomla has been equipped with SEO techniques, you can use it by setting it in the settings menu.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-17T18:01:23+03:00">2025-05-17</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://unixwinbsd.site/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://unixwinbsd.site/ru/freebsd/2025/05/14/github-ssh-connection-freebsd/" class="pagination--pager" title="Создание соединения с Github по SSH во FreeBSD
+">Previous</a><a href="https://unixwinbsd.site/en/freebsd/2025/05/18/learn-command-df-du-printf/" class="pagination--pager" title="Learn FreeBSD Commands df du and printf
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://unixwinbsd.site/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://unixwinbsd.site/assets/js/main.min.js"></script></body>
+</html>

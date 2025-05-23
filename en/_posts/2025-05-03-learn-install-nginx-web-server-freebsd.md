@@ -57,7 +57,9 @@ root@router2:~ # chmod -R 755 /usr/local/www/
 Add the following script to the /etc/rc.conf file:
 
 > nginx_enable="YES"
+
 > nginx_pid_prefix="/var/run"
+
 > nginx_reload_quiet="YES"
 
 

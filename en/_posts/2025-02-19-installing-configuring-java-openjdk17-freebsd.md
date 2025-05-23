@@ -1,4 +1,16 @@
-
+---
+title: Installing and Configuring Java openjdk17 in FreeBSD
+date: "2025-02-19 20:35:15 +0100"
+id: installing-configuring-java-openjdk17-freebsd
+lang: en
+layout: single
+author_profile: true
+categories:
+  - FreeBSD
+tags: "WebServer"
+excerpt: Java has become one of the prominent programming languages in software application development. To be able to write, compile, and run Java code, a runtime environment is needed to provide the necessary tools
+keywords: java, maven, openjdk, freebsd, install, implementing, jar, unix, apache
+---
 
 
 

@@ -61,6 +61,42 @@ In addition to having many advantages, Memcached also has many disadvantages. Th
 | Offers ease of use and flexibility for application development          | Lack of security mechanisms requires the use of additional firewalls  | 
 | A mature open source solution with open data storage          | The value key length is limited to 250 characters (1 MB)  | 
 
+## 3. Installation Process
+In this process there are many dependencies that you have to install, because Memcached is used with PHP with NGINX, PHP or others. So there will be many PHP dependencies that you have to install.
+### 3.1. Install PHP and PHP-FPM
+In the section we will not discuss, to do this process you can read the previous article that explains the installation process. We assume you have activated PHP and PHP-FPM.
+### 3.2. Install Memcached
+In this process we will use the ports system to install Memcached. On FreeBSD Memcached ports are located in the /usr/ports/databases/memcached directory. Run the command below to start the Memcached installation process.
+
+```
+root@ns4:~ # cd /usr/ports/databases/memcached
+root@ns4:/usr/ports/databases/memcached # make install clean
+```
+
+
+### 3.3. Enable Memcached to start automatically at boot.
+To enable memcached to start automatically at boot, you must type the script in the /etc/rc.conf file. In addition to typing it directly, there is another alternative by running the sysrc command. This command is a command line utility that manages system services on a FreeBSD server. With the sysrc command you can directly enable memcached.
+
+```
+root@ns4:~ # sysrc memcached_enable="YES"
+memcached_enable:  -> YES
+root@ns4:~ # sysrc memcached_flags="-l 192.168.5.71 -p 11211 -m 128 -c 1024"
+memcached_flags:  -> -l 192.168.5.71 -p 11211 -m 128 -c 1024
+```
+
+The above command is used to enable the memcached Server to Operation over TCP/IP Mode. If you want to enable memcached to # Memcached Server. UNIX socket mode, use the below command.
+
+```
+root@ns4:~ # sysrc memcached_enable="YES"
+memcached_enable:  -> YES
+root@ns4:~ # sysrc memcached_flags="-s /var/run/memcached/memcached.sock -a 700"
+memcached_flags:  -> -s /var/run/memcached/memcached.sock -a 700
+```
+
+You can choose from the two methods above. In this article, we will activate memcached to TCP/IP mode, with IP 192.168.5.71 as the IP address of the FreeBSD server being used.
+
+Below is a table of basic memcached startup parameters that you can use as a reference to activate memcached.
+
 
 
 

@@ -42,6 +42,29 @@ The main purpose of Memcached is to optimize application performance by reducing
 
 Some of the advantages and benefits of Memcached can be seen in the following table.
 
+| Method       | Explanation          | Benefit        | 
+| ----------- | -----------   | ----------- |
+| Caching          | Temporary storage for frequently accessed data  | Reduce the load on the database and speed up response times   |
+| Database Optimization          | Query and schema optimization.      | Faster query execution, lower resource consumption          |
+| Load balancer          | Distribution of traffic between multiple servers.     | Maintains performance even in heavy traffic situations          |
+| Data partitioning          | Splitting a large database into smaller parts  | Faster query processing, better scalability          |
+
+
+
+
+
+| Nomor       | Nama          | 
+| ----------- | -----------   | 
+| 01          | Udin          | 
+| 02          | Aminudin      | 
+| 03          | Salahudin     | 
+| 04          | Udin sedunia  | 
+
+
+
+
+
+
 
 
 

@@ -63,10 +63,7 @@ Add the following script to the /etc/rc.conf file:
 
 The function of this script is so that Nginx can be loaded when our server computer is turned off or rebooted.
 
-
-
-edit file rc.conf
-
+![edit file rc.conf](https://gitea.com/iwanse1212/Nginx-Web-Server-On-FreeBSD-Port-80-443/raw/branch/main/edit%20file%20rc.conf.jpg)
 
 After that restart Nginx.
 

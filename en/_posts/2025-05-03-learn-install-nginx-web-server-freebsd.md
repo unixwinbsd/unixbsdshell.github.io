@@ -1,4 +1,16 @@
-
+---
+title: Learn How to Install NGINX Web Server on FreeBSD
+date: "2025-05-03 19:05:35 +0100"
+id: learn-install-nginx-web-server-freebsd
+lang: en
+layout: single
+author_profile: true
+categories:
+  - FreeBSD
+tags: "WebServer"
+excerpt: Nginx (pronounced "engine-x") is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility
+keywords: nginx, mod_jk, modul, java, apache, server, install, freebsd, learn, web, http, https
+---
 
 
 

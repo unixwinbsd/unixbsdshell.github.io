@@ -1,6 +1,6 @@
 ---
 title: Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB
-date: "2025-05-17 16:01:23 +0100"
+date: "2025-05-17 18:01:23 +0100"
 id: install-joomla-openbsd-nginx-php-fpm-mariadb
 lang: en
 layout: single

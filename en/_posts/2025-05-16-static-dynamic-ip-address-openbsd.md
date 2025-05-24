@@ -29,10 +29,6 @@ Both static and dynamic IPs are the same in their use, namely to connect a compu
 
 When the internet was first created, its architects did not anticipate the need for an unlimited number of IP addresses. As a result, there were not enough IP numbers for everyone, at least until the advent of IPv6. To solve this problem, many ISPs limit the number of static IP addresses they allocate and conserve the remaining number of IP addresses by assigning temporary IP addresses to Dynamic Host Configuration Protocol (DHCP) computers that request from the IP address pool. These temporary IP addresses are dynamic IP addresses.
 
-
-
-
-
 Computers requesting DHCP receive a dynamic IP address, which is similar to a temporary telephone number. For the duration of that internet session or for a specific period of time. Once the user disconnects from the internet, their dynamic IP address goes back into the IP address pool so it can be assigned to another user. Even if the user reconnects immediately, it is unlikely that they will be assigned the same IP address from the pool.
 
 ### b.1. Static IP Address
@@ -87,13 +83,13 @@ To check the active hostname and interface, use the following command.
 ns5# ls -l /etc/hostname.*
 -rw-r-----  1 root  wheel  14 Jan 25 18:38 /etc/hostname.rl0
 ```
-From the command above, only the rl0 interface is active. After we know the active interface, change the script from the "/etc/hostname.rl0" file to get a dynamic IP with the script below. (use the text editor "nano").
+From the command above, only the rl0 interface is active. After we know the active interface, change the script from the **"/etc/hostname.rl0"** file to get a dynamic IP with the script below. (use the text editor "nano").
 
 ```
 ns5# nano /etc/hostname.rl0
 inet autoconf
 ```
-The second file you need to change is "/etc/myname". Open the file and type in your server hostname and domain name, as shown in the example below.
+The second file you need to change is **"/etc/myname"**. Open the file and type in your server hostname and domain name, as shown in the example below.
 
 ```
 ns5# nano /etc/myname
@@ -114,10 +110,11 @@ Now your OpenBSD server has used dynamic IP obtained from your home internet net
 
 ## D. How to Configure Static IP in OpenBSD
 Once you understand how to configure dynamic IP, we continue by configuring static IP in OpenBSD. The method is almost the same, but there is an additional file that you must configure along with the name of the file that you must configure.
-/etc/hostname.namainterface
-/etc/myname
-/etc/mygate
-There is an additional file /etc/mygate, this file contains a gateway script that connects the OpenBSD server to the router's internet network (Indihome or others).
+- /etc/hostname.namainterface
+- /etc/myname
+- /etc/mygate
+
+There is an additional file **/etc/mygate**, this file contains a gateway script that connects the OpenBSD server to the router's internet network (Indihome or others).
 
 Configure /etc/hostname.interfacename
 As you know, the name of your OpenBSD server interface is "rl0". Now we change the script file /etc/hostname.rl0, as in the example below.
@@ -145,7 +142,7 @@ ns5# nano /etc/mygate
 ```
 IP 192.168.5.1 is the gateway IP, which is the IP address of your internet network router. This IP address does not have to be the same, each router is different, depending on the settings. In the example of this article, our router uses the gateway IP 192.168.5.1. So you have to adjust it to your router gateway.
 
-As usual, to make the discussion more complete, you have to set the domain name and IP of the OpenBSD server in the /etc/hosts file. Pay attention to the example.
+As usual, to make the discussion more complete, you have to set the domain name and IP of the OpenBSD server in the **/etc/hosts** file. Pay attention to the example.
 
 ```
 ns5# nano /etc/hosts
@@ -153,6 +150,7 @@ ns5# nano /etc/hosts
 ::1		localhost
 192.168.5.3     ns5.kursor.my.id ns5
 ```
+
 The next step is to configure the /etc/resolv.conf file.
 
 ```

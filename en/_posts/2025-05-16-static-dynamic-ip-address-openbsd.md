@@ -95,7 +95,7 @@ The second file you need to change is **"/etc/myname"**. Open the file and type 
 ns5# nano /etc/myname
 ns5.kursor.my.id
 ```
-To make it more complete, because we will set a dynamic IP, we must also set the "/etc/resolv.conf" file and in that file you type the script below.
+To make it more complete, because we will set a dynamic IP, we must also set the **"/etc/resolv.conf"** file and in that file you type the script below.
 
 ```
 ns5# nano /etc/resolv.conf
@@ -117,13 +117,13 @@ Once you understand how to configure dynamic IP, we continue by configuring stat
 There is an additional file **/etc/mygate**, this file contains a gateway script that connects the OpenBSD server to the router's internet network (Indihome or others).
 
 Configure /etc/hostname.interfacename
-As you know, the name of your OpenBSD server interface is "rl0". Now we change the script file /etc/hostname.rl0, as in the example below.
+As you know, the name of your OpenBSD server interface is "rl0". Now we change the script file **/etc/hostname.rl0**, as in the example below.
 
 ```
 ns5# nano /etc/hostname.rl0
 inet 192.168.5.3 0xffffff00
 ```
-Proceed by editing the /etc/myname file.
+Proceed by editing the **/etc/myname** file.
 
 ```
 ns5# nano /etc/myname
@@ -151,7 +151,7 @@ ns5# nano /etc/hosts
 192.168.5.3     ns5.kursor.my.id ns5
 ```
 
-The next step is to configure the /etc/resolv.conf file.
+The next step is to configure the **/etc/resolv.conf** file.
 
 ```
 ns5# nano /etc/resolv.conf

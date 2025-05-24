@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/openbsd/2025/05/16/static-dynamic-ip-address-openbsd/"/>
+
+  <meta charset="utf-8">
+  
+  <title>Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public  UnixBSDShell</title>
+  <meta property="og:locale" content="en">
+  <meta property="og:site_name" content="UnixBSDShell">
+  <meta property="og:title" content="Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public"><link rel="canonical" href="https://unixwinbsd.site/en/openbsd/2025/05/16/static-dynamic-ip-address-openbsd/">
+  <meta property="og:url" content="https://unixwinbsd.site/en/openbsd/2025/05/16/static-dynamic-ip-address-openbsd/"><meta property="og:description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs."><meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public">
+  <meta name="twitter:description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/en/openbsd/2025/05/16/static-dynamic-ip-address-openbsd/"><meta name="twitter:card" content="summary"><meta property="og:type" content="article">
+  <meta property="article:published_time" content="2025-05-16T09:45:13+03:00"><script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://unixwinbsd.site",
+      "sameAs" : null
+    }
+  </script><meta name="google-site-verification" content="googledc9be5e5382da4fd" /><meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C"><meta name="yandex-verification" content="69d778baa1dbd371">
+  <link href="feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShellFeed" />
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+  <!-- For all browsers -->
+  <link rel="stylesheet" href="https://unixwinbsd.site/assets/css/main.css" />
+  <meta http-equiv="cleartype" content="on" />    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="apple-mobile-web-app-title" content="JHW Blog" />
+    <meta name="application-name" content="JHW Blog" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="fediverse:creator" content="@jwildeboer@social.wildeboer.net" /><!-- <script type='text/javascript' src='//timdinosaur.com/5a/a1/16/5aa1163b15793d4f19e80dbdf2135e99.js'></script>   -->
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95812963, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true,
+        ecommerce:"dataLayer"
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+    <!-- opendesktop   -->
+<meta name="ocs-site-verification" content="9d36c511817c5af4dffe6ea912f1754c" />
+    <!-- ads VPN   -->
+    <meta name="7searchppc" content="e64296c6f0d644c855fb348705f78eb0"/>
+  <meta http-equiv="Content-Language" content="en">
+<meta name="verified-code" content="7e9546f3-7a9d-4d82-b8b4-d8e51e2c6c17">
+  <link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en/openbsd/2025/05/16/static-dynamic-ip-address-openbsd/" />
+  
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.site/en" />
+<link rel="alternate" hreflang="ru" href="https://unixwinbsd.site/ru" />
+<link rel="alternate" hreflang="de" href="https://unixwinbsd.site/de" />
+
+  </head>
+  <body class="layout--single">  <!--[if lt IE 9]>
+  <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+  <![endif]--><div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <ul class="visible-links">
+            <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://unixwinbsd.site/">UnixBSDShell</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/about/">Me</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/year-archive/">By Year</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/categories/">Categories</a></li><li class="masthead__menu-item"><a href="https://unixwinbsd.site/tags/">Tags</a></li></ul>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#en" itemprop="item"><span itemprop="name">En</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#05" itemprop="item"><span itemprop="name">05</span></a>
+          <meta itemprop="position" content="5" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#16" itemprop="item"><span itemprop="name">16</span></a>
+          <meta itemprop="position" content="6" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public</li>
+      
+    
+  </ol>
+</nav>
+<script type="application/ld+json">
+
+{"@context":"https://schema.org",
+
+"@graph":[
+
+{"@type":"ProfilePage",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+"dateCreated": "2025-05-16 09:45:13 +0300",
+"datePublished": "2025-05-16 09:45:13 +0300",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+
+"mainEntity":[
+{"@type":"Person",
+"@id": "https://penaadventure.com/#person",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+"gender": "male",
+"description": "Lahir di Bekasi - Jawa Barat, seorang anak laki-laki yang mendedikasikan dirinya untuk menulis berbagai artikel tentang IT.",
+"alternateName": "Iwan Sting",
+"additionalName": "setiawan",
+"givenName": "Bata",
+"familyName": "Om Iwan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+
+"homeLocation": 
+{ "@type": "Place",
+"image": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"url": "https://lh3.googleusercontent.com/vLqLiGPo6QmAaoml2wwECAjBD_ZMivRMpakTpgCkGf-foAn3SjzMtxi-9CYKJf8aM1Zgxm8-fgpA8ar4=s265-w265-h265",
+"hasMap": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+"photo": "https://maps.app.goo.gl/5e3jR7dbtUypBe2Q8",
+"name": "MyHome",
+"description": "Dari tugu Warung Bongkok sebelum Pom Bensin/10 mtr arah timur dari tugu bambu runcing/Belakang RM. Padang Selera Bunda",
+"identifier": "Tugu Bambu Runcing Warung bongkok"},
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+
+"image": {"@type": "ImageObject",
+"width": "32",
+"height": "32",
+"url": "https://lh3.googleusercontent.com/a/ACg8ocINT1yW-xPXQuI4Qku0LW5-QNI-26KpzLWO9_DrPDQWSVJ8gQtu=s288-c-no"}
+
+},
+
+{"@context": "http://schema.org",
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization",
+"url": "https://www.inchimediatama.org/p/organization.html",
+"identifier": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1139626,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu/#2425380976366117670",
+"name": "Inchimediatama Nusantara",
+"foundingDate": "2009",
+"slogan": "FreeBSD The Power To Serve",
+"knowsAbout": "Tutorials UNIX BSD Linux Windows Opensource",
+"knowsLanguage": ["id","en"],
+"legalName" : "Inchimediatama Nusantara",
+"image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgz6JYLaq1_DkQMs0yJBpGZZve00P5m-7HPxrRIYhDdVng6kHfmZc4x9EW_vI0DyspmFsWtcMenBJzfaummNCefFmTdZr5c8M1IL9l2sufVKbaSVEQs-0feAUpmCkDu4Eo-1rCR60XZ66Ym5BFLYe2dnPHWRHqRp4-OpmJE56J9Z-zhvg/s1600/logo%20unixwinbsd.png",      
+"logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRDo6ylljwvU7hLVWRd9cIciBEO4sknBzOHQGECuvW5x8ZK6LuFj890M6HCZZM9j61NaqQU3DA1_SJZELqdtiIEdUejC9zkIf_lLDFFgR3dXAQ2l2lqadxk0waF_lYet5olTZX19oEbYHYJSMaBScwIACW1pGs3TtnR7ZCu7P_FqmzX61yUasXjXmPdC6l/s320/Logo%20Inchi%20copy.png",
+"address": {"@type": "PostalAddress",
+"addressLocality": "Jawa Barat, Indonesia",
+"addressRegion": "Jawa Barat",
+"addressCountry": "ID",
+"postalCode": "17841",
+"telephone": "+62 812 8906 5249",
+"email": "datainchi@gmail.com",
+"streetAddress": "Jl. Raya Imam Bonjol No.86, Telagamurni, Kec. Cikarang Bar., Kabupaten Bekasi, Jawa Barat 17841"},
+"location": 
+{"@type": "Place",
+"geo": {"@type": "GeoCoordinates",
+"latitude": "-6.2697727", "longitude": "107.1165375"}
+}
+}
+],
+
+"image":{"@type":"ImageObject",
+"@id":"https://penaadventure.com/#logo",
+"url": "https://unixwinbsd.site/img/logo.png",
+"caption":"Inchimediatama Nusantara"}
+
+
+},
+
+{
+
+"@type":"WebSite",
+"@id":"https://penaadventure.com/#website",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "UnixBSDShell",
+"publisher":{"@id": "https://penaadventure.com/#organization"},
+"potentialAction":{"@type":"SearchAction",
+"target":"https://penaadventure.com/?s={search_term_string}",
+"query-input":"required name=search_term_string"}
+},
+
+
+
+{"@type":"WebPage",
+"@id":"https://penaadventure.com/#webpage",
+"url": "https://unixwinbsd.site",
+"inLanguage":"ru",
+"name": "Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public",
+"isPartOf":
+{"@id":"https://penaadventure.com/#website"},
+
+"image": {
+"@type": "ImageObject",
+"@id":"https://penaadventure.com/#image",
+"width": "1200",
+"height": "630",
+"url": "https://unixwinbsd.site",
+"caption": "Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs."
+},
+
+"datePublished": "2025-05-16 09:45:13 +0300",
+"dateModified": "2025-05-16 09:45:13 +0300",
+"description": "UnixBSDShell",
+
+"breadcrumb":
+{"@id":"https://penaadventure.com/#breadcrumb"}
+},
+
+{
+"@type":"BreadcrumbList",
+"@id":"https://penaadventure.com/#breadcrumb",
+"itemListElement":[
+{"@type":"ListItem",
+"position":1,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site",
+"name": "UnixBSDShell"
+}},
+
+{
+"@type":"ListItem",
+"position":2,
+"item":{"@type":"WebPage",
+"@id":"https://penaadventure.com/",
+"url": "https://unixwinbsd.site/en/openbsd/2025/05/16/static-dynamic-ip-address-openbsd/",
+"name": "Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public"
+}},
+
+{
+
+"@type":"ListItem",
+"position":3,
+"item":{"@type":"WebPage",
+"url": "https://unixwinbsd.site/en/openbsd/2025/05/16/static-dynamic-ip-address-openbsd/",
+"name": "SysAdmin"
+}}
+
+]},
+
+
+
+{  "@type": "BlogPosting",
+  "url": "https://unixwinbsd.site/en/openbsd/2025/05/16/static-dynamic-ip-address-openbsd/",
+  "name": "Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public",
+  "headline": "Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public",
+  "keywords": "SysAdmin",
+  "description": "Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs.",
+  "articleBody": "Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs. Understanding these two IPs is very important, because you will definitely be faced with problems with these two IPs. In every server operation, both Linux and BSD, setting static and dynamic IPs is basic and the first thing you do when you want to install a server.\n\nAs we know, in a router network there are two IP addresses that are distributed to client computers, namely static and dynamic IPs. These two IPs will be received by the client computer as static or dynamic IPs, depending on the settings made by the admin. You can set static or dynamic IPs on your computer or server, depending on the needs of using the computer/server at that time.\n\nA. System Specifications\n\n  OS OpenBSD: 7.6\n  Hostname: ns5\n  Domain: kursor.my.id\n  IP Address: 192.168.5.3\n\n\nB. About Static and Dynamic IP\nBoth static and dynamic IPs are the same in their use, namely to connect a computer/server to a router network or the internet. However, both have slight differences in use, especially if you are running a server that is used to serve many client computers.\n\nWhen the internet was first created, its architects did not anticipate the need for an unlimited number of IP addresses. As a result, there were not enough IP numbers for everyone, at least until the advent of IPv6. To solve this problem, many ISPs limit the number of static IP addresses they allocate and conserve the remaining number of IP addresses by assigning temporary IP addresses to Dynamic Host Configuration Protocol (DHCP) computers that request from the IP address pool. These temporary IP addresses are dynamic IP addresses.\n\nComputers requesting DHCP receive a dynamic IP address, which is similar to a temporary telephone number. For the duration of that internet session or for a specific period of time. Once the user disconnects from the internet, their dynamic IP address goes back into the IP address pool so it can be assigned to another user. Even if the user reconnects immediately, it is unlikely that they will be assigned the same IP address from the pool.\n\nb.1. Static IP Address\nA static IP address is an IP address that is always the same (does not change). If you have a web server, FTP server, or other Internet resource that must have an address that cannot be changed, you can get a static IP address from your ISP. Static IP addresses are usually more expensive than dynamic IP addresses, and some ISPs do not provide static IP addresses. You must configure a static IP address manually.\n\nb.2. Dynamic IP Address\nThe public IP address assigned to most home and business users’ routers by their ISP is a dynamic IP address. On a local network like your home or business, where you use a private IP address, most devices are probably configured for DHCP, meaning they use dynamic IP addresses. If DHCP is not enabled, each device on your home network will need to manually set up its network information.\n\nDynamic IP address is an IP address that can be used temporarily by the ISP. If the dynamic address is not used, it can be automatically assigned to another device. Dynamic IP addresses are assigned using DHCP or PPPoE. So the nature of Dynamic IP is always changing its IP address.\n\nC. How to Configure Dynamic IP on OpenBSD\nBefore you configure the IP on the OpenBSD server, we recommend that you first check the current IP address. To check the IP address of your OpenBSD server, run the following command.\n\nns5# ifconfig\nlo0: flags=2008049&lt;UP,LOOPBACK,RUNNING,MULTICAST,LRO&gt; mtu 32768\n        index 4 priority 0 llprio 3\n        groups: lo\n        inet6 ::1 prefixlen 128\n        inet6 fe80::1%lo0 prefixlen 64 scopeid 0x4\n        inet 127.0.0.1 netmask 0xff000000\nrl0: flags=808843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST,AUTOCONF4&gt; mtu 1500\n        lladdr 00:e0:4c:fb:b2:e8\n        index 1 priority 0 llprio 3\n        groups: egress\n        media: Ethernet autoselect (100baseTX full-duplex)\n        status: active\n        inet 192.168.5.101 netmask 0xffffff00 broadcast 192.168.5.255\nnfe0: flags=8802&lt;BROADCAST,SIMPLEX,MULTICAST&gt; mtu 1500\n        lladdr 00:24:21:88:69:24\n        index 2 priority 0 llprio 3\n        media: Ethernet autoselect (10baseT half-duplex)\n        status: no carrier\nenc0: flags=0&lt;&gt;\n        index 3 priority 0 llprio 3\n        groups: enc\n        status: active\npflog0: flags=141&lt;UP,RUNNING,PROMISC&gt; mtu 33136\n        index 5 priority 0 llprio 3\n        groups: pflog\n\nFrom the ifconfig command above, you can read that the OpenBSD server uses 2 ethernet cards, namely rl0 and nfe0. However, of the two interfaces, only the rl0 interface is active with IP = 192.168.5.101.\n\nAfter you know the IP address of your OpenBSD server, now we continue by setting a dynamic IP for the OpenBSD server. The method is very easy, you only need to set a few files, including:\n\n  /etc/hostname.namainterface\n  /etc/myname\n\n\nTo check the active hostname and interface, use the following command.\n\nns5# ls -l /etc/hostname.*\n-rw-r-----  1 root  wheel  14 Jan 25 18:38 /etc/hostname.rl0\n\nFrom the command above, only the rl0 interface is active. After we know the active interface, change the script from the “/etc/hostname.rl0” file to get a dynamic IP with the script below. (use the text editor “nano”).\n\nns5# nano /etc/hostname.rl0\ninet autoconf\n\nThe second file you need to change is “/etc/myname”. Open the file and type in your server hostname and domain name, as shown in the example below.\n\nns5# nano /etc/myname\nns5.kursor.my.id\n\nTo make it more complete, because we will set a dynamic IP, we must also set the “/etc/resolv.conf” file and in that file you type the script below.\n\nns5# nano /etc/resolv.conf\nnameserver 1.1.1.1 # resolvd: rl0\nnameserver 8.8.8.8 # resolvd: rl0\nnameserver 9.9.9.9 # resolvd: rl0\nnameserver 8.8.4.4 # resolvd: rl0\nlookup file bind\n\nNow your OpenBSD server has used dynamic IP obtained from your home internet network router or provider. You can also change the nameserver name as needed.\n\nD. How to Configure Static IP in OpenBSD\nOnce you understand how to configure dynamic IP, we continue by configuring static IP in OpenBSD. The method is almost the same, but there is an additional file that you must configure along with the name of the file that you must configure.\n\n  /etc/hostname.namainterface\n  /etc/myname\n  /etc/mygate\n\n\nThere is an additional file /etc/mygate, this file contains a gateway script that connects the OpenBSD server to the router’s internet network (Indihome or others).\n\nConfigure /etc/hostname.interfacename\nAs you know, the name of your OpenBSD server interface is “rl0”. Now we change the script file /etc/hostname.rl0, as in the example below.\n\nns5# nano /etc/hostname.rl0\ninet 192.168.5.3 0xffffff00\n\nProceed by editing the /etc/myname file.\n\nns5# nano /etc/myname\nns5.kursor.my.id\n\nAfter that we continue by changing the script from the /etc/mygate file. If the file does not exist you must create the file first.\n\nns5# touch /etc/mygate\n\nIn the /etc/mygate file, type the script below.\n\nns5# nano /etc/mygate\n192.168.5.1\n\nIP 192.168.5.1 is the gateway IP, which is the IP address of your internet network router. This IP address does not have to be the same, each router is different, depending on the settings. In the example of this article, our router uses the gateway IP 192.168.5.1. So you have to adjust it to your router gateway.\n\nAs usual, to make the discussion more complete, you have to set the domain name and IP of the OpenBSD server in the /etc/hosts file. Pay attention to the example.\n\nns5# nano /etc/hosts\n127.0.0.1\tlocalhost\n::1\t\tlocalhost\n192.168.5.3     ns5.kursor.my.id ns5\n\n\nThe next step is to configure the /etc/resolv.conf file.\n\nns5# nano /etc/resolv.conf\nnameserver 1.1.1.1 # resolvd: rl0\nnameserver 8.8.8.8 # resolvd: rl0\nnameserver 9.9.9.9 # resolvd: rl0\nnameserver 8.8.4.4 # resolvd: rl0\nlookup file bind\n\nThe last step is to activate all the configurations above, meaning that your OpenBSD server will immediately get the static IP address that you just configured. Run the command below to activate the static IP.\n\nns5# sh /etc/netstart\n\nBut to make everything run normally, we recommend that you restart the OpenBSD server with the following command.\n\nns5# reboot\n\nDiscussion about dynamic and static IP, we think it is clear enough. Now you can directly try and apply it on your OpenBSD server. If successful, do not forget all the steps above, because this lesson is very important for an OpenBSD administrator.\n",
+  "datePublished": "2025-05-16 09:45:13 +0300",
+  "dateModified": "2025-05-16 09:45:13 +0300",
+  "author": {
+    "@type": "Person",
+"@id": "https://penaadventure.com/#profilepage",
+"name": {"name":"UnixBSDShell's Blog","avatar":"auth/JHW500.jpg","avataralt":"Thank you for visiting our site. Have a nice day!.","bio":"penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.","location":"Moscow, Russia"},
+"url": "https://penaadventure.com/about-us",
+    "email": {"uri":null,"bitbucket":null,"codeberg":null,"codepen":null,"dribbble":null,"flickr":null,"facebook":null,"foursquare":null,"github":"datainchi@gmail.com","google_plus":null,"instagram":null,"keybase":null,"lastfm":null,"linkedin":"datainchi@gmail.com","mastodon":null,"pinterest":null,"soundcloud":null,"stackoverflow":null,"steemit":null,"steam":null,"tumblr":"datainchi@gmail.com","twitter":null,"vine":null,"weibo":null,"xing":null,"youtube":"datainchi@gmail.com"}
+  },
+"publisher": {
+"@type": "EducationalOrganization",
+"@id": "https://penaadventure.com/#organization"  },
+
+
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+"@id":"https://penaadventure.com/#webpage"
+  },
+  "image": {
+    "@type": "ImageObject",
+"@id":"https://penaadventure.com/#image"
+  }
+}
+
+]}</script<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKDSF4Y03H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKDSF4Y03H');
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(95806836, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95806836" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+    <!-- Clarity tracking code for https://penaadventure.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qrb63393nv");
+</script>
+
+
+<!-- CoinAd - Ad Display Code -->
+
+
+<div id="main" role="main"><div class="sidebar sticky"><div itemscope itemtype="http://schema.org/Person">
+  <div class="author__avatar"><img src="https://unixwinbsd.site/images/auth/JHW500.jpg" class="author__avatar" alt="Thank you for visiting our site. Have a nice day!."></div>
+  <div class="author__content">
+    <h3 class="author__name">UnixBSDShell's Blog</h3><p class="author__bio">penaadventure.com is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, penaadventure.com also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&A forum for users to ask questions and get help from other members.</p></div>
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons"><li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Moscow, Russia</li></ul>
+  </div>
+</div></div><article class="page" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="headline" content="Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public"><meta itemprop="description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs."><meta itemprop="datePublished" content="2025-05-16"><div class="page__inner-wrap"><header><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-16T09:45:13+03:00">2025-05-16</time> </p><h1 class="page__title" itemprop="headline">Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public
+</h1></header><section class="page__content" itemprop="text">
+        <p>Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs. Understanding these two IPs is very important, because you will definitely be faced with problems with these two IPs. In every server operation, both Linux and BSD, setting static and dynamic IPs is basic and the first thing you do when you want to install a server.</p>
+
+<p>As we know, in a router network there are two IP addresses that are distributed to client computers, namely static and dynamic IPs. These two IPs will be received by the client computer as static or dynamic IPs, depending on the settings made by the admin. You can set static or dynamic IPs on your computer or server, depending on the needs of using the computer/server at that time.</p>
+
+<h2 id="a-system-specifications">A. System Specifications</h2>
+<ul>
+  <li>OS OpenBSD: 7.6</li>
+  <li>Hostname: ns5</li>
+  <li>Domain: kursor.my.id</li>
+  <li>IP Address: 192.168.5.3</li>
+</ul>
+
+<h2 id="b-about-static-and-dynamic-ip">B. About Static and Dynamic IP</h2>
+<p>Both static and dynamic IPs are the same in their use, namely to connect a computer/server to a router network or the internet. However, both have slight differences in use, especially if you are running a server that is used to serve many client computers.</p>
+
+<p>When the internet was first created, its architects did not anticipate the need for an unlimited number of IP addresses. As a result, there were not enough IP numbers for everyone, at least until the advent of IPv6. To solve this problem, many ISPs limit the number of static IP addresses they allocate and conserve the remaining number of IP addresses by assigning temporary IP addresses to Dynamic Host Configuration Protocol (DHCP) computers that request from the IP address pool. These temporary IP addresses are dynamic IP addresses.</p>
+
+<p>Computers requesting DHCP receive a dynamic IP address, which is similar to a temporary telephone number. For the duration of that internet session or for a specific period of time. Once the user disconnects from the internet, their dynamic IP address goes back into the IP address pool so it can be assigned to another user. Even if the user reconnects immediately, it is unlikely that they will be assigned the same IP address from the pool.</p>
+
+<h3 id="b1-static-ip-address">b.1. Static IP Address</h3>
+<p>A static IP address is an IP address that is always the same (does not change). If you have a web server, FTP server, or other Internet resource that must have an address that cannot be changed, you can get a static IP address from your ISP. Static IP addresses are usually more expensive than dynamic IP addresses, and some ISPs do not provide static IP addresses. You must configure a static IP address manually.</p>
+
+<h3 id="b2-dynamic-ip-address">b.2. Dynamic IP Address</h3>
+<p>The public IP address assigned to most home and business users’ routers by their ISP is a dynamic IP address. On a local network like your home or business, where you use a private IP address, most devices are probably configured for DHCP, meaning they use dynamic IP addresses. If DHCP is not enabled, each device on your home network will need to manually set up its network information.</p>
+
+<p>Dynamic IP address is an IP address that can be used temporarily by the ISP. If the dynamic address is not used, it can be automatically assigned to another device. Dynamic IP addresses are assigned using DHCP or PPPoE. So the nature of Dynamic IP is always changing its IP address.</p>
+
+<h2 id="c-how-to-configure-dynamic-ip-on-openbsd">C. How to Configure Dynamic IP on OpenBSD</h2>
+<p>Before you configure the IP on the OpenBSD server, we recommend that you first check the current IP address. To check the IP address of your OpenBSD server, run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# ifconfig
+lo0: flags=2008049&lt;UP,LOOPBACK,RUNNING,MULTICAST,LRO&gt; mtu 32768
+        index 4 priority 0 llprio 3
+        groups: lo
+        inet6 ::1 prefixlen 128
+        inet6 fe80::1%lo0 prefixlen 64 scopeid 0x4
+        inet 127.0.0.1 netmask 0xff000000
+rl0: flags=808843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST,AUTOCONF4&gt; mtu 1500
+        lladdr 00:e0:4c:fb:b2:e8
+        index 1 priority 0 llprio 3
+        groups: egress
+        media: Ethernet autoselect (100baseTX full-duplex)
+        status: active
+        inet 192.168.5.101 netmask 0xffffff00 broadcast 192.168.5.255
+nfe0: flags=8802&lt;BROADCAST,SIMPLEX,MULTICAST&gt; mtu 1500
+        lladdr 00:24:21:88:69:24
+        index 2 priority 0 llprio 3
+        media: Ethernet autoselect (10baseT half-duplex)
+        status: no carrier
+enc0: flags=0&lt;&gt;
+        index 3 priority 0 llprio 3
+        groups: enc
+        status: active
+pflog0: flags=141&lt;UP,RUNNING,PROMISC&gt; mtu 33136
+        index 5 priority 0 llprio 3
+        groups: pflog
+</code></pre></div></div>
+<p>From the ifconfig command above, you can read that the OpenBSD server uses 2 ethernet cards, namely rl0 and nfe0. However, of the two interfaces, only the rl0 interface is active with IP = 192.168.5.101.</p>
+
+<p>After you know the IP address of your OpenBSD server, now we continue by setting a dynamic IP for the OpenBSD server. The method is very easy, you only need to set a few files, including:</p>
+<ul>
+  <li>/etc/hostname.namainterface</li>
+  <li>/etc/myname</li>
+</ul>
+
+<p>To check the active hostname and interface, use the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# ls -l /etc/hostname.*
+-rw-r-----  1 root  wheel  14 Jan 25 18:38 /etc/hostname.rl0
+</code></pre></div></div>
+<p>From the command above, only the rl0 interface is active. After we know the active interface, change the script from the <strong>“/etc/hostname.rl0”</strong> file to get a dynamic IP with the script below. (use the text editor “nano”).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/hostname.rl0
+inet autoconf
+</code></pre></div></div>
+<p>The second file you need to change is <strong>“/etc/myname”</strong>. Open the file and type in your server hostname and domain name, as shown in the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/myname
+ns5.kursor.my.id
+</code></pre></div></div>
+<p>To make it more complete, because we will set a dynamic IP, we must also set the “/etc/resolv.conf” file and in that file you type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/resolv.conf
+nameserver 1.1.1.1 # resolvd: rl0
+nameserver 8.8.8.8 # resolvd: rl0
+nameserver 9.9.9.9 # resolvd: rl0
+nameserver 8.8.4.4 # resolvd: rl0
+lookup file bind
+</code></pre></div></div>
+<p>Now your OpenBSD server has used dynamic IP obtained from your home internet network router or provider. You can also change the nameserver name as needed.</p>
+
+<h2 id="d-how-to-configure-static-ip-in-openbsd">D. How to Configure Static IP in OpenBSD</h2>
+<p>Once you understand how to configure dynamic IP, we continue by configuring static IP in OpenBSD. The method is almost the same, but there is an additional file that you must configure along with the name of the file that you must configure.</p>
+<ul>
+  <li>/etc/hostname.namainterface</li>
+  <li>/etc/myname</li>
+  <li>/etc/mygate</li>
+</ul>
+
+<p>There is an additional file <strong>/etc/mygate</strong>, this file contains a gateway script that connects the OpenBSD server to the router’s internet network (Indihome or others).</p>
+
+<p>Configure /etc/hostname.interfacename
+As you know, the name of your OpenBSD server interface is “rl0”. Now we change the script file /etc/hostname.rl0, as in the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/hostname.rl0
+inet 192.168.5.3 0xffffff00
+</code></pre></div></div>
+<p>Proceed by editing the /etc/myname file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/myname
+ns5.kursor.my.id
+</code></pre></div></div>
+<p>After that we continue by changing the script from the /etc/mygate file. If the file does not exist you must create the file first.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# touch /etc/mygate
+</code></pre></div></div>
+<p>In the /etc/mygate file, type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/mygate
+192.168.5.1
+</code></pre></div></div>
+<p>IP 192.168.5.1 is the gateway IP, which is the IP address of your internet network router. This IP address does not have to be the same, each router is different, depending on the settings. In the example of this article, our router uses the gateway IP 192.168.5.1. So you have to adjust it to your router gateway.</p>
+
+<p>As usual, to make the discussion more complete, you have to set the domain name and IP of the OpenBSD server in the <strong>/etc/hosts</strong> file. Pay attention to the example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/hosts
+127.0.0.1	localhost
+::1		localhost
+192.168.5.3     ns5.kursor.my.id ns5
+</code></pre></div></div>
+
+<p>The next step is to configure the /etc/resolv.conf file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/resolv.conf
+nameserver 1.1.1.1 # resolvd: rl0
+nameserver 8.8.8.8 # resolvd: rl0
+nameserver 9.9.9.9 # resolvd: rl0
+nameserver 8.8.4.4 # resolvd: rl0
+lookup file bind
+</code></pre></div></div>
+<p>The last step is to activate all the configurations above, meaning that your OpenBSD server will immediately get the static IP address that you just configured. Run the command below to activate the static IP.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# sh /etc/netstart
+</code></pre></div></div>
+<p>But to make everything run normally, we recommend that you restart the OpenBSD server with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# reboot
+</code></pre></div></div>
+<p>Discussion about dynamic and static IP, we think it is clear enough. Now you can directly try and apply it on your OpenBSD server. If successful, do not forget all the steps above, because this lesson is very important for an OpenBSD administrator.</p>
+</section>
+      <footer class="page__meta"><!-- CoinAd - Ad Display Code -->
+
+        <p class="page__date"><strong><i class="fa fa-fw fa-creative-commons" aria-hidden="true"></i> License: </strong> <a href="https://creativecommons.org/licenses/by/4.0/">By:</a> UnixBSDShell's Blog</p><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Posted:</strong> <time datetime="2025-05-16T09:45:13+03:00">2025-05-16</time></p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a></span>
+  </p><p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords"><a href="https://unixwinbsd.site/categories/#en" class="page__taxonomy-item" rel="tag">en</a><span class="sep">, </span><a href="https://unixwinbsd.site/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a></span>
+  </p></footer><nav class="pagination"><a href="https://unixwinbsd.site/ru/freebsd/2025/05/14/github-ssh-connection-freebsd/" class="pagination--pager" title="Создание соединения с Github по SSH во FreeBSD
+">Previous</a><a href="https://unixwinbsd.site/en/openbsd/2025/05/16/configuration-nginx-openbsd-port-http-https-80-443/" class="pagination--pager" title="Nginx Configuration on OpenBSD - HTTP and HTTPS Ports
+">Next</a></nav></div>
+  </article></div>
+<div class="page__footer">
+      <footer><!-- start custom footer snippets -->
+<!-- end custom footer snippets --><div class="page__footer-follow">
+  <ul class="social-icons"><li><a href="https://x.com/iwanset96143401"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li><li><a href="feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Atom Feed</a></li>
+    <li><a href="https://unixwinbsd.site/about/"><i class="fa fa-fw fa-user" aria-hidden="true"></i> About Us</a></li>
+  </ul>
+</div>
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://www.inchimediatama.org/" rel="dofollow">Minimal Mistakes</a>.</div>
+</footer>
+    </div><script src="https://unixwinbsd.site/assets/js/main.min.js"></script></body>
+</html>

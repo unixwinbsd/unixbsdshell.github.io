@@ -129,7 +129,7 @@ Proceed by editing the **/etc/myname** file.
 ns5# nano /etc/myname
 ns5.kursor.my.id
 ```
-After that we continue by changing the script from the /etc/mygate file. If the file does not exist you must create the file first.
+After that we continue by changing the script from the **/etc/mygate** file. If the file does not exist you must create the file first.
 
 ```
 ns5# touch /etc/mygate

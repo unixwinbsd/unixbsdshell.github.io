@@ -38,3 +38,6 @@ PHP-FPM version: php83_fpm
 
 ## [A. Nginx Configuration on OpenBSD - HTTP and HTTPS Ports](https://unixwinbsd.site/en/openbsd/2025/05/16/configuration-nginx-openbsd-port-http-https-80-443/)
 The Nginx installation process is the initial process that you must do. In this article we do not explain how to install Nginx on OpenBSD. You can read our previous article that discusses how to install Nginx on OpenBSD.
+
+
+

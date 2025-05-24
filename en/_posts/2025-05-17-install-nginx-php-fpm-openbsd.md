@@ -39,7 +39,7 @@ This article will show the options for installing Nginx and PHP in the OpenBSD 7
 ## [A. Nginx Configuration on OpenBSD - HTTP and HTTPS Ports](https://unixwinbsd.site/en/openbsd/2025/05/16/configuration-nginx-openbsd-port-http-https-80-443/)
 The Nginx installation process is the initial process that you must do. In this article we do not explain how to install Nginx on OpenBSD. You can read our previous article that discusses how to install Nginx on OpenBSD.
 
-## B. Install PHP and PHP-FPM
+## [B. Install PHP and PHP-FPM](https://unixwinbsd.site/en/openbsd/2025/05/17/nginx-fastcgi-mode-php-fpm-openbsd)
 PHP application is not installed when you install NGINX, but PHP-FPM will be installed automatically when you install PHP. So to be more precise, to activate PHP application you must install it first.
 
 ```
@@ -75,7 +75,8 @@ ns2# ln -sf /etc/php-8.3.sample/* /etc/php-8.3/
 Once you have enabled PHP-FPM, you will want to run/test PHP-FPM on Nginx. Follow these steps to run PHP-FPM on Nginx.
 
 ### a. Enable PHP-FPM in Nginx
-In order for PHP-FPM to run with the Nginx web server, you must enable PHP-FPM in the Nginx configuration. Open the file "/etc/nginx/vhostsSSL.conf".
+In order for PHP-FPM to run with the Nginx web server, you must enable PHP-FPM in the Nginx configuration. Open the file **"/etc/nginx/vhostsSSL.conf"**.
+
 Note: Nginx runs on the HTTPS port (443).
 
 ```

@@ -20,8 +20,15 @@ How DNS caching server works is when the DNS server finds the DNS address you re
 
 The slower your internet connection, the more useful the DNS server cache is to improve internet access. To maintain accuracy, there is a configurable expiration time (time to live/TTL) on the server data that forces it to return to the internet periodically for updates.
 
-local cache dns isc server
-## 1. How to Install ISC Bind DNS Server
+## 1. Spesifikasi Siste,
+- OS: OpenBSD 7.6
+- domain: kursor.my.id
+- Hostname: foo
+- IP Address: 192.168.7.3
+- Bind version: isc-bind-9.18.25v3
+
+
+## 2. How to Install ISC Bind DNS Server
 One of the advantages of ISC Bind is that it can be installed on all operating systems, such as Windows, MacOS, Linux, and BSD including OpenBSD. However, each system has a different way of configuration. In this section, we will learn how to install, configure, and use ISC Bind on an OpenBSD server.
 
 Since DNS Bind is very familiar, like other operating systems, in OpenBSD ISC Bind is already available in the pkg_add repository. You can run the command below to install ISC Bind on OpenBSD.
@@ -32,8 +39,9 @@ foo# pkg_add isc-bind-9.18.25v3
 ```
 After the installation process is complete, by default the ISC Bind application creates a user and group named **_bind:_bind**. This user will be very useful when doing configuration. The location of the ISC Bind directory on OpenBSD is slightly different from FreeBSD. OpenBSD places the ISC Bind application in **/var/named**. All configuration files are stored in that directory.
 
-By default the /var/named directory contains two folders, namely /etc and /tmp, during the configuration process we will add several folders to this directory, such as /master, /standard and others.
-## 2. Configuration Process
+By default the **/var/named** directory contains two folders, namely /etc and /tmp, during the configuration process we will add several folders to this directory, such as /master, /standard and others.
+
+## 3. Configuration Process
 In this section we will discuss the steps to configure ISC Bind. The ISC Bind configuration file is named "named.conf". You can set all your DNS server caching needs in that file.
 
 ### a. Enable ISC Bind

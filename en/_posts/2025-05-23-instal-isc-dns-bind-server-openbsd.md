@@ -20,7 +20,7 @@ How DNS caching server works is when the DNS server finds the DNS address you re
 
 The slower your internet connection, the more useful the DNS server cache is to improve internet access. To maintain accuracy, there is a configurable expiration time (time to live/TTL) on the server data that forces it to return to the internet periodically for updates.
 
-## 1. Spesifikasi Siste,
+## 1. System Specifications
 - OS: OpenBSD 7.6
 - domain: kursor.my.id
 - Hostname: foo

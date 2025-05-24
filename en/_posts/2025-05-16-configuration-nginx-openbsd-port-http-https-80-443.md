@@ -53,7 +53,7 @@ foo# rcctl restart nginx
 ```
 
 ## 2. Configure Nginx Port 80 HTTP
-On OpenBSD, the main Nginx configuration file is located in the /etc/nginx directory. In that directory there is a file called nginx.conf. This file is the file that controls all Nginx behavior on the OpenBSD server.
+On OpenBSD, the main Nginx configuration file is located in the **/etc/nginx** directory. In that directory there is a file called nginx.conf. This file is the file that controls all Nginx behavior on the OpenBSD server.
 
 Before continuing this discussion, make sure Nginx is running normally on OpenBSD. To configure Nginx port 80 or http, we will create a virtual host for port 80. To do this, open the nginx.conf file then delete all the contents of the script and replace it with the script below.
 
@@ -92,7 +92,7 @@ After that, you create a vhosts.conf file.
 ```
 foo# touch /etc/nginx/vhosts.conf
 ```
-In the vhosts.conf file, type the script below to run Nginx port 80.
+In the **/etc/vhosts.conf** file, type the script below to run Nginx port 80.
 
 ```
 foo# nano /etc/nginx/vhosts.conf
@@ -107,12 +107,12 @@ server {
         }
     }
 ```
-Create a directory for the virtual host, run the command below to create the /var/www/htdocs/serverblock directory.
+Create a directory for the virtual host, run the command below to create the **/var/www/htdocs/serverblock** directory.
 
 ```
 foo# mkdir -p /var/www/htdocs/serverblock
 ```
-Proceed by creating an index.html file and run the command to create ownership and permissions.
+Proceed by creating an **index.html** file and run the command to create ownership and permissions.
 
 ```
 foo# touch /var/www/htdocs/serverblock/index.html

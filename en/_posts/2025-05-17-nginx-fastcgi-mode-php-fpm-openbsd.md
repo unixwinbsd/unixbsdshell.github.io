@@ -1,6 +1,6 @@
 ---
 title: Nginx FastCGI mode and PHP-FPM 8.3 on OpenBSD 7.6
-date: "2025-05-19 09:13:13 +0100"
+date: "2025-05-17 09:13:13 +0100"
 id: nginx-fastcgi-mode-php-fpm-openbsd
 lang: en
 layout: single

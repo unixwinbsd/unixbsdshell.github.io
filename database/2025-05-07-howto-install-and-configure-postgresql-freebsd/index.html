@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>How to Install and Configure PostgreSQL on FreeBSD 14 | WARNET DAPURNET</title>
+<meta name="keywords" content="ip,, static,, dynamic,, address,, ip, address,, openbsd,, netstat,, hostname,, resolv,, hosts">
+<meta name="description" content="Postgresql is an open source object relational database system application with active development for over 30 years and has earned a good reputation for reliability, feature robustness, and performance. Postgres is one of the applications that emphasizes extensibility and SQL compliance.
+PostgreSQL works based on the Postgres DBMS developed at the University of California, Berkeley. PostgreSQL ORDBMS supports most of the standard SQL features and the most modern technologies such as:">
+<meta name="author" content="IWAN SETIAWAN">
+<link rel="canonical" href="https://unixwinbsd.github.io/database/2025-05-07-howto-install-and-configure-postgresql-freebsd/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.977eaf2e691fe9d6783238f3ea60f3c0affcf333092baaee887438624edc50f3.css" integrity="sha256-l36vLmkf6dZ4Mjjz6mDzwK/88zMJK6ruiHQ4Yk7cUPM=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://unixwinbsd.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://unixwinbsd.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://unixwinbsd.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://unixwinbsd.github.io/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.github.io/database/2025-05-07-howto-install-and-configure-postgresql-freebsd/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://unixwinbsd.github.io/database/2025-05-07-howto-install-and-configure-postgresql-freebsd/">
+  <meta property="og:site_name" content="WARNET DAPURNET">
+  <meta property="og:title" content="How to Install and Configure PostgreSQL on FreeBSD 14">
+  <meta property="og:description" content="Postgresql is an open source object relational database system application with active development for over 30 years and has earned a good reputation for reliability, feature robustness, and performance. Postgres is one of the applications that emphasizes extensibility and SQL compliance.
+PostgreSQL works based on the Postgres DBMS developed at the University of California, Berkeley. PostgreSQL ORDBMS supports most of the standard SQL features and the most modern technologies such as:">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="database">
+    <meta property="article:published_time" content="2025-05-07T07:55:13+01:00">
+    <meta property="article:modified_time" content="2025-05-07T07:55:13+01:00">
+    <meta property="article:tag" content="DataBase">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to Install and Configure PostgreSQL on FreeBSD 14">
+<meta name="twitter:description" content="Postgresql is an open source object relational database system application with active development for over 30 years and has earned a good reputation for reliability, feature robustness, and performance. Postgres is one of the applications that emphasizes extensibility and SQL compliance.
+PostgreSQL works based on the Postgres DBMS developed at the University of California, Berkeley. PostgreSQL ORDBMS supports most of the standard SQL features and the most modern technologies such as:">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Papers",
+      "item": "https://unixwinbsd.github.io/database/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "How to Install and Configure PostgreSQL on FreeBSD 14",
+      "item": "https://unixwinbsd.github.io/database/2025-05-07-howto-install-and-configure-postgresql-freebsd/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to Install and Configure PostgreSQL on FreeBSD 14",
+  "name": "How to Install and Configure PostgreSQL on FreeBSD 14",
+  "description": "Postgresql is an open source object relational database system application with active development for over 30 years and has earned a good reputation for reliability, feature robustness, and performance. Postgres is one of the applications that emphasizes extensibility and SQL compliance.\nPostgreSQL works based on the Postgres DBMS developed at the University of California, Berkeley. PostgreSQL ORDBMS supports most of the standard SQL features and the most modern technologies such as:\n",
+  "keywords": [
+    "ip,", "static,", "dynamic,", "address,", "ip", "address,", "openbsd,", "netstat,", "hostname,", "resolv,", "hosts"
+  ],
+  "articleBody": "Postgresql is an open source object relational database system application with active development for over 30 years and has earned a good reputation for reliability, feature robustness, and performance. Postgres is one of the applications that emphasizes extensibility and SQL compliance.\nPostgreSQL works based on the Postgres DBMS developed at the University of California, Berkeley. PostgreSQL ORDBMS supports most of the standard SQL features and the most modern technologies such as:\nComplex Queries. Foreign keys. Triggers. Representation. Transactions. Concurrency control with multiversioning. PostgreSQL also allows users to add their own data:\nData types Functions Operators Aggregate functions Indexing Methods Programming languages PostgreSQL was originally named POSTGRES, referring to its origins as the successor to the Ingres database. The PostgreSQL program can also be used as a primary data store or data warehouse for many web, mobile, geospatial, and analytical applications. PostgreSQL can store both structured and unstructured data in one product.\nIn this article we try to install PostgreSQL on a FreeBSD 13.2 server. The version of PostgreSQL used is postgresql15.\n1. PostgreSQL Installation Process On the FreeBSD system, installing PostgreSQL is very easy, the process is almost the same as installing other programs that run on the FreeBSD system. Here is how to install the PostgreSQL client and server.\nroot@ns1:~ # cd /usr/ports/databases/postgresql15-client root@ns1:/usr/ports/databases/postgresql15-client # make install clean root@ns1:~ # cd /usr/ports/databases/postgresql15-server root@ns1:/usr/ports/databases/postgresql15-server # make install clean 2. PostgreSQL Configuration Process After the installation process is complete, to activate PostgreSQL we must edit the /etc/rc.conf file. Type the script below in the /etc/rc.conf file.\nroot@ns1:~ # ee /etc/rc.conf postgresql_enable=\"YES\" postgresql_class=\"postgres\" postgresql_data=\"/var/db/postgres/data15\" postgresql_flags=\"-w -s -m fast\" postgresql_initdb_flags=\"--encoding=utf-8 --lc-collate=C\" postgresql_login_class=\"default\" postgresql_profiles=\"\" After that we continue by editing the /etc/login.conf file, and enter the script below.\nroot@ns1:~ # ee /etc/login.conf postgres:\\ :lang=en_US.UTF-8:\\ :setenv=LC_COLLATE=C:\\ :tc=default: Then initialize the PostgresQL database. Type the following command to initialize the PostgresQL database.\nroot@ns1:~ # /usr/local/etc/rc.d/postgresql initdb The files belonging to this database system will be owned by user \"postgres\". This user must also own the server process. The database cluster will be initialized with this locale configuration: provider: libc LC_COLLATE: C LC_CTYPE: C.UTF-8 LC_MESSAGES: C.UTF-8 LC_MONETARY: C.UTF-8 LC_NUMERIC: C.UTF-8 LC_TIME: C.UTF-8 The default text search configuration will be set to \"english\". Data page checksums are disabled. creating directory /var/db/postgres/data15 ... ok creating subdirectories ... ok selecting dynamic shared memory implementation ... posix selecting default max_connections ... 100 selecting default shared_buffers ... 128MB selecting default time zone ... Asia/Jakarta creating configuration files ... ok running bootstrap script ... ok performing post-bootstrap initialization ... ok syncing data to disk ... ok initdb: warning: enabling \"trust\" authentication for local connections initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb. Success. You can now start the database server using: /usr/local/bin/pg_ctl -D /var/db/postgres/data15 -l logfile start Once the PostgresQL database is initialized, proceed with the following command, but this command can only be run on the Postgres user, so you must be active on the Postgres user. Follow the steps below.\nroot@ns1:~ # su postgres $ cd /var/db/postgres $ /usr/local/bin/pg_ctl -D /var/db/postgres/data15 -l logfile restart waiting for server to shut down.... done server stopped waiting for server to start.... done server started $ exit root@ns1:~ # The explanation of the script above is, in the first script you log in as a Postgres user, the second script goes to the /var/db/postgres folder and the second script restarts the logfile while the last script logs out as a Postgres user.\nAfter logging out of the Postgres user, edit the /var/db/postgres/data13/postgresql.conf file, and enter the script below.\nroot@ns1:~ # ee /var/db/postgres/data15/postgresql.conf listen_addresses = '192.168.5.2'\t# what IP address(es) to listen on; port = 5432 The IP for listen_addresses is adjusted to the FreeBSD server’s Private IP, because in writing this article the Private IP used is 192.168.5.2, so listen_addresses = ‘192.168.5.2’ and the PostgreSQL default port is port 5432.\nThen we also edit the /var/db/postgres/data13/pg_hba.conf file, and replace the host script with the IP address that matches the FreeBSD server, here is an example of the script.\nroot@ns1:~ # ee /var/db/postgres/data15/pg_hba.conf host all all 192.168.5.2/24 trust Match the IP address with the script above. Then we restart the PostgresQL database program.\nroot@ns1:~ # service postgresql restart 2023-08-21 13:43:37.306 WIB [1439] LOG: ending log output to stderr 2023-08-21 13:43:37.306 WIB [1439] HINT: Future log output will go to log destination \"syslog\". root@ns1:~ # service postgresql status pg_ctl: server is running (PID: 1439) /usr/local/bin/postgres \"-D\" \"/var/db/postgres/data15\" If there is nothing wrong with the script settings above and the PostgresQL database program should be able to run on FreeBSD.\n3. Creating a Postgres Password By default, when the postgresql database installation process is complete, postgresql will automatically create a database named “postgres”, and the user for the “postgres” database is named postgres. The user and database postgres have not been given a password. Here’s how to give a password to the Postgres user.\nroot@ns1:~ # passwd postgres Changing local password for postgres New Password: router Retype New Password: router Or you can also create a Postgres password in another way, as in the example below.\nroot@ns1:~ # su - postgres $ psql -c \"alter user postgres with password 'router'\" ALTER ROLE $ In the above script example we have created a Postgres password with the name “router”.\n4. How to Use the PostgreSQL15 Database After the Postgres user is given a password, now we try to create a table in the postgres database. The following is an example of creating a table in the postgres database.\nroot@ns1:~ # su - postgres $ psql postgres psql (15.3) Type \"help\" for help. postgres=# CREATE TABLE person ( person_id BIGINT, name VARCHAR(255), age INT, city VARCHAR(255) ); CREATE TABLE postgres=# INSERT INTO person VALUES (1001, 'M. Jaka Setiawan', 9, 'Tegal'); INSERT 0 1 postgres=# INSERT INTO person VALUES (1002, 'Iwan Setiawan', 42, 'Bekasi'); INSERT 0 1 postgres=# INSERT INTO person VALUES (1003, 'Siti Umaroh', 41, 'Tegal'); INSERT 0 1 postgres=# INSERT INTO person VALUES (1004, 'Kanaka Robih Setiawan', 11, 'Bekasi'); INSERT 0 1 postgres=# select * from person; person_id | name | age | city -----------+-----------------------+-----+-------- 1001 | M. Jaka Setiawan | 9 | Tegal 1002 | Iwan Setiawan | 42 | Bekasi 1003 | Siti Umaroh | 41 | Tegal 1004 | Kanaka Robih Setiawan | 11 | Bekasi (4 rows) postgres=# Now let’s try again by creating a database, user, table and password. Let’s give an example by creating a database user puncakanjani with the name gunungrinjani. Follow these steps.\nroot@ns1:~ # su - postgres $ createuser gunungrinjani $ createdb puncakanjani -O gunungrinjani $ psql puncakanjani psql (15.3) Type \"help\" for help. puncakanjani=# The explanation of the command above is.\nThe first script “su - postgres” enters the user “postgres” 2nd script, create a user with the name Gunungrinjani 3rd script, creates a Puncakanjani database for the Gunungrinjani user 4th script, psql is entered into the user Gunungrinjani The Puncakanjani script=# means it is active in the Puncakanjani database The next step is to create a password for the Gunungrinjani user.\npuncakanjani=# alter user gunungrinjani with password 'sembalun'; ALTER ROLE The command above is to create a password for the Gunungrinjani user with the password sembalun. After the password is successfully created, now we practice how to create a table. Here is an example.\npuncakanjani=# create table tabelgunung ( id int,first_name text, last_name text ); CREATE TABLE puncakanjani=# insert into tabelgunung (id,first_name,last_name) values (1,'gunung','argopuro'); INSERT 0 1 puncakanjani=# insert into tabelgunung (id,first_name,last_name) values (1,'gunung','rinjani'); INSERT 0 1 puncakanjani=# insert into tabelgunung (id,first_name,last_name) values (1,'gunung','raung'); INSERT 0 1 Look at the table we have created above.\npuncakanjani=# select * from tabelgunung; id | first_name | last_name ----+------------+----------- 1 | gunung | argopuro 1 | gunung | rinjani 1 | gunung | raung (3 rows) puncakanjani=# Delete the tabelgunung\npuncakanjani=# DROP TABLE tabelgunung; DROP TABLE Delete the puncakanjani database.\npuncakanjani=# exit $ dropdb puncakanjani Delete user gunungrinjani\n$ dropuser gunungrinjani PostgreSQL is a powerful, feature-rich, and widely used relational database management system in a variety of applications. PostgreSQL is an attractive choice for many companies, including giants such as Apple, Netflix, Instagram, IMDB, and others.\nAccording to statistical data, in 2023 PostgreSQL ranked fourth in the world among DBMS in terms of popularity, behind Oracle, MySQL, and Microsoft SQL Server. In addition, PostgreSQL is the most popular open source DBMS.\n",
+  "wordCount" : "1396",
+  "inLanguage": "en",
+  "datePublished": "2025-05-07T07:55:13+01:00",
+  "dateModified": "2025-05-07T07:55:13+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "IWAN SETIAWAN"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://unixwinbsd.github.io/database/2025-05-07-howto-install-and-configure-postgresql-freebsd/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WARNET DAPURNET",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://unixwinbsd.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: "\\begin{equation}", right: "\\end{equation}", display: true},
+            {left: "\\begin{equation*}", right: "\\end{equation*}", display: true},
+            {left: "\\begin{align}", right: "\\end{align}", display: true},
+            {left: "\\begin{align*}", right: "\\end{align*}", display: true},
+            {left: "\\begin{alignat}", right: "\\end{alignat}", display: true},
+            {left: "\\begin{gather}", right: "\\end{gather}", display: true},
+            {left: "\\begin{CD}", right: "\\end{CD}", display: true},
+          ],
+          throwOnError : false
+        });
+    });
+</script>
+ 
+
+
+</head>
+
+<body class="" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://unixwinbsd.github.io/" accesskey="h" title="WARNET DAPURNET">
+                <img src="https://unixwinbsd.github.io/favicon.ico" alt="" aria-label="logo"
+                    height="18"
+                    width="18">WARNET DAPURNET</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://unixwinbsd.github.io/dnsserver/" title="DNSServer">
+                    <span>DNSServer</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://unixwinbsd.github.io/webhttps/" title="WebHTTPS">
+                    <span>WebHTTPS</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://unixwinbsd.github.io/anonymous/" title="Anonymous">
+                    <span>Anonymous</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://unixwinbsd.github.io/database/" title="DataBase">
+                    <span>DataBase</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://unixwinbsd.site" title="Blog">
+                    <span>Blog</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      How to Install and Configure PostgreSQL on FreeBSD 14
+    </h1>
+    <div class="post-meta"><span title='2025-05-07 07:55:13 +0100 +0100'>May 2025</span>&nbsp;&middot;&nbsp;IWAN SETIAWAN
+
+</div>
+  </header> 
+  <div class="post-content"><p>Postgresql is an open source object relational database system application with active development for over 30 years and has earned a good reputation for reliability, feature robustness, and performance. Postgres is one of the applications that emphasizes extensibility and SQL compliance.</p>
+<p>PostgreSQL works based on the Postgres DBMS developed at the University of California, Berkeley. PostgreSQL ORDBMS supports most of the standard SQL features and the most modern technologies such as:</p>
+<ul>
+<li>Complex Queries.</li>
+<li>Foreign keys.</li>
+<li>Triggers.</li>
+<li>Representation.</li>
+<li>Transactions.</li>
+<li>Concurrency control with multiversioning.</li>
+</ul>
+<p>PostgreSQL also allows users to add their own data:</p>
+<ul>
+<li>Data types</li>
+<li>Functions</li>
+<li>Operators</li>
+<li>Aggregate functions</li>
+<li>Indexing Methods</li>
+<li>Programming languages</li>
+</ul>
+<p>PostgreSQL was originally named POSTGRES, referring to its origins as the successor to the Ingres database. The PostgreSQL program can also be used as a primary data store or data warehouse for many web, mobile, geospatial, and analytical applications. PostgreSQL can store both structured and unstructured data in one product.</p>
+<p>In this article we try to install PostgreSQL on a FreeBSD 13.2 server. The version of PostgreSQL used is postgresql15.</p>
+<p><img alt="PostgreSQL database architecture" loading="lazy" src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/NugetArticle/PostgreSQL%20database%20architecture.jpg&commit=94a571767af1f38023fbbfb259e4b9b8c0b87c31"></p>
+<h2 id="1-postgresql-installation-process">1. PostgreSQL Installation Process</h2>
+<p>On the FreeBSD system, installing PostgreSQL is very easy, the process is almost the same as installing other programs that run on the FreeBSD system. Here is how to install the PostgreSQL client and server.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # cd /usr/ports/databases/postgresql15-client
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns1:/usr/ports/databases/postgresql15-client # make install clean
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # cd /usr/ports/databases/postgresql15-server
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns1:/usr/ports/databases/postgresql15-server # make install clean
+</span></span></span></code></pre></div><h2 id="2-postgresql-configuration-process">2. PostgreSQL Configuration Process</h2>
+<p>After the installation process is complete, to activate PostgreSQL we must edit the <code>/etc/rc.conf</code> file. Type the script below in the <code>/etc/rc.conf</code> file.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # ee /etc/rc.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgresql_enable=&#34;YES&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgresql_class=&#34;postgres&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgresql_data=&#34;/var/db/postgres/data15&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgresql_flags=&#34;-w -s -m fast&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgresql_initdb_flags=&#34;--encoding=utf-8 --lc-collate=C&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgresql_login_class=&#34;default&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgresql_profiles=&#34;&#34;
+</span></span></span></code></pre></div><p>After that we continue by editing the <code>/etc/login.conf</code> file, and enter the script below.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # ee /etc/login.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgres:\
+</span></span></span><span style="display:flex;"><span><span style="color:#888">        :lang=en_US.UTF-8:\
+</span></span></span><span style="display:flex;"><span><span style="color:#888">        :setenv=LC_COLLATE=C:\
+</span></span></span><span style="display:flex;"><span><span style="color:#888">        :tc=default:
+</span></span></span></code></pre></div><p>Then initialize the PostgresQL database. Type the following command to initialize the PostgresQL database.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # /usr/local/etc/rc.d/postgresql initdb
+</span></span></span><span style="display:flex;"><span><span style="color:#888">The files belonging to this database system will be owned by user &#34;postgres&#34;.
+</span></span></span><span style="display:flex;"><span><span style="color:#888">This user must also own the server process.
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">The database cluster will be initialized with this locale configuration:
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  provider:    libc
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  LC_COLLATE:  C
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  LC_CTYPE:    C.UTF-8
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  LC_MESSAGES: C.UTF-8
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  LC_MONETARY: C.UTF-8
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  LC_NUMERIC:  C.UTF-8
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  LC_TIME:     C.UTF-8
+</span></span></span><span style="display:flex;"><span><span style="color:#888">The default text search configuration will be set to &#34;english&#34;.
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">Data page checksums are disabled.
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">creating directory /var/db/postgres/data15 ... ok
+</span></span></span><span style="display:flex;"><span><span style="color:#888">creating subdirectories ... ok
+</span></span></span><span style="display:flex;"><span><span style="color:#888">selecting dynamic shared memory implementation ... posix
+</span></span></span><span style="display:flex;"><span><span style="color:#888">selecting default max_connections ... 100
+</span></span></span><span style="display:flex;"><span><span style="color:#888">selecting default shared_buffers ... 128MB
+</span></span></span><span style="display:flex;"><span><span style="color:#888">selecting default time zone ... Asia/Jakarta
+</span></span></span><span style="display:flex;"><span><span style="color:#888">creating configuration files ... ok
+</span></span></span><span style="display:flex;"><span><span style="color:#888">running bootstrap script ... ok
+</span></span></span><span style="display:flex;"><span><span style="color:#888">performing post-bootstrap initialization ... ok
+</span></span></span><span style="display:flex;"><span><span style="color:#888">syncing data to disk ... ok
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">initdb: warning: enabling &#34;trust&#34; authentication for local connections
+</span></span></span><span style="display:flex;"><span><span style="color:#888">initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">Success. You can now start the database server using:
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">    /usr/local/bin/pg_ctl -D /var/db/postgres/data15 -l logfile start
+</span></span></span></code></pre></div><p>Once the PostgresQL database is initialized, proceed with the following command, but this command can only be run on the Postgres user, so you must be active on the Postgres user. Follow the steps below.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # su postgres
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#555">$</span> <span style="color:#0aa">cd</span> /var/db/postgres
+</span></span><span style="display:flex;"><span><span style="color:#555">$</span> /usr/local/bin/pg_ctl -D /var/db/postgres/data15 -l logfile restart
+</span></span><span style="display:flex;"><span><span style="color:#888">waiting for server to shut down.... done
+</span></span></span><span style="display:flex;"><span><span style="color:#888">server stopped
+</span></span></span><span style="display:flex;"><span><span style="color:#888">waiting for server to start.... done
+</span></span></span><span style="display:flex;"><span><span style="color:#888">server started
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#555">$</span> <span style="color:#0aa">exit</span>
+</span></span><span style="display:flex;"><span><span style="color:#888">root@ns1:~ #
+</span></span></span></code></pre></div><p>The explanation of the script above is, in the first script you log in as a Postgres user, the second script goes to the <code>/var/db/postgres</code> folder and the second script restarts the logfile while the last script logs out as a Postgres user.</p>
+<p>After logging out of the Postgres user, edit the <code>/var/db/postgres/data13/postgresql.conf</code> file, and enter the script below.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # ee /var/db/postgres/data15/postgresql.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#888">listen_addresses = &#39;192.168.5.2&#39;		# what IP address(es) to listen on;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">port = 5432
+</span></span></span></code></pre></div><p>The IP for listen_addresses is adjusted to the FreeBSD server&rsquo;s Private IP, because in writing this article the Private IP used is 192.168.5.2, so listen_addresses = &lsquo;192.168.5.2&rsquo; and the PostgreSQL default port is port 5432.</p>
+<p>Then we also edit the <code>/var/db/postgres/data13/pg_hba.conf</code> file, and replace the host script with the IP address that matches the FreeBSD server, here is an example of the script.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # ee /var/db/postgres/data15/pg_hba.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#888">host    all             all             192.168.5.2/24            trust
+</span></span></span></code></pre></div><p>Match the IP address with the script above. Then we restart the PostgresQL database program.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # service postgresql restart
+</span></span></span><span style="display:flex;"><span><span style="color:#888">2023-08-21 13:43:37.306 WIB [1439] LOG:  ending log output to stderr
+</span></span></span><span style="display:flex;"><span><span style="color:#888">2023-08-21 13:43:37.306 WIB [1439] HINT:  Future log output will go to log destination &#34;syslog&#34;.
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">root@ns1:~ # service postgresql status
+</span></span></span><span style="display:flex;"><span><span style="color:#888">pg_ctl: server is running (PID: 1439)
+</span></span></span><span style="display:flex;"><span><span style="color:#888">/usr/local/bin/postgres &#34;-D&#34; &#34;/var/db/postgres/data15&#34;
+</span></span></span></code></pre></div><p>If there is nothing wrong with the script settings above and the PostgresQL database program should be able to run on FreeBSD.</p>
+<h2 id="3-creating-a-postgres-password">3. Creating a Postgres Password</h2>
+<p>By default, when the postgresql database installation process is complete, postgresql will automatically create a database named &ldquo;postgres&rdquo;, and the user for the &ldquo;postgres&rdquo; database is named <code>postgres</code>. The user and database <code>postgres</code> have not been given a password. Here&rsquo;s how to give a password to the Postgres user.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # passwd postgres
+</span></span></span><span style="display:flex;"><span><span style="color:#888">Changing local password for postgres
+</span></span></span><span style="display:flex;"><span><span style="color:#888">New Password: router
+</span></span></span><span style="display:flex;"><span><span style="color:#888">Retype New Password: router
+</span></span></span></code></pre></div><p>Or you can also create a Postgres password in another way, as in the example below.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # su - postgres
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#555">$</span> psql -c <span style="color:#a50">&#34;alter user postgres with password &#39;router&#39;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#888">ALTER ROLE
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#555">$</span>
+</span></span></code></pre></div><p>In the above script example we have created a Postgres password with the name &ldquo;router&rdquo;.</p>
+<h2 id="4-how-to-use-the-postgresql15-database">4. How to Use the PostgreSQL15 Database</h2>
+<p>After the Postgres user is given a password, now we try to create a table in the <code>postgres</code> database. The following is an example of creating a table in the <code>postgres</code> database.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # su - postgres
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#555">$</span> psql postgres
+</span></span><span style="display:flex;"><span><span style="color:#888">psql (15.3)
+</span></span></span><span style="display:flex;"><span><span style="color:#888">Type &#34;help&#34; for help.
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">postgres=# CREATE TABLE person (
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    person_id BIGINT,
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    name VARCHAR(255),
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    age INT,
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    city VARCHAR(255)
+</span></span></span><span style="display:flex;"><span><span style="color:#888">);
+</span></span></span><span style="display:flex;"><span><span style="color:#888">CREATE TABLE
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgres=# INSERT INTO person VALUES (1001, &#39;M. Jaka Setiawan&#39;, 9, &#39;Tegal&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#888">INSERT 0 1
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgres=# INSERT INTO person VALUES (1002, &#39;Iwan Setiawan&#39;, 42, &#39;Bekasi&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#888">INSERT 0 1
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgres=# INSERT INTO person VALUES (1003, &#39;Siti Umaroh&#39;, 41, &#39;Tegal&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#888">INSERT 0 1
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgres=# INSERT INTO person VALUES (1004, &#39;Kanaka Robih Setiawan&#39;, 11, &#39;Bekasi&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#888">INSERT 0 1
+</span></span></span><span style="display:flex;"><span><span style="color:#888">postgres=# select * from person;
+</span></span></span><span style="display:flex;"><span><span style="color:#888"> person_id |         name          | age |  city  
+</span></span></span><span style="display:flex;"><span><span style="color:#888">-----------+-----------------------+-----+--------
+</span></span></span><span style="display:flex;"><span><span style="color:#888">      1001 | M. Jaka Setiawan      |   9 | Tegal
+</span></span></span><span style="display:flex;"><span><span style="color:#888">      1002 | Iwan Setiawan         |  42 | Bekasi
+</span></span></span><span style="display:flex;"><span><span style="color:#888">      1003 | Siti Umaroh           |  41 | Tegal
+</span></span></span><span style="display:flex;"><span><span style="color:#888">      1004 | Kanaka Robih Setiawan |  11 | Bekasi
+</span></span></span><span style="display:flex;"><span><span style="color:#888">(4 rows)
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">postgres=#
+</span></span></span></code></pre></div><p>Now let&rsquo;s try again by creating a database, user, table and password. Let&rsquo;s give an example by creating a database user <code>puncakanjani</code> with the name <code>gunungrinjani</code>. Follow these steps.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns1:~ # su - postgres
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#555">$</span> createuser gunungrinjani
+</span></span><span style="display:flex;"><span><span style="color:#555">$</span> createdb puncakanjani -O gunungrinjani
+</span></span><span style="display:flex;"><span><span style="color:#555">$</span> psql puncakanjani
+</span></span><span style="display:flex;"><span><span style="color:#888">psql (15.3)
+</span></span></span><span style="display:flex;"><span><span style="color:#888">Type &#34;help&#34; for help.
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">puncakanjani=#
+</span></span></span></code></pre></div><p>The explanation of the command above is.</p>
+<ol>
+<li>The first script &ldquo;su - postgres&rdquo; enters the user &ldquo;postgres&rdquo;</li>
+<li>2nd script, create a user with the name Gunungrinjani</li>
+<li>3rd script, creates a Puncakanjani database for the Gunungrinjani user</li>
+<li>4th script, psql is entered into the user Gunungrinjani</li>
+<li>The Puncakanjani script=# means it is active in the Puncakanjani database</li>
+</ol>
+<p>The next step is to create a password for the Gunungrinjani user.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">puncakanjani=# alter user gunungrinjani with password &#39;sembalun&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">ALTER ROLE
+</span></span></span></code></pre></div><p>The command above is to create a password for the Gunungrinjani user with the password <code>sembalun</code>. After the password is successfully created, now we practice how to create a table. Here is an example.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">puncakanjani=# create table tabelgunung ( id int,first_name text, last_name text );
+</span></span></span><span style="display:flex;"><span><span style="color:#888">CREATE TABLE
+</span></span></span><span style="display:flex;"><span><span style="color:#888">puncakanjani=# insert into tabelgunung (id,first_name,last_name) values (1,&#39;gunung&#39;,&#39;argopuro&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#888">INSERT 0 1
+</span></span></span><span style="display:flex;"><span><span style="color:#888">puncakanjani=# insert into tabelgunung (id,first_name,last_name) values (1,&#39;gunung&#39;,&#39;rinjani&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#888">INSERT 0 1
+</span></span></span><span style="display:flex;"><span><span style="color:#888">puncakanjani=# insert into tabelgunung (id,first_name,last_name) values (1,&#39;gunung&#39;,&#39;raung&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#888">INSERT 0 1
+</span></span></span></code></pre></div><p>Look at the table we have created above.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">puncakanjani=# select * from tabelgunung;
+</span></span></span><span style="display:flex;"><span><span style="color:#888"> id | first_name | last_name 
+</span></span></span><span style="display:flex;"><span><span style="color:#888">----+------------+-----------
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  1 | gunung     | argopuro
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  1 | gunung     | rinjani
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  1 | gunung     | raung
+</span></span></span><span style="display:flex;"><span><span style="color:#888">(3 rows)
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">puncakanjani=#
+</span></span></span></code></pre></div><p>Delete the <code>tabelgunung</code></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">puncakanjani=# DROP TABLE tabelgunung;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">DROP TABLE
+</span></span></span></code></pre></div><p>Delete the <code>puncakanjani</code> database.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">puncakanjani=# exit
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#555">$</span> dropdb puncakanjani
+</span></span></code></pre></div><p>Delete user <code>gunungrinjani</code></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#555">$</span> dropuser gunungrinjani
+</span></span></code></pre></div><p>PostgreSQL is a powerful, feature-rich, and widely used relational database management system in a variety of applications. PostgreSQL is an attractive choice for many companies, including giants such as Apple, Netflix, Instagram, IMDB, and others.</p>
+<p>According to statistical data, in 2023 PostgreSQL ranked fourth in the world among DBMS in terms of popularity, behind Oracle, MySQL, and Microsoft SQL Server. In addition, PostgreSQL is the most popular open source DBMS.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://unixwinbsd.github.io/tags/database/">DataBase</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 WARNET DAPURNET</span> ·     
+    <span>
+    Powered by 
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">hugo</a>, <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">papermod</a>, &amp;
+        <a href="https://github.com/pmichaillat/hugo-website/" rel="noopener" target="_blank">hugo-website</a>.
+    </span>
+</footer>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+</html>

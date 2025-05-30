@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Courses on WARNET DAPURNET</title>
+    <link>https://unixwinbsd.github.io/dnsserver/</link>
+    <description>Recent content in Courses on WARNET DAPURNET</description>
+    <generator>Hugo -- 0.147.5</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 07 May 2025 11:35:22 +0100</lastBuildDate>
+    <atom:link href="https://unixwinbsd.github.io/dnsserver/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GitLab Installation Guide on FreeBSD Server</title>
+      <link>https://unixwinbsd.github.io/dnsserver/2025-05-07-gitlab-installation-guide-freebsd-server/</link>
+      <pubDate>Wed, 07 May 2025 11:35:22 +0100</pubDate>
+      <guid>https://unixwinbsd.github.io/dnsserver/2025-05-07-gitlab-installation-guide-freebsd-server/</guid>
+      <description>&lt;p&gt;Gitlab is a service that provides remote access to Git repositories. In addition to being a place to store your code, this service also provides additional features designed to help manage the software development cycle. Git is a tool that functions to make it easier for developers. This tool is useful as a Version Control System (VCS) which is tasked with tracking changes to code files. For developers, the existence of Git makes it very easy for them to collaborate to complete projects with other developers or on their own projects.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

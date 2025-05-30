@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>DataBase on WARNET DAPURNET</title>
+    <link>https://unixwinbsd.github.io/tags/database/</link>
+    <description>Recent content in DataBase on WARNET DAPURNET</description>
+    <generator>Hugo -- 0.147.5</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 07 May 2025 07:55:13 +0100</lastBuildDate>
+    <atom:link href="https://unixwinbsd.github.io/tags/database/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Install and Configure PostgreSQL on FreeBSD 14</title>
+      <link>https://unixwinbsd.github.io/database/2025-05-07-howto-install-and-configure-postgresql-freebsd/</link>
+      <pubDate>Wed, 07 May 2025 07:55:13 +0100</pubDate>
+      <guid>https://unixwinbsd.github.io/database/2025-05-07-howto-install-and-configure-postgresql-freebsd/</guid>
+      <description>&lt;p&gt;Postgresql is an open source object relational database system application with active development for over 30 years and has earned a good reputation for reliability, feature robustness, and performance. Postgres is one of the applications that emphasizes extensibility and SQL compliance.&lt;/p&gt;
+&lt;p&gt;PostgreSQL works based on the Postgres DBMS developed at the University of California, Berkeley. PostgreSQL ORDBMS supports most of the standard SQL features and the most modern technologies such as:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to Install and Configure PostgreSQL on FreeBSD 14</title>
+      <link>https://unixwinbsd.github.io/webhttps/2025-05-07-howto-install-and-configure-postgresql-freebsd/</link>
+      <pubDate>Wed, 07 May 2025 07:55:13 +0100</pubDate>
+      <guid>https://unixwinbsd.github.io/webhttps/2025-05-07-howto-install-and-configure-postgresql-freebsd/</guid>
+      <description>&lt;p&gt;Postgresql is an open source object relational database system application with active development for over 30 years and has earned a good reputation for reliability, feature robustness, and performance. Postgres is one of the applications that emphasizes extensibility and SQL compliance.&lt;/p&gt;
+&lt;p&gt;PostgreSQL works based on the Postgres DBMS developed at the University of California, Berkeley. PostgreSQL ORDBMS supports most of the standard SQL features and the most modern technologies such as:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

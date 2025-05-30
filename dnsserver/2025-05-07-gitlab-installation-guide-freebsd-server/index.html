@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>GitLab Installation Guide on FreeBSD Server | WARNET DAPURNET</title>
+<meta name="keywords" content="gitlab,, github,, freebsd,, installation,, git,, ruby,, gem,, bundler,, repository,, ci,, cid,, remote">
+<meta name="description" content="Gitlab is a service that provides remote access to Git repositories. In addition to being a place to store your code, this service also provides additional features designed to help manage the software development cycle. Git is a tool that functions to make it easier for developers. This tool is useful as a Version Control System (VCS) which is tasked with tracking changes to code files. For developers, the existence of Git makes it very easy for them to collaborate to complete projects with other developers or on their own projects.">
+<meta name="author" content="IWAN SETIAWAN">
+<link rel="canonical" href="https://unixwinbsd.github.io/dnsserver/2025-05-07-gitlab-installation-guide-freebsd-server/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.977eaf2e691fe9d6783238f3ea60f3c0affcf333092baaee887438624edc50f3.css" integrity="sha256-l36vLmkf6dZ4Mjjz6mDzwK/88zMJK6ruiHQ4Yk7cUPM=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://unixwinbsd.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://unixwinbsd.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://unixwinbsd.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://unixwinbsd.github.io/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://unixwinbsd.github.io/dnsserver/2025-05-07-gitlab-installation-guide-freebsd-server/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://unixwinbsd.github.io/dnsserver/2025-05-07-gitlab-installation-guide-freebsd-server/">
+  <meta property="og:site_name" content="WARNET DAPURNET">
+  <meta property="og:title" content="GitLab Installation Guide on FreeBSD Server">
+  <meta property="og:description" content="Gitlab is a service that provides remote access to Git repositories. In addition to being a place to store your code, this service also provides additional features designed to help manage the software development cycle. Git is a tool that functions to make it easier for developers. This tool is useful as a Version Control System (VCS) which is tasked with tracking changes to code files. For developers, the existence of Git makes it very easy for them to collaborate to complete projects with other developers or on their own projects.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="dnsserver">
+    <meta property="article:published_time" content="2025-05-07T11:35:22+01:00">
+    <meta property="article:modified_time" content="2025-05-07T11:35:22+01:00">
+    <meta property="article:tag" content="SysAdmin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GitLab Installation Guide on FreeBSD Server">
+<meta name="twitter:description" content="Gitlab is a service that provides remote access to Git repositories. In addition to being a place to store your code, this service also provides additional features designed to help manage the software development cycle. Git is a tool that functions to make it easier for developers. This tool is useful as a Version Control System (VCS) which is tasked with tracking changes to code files. For developers, the existence of Git makes it very easy for them to collaborate to complete projects with other developers or on their own projects.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Courses",
+      "item": "https://unixwinbsd.github.io/dnsserver/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "GitLab Installation Guide on FreeBSD Server",
+      "item": "https://unixwinbsd.github.io/dnsserver/2025-05-07-gitlab-installation-guide-freebsd-server/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "GitLab Installation Guide on FreeBSD Server",
+  "name": "GitLab Installation Guide on FreeBSD Server",
+  "description": "Gitlab is a service that provides remote access to Git repositories. In addition to being a place to store your code, this service also provides additional features designed to help manage the software development cycle. Git is a tool that functions to make it easier for developers. This tool is useful as a Version Control System (VCS) which is tasked with tracking changes to code files. For developers, the existence of Git makes it very easy for them to collaborate to complete projects with other developers or on their own projects.\n",
+  "keywords": [
+    "gitlab,", "github,", "freebsd,", "installation,", "git,", "ruby,", "gem,", "bundler,", "repository,", "ci,", "cid,", "remote"
+  ],
+  "articleBody": "Gitlab is a service that provides remote access to Git repositories. In addition to being a place to store your code, this service also provides additional features designed to help manage the software development cycle. Git is a tool that functions to make it easier for developers. This tool is useful as a Version Control System (VCS) which is tasked with tracking changes to code files. For developers, the existence of Git makes it very easy for them to collaborate to complete projects with other developers or on their own projects.\nTools like Git allow developers to make changes to certain source codes. They don’t need to worry about conflicts in merging the codes. Because by using Git, all changes to the source code can be tracked.\nTo be able to use Git, there are currently various services available to store and share the code. For example, GitLab, GitHub, Bitbucket, and Gitorous. Among these options, GitLab is one of the Git storage services that is on the rise and has many users.\nGit is a source code versioning system that allows you to track changes locally and push or pull changes from remote resources.\nGitLab is a github-like service that organizations can use to provide internal management of git repositories. It is a self-hosted Git repository management system that keeps user code private and can easily deploy code changes. Here are some of the benefits of using Gitlab:\nOpen-source Gitlab CE available. Real-time logging. Supports Parallel Builds. Facilitates collaboration between developers 1. Install PostgreSQL Database All Gitlab features will work well if you use PostgreSQL database. So we recommend using PostgreSQL database that will connect with Gitlab. You can use MySQL Database, but some Gitlab features will not work well.\nIn FreeBSD PostgreSQL repository is available, you can install PostgreSQL with PKG or port. But it is better to install PostgreSQL with system port. There are two PostgreSQL that you must install, namely PostgreSQL client and PostgreSQL server. Here is how to install PostgreSQL on FreeBSD.\nroot@ns3:~ # cd /usr/ports/databases/postgresql15-client root@ns3:/usr/ports/databases/postgresql15-client # make install clean root@ns3:/usr/ports/databases/postgresql15-client # cd /usr/ports/databases/postgresql15-server root@ns3:/usr/ports/databases/postgresql15-server # make install clean In this article, we do not fully explain how to install and use PostgreSQL, you can read the previous article “How to Install and Configure PostgreSQL on FreeBSD 14”\n2. Creating PostgreSQL In this section we will create a database that will be used by Gitlab to communicate with PostgreSQL. Here is the database that we will create with PostgreSQL.\nuser: usergitlab database: gitlab host: localhost password: router123 Run the command below to create a PostgreSQL database.\nroot@ns3:~ # su - postgres $ createuser usergitlab $ createdb gitlab -O usergitlab encoding='UTF8' $ psql gitlab psql (15.5) Type \"help\" for help. gitlab=# alter user usergitlab with password 'router123'; ALTER ROLE gitlab=# The above command is used to connect to a PostgreSQL database, and create a database, user, and password.\n3. Install Redis Gitlab uses Redis to store all its caches. The goal is to speed up Gitlab performance. Run the following command to install Redis.\nroot@ns3:~ # cd /usr/ports/databases/redis root@ns3:/usr/ports/databases/redis # make install clean After that, configure Redis, open the redis.conf file and activate it by removing the “#” sign at the beginning of the script. Here’s the script you need to activate.\nroot@ns3:~ # cd /usr/local/etc root@ns3:/usr/local/etc # ee redis.conf unixsocket /var/run/redis/redis.sock unixsocketperm 770 requirepass foobared #bind 127.0.0.1 -::1 Allow Redis to start by adding the script below to the /etc/rc.conf file.\nroot@ns3:~ # ee /etc/rc.conf redis_enable=\"YES\" Start Redis with the restart command.\nroot@ns3:~ # service redis restart 4. Install gitlab-ce Before you install gitlab-ce, first install the dependencies required by gitlab-ce. Here’s how to install gitlab-ce dependencies.\nroot@ns3:~ # pkg install re2 html2text rubygem-re2 rubygem-gitlab-glfm-markdown rubygem-prometheus-client-mmap gpgme rubygem-rugged rubygem-charlock_holmes rubygem-plist rubygem-nkf rubygem-rouge rubygem-wmi-lite rubygem-net-ssh rubygem-lockbox rubygem-unf_ext After that, you can run the gitlab-ce install command.\nroot@ns3:~ # cd /usr/ports/www/gitlab-ce root@ns3:/usr/ports/www/gitlab-ce # make install clean Or, if you want to use the PKG package, run the command below.\nroot@ns3:~ # pkg install gitlab-ce root@ns3:~ # pkg install www/gitlab 5. Gitlab Configuration In this section, we will explain how to configure Gitlab on FreeBSD. Since you have to do a lot of configuration, we recommend that you follow each step we describe so that you don’t miss a single script.\n5.1. Make Connection After the gitlab-ce installation process is complete, open the gitlab installation directory and edit the configuration file, you follow the instructions at the top of the file. In the gitlab.yml file, activate the script below.\nroot@ns3:~ # cd /usr/local/www/gitlab-ce/config root@ns3:/usr/local/www/gitlab-ce/config # ee gitlab.yml connect_src: \"'self' http://192.168.5.2:* ws://192.168.5.2:* wss://192.168.5.2:*\" allowed_hosts: [192.168.5.2] gitlab: host: 192.168.5.2 port: 8080 email_from: datainchi@gmail.com email_reply_to: datainchi@gmail.com user: git time_zone: 'UTC' ### 5.2. Create Database Connection In the `database.yml` file, change the database script according to the PostgreSQL database you created above. ```console root@ns3:~ # cd /usr/local/www/gitlab-ce/config root@ns3:/usr/local/www/gitlab-ce/config # ee database.yml production: main: adapter: postgresql encoding: unicode database: gitlab username: usergitlab password: \"router123\" host: localhost 5.3. Create global git settings We will use the git command to initialize Gitlab, running the following commands to switch to the git user and update some of its global git settings.\nroot@ns3:~ # mkdir -p /usr/local/git/repositories root@ns3:~ # mkdir -p /usr/home/git \u0026\u0026 mkdir -p /usr/home/git/gitlab root@ns3:~ # chown -R git:git /usr/local/git/repositories root@ns3:~ # chown -R git:git /usr/home/git/ root@ns3:~ # su - git $ git config --global core.autocrlf input $ git config --global gc.auto 0 $ git config --global repack.writeBitmaps true $ git config --global receive.advertisePushOptions true $ git config --global core.fsync objects,derived-metadata,reference $ exit root@ns3:~ # 5.4. Change ownership and permissions On some Gitlab directories and files, you need to change file ownership and file permissions.\nroot@ns3:~ # chown -R git:git /usr/local/www/gitlab-ce/log root@ns3:~ # chown -R git:git /usr/local/www/gitlab-ce/tmp root@ns3:~ # chown -R git:git /usr/local/www/gitlab-ce/public root@ns3:~ # chown -R git:git /usr/local/www/gitlab-ce/builds root@ns3:~ # chown -R git:git /usr/local/www/gitlab-ce/shared root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/log root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/tmp root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/public root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/builds root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/shared root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/config 5.5. Install rubygems library To prevent hangs during Gitlab installation, configure rubygems to use installed libraries.\nroot@ns3:~ # cd /usr/local/www/gitlab-ce root@ns3:/usr/local/www/gitlab-ce # bundle config build.gpgme \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.rugged \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.re2 \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.charlock_holmes \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.gitlab-glfm-markdown \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.nkf \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.rouge \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.wmi-lite \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.plist \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.net-ssh \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.lockbox \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.unf_ext \"--use-system-libraries\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.prometheus-client-mmap \"--use-system-libraries\" If there is still an “error”, you can try the command below.\nroot@ns3:/usr/local/www/gitlab-ce # bundle config build.prometheus-client-mmap \"--platform ruby\" root@ns3:/usr/local/www/gitlab-ce # bundle config build.gitlab-glfm-markdown \"--platform ruby\" root@ns3:/usr/local/www/gitlab-ce # gem install prometheus-client-mmap --platform ruby root@ns3:/usr/local/www/gitlab-ce # gem install gitlab-glfm-markdown --platform ruby 5.6. Install gems for PostgreSQL GitLab Shell is an SSH access and repository management software developed specifically for GitLab. First of all, we have to install Ruby Gems.\nroot@ns3:/usr/local/www/gitlab-ce # bundle install --without development test Run the installation command for gitlab-shell.\nroot@ns3:/usr/local/www/gitlab-ce # bundle exec rake gitlab:shell:install REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production SKIP_STORAGE_VALIDATION=true 5.7. Create rc.d script To make Gitlab run automatically on FreeBSD server, you need to create rc.d script. Follow the command below.\nEnable gitlab to run automatically on FreeBSD. In /etc/rc.conf file, type the script below.\nroot@ns3:~ # ee /etc/rc.conf gitlab_enable=\"YES\" gitlab_authBackend=\"http://192.168.5.2:8080\" gitlab_workhorse_tcp=\"NO\" gitlab_workhorse_addr=\"192.168.5.2:8181\" gitlab_mail_room_enable=\"NO\" gitlab_allow_conflicts=\"NO\" gitlab_wait=\"120\" gitlab_pages_enable=\"YES\" gitlab_pages_dir=\"/var/tmp/gitlab_pages\" gitlab_pages_user=\"gitlab-pages\" gitlab_pages_group=\"gitlab-pages\" gitlab_pages_logfile=\"/var/log/gitlab_pages.log\" gitlab_pages_args=\"-config=/usr/local/share/gitlab-pages/gitlab-pages.conf\" 5.8. Run Gitlab The next step is to set up Redmine to connect to Ruby.\nroot@ns3:/usr/local/www/gitlab-ce # bundle exec rake generate_secret_token root@ns3:/usr/local/www/gitlab-ce # bundle exec rake db:migrate RAILS_ENV=\"production\" The final step is to run gitlab-ce.\nroot@ns3:/usr/local/www/gitlab-ce # service gitlab restart root@ns3:/usr/local/www/gitlab-ce # ruby bin/rails server -e production After you finish reading this article, your server now has a fully functional GitLab hosted on your own server. You can start importing or creating new projects and sharing access to them with your team members. Gitlab will be adding new features and updating the platform regularly, so it doesn’t hurt to visit the GitLab platform page often to check the project homepage for the latest information on important fixes or notifications.\n",
+  "wordCount" : "1366",
+  "inLanguage": "en",
+  "datePublished": "2025-05-07T11:35:22+01:00",
+  "dateModified": "2025-05-07T11:35:22+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "IWAN SETIAWAN"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://unixwinbsd.github.io/dnsserver/2025-05-07-gitlab-installation-guide-freebsd-server/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WARNET DAPURNET",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://unixwinbsd.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: "\\begin{equation}", right: "\\end{equation}", display: true},
+            {left: "\\begin{equation*}", right: "\\end{equation*}", display: true},
+            {left: "\\begin{align}", right: "\\end{align}", display: true},
+            {left: "\\begin{align*}", right: "\\end{align*}", display: true},
+            {left: "\\begin{alignat}", right: "\\end{alignat}", display: true},
+            {left: "\\begin{gather}", right: "\\end{gather}", display: true},
+            {left: "\\begin{CD}", right: "\\end{CD}", display: true},
+          ],
+          throwOnError : false
+        });
+    });
+</script>
+ 
+
+
+</head>
+
+<body class="" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://unixwinbsd.github.io/" accesskey="h" title="WARNET DAPURNET">
+                <img src="https://unixwinbsd.github.io/favicon.ico" alt="" aria-label="logo"
+                    height="18"
+                    width="18">WARNET DAPURNET</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://unixwinbsd.github.io/dnsserver/" title="DNSServer">
+                    <span>DNSServer</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://unixwinbsd.github.io/webhttps/" title="WebHTTPS">
+                    <span>WebHTTPS</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://unixwinbsd.github.io/anonymous/" title="Anonymous">
+                    <span>Anonymous</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://unixwinbsd.github.io/database/" title="DataBase">
+                    <span>DataBase</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://unixwinbsd.site" title="Blog">
+                    <span>Blog</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      GitLab Installation Guide on FreeBSD Server
+    </h1>
+    <div class="post-meta"><span title='2025-05-07 11:35:22 +0100 +0100'>May 2025</span>&nbsp;&middot;&nbsp;IWAN SETIAWAN
+
+</div>
+  </header> 
+  <div class="post-content"><p>Gitlab is a service that provides remote access to Git repositories. In addition to being a place to store your code, this service also provides additional features designed to help manage the software development cycle. Git is a tool that functions to make it easier for developers. This tool is useful as a Version Control System (VCS) which is tasked with tracking changes to code files. For developers, the existence of Git makes it very easy for them to collaborate to complete projects with other developers or on their own projects.</p>
+<p>Tools like Git allow developers to make changes to certain source codes. They don&rsquo;t need to worry about conflicts in merging the codes. Because by using Git, all changes to the source code can be tracked.</p>
+<p>To be able to use Git, there are currently various services available to store and share the code. For example, GitLab, GitHub, Bitbucket, and Gitorous. Among these options, GitLab is one of the Git storage services that is on the rise and has many users.</p>
+<p>Git is a source code versioning system that allows you to track changes locally and push or pull changes from remote resources.</p>
+<p><img alt="Process of Installing Gitlab on FreeBSD" loading="lazy" src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/NugetArticle/Process%20of%20Installing%20Gitlab%20on%20FreeBSD.jpg&commit=af864b0188f7e96be6438b0579f8e29be3445973"></p>
+<p>GitLab is a github-like service that organizations can use to provide internal management of git repositories. It is a self-hosted Git repository management system that keeps user code private and can easily deploy code changes. Here are some of the benefits of using Gitlab:</p>
+<ul>
+<li>Open-source Gitlab CE available.</li>
+<li>Real-time logging.</li>
+<li>Supports Parallel Builds.</li>
+<li>Facilitates collaboration between developers</li>
+</ul>
+<h2 id="1-install-postgresql-database">1. Install PostgreSQL Database</h2>
+<p>All Gitlab features will work well if you use PostgreSQL database. So we recommend using PostgreSQL database that will connect with Gitlab. You can use MySQL Database, but some Gitlab features will not work well.</p>
+<p>In FreeBSD PostgreSQL repository is available, you can install PostgreSQL with PKG or port. But it is better to install PostgreSQL with system port. There are two PostgreSQL that you must install, namely PostgreSQL client and PostgreSQL server. Here is how to install PostgreSQL on FreeBSD.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # cd /usr/ports/databases/postgresql15-client
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/ports/databases/postgresql15-client # make install clean
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/ports/databases/postgresql15-client # cd /usr/ports/databases/postgresql15-server
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/ports/databases/postgresql15-server # make install clean
+</span></span></span></code></pre></div><p>In this article, we do not fully explain how to install and use PostgreSQL, you can read the previous article &ldquo;<a href="https://unixwinbsd.site/en/freebsd/2025/05/07/howto-install-and-configure-postgresql-freebsd" target="_blank">How to Install and Configure PostgreSQL on FreeBSD 14</a>&rdquo;</p>
+<h2 id="2-creating-postgresql">2. Creating PostgreSQL</h2>
+<p>In this section we will create a database that will be used by Gitlab to communicate with PostgreSQL. Here is the database that we will create with PostgreSQL.</p>
+<ul>
+<li>user: <code>usergitlab</code></li>
+<li>database: <code>gitlab</code></li>
+<li>host: <code>localhost</code></li>
+<li>password: <code>router123</code></li>
+</ul>
+<p>Run the command below to create a PostgreSQL database.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # su - postgres
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#555">$</span> createuser usergitlab
+</span></span><span style="display:flex;"><span><span style="color:#555">$</span> createdb gitlab -O usergitlab <span style="color:#a00">encoding</span>=<span style="color:#a50">&#39;UTF8&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#555">$</span> psql gitlab
+</span></span><span style="display:flex;"><span><span style="color:#888">psql (15.5)
+</span></span></span><span style="display:flex;"><span><span style="color:#888">Type &#34;help&#34; for help.
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">gitlab=# alter user usergitlab with password &#39;router123&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">ALTER ROLE
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab=#
+</span></span></span></code></pre></div><p>The above command is used to connect to a PostgreSQL database, and create a database, user, and password.</p>
+<h2 id="3-install-redis">3. Install Redis</h2>
+<p>Gitlab uses Redis to store all its caches. The goal is to speed up Gitlab performance. Run the following command to install Redis.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # cd /usr/ports/databases/redis
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/ports/databases/redis # make install clean
+</span></span></span></code></pre></div><p>After that, configure Redis, open the redis.conf file and activate it by removing the &ldquo;#&rdquo; sign at the beginning of the script. Here&rsquo;s the script you need to activate.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # cd /usr/local/etc
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/etc # ee redis.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#888">unixsocket /var/run/redis/redis.sock
+</span></span></span><span style="display:flex;"><span><span style="color:#888">unixsocketperm 770
+</span></span></span><span style="display:flex;"><span><span style="color:#888">requirepass foobared
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#555">#</span><span style="color:#0aa">bind</span> 127.0.0.1 -::1
+</span></span></code></pre></div><p>Allow Redis to start by adding the script below to the <code>/etc/rc.conf</code> file.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # ee /etc/rc.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#888">redis_enable=&#34;YES&#34;
+</span></span></span></code></pre></div><p>Start Redis with the restart command.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # service redis restart
+</span></span></span></code></pre></div><h2 id="4-install-gitlab-ce">4. Install gitlab-ce</h2>
+<p>Before you install gitlab-ce, first install the dependencies required by gitlab-ce. Here&rsquo;s how to install gitlab-ce dependencies.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # pkg install re2 html2text rubygem-re2 rubygem-gitlab-glfm-markdown rubygem-prometheus-client-mmap gpgme rubygem-rugged rubygem-charlock_holmes rubygem-plist rubygem-nkf rubygem-rouge rubygem-wmi-lite rubygem-net-ssh rubygem-lockbox rubygem-unf_ext
+</span></span></span></code></pre></div><p>After that, you can run the gitlab-ce install command.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # cd /usr/ports/www/gitlab-ce
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/ports/www/gitlab-ce # make install clean
+</span></span></span></code></pre></div><p>Or, if you want to use the PKG package, run the command below.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # pkg install gitlab-ce
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # pkg install www/gitlab
+</span></span></span></code></pre></div><h2 id="5-gitlab-configuration">5. Gitlab Configuration</h2>
+<p>In this section, we will explain how to configure Gitlab on FreeBSD. Since you have to do a lot of configuration, we recommend that you follow each step we describe so that you don&rsquo;t miss a single script.</p>
+<h3 id="51-make-connection">5.1. Make Connection</h3>
+<p>After the gitlab-ce installation process is complete, open the gitlab installation directory and edit the configuration file, you follow the instructions at the top of the file. In the <code>gitlab.yml</code> file, activate the script below.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # cd /usr/local/www/gitlab-ce/config
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce/config # ee gitlab.yml
+</span></span></span><span style="display:flex;"><span><span style="color:#888">connect_src: &#34;&#39;self&#39; http://192.168.5.2:* ws://192.168.5.2:* wss://192.168.5.2:*&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">allowed_hosts: [192.168.5.2]
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab:
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    host: 192.168.5.2
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    port: 8080
+</span></span></span><span style="display:flex;"><span><span style="color:#888">email_from: datainchi@gmail.com
+</span></span></span><span style="display:flex;"><span><span style="color:#888">email_reply_to: datainchi@gmail.com
+</span></span></span><span style="display:flex;"><span><span style="color:#888">user: git
+</span></span></span><span style="display:flex;"><span><span style="color:#888">time_zone: &#39;UTC&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#555">#</span><span style="color:#aaa;font-style:italic">## 5.2. Create Database Connection</span>
+</span></span><span style="display:flex;"><span><span style="color:#888">In the `database.yml` file, change the database script according to the PostgreSQL database you created above.
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">```console
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # cd /usr/local/www/gitlab-ce/config
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce/config # ee database.yml
+</span></span></span><span style="display:flex;"><span><span style="color:#888">production:
+</span></span></span><span style="display:flex;"><span><span style="color:#888">  main:
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    adapter: postgresql
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    encoding: unicode
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    database: gitlab
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    username: usergitlab
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    password: &#34;router123&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">    host: localhost
+</span></span></span></code></pre></div><h3 id="53-create-global-git-settings">5.3. Create global git settings</h3>
+<p>We will use the git command to initialize Gitlab, running the following commands to switch to the git user and update some of its global git settings.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # mkdir -p /usr/local/git/repositories
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # mkdir -p /usr/home/git &amp;&amp; mkdir -p /usr/home/git/gitlab
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chown -R git:git /usr/local/git/repositories
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chown -R git:git /usr/home/git/
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # su - git
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#555">$</span> git config --global core.autocrlf input
+</span></span><span style="display:flex;"><span><span style="color:#555">$</span> git config --global gc.auto <span style="color:#099">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#555">$</span> git config --global repack.writeBitmaps <span style="color:#0aa">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#555">$</span> git config --global receive.advertisePushOptions <span style="color:#0aa">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#555">$</span> git config --global core.fsync objects,derived-metadata,reference
+</span></span><span style="display:flex;"><span><span style="color:#555">$</span> <span style="color:#0aa">exit</span>
+</span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ #
+</span></span></span></code></pre></div><h3 id="54-change-ownership-and-permissions">5.4. Change ownership and permissions</h3>
+<p>On some Gitlab directories and files, you need to change file ownership and file permissions.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chown -R git:git /usr/local/www/gitlab-ce/log
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chown -R git:git /usr/local/www/gitlab-ce/tmp
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chown -R git:git /usr/local/www/gitlab-ce/public
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chown -R git:git /usr/local/www/gitlab-ce/builds
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chown -R git:git /usr/local/www/gitlab-ce/shared
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/log
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/tmp
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/public
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/builds
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/shared
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # chmod -R 770 /usr/local/www/gitlab-ce/config
+</span></span></span></code></pre></div><h3 id="55-install-rubygems-library">5.5. Install rubygems library</h3>
+<p>To prevent hangs during Gitlab installation, configure rubygems to use installed libraries.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # cd /usr/local/www/gitlab-ce
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.gpgme &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.rugged &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.re2 &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.charlock_holmes &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.gitlab-glfm-markdown &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.nkf &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.rouge &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.wmi-lite &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.plist &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.net-ssh &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.lockbox &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.unf_ext &#34;--use-system-libraries&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.prometheus-client-mmap &#34;--use-system-libraries&#34;
+</span></span></span></code></pre></div><p>If there is still an &ldquo;error&rdquo;, you can try the command below.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.prometheus-client-mmap &#34;--platform ruby&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle config build.gitlab-glfm-markdown &#34;--platform ruby&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # gem install prometheus-client-mmap --platform ruby
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # gem install gitlab-glfm-markdown --platform ruby
+</span></span></span></code></pre></div><h3 id="56-install-gems-for-postgresql">5.6. Install gems for PostgreSQL</h3>
+<p>GitLab Shell is an SSH access and repository management software developed specifically for GitLab. First of all, we have to install Ruby Gems.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle install --without development test
+</span></span></span></code></pre></div><p>Run the installation command for gitlab-shell.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle exec rake gitlab:shell:install REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production SKIP_STORAGE_VALIDATION=true
+</span></span></span></code></pre></div><h3 id="57-create-rcd-script">5.7. Create rc.d script</h3>
+<p>To make Gitlab run automatically on FreeBSD server, you need to create rc.d script. Follow the command below.</p>
+<p>Enable gitlab to run automatically on FreeBSD. In <code>/etc/rc.conf</code> file, type the script below.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:~ # ee /etc/rc.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_enable=&#34;YES&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_authBackend=&#34;http://192.168.5.2:8080&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_workhorse_tcp=&#34;NO&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_workhorse_addr=&#34;192.168.5.2:8181&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_mail_room_enable=&#34;NO&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_allow_conflicts=&#34;NO&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_wait=&#34;120&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888"></span><span style="color:#f00;background-color:#faa">
+</span></span></span><span style="display:flex;"><span><span style="color:#f00;background-color:#faa"></span><span style="color:#888">gitlab_pages_enable=&#34;YES&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_pages_dir=&#34;/var/tmp/gitlab_pages&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_pages_user=&#34;gitlab-pages&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_pages_group=&#34;gitlab-pages&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_pages_logfile=&#34;/var/log/gitlab_pages.log&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#888">gitlab_pages_args=&#34;-config=/usr/local/share/gitlab-pages/gitlab-pages.conf&#34;
+</span></span></span></code></pre></div><h3 id="58-run-gitlab">5.8. Run Gitlab</h3>
+<p>The next step is to set up Redmine to connect to Ruby.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle exec rake generate_secret_token
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # bundle exec rake db:migrate RAILS_ENV=&#34;production&#34;
+</span></span></span></code></pre></div><p>The final step is to run gitlab-ce.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # service gitlab restart
+</span></span></span><span style="display:flex;"><span><span style="color:#888">root@ns3:/usr/local/www/gitlab-ce # ruby bin/rails server -e production
+</span></span></span></code></pre></div><p>After you finish reading this article, your server now has a fully functional GitLab hosted on your own server. You can start importing or creating new projects and sharing access to them with your team members. Gitlab will be adding new features and updating the platform regularly, so it doesn’t hurt to visit the GitLab platform page often to check the project homepage for the latest information on important fixes or notifications.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://unixwinbsd.github.io/tags/sysadmin/">SysAdmin</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 WARNET DAPURNET</span> ·     
+    <span>
+    Powered by 
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">hugo</a>, <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">papermod</a>, &amp;
+        <a href="https://github.com/pmichaillat/hugo-website/" rel="noopener" target="_blank">hugo-website</a>.
+    </span>
+</footer>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+</html>

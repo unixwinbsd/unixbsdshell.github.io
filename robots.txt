@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://unixwinbsd.github.io/sitemap.xml

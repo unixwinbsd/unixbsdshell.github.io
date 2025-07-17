@@ -1,0 +1,127 @@
+# Site settings
+title: UnixBSDShell
+SEOTitle: UnixBSDShell's Blog | UnixBSDShell
+title: UnixBSDShell
+lang: ["ru", "de", "en"]
+author: Iwan Setiawan
+domain: unixwinbsd.site
+header-img: img/home-bg.jpg
+email: datainchi@gmail.com
+description: "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others"
+keyword: "unix, bsd, freebsd, openbsd, openbsd, ghostbsd, netbsd, pfsense, opnsense, linux, ubuntu, debian, JavaScript, centos, React Native, bind, unbound"
+url: https://unixwinbsd.site"
+baseurl: ""
+repository  : "unixwinbsd/unixbsdshell.github.io"
+github: [metadata]
+future: true
+
+# SNS settings
+RSS: true
+# weibo_username: unixwinbsd
+# zhihu_username: unixwinbsd
+github_username: unixwinbsd
+twitter_username: unixwinbsd
+#facebook_username:  huxpro
+#linkedin_username:  firstname-lastname-idxxxx
+
+# Build settings
+# from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
+highlighter: rouge
+permalink: pretty
+paginate: 10
+include: [.htaccess]
+exclude:
+  [
+    "less",
+    "node_modules",
+    "Gruntfile.js",
+    "package.json",
+    "README.md",
+    "Gemfile",
+    "CNAME",
+    "sitemap.xml",
+    "README.zh.md",
+  ]
+
+anchorjs: true 
+timezone: Europe/Moscow
+
+keep_files:
+ [
+  "sitemap.xml",
+  "robots.txt",
+  "CNAME",
+]
+plugins:
+ [
+"jekyll-paginate",
+"jekyll-feed",
+"jekyll-seo-tag",
+"jekyll-sitemap",
+"jekyll-gist",
+"jekyll-polyglot",
+"jemoji",
+"csv",
+"jekyll-github-metadata",
+"octokit",
+"jekyll-archives",
+]
+
+atom_feed:  [ feed.xml ]
+
+# Markdown settings
+# replace redcarpet to kramdown,
+# although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
+# document: http://jekyllrb.com/docs/configuration/#kramdown
+markdown: kramdown
+kramdown:
+  input: GFM # use Github Flavored Markdown !important
+  syntax_highlighter_opts:
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+# Disqus settings
+disqus_username: hux
+
+# Netease settings
+netease_comment: false
+
+# Analytics settings
+# Baidu Analytics
+# ba_track_id: [your track id]
+
+# Google Analytics
+#ga_track_id: "UA-49627206-1" # Format: UA-xxxxxx-xx
+ga_domain: unixwinbsd.site
+
+# Sidebar settings
+sidebar: true # whether or not using Sidebar.
+sidebar-about-description: "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others"
+sidebar-avatar: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.jpg # use absolute URL, seeing it's used in both `/` and `/about/`
+
+# Featured Tags
+featured-tags: true 
+featured-condition-size: 1
+
+# Progressive Web Apps
+chrome-tab-theme-color: "#000000"
+service-worker: true
+
+# MathJax rendering for layout:page (e.g. post preview)
+page-mathjax: false
+
+# Friends
+#friends:
+#  [
+#    { title: "??(Midare)", href: "http://mida.re/" },
+#    { title: "Ebn Zhang", href: "https://ebnbin.dev/" },
+#    { title: "Kun Qian", href: "http://kunq.me" },
+#    { title: "Sherry Woo", href: "https://sherrywoo.me/" },
+#    { title: "SmdCn", href: "http://blog.smdcn.net" },
+#    { title: "JiyinYiyong", href: "http://tiye.me/" },
+#    { title: "DHong Say", href: "http://dhong.co" },
+#    { title: "????", href: "http://ingf.github.io/" },
+#  ]

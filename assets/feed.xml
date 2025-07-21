@@ -1,0 +1,1923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/feed.xsl" type="text/xsl"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xml:lang="ru, de, en">
+  <channel>
+    <title>UnixBSDShell</title>
+    <description>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more.</description>
+    <link>http://unixwinbsd.site</link>
+    <language>ru, de, en</language>
+    <copyright>http://unixwinbsd.site/credits/#copyright</copyright>
+    <atom:link href="http://unixwinbsd.site/feed.xml" rel="self" type="application/rss+xml" />
+      <item>
+        <title>FreeBSD14 Crud MysQL Server With Go Lang</title>
+        <author> ()</author>
+        <description><![CDATA[
+          
+          <p>Building a Restful application is one of the popular ways to build a cool blog by following a simple and scalable architecture. With CRUD, users can easily process MySQL databases. CRUD, which stands for Create, Read, Update, and Delete, is a common utility in software development. The ability to perform CRUD operations is fundamental to any application development.</p>
+
+<p>Go Lang is a popular programming language known for its efficiency, simplicity, and stability, while MySQL is a relational database management system (RDBMS) developed by Oracle based on the structured query language (SQL). While MySQL is one of the most popular database technologies in the modern big data ecosystem, and is now widely and effectively used, regardless of industry, it is clear that anyone involved with enterprise data or IT should have at least a basic understanding of MySQL.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/freebsd-golang-mysql-crud/-/raw/main/FreeBSD_Golang_CRUD.jpg" alt="cover freebsd golang go crud mysql server database" /></p>
+
+<p>With MySQL, we can learn the relational database system can immediately build a data storage system that is easy, fast, and secure. Data in MySQL is arranged according to the relational model. In this model, tables consist of rows and columns, and the relationships between data elements all follow a strict logical structure. Often people who are new to learning Golang do not know how to store data in MySQL because there are not many online resources. This article will help you understand the concept of Golang with MySQL.<br /><br /></p>
+
+<h2 id="1-system-specifications-used">1. System Specifications Used</h2>
+<ul>
+  <li>OS: FreeBSD 14.</li>
+  <li>IP Address: 192.168.5.2.</li>
+  <li>Go version: go-1.19.</li>
+  <li>MySql Server.</li>
+  <li>Hostname: ns7.</li>
+</ul>
+
+<h2 id="2-create-a-golang-project">2. Create a Golang project</h2>
+<p>The first step is to create a working directory to set up the development environment and start a Golang project. Follow the steps below to set up a new Golang project.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="gp">root@ns7:~ #</span><span class="w"> </span><span class="nb">cd</span> /var
+<span class="gp">root@ns7:/var #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> FreeBSD-Golang-MySQL
+<span class="gp">root@ns7:/var #</span><span class="w"> </span><span class="nb">cd </span>FreeBSD-Golang-MySQL
+<span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Once you have finished creating the Go language directory, create a new file named “main.go”.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span><span class="nb">touch </span>main.go
+<span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span><span class="nb">chmod</span> +x main.go
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>In the file <code class="language-plaintext highlighter-rouge">"/root/var/FreeBSD-Golang-MySQL/main.go"</code>, you enter the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+</pre></td><td class="rouge-code"><pre><span class="go">package main
+
+import (
+	"database/sql"
+	"html/template"
+	"log"
+	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
+)
+
+// Employee Struct
+type Employee struct {
+	ID   int
+	Name string
+	City string
+}
+
+// Open Connection with MySQL Driver
+func dbConnect() (db *sql.DB) {
+	dbDriver := "mysql"
+	dbUser := "jhondoe"
+	dbPass := "router"
+	dbName := "goblog"
+	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
+	if err != nil {
+		panic(err.Error())
+	}
+	return db
+}
+
+// Read All Templates on folder template
+var tmpl = template.Must(template.ParseGlob("template/*"))
+
+// Index Page
+func Index(w http.ResponseWriter, r *http.Request) {
+	db := dbConnect()
+	rows, err := db.Query("SELECT * FROM Employee ORDER BY id DESC")
+	if err != nil {
+		panic(err.Error())
+	}
+	emp := Employee{}
+	res := []Employee{}
+	for rows.Next() {
+		var id int
+		var name, city string
+		err = rows.Scan(&amp;id, &amp;name, &amp;city)
+		if err != nil {
+			panic(err.Error())
+		}
+		emp.ID = id
+		emp.Name = name
+		emp.City = city
+		res = append(res, emp)
+	}
+	tmpl.ExecuteTemplate(w, "Index", res)
+	defer db.Close()
+}
+
+// Show Single Item
+func Show(w http.ResponseWriter, r *http.Request) {
+	db := dbConnect()
+	nID := r.URL.Query().Get("id")
+	rows, err := db.Query("SELECT * FROM Employee WHERE id = ?", nID)
+	if err != nil {
+		panic(err.Error())
+	}
+	emp := Employee{}
+	for rows.Next() {
+		var id int
+		var name, city string
+		err = rows.Scan(&amp;id, &amp;name, &amp;city)
+		if err != nil {
+			panic(err.Error())
+		}
+		emp.ID = id
+		emp.Name = name
+		emp.City = city
+	}
+	tmpl.ExecuteTemplate(w, "Show", emp)
+	defer db.Close()
+}
+
+// Show New Page
+func New(w http.ResponseWriter, r *http.Request) {
+	tmpl.ExecuteTemplate(w, "New", nil)
+}
+
+// Edit Item
+func Edit(w http.ResponseWriter, r *http.Request) {
+	db := dbConnect()
+	nID := r.URL.Query().Get("id")
+	rows, err := db.Query("SELECT * FROM Employee WHERE id = ?", nID)
+	if err != nil {
+		panic(err.Error())
+	}
+	emp := Employee{}
+	for rows.Next() {
+		var id int
+		var name, city string
+		err = rows.Scan(&amp;id, &amp;name, &amp;city)
+		if err != nil {
+			panic(err.Error())
+		}
+		emp.ID = id
+		emp.Name = name
+		emp.City = city
+	}
+	tmpl.ExecuteTemplate(w, "Edit", emp)
+	defer db.Close()
+}
+
+// Insert Item
+func Insert(w http.ResponseWriter, r *http.Request) {
+	db := dbConnect()
+	if r.Method == "POST" {
+		name := r.FormValue("name")
+		city := r.FormValue("city")
+		insert, err := db.Prepare("INSERT INTO Employee (name, city) VALUES(?, ?)")
+		if err != nil {
+			panic(err.Error())
+		}
+		insert.Exec(name, city)
+		log.Println("INSERT: Name: " + name + " | City: " + city)
+	}
+	defer db.Close()
+	http.Redirect(w, r, "/", 301)
+}
+
+// Update Item
+func Update(w http.ResponseWriter, r *http.Request) {
+	db := dbConnect()
+	if r.Method == "POST" {
+		name := r.FormValue("name")
+		city := r.FormValue("city")
+		id := r.FormValue("uid")
+		insert, err := db.Prepare("UPDATE Employee SET name = ?, city = ? WHERE id = ?")
+		if err != nil {
+			panic(err.Error())
+		}
+		insert.Exec(name, city, id)
+		log.Println("UPDATE: Name: " + name + " | City: " + city)
+	}
+	defer db.Close()
+	http.Redirect(w, r, "/", 301)
+}
+
+// Delete Item
+func Delete(w http.ResponseWriter, r *http.Request) {
+	db := dbConnect()
+	emp := r.URL.Query().Get("id")
+	delete, err := db.Prepare("DELETE FROM Employee WHERE id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+	delete.Exec(emp)
+	log.Println("DELETE")
+	defer db.Close()
+	http.Redirect(w, r, "/", 301)
+}
+
+func main() {
+	log.Println("Server started on: http://192.168.5.2:4000")
+	// Routes
+	http.HandleFunc("/", Index)
+	http.HandleFunc("/show", Show)
+	http.HandleFunc("/new", New)
+	http.HandleFunc("/edit", Edit)
+	http.HandleFunc("/insert", Insert)
+	http.HandleFunc("/update", Update)
+	http.HandleFunc("/delete", Delete)
+	// Start server on port 4000
+	http.ListenAndServe("192.168.5.2:4000", nil)
+}
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Note the script <code class="language-plaintext highlighter-rouge">http://192.168.5.2:4000</code>, this is the IP and Port that Go Lang will use to access the Web browser. Use the git command to initialize your Go Lang project.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="nx">root</span><span class="p">@</span><span class="nd">ns7</span><span class="p">:</span><span class="o">/</span><span class="kd">var</span><span class="sr">/FreeBSD-Golang-MySQL # go mod init github.com/i</span><span class="nx">wanse1977</span><span class="o">/</span><span class="nx">FreeBSD</span><span class="o">-</span><span class="nx">Golang</span><span class="o">-</span><span class="nx">MySQL</span>
+<span class="nx">root</span><span class="p">@</span><span class="nd">ns7</span><span class="p">:</span><span class="o">/</span><span class="kd">var</span><span class="sr">/FreeBSD-Golang-MySQL # go mod tid</span><span class="err">y
+</span><span class="nx">root</span><span class="p">@</span><span class="nd">ns7</span><span class="p">:</span><span class="o">/</span><span class="kd">var</span><span class="sr">/FreeBSD-Golang-MySQL # go get github.com/g</span><span class="nx">o</span><span class="o">-</span><span class="nx">sql</span><span class="o">-</span><span class="nx">driver</span><span class="o">/</span><span class="nx">mysql</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+
+          <hr /><p><a href="mailto:?subject=FreeBSD14%20Crud%20MysQL%20Server%20With%20Go%20Lang">Reply via email</a></p>]]>
+        </description>
+        <pubDate>Thu, 09 Jan 2025 16:14:10 +0300</pubDate>
+        <link>http://unixwinbsd.site/posts/freebsd-crud-mysql-server-with-golang/</link>
+        <guid isPermaLink="false">http://unixwinbsd.site/posts/freebsd-crud-mysql-server-with-golang/</guid>
+        <category>Database</category>
+      </item>
+      <item>
+        <title>Building MySQL MariaDB on OpenBSD - Installation and Configuration</title>
+        <author> ()</author>
+        <description><![CDATA[
+          
+          <p>If you are someone who works in the database field, of course you are already familiar with MariaDB and MySQL. Both are DBMS or Database Management Systems with almost the same features and functions.</p>
+
+<p>Technological advances make things more practical, including database management. Not just saving time, you will also be given convenience in developing websites or applications. MySQL and MariaDB are the two most popular and frequently used software.</p>
+
+<p>MariaDB is a database management system which is an independent development of MySQL. MariaDB is also called a fork because it is considered another version of MySQL.</p>
+
+<p>Developed in 2009, MariaDB is available as a Relational Database Management Systems application which is still open source. Equipped with many features and maintains compatibility with MySQL. Call it ports and sockets, table definitions, APIs and various protocols.</p>
+
+<p>MariaDB runs on the same Structured Query Language (SQL) as MySQL. Therefore, if you were previously a MySQL user, you will have no difficulty switching to this application.</p>
+
+<p>So, now that you know what MariaDB is, at least you understand a little, right?</p>
+
+<p>As a database management system, MariaDB has several functions, including:</p>
+<ul>
+  <li>Enterprise databases</li>
+  <li>Import Data</li>
+  <li>Big Data Operations</li>
+  <li>Error Message Detection</li>
+</ul>
+
+<h2 id="1-install-mariadb">1. Install MariaDB</h2>
+<p>On the OpenBSD 7.5 operating system, it seems rather difficult to find the MariaDB repository, or even that OpenBSD has replaced it with MaraDB. But it doesn’t matter, MaraDB or MySQL come from the same womb. The way to use it is also not much different. To install MariaDB on OpenBSD run the following command.</p>
+
+<p>First, we first look for the Mariadb package which is available in the OpenBSD repository.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>ns3# pkg_info -Q mariadb
+mariadb-client-10.9.8v1
+mariadb-server-10.9.8p0v1
+mariadb-tests-10.9.8v1
+p5-DBD-MariaDB-1.23
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After that, install the Mariadb package.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>ns3# pkg_add mariadb-client-10.9.8v1 mariadb-server-10.9.8p0v1
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="a-enable-mariadb-on-openbsd">a. Enable Mariadb on OpenBSD</h3>
+<p>Use the rcctl command to activate Mariadb, you can also use the dos command to enable Mariadb on OpenBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>ns3# rcctl enable mysqld
+ns3# rcctl restart mysqld
+mysqld(ok)
+ns3# rcctl check mysqld
+mysqld(failed)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>“mysqld(failed)”, meaning that Mariadb is not yet running. Try running the command “mysql_install_db”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>ns3# mysql_install_db
+Installing MariaDB/MySQL system tables in '/var/mysql' ...
+OK
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Restart Mariadb.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>ns3# rcctl restart mysqld
+mysqld(ok)
+mysqld(ok)
+ns3# rcctl check mysqld
+mysqld(ok)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="b-create-root-password-mariadb">b. Create root Password MariaDB</h3>
+<p>In this section we will create a new root password to secure MariaDB SQL data and remove the insecure default database.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+</pre></td><td class="rouge-code"><pre>ns3# mysql_secure_installation
+
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MariaDB to secure it, we'll need the current
+password for the root user. If you've just installed MariaDB, and
+haven't set the root password yet, you should just press enter here.
+
+Enter current password for root (enter for none): 
+OK, successfully used password, moving on...
+
+Setting the root password or using the unix_socket ensures that nobody
+can log into the MariaDB root user without the proper authorisation.
+
+You already have your root account protected, so you can safely answer 'n'.
+
+Switch to unix_socket authentication [Y/n] Y
+Enabled successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+You already have your root account protected, so you can safely answer 'n'.
+
+Change the root password? [Y/n] Y
+New password: router123
+Re-enter new password: router123
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MariaDB installation has an anonymous user, allowing anyone
+to log into MariaDB without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] Y
+ ... Success!
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] Y
+ ... Success!
+
+By default, MariaDB comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] Y
+ - Dropping test database...
+ ... Success!
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] Y
+ ... Success!
+
+Cleaning up...
+
+All done!  If you've completed all of the above steps, your MariaDB
+installation should now be secure.
+
+Thanks for using MariaDB!
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="2-test-mariadb-installation">2. Test MariaDB Installation</h2>
+<p>After the installation and configuration process is complete, we carry out testing by connecting the user to the MariaDB database server.</p>
+
+<h3 id="a-check-mariadb-version">a. Check Mariadb version</h3>
+<p>Before you run other commands, first check the version of Mariadb that you are using in OpenBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>ns3# mysql -V
+mysql  Ver 15.1 Distrib 10.9.8-MariaDB, for OpenBSD (amd64) using readline 4.3
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="b-login-to-mariadb">b. Login to MariaDB</h3>
+<p>Run the command below to log in to the Mariadb server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre>ns3# mysql -u root -p
+Enter password: router123
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.9.8-MariaDB OpenBSD port: mariadb-server-10.9.8p0v1
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]&gt;
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="c-create-database-user-and-password">c. Create database, user and password</h3>
+<p>After you have successfully logged into the MariaDB server, that means your MariaDB is running, you can run SQL commands such as creating databases, tables, deleting, replacing and others. In this example, we will explain how to create a database, username and password in MariaDB.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre>ns3# mysql -u root -p
+
+MariaDB [(none)]&gt; CREATE DATABASE router;
+Query OK, 1 row affected (0.006 sec)
+
+MariaDB [(none)]&gt; CREATE DATABASE captiveportal ;
+Query OK, 1 row affected (0.006 sec)
+
+MariaDB [(none)]&gt; show databases;
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>MariaDB [(none)]&gt; CREATE USER 'steve'@'localhost' IDENTIFIED BY 'router123';
+Query OK, 0 rows affected (0.017 sec)
+
+MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON router.* TO 'steve'@'localhost';
+Query OK, 0 rows affected (0.004 sec)
+
+MariaDB [(none)]&gt; FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.001 sec)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="d-delete-database-and-password">d. Delete database and password</h3>
+<p>If the database you are using is no longer used and the user is no longer useful, you can delete it with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>MariaDB [(none)]&gt; drop database router;
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB [(none)]&gt; drop database captiveportal;
+Query OK, 0 rows affected (0.014 sec)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>MariaDB [(none)]&gt; DROP USER 'steve'@'localhost';
+Query OK, 0 rows affected (0.004 sec)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>This article only contains a basic lesson on the Mariadb installation and configuration process on OpenBSD. Keep learning, because there are lots of SQL commands that can be useful, especially for web site development.</p>
+
+          <hr /><p><a href="mailto:?subject=Building%20MySQL%20MariaDB%20on%20OpenBSD%20-%20Installation%20and%20Configuration">Reply via email</a></p>]]>
+        </description>
+        <pubDate>Sun, 29 Dec 2024 12:10:10 +0300</pubDate>
+        <link>http://unixwinbsd.site/posts/freebsd-mysql-mariadb-bdatabase/</link>
+        <guid isPermaLink="false">http://unixwinbsd.site/posts/freebsd-mysql-mariadb-bdatabase/</guid>
+        <category>Database</category>
+      </item>
+      <item>
+        <title>FreeBSD14 Installation Ruby Gemfile and Bundle With Path Environemnt</title>
+        <author> ()</author>
+        <description><![CDATA[
+          
+          <p>For beginner programmers, perhaps many are still not familiar with Ruby because it is rarely used as a basis. Ruby is one of the superior programming languages for developing website applications. The Ruby programming language was designed with a focus on simplicity and productivity. Its intuitive and English-like syntax makes it easy to understand and use, especially for programming beginners.</p>
+
+<p>One of Ruby’s advantages is that it has a web development framework known as Ruby on Rails or often abbreviated as Rails. Before Rails, developers often spent a lot of time writing code over and over again. However, with Rails, this process is faster because Rails has the CoC (Convention over Configuration) principle and the DRY (Don’t Repeat Yourself) principle.</p>
+
+<p>CoC is an approach where the system provides built-in conventions to simplify common tasks, reducing the need for developers to configure every detail. While DRY encourages reducing duplication in code. This principle emphasizes the importance of keeping information or logic in one single place in the code, ensuring the code is more maintainable and minimizing errors.</p>
+
+<p>On FreeBSD, managing and running a Ruby application usually involves determining the Ruby version and dependencies that will form the library to reference our project. Ruby has lots of dependencies, and you have to install all of them according to the project you are working on. Look at the image below.</p>
+
+<blockquote>
+  <p>Ruby is a dynamic object-oriented programming language. Ruby was designed with a focus on simplicity and productivity.</p>
+</blockquote>
+
+<p>In this article, we will learn about the Ruby installation process and file library dependencies for Ruby. To complete the contents of this article, we will also explain the process of creating a Ruby PATH. We have implemented the entire contents of this article on the FreeBSD 13.3 server, and you can also apply it to FreeBSD 14.<br /><br /></p>
+<h2 id="1-install-ruby-from-ports-and-pkg">1. Install Ruby From ports and PKG</h2>
+<p>There are two ways to install applications on FreeBSD, namely the ports system and the PKG package. In this article, we will use both methods. Before you start installing Ruby, update and install Ruby dependencies. Follow the method below.</p>
+
+<p><strong>Update PKG</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # pkg update -f
+root@ns3:~ # pkg upgrade -f
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>Update Ports</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # portmaster -a
+root@ns3:~ # portupgrade -a
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After that, we continue by installing the dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # pkg install libffi autoconf automake libyaml libedit libunwind rubygem-atk rubygem-fpm rubygem-minitar-cli puppetdb-terminus7 puppetdb-terminus8 rubygem-activemodel61
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Once you have finished installing dependencies, continue with installing Ruby.</p>
+
+<p><strong>Install Ruby with PKG</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns3:~ #  pkg install ruby32
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>Install Ruby with Ports</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # cd /usr/ports/lang/ruby32
+root@ns3:/usr/ports/lang/ruby32 # make install clean
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>By default the Ruby binary file is “ruby32”. Change the file to “ruby” by creating a symlink.</p>
+
+<blockquote>
+  <p><strong>Create Symlink</strong></p>
+
+  <p>root@ns3:~ # cd /usr/local/bin</p>
+
+  <p>root@ns3:/usr/local/bin # ln -s ruby32 /usr/local/bin/ruby</p>
+</blockquote>
+
+<p>Check the Ruby version.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:/usr/local/bin # ruby --version
+ruby 3.2.2 (2023-03-30 revision e51014f9c0) [amd64-freebsd13]
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="2-create-path-environment-variable">2. Create PATH Environment Variable</h2>
+<p>By default, FreeBSD stores Ruby files (lib and bin) in the /usr/local/lib/ruby directory. To make it easier for you to manage Ruby files that will be used for work projects, we can change $PATH $HOME as desired.</p>
+
+<p>In this article we will create $PATH $HOME for Ruby, Gem and Bundler. The method is very easy, you just need to add the script to .cshrc and csh.cshrc.</p>
+
+<h3 id="a-create-a-path-directory">a. Create a $PATH directory</h3>
+<p>Before we start creating the $PATH environment variable for Ruby, first create a directory to place the $PATH file. Follow the instructions below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # mkdir -p /usr/local/ruby
+root@ns3:~ # mkdir -p /usr/local/ruby/gems
+root@ns3:~ # mkdir -p /usr/local/ruby/gems/lib
+root@ns3:~ # mkdir -p /usr/local/ruby/bundle
+root@ns3:~ # mkdir -p /usr/local/ruby/bundle/lib
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="b-path-home-ruby">b. $PATH $HOME Ruby</h3>
+<p>To create a Path environment in a Ruby file, open the csh.cshrc file and add the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # ee /etc/csh.cshrc
+setenv RUBY_VERSION "3.2+"
+setenv RUBY_HOME /usr/local/ruby
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Also open the .cshrc file, and type the script below in the file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # ee .cshrc
+set path = ($RUBY_HOME/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="c-path-home-gem">c. $PATH $HOME GEM</h3>
+<p>The way to create $PATH $HOME for GEM is almost the same as Ruby. So that it doesn’t get messy, we will place the working directory with the Ruby working directory. Follow the steps below to create a $PATH $HOME GEM.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # ee /etc/csh.cshrc
+setenv GEM_HOME /usr/local/ruby/gems
+setenv GEM_PATH /usr/local/ruby/gems/lib
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Then in the /root/.cshrc file, type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # ee .cshrc
+set path = ($GEM_HOME/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
+set path = ($GEM_PATH/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="d-path-home-bundler">d. $PATH $HOME Bundler</h3>
+<p>In this section, we will create a $PATH $HOME Bundler. Not much different from above, open the file /etc/csh.cshrc, and type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # ee /etc/csh.cshrc
+setenv BUNDLE_HOME /usr/local/ruby/bundle
+setenv BUNDLE_PATH /usr/local/ruby/bundle/lib
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Then in the /root/.bashrc file, you add the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # ee .cshrc
+set path = ($BUNDLE_HOME/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
+set path = ($BUNDLE_PATH/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="3-install-gems">3. Install GEMS</h2>
+<p>Installing Ruby gems is an important skill for developers to have. Ruby gems are an essential tool in the website development toolkit, you can simplify the process of expanding Ruby’s capabilities. Installing it correctly is essential for efficient and error-free coding.</p>
+
+<p>RubyGems is a Ruby utility system created to simplify, facilitate the creation, sharing, and installation of libraries. On Linux systems RubyGems is almost identical to the apt-get distribution packaging system targeted at Ruby software. RubyGems is the de-facto method for sharing gems.</p>
+
+<p>In this section, we will learn the process of installing RubyGems and how to use it on FreeBSD. Run the following command to install RubyGems.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # cd /usr/ports/devel/ruby-gems
+root@ns3:/usr/ports/devel/ruby-gems # make install clean
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="a-update-gems">a. Update Gems</h3>
+<p>Before you start a new project, perform the update gem command to its latest version to get the latest features and fixes. Usually professional developers, use several tricks to optimize the Ruby development environment and keep it up to date.</p>
+
+<p><strong>Check the Gems version</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # gem -v
+3.4.20
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>Update Gems</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # gem update --system
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="b-install-app-with-gems">b. Install App with gems</h3>
+<p>A gem is a collection of related code used to solve a specific problem. Gems can be used to install Ruby Apps. Take a look at the example below to install an App with Gem.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # gem install httparty
+When you HTTParty, you must party hard!
+Successfully installed httparty-0.21.0
+Parsing documentation for httparty-0.21.0
+Done installing documentation for httparty after 1 seconds
+1 gem installed
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>For installing Multiple Gems, you can also install multiple gems at once by listing them all in a single gem install command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # gem install rails puma nokogiri
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>You can run the update command, to update the App.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # gem update httparty
+root@ns3:~ # gem update rails puma nokogiri
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="c-list-installed-gems">c. List installed gems</h3>
+<p>You can see a list of all gems installed with Ruby.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # gem list
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Run the following command, to check if the installed gems are outdated.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # gem outdated
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="d-uninstalling-gems">d. Uninstalling Gems</h3>
+<p>To remove installed gems, run the uninstall gems command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # gem uninstall httparty
+Remove executables:
+        httparty
+
+in addition to the gem? [Yn]  y
+Removing httparty
+Successfully uninstalled httparty-0.21.0
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="4-install-bundler">4. Install Bundler</h2>
+<p>Bundler is a Ruby utility for creating a consistent application environment for your applications, so you can specify the library version for the project you are working on. Bundler provides a consistent environment for your Ruby projects.</p>
+
+<p>Bundler can track and install the right gems and versions for the project you are working on. Bundler can also prevent dependencies and ensure that the gems you need are in development, staging, and production. Run the following command to install the bundler on the FreeBSD server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # cd /usr/ports/sysutils/rubygem-bundler
+root@ns3:/usr/ports/sysutils/rubygem-bundler # make install clean
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>In this article, we will explain how to use Bundler on FreeBSD. For example, we create a new working directory, after that create a Gemfile file. Follow the guide below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # mkdir -p /usr/local/www/FreeBSD_Gem
+root@ns3:~ # cd /usr/local/www/FreeBSD_Gem
+root@ns3:/usr/local/www/FreeBSD_Gem # touch Gemfile
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After that, in the Gemfile file, type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre>root@ns3:/usr/local/www/FreeBSD_Gem # ee Gemfile
+source 'https://rubygems.org'
+
+gem 'rails'
+gem 'httparty'
+
+gem 'fui', '~&gt; 0.3.0'
+gem 'nokogiri'
+gem 'second_curtain', '~&gt; 0.2.3'
+gem 'puma'
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After creating a Gemfile, run bundle install to install or bundle update to update within the constraints of your Gemfile.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:/usr/local/www/FreeBSD_Gem # bundle install
+root@ns3:/usr/local/www/FreeBSD_Gem # bundle update
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Run the bundle outdated command. to list the gems in your project that have a newer version.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre>root@ns3:/usr/local/www/FreeBSD_Gem # bundle outdated
+Fetching gem metadata from https://rubygems.org/...........
+Resolving dependencies...
+
+Gem             Current  Latest  Requested  Groups
+fui             0.3.0    0.5.0   ~&gt; 0.3.0   default
+json            1.8.6    2.7.1
+mustache        0.99.8   1.1.1
+second_curtain  0.2.4    0.6.0   ~&gt; 0.2.3   default
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>To verify installed gems, you can run the gem list command.</p>
+
+<p><strong>Check gems list</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns3:/usr/local/www/FreeBSD_Gem # gem list
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="5-install-rbenv">5. Install rbenv</h2>
+<p>rbenv is a utility for the Ruby programming language on Unix-like systems such as FreeBSD. rbenv is very useful for switching between multiple Ruby versions on the same machine. Additionally, rbenv is also useful for ensuring that every project you work on is always running on the correct version of Ruby.</p>
+
+<p>To install rbenv on FreeBSD is very easy, you just run the install command, as in the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # cd /usr/ports/devel/rbenv
+root@ns3:/usr/ports/devel/rbenv # make install clean
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After that, you check the version of rbenv used on FreeBSD.</p>
+
+<p><strong>Check version rbenv</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # rbenv --version
+rbenv 1.2.0
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>You can create rbenv project by running the following command.</p>
+
+<p><strong>Create rbenv project</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # cd /usr/local/www/FreeBSD_Gem
+root@ns3:/usr/local/www/FreeBSD_Gem # rbenv init
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Gems, rbenv and Bundler are important tools for managing your Ruby application dependencies. Gems, rbenv and Bundler can help you manage your app’s gem dependencies, ensuring your app runs smoothly and avoiding conflicts between different gem versions. By understanding how Gems and Bundler work, you can make Ruby applications more powerful, easy to manage, and fun to use.</p>
+
+          <hr /><p><a href="mailto:?subject=FreeBSD14%20Installation%20Ruby%20Gemfile%20and%20Bundle%20With%20Path%20Environemnt">Reply via email</a></p>]]>
+        </description>
+        <pubDate>Sat, 28 Dec 2024 15:10:10 +0300</pubDate>
+        <link>http://unixwinbsd.site/posts/freebsd-ruby-gemfile-bundle/</link>
+        <guid isPermaLink="false">http://unixwinbsd.site/posts/freebsd-ruby-gemfile-bundle/</guid>
+        <category>Webserver</category>
+      </item>
+      <item>
+        <title>Configuration Starship cross shell prompt For FreeBSD</title>
+        <author> ()</author>
+        <description><![CDATA[
+          
+          <p>Starship runs with shell commands and is built in the rust language. This utility has minimal prompts, is very fast, simple and highly customizable for any shell. Each command on Starship displays the information you need while you work, but remains neat and does not interfere with your work on the monitor screen.</p>
+
+<p>Starship includes free open source tools that you can download from the Github repository or install directly via the FreeBSD server. Starship features autocomplete commands, syntax highlighting, cross-shell prompts, etc.</p>
+
+<p>With its ease of use and rich features, Starship can enhance your working experience with the terminal, and you feel refreshed with a fantastic terminal. Starship works with every shell, such as bash, zsh (z shell), Nushell, PowerShell, etc.</p>
+
+<p>It seems that Starship doesn’t care about the shell you use, whether on the FreeBSD server you use bash, fish or another shell, you can use Starship to adjust its appearance.</p>
+
+<p>What you need to pay attention to when using Starship, you have to read the official documentation to be able to carry out advanced configurations for everything you like. In this article we just explain a simple configuration to get started along with some important information about Startship.<br /><br /></p>
+<h2 id="1-install-starship-shell-prompt">1. Install Starship Shell Prompt</h2>
+<p>FreeBSD makes it easy to install Starship, because you don’t need to download the Starship file. The Starship repository is available in the PKG package and the FreeBSD system port, and you can install Starship directly. Please remember, before you start installing Starship, install the Starship dependencies first. The following are the dependencies that you must install.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # pkg install rust cmake-core libgit2 libssh2
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>To make it clearer, below is a guide to installing Starship with the FreeBSD port system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # cd /usr/ports/shells/starship
+root@ns3:/usr/ports/www/mod_wsgi4 # make install clean
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After you type “make install clean”, wait a few moments until the installation process is complete.<br /><br /></p>
+<h2 id="2-starship-configuration">2. Starship Configuration</h2>
+<p>On FreeBSD using Starship is very easy, you can follow the instructions provided. Run the help command to display the Starship usage guide.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # starship -help
+The cross-shell prompt for astronauts.
+
+Usage: starship &lt;COMMAND&gt;
+
+Commands:
+  bug-report    Create a pre-populated GitHub issue with information about your configuration
+  completions   Generate starship shell completions for your shell to stdout
+  config        Edit the starship configuration
+  explain       Explains the currently showing modules
+  init          Prints the shell function used to execute starship
+  module        Prints a specific prompt module
+  preset        Prints a preset config
+  print-config  Prints the computed starship configuration
+  prompt        Prints the full starship prompt
+  session       Generate random session key
+  timings       Prints timings of all active modules
+  toggle        Toggle a given starship module
+  help          Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help     Print help
+  -V, --version  Print version
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After that, you create a special Starship directory. By default FreeBSD, the Starship directory is /root/.cache/starship. Let’s just use the existing Starship directory. So we just create a toml file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # cd /root/.cache/starship
+root@ns3:~/.cache/starship # ee starship.toml
+
+[cmd_duration]
+disabled = true
+
+[directory]
+truncation_symbol = "…/"
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[php]
+format = "PHP: [$version](147 bold) "
+
+[rust]
+disabled = true
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>If your FreeBSD server has bash shell installed, open the “~/.bashrc” file and paste this line of code at the end.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # ee .bashrc
+eval "$(starship init bash)"
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After that, run the command below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # starship print-config | tee /root/.cache/starship/starship.toml
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Restart your FreeBSD server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns3:~ # reboot
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The configuration examples above are just the basics of using Starship on FreeBSD, but there’s a lot more you can do with Starship by following their online manual.</p>
+
+
+          <hr /><p><a href="mailto:?subject=Configuration%20Starship%20cross%20shell%20prompt%20For%20FreeBSD">Reply via email</a></p>]]>
+        </description>
+        <pubDate>Fri, 27 Dec 2024 12:22:10 +0300</pubDate>
+        <link>http://unixwinbsd.site/posts/starship-cross-prompt-freebsd/</link>
+        <guid isPermaLink="false">http://unixwinbsd.site/posts/starship-cross-prompt-freebsd/</guid>
+        <category>Unixshell</category>
+      </item>
+      <item>
+        <title>Configuration Bashtop - System Monitoring resources On FreeBSD 14</title>
+        <author> ()</author>
+        <description><![CDATA[
+          
+          <p>Bashtop is a free and open source resource monitoring tool for FreeBSD, macOS, Linux, and Unix systems. This tool can display CPU status, memory usage, hard disk usage, network, and other running process usage and statistics.</p>
+
+<p>Bashtop is written in Bash with a TUI interface to monitor resource usage on your Linux, macOS, or FreeBSD system. Bashtop has a customizable menu display and a fully responsive terminal user interface.</p>
+
+<p>A newer version of bashtop is now available written in the Python programming language called bpytop. This version of Bashtop CLI is much faster and consumes only about 1/3 of the resources of native bashtop. Bpytop is less CPU intensive and includes more features, such as:</p>
+
+<ol>
+  <li>Easy to use, with a menu display like an online game.</li>
+  <li>UI menu to change all configuration file options.</li>
+  <li>Shows the current disk read and write speed.</li>
+  <li>Mouse support.</li>
+  <li>Send SIGTERM, SIGKILL, SIGINT to the selected process.</li>
+  <li>Changeable mini mode.</li>
+  <li>Function to display detailed statistics for the selected process.</li>
+  <li>Displays a message in the menu if a new version is available.</li>
+  <li>Additional customization.</li>
+  <li>Custom graphics for memory consumption.</li>
+  <li>Fast and “mostly” responsive UI with UP, DOWN button process selection.</li>
+  <li>Ability to filter processes.</li>
+  <li>Easy switching between sorting options.</li>
+  <li>Auto scaling graph for network usage.</li>
+</ol>
+
+<p>Using Bashtop, you can sort processes and easily switch between various sorting options. Additionally, Bashtop can also send SIGKILL, SIGTERM and SIGINT to the required processes. This tool runs very fast and perfect system monitoring. This tool reaches users with a responsive terminal interface with a customizable menu. Monitoring various system metrics is made easy by the neat arrangement of the various display sections.<br /><br /></p>
+<h2 id="1-installing-bashtop-on-freebsd">1. Installing Bashtop on FreeBSD</h2>
+<p>To install Bashtop on FreeBSD, you make sure Bash is installed on your FreeBSD server. If not, run the following command to install Bash.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns7:~ # cd /usr/ports/shells/bash
+root@ns7:/usr/ports/shells/bash # make install clean
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Apart from Bash dependencies, you also have to install other dependencies, such as coreutils, gsed and python39. Here’s how to install these dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns7:~ # pkg install python39 coreutils gsed
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Installing Bashtop on FreeBSD is very easy without any special configuration. How to run Bashtop is also very simple, so it’s natural that this application is so light and fast. Run the following command to install Bashtop.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns7:~ # cd /usr/ports/sysutils/bashtop
+root@ns7:/usr/ports/sysutils/bashtop # make install clean
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After installation, when we want to start Bashtop, you simply run the following command in the FreeBSD terminal.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns7:~ # bashtop
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>If there is nothing wrong with the installation, the command above will display the following image.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/freebsd-golang-mysql-crud/-/raw/main/template/bashtop_system_monitoring_tool_on_freebsd.jpg" alt="bashtop system monitoring tool on freebsd" /></p>
+
+<p>Bashtop provides computer users with a great way to keep an eye on system resources. With Bashtop you can monitor computer resources very easily and with a stunning game display.</p>
+
+          <hr /><p><a href="mailto:?subject=Configuration%20Bashtop%20-%20System%20Monitoring%20resources%20On%20FreeBSD%2014">Reply via email</a></p>]]>
+        </description>
+        <pubDate>Thu, 26 Dec 2024 17:11:10 +0300</pubDate>
+        <link>http://unixwinbsd.site/posts/bash-bashtop-freebsd-system-monitoring/</link>
+        <guid isPermaLink="false">http://unixwinbsd.site/posts/bash-bashtop-freebsd-system-monitoring/</guid>
+        <category>Unixshell</category>
+      </item>
+      <item>
+        <title>Go Lang and FreeBSD Collaboration - Creating Simple Web Apps</title>
+        <author> ()</author>
+        <description><![CDATA[
+          
+          <p>Go or Go lang is a popular programming language widely used in industry to create various applications, including web servers, blogs, networking tools and system utilities. Go is known for its simplicity, efficiency, and concurrency support, making it suitable for building scalable, high-performance systems.</p>
+
+<p>Go is used by many companies and organizations, including:</p>
+
+<ol>
+  <li><strong>Google :</strong>  Google uses Go in a number of its internal systems, including its Kubernetes container orchestration platform and Google Search search engine.</li>
+  <li><strong>Netflix :</strong>  Netflix uses Go across a number of its systems, including its data pipeline and recommendation engine.</li>
+  <li><strong>Dropbox :</strong>  Dropbox uses Go for a number of its services, including its file sync engine and server infrastructure.</li>
+  <li><strong>Uber :</strong>  Uber uses Go in a number of its systems, including distributed data storage and routing engines.</li>
+</ol>
+
+<p>One of Go’s greatest strengths lies in its suitability for developing web applications. Google’s Go lang offers great performance, is easy to deploy, and has many of the essential tools you need to build and deploy scalable web services in its standard library.</p>
+
+<p>This tutorial will explain and guide you to create a practical example of building a web application with Go and deploying it to the internet network so that it can be read by many people. This guide will cover the basics of using Go’s built-in HTTP server and templating language, as well as how to interact with external APIs.</p>
+
+<h2 id="1-system-specifications">1. System Specifications</h2>
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>Hostname/Domain: ns1@unixexplore.com</li>
+  <li>IP Address: 192.168.5.2</li>
+  <li>go version: go1.20.7 freebsd/amd64</li>
+  <li>Port GoLang Web: 8999</li>
+</ul>
+
+<h2 id="2-create-simple-web-applications">2. Create Simple Web Applications</h2>
+<p>The first step to get started with Go is to install it on our server computer. For the Go installation process, you can read our previous article: “<a href="https://penaadventure.com/en/freebsd/2024-12-24-go-lang-freebsd14-golang-install/">How to Install GOLANG GO Language on FreeBSD</a>”. You can practice all the contents of this article on Linux server machines such as Ubuntu, Debian and others, and can also be applied to Windows and MacOS operating systems.</p>
+
+<p>As basic material or opening material, we start by creating a simple web application that only displays text in a web browser. To start, we will create a working folder/directory, here are the steps.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns1:~ # mkdir -p /var/GoogleBlog
+root@ns1:~ # cd /var/GoogleBlog
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The explanation of the script above is to create a working directory with the name GoogleBlog folder which we place in the /var/GoogleBlog folder. After we have successfully created the working directory, the next step is to write the program code in GO language.</p>
+
+<p>Go programs are organized into packages. A package is a collection of source files in the same directory that are compiled together. Functions, types, variables, and constants defined in one source file are visible to all other source files in the same package.</p>
+
+<p>A repository contains one or more modules. A module is a collection of related Go packages released together. A Go repository usually contains only one module, located at the root of the repository. A file named go.mod declares the module path:import path prefix for all packages in the module. The module contains packages in a directory containing the go.mod file as well as subdirectories of that directory, up to the next subdirectory containing other go.mod files (if any).</p>
+
+<p>To compile and run a simple program, first select the module path (we will use the working directory above and create a go.mod file declaring it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>root@ns1:~ # cd /var/GoogleBlog
+root@ns1:/var/GoogleBlog # go mod init GoogleBlog
+go: creating new go.mod: module GoogleBlog
+root@ns1:/var/GoogleBlog #
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The script above will create a go.mod file that we will use to compile and run Go programs. After the go.mod compilation file has been successfully created, the next step is to create the main Go file which we call “main.go” and enter the script code below in the “main.go” file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre>root@ns1:/var/GoogleBlog # ee main.go
+
+package main
+
+import (
+	"net/http"
+	"os"
+)
+
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("&lt;h1&gt;Good Morning, FreeBSD!&lt;/h1&gt;"))
+}
+
+func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8999"
+	}
+
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/", indexHandler)
+	http.ListenAndServe("192.168.5.2:"+port, mux)
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Then we run the “main.go” file by typing in the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns1:/var/GoogleBlog # go run main.go
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>We can see the results by opening the Mozilla Firefox or Google Chrome web browser, in the address bar menu type “http://192.168.5.2:8999/” and the results will look like the image below.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/freebsd-golang-mysql-crud/-/raw/main/template/Good_Morning__FreeBSD.jpg" alt="Good Morning FreeBSD 14" /></p>
+
+<p>Another example of a script that you can practice, delete all the scripts in the “main.go” file and replace them with the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre>package main
+import (
+    "fmt"
+    "net/http"
+)
+type msg string
+func (m msg) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+   fmt.Fprint(resp, m) 
+}
+func main() {
+    msgHandler := msg("Hello from Web Server in Go")
+    fmt.Println("Server is listening...")
+    http.ListenAndServe("192.168.5.2:8999", msgHandler)
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Run the Go application.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns1:/var/GoogleBlog # go run main.go
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Open Google Chrome and type “http://192.168.5.2:8999/” in the address bar menu and you can see the results in Google Chrome.</p>
+
+<h2 id="3-determining-routes-and-handler-functions-in-go">3. Determining Routes and Handler Functions in Go</h2>
+<p>There are many ways to perform HTTP path routing in Go, including the http.ServeMux standard library, but they only support basic prefix matching. Apart from that, there are also many third-party router libraries. In Go, routing can be done in several ways, including:</p>
+
+<ol>
+  <li>By utilizing the http.HandleFunc().</li>
+  <li>function Implementing the http.Handler interface in a struct, to then be used in the http.Handle() function.</li>
+  <li>Create your own multiplexer using the http.ServeMux struct.</li>
+  <li>And others</li>
+</ol>
+
+<p>We can define paths for applications and corresponding controller functions. Routers in Go are a combination of HTTP methods (such as GET , PUT , or POST ) and URL patterns that Go applications must respond to. To determine routing, we will use the http.HandleFunc function which takes a pattern and a handler function as arguments. For example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+  // Add handler code here
+})
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The above script will determine the path that responds to the GET request at the URL “/”. The controller function will receive two arguments, the ResponseWriter interface, which is used to write the response to the client, and the Request structure, which contains information about the request made by the client.</p>
+
+<p>Next, we have to write a controller function for the application path we are going to create. These functions will be tasked with carrying out appropriate actions for each path and returning a response to the client. For example, if we are creating a server that displays a list of users, you might have a controller function that queries the database for the list of users and then renders an HTML template with the list of users that has been stored in the database.</p>
+
+<p>To render an HTML template, you must first parse the template file using the template.ParseFiles function. Like the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>tmpl, err := template.ParseFiles("template.html")
+if err != nil {
+  http.Error(w, err.Error(), http.StatusInternalServerError)
+  return
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>HTML templates are files that contain the layout and content of application pages. We can include placeholders for dynamic data that will be passed by the controller function. For example, here’s a simple HTML template that displays a list of users. Type the script below in the file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns1:~ # cd /var/GoogleBlog
+root@ns1:/var/GoogleBlog # ee index.html
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><a href="https://github.com/unixwinbsd/integralist/blob/main/index.html">Example index.html</a></p>
+
+<p>After that, we create the main Go file which we name “/var/GoogleBlog./main.go” and enter the script below in the “main.go” file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+</pre></td><td class="rouge-code"><pre>root@ns1:/var/GoogleBlog # ee main.go
+
+package main
+
+import (
+	"html/template"
+	"net/http"
+	"strconv"
+)
+
+type User struct {
+	Name string
+	Age  int
+}
+
+var users []User
+
+func main() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// Parse the HTML template
+		tmpl, err := template.ParseFiles("index.html")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Define the data for the template
+		data := struct {
+			Title string
+			Users []User
+		}{
+			Title: "Users",
+			Users: users,
+		}
+
+		// Render the template with the data
+		err = tmpl.Execute(w, data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	})
+
+	http.HandleFunc("/add", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			// Parse the form values
+			name := r.FormValue("name")
+			ageStr := r.FormValue("age")
+			age, err := strconv.Atoi(ageStr)
+			if err != nil {
+				http.Error(w, "Invalid age", http.StatusBadRequest)
+				return
+			}
+
+			// Add the user to the list of users
+			users = append(users, User{Name: name, Age: age})
+
+			// Redirect the user back to the homepage
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+		}
+	})
+
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	http.ListenAndServe("192.168.5.2:8999", nil)
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The next step is, we run the Go server, by typing the command below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>root@ns1:/var/GoogleBlog # go run main.go
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>We can see the results by opening the Google Chrome or Yandex web browser, in the address bar menu type “http://192.168.5.2:8999/”, then it will look like the image below.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/freebsd-golang-mysql-crud/-/raw/main/template/golang_web_app_user_and_group.jpg" alt="go lang web app create user and group" /></p>
+
+<p>In this tutorial, we learn how to create a web application in Go from scratch. we also learn how to import the necessary packages, define controller paths and functions, create an HTML template, and start an HTTP server. We have finished this article for now, we will continue to the next article with material that is quite difficult and a challenging script.</p>
+
+          <hr /><p><a href="mailto:?subject=Go%20Lang%20and%20FreeBSD%20Collaboration%20-%20Creating%20Simple%20Web%20Apps">Reply via email</a></p>]]>
+        </description>
+        <pubDate>Wed, 25 Dec 2024 17:11:10 +0300</pubDate>
+        <link>http://unixwinbsd.site/posts/go-lang-freebsd-web-app/</link>
+        <guid isPermaLink="false">http://unixwinbsd.site/posts/go-lang-freebsd-web-app/</guid>
+        <category>Webserver</category>
+      </item>
+      <item>
+        <title>How to Install GOLANG GO Language on FreeBSD 14</title>
+        <author> ()</author>
+        <description><![CDATA[
+          
+          <p>Go is an Open Source programming language (BSD license), Go was created with the aim of making it easier to create applications that are efficient and easy to distribute. So, Go has binaries for Windows, Mac OS, and of course, for Linux. One of the main features of Go is the efficient management of computer resources. To the point that many claim to be a natural replacement for the C programming language.</p>
+
+<p>On the other hand, Go is a compiled language and has the advantage of reducing latency to a minimum to guarantee optimal performance. Therefore, there are many reasons why program developers make Go their main language. In this article we try to discuss how to install GOLANG or Go Language on the FreeBSD 13.2 system.</p>
+
+<p>To install GO on FreeBSD, you can use the pkg package or FreeBSD ports. The following is how to install GO on <a href="https://www.freebsd.org/releases/14.0R/relnotes/">FreeBSD14</a>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns2:~ # pkg install curl
+root@ns2:~ # pkg install go
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The command above is how to install GO with the pkg package. Below is an example of installing GO with the Ports system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>root@ns2:~ # cd /usr/ports/ftp/curl/ &amp;&amp; make install clean
+root@ns2:~ # cd /usr/ports/lang/go
+root@ns1:/usr/ports/lang/go # make config-recursive
+root@ns1:/usr/ports/lang/go # make install clean
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After the installation process is complete, check the GO version.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns1:~ # go version
+go version go1.21.13 freebsd/amd64
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>In the command above, the Go application used is version go1.20.3 freebsd/amd64. You can also use the env command to view go details.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+</pre></td><td class="rouge-code"><pre>root@ns1:~ # go env
+GO111MODULE=''
+GOARCH='amd64'
+GOBIN=''
+GOCACHE='/root/.cache/go-build'
+GOENV='/root/.config/go/env'
+GOEXE=''
+GOEXPERIMENT=''
+GOFLAGS=''
+GOHOSTARCH='amd64'
+GOHOSTOS='freebsd'
+GOINSECURE=''
+GOMODCACHE='/root/go/pkg/mod'
+GONOPROXY=''
+GONOSUMDB=''
+GOOS='freebsd'
+GOPATH='/root/go'
+GOPRIVATE=''
+GOPROXY='https://proxy.golang.org,direct'
+GOROOT='/usr/local/go121'
+GOSUMDB='sum.golang.org'
+GOTMPDIR=''
+GOTOOLCHAIN='auto'
+GOTOOLDIR='/usr/local/go121/pkg/tool/freebsd_amd64'
+GOVCS=''
+GOVERSION='go1.21.13'
+GCCGO='gccgo'
+GOAMD64='v1'
+AR='ar'
+CC='cc'
+CXX='clang++'
+CGO_ENABLED='1'
+GOMOD='/dev/null'
+GOWORK=''
+CGO_CFLAGS='-O2 -g'
+CGO_CPPFLAGS=''
+CGO_CXXFLAGS='-O2 -g'
+CGO_FFLAGS='-O2 -g'
+CGO_LDFLAGS='-O2 -g'
+PKG_CONFIG='pkg-config'
+GOGCCFLAGS='-fPIC -m64 -pthread -fno-caret-diagnostics -Qunused-arguments -Wl,--no-gc-sections -fmessage-length=0 -ffile-prefix-map=/tmp/go-build3564134109=/tmp/go-build -gno-record-gcc-switches'
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The next step, create an environment variable called GOPATH (which will be the location for the installed packages). Enter the following script into the /root/.profile folder.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>root@ns1:~ # ee /root/.profile
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/work/
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><br /><br /></p>
+<h2 id="testing-go">Testing Go</h2>
+<p>After go has been successfully installed and configured, it’s time to do a go test. In this test we will create a program that will display the words “Hello from freebsd” and “hello, world” to check whether Go is running. Create a file for test go with the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre>root@ns1:~ # cd /usr/local/go121/test
+root@ns1:/usr/local/go121/test # ee test.go
+package main
+
+import (
+    "fmt"
+    "runtime"
+)
+
+func main() {
+    fmt.Println("Hello from", runtime.GOOS)
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Now do a test.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns1:/usr/local/go121/test # go run test.go
+Hello from freebsd
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The text “Hello from freebsd” appears, meaning the Go program is running. Now we do the second test.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>root@ns1:/usr/local/go121/test # ee hello.go
+package main
+ import "fmt"
+ func main() {
+ fmt.Printf("hello, world\n")
+ }
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Still active in the /usr/local/go120/test folder, do a test on the “hello.go” file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@ns1:/usr/local/go121/test # go run hello.go
+hello, world
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>There are many programming languages but there is always room for innovation and that is what Go gives us. A very practical and efficient language and with support from giant developers like Google.</p>
+
+          <hr /><p><a href="mailto:?subject=How%20to%20Install%20GOLANG%20GO%20Language%20on%20FreeBSD%2014">Reply via email</a></p>]]>
+        </description>
+        <pubDate>Tue, 24 Dec 2024 13:15:10 +0300</pubDate>
+        <link>http://unixwinbsd.site/posts/go-lang-freebsd14-golang-install/</link>
+        <guid isPermaLink="false">http://unixwinbsd.site/posts/go-lang-freebsd14-golang-install/</guid>
+        <category>Sysadmin</category>
+      </item>
+  </channel>
+</rss>

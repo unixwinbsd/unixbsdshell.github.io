@@ -1,0 +1,57 @@
+---
+layout: none
+---
+# 404
+ErrorDocument 404 /404.html
+
+# Prevent directory listings
+Options -Indexes
+
+# Content security policy
+Header add X-Frame-Options "SAMEORIGIN"
+Header add X-XSS-Protection "1; mode=block"
+Header add X-Content-Type-Options "nosniff"
+Header add Referrer-Policy "no-referrer"
+Header add Strict-Transport-Security "max-age=31536000;includeSubDomains;preload"
+#Header add Content-Security-Policy "default-src 'self';style-src 'self' 'unsafe-inline' https://minutestomidnight.co.uk;img-src 'self' https://minutestomidnight.co.uk;script-src 'self' https://s4.bcbits.com;frame-src https://www.youtube-nocookie.com/embed/ https://bandcamp.com/EmbeddedPlayer/ https://player-widget.mixcloud.com/;object-src 'self';"
+#Header add Permissions-Policy "accelerometer=(self),autoplay=(self),camera=(self),encrypted-media=(self),fullscreen=(self 'https://www.youtube-nocookie.com/embed/'),geolocation=(self),gyroscope=(self),magnetometer=(self),microphone=(self),midi=(self),payment=(self),usb=(self),picture-in-picture=(self 'https://yewtu.be/embed/' 'https://www.youtube-nocookie.com/embed/')"
+
+# Caching
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresDefault "access plus 2 days"
+	# Images
+	ExpiresByType image/jpeg "access plus 1 year"
+	ExpiresByType image/gif "access plus 1 year"
+	ExpiresByType image/png "access plus 1 year"
+	ExpiresByType image/webp "access plus 1 year"
+	ExpiresByType image/svg+xml "access plus 1 year"
+	ExpiresByType image/x-icon "access plus 1 year"
+	# Video
+	ExpiresByType video/webm "access plus 1 year"
+	ExpiresByType video/mp4 "access plus 1 year"
+	ExpiresByType video/mpeg "access plus 1 year"
+	# Fonts
+	ExpiresByType font/woff2 "access plus 1 year"
+	ExpiresByType application/font-woff2 "access plus 1 year"
+	# CSS, HTML, JavaScript
+	ExpiresByType text/css "access plus 7 days"
+	ExpiresByType text/html "access plus 2 days"
+	ExpiresByType text/javascript "access plus 1 year"
+	ExpiresByType application/javascript "access plus 1 year"
+	# Others
+	ExpiresByType application/pdf "access plus 1 year"
+</IfModule>
+
+# Block bots
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteBase /
+	RewriteCond %{HTTP_USER_AGENT} ({{ site.data.bots | sort_natural | join: "|" }}) [NC]
+	RewriteRule ^ – [F]
+</IfModule>
+
+# Redirects
+{%- for item in site.data.redirects %}
+Redirect 301 {{ item }}
+{%- endfor %}

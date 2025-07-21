@@ -1,0 +1,181 @@
+# The Site Configuration
+
+# Import the theme https://gitlab.com/tao_li/jekyll-theme-chirpy/-/tree/master?ref_type=heads
+host: unixwinbsd.site
+url: https://unixwinbsd.site
+author: Iwan Setiawan
+baseurl: ""
+domain: unixwinbsd.site
+email: iwanse1212@yandex.com
+destination: ../_site
+lang: ru, de, en
+title: UnixBSDShell
+tagline: UnixBSDShell Blog
+timezone: Europe/Moscow
+description: A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others
+keywords: freebsd, openbsd, netbsd, linux, ubuntu, debian, unix, pfsense, centos, command, shell, opnsense, router, firewall, web design, web development, server, client, ruby, database, dns server, web server, jekyll, wordpress, html, css
+jekyll-version: 4.4.1
+theme: jekyll-theme-chirpy
+remote_theme: https://gitlab.com/tao_li/jekyll-theme-chirpy/-/tree/master?ref_type=heads
+location         : Moscow, Russia
+feed_filenames: feed.xml
+atom_feed:
+  path                   : feed.xml
+feed:
+  excerpt_only           : true
+
+github:
+  username: unixwinbsd
+
+twitter:
+  username: twitter_username # change to your Twitter username
+
+social:
+  name: Iwan Setiawan
+  email: iwanse1212@yandex.com
+  links:
+    - https://twitter.com/iwanset96143401
+    - https://github.com/unixwinbsd
+    # - https://www.facebook.com/username
+    # - https://www.linkedin.com/in/username
+
+# Site Verification Settings
+webmaster_verifications:
+  google: googledc9be5e5382da4fd
+  bing: BCDF1444D895EBA62C6422C90DF8EA1C
+  alexa: # fill in your Alexa verification code
+  yandex: 69d778baa1dbd371
+  baidu: # fill in your Baidu verification code
+  facebook: # fill in your Facebook verification code
+
+# Web Analytics Settings
+analytics:
+  google:
+    id: G-RWLWYNFRW0
+  goatcounter:
+    id: # fill in your GoatCounter ID
+  umami:
+    id: # fill in your Umami ID
+    domain: # fill in your Umami domain
+  matomo:
+    id: # fill in your Matomo ID
+    domain: # fill in your Matomo domain
+  cloudflare:
+    id: # fill in your Cloudflare Web Analytics token
+  fathom:
+    id: # fill in your Fathom Site ID
+
+# Page views settings
+pageviews:
+  provider: # now only supports 'goatcounter'
+
+theme_mode: light
+
+# e.g. 'https://cdn.com'
+cdn: "https://chirpy-img.netlify.app"
+avatar: "https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/avatar.jpg"
+social_preview_image: # string, local or CORS resources
+toc: true
+
+comments:
+  provider: # [disqus | utterances | giscus]
+  disqus:
+    shortname: # fill with the Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
+  # utterances settings › https://utteranc.es/
+  utterances:
+    repo: # unixwinbsd/<repo>
+    issue_term: # < url | pathname | title | ...>
+  giscus:
+    repo: # <gh-username>/<repo>
+    repo_id:
+    category:
+    category_id:
+    mapping: # optional, default to 'pathname'
+    strict: # optional, default to '0'
+    input_position: # optional, default to 'bottom'
+    lang: # optional, default to the value of `site.lang`
+    reactions_enabled: # optional, default to the value of `1`
+
+# Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
+assets:
+  self_host:
+    enabled: true
+    env: production # [development | production]
+
+pwa:
+  enabled: true # The option for PWA feature (installable)
+  cache:
+    enabled: true # The option for PWA offline cache
+    deny_paths:
+      # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
+
+paginate: 10
+
+kramdown:
+  footnote_backlink: "&#8617;&#xfe0e;"
+  syntax_highlighter: rouge
+  syntax_highlighter_opts: # Rouge Options › https://github.com/jneen/rouge#full-options
+    css_class: highlight
+    # default_lang: console
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+defaults:
+  - scope:
+      path: "" # An empty string here means all files in the project
+      type: posts
+    values:
+      layout: post
+      comments: true # Enable comments in posts.
+      toc: true # Display TOC column in posts.
+      permalink: /posts/:title/
+  - scope:
+      path: _drafts
+    values:
+      comments: false
+  - scope:
+      path: ""
+      type: tabs # see `site.collections`
+    values:
+      layout: page
+      permalink: /:title/
+
+sass:
+  style: compressed
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
+  ignore:
+    envs: [development]
+
+exclude:
+  - "*.gem"
+  - "*.gemspec"
+  - docs
+  - tools
+  - README.md
+  - LICENSE
+  - purgecss.js
+  - "*.config.js"
+  - "package*.json"
+
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/

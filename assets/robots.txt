@@ -1,0 +1,22 @@
+---
+layout: none
+permalink: /robots.txt
+---
+{%- for item in site.data.bots -%}
+User-agent: {{ item }}
+Disallow: /
+
+{% endfor -%}
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Screaming Frog SEO Spider
+Disallow: /
+
+# Everybody else
+User-agent: *
+Disallow: /assets/
+Disallow: /epk/
+
+Sitemap: {{ site.url }}/sitemap.xml

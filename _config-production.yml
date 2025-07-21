@@ -1,0 +1,18 @@
+# -------------------
+# SASS
+# -------------------
+sass:
+  style: compressed
+
+# -------------------
+# Inclusions
+# -------------------
+include: ["_pages", ".htaccess", ".well-known"]
+
+# -------------------
+# Exclusions
+# -------------------
+exclude:
+  - README.md
+  - /resume/
+  - /assets/css/jekyll-theme-chirpy.css.map

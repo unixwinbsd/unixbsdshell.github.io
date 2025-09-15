@@ -1,4 +1,112 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-14T14:57:45+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">OpenBSD DHCP - Configuring IPv6 with dhcpcd</title><link href="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="alternate" type="text/html" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd" /><published>2025-08-19T13:01:32+03:00</published><updated>2025-08-19T13:01:32+03:00</updated><id>https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/"><![CDATA[<p>OpenBSD makes great routers. Its simplicity and ease of configuration make it perfect for network infrastructure applications. Everything you need to build a network of any size is already built into the base system, plus the manual pages and examples cover everything you need to know.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-16T01:47:04+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">How to Install Webmin on a FreeBSD System</title><link href="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="alternate" type="text/html" title="How to Install Webmin on a FreeBSD System" /><published>2025-09-15T09:35:11+03:00</published><updated>2025-09-15T09:35:11+03:00</updated><id>https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/"><![CDATA[<p>Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source applications, such as the BIND DNS Server, Apache HTTP Server, PHP, MySQL, and many more.</p>
+
+<p>In this article we will explain how to install and use Webmin on a FreeBSD 13.2 Stable system. As with other applications, installing Webmin on a FreeBSD system can use Ports and PKG. In this article we will explain how to install Webmin using both. OK, let’s just go ahead and install Webmin.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # pkg update
+root@router2:~ # pkg upgrade -y
+root@router2:~ # pkg install webmin
+</code></pre></div></div>
+
+<p>When using FreeBSD Ports, use the following syntax.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/ports/sysutils/webmin
+root@router2:~ # make install clean
+</code></pre></div></div>
+
+<p>After the installation process is complete, there are several command-line prompts you must follow. These prompts must be followed to ensure Webmin runs properly.</p>
+
+<p>Now we follow the instructions from the image above. Based on the image above Webmin is configured with the file <code class="language-plaintext highlighter-rouge">/usr/local/lib/webmin/setup.sh</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # /usr/local/lib/webmin/setup.sh
+***********************************************************************
+        Welcome to the Webmin setup script, version 2.013
+***********************************************************************
+Webmin is a web-based interface that allows Unix-like operating
+systems and common Unix services to be easily administered.
+
+Installing Webmin in /usr/local/lib/webmin
+
+***********************************************************************
+Webmin uses separate directories for configuration files and log files.
+Unless you want to run multiple versions of Webmin at the same time
+you can just accept the defaults.
+
+Config file directory [/usr/local/etc/webmin]:
+Log file directory [/var/db/webmin]:
+
+***********************************************************************
+Webmin is written entirely in Perl. Please enter the full path to the
+Perl 5 interpreter on your system.
+
+Full path to perl (default /usr/local/bin/perl):
+
+Testing Perl ..
+.. done
+
+***********************************************************************
+Operating system name:    FreeBSD
+Operating system version: 13.2
+
+***********************************************************************
+Webmin uses its own password protected web server to provide access
+to the administration programs. The setup script needs to know :
+ - What port to run the web server on. There must not be another
+   web server already using this port.
+ - The login name required to access the web server.
+ - The password required to access the web server.
+ - If the web server should use SSL (if your system supports it).
+ - Whether to start webmin at boot time.
+
+Web server port (default 10000):
+Login name (default admin):
+Login password: admin
+Password again: admin
+Use SSL (y/n): n
+
+***********************************************************************
+Creating web server config files ..
+.. done
+
+Creating access control file ..
+.. done
+
+Creating start and stop init scripts ..
+.. done
+
+Creating start and stop init symlinks to scripts ..
+.. done
+
+Copying config files ..
+.. done
+
+Changing ownership and permissions ..
+.. done
+
+Running postinstall scripts ..
+.. done
+
+Enabling background status collection ..
+.. done
+
+root@router2:~ #
+</code></pre></div></div>
+
+<p>When executing the file <code class="language-plaintext highlighter-rouge">/usr/local/lib/webmin/setup.sh</code>, we configure Webmin with username admin, password admin, use SSL NO and Webmin runs on port 10000. Now activate Webmin by adding the following command to the <code class="language-plaintext highlighter-rouge">/etc/rc file .conf</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/rc.conf
+webmin_enable="YES"
+</code></pre></div></div>
+
+<p>After we have activated Webmin in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file, run Webmin with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service webmin restart
+</code></pre></div></div>
+
+<p>If Webmin is active on the FreeBSD system, run Webmin in the Web Browser, to open Webmin you can use the Yandex Browser, Chrome, Firefox and others. Run Webmin with the chrome browser and type http://192.168.9.3:10000/.</p>
+
+<p>The IP address <code class="language-plaintext highlighter-rouge">192.168.9.3</code> is the FreeBSD system interface IP address and the Webmin port <code class="language-plaintext highlighter-rouge">10000</code> we created earlier, along with the username and password. After logging in with the admin username and password, Webmin will display the dashboard, indicating you have successfully installed Webmin on FreeBSD.</p>
+
+<p>Webmin provides a variety of functions for server administration, including DNS configuration, user and group management, hardware and software, and more. Webmin has a user-friendly and intuitive interface, which makes it very easy to use, even for novice users. It also supports many plugins and modules, which allows you to expand its functionality. With its attractive graphic design, Webmin will make it easier for System Administrators to configure servers.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="SysAdmin" /><summary type="html"><![CDATA[Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide]]></summary></entry><entry xml:lang="en"><title type="html">OpenBSD DHCP - Configuring IPv6 with dhcpcd</title><link href="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="alternate" type="text/html" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd" /><published>2025-08-19T13:01:32+03:00</published><updated>2025-08-19T13:01:32+03:00</updated><id>https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/"><![CDATA[<p>OpenBSD makes great routers. Its simplicity and ease of configuration make it perfect for network infrastructure applications. Everything you need to build a network of any size is already built into the base system, plus the manual pages and examples cover everything you need to know.</p>
 
 <p>I recently built a home router from scratch using <code class="language-plaintext highlighter-rouge">OpenBSD 7</code> without installing any additional packages, using only what came with the OpenBSD OS installation. Initially, before deciding to “build it from scratch,” I had a goal of building a router using open source software to improve my network security. After exploring several popular open source firewall and routing projects (especially pfSense and OPNSense), I ultimately decided to build my own.</p>
 
@@ -2056,138 +2164,4 @@ ns3# openssl ca \
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cat /etc/ssl/OpenBSD_CA/san/certs/client.crt.notext \
 /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.notext &gt; /etc/ssl/OpenBSD_CA/signing-ca/certs/client.crt.full
 </code></pre></div></div>
-<p>If you’re running an OpenBSD server and need an SSL certificate for a secure connection, you can use the example we’ve described in this article.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="OpenBSD" /><category term="SysAdmin" /><summary type="html"><![CDATA[The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate]]></summary></entry><entry xml:lang="en"><title type="html">FreeBSD Tutorial - Setting up Apache mod OpenSSL for HTTPS</title><link href="https://unixwinbsd.site/freebsd/tutorials-freebsd-setup-apache-mod-ssl-tls-https/" rel="alternate" type="text/html" title="FreeBSD Tutorial - Setting up Apache mod OpenSSL for HTTPS" /><published>2025-08-10T12:13:21+03:00</published><updated>2025-08-10T12:13:21+03:00</updated><id>https://unixwinbsd.site/freebsd/tutorials-freebsd-setup-apache-mod-ssl-tls-https</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/tutorials-freebsd-setup-apache-mod-ssl-tls-https/"><![CDATA[<p>The Apache web server has been around for many years, and its user base continues to grow. mod_ssl provides enhanced security for Apache web servers and can be installed on almost all versions of Apache and all operating systems, including FreeBSD, Linux, macOS, and Windows.</p>
-
-<p>Secure Sockets Layer Protocol, often referred to as SSL, is a security protocol that can be placed between the TCP/IP network layer protocol and the HTTP application layer protocol. The SSL mod in Apache provides secure communication between clients and servers. This mod performs authentication and uses digital signatures for integrity and encryption for privacy. Currently, two versions of SSL are in use: version 2 and version 3.</p>
-
-<p>SSL/TLS uses Public Key Cryptography (PKC), also known as Asymmetric PKC Cryptography. Public key cryptography is used in situations where the client and server do not share the same secret, such as between a browser and a web server, but both want to establish a secure system with a trusted channel for their communication.</p>
-
-<p>Public Key Cryptography, or PKC, defines an algorithm that uses two keys, each of which can be used to encrypt a message. If one key is used to encrypt a message, the other key must be used to decrypt it. This process allows for secure message reception by publishing only one key (the public key) and keeping the other key (the private key) secret.</p>
-
-<p>Public keys can be encrypted by anyone, but only the owner of the private key can read them. For example, if Mary sends a private message to the owner of the key pair (e.g., your web server), the message from Mary will be encrypted using the public key issued by your server. Only you can decrypt it using the corresponding private key.</p>
-
-<p>See the image below.</p>
-
-<p><img src="https://pbs.twimg.com/media/GEvRQ5Xa0AA2OJV?format=jpg&amp;name=large" alt="symentric cryptography apache mod ssl" /></p>
-
-<p>This guide will help you enable SSL for websites served on the Apache web server. This article focuses solely on establishing SSL in Apache using the OpenSSL application.</p>
-
-<h2 id="1-how-to-install-openssl">1. How to Install OpenSSL</h2>
-<p>OpenSSL is a utility for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols. OpenSSL is free and one of the most widely used cryptographic libraries. Its primary purpose is to secure connections on servers and within your software.</p>
-
-<p>The OpenSSL installation process on FreeBSD is quite straightforward, with no startup <code class="language-plaintext highlighter-rouge">rc.d</code> settings required. However, the setup and implementation are somewhat complex and sometimes confusing. Please use the steps in this article.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install perl5
-</code></pre></div></div>
-<p>Once you’ve installed <code class="language-plaintext highlighter-rouge">Perl</code>, you can install <code class="language-plaintext highlighter-rouge">OpenSSL</code> directly. We recommend using the FreeBSD port for a smoother installation.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/security/openssl
-root@ns3:/usr/ports/security/openssl # make config
-root@ns3:/usr/ports/security/openssl # make install clean
-</code></pre></div></div>
-<p>FreeBSD has many applications similar to OpenSSL, such as <code class="language-plaintext highlighter-rouge">ca_root_nss, LibreSSL</code>, and others. To make FreeBSD use OpenSSL security by default for encryption and decryption, type the following command in <code class="language-plaintext highlighter-rouge">/etc/make.conf</code>.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DEFAULT_VERSIONS+=ssl=openssl
-</code></pre></div></div>
-
-<h2 id="2-create-servercrt-and-serverkey-files">2. Create server.crt and server.key files</h2>
-<p>The first step you need to take to enable Apache to connect to OpenSSL is to create the <code class="language-plaintext highlighter-rouge">server.key and server.crt</code> files. To do this, we first create the SSL folder.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/etc/apache24
-root@ns3:/usr/local/etc/apache24 # mkdir -p ssl
-root@ns3:/usr/local/etc/apache24 # cd ssl
-</code></pre></div></div>
-<p>Generate <code class="language-plaintext highlighter-rouge">server.key</code> using openssl.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/apache24/ssl # openssl genrsa -des3 -out server.key 1024
-Generating RSA private key, 1024 bit long modulus (2 primes)
-..+++++
-.............................................+++++
-e is 65537 (0x010001)
-Enter pass phrase for server.key:
-Verifying - Enter pass phrase for server.key:
-</code></pre></div></div>
-<p>The above command will create a <code class="language-plaintext highlighter-rouge">server.key</code> file and prompt for a password. Be sure to remember this password. You’ll need it the next time you start Apache.</p>
-
-<p>Next, create a certificate request file, <code class="language-plaintext highlighter-rouge">"server.csr"</code>. This file will use the <code class="language-plaintext highlighter-rouge">server.key</code> file mentioned above.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/apache24/ssl # openssl req -new -key server.key -out server.csr
-</code></pre></div></div>
-<p>The final step is to create a self-signed ssl certificate (server.crt) using the <code class="language-plaintext highlighter-rouge">server.key and server.csr</code> files above.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/apache24/ssl # openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
-</code></pre></div></div>
-
-<h2 id="3-enable-ssl-mod">3. Enable SSL mod</h2>
-<p>The instructions below will guide you through enabling SSL mode in Apache. This allows OpenSSL and Apache to communicate with each other to secure your web server.</p>
-
-<p>On almost all operating systems, the Apache configuration file is called <code class="language-plaintext highlighter-rouge">"httpd.conf"</code> the only difference being the location. On FreeBSD, this file is located in the <code class="language-plaintext highlighter-rouge">"/usr/local/etc/apache24"</code> directory. Open the file and enable the SSL script within it, as in the example below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LoadModule ssl_module libexec/apache24/mod_ssl.so
-LoadModule socache_shmcb_module libexec/apache24/mod_socache_shmcb.so
-Include etc/apache24/extra/httpd-ssl.conf
-</code></pre></div></div>
-<p>In the script above, we activate the <code class="language-plaintext highlighter-rouge">httpd-ssl.conf</code> file. Open the file and delete all the contents of the script, then put the script below into the file <code class="language-plaintext highlighter-rouge">"/usr/local/etc/apache24/extra/httpd-ssl.conf"</code>.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Listen 443
-
-SSLCipherSuite HIGH:MEDIUM:!MD5:!RC4:!3DES
-SSLProxyCipherSuite HIGH:MEDIUM:!MD5:!RC4:!3DES
-
-SSLHonorCipherOrder on 
-
-SSLProtocol all -SSLv3
-SSLProxyProtocol all -SSLv3
-
-SSLPassPhraseDialog  builtin
-SSLSessionCache        "shmcb:/var/run/ssl_scache(512000)"
-SSLSessionCacheTimeout  300
-
-&lt;VirtualHost _default_:443&gt;
-DocumentRoot "/usr/local/www/apache24/data"
-ServerName www.datainchi.com:443
-ServerAdmin datainchi@gmail.com
-ErrorLog "/var/log/httpd-error.log"
-TransferLog "/var/log/httpd-access.log"
-
-SSLEngine on
-
-SSLCertificateFile "/usr/local/etc/apache24/ssl/server.crt"
-SSLCertificateKeyFile "/usr/local/etc/apache24/ssl/server.key"
-
-&lt;FilesMatch "\.(cgi|shtml|phtml|php)$"&gt;
-    SSLOptions +StdEnvVars
-&lt;/FilesMatch&gt;
-&lt;Directory "/usr/local/www/apache24/cgi-bin"&gt;
-    SSLOptions +StdEnvVars
-&lt;/Directory&gt;
-
-BrowserMatch "MSIE [2-5]" nokeepalive ssl-unclean-shutdown downgrade-1.0 force-response-1.0
-CustomLog "/var/log/httpd-ssl_request.log" "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
-
-&lt;/VirtualHost&gt;
-</code></pre></div></div>
-<p>Take a look at the script above. it’s the OpenSSL file we created earlier. To test all of the above configurations, restart the Apache server.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service apache24 restart
-Performing sanity check on apache24 configuration:
-Syntax OK
-Stopping apache24.
-Waiting for PIDS: 36862.
-Performing sanity check on apache24 configuration:
-Syntax OK
-Starting apache24.
-Apache/2.4.58 mod_ssl (Pass Phrase Dialog)
-Some of your private key files are encrypted for security reasons.
-In order to read them you have to provide the pass phrases.
-
-Private key www.datainchi.com:443:0 (/usr/local/etc/apache24/ssl/server.key)
-Enter pass phrase:
-
-OK: Pass Phrase Dialog successful.
-</code></pre></div></div>
-<p>You will be prompted to enter a password; type the password from the OpenSSL file you created above.</p>
-
-<p>The next test is to open the Google Chrome web browser and type <code class="language-plaintext highlighter-rouge">"https://192.168.5.2/"</code>.</p>
-
-<p>This tutorial demonstrates the basic installation and use of mod_ssl on an Apache server with OpenSSL. Although the command is very simple, its ability to protect web servers is very reliable and has been proven, as many people use OpenSSL as their SSL security system on Apache servers.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Secure Sockets Layer Protocol, often referred to as SSL, is a security protocol that can be placed between the TCP/IP network layer protocol and the HTTP application layer protocol. The SSL mod in Apache provides secure communication between clients and servers]]></summary></entry></feed>
+<p>If you’re running an OpenBSD server and need an SSL certificate for a secure connection, you can use the example we’ve described in this article.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="OpenBSD" /><category term="SysAdmin" /><summary type="html"><![CDATA[The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate]]></summary></entry></feed>

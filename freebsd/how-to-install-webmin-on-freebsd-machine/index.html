@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable - UnixBSDShell</title>
-<meta name="description" content="OpenJDK is an open source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK).">
+<!-- begin _includes/seo.html --><title>How to Install Webmin on a FreeBSD System - UnixBSDShell</title>
+<meta name="description" content="Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide">
 
 
   <meta name="author" content="UnixBSDShell's Blog">
@@ -22,20 +22,20 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="UnixBSDShell">
-<meta property="og:title" content="Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable">
-<meta property="og:url" content="https://unixwinbsd.site/freebsd/installing-java-openjdk20-on-freebsd14.1stable/">
+<meta property="og:title" content="How to Install Webmin on a FreeBSD System">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/">
 
 
-  <meta property="og:description" content="OpenJDK is an open source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK).">
+  <meta property="og:description" content="Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide">
 
 
 
 
 
   <meta name="twitter:site" content="@iwanset96143401">
-  <meta name="twitter:title" content="Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable">
-  <meta name="twitter:description" content="OpenJDK is an open source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK).">
-  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/installing-java-openjdk20-on-freebsd14.1stable/">
+  <meta name="twitter:title" content="How to Install Webmin on a FreeBSD System">
+  <meta name="twitter:description" content="Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/">
 
   
     <meta name="twitter:card" content="summary">
@@ -46,7 +46,7 @@
 
 
 
-  <meta property="article:published_time" content="2025-02-14T16:11:19+03:00">
+  <meta property="article:published_time" content="2025-09-15T09:35:11+03:00">
 
 
 
@@ -57,7 +57,7 @@
   
 
 
-<link rel="canonical" href="https://unixwinbsd.site/freebsd/installing-java-openjdk20-on-freebsd14.1stable/">
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/">
 
 
 
@@ -277,7 +277,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
       
       
-        <li class="current">Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable</li>
+        <li class="current">How to Install Webmin on a FreeBSD System</li>
       
     
   </ol>
@@ -415,15 +415,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable">
-    <meta itemprop="description" content="OpenJDK is an open source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK).">
-    <meta itemprop="datePublished" content="2025-02-14T16:11:19+03:00">
+    <meta itemprop="headline" content="How to Install Webmin on a FreeBSD System">
+    <meta itemprop="description" content="Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide">
+    <meta itemprop="datePublished" content="2025-09-15T09:35:11+03:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Install Webmin on a FreeBSD System
 </h1>
           
 
@@ -454,100 +454,120 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu">
-  <li><a href="#1-install-java-openjdk-on-freebsd">1. Install Java OpenJDK on FreeBSD</a></li>
-  <li><a href="#2-test-java-that-has-been-installed-on-freebsd">2. Test Java that has been installed on FreeBSD</a></li>
-</ul>
+              
 
             </nav>
           </aside>
         
-        <p>Java has become one of the leading programming languages ​​in software application development. In order to write, compile, and run Java code, a runtime environment is required to provide the necessary tools. With continued incremental growth, Java 17 is currently the latest long-term release under the extensive collaboration of Oracle and other members of the worldwide Java developer community through the OpenJDK Community and the Java Community Process (JPC).</p>
+        <p>Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source applications, such as the BIND DNS Server, Apache HTTP Server, PHP, MySQL, and many more.</p>
 
-<p>OpenJDK is an open-source implementation of Java Standard Edition (Java SE) and the Java Development Kit (JDK). OpenJDK comes with components such as a virtual machine, Java Class Library, and Java Compiler (javac). In this article, I will guide you on how to install and configure openjdk17 on FreeBSD 13. In this tutorial, we will install Java with FreeBSD Ports.</p>
+<p>In this article we will explain how to install and use Webmin on a FreeBSD 13.2 Stable system. As with other applications, installing Webmin on a FreeBSD system can use Ports and PKG. In this article we will explain how to install Webmin using both. OK, let’s just go ahead and install Webmin.</p>
 
-<h2 id="1-install-java-openjdk-on-freebsd">1. Install Java OpenJDK on FreeBSD</h2>
-<p>The first step you have to log in to the FreeBSD server as root, if you have successfully logged in, continue by opening Java Ports in the /usr/ports/java/openjdk20 folder.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # pkg update
+root@router2:~ # pkg upgrade -y
+root@router2:~ # pkg install webmin
+</code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/ports/java/openjdk20
+<p>When using FreeBSD Ports, use the following syntax.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/ports/sysutils/webmin
 root@router2:~ # make install clean
 </code></pre></div></div>
-<p>or</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # pkg install openjdk20
+
+<p>After the installation process is complete, there are several command-line prompts you must follow. These prompts must be followed to ensure Webmin runs properly.</p>
+
+<p>Now we follow the instructions from the image above. Based on the image above Webmin is configured with the file <code class="language-plaintext highlighter-rouge">/usr/local/lib/webmin/setup.sh</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # /usr/local/lib/webmin/setup.sh
+***********************************************************************
+        Welcome to the Webmin setup script, version 2.013
+***********************************************************************
+Webmin is a web-based interface that allows Unix-like operating
+systems and common Unix services to be easily administered.
+
+Installing Webmin in /usr/local/lib/webmin
+
+***********************************************************************
+Webmin uses separate directories for configuration files and log files.
+Unless you want to run multiple versions of Webmin at the same time
+you can just accept the defaults.
+
+Config file directory [/usr/local/etc/webmin]:
+Log file directory [/var/db/webmin]:
+
+***********************************************************************
+Webmin is written entirely in Perl. Please enter the full path to the
+Perl 5 interpreter on your system.
+
+Full path to perl (default /usr/local/bin/perl):
+
+Testing Perl ..
+.. done
+
+***********************************************************************
+Operating system name:    FreeBSD
+Operating system version: 13.2
+
+***********************************************************************
+Webmin uses its own password protected web server to provide access
+to the administration programs. The setup script needs to know :
+ - What port to run the web server on. There must not be another
+   web server already using this port.
+ - The login name required to access the web server.
+ - The password required to access the web server.
+ - If the web server should use SSL (if your system supports it).
+ - Whether to start webmin at boot time.
+
+Web server port (default 10000):
+Login name (default admin):
+Login password: admin
+Password again: admin
+Use SSL (y/n): n
+
+***********************************************************************
+Creating web server config files ..
+.. done
+
+Creating access control file ..
+.. done
+
+Creating start and stop init scripts ..
+.. done
+
+Creating start and stop init symlinks to scripts ..
+.. done
+
+Copying config files ..
+.. done
+
+Changing ownership and permissions ..
+.. done
+
+Running postinstall scripts ..
+.. done
+
+Enabling background status collection ..
+.. done
+
+root@router2:~ #
 </code></pre></div></div>
-<p>Once the installation is complete, you will be shown the following command shell screen:</p>
 
-<p><img src="https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/freebsd_14_java_openjdk_install.jpg" alt="freebsd14 java openjdk install" /></p>
+<p>When executing the file <code class="language-plaintext highlighter-rouge">/usr/local/lib/webmin/setup.sh</code>, we configure Webmin with username admin, password admin, use SSL NO and Webmin runs on port 10000. Now activate Webmin by adding the following command to the <code class="language-plaintext highlighter-rouge">/etc/rc file .conf</code>.</p>
 
-<p>Now we continue according to the instructions above, type the script mount -t fdescfs fdesc /dev/fd and mount -t procfs proc /proc.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:/var/db/pkg/repos/FreeBSD # mount -t fdescfs fdesc /dev/fd
-root@hostname1:/var/db/pkg/repos/FreeBSD # mount -t procfs proc /proc
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/rc.conf
+webmin_enable="YES"
 </code></pre></div></div>
 
-<p>After that, you add the two scripts above to the “/etc/fstab” file.</p>
+<p>After we have activated Webmin in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file, run Webmin with the following command.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/fstab
-fdesc   /dev/fd         fdescfs         rw      0       0
-proc    /proc             procfs          rw      0       0
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service webmin restart
 </code></pre></div></div>
 
-<p>After that, if you want to check whether Java is installed on FreeBSD, do a check by checking the Java version, to check it use the “java -version” script.</p>
+<p>If Webmin is active on the FreeBSD system, run Webmin in the Web Browser, to open Webmin you can use the Yandex Browser, Chrome, Firefox and others. Run Webmin with the chrome browser and type http://192.168.9.3:10000/.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # java -version
-openjdk version "20.0.2" 2023-07-18
-OpenJDK Runtime Environment (build 20.0.2+9-1)
-OpenJDK 64-Bit Server VM (build 20.0.2+9-1, mixed mode, sharing)
-root@ns4:~ #
-</code></pre></div></div>
+<p>The IP address <code class="language-plaintext highlighter-rouge">192.168.9.3</code> is the FreeBSD system interface IP address and the Webmin port <code class="language-plaintext highlighter-rouge">10000</code> we created earlier, along with the username and password. After logging in with the admin username and password, Webmin will display the dashboard, indicating you have successfully installed Webmin on FreeBSD.</p>
 
-<p>The next step is to set JAVA as the JAVA_HOME Environment. JAVA_HOME is an operating system environment variable for the Java Development Kit (JDK) or Java Runtime Environment (JRE). JAVA_HOME can be optionally set after the JDK or JRE installation is complete.</p>
-
-<p>The JAVA_HOME variable points to the location where the JDK or JRE is installed on a FreeBSD system. Java applications use this variable to find where the runtime is installed. On FreeBSD, you need to set the JAVA_HOME environment in /etc/csh.cshrc.
-Open the csh.cshrc file and add the following two lines:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/csh.cshrc
-# $FreeBSD$
-#
-# System-wide .cshrc file for csh(1).
-setenv JAVA_VERSION "20.0+"
-setenv JAVA_HOME /usr/local/openjdk20
-</code></pre></div></div>
-
-<p>After that, you type the script below into /etc/csh.cshrc, the goal is to activate or execute the environment variable (PATH).</p>
-
-<p>If the script above fails to execute the Java environment variable (PATH), you can add the JAVA_HOME Environment to $PATH in the root ~/.zshrc. Add $JAVA_HOME/bin to the .bashrc file in the /root folder.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee .cshrc
-set path = ($JAVA_HOME/bin /sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
-</code></pre></div></div>
-
-<h2 id="2-test-java-that-has-been-installed-on-freebsd">2. Test Java that has been installed on FreeBSD</h2>
-<p>The last step is to test the JAVA program. To test the JAVA program, we create a file in the /usr/local/openjdk20 folder. We name the file test.java.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/local/openjdk20
-root@router2:/usr/local/openjdk20 # touch test.java
-root@router2:/usr/local/openjdk20 # ee test.java
-</code></pre></div></div>
-
-<p>Enter the following script into the “test.java” file.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class test {
-    public static void main(String[] args) {
-        System.out.println("Test Program JAVA 20 Di FreeBSD 14.1 Stable");
-    }
-}
-</code></pre></div></div>
-
-<p>Now we compile or run the test.java file.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/local/openjdk20
-root@router2:/usr/local/openjdk17 # java test.java
-</code></pre></div></div>
-
-<p>Java offers developers a versatile and powerful programming platform for developing a variety of applications. With platform independence, an extensive standard library, and an active community, Java continues to grow and evolve, maintaining its relevance and popularity among developers worldwide.</p>
-
-<p>In this article, you have learned how to install Java 20 on a stable FreeBSD 14.1 system. With the output of the JAVA program test results above, you have successfully run a JAVA program on FreeBSD 14. I suggest you try other JAVA versions to install on FreeBSD Server.</p>
+<p>Webmin provides a variety of functions for server administration, including DNS configuration, user and group management, hardware and software, and more. Webmin has a user-friendly and intuitive interface, which makes it very easy to use, even for novice users. It also supports many plugins and modules, which allows you to expand its functionality. With its attractive graphic design, Webmin will make it easier for System Administrators to configure servers.</p>
 
         
       </section>
@@ -568,7 +588,7 @@ root@router2:/usr/local/openjdk17 # java test.java
     
       
       
-      <a href="/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a>
+      <a href="/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a>
     
     </span>
   </p>
@@ -596,7 +616,7 @@ root@router2:/usr/local/openjdk17 # java test.java
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-02-14T16:11:19+03:00">February 14, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-09-15T09:35:11+03:00">September 15, 2025</time></p>
 
 
       </footer>
@@ -604,23 +624,22 @@ root@router2:/usr/local/openjdk17 # java test.java
       <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Installing+and+Configuring+Java+OpenJDK+20+on+FreeBSD+14.1+Stable%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstalling-java-openjdk20-on-freebsd14.1stable%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Install+Webmin+on+a+FreeBSD+System%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fhow-to-install-webmin-on-freebsd-machine%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstalling-java-openjdk20-on-freebsd14.1stable%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fhow-to-install-webmin-on-freebsd-machine%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstalling-java-openjdk20-on-freebsd14.1stable%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fhow-to-install-webmin-on-freebsd-machine%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/freebsd/installing-running-jupyter-notebook-freebsd/" class="pagination--pager" title="Installing and Running Jupyter Notebook on FreeBSD
+      <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" class="pagination--pager" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd
 ">Previous</a>
     
     
-      <a href="/freebsd/how-to-install-apache-zookeeper-freebsd14/" class="pagination--pager" title="How to Install Apache ZooKeeper on FreeBSD 14
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -634,46 +653,6 @@ root@router2:/usr/local/openjdk17 # java test.java
     <div class="page__related">
       <h4 class="page__related-title">You May Also Enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
-</p>
-  </article>
-</div>
-
         
           
 
@@ -741,7 +720,7 @@ root@router2:/usr/local/openjdk17 # java test.java
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          7 minute read
+          6 minute read
         
       </span>
     
@@ -788,6 +767,45 @@ root@router2:/usr/local/openjdk17 # java test.java
 
 
     <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
   </article>
 </div>
 
@@ -863,8 +881,8 @@ root@router2:/usr/local/openjdk17 # java test.java
     
   <script>
     var disqus_config = function () {
-      this.page.url = "https://unixwinbsd.site/freebsd/installing-java-openjdk20-on-freebsd14.1stable/";  /* Replace PAGE_URL with your page's canonical URL variable */
-      this.page.identifier = "/freebsd/installing-java-openjdk20-on-freebsd14.1stable"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+      this.page.url = "https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/how-to-install-webmin-on-freebsd-machine"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
       var d = document, s = d.createElement('script');

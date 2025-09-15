@@ -1,0 +1,879 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to Create an IPFW Firewall on FreeBSD with One Network Card - UnixBSDShell</title>
+<meta name="description" content="Ipfirewall is an open source module ported to many operating systems. This list includes FreeBSD, NetBSD, OpenBSD, SunOS, HP/UX and Solaris, Mac OS and even Windows. It is also frequently used for various embedded systems. It first appeared in FreeBSD version 2.0.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="How to Create an IPFW Firewall on FreeBSD with One Network Card">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/create-ipfw-firewall-with-single-card-on-freebsd/">
+
+
+  <meta property="og:description" content="Ipfirewall is an open source module ported to many operating systems. This list includes FreeBSD, NetBSD, OpenBSD, SunOS, HP/UX and Solaris, Mac OS and even Windows. It is also frequently used for various embedded systems. It first appeared in FreeBSD version 2.0.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Create an IPFW Firewall on FreeBSD with One Network Card">
+  <meta name="twitter:description" content="Ipfirewall is an open source module ported to many operating systems. This list includes FreeBSD, NetBSD, OpenBSD, SunOS, HP/UX and Solaris, Mac OS and even Windows. It is also frequently used for various embedded systems. It first appeared in FreeBSD version 2.0.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/create-ipfw-firewall-with-single-card-on-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-08-13T12:15:47+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/create-ipfw-firewall-with-single-card-on-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Create an IPFW Firewall on FreeBSD with One Network Card</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to Create an IPFW Firewall on FreeBSD with One Network Card">
+    <meta itemprop="description" content="Ipfirewall is an open source module ported to many operating systems. This list includes FreeBSD, NetBSD, OpenBSD, SunOS, HP/UX and Solaris, Mac OS and even Windows. It is also frequently used for various embedded systems. It first appeared in FreeBSD version 2.0.">
+    <meta itemprop="datePublished" content="2025-08-13T12:15:47+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Create an IPFW Firewall on FreeBSD with One Network Card
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-create-a-start-up-script-rcd">1. Create a Start Up Script rc.d</a></li>
+  <li><a href="#2-create-ipfw-firewall-rules">2. Create IPFW Firewall Rules</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>IPFW is an IPv4 and IPv6 compatible stateful firewall designed for FreeBSD. It consists of a kernel firewall filter rules processor with integrated packet accounting facilities, logging facilities, NAT, dummynet traffic shaping, forward facilities, bridge facilities, and ipstealth facilities.</p>
+
+<p>FreeBSD includes example rule sets in <code class="language-plaintext highlighter-rouge">/etc/rc.firewall</code> that define many types of firewalls for specific circumstances to assist inexperienced users in developing appropriate rules. IPFW offers a powerful syntax that allows expert users to create customized rule sets that meet the security needs of specific environments.</p>
+
+<p>In the previous series of articles, we studied PF firewalls. After we configure it and explore its capabilities for various traffic functions. In the new loop, we will do the same for the IPFW firewall. As with the PF firewall, let’s start with a brief overview and create a simple configuration to protect our FreeBSD server. In the next section, we’ll dive in and configure step by step, introducing new rule types and adding some firewall rules.</p>
+
+<p>Ipfirewall is an open source module ported to many operating systems. This list includes FreeBSD, NetBSD, OpenBSD, SunOS, HP/UX and Solaris, Mac OS and even Windows. It is also frequently used for various embedded systems. It first appeared in FreeBSD version 2.0.</p>
+
+<p>In ipfw, configuration consists of numbered rules. Packets follow a rule, going from smaller numbers to larger numbers, until the first action (for example, allow or deny), after which processing stops. Somewhat similar to iptables on Linux.</p>
+
+<h2 id="1-create-a-start-up-script-rcd">1. Create a Start Up Script rc.d</h2>
+
+<p>Even though the IPFW Firewall is built into the FreeBSD system, this firewall is not automatically activated. To activate the IPFW Firewall we have to add several scripts to the /etc/rc.conf file. The following is an example of an IPFW Firewall script for automatic start up. Enter the script below into the <code class="language-plaintext highlighter-rouge">rc.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>firewall_enable="YES"
+firewall type="open"
+firewall_script="/etc/ipfw.rules"
+firewall_logging="YES"
+firewall_logif="YES"
+</code></pre></div></div>
+
+<p>Only rules with the log option enabled will be logged. this option is not included in the default rules. Therefore, it is recommended to change the default rule set for logging. Additionally, if logs are stored in separate files, log rotation may be necessary. To set the logging limit we have to set it in the <code class="language-plaintext highlighter-rouge">/etc/sysctl.conf</code> file. Enter the following script in the <code class="language-plaintext highlighter-rouge">/etc/sysctl.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # echo "net.inet.ip.fw.verbose_limit=5" &gt;&gt; /etc/sysctl.conf
+</code></pre></div></div>
+
+<p>To display logging file information, use the following script.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # tcpdump -t -n -i ipfw0
+</code></pre></div></div>
+
+<p>And to determine the number of logging limits, enter the following script into the <code class="language-plaintext highlighter-rouge">/etc/sysctl.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net.inet.ip.fw.verbose_limit=5
+</code></pre></div></div>
+
+<h2 id="2-create-ipfw-firewall-rules">2. Create IPFW Firewall Rules</h2>
+
+<p>After the Start Up rc.d is created and the logging rules are set, it is time to create the IPFW Firewall Rules script. Before we write IPFW Firewall rules, add the following script to the <code class="language-plaintext highlighter-rouge">/etc/sysctl.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net.inet.ip.fw.default_to_accept="1"
+</code></pre></div></div>
+
+<p>If the script above has been added to the <code class="language-plaintext highlighter-rouge">/etc/sysctl.conf</code> file, then we can start writing IPFW Firewall rules. To write these Rules, we look at the script in the <code class="language-plaintext highlighter-rouge">rc.conf</code> file above. In the <code class="language-plaintext highlighter-rouge">rc.conf</code> file the rules are defined with the file name <code class="language-plaintext highlighter-rouge">ipfw.rules</code>. Create the file with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # touch /etc/ipfw.rules
+root@router2:~ # chmod -R +x /etc/ipfw.rules
+</code></pre></div></div>
+
+<p>Next, in the <code class="language-plaintext highlighter-rouge">/etc/ipfw.rules</code> file, enter the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipfw -q -f flush
+
+eif="re0"
+edns="8.8.8.8"
+cmd="ipfw -q add"
+ks="keep-state"
+
+$cmd 00010 allow all from any to any via lo0
+$cmd 00005 allow all from any to any via re0
+
+$cmd 00020 check-state 
+$cmd 00030 deny all from any to any frag 
+$cmd 00040 deny tcp from any to any established in via $eif
+
+
+$cmd 000100 allow tcp from any to me 80 in via $eif $ks
+$cmd 000110 allow tcp from any to me 443 in via $eif $ks
+#$cmd 000120 allow tcp from any to me 22 in via $eif $ks
+$cmd 000900 allow all from me to any out via $eif $ks
+$cmd 001000 deny log all from any to any
+</code></pre></div></div>
+
+<p>Then we continue by restarting the IPFW Firewall.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service ipfw restart
+</code></pre></div></div>
+
+<p>The method above is the simplest way to create an IPFW Firewall. This method can only be applied to Single Host or FreeBSD servers with one interface.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#anonymous" class="page__taxonomy-item" rel="tag">Anonymous</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-08-13T12:15:47+03:00">August 13, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Create+an+IPFW+Firewall+on+FreeBSD+with+One+Network+Card%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreate-ipfw-firewall-with-single-card-on-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreate-ipfw-firewall-with-single-card-on-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreate-ipfw-firewall-with-single-card-on-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/java-jsoup-scraping-extract-website-freebsd/" class="pagination--pager" title="Using Java Jsoup Web Scraping to Extract Website Data with FreeBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/configuration-opensearch-tls-plugins-certificates-openssl-freebsd/" class="pagination--pager" title="FreeBSD OpenSearch - Configuring OpenSearch TLS Plugins and Certificates with OpenSSL
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/create-ipfw-firewall-with-single-card-on-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/create-ipfw-firewall-with-single-card-on-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

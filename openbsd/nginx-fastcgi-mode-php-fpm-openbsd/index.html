@@ -1,0 +1,1016 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Nginx FastCGI mode and PHP-FPM 8.3 on OpenBSD 7.6 - UnixBSDShell</title>
+<meta name="description" content="What exactly is FastCGI Mode that makes it so popular and how can it improve the performance of your website to run fast?.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Nginx FastCGI mode and PHP-FPM 8.3 on OpenBSD 7.6">
+<meta property="og:url" content="https://unixwinbsd.site/openbsd/nginx-fastcgi-mode-php-fpm-openbsd/">
+
+
+  <meta property="og:description" content="What exactly is FastCGI Mode that makes it so popular and how can it improve the performance of your website to run fast?.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Nginx FastCGI mode and PHP-FPM 8.3 on OpenBSD 7.6">
+  <meta name="twitter:description" content="What exactly is FastCGI Mode that makes it so popular and how can it improve the performance of your website to run fast?.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/openbsd/nginx-fastcgi-mode-php-fpm-openbsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-17T11:13:13+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/openbsd/nginx-fastcgi-mode-php-fpm-openbsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Nginx FastCGI mode and PHP-FPM 8.3 on OpenBSD 7.6</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Nginx FastCGI mode and PHP-FPM 8.3 on OpenBSD 7.6">
+    <meta itemprop="description" content="What exactly is FastCGI Mode that makes it so popular and how can it improve the performance of your website to run fast?.">
+    <meta itemprop="datePublished" content="2025-05-17T11:13:13+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Nginx FastCGI mode and PHP-FPM 8.3 on OpenBSD 7.6
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-what-is-php-fpm">1. What is PHP-FPM?</a></li>
+  <li><a href="#2-system-specifications">2. System Specifications</a></li>
+  <li><a href="#3-install-nginx">3. Install NGINX</a></li>
+  <li><a href="#4-install-php-php-fpm">4. Install PHP (PHP-FPM)</a></li>
+  <li><a href="#5-php-configuration-php-fpm">5. PHP Configuration (PHP-FPM)</a>
+    <ul>
+      <li><a href="#51-create-symlink-file">5.1. Create Symlink File</a></li>
+      <li><a href="#52-change-the-script-files-etcphp-83ini-and-etcphp-fpmconf">5.2. Change the Script files /etc/php-8.3.ini and /etc/php-fpm.conf</a></li>
+      <li><a href="#53-enable-php-php-fpm">5.3. Enable PHP (PHP-FPM)</a></li>
+    </ul>
+  </li>
+  <li><a href="#6-nginx-configuration">6. NGINX Configuration</a></li>
+  <li><a href="#7-creating-php-pages-in-nginx">7. Creating PHP pages in Nginx</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Nginx is the most preferred http and https web server by DevOps developers. Most of them like Nginx because it is easy to combine with PHP programming language. The collaboration of both makes it easy for DevOps developers to build and deploy interactive websites quickly.</p>
+
+<p>Nginx is very easy to operate and can run on all operating systems. Therefore, it is not surprising that many system admins configure Nginx with PHP, and PHP-FPM on Linux, BSD, MacOS and Windows servers.</p>
+
+<p>One of the reasons they like Nginx is because of the support for FastCGI Mode (Nginx + PHP-FPM). FastCGI Mode is one of the most productive Nginx features, which is often used to optimize and speed up website performance. However, when transferring a site to PHP-FPM, you need to make additional settings.</p>
+
+<p>What exactly is FastCGI Mode that makes it so popular and how to improve the performance of your website so that it runs quickly. In this article, we will answer these questions and show you how to use PHP-FPM together with Nginx on an OpenBSD 7.6 server.</p>
+
+<h2 id="1-what-is-php-fpm">1. What is PHP-FPM?</h2>
+<p>PHP-FPM PHP FastCGI Process Manager is part of the default way PHP handles requests, which is via mod_php. Instead PHP-FPM runs as a separate process that communicates with the web server via the FastCGI protocol.</p>
+
+<p>PHP-FPM is a PHP implementation that runs with the FastCGI protocol for PHP that improves the performance and scalability of PHP web applications.</p>
+
+<p>PHP-FPM can help improve the performance of PHP applications by running the PHP process as a separate daemon from the web server.</p>
+
+<p>PHP-FPM offers a number of advantages over mod_php.</p>
+<ul>
+  <li>Performance Enhancement.</li>
+  <li>Resource Efficiency.</li>
+  <li>Stability and Isolation.</li>
+  <li>Capable of providing a stable and secure environment for running PHP applications by isolating running processes.</li>
+  <li>Customizable Pool Configuration.</li>
+</ul>
+
+<p>In addition, another advantage of PHP-FPM is that it provides greater flexibility in managing PHP processes. For example, it is possible to apply certain settings to different groups of processes, which can optimize the performance of PHP processes. This allows you to optimize the stability and performance of your website.</p>
+
+<h2 id="2-system-specifications">2. System Specifications</h2>
+<ul>
+  <li>OS: OpenBSD 7.6</li>
+  <li>IP address: 192.168.53</li>
+  <li>PHP version: PHP 8.3.20</li>
+  <li>Nginx version: nginx/1.26.2</li>
+</ul>
+
+<h2 id="3-install-nginx">3. Install NGINX</h2>
+<p>In this section we will not explain the Nginx installation process, you can read our previous article about the Nginx installation process on OpenBSD. You can adjust the Nginx version with this article, or you can also use a version below or above it.</p>
+
+<p>We assume you have installed Nginx and Nginx has run normally on OpenBSD. To make it easier for you to configure the <strong>“/etc//nginx conf”</strong> file. Below is an example of the nginx.conf file script that we use.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user  www;
+worker_processes  1;
+
+error_log  logs/error.log;
+pid        logs/nginx.pid;
+worker_rlimit_nofile 1024;
+
+events {
+    worker_connections  800;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    index         index.html index.htm;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  logs/access.log  main;
+    keepalive_timeout  65;
+    server_tokens off;
+    
+#include /etc/nginx/vhosts.conf;
+include /etc/nginx/vhostsSSL.conf;
+}
+</code></pre></div></div>
+<p>Note the example of the <strong>/etc/nginx/nginx.conf</strong> script above, you see the bottom script <strong>“include /etc/nginx/vhostsSSL.conf;”</strong>. PHP-FPM will be run with SSL OpenSSL mode. The location of the PHP-FPM configuration file is in the <strong>/etc/nginx</strong> directory with the name <strong>“vhostsSSL.conf”</strong>.</p>
+
+<h2 id="4-install-php-php-fpm">4. Install PHP (PHP-FPM)</h2>
+<p>In this article we use PHP version 8.3.2, and by default that version is available in the OpenBSD package system. You can install it directly. You need to know, PHP-FPM is part of PHP, so when you install PHP, PHP-FPM is automatically installed too. Here is how to install PHP with the pkg_add command (choose number 3).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># pkg_add php
+quirks-7.50 signed on 2025-04-20T09:56:12Z
+Ambiguous: choose package for php
+a       0: &lt;None&gt;
+        1: php-8.1.32p0
+        2: php-8.2.28
+        3: php-8.3.20
+Your choice: 3
+php-8.3.20: ok
+The following new rcscripts were installed: /etc/rc.d/php83_fpm
+See rcctl(8) for details.
+New and changed readme(s):
+        /usr/local/share/doc/pkg-readmes/php-8.3
+</code></pre></div></div>
+
+<h2 id="5-php-configuration-php-fpm">5. PHP Configuration (PHP-FPM)</h2>
+<p>This process is very important, because it will determine whether PHP-FPM can be integrated with Nginx or not. If you are wrong in this process, then do not expect PHP-FPM to run with Nginx.</p>
+
+<h3 id="51-create-symlink-file">5.1. Create Symlink File</h3>
+<p>The PHP directory is located in /etc/php-8.3. At the beginning of the installation, this directory is still empty and will always be empty if you do not create a symlink. By default, every time you install a PHP extension, the extension file will be placed in the <strong>/etc/php-8.3.sample</strong> directory. Below is the command you can use to create a PHP symlink file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ln -sf /etc/php-8.3.sample/* /etc/php-8.3/
+</code></pre></div></div>
+<p>In addition to the symlink files above, you also need to create 3 symlink files for PHP executable files.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ln -s /usr/local/bin/php-8.3 /usr/local/bin/php
+# ln -s /usr/local/bin/php-config-8.3 /usr/local/bin/php-config
+# ln -s /usr/local/bin/phpize-8.3 /usr/local/bin/phpize
+</code></pre></div></div>
+
+<h3 id="52-change-the-script-files-etcphp-83ini-and-etcphp-fpmconf">5.2. Change the Script files /etc/php-8.3.ini and /etc/php-fpm.conf</h3>
+<p>All PHP configurations are stored in the /etc/php-8.3.ini file, you can set this file as needed. In this article we only enable a few scripts. Below are some <strong>/etc/php-8.3.ini</strong> scripts that you should enable (leave the others as default).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>memory_limit = 512M
+post_max_size = 30M
+upload_max_filesize = 24M
+allow_url_fopen = On
+</code></pre></div></div>
+<p>In addition, you also have to activate some scripts in the /etc/php-fpm.conf file. The most important thing in this script file is that you have to activate what PHP-FPM can be run with. There are two ways to run PHP-FPM, namely with UNIX socket and IP Address. In this article, we will run PHP-FPM with UNIX socket.</p>
+
+<p>Below is an example of the <strong>/etc/php-fpm.conf</strong> script that we activate (leave the others as default).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>daemonize = yes
+user = www
+group = www
+listen = /var/www/run/php-fpm.sock
+listen.owner = www
+listen.group = www
+listen.mode = 0660
+pm.max_children = 15
+chroot = /var/www
+</code></pre></div></div>
+
+<h3 id="53-enable-php-php-fpm">5.3. Enable PHP (PHP-FPM)</h3>
+<p>Even though you have installed PHP, but the PHP application is not active, you must activate PHP manually. Open the <strong>/etc/rc.conf.local</strong> file, and type the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pkg_scripts=php83_fpm
+</code></pre></div></div>
+<p>After that you enable PHP-FPM and start reloading.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># rcctl enable php83_fpm
+# rcctl restart php83_fpm
+php83_fpm(ok)
+php83_fpm(ok)
+</code></pre></div></div>
+<p>Now that PHP-FPM is active, we continue by configuring Nginx.</p>
+
+<h2 id="6-nginx-configuration">6. NGINX Configuration</h2>
+<p>This section is very important, because you will set how to connect PHP-FPM with the Nginx web server. Referring to the /etc/nginx/nginx.cong script, which we have discussed in point “3. Install NGINX”. You create the <strong>/etc/nginx/vhostsSSL.conf</strong> file with the touch command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># touch /etc/nginx/vhostsSSL.conf
+</code></pre></div></div>
+<p>After that, in the /etc/nginx/vhostsSSL.conf file, you type the script as in the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
+        listen       443 ssl;
+        server_name  datainchi.com;
+        root         /var/www/htdocs/nginxssl;
+
+        ssl_certificate      /etc/nginx/SSL/nginxssl.crt;
+        ssl_certificate_key  /etc/nginx/SSL/nginxssl.key;
+        ssl_session_timeout  5m;
+        ssl_session_cache    shared:SSL:1m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5:!RC4;
+        ssl_prefer_server_ciphers   on;
+
+#location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on unix socket
+        #
+location ~ \.php$ {
+            try_files $uri =404;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass   unix:run/php-fpm.sock;
+            fastcgi_index index.php;
+            fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi_params;
+    }
+
+
+    }
+</code></pre></div></div>
+<p>About how to create an SSL certificate for Nginx, you can read our previous article.</p>
+
+<h2 id="7-creating-php-pages-in-nginx">7. Creating PHP pages in Nginx</h2>
+<p>This page will be used to address PHP and Nginx, whether they are connected or not. To prove it, create a PHP file in the <strong>/var/www/htdocs/nginxssl</strong> folder, and create an <strong>info.php</strong> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mkdir -p /var/www/htdocs/nginxssl
+# touch /var/www/htdocs/nginxssl/info.php
+</code></pre></div></div>
+<p>In the file <strong>/var/www/htdocs/nginxssl/info.php</strong>, you type the script as in the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?php
+phpinfo();
+?&gt;
+</code></pre></div></div>
+<p>Reload all the applications you have configured above.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># rcctl restart php83_fpm
+php83_fpm(ok)
+php83_fpm(ok)
+# rcctl restart nginx
+nginx(ok)
+nginx(ok)
+</code></pre></div></div>
+<p>To test Nginx and PHP-FPM, open Google Chrome and type <strong>“https://192.168.5.3/info.php”</strong>. See the results on your monitor screen. All information about PHP is displayed in detail.</p>
+
+<p>In this guide we deliberately provide only minimal working configuration. It is highly recommended that the server administrator understand each added parameter independently. In the future, this will save you a lot of time and effort in case of an unexpected “crash” of your site.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-17T11:13:13+03:00">May 17, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Nginx+FastCGI+mode+and+PHP-FPM+8.3+on+OpenBSD+7.6%20https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fnginx-fastcgi-mode-php-fpm-openbsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fnginx-fastcgi-mode-php-fpm-openbsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fnginx-fastcgi-mode-php-fpm-openbsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/openbsd/configuration-nginx-openbsd-port-http-https-80-443/" class="pagination--pager" title="Nginx Configuration on OpenBSD - HTTP and HTTPS Ports
+">Previous</a>
+    
+    
+      <a href="/openbsd/install-joomla-openbsd-nginx-php-fpm-mariadb/" class="pagination--pager" title="Install Joomla on OpenBSD 7.7 With Nginx PHP-FPM MariaDB
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/openbsd/nginx-fastcgi-mode-php-fpm-openbsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/openbsd/nginx-fastcgi-mode-php-fpm-openbsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

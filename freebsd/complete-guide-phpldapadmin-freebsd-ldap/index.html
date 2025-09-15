@@ -1,0 +1,1584 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Complete Guide  phpldapadmin PHP Application To Administrator LDAP Over The Web - UnixBSDShell</title>
+<meta name="description" content="phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Complete Guide  phpldapadmin PHP Application To Administrator LDAP Over The Web">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/complete-guide-phpldapadmin-freebsd-ldap/">
+
+
+  <meta property="og:description" content="phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Complete Guide  phpldapadmin PHP Application To Administrator LDAP Over The Web">
+  <meta name="twitter:description" content="phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/complete-guide-phpldapadmin-freebsd-ldap/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-01-20T17:01:10+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/complete-guide-phpldapadmin-freebsd-ldap/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Complete Guide  phpldapadmin PHP Application To Administrator LDAP Over The Web</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Complete Guide  phpldapadmin PHP Application To Administrator LDAP Over The Web">
+    <meta itemprop="description" content="phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer">
+    <meta itemprop="datePublished" content="2025-01-20T17:01:10+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Complete Guide  phpldapadmin PHP Application To Administrator LDAP Over The Web
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          19 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-php-and-apache24-mod-installation">1. PHP and Apache24 Mod Installation</a></li>
+  <li><a href="#2-installing-phpldapadmin">2. Installing phpLDAPadmin</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>phpLDAPadmin is an open source web-based LDAP (Lightweight Directory Access Protocol) administration tool written in PHP. Key features include template-based entry creation; ability to add, modify, rename and delete LDAP entries, user password management with hash support, LDIF (LDAP Data Interchange Format) import/export and browser LDAP schema.</p>
+
+<p>phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer with a web browser. phpLDAPadmin was created by David Smith. Deon George currently maintains the phpLDAPadmin project with the help of various contributors.</p>
+
+<p>If you are going to use phpLDAPadmin from an unsecured public network, start by ensuring that your Apache HTTP server is properly configured to accept HTTPS connections with SSL. If your Apache HTTP server does not have SSL support, your LDAP login and password will be transmitted over the network “in the clear” and could be exposed to unauthorized persons.</p>
+
+<p>In this article we will learn how to install and configure phpLDAPadmin on a <a href="https://www.freebsd.org/">FreeBSD 13.2 system</a>.<br /><br /></p>
+<h2 id="1-php-and-apache24-mod-installation">1. PHP and Apache24 Mod Installation</h2>
+<p>mod_php is an Apache module that allows PHP code to be executed directly by the Apache web server. This means that when a client (such as a web browser) requests a PHP page, the server can execute the PHP code and return the resulting HTML to the client, without requiring a separate PHP language interpreter. This can improve the performance and scalability of PHP applications, as it reduces the costs of starting and managing separate PHP processes. However, this also means that all PHP code runs with the same permissions as the Apache24 web server, which can pose security issues.</p>
+
+<p>In order for phpLDAPadmin to run on a web server, Apache is required with PHP mod. Below is the script to install Apache with PHP mod.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # pkg install apache24
+root@ns1:~ # pkg install php82 mod_php82 php82-mysqli
+root@ns1:~ # pkg install php82-gd php82-phar php82-ctype php82-filter php82-iconv php82-curl php82-mysqli php82-pdo php82-tokenizer php82-mbstring php82-session php82-simplexml php82-xml php82-zlib php82-zip php82-dom php82-pdo_mysql php82-ctype
+</code></pre></div></div>
+
+<p>In this article we will not discuss Apache24 installation. You can read my previous article which explains how to install Apache24 on FreeBSD. Let’s assume that Apache24 is installed properly on FreeBSD. So let’s continue by configuring the PHP mod.</p>
+
+<p>The next step is to edit the /usr/local/etc/apache24/httpd.conf file and enter the PHP mod script, as in the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;IfModule dir_module&gt;
+    DirectoryIndex index.php index.html
+&lt;/IfModule&gt;
+
+LoadModule php_module         libexec/apache24/libphp.so
+
+&lt;FilesMatch "\.php$"&gt;
+    SetHandler application/x-httpd-php
+&lt;/FilesMatch&gt;
+&lt;FilesMatch "\.phps$"&gt;
+    SetHandler application/x-httpd-php-source
+&lt;/FilesMatch&gt;
+AddType application/x-compress .Z
+AddType application/x-gzip .gz .tgz
+
+AddType application/x-httpd-php .php
+AddType application/x-httpd-php .php .phtml .php3
+AddType application/x-httpd-php-source .phps
+</code></pre></div></div>
+
+<p>You can put the script at the end/bottom of the /usr/local/etc/apache24/httpd.conf file. Still in the /usr/local/etc/apache24/httpd.conf file, change the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;IfModule dir_module&gt;
+    DirectoryIndex index.html
+&lt;/IfModule&gt;
+
+Ubah Menjadi
+
+&lt;IfModule dir_module&gt;
+    DirectoryIndex index.php index.html
+&lt;/IfModule&gt;
+</code></pre></div></div>
+
+<p>You also add the following script to the bottom of the /usr/local/etc/apache24/httpd.conf file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LoadModule php_module         libexec/apache24/libphp.so
+
+&lt;FilesMatch "\.php$"&gt;
+    SetHandler application/x-httpd-php
+&lt;/FilesMatch&gt;
+&lt;FilesMatch "\.phps$"&gt;
+    SetHandler application/x-httpd-php-source
+&lt;/FilesMatch&gt;
+</code></pre></div></div>
+
+<p>After that, we create a php.ini file by copying php.ini-production to the php.ini file, here’s how to copy it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cp /usr/local/etc/php.ini-production /usr/local/etc/php.ini
+</code></pre></div></div>
+
+<p>After you have the /usr/local/etc/php.ini file, we add the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>extension=mysqli.so
+</code></pre></div></div>
+<p><br /><br /></p>
+<h2 id="2-installing-phpldapadmin">2. Installing phpLDAPadmin</h2>
+<p>To start installing phpLDAPadmin, you can follow the steps below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cd /usr/ports/net/php82-ldap
+root@ns1:/usr/ports/net/php82-ldap # make install clean
+root@ns1:/usr/ports/net/php82-ldap # cd /usr/ports/net/phpldapadmin
+root@ns1:/usr/ports/net/phpldapadmin # make install clean
+</code></pre></div></div>
+
+<p>Now you open the /usr/local/etc/apache24/httpd.conf file again and enter the script below at the very bottom of the script file /usr/local/etc/apache24/httpd.conf.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Alias /phpldapadmin "/usr/local/www/phpldapadmin/htdocs/"
+&lt;Directory "/usr/local/www/phpldapadmin/htdocs"&gt;
+    AllowOverride None
+    Options None
+    Require all granted
+&lt;/Directory&gt;
+</code></pre></div></div>
+
+<p>After that, open and edit the file /usr/local/www/phpldapadmin/config/config.php and enter the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$servers-&gt;setValue('server','name','unixexplore.com');
+$servers-&gt;setValue('server','host','192.168.5.2');
+$servers-&gt;setValue('server','port',389);
+$servers-&gt;setValue('server','base',array('dc=unixexplore,dc=com'));
+$servers-&gt;setValue('login','bind_id','cn=Manager,dc=unixexplore,dc=com');
+$servers-&gt;setValue('login','bind_pass','semeru');
+</code></pre></div></div>
+
+<p>The script above adapts to the settings of the OpenLDAP application program that you have installed and configured. For more details, below is the complete script from the file /usr/local/www/phpldapadmin/config/config.php.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?php
+/** NOTE **
+ ** Make sure that &lt;?php is the FIRST line of this file!
+ ** IE: There should NOT be any blank lines or spaces BEFORE &lt;?php
+ **/
+
+/**
+ * The phpLDAPadmin config file
+ * See: http://phpldapadmin.sourceforge.net/wiki/index.php/Config.php
+ *
+ * This is where you can customise some of the phpLDAPadmin defaults
+ * that are defined in config_default.php.
+ *
+ * To override a default, use the $config-&gt;custom variable to do so.
+ * For example, the default for defining the language in config_default.php
+ *
+ * $this-&gt;default-&gt;appearance['language'] = array(
+ *  'desc'=&gt;'Language',
+ *  'default'=&gt;'auto');
+ *
+ * to override this, use $config-&gt;custom-&gt;appearance['language'] = 'en_EN';
+ *
+ * This file is also used to configure your LDAP server connections.
+ *
+ * You must specify at least one LDAP server there. You may add
+ * as many as you like. You can also specify your language, and
+ * many other options.
+ *
+ * NOTE: Commented out values in this file prefixed by //, represent the
+ * defaults that have been defined in config_default.php.
+ * Commented out values prefixed by #, dont reflect their default value, you can
+ * check config_default.php if you want to see what the default is.
+ *
+ * DONT change config_default.php, you changes will be lost by the next release
+ * of PLA. Instead change this file - as it will NOT be replaced by a new
+ * version of phpLDAPadmin.
+ */
+
+/*********************************************
+ * Useful important configuration overrides  *
+ *********************************************/
+
+/* If you are asked to put PLA in debug mode, this is how you do it: */
+#  $config-&gt;custom-&gt;debug['level'] = 255;
+#  $config-&gt;custom-&gt;debug['syslog'] = true;
+$config-&gt;custom-&gt;debug['file'] = '/tmp/pla_debug.log';
+
+/* phpLDAPadmin can encrypt the content of sensitive cookies if you set this
+   to a big random string. */
+// $config-&gt;custom-&gt;session['blowfish'] = null;
+
+/* If your auth_type is http, you can override your HTTP Authentication Realm. */
+// $config-&gt;custom-&gt;session['http_realm'] = sprintf('%s %s',app_name(),'login');
+
+/* The language setting. If you set this to 'auto', phpLDAPadmin will attempt
+   to determine your language automatically.
+   If PLA doesnt show (all) strings in your language, then you can do some
+   translation at http://translations.launchpad.net/phpldapadmin and download
+   the translation files, replacing those provided with PLA.
+   (We'll pick up the translations before making the next release too!) */
+// $config-&gt;custom-&gt;appearance['language'] = 'auto';
+
+/* The temporary storage directory where we will put jpegPhoto data
+   This directory must be readable and writable by your web server. */
+// $config-&gt;custom-&gt;jpeg['tmpdir'] = '/tmp';     // Example for Unix systems
+#  $config-&gt;custom-&gt;jpeg['tmpdir'] = 'c:\\temp'; // Example for Windows systems
+
+/* Set this to (bool)true if you do NOT want a random salt used when
+   calling crypt().  Instead, use the first two letters of the user's
+   password.  This is insecure but unfortunately needed for some older
+   environments. */
+#  $config-&gt;custom-&gt;password['no_random_crypt_salt'] = true;
+
+/* If you want to restrict password available types (encryption algorithms)
+	 Should be subset of:
+	 array(
+		''=&gt;'clear',
+		'bcrypt'=&gt;'bcrypt',
+		'blowfish'=&gt;'blowfish',
+		'crypt'=&gt;'crypt',
+		'ext_des'=&gt;'ext_des',
+		'md5'=&gt;'md5',
+		'k5key'=&gt;'k5key',
+		'md5crypt'=&gt;'md5crypt',
+		'sha'=&gt;'sha',
+		'smd5'=&gt;'smd5',
+		'ssha'=&gt;'ssha',
+		'sha256'=&gt;'sha256',
+		'ssha256'=&gt;'ssha256',
+		'sha384'=&gt;'sha384',
+		'ssha384'=&gt;'ssha384',
+		'sha512'=&gt;'sha512',
+		'ssha512'=&gt;'ssha512',
+		'sha256crypt'=&gt;'sha256crypt',
+		'sha512crypt'=&gt;'sha512crypt',
+		'argon2i'=&gt;'argon2i',
+		'argon2id'=&gt;'argon2id',
+	 )*/
+#  $config-&gt;custom-&gt;password['available_types'] = array(''=&gt;'clear','md5'=&gt;'md5');
+
+/* PHP script timeout control. If php runs longer than this many seconds then
+   PHP will stop with an Maximum Execution time error. Increase this value from
+   the default if queries to your LDAP server are slow. The default is either
+   30 seconds or the setting of max_exection_time if this is null. */
+// $config-&gt;custom-&gt;session['timelimit'] = 30;
+
+/* Our local timezone
+   This is to make sure that when we ask the system for the current time, we
+   get the right local time. If this is not set, all time() calculations will
+   assume UTC if you have not set PHP date.timezone. */
+// $config-&gt;custom-&gt;appearance['timezone'] = null;
+$config-&gt;custom-&gt;appearance['timezone'] = 'Asia/Jakarta';
+
+/*********************************************
+ * Commands                                  *
+ *********************************************/
+
+/* Command availability ; if you don't authorize a command the command
+   links will not be shown and the command action will not be permitted.
+   For better security, set also ACL in your ldap directory. */
+/*
+$config-&gt;custom-&gt;commands['cmd'] = array(
+	'entry_internal_attributes_show' =&gt; true,
+	'entry_refresh' =&gt; true,
+	'oslinks' =&gt; true,
+	'switch_template' =&gt; true
+);
+
+$config-&gt;custom-&gt;commands['script'] = array(
+	'add_attr_form' =&gt; true,
+	'add_oclass_form' =&gt; true,
+	'add_value_form' =&gt; true,
+	'collapse' =&gt; true,
+	'compare' =&gt; true,
+	'compare_form' =&gt; true,
+	'copy' =&gt; true,
+	'copy_form' =&gt; true,
+	'create' =&gt; true,
+	'create_confirm' =&gt; true,
+	'delete' =&gt; true,
+	'delete_attr' =&gt; true,
+	'delete_form' =&gt; true,
+	'draw_tree_node' =&gt; true,
+	'expand' =&gt; true,
+	'export' =&gt; true,
+	'export_form' =&gt; true,
+	'import' =&gt; true,
+	'import_form' =&gt; true,
+	'login' =&gt; true,
+	'logout' =&gt; true,
+	'login_form' =&gt; true,
+	'mass_delete' =&gt; true,
+	'mass_edit' =&gt; true,
+	'mass_update' =&gt; true,
+	'modify_member_form' =&gt; true,
+	'monitor' =&gt; true,
+	'purge_cache' =&gt; true,
+	'query_engine' =&gt; true,
+	'rename' =&gt; true,
+	'rename_form' =&gt; true,
+	'rdelete' =&gt; true,
+	'refresh' =&gt; true,
+	'schema' =&gt; true,
+	'server_info' =&gt; true,
+	'show_cache' =&gt; true,
+	'template_engine' =&gt; true,
+	'update_confirm' =&gt; true,
+	'update' =&gt; true
+);
+*/
+
+/*********************************************
+ * Appearance                                *
+ *********************************************/
+
+/* If you want to choose the appearance of the tree, specify a class name which
+   inherits from the Tree class. */
+// $config-&gt;custom-&gt;appearance['tree'] = 'AJAXTree';
+#  $config-&gt;custom-&gt;appearance['tree'] = 'HTMLTree';
+
+/* Just show your custom templates. */
+// $config-&gt;custom-&gt;appearance['custom_templates_only'] = false;
+
+/* Disable the default template. */
+// $config-&gt;custom-&gt;appearance['disable_default_template'] = false;
+
+/* Hide the warnings for invalid objectClasses/attributes in templates. */
+// $config-&gt;custom-&gt;appearance['hide_template_warning'] = false;
+
+/* Set to true if you would like to hide header and footer parts. */
+// $config-&gt;custom-&gt;appearance['minimalMode'] = false;
+
+/* Configure what objects are shown in left hand tree */
+// $config-&gt;custom-&gt;appearance['tree_filter'] = '(objectclass=*)';
+
+/* The height and width of the tree. If these values are not set, then
+   no tree scroll bars are provided. */
+// $config-&gt;custom-&gt;appearance['tree_height'] = null;
+#  $config-&gt;custom-&gt;appearance['tree_height'] = 600;
+// $config-&gt;custom-&gt;appearance['tree_width'] = null;
+#  $config-&gt;custom-&gt;appearance['tree_width'] = 250;
+
+/* Number of tree command icons to show, 0 = show all icons on 1 row. */
+// $config-&gt;custom-&gt;appearance['tree_icons'] = 0;
+#  $config-&gt;custom-&gt;appearance['tree_icons'] = 4;
+
+/* Confirm create and update operations, allowing you to review the changes
+   and optionally skip attributes during the create/update operation. */
+// $config-&gt;custom-&gt;confirm['create'] = true;
+// $config-&gt;custom-&gt;confirm['update'] = true;
+
+/* Confirm copy operations, and treat them like create operations. This allows
+   you to edit the attributes (thus changing any that might conflict with
+   uniqueness) before creating the new entry. */
+// $config-&gt;custom-&gt;confirm['copy'] = true;
+
+/*********************************************
+ * User-friendly attribute translation       *
+ *********************************************/
+
+/* Use this array to map attribute names to user friendly names. For example, if
+   you don't want to see "facsimileTelephoneNumber" but rather "Fax". */
+// $config-&gt;custom-&gt;appearance['friendly_attrs'] = array();
+$config-&gt;custom-&gt;appearance['friendly_attrs'] = array(
+	'facsimileTelephoneNumber' =&gt; 'Fax',
+	'gid'                      =&gt; 'Group',
+	'mail'                     =&gt; 'Email',
+	'telephoneNumber'          =&gt; 'Telephone',
+	'uid'                      =&gt; 'User Name',
+	'userPassword'             =&gt; 'Password'
+);
+
+/*********************************************
+ * Hidden attributes                         *
+ *********************************************/
+
+/* You may want to hide certain attributes from being edited. If you want to
+   hide attributes from the user, you should use your LDAP servers ACLs.
+   NOTE: The user must be able to read the hide_attrs_exempt entry to be
+   excluded. */
+// $config-&gt;custom-&gt;appearance['hide_attrs'] = array();
+#  $config-&gt;custom-&gt;appearance['hide_attrs'] = array('objectClass');
+
+/* Members of this list will be exempt from the hidden attributes. */
+// $config-&gt;custom-&gt;appearance['hide_attrs_exempt'] = null;
+#  $config-&gt;custom-&gt;appearance['hide_attrs_exempt'] = 'cn=PLA UnHide,ou=Groups,c=AU';
+
+/*********************************************
+ * Read-only attributes                      *
+ *********************************************/
+
+/* You may want to phpLDAPadmin to display certain attributes as read only,
+   meaning that users will not be presented a form for modifying those
+   attributes, and they will not be allowed to be modified on the "back-end"
+   either. You may configure this list here:
+   NOTE: The user must be able to read the readonly_attrs_exempt entry to be
+   excluded. */
+// $config-&gt;custom-&gt;appearance['readonly_attrs'] = array();
+
+/* Members of this list will be exempt from the readonly attributes. */
+// $config-&gt;custom-&gt;appearance['readonly_attrs_exempt'] = null;
+#  $config-&gt;custom-&gt;appearance['readonly_attrs_exempt'] = 'cn=PLA ReadWrite,ou=Groups,c=AU';
+
+/*********************************************
+ * Group attributes                          *
+ *********************************************/
+
+/* Add "modify group members" link to the attribute. */
+// $config-&gt;custom-&gt;modify_member['groupattr'] = array('member','uniqueMember','memberUid','sudoUser');
+
+/* Configure filter for member search. This only applies to "modify group members" feature */
+// $config-&gt;custom-&gt;modify_member['filter'] = '(objectclass=Person)';
+
+/* Attribute that is added to the group member attribute. */
+// $config-&gt;custom-&gt;modify_member['attr'] = 'dn';
+
+/* For Posix attributes */
+// $config-&gt;custom-&gt;modify_member['posixattr'] = 'uid';
+// $config-&gt;custom-&gt;modify_member['posixfilter'] = '(uid=*)';
+// $config-&gt;custom-&gt;modify_member['posixgroupattr'] = 'memberUid';
+
+/*********************************************
+ * Support for attrs display order           *
+ *********************************************/
+
+/* Use this array if you want to have your attributes displayed in a specific
+   order. You can use default attribute names or their fridenly names.
+   For example, "sn" will be displayed right after "givenName". All the other
+   attributes that are not specified in this array will be displayed after in
+   alphabetical order. */
+// $config-&gt;custom-&gt;appearance['attr_display_order'] = array();
+#  $config-&gt;custom-&gt;appearance['attr_display_order'] = array(
+#   'givenName',
+#   'sn',
+#   'cn',
+#   'displayName',
+#   'uid',
+#   'uidNumber',
+#   'gidNumber',
+#   'homeDirectory',
+#   'mail',
+#   'userPassword'
+#  );
+
+/*********************************************
+ * Define your LDAP servers in this section  *
+ *********************************************/
+
+$servers = new Datastore();
+
+/* $servers-&gt;NewServer('ldap_pla') must be called before each new LDAP server
+   declaration. */
+$servers-&gt;newServer('ldap_pla');
+
+/* A convenient name that will appear in the tree viewer and throughout
+   phpLDAPadmin to identify this LDAP server to users. */
+$servers-&gt;setValue('server','name','unixexplore.com');
+
+/* Examples:
+   'ldap.example.com',
+   'ldaps://ldap.example.com/',
+   'ldapi://%2fusr%local%2fvar%2frun%2fldapi'
+           (Unix socket at /usr/local/var/run/ldap) */
+$servers-&gt;setValue('server','host','192.168.5.2');
+
+/* The port your LDAP server listens on (no quotes). 389 is standard. */
+$servers-&gt;setValue('server','port',389);
+
+/* Array of base DNs of your LDAP server. Leave this blank to have phpLDAPadmin
+   auto-detect it for you. */
+$servers-&gt;setValue('server','base',array('dc=unixexplore,dc=com'));
+
+/* Five options for auth_type:
+   1. 'cookie': you will login via a web form, and a client-side cookie will
+      store your login dn and password.
+   2. 'session': same as cookie but your login dn and password are stored on the
+      web server in a persistent session variable.
+   3. 'http': same as session but your login dn and password are retrieved via
+      HTTP authentication.
+   4. 'config': specify your login dn and password here in this config file. No
+      login will be required to use phpLDAPadmin for this server.
+   5. 'sasl': login will be taken from the webserver's kerberos authentication.
+      Currently only GSSAPI has been tested (using mod_auth_kerb).
+   6. 'sasl_external': login will be taken from SASL external mechanism.
+
+   Choose wisely to protect your authentication information appropriately for
+   your situation. If you choose 'cookie', your cookie contents will be
+   encrypted using blowfish and the secret your specify above as
+   session['blowfish']. */
+// $servers-&gt;setValue('login','auth_type','session');
+
+/* The DN of the user for phpLDAPadmin to bind with. For anonymous binds or
+   'cookie','session' or 'sasl' auth_types, LEAVE THE LOGIN_DN AND LOGIN_PASS
+   BLANK. If you specify a login_attr in conjunction with a cookie or session
+   auth_type, then you can also specify the bind_id/bind_pass here for searching
+   the directory for users (ie, if your LDAP server does not allow anonymous
+   binds. */
+
+$servers-&gt;setValue('login','bind_id','cn=Manager,dc=unixexplore,dc=com');
+
+/* Your LDAP password. If you specified an empty bind_id above, this MUST also
+   be blank. */
+$servers-&gt;setValue('login','bind_pass','semeru');
+
+/* Use TLS (Transport Layer Security) to connect to the LDAP server. */
+// $servers-&gt;setValue('server','tls',false);
+
+/* TLS Certificate Authority file (overrides ldap.conf, PHP 7.1+) */
+// $servers-&gt;setValue('server','tls_cacert',null);
+#  $servers-&gt;setValue('server','tls_cacert','/etc/openldap/certs/ca.crt');
+
+/* TLS Certificate Authority hashed directory (overrides ldap.conf, PHP 7.1+) */
+// $servers-&gt;setValue('server','tls_cacertdir',null);
+#  $servers-&gt;setValue('server','tls_cacertdir','/etc/openldap/certs');
+
+/* TLS Client Certificate file (PHP 7.1+) */
+// $servers-&gt;setValue('server','tls_cert',null);
+#  $servers-&gt;setValue('server','tls_cert','/etc/pki/tls/certs/ldap_user.crt');
+
+/* TLS Client Certificate Key file (PHP 7.1+) */
+// $servers-&gt;setValue('server','tls_key',null);
+#  $servers-&gt;setValue('server','tls_key','/etc/pki/tls/private/ldap_user.key');
+
+/************************************
+ *      SASL Authentication         *
+ ************************************/
+
+/* Enable SASL authentication LDAP SASL authentication requires PHP 5.x
+   configured with --with-ldap-sasl=DIR. If this option is disabled (ie, set to
+   false), then all other sasl options are ignored. */
+#  $servers-&gt;setValue('login','auth_type','sasl');
+
+/* SASL GSSAPI auth mechanism (requires auth_type of sasl) */
+// $servers-&gt;setValue('sasl','mech','GSSAPI');
+
+/* SASL PLAIN support... this mech converts simple binds to SASL
+   PLAIN binds using any auth_type (or other bind_id/pass) as credentials.
+   NOTE: auth_type must be simple auth compatible (ie not sasl) */
+#  $servers-&gt;setValue('sasl','mech','PLAIN');
+
+/* SASL EXTERNAL support... really a different auth_type */
+#  $servers-&gt;setValue('login','auth_type','sasl_external');
+
+/* SASL authentication realm name */
+// $servers-&gt;setValue('sasl','realm','');
+#  $servers-&gt;setValue('sasl','realm','EXAMPLE.COM');
+
+/* SASL authorization ID name
+   If this option is undefined, authorization id will be computed from bind DN,
+   using authz_id_regex and authz_id_replacement. */
+// $servers-&gt;setValue('sasl','authz_id', null);
+
+/* SASL authorization id regex and replacement
+   When authz_id property is not set (default), phpLDAPAdmin will try to
+   figure out authorization id by itself from bind distinguished name (DN).
+
+   This procedure is done by calling preg_replace() php function in the
+   following way:
+
+   $authz_id = preg_replace($sasl_authz_id_regex,$sasl_authz_id_replacement,
+    $bind_dn);
+
+   For info about pcre regexes, see:
+   - pcre(3), perlre(3)
+   - http://www.php.net/preg_replace */
+// $servers-&gt;setValue('sasl','authz_id_regex',null);
+// $servers-&gt;setValue('sasl','authz_id_replacement',null);
+#  $servers-&gt;setValue('sasl','authz_id_regex','/^uid=([^,]+)(.+)/i');
+#  $servers-&gt;setValue('sasl','authz_id_replacement','$1');
+
+/* SASL auth security props.
+   See http://beepcore-tcl.sourceforge.net/tclsasl.html#anchor5 for explanation. */
+// $servers-&gt;setValue('sasl','props',null);
+
+/* Default password hashing algorithm. One of md5, ssha, sha, md5crpyt, smd5,
+   blowfish, crypt or leave blank for now default algorithm. */
+// $servers-&gt;setValue('appearance','pla_password_hash','md5');
+
+/* If you specified 'cookie' or 'session' as the auth_type above, you can
+   optionally specify here an attribute to use when logging in. If you enter
+   'uid' and login as 'dsmith', phpLDAPadmin will search for (uid=dsmith)
+   and log in as that user.
+   Leave blank or specify 'dn' to use full DN for logging in. Note also that if
+   your LDAP server requires you to login to perform searches, you can enter the
+   DN to use when searching in 'bind_id' and 'bind_pass' above. */
+$servers-&gt;setValue('login','attr','dn');
+
+/* Base DNs to used for logins. If this value is not set, then the LDAP server
+   Base DNs are used. */
+// $servers-&gt;setValue('login','base',array());
+
+/* If 'login,attr' is used above such that phpLDAPadmin will search for your DN
+   at login, you may restrict the search to a specific objectClasses. EG, set this
+   to array('posixAccount') or array('inetOrgPerson',..), depending upon your
+   setup. */
+// $servers-&gt;setValue('login','class',array());
+
+/* If login_attr was set to 'dn', it is possible to specify a template string to
+   build the DN from. Use '%s' where user input should be inserted. A user may
+   still enter the complete DN. In this case the template will not be used. */
+// $servers-&gt;setValue('login','bind_dn_template',null);
+#  $servers-&gt;setValue('login','bind_dn_template','cn=%s,ou=people,dc=example,dc=com');
+
+/* If you specified something different from 'dn', for example 'uid', as the
+   login_attr above, you can optionally specify here to fall back to
+   authentication with dn.
+   This is useful, when users should be able to log in with their uid, but
+   the ldap administrator wants to log in with his root-dn, that does not
+   necessarily have the uid attribute.
+   When using this feature, login_class is ignored. */
+// $servers-&gt;setValue('login','fallback_dn',false);
+
+/* Specify true If you want phpLDAPadmin to not display or permit any
+   modification to the LDAP server. */
+// $servers-&gt;setValue('server','read_only',false);
+
+/* Specify false if you do not want phpLDAPadmin to draw the 'Create new' links
+   in the tree viewer. */
+// $servers-&gt;setValue('appearance','show_create',true);
+
+/* Set to true if you would like to initially open the first level of each tree. */
+// $servers-&gt;setValue('appearance','open_tree',false);
+
+/* Set to true to display authorization ID in place of login dn (PHP 7.2+) */
+// $servers-&gt;setValue('appearance','show_authz',false);
+
+/* This feature allows phpLDAPadmin to automatically determine the next
+   available uidNumber for a new entry. */
+// $servers-&gt;setValue('auto_number','enable',true);
+
+/* The mechanism to use when finding the next available uidNumber. Two possible
+   values: 'uidpool' or 'search'.
+   The 'uidpool' mechanism uses an existing uidPool entry in your LDAP server to
+   blindly lookup the next available uidNumber. The 'search' mechanism searches
+   for entries with a uidNumber value and finds the first available uidNumber
+   (slower). */
+// $servers-&gt;setValue('auto_number','mechanism','search');
+
+/* The DN of the search base when the 'search' mechanism is used above. */
+#  $servers-&gt;setValue('auto_number','search_base','ou=People,dc=example,dc=com');
+
+/* The minimum number to use when searching for the next available number
+   (only when 'search' is used for auto_number. */
+// $servers-&gt;setValue('auto_number','min',array('uidNumber'=&gt;1000,'gidNumber'=&gt;500));
+
+/* If you set this, then phpldapadmin will bind to LDAP with this user ID when
+   searching for the uidnumber. The idea is, this user id would have full
+   (readonly) access to uidnumber in your ldap directory (the logged in user
+   may not), so that you can be guaranteed to get a unique uidnumber for your
+   directory. */
+// $servers-&gt;setValue('auto_number','dn',null);
+
+/* The password for the dn above. */
+// $servers-&gt;setValue('auto_number','pass',null);
+
+/* Enable anonymous bind login. */
+// $servers-&gt;setValue('login','anon_bind',true);
+
+/* Use customized page with prefix when available. */
+#  $servers-&gt;setValue('custom','pages_prefix','custom_');
+
+/* If you set this, then only these DNs are allowed to log in. This array can
+   contain individual users, groups or ldap search filter(s). Keep in mind that
+   the user has not authenticated yet, so this will be an anonymous search to
+   the LDAP server, so make your ACLs allow these searches to return results! */
+#  $servers-&gt;setValue('login','allowed_dns',array(
+#   'uid=stran,ou=People,dc=example,dc=com',
+#   '(&amp;(gidNumber=811)(objectClass=groupOfNames))',
+#   '(|(uidNumber=200)(uidNumber=201))',
+#   'cn=callcenter,ou=Group,dc=example,dc=com'));
+
+/* Set this if you dont want this LDAP server to show in the tree */
+// $servers-&gt;setValue('server','visible',true);
+
+/* Set this if you want to hide the base DNs that dont exist instead of
+   displaying the message "The base entry doesnt exist, create it?"
+// $servers-&gt;setValue('server','hide_noaccess_base',false);
+#  $servers-&gt;setValue('server','hide_noaccess_base',true);
+
+/* This is the time out value in minutes for the server. After as many minutes
+   of inactivity you will be automatically logged out. If not set, the default
+   value will be ( session_cache_expire()-1 ) */
+#  $servers-&gt;setValue('login','timeout',30);
+
+/* Set this if you want phpldapadmin to perform rename operation on entry which
+   has children. Certain servers are known to allow it, certain are not. */
+// $servers-&gt;setValue('server','branch_rename',false);
+
+/* If you set this, then phpldapadmin will show these attributes as
+   internal attributes, even if they are not defined in your schema. */
+// $servers-&gt;setValue('server','custom_sys_attrs',array(''));
+#  $servers-&gt;setValue('server','custom_sys_attrs',array('passwordExpirationTime','passwordAllowChangeTime'));
+
+/* If you set this, then phpldapadmin will show these attributes on
+   objects, even if they are not defined in your schema. */
+// $servers-&gt;setValue('server','custom_attrs',array(''));
+#  $servers-&gt;setValue('server','custom_attrs',array('nsRoleDN','nsRole','nsAccountLock'));
+
+/* These attributes will be forced to MAY attributes and become option in the
+   templates. If they are not defined in the templates, then they wont appear
+   as per normal template processing. You may want to do this because your LDAP
+   server may automatically calculate a default value.
+   In Fedora Directory Server using the DNA Plugin one could ignore uidNumber,
+   gidNumber and sambaSID. */
+// $servers-&gt;setValue('server','force_may',array(''));
+#  $servers-&gt;setValue('server','force_may',array('uidNumber','gidNumber','sambaSID'));
+
+/*********************************************
+ * Unique attributes                         *
+ *********************************************/
+
+/* You may want phpLDAPadmin to enforce some attributes to have unique values
+   (ie: not belong to other entries in your tree. This (together with
+   'unique','dn' and 'unique','pass' option will not let updates to
+   occur with other attributes have the same value. */
+#  $servers-&gt;setValue('unique','attrs',array('mail','uid','uidNumber'));
+
+/* If you set this, then phpldapadmin will bind to LDAP with this user ID when
+   searching for attribute uniqueness. The idea is, this user id would have full
+   (readonly) access to your ldap directory (the logged in user may not), so
+   that you can be guaranteed to get a unique uidnumber for your directory. */
+// $servers-&gt;setValue('unique','dn',null);
+
+/* The password for the dn above. */
+// $servers-&gt;setValue('unique','pass',null);
+
+/**************************************************************************
+ * If you want to configure additional LDAP servers, do so below.         *
+ * Remove the commented lines and use this section as a template for all  *
+ * your other LDAP servers.                                               *
+ **************************************************************************/
+
+/*
+$servers-&gt;newServer('ldap_pla');
+$servers-&gt;setValue('server','name','LDAP Server');
+$servers-&gt;setValue('server','host','127.0.0.1');
+$servers-&gt;setValue('server','port',389);
+$servers-&gt;setValue('server','base',array(''));
+$servers-&gt;setValue('login','auth_type','cookie');
+$servers-&gt;setValue('login','bind_id','');
+$servers-&gt;setValue('login','bind_pass','');
+$servers-&gt;setValue('server','tls',false);
+
+# SASL auth
+$servers-&gt;setValue('login','auth_type','sasl');
+$servers-&gt;setValue('sasl','mech','GSSAPI');
+$servers-&gt;setValue('sasl','realm','EXAMPLE.COM');
+$servers-&gt;setValue('sasl','authz_id',null);
+$servers-&gt;setValue('sasl','authz_id_regex','/^uid=([^,]+)(.+)/i');
+$servers-&gt;setValue('sasl','authz_id_replacement','$1');
+$servers-&gt;setValue('sasl','props',null);
+
+$servers-&gt;setValue('appearance','pla_password_hash','md5');
+$servers-&gt;setValue('login','attr','dn');
+$servers-&gt;setValue('login','fallback_dn',false);
+$servers-&gt;setValue('login','class',null);
+$servers-&gt;setValue('server','read_only',false);
+$servers-&gt;setValue('appearance','show_create',true);
+
+$servers-&gt;setValue('auto_number','enable',true);
+$servers-&gt;setValue('auto_number','mechanism','search');
+$servers-&gt;setValue('auto_number','search_base',null);
+$servers-&gt;setValue('auto_number','min',array('uidNumber'=&gt;1000,'gidNumber'=&gt;500));
+$servers-&gt;setValue('auto_number','dn',null);
+$servers-&gt;setValue('auto_number','pass',null);
+
+$servers-&gt;setValue('login','anon_bind',true);
+$servers-&gt;setValue('custom','pages_prefix','custom_');
+$servers-&gt;setValue('unique','attrs',array('mail','uid','uidNumber'));
+$servers-&gt;setValue('unique','dn',null);
+$servers-&gt;setValue('unique','pass',null);
+
+$servers-&gt;setValue('server','visible',true);
+$servers-&gt;setValue('login','timeout',30);
+$servers-&gt;setValue('server','branch_rename',false);
+$servers-&gt;setValue('server','custom_sys_attrs',array('passwordExpirationTime','passwordAllowChangeTime'));
+$servers-&gt;setValue('server','custom_attrs',array('nsRoleDN','nsRole','nsAccountLock'));
+$servers-&gt;setValue('server','force_may',array('uidNumber','gidNumber','sambaSID'));
+*/
+
+
+/***********************************************************************************
+ * If you want to configure Google reCAPTCHA on autentication form, do so below.   *
+ * Remove the commented lines and use this section as a template for all           *
+ * reCAPTCHA v2  Generate on https://www.google.com/recaptcha/                     *
+ *                                                                                 *
+ * IMPORTANT: Select reCAPTCHA v2   on  Type of reCAPTCHA                          *
+ ***********************************************************************************/
+
+
+$config-&gt;custom-&gt;session['reCAPTCHA-enable'] = false;
+$config-&gt;custom-&gt;session['reCAPTCHA-key-site'] = '&lt;put-here-key-site&gt;';
+$config-&gt;custom-&gt;session['reCAPTCHA-key-server'] = '&lt;put-here-key-server&gt;';
+
+?&gt;
+</code></pre></div></div>
+
+<p>The next step is to type the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chown -R www:www /usr/local/www/phpldapadmin
+root@ns1:~ # service apache24 restart
+Performing sanity check on apache24 configuration:
+Syntax OK
+Stopping apache24.
+Waiting for PIDS: 44221.
+Performing sanity check on apache24 configuration:
+Syntax OK
+Starting apache24.
+</code></pre></div></div>
+
+<p>After that, you can test, open the Yandex web browser, Google Chrome or Mozilla Firefox, type the following script in the browser.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://192.168.5.2/phpldapadmin/
+</code></pre></div></div>
+
+<p>If there is nothing wrong with the configuration above, the phpLDAPadmin dashboard will appear.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-01-20T17:01:10+03:00">January 20, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Complete+Guide++phpldapadmin+PHP+Application+To+Administrator+LDAP+Over+The+Web%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcomplete-guide-phpldapadmin-freebsd-ldap%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcomplete-guide-phpldapadmin-freebsd-ldap%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcomplete-guide-phpldapadmin-freebsd-ldap%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/checking-status-open-portson-windows-and-freebsd/" class="pagination--pager" title="Checking the Status of Open Ports on Windows and FreeBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/setup-php-fpm-apache-freebsd/" class="pagination--pager" title="Configuring PHP FPM and Apache24 on FreeBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/complete-guide-phpldapadmin-freebsd-ldap/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/complete-guide-phpldapadmin-freebsd-ldap"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,935 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to Install and Example of Using Swoole PHP on FreeBSD 14.1 - UnixBSDShell</title>
+<meta name="description" content="Swoole is a framework for PHP based on asynchronous co-routines. Swoole is specifically designed to build large-scale concurrent systems">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="How to Install and Example of Using Swoole PHP on FreeBSD 14.1">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/swoole-php-freebsd-install-example/">
+
+
+  <meta property="og:description" content="Swoole is a framework for PHP based on asynchronous co-routines. Swoole is specifically designed to build large-scale concurrent systems">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Install and Example of Using Swoole PHP on FreeBSD 14.1">
+  <meta name="twitter:description" content="Swoole is a framework for PHP based on asynchronous co-routines. Swoole is specifically designed to build large-scale concurrent systems">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/swoole-php-freebsd-install-example/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-06T09:05:19+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/swoole-php-freebsd-install-example/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Install and Example of Using Swoole PHP on FreeBSD 14.1</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to Install and Example of Using Swoole PHP on FreeBSD 14.1">
+    <meta itemprop="description" content="Swoole is a framework for PHP based on asynchronous co-routines. Swoole is specifically designed to build large-scale concurrent systems">
+    <meta itemprop="datePublished" content="2025-05-06T09:05:19+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Install and Example of Using Swoole PHP on FreeBSD 14.1
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-advantages-of-swoole-php">1. Advantages of Swoole PHP</a></li>
+  <li><a href="#2-install-swoole">2. Install Swoole</a></li>
+  <li><a href="#3-creating-a-swoole-application">3. Creating a Swoole Application</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Swoole is a PHP framework based on asynchronous co-routines. Swoole is specifically designed for building large-scale concurrent systems. It is written in C or C++ and installed as a PHP extension. If you want to build Swoole PHP on your local computer, you must install it via pecl. Meanwhile, on FreeBSD, Swole is easily installed, and its repositories are available.</p>
+
+<p>Swoole PHP originates from neighboring China and is primarily developed by Chinese developers working on large-scale applications for the Chinese market. Therefore, this product has been tested and proven in high-traffic production environments. Swoole is a truly reliable application for your work, and it’s a pleasure to use.
+<br /></p>
+
+<h2 id="1-advantages-of-swoole-php">1. Advantages of Swoole PHP</h2>
+<p>Compared to other asynchronous programming frameworks or software such as Apache, Nginx, and Node.js, Swoole supports asynchronous programming through multi-threaded I/O modules (HTTP Server, WebSockets, TaskWorkers). Additionally, Swoole PHP also supports Redis, CURL, TCP/UDP protocols, and Unix sockets.</p>
+
+<p>With Swoole’s advantages, you can freely create large-scale PHP applications (web servers), API-enabled applications, chat systems, CMS platforms, and even applications with real-time web services.</p>
+
+<p><br /></p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/10_diagram_swoole_php_for_freebsd.jpg" alt="diagram swoole php freebsd" /></p>
+
+<p><br /></p>
+
+<p>Swoole offers several advantages that other applications like NodeJS don’t, including multiple web workers and separate task workers, coroutine support, and the ability to significantly increase request limits. Here are some of the advantages of Swoole PHP:</p>
+
+<ul>
+  <li>event-driven</li>
+  <li>full asynchronous non-blocking</li>
+  <li>multi-thread reactor</li>
+  <li>Supports Separate Task Workers</li>
+  <li>millisecond timer</li>
+  <li>Supports Multiple Web Workers</li>
+  <li>async MySQL</li>
+  <li>async task</li>
+  <li>async read/write file system</li>
+  <li>Can Increase Request Ceiling</li>
+  <li>async dns lookup</li>
+  <li>No Web Server Needed</li>
+  <li>support IPv4/IPv6/UnixSocket/TCP/UDP</li>
+  <li>Coroutine Support</li>
+</ul>
+
+<p>At first glance, Swoole’s features are similar to NodeJS, both have Event Loop features, provide asynchronous HTTP, network clients and sockets, you can create network servers, and much more.</p>
+
+<h2 id="2-install-swoole">2. Install Swoole</h2>
+<p>Installing Swoole on FreeBSD is very easy: there are no configuration files or <code class="language-plaintext highlighter-rouge">rc.d</code> startup files. To run it, simply add a PHP script. Here’s how to install Swoole on FreeBSD.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/devel/pecl-swoole
+<span class="gp">root@ns3:/usr/ports/devel/pecl-swoole #</span><span class="w"> </span>make config
+</code></pre></div></div>
+
+<p>When you run the <code class="language-plaintext highlighter-rouge">"make config"</code> command, a menu will appear that you must enable along with Swoole. You should adjust these options to suit your needs and your FreeBSD system.</p>
+
+<p><br /></p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/11_install_swoole_with_system_ports.jpg" alt="install swoole with system ports" /></p>
+
+<p><br /></p>
+
+<p>After that, continue with the command <code class="language-plaintext highlighter-rouge">"make install clean"</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:/usr/ports/devel/pecl-swoole #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+
+<h2 id="3-creating-a-swoole-application">3. Creating a Swoole Application</h2>
+
+<p>To complete the tutorial, in this article, we’ll provide an example of using Swoole on FreeBSD. The first step is to create a working directory. We’ll place the Swoole project in <code class="language-plaintext highlighter-rouge">"/var/freebsd-swoole-app"</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /var
+root@ns3:/var # mkdir -p freebsd-swoole-app
+root@ns3:/var # cd freebsd-swoole-app
+root@ns3:/var/freebsd-swoole-app #
+</code></pre></div></div>
+
+<p>Proceed by creating an <code class="language-plaintext highlighter-rouge">"index.html"</code> file, using your favorite editor.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:/var/freebsd-swoole-app #</span><span class="w"> </span><span class="nb">touch </span>index.html
+<span class="gp">root@ns3:/var/freebsd-swoole-app #</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 775 index.html
+</code></pre></div></div>
+
+<p>In the file <code class="language-plaintext highlighter-rouge">"/var/freebsd-swoole-app/index.html"</code>, type the script below.</p>
+
+<p><a href="https://gitea.com/UnixBSDShell/Web-Static-With-Ruby-Jekyll-Site-NetBSD/raw/branch/main/img/index.html">Click here</a></p>
+
+<p><br /></p>
+
+<p>Next, create a <code class="language-plaintext highlighter-rouge">server.php</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:/var/freebsd-swoole-app #</span><span class="w"> </span><span class="nb">touch </span>server.php
+<span class="gp">root@ns3:/var/freebsd-swoole-app #</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 775 server.php
+</code></pre></div></div>
+
+<p>In the <code class="language-plaintext highlighter-rouge">"/var/freebsd-swoole-app/server.php"</code> file, type the script below.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/php
+<span class="cp">&lt;?php</span>
+<span class="nv">$server</span> <span class="o">=</span> <span class="k">new</span> <span class="err">\</span><span class="nf">Swoole\Http\Server</span><span class="p">(</span><span class="s1">'192.168.5.2'</span><span class="p">,</span> <span class="mi">3000</span><span class="p">);</span>
+<span class="nv">$server</span><span class="o">-&gt;</span><span class="nf">on</span><span class="p">(</span><span class="s1">'Request'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="err">\</span><span class="nc">Swoole\Http\Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="err">\</span><span class="nc">Swoole\Http\Response</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">write</span><span class="p">(</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'index.html'</span><span class="p">));</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">status</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nb">end</span><span class="p">();</span>
+<span class="p">});</span>
+<span class="nv">$server</span><span class="o">-&gt;</span><span class="nf">start</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Note the script <code class="language-plaintext highlighter-rouge">\Swoole\Http\Server('192.168.5.2', 3000)</code>. In this script, Swoole runs with
+IP = 192.168.5.2 (your FreeBSD server’s private IP)
+Port = 3000</p>
+
+<p>Run the <code class="language-plaintext highlighter-rouge">"server.php"</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:/var/freebsd-swoole-app #</span><span class="w"> </span>php server.php
+</code></pre></div></div>
+
+<p>To see the results, you open <code class="language-plaintext highlighter-rouge">"Google Chrome"</code> and type the command <code class="language-plaintext highlighter-rouge">"http://192.168.5.2:3000/"</code>.</p>
+
+<p>As additional learning, you create a file called <code class="language-plaintext highlighter-rouge">"app.php"</code> and enter the following script in that file.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/var/freebsd-swoole-app # touch app.php
+root@ns3:/var/freebsd-swoole-app # chmod 775 app.php
+root@ns3:/var/freebsd-swoole-app # ee app.php
+
+<span class="cp">&lt;?php</span>
+<span class="nv">$http</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">swoole\Http\Server</span><span class="p">(</span><span class="s1">'192.168.5.2'</span><span class="p">,</span> <span class="mi">3000</span><span class="p">);</span>
+<span class="nv">$http</span><span class="o">-&gt;</span><span class="nf">on</span><span class="p">(</span><span class="s1">'Request'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$request</span><span class="p">,</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="s1">'Content-Type'</span><span class="p">,</span> <span class="s1">'text/html; charset=utf-8'</span><span class="p">);</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nb">end</span><span class="p">(</span><span class="s1">'&lt;h1&gt;Hello FreeBSD Swoole'</span> <span class="mf">.</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9999</span><span class="p">)</span> <span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nv">$http</span><span class="o">-&gt;</span><span class="nf">start</span><span class="p">();</span>
+<span class="cp">?&gt;</span>
+</code></pre></div></div>
+<p>Run Swoole file <code class="language-plaintext highlighter-rouge">"app.php"</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:/var/freebsd-swoole-app #</span><span class="w"> </span>php app.php
+</code></pre></div></div>
+
+<p>Open Google Chrome and type “http://192.168.5.2:3000/” and see the results: “Hello FreeBSD Swoole” will appear.</p>
+
+<p>You can also use Apache, Nginx, and Node.js to support large-scale websites. You can also use Swoole PHP. Swoole PHP is specifically designed for building large-scale, concurrent systems.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-06T09:05:19+03:00">May 6, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Install+and+Example+of+Using+Swoole+PHP+on+FreeBSD+14.1%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fswoole-php-freebsd-install-example%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fswoole-php-freebsd-install-example%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fswoole-php-freebsd-install-example%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/gpart-command-manage-disk-partitions-2/" class="pagination--pager" title="gpart Command To Manage Disk Partitions in FreeBSD - Part 2
+">Previous</a>
+    
+    
+      <a href="/freebsd/tutorials-freeebsd-installation-guide-powerdns/" class="pagination--pager" title="Tutorials FreeBSD - Installation Guide PowerDNS
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/swoole-php-freebsd-install-example/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/swoole-php-freebsd-install-example"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

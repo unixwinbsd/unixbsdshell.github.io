@@ -1,0 +1,1007 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Creating a Database Website with Apache24 PHP and PostgreSQL On FreeBSD - UnixBSDShell</title>
+<meta name="description" content="PHP is a widely used server-side scripting language. Its extensive capabilities and ease of use make PHP ideal for front-end web development, and while it allows us to create advanced structures, its basic usage is also easy to learn, making it a good starting point for beginners.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Creating a Database Website with Apache24 PHP and PostgreSQL On FreeBSD">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/database-website-apache-php-postgresql/">
+
+
+  <meta property="og:description" content="PHP is a widely used server-side scripting language. Its extensive capabilities and ease of use make PHP ideal for front-end web development, and while it allows us to create advanced structures, its basic usage is also easy to learn, making it a good starting point for beginners.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Creating a Database Website with Apache24 PHP and PostgreSQL On FreeBSD">
+  <meta name="twitter:description" content="PHP is a widely used server-side scripting language. Its extensive capabilities and ease of use make PHP ideal for front-end web development, and while it allows us to create advanced structures, its basic usage is also easy to learn, making it a good starting point for beginners.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/database-website-apache-php-postgresql/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-06-03T10:01:11+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/database-website-apache-php-postgresql/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Creating a Database Website with Apache24 PHP and PostgreSQL On FreeBSD</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Creating a Database Website with Apache24 PHP and PostgreSQL On FreeBSD">
+    <meta itemprop="description" content="PHP is a widely used server-side scripting language. Its extensive capabilities and ease of use make PHP ideal for front-end web development, and while it allows us to create advanced structures, its basic usage is also easy to learn, making it a good starting point for beginners.">
+    <meta itemprop="datePublished" content="2025-06-03T10:01:11+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Creating a Database Website with Apache24 PHP and PostgreSQL On FreeBSD
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-system-specifications">1. System specifications</a></li>
+  <li><a href="#2-create-a-new-table">2. Create a New Table</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>PHP is a widely used server-side scripting language. Its extensive capabilities and ease of use make PHP ideal for front-end web development, and while it allows us to create advanced structures, its basic usage is also easy to learn, making it a good starting point for beginners.</p>
+
+<p>However, the data that is recorded, processed, sent, or displayed by the applications we create needs to be stored somewhere; our web pages have no state without this data. We can store our data in a variety of ways or even throw it away after use, but the most standard way is to store it in a database that is designed solely for storing data securely and serving it up when needed as quickly as possible.</p>
+
+<p>PostgreSQL, also known as Postgres, is a free and open source relational database management system that emphasizes extensibility and SQL compliance. It was originally called POSTGRES, referring to its origins as the successor to the Ingres database developed at the University of California.</p>
+
+<p>In this article, we will learn how to create a simple web page to record and display user data. We will use PostgreSQL DBMS as the backend and develop a PHP application that will run on the Apache web server.</p>
+
+<p>Thus, we can access our web application from any common browser to view or add to our user database. The nature of web applications is that many users/operators can work on them simultaneously, all they need is a browser and network access to our application.</p>
+
+<p>In order for the PostgreSQL database to be connected to PHP and modified through the website page, your computer must have the following specifications installed.</p>
+
+<h2 id="1-system-specifications">1. System specifications</h2>
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>Hostname/Domain: ns1@unixexplore.com</li>
+  <li>IP Address: 192.168.5.2</li>
+  <li>phpPgAdmin 7.14.4-mod</li>
+  <li>Apache24</li>
+  <li>PHP82</li>
+  <li>PHP modules and extensions</li>
+  <li>PHP-FPM</li>
+  <li>PostgreSQL 15.3</li>
+</ul>
+
+<p>Before we continue to part 2, it’s a good idea to read the previous article: <a href="https://unixwinbsd.site/en/freebsd/2025/05/07/howto-install-and-configure-postgresql-freebsd/">How to Install and Configure PostgreSQL on FreeBSD 14</a>. Because if PostgresQL is not connected to PHP, don’t expect your website application to run perfectly.</p>
+
+<h2 id="2-create-a-new-table">2. Create a New Table</h2>
+<p>The first step in creating this simple web application is to create a new table in the PostgresQL database. Here’s how to create it.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>su - postgres
+<span class="gp">$</span><span class="w"> </span>psql postgres
+<span class="go">psql (15.4, server 15.3)
+Type "help" for help.
+
+</span><span class="gp">postgres=#</span><span class="w"> </span>CREATE TABLE public.user
+<span class="go">(
+   id serial, 
+   name character varying(250), 
+   email character varying(250), 
+   password character varying(250), 
+   mobno bigint, 
+   CONSTRAINT id PRIMARY KEY (id)
+) 
+WITH (
+OIDS=FALSE
+</span><span class="gp">);</span><span class="w">
+</span><span class="go">CREATE TABLE
+</span><span class="gp">postgres=#</span><span class="w">
+</span></code></pre></div></div>
+<p>The description of the script above is to open a database named <code class="language-plaintext highlighter-rouge">postgres</code> and create a new table named <code class="language-plaintext highlighter-rouge">user</code>. The contents of the <code class="language-plaintext highlighter-rouge">user</code> table consist of name, email, password, and mobile number. The following is the contents of the <code class="language-plaintext highlighter-rouge">user</code> table.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">postgres</span><span class="o">=#</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="nv">"public"</span><span class="p">.</span><span class="nv">"user"</span><span class="p">;</span>
+ <span class="n">id</span> <span class="o">|</span> <span class="n">name</span> <span class="o">|</span> <span class="n">email</span> <span class="o">|</span> <span class="n">password</span> <span class="o">|</span> <span class="n">mobno</span> 
+<span class="c1">----+------+-------+----------+-------</span>
+<span class="p">(</span><span class="mi">0</span> <span class="k">rows</span><span class="p">)</span>
+<span class="n">postgres</span><span class="o">=#</span>
+</code></pre></div></div>
+<p>In this case example, to input or enter data into the <code class="language-plaintext highlighter-rouge">user</code> table we will do it through Google Chrome, Yandex or other web browsers. So that the Google Chrome web browser can function to input data into the <code class="language-plaintext highlighter-rouge">user</code> table, we will create a php script named <code class="language-plaintext highlighter-rouge">register.php</code> and <code class="language-plaintext highlighter-rouge">login.php</code>. We will place these two files in the <code class="language-plaintext highlighter-rouge">/usr/local/www/apache24/data</code> folder.</p>
+
+<p>Here are the scripts you should type in the files <code class="language-plaintext highlighter-rouge">/usr/local/www/apache24/data/register.php</code> and <code class="language-plaintext highlighter-rouge">/usr/local/www/apache24/data/login.php</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>ee /usr/local/www/apache24/data/register.php
+<span class="go">&lt;?php
+</span><span class="gp">$</span>host <span class="o">=</span> <span class="s2">"192.168.5.2"</span><span class="p">;</span>
+<span class="gp">$</span>port <span class="o">=</span> <span class="s2">"5432"</span><span class="p">;</span>
+<span class="gp">$</span>dbname <span class="o">=</span> <span class="s2">"postgres"</span><span class="p">;</span>
+<span class="gp">$</span>user <span class="o">=</span> <span class="s2">"postgres"</span><span class="p">;</span>
+<span class="gp">$</span>password <span class="o">=</span> <span class="s2">"router"</span><span class="p">;</span> 
+<span class="gp">$</span>connection_string <span class="o">=</span> <span class="s2">"host={</span><span class="nv">$host</span><span class="s2">} port={</span><span class="nv">$port</span><span class="s2">} dbname={</span><span class="nv">$dbname</span><span class="s2">} user={</span><span class="nv">$user</span><span class="s2">} password={</span><span class="nv">$password</span><span class="s2">} "</span><span class="p">;</span>
+<span class="gp">$</span>dbconn <span class="o">=</span> pg_connect<span class="o">(</span><span class="nv">$connection_string</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">if(isset($</span>_POST[<span class="s1">'submit'</span><span class="o">])&amp;&amp;!</span>empty<span class="o">(</span><span class="nv">$_POST</span><span class="o">[</span><span class="s1">'submit'</span><span class="o">])){</span>
+<span class="go">    
+</span><span class="gp">      $</span>sql <span class="o">=</span> <span class="s2">"insert into public.user(name,email,password,mobno)values('"</span>.<span class="nv">$_POST</span><span class="o">[</span><span class="s1">'name'</span><span class="o">]</span>.<span class="s2">"','"</span>.<span class="nv">$_POST</span><span class="o">[</span><span class="s1">'email'</span><span class="o">]</span>.<span class="s2">"','"</span>.md5<span class="o">(</span><span class="nv">$_POST</span><span class="o">[</span><span class="s1">'pwd'</span><span class="o">])</span>.<span class="s2">"','"</span>.<span class="nv">$_POST</span><span class="o">[</span><span class="s1">'mobno'</span><span class="o">]</span>.<span class="s2">"')"</span><span class="p">;</span>
+<span class="gp">    $</span>ret <span class="o">=</span> pg_query<span class="o">(</span><span class="nv">$dbconn</span>, <span class="nv">$sql</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">    if($</span>ret<span class="o">){</span>
+<span class="go">        
+</span><span class="gp">            echo "Data saved Successfully";</span><span class="w">
+</span><span class="go">    }else{
+        
+</span><span class="gp">            echo "Soething Went Wrong";</span><span class="w">
+</span><span class="go">    }
+}
+</span><span class="gp">?&gt;</span><span class="w">
+</span><span class="gp">&lt;!DOCTYPE html&gt;</span><span class="w">
+</span><span class="gp">&lt;html lang="en"&gt;</span><span class="w">
+</span><span class="gp">&lt;head&gt;</span><span class="w">
+</span><span class="gp">  &lt;title&gt;</span>PHP PostgreSQL Registration &amp; Login Example &lt;/title&gt;
+<span class="gp">  &lt;meta name="keywords" content="PHP,PostgreSQL,Insert,Login"&gt;</span><span class="w">
+</span><span class="gp">  &lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"&gt;</span><span class="w">
+</span><span class="gp">  &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"&gt;</span>&lt;/script&gt;
+<span class="gp">  &lt;script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"&gt;</span>&lt;/script&gt;
+<span class="gp">&lt;/head&gt;</span><span class="w">
+</span><span class="gp">&lt;body&gt;</span><span class="w">
+</span><span class="gp">&lt;div class="container"&gt;</span><span class="w">
+</span><span class="gp">  &lt;h2&gt;</span>Register Here &lt;/h2&gt;
+<span class="gp">  &lt;form method="post"&gt;</span><span class="w">
+</span><span class="go">  
+</span><span class="gp">    &lt;div class="form-group"&gt;</span><span class="w">
+</span><span class="gp">      &lt;label for="name"&gt;</span>Name:&lt;/label&gt;
+<span class="gp">      &lt;input type="text" class="form-control" id="name" placeholder="Enter name" name="name" requuired&gt;</span><span class="w">
+</span><span class="gp">    &lt;/div&gt;</span><span class="w">
+</span><span class="go">    
+</span><span class="gp">    &lt;div class="form-group"&gt;</span><span class="w">
+</span><span class="gp">      &lt;label for="email"&gt;</span>Email:&lt;/label&gt;
+<span class="gp">      &lt;input type="email" class="form-control" id="email" placeholder="Enter email" name="email"&gt;</span><span class="w">
+</span><span class="gp">    &lt;/div&gt;</span><span class="w">
+</span><span class="go">    
+</span><span class="gp">    &lt;div class="form-group"&gt;</span><span class="w">
+</span><span class="gp">      &lt;label for="pwd"&gt;</span>Mobile No:&lt;/label&gt;
+<span class="gp">      &lt;input type="number" class="form-control" maxlength="10" id="mobileno" placeholder="Enter Mobile Number" name="mobno"&gt;</span><span class="w">
+</span><span class="gp">    &lt;/div&gt;</span><span class="w">
+</span><span class="go">    
+</span><span class="gp">    &lt;div class="form-group"&gt;</span><span class="w">
+</span><span class="gp">      &lt;label for="pwd"&gt;</span>Password:&lt;/label&gt;
+<span class="gp">      &lt;input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd"&gt;</span><span class="w">
+</span><span class="gp">    &lt;/div&gt;</span><span class="w">
+</span><span class="go">     
+</span><span class="gp">    &lt;input type="submit" name="submit" class="btn btn-primary" value="Submit"&gt;</span><span class="w">
+</span><span class="gp">  &lt;/form&gt;</span><span class="w">
+</span><span class="gp">&lt;/div&gt;</span><span class="w">
+</span><span class="gp">&lt;/body&gt;</span><span class="w">
+</span><span class="gp">&lt;/html&gt;</span><span class="w">
+</span></code></pre></div></div>
+
+<p><br /></p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /usr/local/www/apache24/data/login.php
+<span class="cp">&lt;?php</span>
+<span class="nv">$host</span> <span class="o">=</span> <span class="s2">"192.168.5.2"</span><span class="p">;</span>
+<span class="nv">$port</span> <span class="o">=</span> <span class="s2">"5432"</span><span class="p">;</span>
+<span class="nv">$dbname</span> <span class="o">=</span> <span class="s2">"postgres"</span><span class="p">;</span>
+<span class="nv">$user</span> <span class="o">=</span> <span class="s2">"postgres"</span><span class="p">;</span>
+<span class="nv">$password</span> <span class="o">=</span> <span class="s2">"router"</span><span class="p">;</span> 
+<span class="nv">$connection_string</span> <span class="o">=</span> <span class="s2">"host=</span><span class="si">{</span><span class="nv">$host</span><span class="si">}</span><span class="s2"> port=</span><span class="si">{</span><span class="nv">$port</span><span class="si">}</span><span class="s2"> dbname=</span><span class="si">{</span><span class="nv">$dbname</span><span class="si">}</span><span class="s2"> user=</span><span class="si">{</span><span class="nv">$user</span><span class="si">}</span><span class="s2"> password=</span><span class="si">{</span><span class="nv">$password</span><span class="si">}</span><span class="s2"> "</span><span class="p">;</span>
+<span class="nv">$dbconn</span> <span class="o">=</span> <span class="nb">pg_connect</span><span class="p">(</span><span class="nv">$connection_string</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="k">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">'submit'</span><span class="p">])</span><span class="o">&amp;&amp;!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">'submit'</span><span class="p">])){</span>
+    
+    <span class="nv">$hashpassword</span> <span class="o">=</span> <span class="nb">md5</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">'pwd'</span><span class="p">]);</span>
+    <span class="nv">$sql</span> <span class="o">=</span><span class="s2">"select *from public.user where email = '"</span><span class="mf">.</span><span class="nb">pg_escape_string</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">'email'</span><span class="p">])</span><span class="mf">.</span><span class="s2">"' and password ='"</span><span class="mf">.</span><span class="nv">$hashpassword</span><span class="mf">.</span><span class="s2">"'"</span><span class="p">;</span>
+    <span class="nv">$data</span> <span class="o">=</span> <span class="nb">pg_query</span><span class="p">(</span><span class="nv">$dbconn</span><span class="p">,</span><span class="nv">$sql</span><span class="p">);</span> 
+    <span class="nv">$login_check</span> <span class="o">=</span> <span class="nb">pg_num_rows</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nv">$login_check</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span> 
+        
+        <span class="k">echo</span> <span class="s2">"Login Successfully"</span><span class="p">;</span>    
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        
+        <span class="k">echo</span> <span class="s2">"Invalid Details"</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;title&gt;</span>PHP PostgreSQL Registration <span class="err">&amp;</span> Login Example <span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"keywords"</span> <span class="na">content=</span><span class="s">"PHP,PostgreSQL,Insert,Login"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;h2&gt;</span>Login Here <span class="nt">&lt;/h2&gt;</span>
+  <span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+  
+     
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"email"</span><span class="nt">&gt;</span>Email:<span class="nt">&lt;/label&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"email"</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">id=</span><span class="s">"email"</span> <span class="na">placeholder=</span><span class="s">"Enter email"</span> <span class="na">name=</span><span class="s">"email"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    
+     
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"pwd"</span><span class="nt">&gt;</span>Password:<span class="nt">&lt;/label&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">id=</span><span class="s">"pwd"</span> <span class="na">placeholder=</span><span class="s">"Enter password"</span> <span class="na">name=</span><span class="s">"pwd"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+     
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">name=</span><span class="s">"submit"</span> <span class="na">class=</span><span class="s">"btn btn-primary"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p>Now we open the Google Chrome, Firefox or Yandex web browser to fill or input the <code class="language-plaintext highlighter-rouge">user</code> table. In the Firefox web browser address bar menu, type <strong>http://192.168.5.2/register.php</strong> and fill in the data on the web browser.</p>
+
+<p>After completing the data entry as above, click the <code class="language-plaintext highlighter-rouge">Submit</code> button</p>
+
+<p>Note on the left side of the Firefox web browser, there is a text <code class="language-plaintext highlighter-rouge">Data saved successful</code>, meaning the data has been successfully saved. Do the steps above for 3 or 5 names. You can see the results as follows.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">postgres</span><span class="o">=#</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="nv">"public"</span><span class="p">.</span><span class="nv">"user"</span><span class="p">;</span>
+ <span class="n">id</span> <span class="o">|</span>     <span class="n">name</span>      <span class="o">|</span>        <span class="n">email</span>        <span class="o">|</span>             <span class="n">password</span>             <span class="o">|</span>    <span class="n">mobno</span>    
+<span class="c1">----+---------------+---------------------+----------------------------------+-------------</span>
+  <span class="mi">1</span> <span class="o">|</span> <span class="n">iwan</span> <span class="n">setiawan</span> <span class="o">|</span> <span class="n">datainchi</span><span class="o">@</span><span class="n">gmail</span><span class="p">.</span><span class="n">com</span> <span class="o">|</span> <span class="n">f82d7f6c2ab22a228da7c99dde71869c</span> <span class="o">|</span> <span class="mi">81289065249</span>
+  <span class="mi">2</span> <span class="o">|</span> <span class="n">M</span><span class="p">.</span> <span class="n">Jaka</span>       <span class="o">|</span> <span class="n">inchi</span><span class="o">@</span><span class="n">gmail</span><span class="p">.</span><span class="n">com</span>     <span class="o">|</span> <span class="n">f82d7f6c2ab22a228da7c99dde71869c</span> <span class="o">|</span> <span class="mi">81289065241</span>
+  <span class="mi">3</span> <span class="o">|</span> <span class="n">Kanaka</span> <span class="n">Robih</span>  <span class="o">|</span> <span class="k">data</span><span class="o">@</span><span class="n">gmail</span><span class="p">.</span><span class="n">com</span>      <span class="o">|</span> <span class="n">f82d7f6c2ab22a228da7c99dde71869c</span> <span class="o">|</span> <span class="mi">81289056247</span>
+<span class="p">(</span><span class="mi">3</span> <span class="k">rows</span><span class="p">)</span>
+
+<span class="n">postgres</span><span class="o">=#</span>
+</code></pre></div></div>
+
+<p>The password displayed above is not the actual password. The original password is not displayed. Because for the 3 names, we created the passwords <strong>“router1”, “router2”, and “router3”</strong>. Now we try to log in to the 3 names. In Firefox or Google Chrome type <strong>192.168.5.2/login.php</strong>.</p>
+
+<p>In this display, we try to log in with <code class="language-plaintext highlighter-rouge">datainchi@gmail.com</code> or the user name <code class="language-plaintext highlighter-rouge">iwan setiawan</code> with the password <code class="language-plaintext highlighter-rouge">router1</code>, if the login data matches the data entered in the input data file <code class="language-plaintext highlighter-rouge">register.php</code>, then the words <strong>Login Successful</strong> will appear</p>
+
+<p>This article is just a few examples of using the PostgreSQL database with PHP. You can read other articles about creating web applications based on PostgreSQL and PHP, because PostgreSQL is the best database that is no less popular than the MySQL server.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">DataBase</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-03T10:01:11+03:00">June 3, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Creating+a+Database+Website+with+Apache24+PHP+and+PostgreSQL+On+FreeBSD%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fdatabase-website-apache-php-postgresql%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fdatabase-website-apache-php-postgresql%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fdatabase-website-apache-php-postgresql%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/install-pgadmin-postgresql-freebsd/" class="pagination--pager" title="Install and Configure pgAdmin for PostgreSQL on FreeBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/installing-dnscrypt-proxy-openbsd/" class="pagination--pager" title="Installing DNSCrypt-proxy on OpenBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/database-website-apache-php-postgresql/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/database-website-apache-php-postgresql"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

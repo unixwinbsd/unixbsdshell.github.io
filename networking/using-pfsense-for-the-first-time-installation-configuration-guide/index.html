@@ -1,0 +1,940 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Using pfsense for the first time - Installation and Configuration Guide - UnixBSDShell</title>
+<meta name="description" content="PFSense is generally used as a firewall or router. But with its myriad of features, PFSense can also be used as a DNS server, DHCP server, proxy server, Bandwith limiter, VPN and so on. All of this can be easily configured simply via Google Chrome.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Using pfsense for the first time - Installation and Configuration Guide">
+<meta property="og:url" content="https://unixwinbsd.site/networking/using-pfsense-for-the-first-time-installation-configuration-guide/">
+
+
+  <meta property="og:description" content="PFSense is generally used as a firewall or router. But with its myriad of features, PFSense can also be used as a DNS server, DHCP server, proxy server, Bandwith limiter, VPN and so on. All of this can be easily configured simply via Google Chrome.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Using pfsense for the first time - Installation and Configuration Guide">
+  <meta name="twitter:description" content="PFSense is generally used as a firewall or router. But with its myriad of features, PFSense can also be used as a DNS server, DHCP server, proxy server, Bandwith limiter, VPN and so on. All of this can be easily configured simply via Google Chrome.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/networking/using-pfsense-for-the-first-time-installation-configuration-guide/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-08-15T09:05:27+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/networking/using-pfsense-for-the-first-time-installation-configuration-guide/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#networking" itemprop="item"><span itemprop="name">Networking</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Using pfsense for the first time - Installation and Configuration Guide</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Using pfsense for the first time - Installation and Configuration Guide">
+    <meta itemprop="description" content="PFSense is generally used as a firewall or router. But with its myriad of features, PFSense can also be used as a DNS server, DHCP server, proxy server, Bandwith limiter, VPN and so on. All of this can be easily configured simply via Google Chrome.">
+    <meta itemprop="datePublished" content="2025-08-15T09:05:27+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Using pfsense for the first time - Installation and Configuration Guide
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-system-specifications">1. System specifications</a></li>
+  <li><a href="#2-download-pfsense">2. Download PFSense</a></li>
+  <li><a href="#3-install-pfsense">3. Install PFSense</a></li>
+  <li><a href="#4-pfsense-configuration">4. PFSense configuration</a>
+    <ul>
+      <li><a href="#a-disable-dns-resolver">a. Disable DNS Resolver</a></li>
+      <li><a href="#b-create-nat-firewall">b. Create NAT (Firewall)</a></li>
+      <li><a href="#c-disable-dhcpv6-server">c. Disable DHCPv6 Server</a></li>
+      <li><a href="#d-disable-router-advertisement">d. Disable Router Advertisement</a></li>
+      <li><a href="#e-setup-interface-wan-and-lan">e. Setup Interface WAN and LAN</a></li>
+      <li><a href="#f-delete-gateway">f. Delete Gateway</a></li>
+      <li><a href="#g-creating-a-new-gateway">g. Creating a New Gateway</a></li>
+      <li><a href="#h-setup-dhcp-server">h. Setup DHCP Server</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Pfsense is an open source firewall or router application based on FreeBSD. PFSense can be installed on a physical computer or virtual machine to create a custom firewall or router for a network. PFSense is believed to be reliable and offers various features. Not only that, PFSense offers ease of configuration, namely via a web browser such as Google Chrome. With this convenience, PFSense users do not need special knowledge about the system
+FreeBSD.</p>
+
+<p>PFSense is generally used as a firewall or router. But with its myriad of features, PFSense can also be used as a DNS server, DHCP server, proxy server, Bandwith limiter, VPN and so on. All of this can be easily configured simply via Google Chrome.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQdklq6UA7CtF_m1op96JZJZ2vpKAZ92Dl30TWj45nvlqlUzfK1LddT1YJ_hBsP9SFO1VEmmxNDjijPuOmYWuNWJ_OU0P1mqvQjgr4LdxdVJfq347kK06dRuWRWYU1lfgXgIOrxpg-MzHzsvjp-iv9s7gxau54gbKUIdijhNfuHvgMlejzVOpwU6nJ0rp0/s16000/diagram%20router%20firewall%20pfsense.jpg" alt="diagram PFSense Router firewall" /></p>
+
+<h2 id="1-system-specifications">1. System specifications</h2>
+
+<ul>
+  <li>PFSense Version: PFSense 2.7.2-RELEASE (amd64)</li>
+  <li>Ethernet Card 1: nfe0 (WAN)</li>
+  <li>Ethernet Card 2: rl0 (LAN)</li>
+  <li>IP address nfe0: 192.168.5.2 (WAN)</li>
+  <li>IP address rl0: 192.168.7.1 (LAN)</li>
+  <li>CPU Type: Intel(R) Core(TM)2 Duo CPU E8400 @ 3.00GHz</li>
+</ul>
+
+<h2 id="2-download-pfsense">2. Download PFSense</h2>
+
+<p>Even though PFSense belongs to the FreeBSD family, the PFSense repository is not available in FreeBSD. To get PFSense you have to download it from the official PFSense website or another repository that provides the PFSense master. In this article we will download PFSense from the official PFSense website, please open the following link:
+<code class="language-plaintext highlighter-rouge">https://www.pfsense.org/download/</code></p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXUPnZzBglUD6ytqmFOTl_Vx-J9gWxLwuI_M36WOQNgkyIEWrdt7e-3vKOT2Mw9d0jLe62EtkSuhfMQCpiRuHZS19Y5bX17D2q1mxuBjmoUZJC71oN8PuRBFb8XYtX_Ry4tJoOV-S7dK5YB_aBdWIEKZWUf6M8HaY_A3KDD5SOqFmfhx5O6FY8-_l6jWW-/s16000/unduh%20pfsense.png" alt="download PFSense" /></p>
+
+<p>The image above will download PFSense with USB stick media. After you have finished downloading PFSense, create a bootable USB Flashdisk with Balena or other applications.</p>
+
+<h2 id="3-install-pfsense">3. Install PFSense</h2>
+
+<p>In this section we will discuss the PFSense installation process using USB Flash disk media. After you have finished creating a bootable Flashdisk, install PFSense on your computer. The method is very easy, follow all the PFSense installation instructions displayed on your monitor screen.</p>
+
+<p>After the installation process is complete, by default PFSense will display a menu like the image below.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjpADWpMZKo3DZh-lFhmBFqNMZbPXOkBeCRw4G7OwODwIZnhn0yoeHg7e-fdMTaVzGSvKAjSKoWzWRhhqjg6RSBVh3UgYNZ6bUWohqNUInLmYnNAIReZsM3H2uivf-96ATnJiYVBmKlYJXcgHkkkBxuWxB-eauZBqrHyhGYH6GjeUaA5mKyQPyFMDcugZ9j/s659/mengaktifkan%20interface%20di%20pfsense.png" alt="dashboard PFSense" /></p>
+
+<p>To continue the PFSense installation process, open the Google Chrome web browser and type <code class="language-plaintext highlighter-rouge">192.168.1.1</code>, so it will appear as shown in the image below.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjl7LL2QZty_s4TjObCmjX8tPpr815H0HjBV0pTqyiW63TNh4tLnCVTtm6VKfbxNWrqRNTSF5xqVhiWawiTT33d9ZYls8Qu_glzOpudS8g92ymNRCdg9rZ_LHOTrCXa-an6IvTndSiwLx4LfL1B89PARKOZBBLOMjnJ1kBINDlNOwiSPoDfAv6Ai3WMHMJ-/s16000/pfsense%20setup.png" alt="PFSEense main dashboard" /></p>
+
+<p>Click the Next button, to continue.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEirZkDb6wBXEUGw80pAV3UHcJP-7oHIW2l4lxHfqUl2n8I5JhRdqmoLb4tIvzmtNczcf6OH-ViL7qYIdE7hly2BBhiZiajwej3AN-EAQs0Q8bsdjvIZ7TWaXxLkrOQvlJ4RS0kfKVjKIhUIupbm6EBK79WlULAdNVhyphenhyphen0sjR_4bG2Uf5StS3msxxDcUlhHu8/s1131/menu%20wizard%20pfsense%20untuk%20instalasi.png" alt="setup PFSense" /></p>
+
+<p>After you click the Next button, the DNS server column will appear. You fill in the DNS IP with Public DNS IP <code class="language-plaintext highlighter-rouge">1.1.1.1 and 8.8.8.8</code>. Don’t forget to uncheck the <strong>“DNS Server Override”</strong> option. Click the Next button again, then a display like the image below will appear.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEghDAW8rs_qUzEfy7sWvtlwPRrvmQAVHRmfO4jpYXqh4PruuZonbvRgB68guz5gnHKh9OIoZwEgVZiACH_SFeY7CTNYDy4gUJXy8Q98asyBrn-HKHBI1Rf8_6FKnqn2eQ9dz4hHsSBi8hQ70FdGTwwArMkx-FIlARdQoN6rutnm6lHkU-IPPLFsjj4ad3Mc/s16000/pfsense%20setup%20general%20information.png" alt="general information DNS server PFSEnse" /></p>
+
+<p>In the <code class="language-plaintext highlighter-rouge">"Time server hostname"</code> option, fill in the time server. To make things easier, just choose the default PFSense, namely <code class="language-plaintext highlighter-rouge">"2.pfsense.pool.ntp.org"</code>. And in the <code class="language-plaintext highlighter-rouge">"Timezone"</code> column, you fill in the time zone where you live. Continue by pressing the Next button.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhiLER49ieJVfZt8_-N1F1QoznDJAUxADfR9iiT3mvvCNiNn_83GzYnZGunnKoW9ViaE0gabL1jUIgCOcauanwFUuN5LydqXe_aozb8881e_2lZEaOtxAyOSIZ1TFSq7767Ns0iE-z-sI1n920dKInk5PU8XmcbrNrmSiwuOrVA3t3vrYhSHwu1IPQdtDOF/s16000/pfsense%20setup%20time%20server%20configuration.png" alt="time server information PFSEnse" /></p>
+
+<p>In this section, you are required to configure the WAN interface. IP address 192.168.5.2 is the static IP of the WAN interface with Gateway <strong>192.168.5.1</strong>. After you set everything. click the Next button.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjOPkxZyx2xdMyqg2fZ9FT1dk646Xpkl9sQcSNiZPou_eke53mVLeZM5bYzbK7QIH78JdDRerHCFRLmXYY_QH11haV0cj1Q4q-DFloHkwNFhDMRnE3eeCaVZBoo-6WjO3XM-kh4tpzGsOocQYzi90m4xjDxKSpImqx7gZUJ-dFUlK1SIEFmO6FQFjgWEkA8/s16000/konfigurasi%20interface%20wan.png" alt="configure WAN Interface" /></p>
+
+<p>In the picture above, you have to set the IP address of the LAN interface. In this article we give an example of the LAN IP used <strong>192.168.7.1</strong>. Then click the Next button again.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiIW2thDyiZM2hzKgoUq9dJaPHfmv3BNFe3XRUx2VeNuQ-E2oK3GH1wgIStr6c3fDbCJAYgVyJrYWrR4SqBIsM-yKaN2pp3-S43v6rFdXdyP_Dp4PUkM9Cq4tX6WPjBVSYB6_JDjfSjnZV0QJhBVL3qtKhzL0FF8Mv8hDj1-CJpL6QbFp_zNJOV-V4lc8sc/s16000/konfigurasi%20interface%20lan.png" alt="configure lan interface" /></p>
+
+<h2 id="4-pfsense-configuration">4. PFSense configuration</h2>
+
+<p>The section above is the initial part of the PFSense configuration. In the configuration above, your PFSense is not yet connected to the internet. So that your PFsense can connect to the internet, we continue with the next configuration.</p>
+
+<h3 id="a-disable-dns-resolver">a. Disable DNS Resolver</h3>
+
+<p>Because you have changed the default PFSense IP from <code class="language-plaintext highlighter-rouge">192.168.1.1 to 192.168.7.1</code>, in Google Chrome type <code class="language-plaintext highlighter-rouge">https://192.168.7.1</code>. After the PFSense page appears, click the <strong>Service -» DNS Resolver</strong>, then uncheck the “Enable DNS resolver” option as shown in the image below.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1cwUnMroeCuvdK3s1mIN74Q6SKEVWBtbg7F9Jt-ClIoULOiLgbX5y6C6SnllW35tUf0OvNCbLJkj-0G35CBYxGRZlpre9O3AQghtni6TMwBlzh0jZaBasgW2xTXDzf6POXh_6770zqZj0RR2HQoxDj8pxHBAXYPF_upeeU1L-4zNCQ6EcvF0AHdtulX0k/s16000/mengaktifkan%20dns%20resolver.png" alt="disable DNS Resolver" /></p>
+
+<h3 id="b-create-nat-firewall">b. Create NAT (Firewall)</h3>
+
+<p>Next step, we will configure NAT. Click the <code class="language-plaintext highlighter-rouge">Firewall -&gt;&gt; NAT</code> menu, then click the <strong>“Outbound”</strong> menu and click again on the <strong>“Manual Outbound NAT rule generation”</strong> menu. (AON - Advanced Outbound NAT)”, you create NAT according to the image below.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDctZJOn3XJals5RMcAQuom0Qb8IIPnYwQKrfqpxEMmEaLb7s0v6soWxO_ojLJZVuD0y3AMHPZaBSmfIHclE26Xf3Cy1JBvHEnrCXN9Vkd2GXiCnWJYge8TFocqMwGN7IR2eNzGxuGd_pFVh3aW6mXNZsIcTk8wVlJU6c4WFK61onPFlORluV5_DBjH1T5/s16000/membuat%20firewall%20outbound.png" alt="Advanced Outbound NAT" /></p>
+
+<h3 id="c-disable-dhcpv6-server">c. Disable DHCPv6 Server</h3>
+
+<p>In this basic example, we only enable IP4. Therefore you must disable IP6. To disable IP6, click the <code class="language-plaintext highlighter-rouge">Services -&gt;&gt; DHCPv6 Server</code>, and uncheck the <code class="language-plaintext highlighter-rouge">"Enable DHCPv6 server on LAN interface"</code> option. follow the instructions in the image below.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgMoLRdIe9MhtKNcn3yY22sdc7tIcSQQznR0XSxWwFAnrGBfhRSDjafcSNGCreZ_EgXpbWhoJY3OyaJQckj06V29hZzKA6UJpp8cAQcLWI5oMnjMrdJU3sVabNhFRrnqLnkS9iTjeOua7p_zDmhbU2noYuYPQjySti4Kp1ZPaaXEvlfcKib8FbfxxwkWlce/s16000/konfigurasi%20lan%20dhcpv6%20server.png" alt="enable dhcp ipv6 server" /></p>
+
+<h3 id="d-disable-router-advertisement">d. Disable Router Advertisement</h3>
+
+<p>After that, you also disable Router Advertisement. To do this, click the <code class="language-plaintext highlighter-rouge">Service -&gt;&gt; Router Advertisement</code>. In the <code class="language-plaintext highlighter-rouge">"Router Mode:"</code> option, select disable. Look at the example below.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgBoN8Dh1OJGhFJnX8jq1AXC9Qq5cgSLT0SxVbuab-I9bWH5zcIc_hh7vw5yb6F_dqolzy5Raw5ksSapPwIo6FIAAk4HgtLx6MdwyH8xpmm9LC7dxitUgxPzqNLpXaxwXjuNOFkBK9GTSfgUzPC_osoGjSMTqEZLGHWDuM9oEGrLb4brD6ioICktVhmdC1w/s16000/router%20advertisement.png" alt="Router Advertisement" /></p>
+
+<h3 id="e-setup-interface-wan-and-lan">e. Setup Interface WAN and LAN</h3>
+
+<p>In this section we will configure the WAN and LAN interfaces. To understand it more easily, see the image below. Pay attention to the gateway choice. First we will configure the WAN interface.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMLX8LXEKr759nKdk62AKA2XREMKN3g1ZmOitguczGn-QgVOqGyTabj1lfDTdAdSejiVfnzXAtSxBSTn-TVnlqfxdB0o17-T0c_mKYAYkrZ3gFRO66CoUZq3swGO7esi5vlDFutsbSpn3U1B1E82GqGFhm3O9gjPw2m6uejmt96z7ywgn0DqpP8iB8IPED/s16000/konfigurasi%20wan%20interface.png" alt="wan interface" /></p>
+
+<p>After that, we configure the interface (without gateway). Look at the image below.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhS93dVR7z8noBiopuhz1p-JD8JwBnr6naZas0eyYm_6GYXPcX0GHZu8L2N_XuZlRBS2ew0wkPPITnfxeHCSGlBm0tP3hcU8OFV47qMJHrfxFURSoD8qBsrOuTb1MpETma7jFM73EJp1vbiVSreypkep0Tu15aA4nMTrTJI49VqEmkhKcn2Ef_uCRRaGbjC/s16000/konfigurasi%20lan%20interface.png" alt="lan interface" /></p>
+
+<h3 id="f-delete-gateway">f. Delete Gateway</h3>
+
+<p>In PFSense, the gateway has an important role in connecting your PFSense to the internet. Before we create a new Gateway, first delete the default Gateway that was created by PFSense automatically. like the picture below.</p>
+
+<p>To delete the gateway, click the <code class="language-plaintext highlighter-rouge">System -&gt;&gt; Routing</code> menu. After that, click on the trash can icon, as shown in the image below.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5o_bC5uciUaiGKq2V4uW4JJ9eWfwhyphenhyphen5FmU5Dn7cZLv1iqCgBKh4WcHZCjyqx9pjHLC_bTCkWmyzhTThCseLGCWMjy0Qv3YXp7CHfBmX3KlhQl9EJe788CPZVftvONh2mtO5S1ipbo1opBoDkJOS0ud6-WK7h4H6oz26Z7L2ZF6DwObaD6qsKeM_gMlsYO/s16000/membuat%20routing%20gateway.png" alt="delete gateway" /></p>
+
+<p>After you click the trash can icon, the results will look like the image below.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi71iy7ctfFNu6RVxszICvzKfeN-6mNyleAiZxi3Lc5jEvLF8dvNmsYTJ0SQedC-jb61hRsqeGfm_4f2irQO-zGNYWQ_ZQybSvu2GdhpPX5B5tdXHGZ5zU-UtnRnFbY8S3syGJYBNHQFfXPQWyrDVFv97kri7-v7UtwFOqbvbpHVceAu15uI7Tp13uZWhrn/s16000/membuat%20gateway%20koneksi.png" alt="routing gateway" /></p>
+
+<h3 id="g-creating-a-new-gateway">g. Creating a New Gateway</h3>
+
+<p>After that, we continue by creating a new gateway on the WAN interface. Click the <code class="language-plaintext highlighter-rouge">Interfaces -&gt;&gt; WAN</code> menu. Follow the image guide below. Note the gateway on this interface.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgvWHhYKP7v4uQdtl-n2p-zLseeongVh1kWttZ4lRsFzDubeljTCKMo4c-MffB7hBxmGILi-ZctdkSEDQYs5JK-gkVyJVtmO619job6IUHVVYZw1Aia6AZnyt7a930C42RLNHwBJafX-hQ9oO86yIcfwxe_-j9ID9bUR22W0c3OoG3o729ub_88__G2OCLV/s16000/membuat%20gateway%20untuk%20interface%20wan.png" alt="gateway wan interface" /></p>
+
+<h3 id="h-setup-dhcp-server">h. Setup DHCP Server</h3>
+
+<p>The next step you have to do is set up the DHCP server. To set up your DHCP server, click the <code class="language-plaintext highlighter-rouge">Services -&gt;&gt; DHCP Server</code>. Look at the image below, as your reference for configuring the DHCP server.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiB1CuSPC4WfajXCj6joaF-7Iz2N7dOG3zzqWnuoDA9j7zyQcdT2htmjwI2SiLmFOFwq_ee9XJGdn7Cwe9HVlfS1khlffxzDFdPCyD7_MjqQfOdqFSa57jYrm7sA5EAXMDrFzt5numS8pcfGCzLlLOxerwj2rLk0kqggJWMBCsuMAkGy_b6WuEoAKl12jMn/s16000/mengaktifkan%20dhcp%20server%20untuk%20lan.png" alt="service dhcp server lan" /></p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgeRYuafNimlbq1Z_OlWLylxXG4xhOgOik95xFxC6nkfKs37kpEgv8uznSLRVtJBt7qgvyXKZSKw4obEfPChUA7Uq8Tl6XBkeKfORZ08jD2iIaksBBw4QCRtUrsY-mxdK2eZhEtiwEVRDK48X7iUCCvqhSZglMTiCzw4MLmwliShr9Ui_xPMCnJFr9JDJmF/s16000/mengkonfigurasi%20dhcp%20server%20pfsense.png" alt="server option" /></p>
+
+<p>The final step is to reboot your PFSense server. Wait until PFSense returns to running normally. After that, you test by opening Google Chrome and typing “https://www.youtube.com/”. If you don’t go through each configuration that we have explained, you should be able to open YouTube.</p>
+
+<p>If your PFSense is not connected to the internet, you can start the steps in points “f” and “g”.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#networking" class="page__taxonomy-item" rel="tag">Networking</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-08-15T09:05:27+03:00">August 15, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Using+pfsense+for+the+first+time+-+Installation+and+Configuration+Guide%20https%3A%2F%2Funixwinbsd.site%2Fnetworking%2Fusing-pfsense-for-the-first-time-installation-configuration-guide%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Fnetworking%2Fusing-pfsense-for-the-first-time-installation-configuration-guide%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Fnetworking%2Fusing-pfsense-for-the-first-time-installation-configuration-guide%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/configuration-opensearch-tls-plugins-certificates-openssl-freebsd/" class="pagination--pager" title="FreeBSD OpenSearch - Configuring OpenSearch TLS Plugins and Certificates with OpenSSL
+">Previous</a>
+    
+    
+      <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" class="pagination--pager" title="How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/networking/using-pfsense-for-the-first-time-installation-configuration-guide/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/networking/using-pfsense-for-the-first-time-installation-configuration-guide"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

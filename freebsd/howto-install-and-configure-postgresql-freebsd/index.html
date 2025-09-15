@@ -1,0 +1,1068 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to Install and Configure PostgreSQL on FreeBSD 14 - UnixBSDShell</title>
+<meta name="description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="How to Install and Configure PostgreSQL on FreeBSD 14">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/howto-install-and-configure-postgresql-freebsd/">
+
+
+  <meta property="og:description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Install and Configure PostgreSQL on FreeBSD 14">
+  <meta name="twitter:description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/howto-install-and-configure-postgresql-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-07T09:55:13+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/howto-install-and-configure-postgresql-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Install and Configure PostgreSQL on FreeBSD 14</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to Install and Configure PostgreSQL on FreeBSD 14">
+    <meta itemprop="description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs.">
+    <meta itemprop="datePublished" content="2025-05-07T09:55:13+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Install and Configure PostgreSQL on FreeBSD 14
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-postgresql-installation-process">1. PostgreSQL Installation Process</a></li>
+  <li><a href="#2-postgresql-configuration-process">2. PostgreSQL Configuration Process</a></li>
+  <li><a href="#3-creating-a-postgres-password">3. Creating a Postgres Password</a></li>
+  <li><a href="#4-how-to-use-the-postgresql15-database">4. How to Use the PostgreSQL15 Database</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Postgresql is an open source object relational database system application with active development for over 30 years and has earned a good reputation for reliability, feature robustness, and performance. Postgres is one of the applications that emphasizes extensibility and SQL compliance.</p>
+
+<p>PostgreSQL works based on the Postgres DBMS developed at the University of California, Berkeley. PostgreSQL ORDBMS supports most of the standard SQL features and the most modern technologies such as:</p>
+<ul>
+  <li>Complex Queries.</li>
+  <li>Foreign keys.</li>
+  <li>Triggers.</li>
+  <li>Representation.</li>
+  <li>Transactions.</li>
+  <li>Concurrency control with multiversioning.</li>
+</ul>
+
+<p>PostgreSQL also allows users to add their own data:</p>
+<ul>
+  <li>Data types</li>
+  <li>Functions</li>
+  <li>Operators</li>
+  <li>Aggregate functions</li>
+  <li>Indexing Methods</li>
+  <li>Programming languages</li>
+</ul>
+
+<p>PostgreSQL was originally named POSTGRES, referring to its origins as the successor to the Ingres database. The PostgreSQL program can also be used as a primary data store or data warehouse for many web, mobile, geospatial, and analytical applications. PostgreSQL can store both structured and unstructured data in one product.</p>
+
+<p>In this article we try to install PostgreSQL on a FreeBSD 13.2 server. The version of PostgreSQL used is postgresql15.</p>
+
+<p><img src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/NugetArticle/PostgreSQL%20database%20architecture.jpg&amp;commit=94a571767af1f38023fbbfb259e4b9b8c0b87c31" alt="PostgreSQL database architecture" /></p>
+
+<h2 id="1-postgresql-installation-process">1. PostgreSQL Installation Process</h2>
+<p>On the FreeBSD system, installing PostgreSQL is very easy, the process is almost the same as installing other programs that run on the FreeBSD system. Here is how to install the PostgreSQL client and server.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/databases/postgresql15-client
+<span class="gp">root@ns1:/usr/ports/databases/postgresql15-client #</span><span class="w"> </span>make <span class="nb">install </span>clean
+<span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/databases/postgresql15-server
+<span class="gp">root@ns1:/usr/ports/databases/postgresql15-server #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+
+<h2 id="2-postgresql-configuration-process">2. PostgreSQL Configuration Process</h2>
+<p>After the installation process is complete, to activate PostgreSQL we must edit the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file. Type the script below in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="go">postgresql_enable="YES"
+postgresql_class="postgres"
+postgresql_data="/var/db/postgres/data15"
+postgresql_flags="-w -s -m fast"
+postgresql_initdb_flags="--encoding=utf-8 --lc-collate=C"
+postgresql_login_class="default"
+postgresql_profiles=""
+</span></code></pre></div></div>
+
+<p>After that we continue by editing the <code class="language-plaintext highlighter-rouge">/etc/login.conf</code> file, and enter the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>ee /etc/login.conf
+<span class="go">postgres:\
+        :lang=en_US.UTF-8:\
+        :setenv=LC_COLLATE=C:\
+        :tc=default:
+</span></code></pre></div></div>
+
+<p>Then initialize the PostgresQL database. Type the following command to initialize the PostgresQL database.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>/usr/local/etc/rc.d/postgresql initdb
+<span class="go">The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with this locale configuration:
+  provider:    libc
+  LC_COLLATE:  C
+  LC_CTYPE:    C.UTF-8
+  LC_MESSAGES: C.UTF-8
+  LC_MONETARY: C.UTF-8
+  LC_NUMERIC:  C.UTF-8
+  LC_TIME:     C.UTF-8
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+creating directory /var/db/postgres/data15 ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... Asia/Jakarta
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+
+Success. You can now start the database server using:
+
+    /usr/local/bin/pg_ctl -D /var/db/postgres/data15 -l logfile start
+</span></code></pre></div></div>
+
+<p>Once the PostgresQL database is initialized, proceed with the following command, but this command can only be run on the Postgres user, so you must be active on the Postgres user. Follow the steps below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>su postgres
+<span class="gp">$</span><span class="w"> </span><span class="nb">cd</span> /var/db/postgres
+<span class="gp">$</span><span class="w"> </span>/usr/local/bin/pg_ctl <span class="nt">-D</span> /var/db/postgres/data15 <span class="nt">-l</span> logfile restart
+<span class="go">waiting for server to shut down.... done
+server stopped
+waiting for server to start.... done
+server started
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">exit</span>
+<span class="gp">root@ns1:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The explanation of the script above is, in the first script you log in as a Postgres user, the second script goes to the <code class="language-plaintext highlighter-rouge">/var/db/postgres</code> folder and the second script restarts the logfile while the last script logs out as a Postgres user.</p>
+
+<p>After logging out of the Postgres user, edit the <code class="language-plaintext highlighter-rouge">/var/db/postgres/data13/postgresql.conf</code> file, and enter the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>ee /var/db/postgres/data15/postgresql.conf
+<span class="gp">listen_addresses = '192.168.5.2'		#</span><span class="w"> </span>what IP address<span class="o">(</span>es<span class="o">)</span> to listen on<span class="p">;</span>
+<span class="go">port = 5432
+</span></code></pre></div></div>
+
+<p>The IP for listen_addresses is adjusted to the FreeBSD server’s Private IP, because in writing this article the Private IP used is 192.168.5.2, so listen_addresses = ‘192.168.5.2’ and the PostgreSQL default port is port 5432.</p>
+
+<p>Then we also edit the <code class="language-plaintext highlighter-rouge">/var/db/postgres/data13/pg_hba.conf</code> file, and replace the host script with the IP address that matches the FreeBSD server, here is an example of the script.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>ee /var/db/postgres/data15/pg_hba.conf
+<span class="go">host    all             all             192.168.5.2/24            trust
+</span></code></pre></div></div>
+
+<p>Match the IP address with the script above. Then we restart the PostgresQL database program.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>service postgresql restart
+<span class="go">2023-08-21 13:43:37.306 WIB [1439] LOG:  ending log output to stderr
+2023-08-21 13:43:37.306 WIB [1439] HINT:  Future log output will go to log destination "syslog".
+
+</span><span class="gp">root@ns1:~ #</span><span class="w"> </span>service postgresql status
+<span class="go">pg_ctl: server is running (PID: 1439)
+/usr/local/bin/postgres "-D" "/var/db/postgres/data15"
+</span></code></pre></div></div>
+
+<p>If there is nothing wrong with the script settings above and the PostgresQL database program should be able to run on FreeBSD.</p>
+
+<h2 id="3-creating-a-postgres-password">3. Creating a Postgres Password</h2>
+<p>By default, when the postgresql database installation process is complete, postgresql will automatically create a database named “postgres”, and the user for the “postgres” database is named <code class="language-plaintext highlighter-rouge">postgres</code>. The user and database <code class="language-plaintext highlighter-rouge">postgres</code> have not been given a password. Here’s how to give a password to the Postgres user.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>passwd postgres
+<span class="go">Changing local password for postgres
+New Password: router
+Retype New Password: router
+</span></code></pre></div></div>
+
+<p>Or you can also create a Postgres password in another way, as in the example below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>su - postgres
+<span class="gp">$</span><span class="w"> </span>psql <span class="nt">-c</span> <span class="s2">"alter user postgres with password 'router'"</span>
+<span class="go">ALTER ROLE
+</span><span class="gp">$</span><span class="w">
+</span></code></pre></div></div>
+
+<p>In the above script example we have created a Postgres password with the name “router”.</p>
+
+<h2 id="4-how-to-use-the-postgresql15-database">4. How to Use the PostgreSQL15 Database</h2>
+<p>After the Postgres user is given a password, now we try to create a table in the <code class="language-plaintext highlighter-rouge">postgres</code> database. The following is an example of creating a table in the <code class="language-plaintext highlighter-rouge">postgres</code> database.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>su - postgres
+<span class="gp">$</span><span class="w"> </span>psql postgres
+<span class="go">psql (15.3)
+Type "help" for help.
+
+</span><span class="gp">postgres=#</span><span class="w"> </span>CREATE TABLE person <span class="o">(</span>
+<span class="go">    person_id BIGINT,
+    name VARCHAR(255),
+    age INT,
+    city VARCHAR(255)
+</span><span class="gp">);</span><span class="w">
+</span><span class="go">CREATE TABLE
+</span><span class="gp">postgres=#</span><span class="w"> </span>INSERT INTO person VALUES <span class="o">(</span>1001, <span class="s1">'M. Jaka Setiawan'</span>, 9, <span class="s1">'Tegal'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">INSERT 0 1
+</span><span class="gp">postgres=#</span><span class="w"> </span>INSERT INTO person VALUES <span class="o">(</span>1002, <span class="s1">'Iwan Setiawan'</span>, 42, <span class="s1">'Bekasi'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">INSERT 0 1
+</span><span class="gp">postgres=#</span><span class="w"> </span>INSERT INTO person VALUES <span class="o">(</span>1003, <span class="s1">'Siti Umaroh'</span>, 41, <span class="s1">'Tegal'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">INSERT 0 1
+</span><span class="gp">postgres=#</span><span class="w"> </span>INSERT INTO person VALUES <span class="o">(</span>1004, <span class="s1">'Kanaka Robih Setiawan'</span>, 11, <span class="s1">'Bekasi'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">INSERT 0 1
+</span><span class="gp">postgres=#</span><span class="w"> </span><span class="k">select</span> <span class="k">*</span> from person<span class="p">;</span>
+<span class="go"> person_id |         name          | age |  city  
+-----------+-----------------------+-----+--------
+      1001 | M. Jaka Setiawan      |   9 | Tegal
+      1002 | Iwan Setiawan         |  42 | Bekasi
+      1003 | Siti Umaroh           |  41 | Tegal
+      1004 | Kanaka Robih Setiawan |  11 | Bekasi
+(4 rows)
+
+</span><span class="gp">postgres=#</span><span class="w">
+</span></code></pre></div></div>
+<p>Now let’s try again by creating a database, user, table and password. Let’s give an example by creating a database user <code class="language-plaintext highlighter-rouge">puncakanjani</code> with the name <code class="language-plaintext highlighter-rouge">gunungrinjani</code>. Follow these steps.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>su - postgres
+<span class="gp">$</span><span class="w"> </span>createuser gunungrinjani
+<span class="gp">$</span><span class="w"> </span>createdb puncakanjani <span class="nt">-O</span> gunungrinjani
+<span class="gp">$</span><span class="w"> </span>psql puncakanjani
+<span class="go">psql (15.3)
+Type "help" for help.
+
+</span><span class="gp">puncakanjani=#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The explanation of the command above is.</p>
+
+<ol>
+  <li>The first script “su - postgres” enters the user “postgres”</li>
+  <li>2nd script, create a user with the name Gunungrinjani</li>
+  <li>3rd script, creates a Puncakanjani database for the Gunungrinjani user</li>
+  <li>4th script, psql is entered into the user Gunungrinjani</li>
+  <li>The Puncakanjani script=# means it is active in the Puncakanjani database</li>
+</ol>
+
+<p>The next step is to create a password for the Gunungrinjani user.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">puncakanjani=#</span><span class="w"> </span>alter user gunungrinjani with password <span class="s1">'sembalun'</span><span class="p">;</span>
+<span class="go">ALTER ROLE
+</span></code></pre></div></div>
+
+<p>The command above is to create a password for the Gunungrinjani user with the password <code class="language-plaintext highlighter-rouge">sembalun</code>. After the password is successfully created, now we practice how to create a table. Here is an example.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">puncakanjani=#</span><span class="w"> </span>create table tabelgunung <span class="o">(</span> <span class="nb">id </span>int,first_name text, last_name text <span class="o">)</span><span class="p">;</span>
+<span class="go">CREATE TABLE
+</span><span class="gp">puncakanjani=#</span><span class="w"> </span>insert into tabelgunung <span class="o">(</span><span class="nb">id</span>,first_name,last_name<span class="o">)</span> values <span class="o">(</span>1,<span class="s1">'gunung'</span>,<span class="s1">'argopuro'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">INSERT 0 1
+</span><span class="gp">puncakanjani=#</span><span class="w"> </span>insert into tabelgunung <span class="o">(</span><span class="nb">id</span>,first_name,last_name<span class="o">)</span> values <span class="o">(</span>1,<span class="s1">'gunung'</span>,<span class="s1">'rinjani'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">INSERT 0 1
+</span><span class="gp">puncakanjani=#</span><span class="w"> </span>insert into tabelgunung <span class="o">(</span><span class="nb">id</span>,first_name,last_name<span class="o">)</span> values <span class="o">(</span>1,<span class="s1">'gunung'</span>,<span class="s1">'raung'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">INSERT 0 1
+</span></code></pre></div></div>
+
+<p>Look at the table we have created above.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">puncakanjani=#</span><span class="w"> </span><span class="k">select</span> <span class="k">*</span> from tabelgunung<span class="p">;</span>
+<span class="go"> id | first_name | last_name 
+----+------------+-----------
+  1 | gunung     | argopuro
+  1 | gunung     | rinjani
+  1 | gunung     | raung
+(3 rows)
+
+</span><span class="gp">puncakanjani=#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Delete the <code class="language-plaintext highlighter-rouge">tabelgunung</code></p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">puncakanjani=#</span><span class="w"> </span>DROP TABLE tabelgunung<span class="p">;</span>
+<span class="go">DROP TABLE
+</span></code></pre></div></div>
+
+<p>Delete the <code class="language-plaintext highlighter-rouge">puncakanjani</code> database.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">puncakanjani=#</span><span class="w"> </span><span class="nb">exit</span>
+<span class="gp">$</span><span class="w"> </span>dropdb puncakanjani
+</code></pre></div></div>
+
+<p>Delete user <code class="language-plaintext highlighter-rouge">gunungrinjani</code></p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>dropuser gunungrinjani
+</code></pre></div></div>
+
+<p>PostgreSQL is a powerful, feature-rich, and widely used relational database management system in a variety of applications. PostgreSQL is an attractive choice for many companies, including giants such as Apple, Netflix, Instagram, IMDB, and others.</p>
+
+<p>According to statistical data, in 2023 PostgreSQL ranked fourth in the world among DBMS in terms of popularity, behind Oracle, MySQL, and Microsoft SQL Server. In addition, PostgreSQL is the most popular open source DBMS.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">DataBase</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-07T09:55:13+03:00">May 7, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Install+and+Configure+PostgreSQL+on+FreeBSD+14%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fhowto-install-and-configure-postgresql-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fhowto-install-and-configure-postgresql-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fhowto-install-and-configure-postgresql-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/tutorials-freeebsd-pyrocms-php-laravel/" class="pagination--pager" title="FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework
+">Previous</a>
+    
+    
+      <a href="/freebsd/gitLab-installation-guide-freebsd-server/" class="pagination--pager" title="GitLab Installation Guide on FreeBSD Server
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/howto-install-and-configure-postgresql-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/howto-install-and-configure-postgresql-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

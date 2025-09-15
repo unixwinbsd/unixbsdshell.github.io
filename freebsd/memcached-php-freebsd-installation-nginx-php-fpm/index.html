@@ -1,0 +1,1157 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>FreeBSD Memcached - Installing and Configuring Memcached With PHP - UnixBSDShell</title>
+<meta name="description" content="To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="FreeBSD Memcached - Installing and Configuring Memcached With PHP">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/memcached-php-freebsd-installation-nginx-php-fpm/">
+
+
+  <meta property="og:description" content="To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="FreeBSD Memcached - Installing and Configuring Memcached With PHP">
+  <meta name="twitter:description" content="To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/memcached-php-freebsd-installation-nginx-php-fpm/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-22T10:15:35+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/memcached-php-freebsd-installation-nginx-php-fpm/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">FreeBSD Memcached - Installing and Configuring Memcached With PHP</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="FreeBSD Memcached - Installing and Configuring Memcached With PHP">
+    <meta itemprop="description" content="To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time.">
+    <meta itemprop="datePublished" content="2025-05-22T10:15:35+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">FreeBSD Memcached - Installing and Configuring Memcached With PHP
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-system-specifications">1. System Specifications</a></li>
+  <li><a href="#2-why-memcached-is-important">2. Why Memcached is Important</a></li>
+  <li><a href="#3-installation-process">3. Installation Process</a>
+    <ul>
+      <li><a href="#31-install-php-and-php-fpm">3.1. Install PHP and PHP-FPM</a></li>
+      <li><a href="#32-install-memcached">3.2. Install Memcached</a></li>
+      <li><a href="#33-enable-memcached-to-start-automatically-at-boot">3.3. Enable Memcached to start automatically at boot.</a></li>
+    </ul>
+  </li>
+  <li><a href="#4-connect-memcached-to-php">4. Connect Memcached to PHP</a></li>
+  <li><a href="#5-checking-memcached-with-php-and-nginx">5. Checking Memcached with PHP and NGINX</a>
+    <ul>
+      <li><a href="#51-test-memcached-with-command-line">5.1. Test memcached With Command Line</a></li>
+      <li><a href="#52-test-memcached-with-php-and-nginx">5.2. Test memcached With PHP and NGINX</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Memcached is often used in cases where you want to improve the performance of dynamic applications connected to a database. This in-memory database ensures, among other things, that data is retrieved from RAM without having to access the hard drive. Memcached is useful for lightening the load on the backend system and can also significantly reduce latency.</p>
+
+<p>If you need to create large data samples such as the Comments/Best Articles column for daily or weekly, Directory Navigation menus, user profile data, etc.) or calculate in PHP some data that is not needed in real time, then the data needs to be cached. Memcached allows you to cache database queries from MySQL, MariaDB or other servers via PHP to reduce the load on the database.</p>
+
+<p>Popular websites like YouTube, Facebook, Twitter, and Wikipedia have long used Memcached to reduce latency and database load. But how exactly does Memcached work and what are the first steps to implementing it?</p>
+
+<p>The diagram below illustrates what your memcached infrastructure will look like when you implement memcached in your environment. You’ll notice that the memcached servers don’t communicate directly with your database servers. Instead, they live in their own pool and your application does all the work.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/memcached_infrastructure.jpg" alt="memcached infrastructure" /></p>
+
+<p>In this article we will learn the installation procedure, configuration and how to use memcached on a FreeBSD 14.3 server.</p>
+
+<h2 id="1-system-specifications">1. System Specifications</h2>
+<p>FreeBSD System: FreeBSD 14.3-PRERELEASE
+IP Address: 192.168.5.71
+Hostname: ns4
+PHP Version: PHP83
+Memcached Version: memcached 1.6.26
+NGINX Version: nginx/1.24.0
+Dependencies: php83-ctype, php83-mbstring, php83-extensions dan php83-mysqli, php-fpm, pecl-memcached</p>
+
+<h2 id="2-why-memcached-is-important">2. Why Memcached is Important</h2>
+<p>What is Memcached? The simplest answer to that question is that it is a high-performance caching system developed almost twenty years ago by Danga Interactive for the LiveJournal Internet portal. This cache server was created to prevent the slowdown caused by database access when using sophisticated web applications.</p>
+
+<p>To overcome this, an in-memory database was developed that makes cached items available to website users in a very short time. Since Memcached is able to store data in RAM, all the information the user needs can be accessed much faster. Memcached software is very easy to use, install, and configure. Furthermore, since it runs under the BSD license, it can also be freely used, modified, and copied.</p>
+
+<p>The main purpose of Memcached is to optimize application performance by reducing the load on the database server. Especially in applications that require a lot of reading, caching this data provides a significant advantage over accessing the same data repeatedly. In this way, the database server operates with less load and can concentrate on other important operations.</p>
+
+<p>Some of the advantages and benefits of Memcached can be seen in the following table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Explanation</th>
+      <th>Benefit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Caching</td>
+      <td>Temporary storage for frequently accessed data</td>
+      <td>Reduce the load on the database and speed up response times</td>
+    </tr>
+    <tr>
+      <td>Database Optimization</td>
+      <td>Query and schema optimization.</td>
+      <td>Faster query execution, lower resource consumption</td>
+    </tr>
+    <tr>
+      <td>Load balancer</td>
+      <td>Distribution of traffic between multiple servers.</td>
+      <td>Maintains performance even in heavy traffic situations</td>
+    </tr>
+    <tr>
+      <td>Data partitioning</td>
+      <td>Splitting a large database into smaller parts</td>
+      <td>Faster query processing, better scalability</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In addition to having many advantages, Memcached also has many disadvantages. The following table explains some of the advantages and disadvantages of using Memcached.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Advantages</th>
+      <th>Disadvantages</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Multiprocess architecture enables vertical scalability of computing power.</td>
+      <td>Data is not visible, making it difficult to debug.</td>
+    </tr>
+    <tr>
+      <td>Very short response time thanks to storing values ​​in memory</td>
+      <td>It only stores data temporarily and loses data if the Memcached instance fails.</td>
+    </tr>
+    <tr>
+      <td>Supports open data formats and most common clients and programming languages.</td>
+      <td>Non-redundant, meaning it does not duplicate or back up data to protect against failure.</td>
+    </tr>
+    <tr>
+      <td>Offers ease of use and flexibility for application development</td>
+      <td>Lack of security mechanisms requires the use of additional firewalls</td>
+    </tr>
+    <tr>
+      <td>A mature open source solution with open data storage</td>
+      <td>The value key length is limited to 250 characters (1 MB)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="3-installation-process">3. Installation Process</h2>
+<p>In this process there are many dependencies that you have to install, because Memcached is used with PHP with NGINX, PHP or others. So there will be many PHP dependencies that you have to install.</p>
+<h3 id="31-install-php-and-php-fpm">3.1. Install PHP and PHP-FPM</h3>
+<p>In the section we will not discuss, to do this process you can read the previous article that explains the installation process. We assume you have activated PHP and PHP-FPM.</p>
+<h3 id="32-install-memcached">3.2. Install Memcached</h3>
+<p>In this process we will use the ports system to install Memcached. On FreeBSD Memcached ports are located in the /usr/ports/databases/memcached directory. Run the command below to start the Memcached installation process.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # cd /usr/ports/databases/memcached
+root@ns4:/usr/ports/databases/memcached # make install clean
+</code></pre></div></div>
+
+<h3 id="33-enable-memcached-to-start-automatically-at-boot">3.3. Enable Memcached to start automatically at boot.</h3>
+<p>To enable memcached to start automatically at boot, you must type the script in the /etc/rc.conf file. In addition to typing it directly, there is another alternative by running the sysrc command. This command is a command line utility that manages system services on a FreeBSD server. With the sysrc command you can directly enable memcached.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # sysrc memcached_enable="YES"
+memcached_enable:  -&gt; YES
+
+root@ns4:~ # sysrc memcached_flags="-l 192.168.5.71 -p 11211 -m 128 -c 1024"
+memcached_flags:  -&gt; -l 192.168.5.71 -p 11211 -m 128 -c 1024
+</code></pre></div></div>
+
+<p>The above command is used to enable the memcached Server to Operation over TCP/IP Mode. If you want to enable memcached to # Memcached Server. UNIX socket mode, use the below command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # sysrc memcached_enable="YES"
+memcached_enable:  -&gt; YES
+
+root@ns4:~ # sysrc memcached_flags="-s /var/run/memcached/memcached.sock -a 700"
+memcached_flags:  -&gt; -s /var/run/memcached/memcached.sock -a 700
+</code></pre></div></div>
+
+<p>You can choose from the two methods above. In this article, we will activate memcached to TCP/IP mode, with IP 192.168.5.71 as the IP address of the FreeBSD server being used.</p>
+
+<p>Below is a table of basic memcached startup parameters that you can use as a reference to activate memcached.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Parameters and default values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-s</td>
+      <td>Path to socket. Runs in socket mode (TCP/IP doesn’t work)</td>
+    </tr>
+    <tr>
+      <td>-a</td>
+      <td>Socket access rights. The default value is 700.</td>
+    </tr>
+    <tr>
+      <td>-l</td>
+      <td>The IP addresses that Memcached listens on. By default, all addresses</td>
+    </tr>
+    <tr>
+      <td>-p</td>
+      <td>The port that Memcached listens on. The default is 11211 TCP.</td>
+    </tr>
+    <tr>
+      <td>-m</td>
+      <td>Maximum object size, in megabytes. The default size is 64Mb.</td>
+    </tr>
+    <tr>
+      <td>-d</td>
+      <td>Run as daemon</td>
+    </tr>
+    <tr>
+      <td>-c</td>
+      <td>Maximum simultaneous connections, default is 1024.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Once you have set everything according to the instructions above, run memcached with the service command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # service memcached restart
+</code></pre></div></div>
+
+<p>If you have run memcached, check whether the memcached port 11212, which you have specified in the /etc/rc.conf file above, is open or not? Use the sockstat command to check the memcached port.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # sockstat -l | grep 11211
+nobody   memcached  35145 16  tcp4   192.168.5.71:11211    *:*
+
+root@ns4:~ # sockstat -4 | grep 11211
+you have mail
+nobody   memcached  80732 16  tcp4   192.168.5.71:11211    *:*
+</code></pre></div></div>
+
+<h2 id="4-connect-memcached-to-php">4. Connect Memcached to PHP</h2>
+<p>To connect memcached to PHP, an extension is needed as a connecting medium. By default memcached has provided the extension, you can install it directly.</p>
+
+<p>There are two independent PHP PECL extensions to work with the Memcached server:</p>
+<ul>
+  <li>Memcache, a lightweight extension with a minimal set of features for working with the server. Considered faster and more productive in operation.</li>
+  <li>Memcached, an extension with a full set of features for use. Provides full capabilities for working with the Memcached server.</li>
+</ul>
+
+<p>Below is an example of installing both memcached extensions.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Method 1 ##
+
+root@ns4:~ # cd /usr/ports/databases/pecl-memcache
+root@ns4:/usr/ports/databases/pecl-memcache # make install clean
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Method 2 ##
+
+root@ns4:~ # cd /usr/ports/databases/pecl-memcached
+root@ns4:/usr/ports/databases/pecl-memcached # make install clean
+</code></pre></div></div>
+
+<p>Although these two extensions have slightly different syntax in some parameters, the way they are used is the same. In this article, we will use method 2, using PECL-Memcached.</p>
+
+<p>Before we continue with the next configuration, let’s take a moment to see the memcached and PHP versions used.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # memcached --version
+memcached 1.6.26
+
+root@ns4:~ # php -v
+PHP 8.3.6 (cli) (built: May 15 2025 11:24:52) (ZTS)
+</code></pre></div></div>
+
+<h2 id="5-checking-memcached-with-php-and-nginx">5. Checking Memcached with PHP and NGINX</h2>
+<p>You can test the memcached installation above with various testing methods. memcached can be tested with basic FreeBSD shell commands or with PHP scripts.</p>
+
+<h3 id="51-test-memcached-with-command-line">5.1. Test memcached With Command Line</h3>
+<p>There are many command lines that you can use, in this article we will use command lines such as nc and telnet. First we test the memcached connection with the nc command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # echo "stats settings" | nc 192.168.5.71 11211
+</code></pre></div></div>
+
+<p>If you want to use Telnet, run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # telnet 192.168.5.71 11211
+Trying 192.168.5.71...
+Connected to ns4.
+Escape character is '^]'.
+stats
+
+quit
+</code></pre></div></div>
+
+<p><strong>Note:</strong> If you are using Memcached with UDP support, the memcstat command will not be able to connect to the UDP port. You can use the following netcat command to verify connectivity.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # nc -u 192.168.5.71 11211 -vz
+Connection to 192.168.5.71 11211 port [udp/*] succeeded!
+</code></pre></div></div>
+
+<h3 id="52-test-memcached-with-php-and-nginx">5.2. Test memcached With PHP and NGINX</h3>
+<p>Memcached is generally used together with NGINX or Apache. Thanks to PHP support, memcached is able to serve many user requests at the same time. To test whether memcached has connected to the NGINX server, you create a PHP script.</p>
+
+<p>Below are some examples of PHP scripts that you can use to test memcached. We will create PHP files named test1.php, test2.php and test3.php. We will save all these files in the /usr/local/www/nginx directory. Pay attention to the writing of the PHP script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Contoh 1 (/usr/local/www/nginx/test1.php) ###
+
+&lt;?php
+// Kelas Memcached
+$cache = new Memcached();
+// Menambahkan server Memcached dengan soket UNIX.
+//$cache-&gt;addServer('/var/run/memcached/memcached.sock',0); //Port ditentukan sebagai 0
+// Menambahkan Server Memcached dengan TCP/IP.
+$cache-&gt;addServer('192.168.5.71',11211);
+
+// Data uji untuk caching.
+$data = 'Server Memcached sedang berjalan';
+
+// Penyimpanan data dalam cache.
+$cache-&gt;set('data_cache', $data, 15);
+//data_cache - kunci, $data - data yang di-cache, 15 - data waktu disimpan dalam cache.
+
+// Keluarkan data cache dari server Memcached dengan kunci 'data_cache' ke layar.
+echo $cache-&gt;get('data_cache');
+?&gt;
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Contoh 2 (/usr/local/www/nginx/test2.php) ###
+
+&lt;?php
+$cache = new Memcached();
+//$cache-&gt;addServer('/var/run/memcached/memcached.sock',0);
+$cache-&gt;addServer('192.168.5.71',11211);
+
+$u_active = $cache-&gt;get('active_users');
+
+// Jika tidak ada data di cache, gunakan kondisi berikut.
+if (empty($u_active)){
+$u_active = 'Selama menit terakhir, 1500 pengguna telah aktif.';
+$cache-&gt;set('active_users', $u_active, 60);
+echo 'Data di-cache.'."\n";
+}
+echo $u_active;
+?&gt;
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Contoh 3 (/usr/local/www/nginx/test3.php) ###
+
+&lt;?php
+$memcache = new Memcached();
+$memcache-&gt;addServer('192.168.5.71', 11211);
+$memcache-&gt;setOption(Memcached::OPT_COMPRESSION, false);
+
+// set and get a Key
+$memcache-&gt;set('key01', 'value01');
+print 'key01.value : ' . $memcache-&gt;get('key01') . "\n";
+
+// append and get a Key
+$memcache-&gt;append('key01', ',value02');
+print 'key01.value : ' . $memcache-&gt;get('key01') . "\n";
+
+$memcache-&gt;set('key02', 1);
+print 'key02.value : ' . $memcache-&gt;get('key02') . "\n";
+
+// increment
+$memcache-&gt;increment('key02', 100);
+print 'key02.value : ' . $memcache-&gt;get('key02') . "\n";
+
+// decrement
+$memcache-&gt;decrement('key02', 51);
+print 'key02.value : ' . $memcache-&gt;get('key02') . "\n";
+
+?&gt;
+</code></pre></div></div>
+
+<p>You can run all three files with the command line or a web browser like Google Chrome. If you want to run the PHP file, use the php command, as in the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # php /usr/local/www/nginx/test1.php
+Server Memcached sedang berjalan
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # php /usr/local/www/nginx/test2.php
+Data di-cache.
+Selama menit terakhir, 1500 pengguna telah aktif.
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # php /usr/local/www/nginx/test3.php
+key01.value : value01
+key01.value : value01,value02
+key02.value : 1
+key02.value : 101
+key02.value : 50
+</code></pre></div></div>
+
+<p>If you want to use Google Chrome on the “address bar” menu, type <strong>“https://192.168.5.71/test1.php”</strong>, <strong>“https://192.168.5.71/test2.php”</strong>, <strong>“https://192.168.5.71/test3.php</strong>. The results will be visible as shown in the following image.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/building-a-drupal-web-server-with-freebsd/-/raw/main/FreeBSD_Memcached_-_Menginstal_dan_Mengkonfigurasi_Memcached_Dengan_PHP.jpg" alt="Test Memcached" /></p>
+
+<p>In this tutorial, we covered PHP Memcached usage, installation, and configuration in detail. Memcached is a powerful caching system that can help you improve the performance of your PHP and NGINX applications. Now, you can start using the PHP Memcached library in your projects to cache data and optimize your web applications.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-22T10:15:35+03:00">May 22, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=FreeBSD+Memcached+-+Installing+and+Configuring+Memcached+With+PHP%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fmemcached-php-freebsd-installation-nginx-php-fpm%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fmemcached-php-freebsd-installation-nginx-php-fpm%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fmemcached-php-freebsd-installation-nginx-php-fpm%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/getting-started-joomla-freebsd/" class="pagination--pager" title="Getting Started Joomla On FreeBSD With PostgreSQL
+">Previous</a>
+    
+    
+      <a href="/freebsd/ruby-rails-rideshare-postgresql-freebsd/" class="pagination--pager" title="Configuring Ruby Rails With Rideshare PostgreSQL On FreeBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/memcached-php-freebsd-installation-nginx-php-fpm/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/memcached-php-freebsd-installation-nginx-php-fpm"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

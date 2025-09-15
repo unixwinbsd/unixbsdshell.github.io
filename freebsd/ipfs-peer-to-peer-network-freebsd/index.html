@@ -1,0 +1,1108 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to Install IPFS Peer to Peer Networking on FreeBSD - UnixBSDShell</title>
+<meta name="description" content="If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="How to Install IPFS Peer to Peer Networking on FreeBSD">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/ipfs-peer-to-peer-network-freebsd/">
+
+
+  <meta property="og:description" content="If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Install IPFS Peer to Peer Networking on FreeBSD">
+  <meta name="twitter:description" content="If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/ipfs-peer-to-peer-network-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-06-02T10:23:11+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/ipfs-peer-to-peer-network-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Install IPFS Peer to Peer Networking on FreeBSD</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to Install IPFS Peer to Peer Networking on FreeBSD">
+    <meta itemprop="description" content="If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering">
+    <meta itemprop="datePublished" content="2025-06-02T10:23:11+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Install IPFS Peer to Peer Networking on FreeBSD
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-what-is-inter-planetary-file-system-ipfs">1. What is Inter Planetary File System (IPFS)</a></li>
+  <li><a href="#2-how-to-install-and-configure-ipfs">2. How to Install and Configure IPFS</a>
+    <ul>
+      <li><a href="#21-create-go-lang-symlink">2.1 Create Go lang symlink.</a></li>
+      <li><a href="#22-install-ipfs-with-the-freebsd-ports-system">2.2. Install IPFS with the FreeBSD ports system.</a></li>
+      <li><a href="#23-run-ipfs-with-the-rcd-script-add-the-script-below-to-the-etcrcconf-file">2.3. Run IPFS with the rc.d script, add the script below to the /etc/rc.conf file.</a></li>
+    </ul>
+  </li>
+  <li><a href="#3-test-ipfs">3. Test IPFS</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Using a copy of the data CID or content identifier, IPFS helps you request data from each IPFS node. This process usually involves searching a distributed hash table and may also require creating a new connection to the node that holds the content.</p>
+
+<p>If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering. The Peering process will tell IPFS which peers to prioritize by editing the Peering configuration in your IPFS configuration file.</p>
+
+<p>IPFS offers several advantages including faster data transfer, reduced fault tolerance, and reduced server load. Not only that, IPFS also has the ability to access data even when disconnected from the Internet or when the data server is unavailable.</p>
+
+<p>In this article, we will learn how to install and use IPFS on a FreeBSD server. Before discussing IPFS further, it doesn’t hurt to get to know IPFS first.</p>
+
+<h2 id="1-what-is-inter-planetary-file-system-ipfs">1. What is Inter Planetary File System (IPFS)</h2>
+<p>IPFS (InterPlanetary File System) is a modular protocol suite that builds a peer-to-peer network with resources addressed by their content, rather than physical location as in HTTP. IPFS can organize and transfer data, designed from the ground up with the principles of content addressing and peer-to-peer networking.</p>
+
+<p>Since IPFS is open source, there are several implementations of IPFS. Although IPFS has more than one use case, its primary use case is for publishing data (files, directories, and websites) in a decentralized manner. IPFS provides us with some of the blockchain guarantees such as decentralization and immutable storage at a much lower price than the transaction fees and participation in the free IPFS network.</p>
+
+<p><br />
+<img src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/20http-vs-ipfs%20on%20freebsd.jpg&amp;commit=ca2dd5f899232a3c6599934133a9cb99a3ca0ef1" alt="http vs ipfs on freebsd" />
+<br /></p>
+
+<p>The important thing to understand about IPFS is that when you add files through an IPFS node, the IPFS network does not store your files. The files you add remain on your computer and others can read your files. However, when you turn off your computer or turn off an IPFS node on your local network, others cannot read your files until you come back online. Unless you store your files on an external IPFS node, any files you add will remain unreadable to others.</p>
+
+<p>While there are storage providers that are built with IPFS support (often known as embedding services), IPFS itself is a protocol, not a provider. IPFS can be used and complements cloud infrastructure, but IPFS itself is not a cloud service provider.</p>
+
+<h2 id="2-how-to-install-and-configure-ipfs">2. How to Install and Configure IPFS</h2>
+<p>On FreeBSD, IPFS runs in GO, so before you install IPFS on a FreeBSD server, the GO Lang application must be installed first. Read the previous article about <a href="https://unixwinbsd.site/en/freebsd/2024/12/24/go-lang-freebsd14-golang-install/">“How to Install GOLANG GO Language on FreeBSD 14”</a>.</p>
+
+<p>IPFS on FreeBSD 13.2 can only run with the Go language version: go119.</p>
+
+<p>After you read the article above, we continue with installing IPFS. If you are using PUTTY, type the command below in the PuTTY shell menu.</p>
+
+<h3 id="21-create-go-lang-symlink">2.1 Create Go lang symlink.</h3>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">rm</span> <span class="nt">-R</span> <span class="nt">-f</span> /usr/local/bin/go
+<span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-s</span> /usr/local/bin/go119 /usr/local/bin/go
+</code></pre></div></div>
+<h3 id="22-install-ipfs-with-the-freebsd-ports-system">2.2. Install IPFS with the FreeBSD ports system.</h3>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/sysutils/ipfs-go
+<span class="gp">root@ns6:/usr/ports/sysutils/ipfs-go #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+<h3 id="23-run-ipfs-with-the-rcd-script-add-the-script-below-to-the-etcrcconf-file">2.3. Run IPFS with the rc.d script, add the script below to the /etc/rc.conf file.</h3>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/usr/ports/sysutils/ipfs-go #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="go">
+ipfs_go_enable="YES"
+ipfs_go_user="ipfs-go"
+ipfs_go_group="ipfs-go"
+ipfs_go_path="/var/db/ipfs-go/.ipfs"
+ipfs_go_syslog_priority="info"
+ipfs_go_syslog_facility="daemon"
+ipfs_go_syslog_tag="ipfs-go"
+</span></code></pre></div></div>
+<p>The script above is used to run IPFS automatically on a local computer. Take a look at the script above, in the script we can see that the IPFS configuration file is in the <code class="language-plaintext highlighter-rouge">/var/db/ipfs-go</code> folder. To make editing easier, use WINSCP, open the folder with WINSCP. See the image below.</p>
+
+<p><br />
+<img src="https://cdn.publish0x.com/prod/fs/cachedimages/1981597517-b409ac9a52d2f321659f0b73b52a92839a84e3022670e68fa320046fc1e73669.webp" alt="directory ipfs on freebsd" />
+<br /></p>
+
+<p>Open the configuration file <code class="language-plaintext highlighter-rouge">/var/db/ipfs-go/.ipfs/config</code>, and edit its contents according to the script below.</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+  <span class="s">"API"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"HTTPHeaders"</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">"Access-Control-Allow-Methods"</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s">"PUT"</span><span class="p">,</span>
+        <span class="s">"POST"</span>
+      <span class="p">],</span>
+      <span class="s">"Access-Control-Allow-Origin"</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s">"http://192.168.5.2:5001"</span><span class="p">,</span>
+        <span class="s">"http://localhost:3000"</span><span class="p">,</span>
+        <span class="s">"http://127.0.0.1:5001"</span><span class="p">,</span>
+        <span class="s">"https://webui.ipfs.io"</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s">"Addresses"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"API"</span><span class="o">:</span> <span class="s">"/ip4/192.168.5.2/tcp/5001"</span><span class="p">,</span>
+    <span class="s">"Announce"</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="s">"AppendAnnounce"</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="s">"Gateway"</span><span class="o">:</span> <span class="s">"/ip4/192.168.5.2/tcp/8080"</span><span class="p">,</span>
+    <span class="s">"NoAnnounce"</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="s">"Swarm"</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s">"/ip4/0.0.0.0/tcp/4001"</span><span class="p">,</span>
+      <span class="s">"/ip6/::/tcp/4001"</span><span class="p">,</span>
+      <span class="s">"/ip4/0.0.0.0/udp/4001/quic"</span><span class="p">,</span>
+      <span class="s">"/ip4/0.0.0.0/udp/4001/quic-v1"</span><span class="p">,</span>
+      <span class="s">"/ip4/0.0.0.0/udp/4001/quic-v1/webtransport"</span><span class="p">,</span>
+      <span class="s">"/ip6/::/udp/4001/quic"</span><span class="p">,</span>
+      <span class="s">"/ip6/::/udp/4001/quic-v1"</span><span class="p">,</span>
+      <span class="s">"/ip6/::/udp/4001/quic-v1/webtransport"</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s">"AutoNAT"</span><span class="o">:</span> <span class="p">{},</span>
+  <span class="s">"Bootstrap"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="s">"/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN"</span><span class="p">,</span>
+    <span class="s">"/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa"</span><span class="p">,</span>
+    <span class="s">"/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb"</span><span class="p">,</span>
+    <span class="s">"/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt"</span><span class="p">,</span>
+    <span class="s">"/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"</span><span class="p">,</span>
+    <span class="s">"/ip4/104.131.131.82/udp/4001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"</span>
+  <span class="p">],</span>
+  <span class="s">"DNS"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"Resolvers"</span><span class="o">:</span> <span class="p">{}</span>
+  <span class="p">},</span>
+  <span class="s">"Datastore"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"BloomFilterSize"</span><span class="o">:</span> <span class="m">0</span><span class="p">,</span>
+    <span class="s">"GCPeriod"</span><span class="o">:</span> <span class="s">"1h"</span><span class="p">,</span>
+    <span class="s">"HashOnRead"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"Spec"</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">"mounts"</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s">"child"</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s">"path"</span><span class="o">:</span> <span class="s">"blocks"</span><span class="p">,</span>
+            <span class="s">"shardFunc"</span><span class="o">:</span> <span class="s">"/repo/flatfs/shard/v1/next-to-last/2"</span><span class="p">,</span>
+            <span class="s">"sync"</span><span class="o">:</span> <span class="no">true</span><span class="p">,</span>
+            <span class="s">"type"</span><span class="o">:</span> <span class="s">"flatfs"</span>
+          <span class="p">},</span>
+          <span class="s">"mountpoint"</span><span class="o">:</span> <span class="s">"/blocks"</span><span class="p">,</span>
+          <span class="s">"prefix"</span><span class="o">:</span> <span class="s">"flatfs.datastore"</span><span class="p">,</span>
+          <span class="s">"type"</span><span class="o">:</span> <span class="s">"measure"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s">"child"</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s">"compression"</span><span class="o">:</span> <span class="s">"none"</span><span class="p">,</span>
+            <span class="s">"path"</span><span class="o">:</span> <span class="s">"datastore"</span><span class="p">,</span>
+            <span class="s">"type"</span><span class="o">:</span> <span class="s">"levelds"</span>
+          <span class="p">},</span>
+          <span class="s">"mountpoint"</span><span class="o">:</span> <span class="s">"/"</span><span class="p">,</span>
+          <span class="s">"prefix"</span><span class="o">:</span> <span class="s">"leveldb.datastore"</span><span class="p">,</span>
+          <span class="s">"type"</span><span class="o">:</span> <span class="s">"measure"</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s">"type"</span><span class="o">:</span> <span class="s">"mount"</span>
+    <span class="p">},</span>
+    <span class="s">"StorageGCWatermark"</span><span class="o">:</span> <span class="m">90</span><span class="p">,</span>
+    <span class="s">"StorageMax"</span><span class="o">:</span> <span class="s">"10GB"</span>
+  <span class="p">},</span>
+  <span class="s">"Discovery"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"MDNS"</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">"Enabled"</span><span class="o">:</span> <span class="no">true</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s">"Experimental"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"AcceleratedDHTClient"</span><span class="o">:</span> <span class="no">true</span><span class="p">,</span>
+    <span class="s">"FilestoreEnabled"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"GraphsyncEnabled"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"Libp2pStreamMounting"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"P2pHttpProxy"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"StrategicProviding"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"UrlstoreEnabled"</span><span class="o">:</span> <span class="no">false</span>
+  <span class="p">},</span>
+  <span class="s">"Gateway"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"APICommands"</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="s">"HTTPHeaders"</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">"Access-Control-Allow-Headers"</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s">"X-Requested-With"</span><span class="p">,</span>
+        <span class="s">"Range"</span><span class="p">,</span>
+        <span class="s">"User-Agent"</span>
+      <span class="p">],</span>
+      <span class="s">"Access-Control-Allow-Methods"</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s">"GET"</span>
+      <span class="p">],</span>
+      <span class="s">"Access-Control-Allow-Origin"</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s">"*"</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s">"NoDNSLink"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"NoFetch"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"PathPrefixes"</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="s">"PublicGateways"</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">"https://ipfs.io/"</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s">"Paths"</span><span class="o">:</span> <span class="p">[</span>
+          <span class="s">"/ipfs"</span><span class="p">,</span>
+          <span class="s">"/ipns"</span>
+        <span class="p">],</span>
+        <span class="s">"UseSubdomains"</span><span class="o">:</span> <span class="no">true</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">"RootRedirect"</span><span class="o">:</span> <span class="s">""</span>
+  <span class="p">},</span>
+  <span class="s">"Identity"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"PeerID"</span><span class="o">:</span> <span class="s">"12D3KooWQkFkABHUCULXkPyRfrLA81dHXgC8evRhdYHWdMRrVcMX"</span><span class="p">,</span>
+    <span class="s">"PrivKey"</span><span class="o">:</span> <span class="s">"CAESQNAw3t1E9zNXln5PV5RsoKpK6ewLYMmkNjm0m+5XRNys3dG3lvylqCjlHt88TbEkZDmu5n71YG9JLGMj1gbm5AI="</span>
+  <span class="p">},</span>
+  <span class="s">"Internal"</span><span class="o">:</span> <span class="p">{},</span>
+  <span class="s">"Ipns"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"RecordLifetime"</span><span class="o">:</span> <span class="s">""</span><span class="p">,</span>
+    <span class="s">"RepublishPeriod"</span><span class="o">:</span> <span class="s">""</span><span class="p">,</span>
+    <span class="s">"ResolveCacheSize"</span><span class="o">:</span> <span class="m">128</span>
+  <span class="p">},</span>
+  <span class="s">"Migration"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"DownloadSources"</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="s">"Keep"</span><span class="o">:</span> <span class="s">""</span>
+  <span class="p">},</span>
+  <span class="s">"Mounts"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"FuseAllowOther"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"IPFS"</span><span class="o">:</span> <span class="s">"/ipfs"</span><span class="p">,</span>
+    <span class="s">"IPNS"</span><span class="o">:</span> <span class="s">"/ipns"</span>
+  <span class="p">},</span>
+  <span class="s">"Peering"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"Peers"</span><span class="o">:</span> <span class="n">null</span>
+  <span class="p">},</span>
+  <span class="s">"Pinning"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"RemoteServices"</span><span class="o">:</span> <span class="p">{}</span>
+  <span class="p">},</span>
+  <span class="s">"Plugins"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"Plugins"</span><span class="o">:</span> <span class="n">null</span>
+  <span class="p">},</span>
+  <span class="s">"Provider"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"Strategy"</span><span class="o">:</span> <span class="s">""</span>
+  <span class="p">},</span>
+  <span class="s">"Pubsub"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"DisableSigning"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"Router"</span><span class="o">:</span> <span class="s">""</span>
+  <span class="p">},</span>
+  <span class="s">"Reprovider"</span><span class="o">:</span> <span class="p">{},</span>
+  <span class="s">"Routing"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"Methods"</span><span class="o">:</span> <span class="n">null</span><span class="p">,</span>
+    <span class="s">"Routers"</span><span class="o">:</span> <span class="n">null</span>
+  <span class="p">},</span>
+  <span class="s">"Swarm"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"AddrFilters"</span><span class="o">:</span> <span class="n">null</span><span class="p">,</span>
+    <span class="s">"ConnMgr"</span><span class="o">:</span> <span class="p">{},</span>
+    <span class="s">"DisableBandwidthMetrics"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"DisableNatPortMap"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="s">"RelayClient"</span><span class="o">:</span> <span class="p">{},</span>
+    <span class="s">"RelayService"</span><span class="o">:</span> <span class="p">{},</span>
+    <span class="s">"ResourceMgr"</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">"Limits"</span><span class="o">:</span> <span class="p">{}</span>
+    <span class="p">},</span>
+    <span class="s">"Transports"</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">"Multiplexers"</span><span class="o">:</span> <span class="p">{},</span>
+      <span class="s">"Network"</span><span class="o">:</span> <span class="p">{},</span>
+      <span class="s">"Security"</span><span class="o">:</span> <span class="p">{}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Note the blue writing, the number <code class="language-plaintext highlighter-rouge">192.168.5.2</code> is your computer’s local IP address. After that we run the <code class="language-plaintext highlighter-rouge">ipfs-go init</code> command.</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:~ #</span><span class="w"> </span>ipfs-go init
+<span class="gp">root@ns6:~ #</span><span class="w"> </span>ipfs-go config <span class="nt">--json</span> API.HTTPHeaders.Access-Control-Allow-Origin <span class="s1">'["http://192.168.5.2:5001", "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"]'</span>
+<span class="gp">root@ns6:~ #</span><span class="w"> </span>ipfs-go config <span class="nt">--json</span> API.HTTPHeaders.Access-Control-Allow-Methods <span class="s1">'["PUT", "POST"]'</span>
+</code></pre></div></div>
+<p>Then you continue by creating an IPFS symlink file to <code class="language-plaintext highlighter-rouge">/root</code>.</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:~ #</span><span class="w"> </span><span class="nb">rm</span> <span class="nt">-rf</span> /root/.ipfs
+<span class="gp">root@ns6:~ #</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-s</span> /var/db/ipfs-go/.ipfs /root
+</code></pre></div></div>
+<p>After that, you create another file <code class="language-plaintext highlighter-rouge">/var/db/ipfs-go/.ipfs/api</code>.</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span><span class="nb">touch</span> /var/db/ipfs-go/.ipfs/api
+<span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>ee /var/db/ipfs-go/.ipfs/api
+<span class="go">
+/ip4/192.168.5.2/tcp/5001
+</span></code></pre></div></div>
+<p>After that we continue by running IPFS.</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>service ipfs-go restart
+</code></pre></div></div>
+
+<h2 id="3-test-ipfs">3. Test IPFS</h2>
+<p>Once everything is configured, the last step is to test whether the IPFS server is running or not. Basic proof that ‘ipfs is working’ locally. The first step is to create a folder <code class="language-plaintext highlighter-rouge">/var/db/ipfs-go/.ipfs/ipfs</code> to store all IPFS data.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:~ #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /var/db/ipfs-go/.ipfs/ipfs
+<span class="gp">root@ns6:~ #</span><span class="w"> </span><span class="nb">cd</span> /var/db/ipfs-go/.ipfs/ipfs
+<span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w">
+</span></code></pre></div></div>
+<p>After that we create IPFS data, this data will later be used on the peer to peer network via the IPFS Node.</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"FreeBSD IPFS local server"</span> <span class="o">&gt;</span> TestIPFS
+<span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>ipfs-go add TestIPFS
+<span class="go">added QmNeCaGW44nddxLZGQmk6GagSafb8gZwcou8YbvhW1wt5b TestIPFS
+ 26 B / 26 B [==========================================================================================================================================================] 100.00%
+</span><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>ipfs-go <span class="nb">cat </span>QmNeCaGW44nddxLZGQmk6GagSafb8gZwcou8YbvhW1wt5b
+<span class="go">FreeBSD IPFS local server
+</span><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w">
+</span></code></pre></div></div>
+
+<p><br /></p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"Test IPFS on FreeBSD"</span> <span class="o">&gt;</span> FreeBSDTest.txt
+<span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>ipfs-go add FreeBSDTest.txt
+<span class="go">added QmZiaPkqkAsgcCyc84wLnbQnweSj9s2CuJbBSXVzyihshk FreeBSDTest.txt
+ 21 B / 21 B [==========================================================================================================================================================] 100.00%
+</span><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>ipfs-go <span class="nb">cat </span>QmZiaPkqkAsgcCyc84wLnbQnweSj9s2CuJbBSXVzyihshk
+<span class="go">Test IPFS on FreeBSD
+</span><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w">
+</span></code></pre></div></div>
+<p>Restart IPFS</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> ipfs-go:ipfs-go /var/db/ipfs-go/.ipfs/
+<span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>service ipfs-go restart
+</code></pre></div></div>
+
+<p>Now let’s try to connect to the http port on the web browser. Open Google Chrome or Yandex web browser, type <code class="language-plaintext highlighter-rouge">http://192.168.5.2:5001/webui</code>.</p>
+
+<p><br />
+<img src="https://cdn.publish0x.com/prod/fs/cachedimages/258001144-95e0edde55e76fcac82a70f10bf9c8b743df18f6ba3e901a161ac169564675cb.webp" alt="testipfs" />
+<br /></p>
+
+<p>Once you are connected to the IPFS Node, now try typing the CIDS from the <code class="language-plaintext highlighter-rouge">FreeBSDTest.txt and TestIPFS</code> files we created earlier, notice the CIDS in blue above.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">Yandex Browser</code> or <code class="language-plaintext highlighter-rouge">Google Chrome</code> enter the following command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://192.168.5.2:8080/ipfs/QmNeCaGW44nddxLZGQmk6GagSafb8gZwcou8YbvhW1wt5b
+http://192.168.5.2:8080/ipfs/QmZiaPkqkAsgcCyc84wLnbQnweSj9s2CuJbBSXVzyihshk
+</code></pre></div></div>
+
+<p>I run an IPFS node on a FreeBSD 13.2 machine and I have no major issues with it, everything works fine. For programmatic access, you can make the IPFS gateway scriptable and use the IPFS HTTP API. There are many creative use cases for IPFS.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#anonymous" class="page__taxonomy-item" rel="tag">Anonymous</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-02T10:23:11+03:00">June 2, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Install+IPFS+Peer+to+Peer+Networking+on+FreeBSD%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fipfs-peer-to-peer-network-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fipfs-peer-to-peer-network-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fipfs-peer-to-peer-network-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/dnscrypt-proxy-knot-resolver-dns-freebssd/" class="pagination--pager" title="Setup DNSCrypt Proxy With Knot Reolver Kresd On FreeBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/complete-guide-using-openssl-freebsd/" class="pagination--pager" title="Guide to Using OpenSSL Commands in FreeBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/ipfs-peer-to-peer-network-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/ipfs-peer-to-peer-network-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

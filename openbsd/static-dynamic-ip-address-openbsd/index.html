@@ -1,0 +1,957 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public - UnixBSDShell</title>
+<meta name="description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public">
+<meta property="og:url" content="https://unixwinbsd.site/openbsd/static-dynamic-ip-address-openbsd/">
+
+
+  <meta property="og:description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public">
+  <meta name="twitter:description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/openbsd/static-dynamic-ip-address-openbsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-16T09:45:13+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/openbsd/static-dynamic-ip-address-openbsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public">
+    <meta itemprop="description" content="Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs.">
+    <meta itemprop="datePublished" content="2025-05-16T09:45:13+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#a-system-specifications">A. System Specifications</a></li>
+  <li><a href="#b-about-static-and-dynamic-ip">B. About Static and Dynamic IP</a>
+    <ul>
+      <li><a href="#b1-static-ip-address">b.1. Static IP Address</a></li>
+      <li><a href="#b2-dynamic-ip-address">b.2. Dynamic IP Address</a></li>
+    </ul>
+  </li>
+  <li><a href="#c-how-to-configure-dynamic-ip-on-openbsd">C. How to Configure Dynamic IP on OpenBSD</a></li>
+  <li><a href="#d-how-to-configure-static-ip-in-openbsd">D. How to Configure Static IP in OpenBSD</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Understanding IP addresses is basic material if you want to deepen OpenBSD. Understanding IP addresses in OpenBSD includes the process of configuring static and dynamic IPs. Understanding these two IPs is very important, because you will definitely be faced with problems with these two IPs. In every server operation, both Linux and BSD, setting static and dynamic IPs is basic and the first thing you do when you want to install a server.</p>
+
+<p>As we know, in a router network there are two IP addresses that are distributed to client computers, namely static and dynamic IPs. These two IPs will be received by the client computer as static or dynamic IPs, depending on the settings made by the admin. You can set static or dynamic IPs on your computer or server, depending on the needs of using the computer/server at that time.</p>
+
+<h2 id="a-system-specifications">A. System Specifications</h2>
+<ul>
+  <li>OS OpenBSD: 7.6</li>
+  <li>Hostname: ns5</li>
+  <li>Domain: kursor.my.id</li>
+  <li>IP Address: 192.168.5.3</li>
+</ul>
+
+<h2 id="b-about-static-and-dynamic-ip">B. About Static and Dynamic IP</h2>
+<p>Both static and dynamic IPs are the same in their use, namely to connect a computer/server to a router network or the internet. However, both have slight differences in use, especially if you are running a server that is used to serve many client computers.</p>
+
+<p>When the internet was first created, its architects did not anticipate the need for an unlimited number of IP addresses. As a result, there were not enough IP numbers for everyone, at least until the advent of IPv6. To solve this problem, many ISPs limit the number of static IP addresses they allocate and conserve the remaining number of IP addresses by assigning temporary IP addresses to Dynamic Host Configuration Protocol (DHCP) computers that request from the IP address pool. These temporary IP addresses are dynamic IP addresses.</p>
+
+<p>Computers requesting DHCP receive a dynamic IP address, which is similar to a temporary telephone number. For the duration of that internet session or for a specific period of time. Once the user disconnects from the internet, their dynamic IP address goes back into the IP address pool so it can be assigned to another user. Even if the user reconnects immediately, it is unlikely that they will be assigned the same IP address from the pool.</p>
+
+<h3 id="b1-static-ip-address">b.1. Static IP Address</h3>
+<p>A static IP address is an IP address that is always the same (does not change). If you have a web server, FTP server, or other Internet resource that must have an address that cannot be changed, you can get a static IP address from your ISP. Static IP addresses are usually more expensive than dynamic IP addresses, and some ISPs do not provide static IP addresses. You must configure a static IP address manually.</p>
+
+<h3 id="b2-dynamic-ip-address">b.2. Dynamic IP Address</h3>
+<p>The public IP address assigned to most home and business users’ routers by their ISP is a dynamic IP address. On a local network like your home or business, where you use a private IP address, most devices are probably configured for DHCP, meaning they use dynamic IP addresses. If DHCP is not enabled, each device on your home network will need to manually set up its network information.</p>
+
+<p>Dynamic IP address is an IP address that can be used temporarily by the ISP. If the dynamic address is not used, it can be automatically assigned to another device. Dynamic IP addresses are assigned using DHCP or PPPoE. So the nature of Dynamic IP is always changing its IP address.</p>
+
+<h2 id="c-how-to-configure-dynamic-ip-on-openbsd">C. How to Configure Dynamic IP on OpenBSD</h2>
+<p>Before you configure the IP on the OpenBSD server, we recommend that you first check the current IP address. To check the IP address of your OpenBSD server, run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# ifconfig
+lo0: flags=2008049&lt;UP,LOOPBACK,RUNNING,MULTICAST,LRO&gt; mtu 32768
+        index 4 priority 0 llprio 3
+        groups: lo
+        inet6 ::1 prefixlen 128
+        inet6 fe80::1%lo0 prefixlen 64 scopeid 0x4
+        inet 127.0.0.1 netmask 0xff000000
+rl0: flags=808843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST,AUTOCONF4&gt; mtu 1500
+        lladdr 00:e0:4c:fb:b2:e8
+        index 1 priority 0 llprio 3
+        groups: egress
+        media: Ethernet autoselect (100baseTX full-duplex)
+        status: active
+        inet 192.168.5.101 netmask 0xffffff00 broadcast 192.168.5.255
+nfe0: flags=8802&lt;BROADCAST,SIMPLEX,MULTICAST&gt; mtu 1500
+        lladdr 00:24:21:88:69:24
+        index 2 priority 0 llprio 3
+        media: Ethernet autoselect (10baseT half-duplex)
+        status: no carrier
+enc0: flags=0&lt;&gt;
+        index 3 priority 0 llprio 3
+        groups: enc
+        status: active
+pflog0: flags=141&lt;UP,RUNNING,PROMISC&gt; mtu 33136
+        index 5 priority 0 llprio 3
+        groups: pflog
+</code></pre></div></div>
+<p>From the ifconfig command above, you can read that the OpenBSD server uses 2 ethernet cards, namely rl0 and nfe0. However, of the two interfaces, only the rl0 interface is active with IP = 192.168.5.101.</p>
+
+<p>After you know the IP address of your OpenBSD server, now we continue by setting a dynamic IP for the OpenBSD server. The method is very easy, you only need to set a few files, including:</p>
+<ul>
+  <li>/etc/hostname.namainterface</li>
+  <li>/etc/myname</li>
+</ul>
+
+<p>To check the active hostname and interface, use the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# ls -l /etc/hostname.*
+-rw-r-----  1 root  wheel  14 Jan 25 18:38 /etc/hostname.rl0
+</code></pre></div></div>
+<p>From the command above, only the rl0 interface is active. After we know the active interface, change the script from the <strong>“/etc/hostname.rl0”</strong> file to get a dynamic IP with the script below. (use the text editor “nano”).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/hostname.rl0
+inet autoconf
+</code></pre></div></div>
+<p>The second file you need to change is <strong>“/etc/myname”</strong>. Open the file and type in your server hostname and domain name, as shown in the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/myname
+ns5.kursor.my.id
+</code></pre></div></div>
+<p>To make it more complete, because we will set a dynamic IP, we must also set the <strong>“/etc/resolv.conf”</strong> file and in that file you type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/resolv.conf
+nameserver 1.1.1.1 # resolvd: rl0
+nameserver 8.8.8.8 # resolvd: rl0
+nameserver 9.9.9.9 # resolvd: rl0
+nameserver 8.8.4.4 # resolvd: rl0
+lookup file bind
+</code></pre></div></div>
+<p>Now your OpenBSD server has used dynamic IP obtained from your home internet network router or provider. You can also change the nameserver name as needed.</p>
+
+<h2 id="d-how-to-configure-static-ip-in-openbsd">D. How to Configure Static IP in OpenBSD</h2>
+<p>Once you understand how to configure dynamic IP, we continue by configuring static IP in OpenBSD. The method is almost the same, but there is an additional file that you must configure along with the name of the file that you must configure.</p>
+<ul>
+  <li>/etc/hostname.namainterface</li>
+  <li>/etc/myname</li>
+  <li>/etc/mygate</li>
+</ul>
+
+<p>There is an additional file <strong>/etc/mygate</strong>, this file contains a gateway script that connects the OpenBSD server to the router’s internet network (Indihome or others).</p>
+
+<p>Configure /etc/hostname.interfacename
+As you know, the name of your OpenBSD server interface is “rl0”. Now we change the script file <strong>/etc/hostname.rl0</strong>, as in the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/hostname.rl0
+inet 192.168.5.3 0xffffff00
+</code></pre></div></div>
+<p>Proceed by editing the <strong>/etc/myname</strong> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/myname
+ns5.kursor.my.id
+</code></pre></div></div>
+<p>After that we continue by changing the script from the <strong>/etc/mygate</strong> file. If the file does not exist you must create the file first.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# touch /etc/mygate
+</code></pre></div></div>
+<p>In the /etc/mygate file, type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/mygate
+192.168.5.1
+</code></pre></div></div>
+<p>IP 192.168.5.1 is the gateway IP, which is the IP address of your internet network router. This IP address does not have to be the same, each router is different, depending on the settings. In the example of this article, our router uses the gateway IP 192.168.5.1. So you have to adjust it to your router gateway.</p>
+
+<p>As usual, to make the discussion more complete, you have to set the domain name and IP of the OpenBSD server in the <strong>/etc/hosts</strong> file. Pay attention to the example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/hosts
+127.0.0.1	localhost
+::1		localhost
+192.168.5.3     ns5.kursor.my.id ns5
+</code></pre></div></div>
+
+<p>The next step is to configure the <strong>/etc/resolv.conf</strong> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# nano /etc/resolv.conf
+nameserver 1.1.1.1 # resolvd: rl0
+nameserver 8.8.8.8 # resolvd: rl0
+nameserver 9.9.9.9 # resolvd: rl0
+nameserver 8.8.4.4 # resolvd: rl0
+lookup file bind
+</code></pre></div></div>
+<p>The last step is to activate all the configurations above, meaning that your OpenBSD server will immediately get the static IP address that you just configured. Run the command below to activate the static IP.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# sh /etc/netstart
+</code></pre></div></div>
+<p>But to make everything run normally, we recommend that you restart the OpenBSD server with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# reboot
+</code></pre></div></div>
+<p>Discussion about dynamic and static IP, we think it is clear enough. Now you can directly try and apply it on your OpenBSD server. If successful, do not forget all the steps above, because this lesson is very important for an OpenBSD administrator.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-16T09:45:13+03:00">May 16, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Static+and+Dynamic+IP+Configuration+in+OpenBSD+-+Static+Dynamic+IP+Private+Public%20https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fstatic-dynamic-ip-address-openbsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fstatic-dynamic-ip-address-openbsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fstatic-dynamic-ip-address-openbsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/openbsd/netcat-nc-openbsd-example/" class="pagination--pager" title="OpenBSD Netcat - nc Command with Examples
+">Previous</a>
+    
+    
+      <a href="/openbsd/configuration-nginx-openbsd-port-http-https-80-443/" class="pagination--pager" title="Nginx Configuration on OpenBSD - HTTP and HTTPS Ports
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/openbsd/static-dynamic-ip-address-openbsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/openbsd/static-dynamic-ip-address-openbsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

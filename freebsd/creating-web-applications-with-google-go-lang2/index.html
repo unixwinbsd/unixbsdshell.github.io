@@ -1,0 +1,1082 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Creating Web Applications with Google Go Lang Part 2 - UnixBSDShell</title>
+<meta name="description" content="Go or Go lang is a popular programming language widely used in industry to create various applications, including web servers, blogs, networking tools and system utilities. Go is known for its simplicity, efficiency, and concurrency support">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Creating Web Applications with Google Go Lang Part 2">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/creating-web-applications-with-google-go-lang2/">
+
+
+  <meta property="og:description" content="Go or Go lang is a popular programming language widely used in industry to create various applications, including web servers, blogs, networking tools and system utilities. Go is known for its simplicity, efficiency, and concurrency support">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Creating Web Applications with Google Go Lang Part 2">
+  <meta name="twitter:description" content="Go or Go lang is a popular programming language widely used in industry to create various applications, including web servers, blogs, networking tools and system utilities. Go is known for its simplicity, efficiency, and concurrency support">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/creating-web-applications-with-google-go-lang2/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-08T12:55:21+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/creating-web-applications-with-google-go-lang2/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Creating Web Applications with Google Go Lang Part 2</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Creating Web Applications with Google Go Lang Part 2">
+    <meta itemprop="description" content="Go or Go lang is a popular programming language widely used in industry to create various applications, including web servers, blogs, networking tools and system utilities. Go is known for its simplicity, efficiency, and concurrency support">
+    <meta itemprop="datePublished" content="2025-05-08T12:55:21+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Creating Web Applications with Google Go Lang Part 2
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-specifications-of-the-system-used">1. Specifications of the System Used</a></li>
+  <li><a href="#2-create-a-golang-project">2. Create a Golang project</a>
+    <ul>
+      <li><a href="#download-the-script-code-of-the-tmpl-file">Download the script code of the “*.tmpl” file</a></li>
+    </ul>
+  </li>
+  <li><a href="#3-create-mysql-database">3. Create MySQL Database</a></li>
+  <li><a href="#4-run-the-application">4. Run the application</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Building a Restful application is one of the popular ways to build a web blog because it follows a simple and scalable architecture. With CRUD, users can easily process MySQL databases. CRUD, which stands for Create, Read, Update, and Delete, is a common utility in software development. The ability to perform CRUD operations is fundamental to any application development. In this article, we will learn how to build a simple CRUD application using Go Lang and MySQL server as its database.</p>
+
+<p>Go Lang is a popular programming language known for its efficiency, simplicity, and stability, while MySQL is a relational database management system (RDBMS) developed by Oracle based on the structured query language (SQL).</p>
+
+<p>MySQL is one of the most popular database technologies in the modern big data ecosystem, and is now widely and effectively used, regardless of industry, it is clear that anyone involved with enterprise data or IT should have at least a basic understanding of MySQL.</p>
+
+<p>With MySQL, even those who are new to relational database systems can immediately build easy, fast, and secure data storage systems. Data in MySQL is organized according to the relational model. In this model, tables consist of rows and columns, and the relationships between data elements all follow a strict logical structure. Often people who are new to Golang do not know how to store data in MySQL because there are not many online resources. This article will help you understand the concept of Golang with MySQL.</p>
+
+<h2 id="1-specifications-of-the-system-used">1. Specifications of the System Used</h2>
+<ul>
+  <li>OS: FreeBSD 14.</li>
+  <li>IP Address: 192.168.5.2.</li>
+  <li>Go version: go-1.19.</li>
+  <li>MySql Server.</li>
+  <li>Hostname: ns7.</li>
+</ul>
+
+<h2 id="2-create-a-golang-project">2. Create a Golang project</h2>
+<p>The first step is to create a working directory to set up the development environment and start a Golang project. Follow the steps below to set up a new Golang project.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns7:~ #</span><span class="w"> </span><span class="nb">cd</span> /var
+<span class="gp">root@ns7:/var #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> FreeBSD-Golang-MySQL
+<span class="gp">root@ns7:/var #</span><span class="w"> </span><span class="nb">cd </span>FreeBSD-Golang-MySQL
+<span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w">
+</span></code></pre></div></div>
+<p>Once you have finished creating the Go language directory, create a new file named <code class="language-plaintext highlighter-rouge">"main.go"</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span><span class="nb">touch </span>main.go
+<span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span><span class="nb">chmod</span> +x main.go
+</code></pre></div></div>
+<p>In the file <code class="language-plaintext highlighter-rouge">"/root/var/FreeBSD-Golang-MySQL/main.go"</code>, you enter the script below.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">package</span> <span class="n">main</span>
+
+<span class="nf">import</span> <span class="p">(</span>
+	<span class="s2">"database/sql"</span>
+	<span class="s2">"html/template"</span>
+	<span class="s2">"log"</span>
+	<span class="s2">"net/http"</span>
+
+	<span class="n">_</span> <span class="s2">"github.com/go-sql-driver/mysql"</span>
+<span class="p">)</span>
+
+<span class="c1">// Employee Struct</span>
+<span class="n">type</span> <span class="nc">Employee</span> <span class="n">struct</span> <span class="p">{</span>
+	<span class="no">ID</span>   <span class="n">int</span>
+	<span class="nc">Name</span> <span class="n">string</span>
+	<span class="nc">City</span> <span class="n">string</span>
+<span class="p">}</span>
+
+<span class="c1">// Open Connection with MySQL Driver</span>
+<span class="n">func</span> <span class="nf">dbConnect</span><span class="p">()</span> <span class="p">(</span><span class="n">db</span> <span class="o">*</span><span class="n">sql</span><span class="mf">.</span><span class="no">DB</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">dbDriver</span> <span class="o">:=</span> <span class="s2">"mysql"</span>
+	<span class="n">dbUser</span> <span class="o">:=</span> <span class="s2">"jhondoe"</span>
+	<span class="n">dbPass</span> <span class="o">:=</span> <span class="s2">"router"</span>
+	<span class="n">dbName</span> <span class="o">:=</span> <span class="s2">"goblog"</span>
+	<span class="n">db</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">sql</span><span class="mf">.</span><span class="nf">Open</span><span class="p">(</span><span class="n">dbDriver</span><span class="p">,</span> <span class="n">dbUser</span><span class="o">+</span><span class="s2">":"</span><span class="o">+</span><span class="n">dbPass</span><span class="o">+</span><span class="s2">"@/"</span><span class="o">+</span><span class="n">dbName</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+		<span class="nf">panic</span><span class="p">(</span><span class="n">err</span><span class="mf">.</span><span class="nf">Error</span><span class="p">())</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">db</span>
+<span class="p">}</span>
+
+<span class="c1">// Read All Templates on folder template</span>
+<span class="k">var</span> <span class="n">tmpl</span> <span class="o">=</span> <span class="n">template</span><span class="mf">.</span><span class="nf">Must</span><span class="p">(</span><span class="n">template</span><span class="mf">.</span><span class="nf">ParseGlob</span><span class="p">(</span><span class="s2">"template/*"</span><span class="p">))</span>
+
+<span class="c1">// Index Page</span>
+<span class="n">func</span> <span class="nf">Index</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="mf">.</span><span class="nc">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="mf">.</span><span class="nc">Request</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">db</span> <span class="o">:=</span> <span class="nf">dbConnect</span><span class="p">()</span>
+	<span class="n">rows</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Query</span><span class="p">(</span><span class="s2">"SELECT * FROM Employee ORDER BY id DESC"</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+		<span class="nf">panic</span><span class="p">(</span><span class="n">err</span><span class="mf">.</span><span class="nf">Error</span><span class="p">())</span>
+	<span class="p">}</span>
+	<span class="n">emp</span> <span class="o">:=</span> <span class="nc">Employee</span><span class="p">{}</span>
+	<span class="n">res</span> <span class="o">:=</span> <span class="p">[]</span><span class="nc">Employee</span><span class="p">{}</span>
+	<span class="k">for</span> <span class="n">rows</span><span class="mf">.</span><span class="nb">Next</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">var</span> <span class="n">id</span> <span class="n">int</span>
+		<span class="k">var</span> <span class="n">name</span><span class="p">,</span> <span class="n">city</span> <span class="n">string</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="n">rows</span><span class="mf">.</span><span class="nf">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="n">id</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">city</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+			<span class="nf">panic</span><span class="p">(</span><span class="n">err</span><span class="mf">.</span><span class="nf">Error</span><span class="p">())</span>
+		<span class="p">}</span>
+		<span class="n">emp</span><span class="mf">.</span><span class="no">ID</span> <span class="o">=</span> <span class="n">id</span>
+		<span class="n">emp</span><span class="mf">.</span><span class="nc">Name</span> <span class="o">=</span> <span class="n">name</span>
+		<span class="n">emp</span><span class="mf">.</span><span class="nc">City</span> <span class="o">=</span> <span class="n">city</span>
+		<span class="n">res</span> <span class="o">=</span> <span class="nf">append</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">emp</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="n">tmpl</span><span class="mf">.</span><span class="nf">ExecuteTemplate</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s2">"Index"</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+	<span class="n">defer</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Close</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// Show Single Item</span>
+<span class="n">func</span> <span class="nf">Show</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="mf">.</span><span class="nc">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="mf">.</span><span class="nc">Request</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">db</span> <span class="o">:=</span> <span class="nf">dbConnect</span><span class="p">()</span>
+	<span class="n">nID</span> <span class="o">:=</span> <span class="n">r</span><span class="mf">.</span><span class="no">URL</span><span class="mf">.</span><span class="nf">Query</span><span class="p">()</span><span class="mf">.</span><span class="nf">Get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+	<span class="n">rows</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Query</span><span class="p">(</span><span class="s2">"SELECT * FROM Employee WHERE id = ?"</span><span class="p">,</span> <span class="n">nID</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+		<span class="nf">panic</span><span class="p">(</span><span class="n">err</span><span class="mf">.</span><span class="nf">Error</span><span class="p">())</span>
+	<span class="p">}</span>
+	<span class="n">emp</span> <span class="o">:=</span> <span class="nc">Employee</span><span class="p">{}</span>
+	<span class="k">for</span> <span class="n">rows</span><span class="mf">.</span><span class="nb">Next</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">var</span> <span class="n">id</span> <span class="n">int</span>
+		<span class="k">var</span> <span class="n">name</span><span class="p">,</span> <span class="n">city</span> <span class="n">string</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="n">rows</span><span class="mf">.</span><span class="nf">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="n">id</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">city</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+			<span class="nf">panic</span><span class="p">(</span><span class="n">err</span><span class="mf">.</span><span class="nf">Error</span><span class="p">())</span>
+		<span class="p">}</span>
+		<span class="n">emp</span><span class="mf">.</span><span class="no">ID</span> <span class="o">=</span> <span class="n">id</span>
+		<span class="n">emp</span><span class="mf">.</span><span class="nc">Name</span> <span class="o">=</span> <span class="n">name</span>
+		<span class="n">emp</span><span class="mf">.</span><span class="nc">City</span> <span class="o">=</span> <span class="n">city</span>
+	<span class="p">}</span>
+	<span class="n">tmpl</span><span class="mf">.</span><span class="nf">ExecuteTemplate</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s2">"Show"</span><span class="p">,</span> <span class="n">emp</span><span class="p">)</span>
+	<span class="n">defer</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Close</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// Show New Page</span>
+<span class="n">func</span> <span class="k">New</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="mf">.</span><span class="nc">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="mf">.</span><span class="nc">Request</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">tmpl</span><span class="mf">.</span><span class="nf">ExecuteTemplate</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s2">"New"</span><span class="p">,</span> <span class="n">nil</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Edit Item</span>
+<span class="n">func</span> <span class="nf">Edit</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="mf">.</span><span class="nc">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="mf">.</span><span class="nc">Request</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">db</span> <span class="o">:=</span> <span class="nf">dbConnect</span><span class="p">()</span>
+	<span class="n">nID</span> <span class="o">:=</span> <span class="n">r</span><span class="mf">.</span><span class="no">URL</span><span class="mf">.</span><span class="nf">Query</span><span class="p">()</span><span class="mf">.</span><span class="nf">Get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+	<span class="n">rows</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Query</span><span class="p">(</span><span class="s2">"SELECT * FROM Employee WHERE id = ?"</span><span class="p">,</span> <span class="n">nID</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+		<span class="nf">panic</span><span class="p">(</span><span class="n">err</span><span class="mf">.</span><span class="nf">Error</span><span class="p">())</span>
+	<span class="p">}</span>
+	<span class="n">emp</span> <span class="o">:=</span> <span class="nc">Employee</span><span class="p">{}</span>
+	<span class="k">for</span> <span class="n">rows</span><span class="mf">.</span><span class="nb">Next</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">var</span> <span class="n">id</span> <span class="n">int</span>
+		<span class="k">var</span> <span class="n">name</span><span class="p">,</span> <span class="n">city</span> <span class="n">string</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="n">rows</span><span class="mf">.</span><span class="nf">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="n">id</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">city</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+			<span class="nf">panic</span><span class="p">(</span><span class="n">err</span><span class="mf">.</span><span class="nf">Error</span><span class="p">())</span>
+		<span class="p">}</span>
+		<span class="n">emp</span><span class="mf">.</span><span class="no">ID</span> <span class="o">=</span> <span class="n">id</span>
+		<span class="n">emp</span><span class="mf">.</span><span class="nc">Name</span> <span class="o">=</span> <span class="n">name</span>
+		<span class="n">emp</span><span class="mf">.</span><span class="nc">City</span> <span class="o">=</span> <span class="n">city</span>
+	<span class="p">}</span>
+	<span class="n">tmpl</span><span class="mf">.</span><span class="nf">ExecuteTemplate</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s2">"Edit"</span><span class="p">,</span> <span class="n">emp</span><span class="p">)</span>
+	<span class="n">defer</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Close</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// Insert Item</span>
+<span class="n">func</span> <span class="nf">Insert</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="mf">.</span><span class="nc">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="mf">.</span><span class="nc">Request</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">db</span> <span class="o">:=</span> <span class="nf">dbConnect</span><span class="p">()</span>
+	<span class="k">if</span> <span class="n">r</span><span class="mf">.</span><span class="nc">Method</span> <span class="o">==</span> <span class="s2">"POST"</span> <span class="p">{</span>
+		<span class="n">name</span> <span class="o">:=</span> <span class="n">r</span><span class="mf">.</span><span class="nf">FormValue</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span>
+		<span class="n">city</span> <span class="o">:=</span> <span class="n">r</span><span class="mf">.</span><span class="nf">FormValue</span><span class="p">(</span><span class="s2">"city"</span><span class="p">)</span>
+		<span class="n">insert</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Prepare</span><span class="p">(</span><span class="s2">"INSERT INTO Employee (name, city) VALUES(?, ?)"</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+			<span class="nf">panic</span><span class="p">(</span><span class="n">err</span><span class="mf">.</span><span class="nf">Error</span><span class="p">())</span>
+		<span class="p">}</span>
+		<span class="n">insert</span><span class="mf">.</span><span class="nb">Exec</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">city</span><span class="p">)</span>
+		<span class="n">log</span><span class="mf">.</span><span class="nf">Println</span><span class="p">(</span><span class="s2">"INSERT: Name: "</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">" | City: "</span> <span class="o">+</span> <span class="n">city</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="n">defer</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Close</span><span class="p">()</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">Redirect</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="s2">"/"</span><span class="p">,</span> <span class="mi">301</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Update Item</span>
+<span class="n">func</span> <span class="nf">Update</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="mf">.</span><span class="nc">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="mf">.</span><span class="nc">Request</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">db</span> <span class="o">:=</span> <span class="nf">dbConnect</span><span class="p">()</span>
+	<span class="k">if</span> <span class="n">r</span><span class="mf">.</span><span class="nc">Method</span> <span class="o">==</span> <span class="s2">"POST"</span> <span class="p">{</span>
+		<span class="n">name</span> <span class="o">:=</span> <span class="n">r</span><span class="mf">.</span><span class="nf">FormValue</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span>
+		<span class="n">city</span> <span class="o">:=</span> <span class="n">r</span><span class="mf">.</span><span class="nf">FormValue</span><span class="p">(</span><span class="s2">"city"</span><span class="p">)</span>
+		<span class="n">id</span> <span class="o">:=</span> <span class="n">r</span><span class="mf">.</span><span class="nf">FormValue</span><span class="p">(</span><span class="s2">"uid"</span><span class="p">)</span>
+		<span class="n">insert</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Prepare</span><span class="p">(</span><span class="s2">"UPDATE Employee SET name = ?, city = ? WHERE id = ?"</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+			<span class="nf">panic</span><span class="p">(</span><span class="n">err</span><span class="mf">.</span><span class="nf">Error</span><span class="p">())</span>
+		<span class="p">}</span>
+		<span class="n">insert</span><span class="mf">.</span><span class="nb">Exec</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">city</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+		<span class="n">log</span><span class="mf">.</span><span class="nf">Println</span><span class="p">(</span><span class="s2">"UPDATE: Name: "</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">" | City: "</span> <span class="o">+</span> <span class="n">city</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="n">defer</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Close</span><span class="p">()</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">Redirect</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="s2">"/"</span><span class="p">,</span> <span class="mi">301</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Delete Item</span>
+<span class="n">func</span> <span class="nb">Delete</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="mf">.</span><span class="nc">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="mf">.</span><span class="nc">Request</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">db</span> <span class="o">:=</span> <span class="nf">dbConnect</span><span class="p">()</span>
+	<span class="n">emp</span> <span class="o">:=</span> <span class="n">r</span><span class="mf">.</span><span class="no">URL</span><span class="mf">.</span><span class="nf">Query</span><span class="p">()</span><span class="mf">.</span><span class="nf">Get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+	<span class="n">delete</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Prepare</span><span class="p">(</span><span class="s2">"DELETE FROM Employee WHERE id = ?"</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+		<span class="nf">panic</span><span class="p">(</span><span class="n">err</span><span class="mf">.</span><span class="nf">Error</span><span class="p">())</span>
+	<span class="p">}</span>
+	<span class="n">delete</span><span class="mf">.</span><span class="nb">Exec</span><span class="p">(</span><span class="n">emp</span><span class="p">)</span>
+	<span class="n">log</span><span class="mf">.</span><span class="nf">Println</span><span class="p">(</span><span class="s2">"DELETE"</span><span class="p">)</span>
+	<span class="n">defer</span> <span class="n">db</span><span class="mf">.</span><span class="nf">Close</span><span class="p">()</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">Redirect</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="s2">"/"</span><span class="p">,</span> <span class="mi">301</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="nb">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">log</span><span class="mf">.</span><span class="nf">Println</span><span class="p">(</span><span class="s2">"Server started on: http://192.168.5.2:4000"</span><span class="p">)</span>
+	<span class="c1">// Routes</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="nc">Index</span><span class="p">)</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s2">"/show"</span><span class="p">,</span> <span class="nc">Show</span><span class="p">)</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s2">"/new"</span><span class="p">,</span> <span class="k">New</span><span class="p">)</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s2">"/edit"</span><span class="p">,</span> <span class="nc">Edit</span><span class="p">)</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s2">"/insert"</span><span class="p">,</span> <span class="nc">Insert</span><span class="p">)</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s2">"/update"</span><span class="p">,</span> <span class="nc">Update</span><span class="p">)</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s2">"/delete"</span><span class="p">,</span> <span class="nc">Delete</span><span class="p">)</span>
+	<span class="c1">// Start server on port 4000</span>
+	<span class="n">http</span><span class="mf">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s2">"192.168.5.2:4000"</span><span class="p">,</span> <span class="n">nil</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Note the script <code class="language-plaintext highlighter-rouge">http://192.168.5.2:4000</code>, it is the IP and Port that Go Lang will use to access the Web browser. Use the git command to initialize your Go Lang project.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span>go mod init github.com/iwanse1977/FreeBSD-Golang-MySQL
+<span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span>go mod tidy
+<span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span>go get github.com/go-sql-driver/mysql
+</code></pre></div></div>
+<p>In your working project, create a folder <code class="language-plaintext highlighter-rouge">"template"</code>, and create the files Edit.tmpl, Footer.tmpl, Header.tmpl, Index.tmpl, Menu.tmpl, New.tmpl, Show.tmpl.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span><span class="nb">mkdir </span>template
+<span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span><span class="nb">cd </span>template
+<span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL/template #</span><span class="w"> </span><span class="nb">touch </span>Edit.tmpl Footer.tmpl Header.tmpl Index.tmpl Menu.tmpl New.tmpl Show.tmpl
+</code></pre></div></div>
+<p><br /></p>
+<h3 id="download-the-script-code-of-the-tmpl-file"><a href="https://www.opencode.net/unixbsdshell/freebsd-golang-mysql-crud.git"><strong>Download the script code of the “*.tmpl” file</strong></a></h3>
+
+<h2 id="3-create-mysql-database">3. Create MySQL Database</h2>
+<p>Your Go lang project is almost done, just one more step. Now you create a MySQL database as the backend of Go lang. Please login to the MySQL database server, with the root password.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span>mysql <span class="nt">-u</span> root <span class="nt">-p</span>
+<span class="go">Enter password: "Enter your MySQL password"
+</span><span class="gp">Welcome to the MySQL monitor.  Commands end with ;</span><span class="w"> </span>or <span class="se">\g</span><span class="nb">.</span>
+<span class="go">Your MySQL connection id is 83
+Server version: 8.0.35 Source distribution
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+</span><span class="gp">Type 'help;</span><span class="s1">' or '</span><span class="se">\h</span><span class="s1">' for help. Type '</span><span class="se">\c</span><span class="s1">' to clear the current input statement.
+</span><span class="go">
+</span><span class="gp">root@localhost [(none)]&gt;</span><span class="w">
+</span></code></pre></div></div>
+<p>Create a database <code class="language-plaintext highlighter-rouge">"goblog"</code> and a table <code class="language-plaintext highlighter-rouge">"Employee"</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@localhost [(none)]&gt;</span><span class="w"> </span>create database goblog<span class="p">;</span>
+<span class="gp">root@localhost [(none)]&gt;</span><span class="w"> </span>use goblog<span class="p">;</span>
+<span class="go">Database changed
+</span><span class="gp">root@localhost [goblog]&gt;</span><span class="w"> </span>CREATE TABLE IF NOT EXISTS <span class="sb">`</span>Employee<span class="sb">`</span> <span class="o">(</span>
+<span class="gp">    -&gt;</span><span class="w">   </span><span class="sb">`</span><span class="nb">id</span><span class="sb">`</span> int unsigned NOT NULL AUTO_INCREMENT,
+<span class="gp">    -&gt;</span><span class="w">   </span><span class="sb">`</span>Name<span class="sb">`</span> text,
+<span class="gp">    -&gt;</span><span class="w">   </span><span class="sb">`</span>city<span class="sb">`</span> text,
+<span class="gp">    -&gt;</span><span class="w">   </span>PRIMARY KEY <span class="o">(</span><span class="sb">`</span><span class="nb">id</span><span class="sb">`</span><span class="o">)</span>
+<span class="gp">    -&gt;</span><span class="w"> </span><span class="o">)</span> <span class="nv">ENGINE</span><span class="o">=</span>InnoDB <span class="nv">AUTO_INCREMENT</span><span class="o">=</span>0 DEFAULT <span class="nv">CHARSET</span><span class="o">=</span>utf8mb4<span class="p">;</span>
+<span class="go">Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+</span><span class="gp">root@localhost [goblog]&gt;</span><span class="w">
+</span></code></pre></div></div>
+<p>Create a MySQL user, so that the MySQL database can be connected to Go lang.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@localhost [(none)]&gt;</span><span class="w"> </span>CREATE USER <span class="s1">'jhondoe'</span>@<span class="s1">'localhost'</span> IDENTIFIED BY <span class="s1">'router'</span><span class="p">;</span>
+<span class="gp">root@localhost [(none)]&gt;</span><span class="w"> </span>GRANT ALL PRIVILEGES ON <span class="k">*</span> <span class="nb">.</span> <span class="k">*</span> TO <span class="s1">'jhondoe'</span>@<span class="s1">'localhost'</span><span class="p">;</span>
+<span class="gp">root@localhost [(none)]&gt;</span><span class="w"> </span>FLUSH PRIVILEGES<span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="4-run-the-application">4. Run the application</h2>
+<p>Now that we have implemented all the MySQL and Go lang operations, it’s time to test our application. Whether it works or not.</p>
+
+<p>Open the Google Chrome web browser, and run the command <code class="language-plaintext highlighter-rouge">"http://192.168.5.2:4000"</code>. If all the above configurations are correct, Google Chrome will display the following image.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns7:~ #</span><span class="w"> </span><span class="nb">cd</span> /var/FreeBSD-Golang-MySQL
+<span class="gp">root@ns7:/var/FreeBSD-Golang-MySQL #</span><span class="w"> </span>go run main.go
+</code></pre></div></div>
+
+<p><img src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/12FreeBSD%20Crud%20MysQL.jpg&amp;commit=02479a77f4b2e77d0d98e6dc1b4cde4ce4ad5b27" alt="FreeBSD Crud MysQL" /></p>
+
+<p>In this article, we can learn how to create a simple CRUD application using GoLang and MySQL on a FreeBSD server. You can develop the following application with an attractive menu display. Stay tuned for our latest articles on Go Lang.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-08T12:55:21+03:00">May 8, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Creating+Web+Applications+with+Google+Go+Lang+Part+2%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreating-web-applications-with-google-go-lang2%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreating-web-applications-with-google-go-lang2%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreating-web-applications-with-google-go-lang2%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/creating-web-applications-with-google-go-lang/" class="pagination--pager" title="Creating Web Applications with Google Go Lang Part 1
+">Previous</a>
+    
+    
+      <a href="/freebsd/setup-obfs4-bridge-relay-tor-browser-freebsd/" class="pagination--pager" title="How to Setup OBFS4 Bridge Relay for TOR Browser on FreeBSD 14
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/creating-web-applications-with-google-go-lang2/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/creating-web-applications-with-google-go-lang2"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,1061 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>GitLab Installation Guide on FreeBSD Server - UnixBSDShell</title>
+<meta name="description" content="To be able to use Git, there are currently various services available to store and share the code. For example, GitLab, GitHub, Bitbucket, and Gitorous. Among these options, GitLab is one of the Git storage services that is on the rise and has many users.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="GitLab Installation Guide on FreeBSD Server">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/gitLab-installation-guide-freebsd-server/">
+
+
+  <meta property="og:description" content="To be able to use Git, there are currently various services available to store and share the code. For example, GitLab, GitHub, Bitbucket, and Gitorous. Among these options, GitLab is one of the Git storage services that is on the rise and has many users.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="GitLab Installation Guide on FreeBSD Server">
+  <meta name="twitter:description" content="To be able to use Git, there are currently various services available to store and share the code. For example, GitLab, GitHub, Bitbucket, and Gitorous. Among these options, GitLab is one of the Git storage services that is on the rise and has many users.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/gitLab-installation-guide-freebsd-server/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-07T13:35:22+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/gitLab-installation-guide-freebsd-server/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links">
+<li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li>
+</ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1">
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2">
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">GitLab Installation Guide on FreeBSD Server</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com">
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="GitLab Installation Guide on FreeBSD Server">
+    <meta itemprop="description" content="To be able to use Git, there are currently various services available to store and share the code. For example, GitLab, GitHub, Bitbucket, and Gitorous. Among these options, GitLab is one of the Git storage services that is on the rise and has many users.">
+    <meta itemprop="datePublished" content="2025-05-07T13:35:22+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">GitLab Installation Guide on FreeBSD Server
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title">
+<i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-install-postgresql-database">1. Install PostgreSQL Database</a></li>
+  <li><a href="#2-creating-postgresql">2. Creating PostgreSQL</a></li>
+  <li><a href="#3-install-redis">3. Install Redis</a></li>
+  <li><a href="#4-install-gitlab-ce">4. Install gitlab-ce</a></li>
+  <li>
+<a href="#5-gitlab-configuration">5. Gitlab Configuration</a>
+    <ul>
+      <li><a href="#51-make-connection">5.1. Make Connection</a></li>
+      <li><a href="#53-create-global-git-settings">5.3. Create global git settings</a></li>
+      <li><a href="#54-change-ownership-and-permissions">5.4. Change ownership and permissions</a></li>
+      <li><a href="#55-install-rubygems-library">5.5. Install rubygems library</a></li>
+      <li><a href="#56-install-gems-for-postgresql">5.6. Install gems for PostgreSQL</a></li>
+      <li><a href="#57-create-rcd-script">5.7. Create rc.d script</a></li>
+      <li><a href="#58-run-gitlab">5.8. Run Gitlab</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Gitlab is a service that provides remote access to Git repositories. In addition to being a place to store your code, this service also provides additional features designed to help manage the software development cycle. Git is a tool that functions to make it easier for developers. This tool is useful as a Version Control System (VCS) which is tasked with tracking changes to code files. For developers, the existence of Git makes it very easy for them to collaborate to complete projects with other developers or on their own projects.</p>
+
+<p>Tools like Git allow developers to make changes to certain source codes. They don’t need to worry about conflicts in merging the codes. Because by using Git, all changes to the source code can be tracked.</p>
+
+<p>To be able to use Git, there are currently various services available to store and share the code. For example, GitLab, GitHub, Bitbucket, and Gitorous. Among these options, GitLab is one of the Git storage services that is on the rise and has many users.</p>
+
+<p>Git is a source code versioning system that allows you to track changes locally and push or pull changes from remote resources.</p>
+
+<p><img src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/NugetArticle/Process%20of%20Installing%20Gitlab%20on%20FreeBSD.jpg&amp;commit=af864b0188f7e96be6438b0579f8e29be3445973" alt="Process of Installing Gitlab on FreeBSD"></p>
+
+<p>GitLab is a github-like service that organizations can use to provide internal management of git repositories. It is a self-hosted Git repository management system that keeps user code private and can easily deploy code changes. Here are some of the benefits of using Gitlab:</p>
+<ul>
+  <li>Open-source Gitlab CE available.</li>
+  <li>Real-time logging.</li>
+  <li>Supports Parallel Builds.</li>
+  <li>Facilitates collaboration between developers</li>
+</ul>
+
+<h2 id="1-install-postgresql-database">1. Install PostgreSQL Database</h2>
+<p>All Gitlab features will work well if you use PostgreSQL database. So we recommend using PostgreSQL database that will connect with Gitlab. You can use MySQL Database, but some Gitlab features will not work well.</p>
+
+<p>In FreeBSD PostgreSQL repository is available, you can install PostgreSQL with PKG or port. But it is better to install PostgreSQL with system port. There are two PostgreSQL that you must install, namely PostgreSQL client and PostgreSQL server. Here is how to install PostgreSQL on FreeBSD.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/databases/postgresql15-client
+<span class="gp">root@ns3:/usr/ports/databases/postgresql15-client #</span><span class="w"> </span>make <span class="nb">install </span>clean
+<span class="gp">root@ns3:/usr/ports/databases/postgresql15-client #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/databases/postgresql15-server
+<span class="gp">root@ns3:/usr/ports/databases/postgresql15-server #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+<p>In this article, we do not fully explain how to install and use PostgreSQL, you can read the previous article “<a href="https://unixwinbsd.site/en/freebsd/2025/05/07/howto-install-and-configure-postgresql-freebsd">How to Install and Configure PostgreSQL on FreeBSD 14</a>”</p>
+
+<h2 id="2-creating-postgresql">2. Creating PostgreSQL</h2>
+<p>In this section we will create a database that will be used by Gitlab to communicate with PostgreSQL. Here is the database that we will create with PostgreSQL.</p>
+
+<ul>
+  <li>user: <code class="language-plaintext highlighter-rouge">usergitlab</code>
+</li>
+  <li>database: <code class="language-plaintext highlighter-rouge">gitlab</code>
+</li>
+  <li>host: <code class="language-plaintext highlighter-rouge">localhost</code>
+</li>
+  <li>password: <code class="language-plaintext highlighter-rouge">router123</code>
+</li>
+</ul>
+
+<p>Run the command below to create a PostgreSQL database.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>su - postgres
+<span class="gp">$</span><span class="w"> </span>createuser usergitlab
+<span class="gp">$</span><span class="w"> </span>createdb gitlab <span class="nt">-O</span> usergitlab <span class="nv">encoding</span><span class="o">=</span><span class="s1">'UTF8'</span>
+<span class="gp">$</span><span class="w"> </span>psql gitlab
+<span class="go">psql (15.5)
+Type "help" for help.
+
+</span><span class="gp">gitlab=#</span><span class="w"> </span>alter user usergitlab with password <span class="s1">'router123'</span><span class="p">;</span>
+<span class="go">ALTER ROLE
+</span><span class="gp">gitlab=#</span><span class="w">
+</span></code></pre></div></div>
+<p>The above command is used to connect to a PostgreSQL database, and create a database, user, and password.</p>
+
+<h2 id="3-install-redis">3. Install Redis</h2>
+<p>Gitlab uses Redis to store all its caches. The goal is to speed up Gitlab performance. Run the following command to install Redis.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/databases/redis
+<span class="gp">root@ns3:/usr/ports/databases/redis #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+<p>After that, configure Redis, open the redis.conf file and activate it by removing the “#” sign at the beginning of the script. Here’s the script you need to activate.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/local/etc
+<span class="gp">root@ns3:/usr/local/etc #</span><span class="w"> </span>ee redis.conf
+<span class="go">unixsocket /var/run/redis/redis.sock
+unixsocketperm 770
+requirepass foobared
+</span><span class="gp">#</span><span class="nb">bind </span>127.0.0.1 -::1
+</code></pre></div></div>
+<p>Allow Redis to start by adding the script below to the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="go">redis_enable="YES"
+</span></code></pre></div></div>
+
+<p>Start Redis with the restart command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>service redis restart
+</code></pre></div></div>
+
+<h2 id="4-install-gitlab-ce">4. Install gitlab-ce</h2>
+<p>Before you install gitlab-ce, first install the dependencies required by gitlab-ce. Here’s how to install gitlab-ce dependencies.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>re2 html2text rubygem-re2 rubygem-gitlab-glfm-markdown rubygem-prometheus-client-mmap gpgme rubygem-rugged rubygem-charlock_holmes rubygem-plist rubygem-nkf rubygem-rouge rubygem-wmi-lite rubygem-net-ssh rubygem-lockbox rubygem-unf_ext
+</code></pre></div></div>
+<p>After that, you can run the gitlab-ce install command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/www/gitlab-ce
+<span class="gp">root@ns3:/usr/ports/www/gitlab-ce #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+<p>Or, if you want to use the PKG package, run the command below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>gitlab-ce
+<span class="gp">root@ns3:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>www/gitlab
+</code></pre></div></div>
+
+<h2 id="5-gitlab-configuration">5. Gitlab Configuration</h2>
+<p>In this section, we will explain how to configure Gitlab on FreeBSD. Since you have to do a lot of configuration, we recommend that you follow each step we describe so that you don’t miss a single script.</p>
+
+<h3 id="51-make-connection">5.1. Make Connection</h3>
+<p>After the gitlab-ce installation process is complete, open the gitlab installation directory and edit the configuration file, you follow the instructions at the top of the file. In the <code class="language-plaintext highlighter-rouge">gitlab.yml</code> file, activate the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/local/www/gitlab-ce/config
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce/config #</span><span class="w"> </span>ee gitlab.yml
+<span class="go">connect_src: "'self' http://192.168.5.2:* ws://192.168.5.2:* wss://192.168.5.2:*"
+allowed_hosts: [192.168.5.2]
+gitlab:
+    host: 192.168.5.2
+    port: 8080
+email_from: datainchi@gmail.com
+email_reply_to: datainchi@gmail.com
+user: git
+time_zone: 'UTC'
+
+</span><span class="gp">#</span><span class="c">## 5.2. Create Database Connection</span>
+<span class="go">In the `database.yml` file, change the database script according to the PostgreSQL database you created above.
+
+```console
+</span><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/local/www/gitlab-ce/config
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce/config #</span><span class="w"> </span>ee database.yml
+<span class="go">production:
+  main:
+    adapter: postgresql
+    encoding: unicode
+    database: gitlab
+    username: usergitlab
+    password: "router123"
+    host: localhost
+</span></code></pre></div></div>
+
+<h3 id="53-create-global-git-settings">5.3. Create global git settings</h3>
+<p>We will use the git command to initialize Gitlab, running the following commands to switch to the git user and update some of its global git settings.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /usr/local/git/repositories
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /usr/home/git <span class="o">&amp;&amp;</span> <span class="nb">mkdir</span> <span class="nt">-p</span> /usr/home/git/gitlab
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> git:git /usr/local/git/repositories
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> git:git /usr/home/git/
+</code></pre></div></div>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>su - git
+<span class="gp">$</span><span class="w"> </span>git config <span class="nt">--global</span> core.autocrlf input
+<span class="gp">$</span><span class="w"> </span>git config <span class="nt">--global</span> gc.auto 0
+<span class="gp">$</span><span class="w"> </span>git config <span class="nt">--global</span> repack.writeBitmaps <span class="nb">true</span>
+<span class="gp">$</span><span class="w"> </span>git config <span class="nt">--global</span> receive.advertisePushOptions <span class="nb">true</span>
+<span class="gp">$</span><span class="w"> </span>git config <span class="nt">--global</span> core.fsync objects,derived-metadata,reference
+<span class="gp">$</span><span class="w"> </span><span class="nb">exit</span>
+<span class="gp">root@ns3:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="54-change-ownership-and-permissions">5.4. Change ownership and permissions</h3>
+<p>On some Gitlab directories and files, you need to change file ownership and file permissions.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> git:git /usr/local/www/gitlab-ce/log
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> git:git /usr/local/www/gitlab-ce/tmp
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> git:git /usr/local/www/gitlab-ce/public
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> git:git /usr/local/www/gitlab-ce/builds
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> git:git /usr/local/www/gitlab-ce/shared
+</code></pre></div></div>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 770 /usr/local/www/gitlab-ce/log
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 770 /usr/local/www/gitlab-ce/tmp
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 770 /usr/local/www/gitlab-ce/public
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 770 /usr/local/www/gitlab-ce/builds
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 770 /usr/local/www/gitlab-ce/shared
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 770 /usr/local/www/gitlab-ce/config
+</code></pre></div></div>
+
+<h3 id="55-install-rubygems-library">5.5. Install rubygems library</h3>
+<p>To prevent hangs during Gitlab installation, configure rubygems to use installed libraries.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/local/www/gitlab-ce
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.gpgme <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.rugged <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.re2 <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.charlock_holmes <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.gitlab-glfm-markdown <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.nkf <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.rouge <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.wmi-lite <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.plist <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.net-ssh <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.lockbox <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.unf_ext <span class="s2">"--use-system-libraries"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.prometheus-client-mmap <span class="s2">"--use-system-libraries"</span>
+</code></pre></div></div>
+<p>If there is still an “error”, you can try the command below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.prometheus-client-mmap <span class="s2">"--platform ruby"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle config build.gitlab-glfm-markdown <span class="s2">"--platform ruby"</span>
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>gem <span class="nb">install </span>prometheus-client-mmap <span class="nt">--platform</span> ruby
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>gem <span class="nb">install </span>gitlab-glfm-markdown <span class="nt">--platform</span> ruby
+</code></pre></div></div>
+<h3 id="56-install-gems-for-postgresql">5.6. Install gems for PostgreSQL</h3>
+<p>GitLab Shell is an SSH access and repository management software developed specifically for GitLab. First of all, we have to install Ruby Gems.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle <span class="nb">install</span> <span class="nt">--without</span> development <span class="nb">test</span>
+</code></pre></div></div>
+<p>Run the installation command for gitlab-shell.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle <span class="nb">exec </span>rake gitlab:shell:install <span class="nv">REDIS_URL</span><span class="o">=</span>unix:/var/run/redis/redis.sock <span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nv">SKIP_STORAGE_VALIDATION</span><span class="o">=</span><span class="nb">true</span>
+</code></pre></div></div>
+
+<h3 id="57-create-rcd-script">5.7. Create rc.d script</h3>
+<p>To make Gitlab run automatically on FreeBSD server, you need to create rc.d script. Follow the command below.</p>
+
+<p>Enable gitlab to run automatically on FreeBSD. In <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file, type the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="go">gitlab_enable="YES"
+gitlab_authBackend="http://192.168.5.2:8080"
+gitlab_workhorse_tcp="NO"
+gitlab_workhorse_addr="192.168.5.2:8181"
+gitlab_mail_room_enable="NO"
+gitlab_allow_conflicts="NO"
+gitlab_wait="120"
+
+gitlab_pages_enable="YES"
+gitlab_pages_dir="/var/tmp/gitlab_pages"
+gitlab_pages_user="gitlab-pages"
+gitlab_pages_group="gitlab-pages"
+gitlab_pages_logfile="/var/log/gitlab_pages.log"
+gitlab_pages_args="-config=/usr/local/share/gitlab-pages/gitlab-pages.conf"
+</span></code></pre></div></div>
+
+<h3 id="58-run-gitlab">5.8. Run Gitlab</h3>
+<p>The next step is to set up Redmine to connect to Ruby.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle <span class="nb">exec </span>rake generate_secret_token
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>bundle <span class="nb">exec </span>rake db:migrate <span class="nv">RAILS_ENV</span><span class="o">=</span><span class="s2">"production"</span>
+</code></pre></div></div>
+<p>The final step is to run gitlab-ce.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>service gitlab restart
+<span class="gp">root@ns3:/usr/local/www/gitlab-ce #</span><span class="w"> </span>ruby bin/rails server <span class="nt">-e</span> production
+</code></pre></div></div>
+<p>After you finish reading this article, your server now has a fully functional GitLab hosted on your own server. You can start importing or creating new projects and sharing access to them with your team members. Gitlab will be adding new features and updating the platform regularly, so it doesn’t hurt to visit the GitLab platform page often to check the project homepage for the latest information on important fixes or notifications.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-07T13:35:22+03:00">May 7, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&amp;text=GitLab+Installation+Guide+on+FreeBSD+Server%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2FgitLab-installation-guide-freebsd-server%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2FgitLab-installation-guide-freebsd-server%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2FgitLab-installation-guide-freebsd-server%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/howto-install-and-configure-postgresql-freebsd/" class="pagination--pager" title="How to Install and Configure PostgreSQL on FreeBSD 14
+">Previous</a>
+    
+    
+      <a href="/freebsd/creating-web-applications-with-google-go-lang/" class="pagination--pager" title="Creating Web Applications with Google Go Lang Part 1
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap">
+<form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term...">
+  </form>
+  <div id="results" class="results"></div>
+</div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">© 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/gitLab-installation-guide-freebsd-server/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/gitLab-installation-guide-freebsd-server"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

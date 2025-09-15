@@ -1,0 +1,1123 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>OpenBSD Netcat - nc Command with Examples - UnixBSDShell</title>
+<meta name="description" content="This guide will take you from the basics to the advanced usage of the ‘nc’ command in Linux. We will cover everything from simple network connections to more complex scenarios, as well as alternative approaches and common troubleshooting.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="OpenBSD Netcat - nc Command with Examples">
+<meta property="og:url" content="https://unixwinbsd.site/openbsd/netcat-nc-openbsd-example/">
+
+
+  <meta property="og:description" content="This guide will take you from the basics to the advanced usage of the ‘nc’ command in Linux. We will cover everything from simple network connections to more complex scenarios, as well as alternative approaches and common troubleshooting.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="OpenBSD Netcat - nc Command with Examples">
+  <meta name="twitter:description" content="This guide will take you from the basics to the advanced usage of the ‘nc’ command in Linux. We will cover everything from simple network connections to more complex scenarios, as well as alternative approaches and common troubleshooting.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/openbsd/netcat-nc-openbsd-example/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-10T12:55:21+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/openbsd/netcat-nc-openbsd-example/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">OpenBSD Netcat - nc Command with Examples</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="OpenBSD Netcat - nc Command with Examples">
+    <meta itemprop="description" content="This guide will take you from the basics to the advanced usage of the ‘nc’ command in Linux. We will cover everything from simple network connections to more complex scenarios, as well as alternative approaches and common troubleshooting.">
+    <meta itemprop="datePublished" content="2025-05-10T12:55:21+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">OpenBSD Netcat - nc Command with Examples
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-what-is-netcat">1. What is Netcat</a></li>
+  <li><a href="#2-netcat-version">2. Netcat Version</a></li>
+  <li><a href="#3-basic-netcat-commands">3. Basic netcat commands</a></li>
+  <li><a href="#4-basic-usage-of-nc-linux-commands-step-by-step-guide">4. Basic Usage of NC Linux Commands: Step by Step Guide</a>
+    <ul>
+      <li><a href="#a-client-server-chat">a. Client-server chat</a></li>
+      <li><a href="#b-banner-grabbing">b. Banner grabbing</a></li>
+      <li><a href="#c-port-scanning">c. Port scanning</a></li>
+      <li><a href="#d-proxy-and-port-forwarding">d. Proxy and port forwarding</a></li>
+      <li><a href="#e-download-file">e. Download file</a></li>
+      <li><a href="#f-upload-files">f. Upload files</a></li>
+      <li><a href="#g-transfer-directory">g. Transfer Directory</a></li>
+      <li><a href="#h-encrypt-transfer">h. Encrypt transfer</a></li>
+      <li><a href="#i-clones">i. Clones</a></li>
+      <li><a href="#j-video-streaming">j. Video streaming</a></li>
+      <li><a href="#k-remote-shell">k. Remote shell</a></li>
+      <li><a href="#l-reverse-shell">l. Reverse shell</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Are you having trouble or confusion while using the ‘nc’ command in OpenBSD? You are not alone. Many developers also feel confused while using this versatile tool for network connections. Think of ‘nc’ or Netcat as a pocket knife for your networking needs. The nc command can read and write data across a network, making it an indispensable tool for every OpenBSD user.</p>
+
+<p>This guide will take you from the basics to the advanced usage of the ‘nc’ command in Linux. We will cover everything from simple network connections to more complex scenarios, as well as alternative approaches and common troubleshooting.</p>
+
+<p>So, let’s dive in and start mastering the <code class="language-plaintext highlighter-rouge">‘nc’</code> command in <strong>OpenBSD!</strong>.</p>
+
+<p><br /></p>
+
+<p><img src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets%2Fimages%2F27example%20of%20netcat%20command%20in%20openbsd.jpg&amp;commit=1935f8d10e0556c489ca451d83263475866006dd" alt="example of netcat command in openbsd" /></p>
+
+<p><br /></p>
+
+<h2 id="1-what-is-netcat">1. What is Netcat</h2>
+<p>Are you having trouble or confusion when using the ‘nc’ command in OpenBSD? You are not alone. Many developers also find themselves confused when it comes to using this versatile tool for network connections. Think of ‘nc’ or Netcat as a pocket knife for your networking needs. The nc command can read and write data across a network, making it an indispensable tool for any OpenBSD user.</p>
+
+<p>This guide will take you from the basics to advanced usage of the ‘nc’ command in Linux. We will cover everything from simple network connections to more complex scenarios, as well as alternative approaches and common troubleshooting.</p>
+
+<p>Jadi, mari selami dan mulai kuasai perintah <code class="language-plaintext highlighter-rouge">‘nc’</code> di <strong>OpenBSD!</strong>.</p>
+
+<h2 id="2-netcat-version">2. Netcat Version</h2>
+<p>It just so happens that Netcat has many variants written by different authors. The original version was called netcat (nc). Netcat quickly gained recognition, but at some point its author stopped developing it and, despite its popularity, no one else started supporting it. For this reason, the program was rewritten several times by different authors, and sometimes completely from scratch.</p>
+
+<p>The last original version of netcat was released in January 2007. The version used was 1.10. The original version of netcat was written by the author of the famous nmap program.</p>
+
+<p>Ncat has become the official replacement for the original netcat in some Linux distributions, such as Red Hat Enterprise Linux, CentOS, which are often used as web servers. For this reason, you will find Ncat on many computers in the network for example, on my virtual hosting, Ncat is installed as Netcat.</p>
+
+<p>Ncat is shipped in the Nmap package and is therefore available for a variety of platforms, including Windows. This means that to install Ncat on Windows, simply install NMap.</p>
+
+<h2 id="3-basic-netcat-commands">3. Basic netcat commands</h2>
+<p>As you become more familiar with the nc command and become more proficient in using it, you will discover the true power of nc, as it has many advanced features. The flexibility of the ‘nc’ command allows you to handle more complex networking tasks, such as creating a simple chat server or transferring files between systems.</p>
+
+<p>Before we dive into the use of the ‘nc’ command, let’s get to know some of the arguments or command lines that can unlock advanced features of the ‘nc’ command. Here is a table with some of the most commonly used ‘nc’ arguments.</p>
+
+<p>The table below outlines common nc command options:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-4</td>
+      <td>Protocol</td>
+      <td>Use IPv4 only.</td>
+    </tr>
+    <tr>
+      <td>-6</td>
+      <td>Protocol</td>
+      <td>Use IPv6 only.</td>
+    </tr>
+    <tr>
+      <td>-U,  –unixsock</td>
+      <td>Protocol</td>
+      <td>Use Unix domain sockets.</td>
+    </tr>
+    <tr>
+      <td>-u,  –udp</td>
+      <td>Protocol</td>
+      <td>Use UDP connection.</td>
+    </tr>
+    <tr>
+      <td>-g &lt;hop1, hop2,…&gt;</td>
+      <td>Connect mode</td>
+      <td>Set hops for loose source routing in IPv4. Hops are IP addresses or hostnames.</td>
+    </tr>
+    <tr>
+      <td>-p <port>,  --source-port <port></port></port></td>
+      <td>Connect mode</td>
+      <td>Binds the Netcat source port to <port>.</port></td>
+    </tr>
+    <tr>
+      <td>-s <host>,  --source <host></host></host></td>
+      <td>Connect mode</td>
+      <td>Binds the Netcat host to <host>.</host></td>
+    </tr>
+    <tr>
+      <td>-l,  –listen</td>
+      <td>Listen mode</td>
+      <td>Listens for connections instead of using connect mode.</td>
+    </tr>
+    <tr>
+      <td>-k,  –keep-open</td>
+      <td>Listen mode</td>
+      <td>Keeps the connection open for multiple simultaneous connections.</td>
+    </tr>
+    <tr>
+      <td>-v,  –verbose</td>
+      <td>Output</td>
+      <td>Sets verbosity level. Use multiple times to increase verbosity.</td>
+    </tr>
+    <tr>
+      <td>-z</td>
+      <td>Output</td>
+      <td>Report connection status without establishing a connection.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="4-basic-usage-of-nc-linux-commands-step-by-step-guide">4. Basic Usage of NC Linux Commands: Step by Step Guide</h2>
+<p>Let’s start with the basics. The <strong>‘nc’</strong> command, also known as Netcat, can be used to create a simple network connection. This can be very useful for testing network connectivity or transferring small amounts of data.</p>
+
+<p>Here is a basic example of how to use the ‘nc’ command:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Command</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-h</td>
+      <td>nc -h</td>
+      <td>Help</td>
+    </tr>
+    <tr>
+      <td>-z</td>
+      <td>nc -z</td>
+      <td>192.168.1.9 1-100	Port scan for a host or IP address</td>
+    </tr>
+    <tr>
+      <td>-v</td>
+      <td>nc -zv</td>
+      <td>192.168.1.9 1-100	Provide verbose output</td>
+    </tr>
+    <tr>
+      <td>-n</td>
+      <td>nc -zn</td>
+      <td>192.168.1.9 1-100	Fast scan by disabling DNS resolution</td>
+    </tr>
+    <tr>
+      <td>-l</td>
+      <td>nc -lp</td>
+      <td>8000	TCP Listen mode (for inbound connects)</td>
+    </tr>
+    <tr>
+      <td>-w</td>
+      <td>nc -w</td>
+      <td>180 192.168.1.9 8000	Define timeout value</td>
+    </tr>
+    <tr>
+      <td>-k</td>
+      <td>nc -kl</td>
+      <td>8000	Continue listening after disconnection</td>
+    </tr>
+    <tr>
+      <td>-u</td>
+      <td>nc -u</td>
+      <td>192.168.1.9 8000	Use UDP instead of TCP</td>
+    </tr>
+    <tr>
+      <td>-q</td>
+      <td>nc -q</td>
+      <td>192.168.1.9 8000	Client stay up after EOF</td>
+    </tr>
+    <tr>
+      <td>-4</td>
+      <td>nc -4</td>
+      <td>8000	IPv4 only</td>
+    </tr>
+    <tr>
+      <td>-6</td>
+      <td>nc -6</td>
+      <td>8000	IPv6 only</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="a-client-server-chat">a. Client-server chat</h3>
+<p>Server (192.168.1.9)</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-lv</span> 8000
+</code></pre></div></div>
+
+<p>Client</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc 192.168.1.9 8000
+</code></pre></div></div>
+
+<h3 id="b-banner-grabbing">b. Banner grabbing</h3>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc website.com 80
+<span class="go">GET index.html HTTP/1.1
+HEAD / HTTP/1.1
+
+or
+
+echo "" | nc -zv -wl 192.168.1.1 801-805
+</span></code></pre></div></div>
+
+<h3 id="c-port-scanning">c. Port scanning</h3>
+
+<p>Scan ports between 21 to 25</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-zvn</span> 192.168.1.1 21-25
+</code></pre></div></div>
+<p>Scan ports 22, 3306 and 8080</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-zvn</span> 192.168.1.1 22 3306 8080
+</code></pre></div></div>
+
+<h3 id="d-proxy-and-port-forwarding">d. Proxy and port forwarding</h3>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-lp</span> 8001 <span class="nt">-c</span> <span class="s2">"nc 127.0.0.1 8000"</span>
+<span class="go">
+or
+
+</span><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-l</span> 8001 | nc 127.0.0.1 8000
+</code></pre></div></div>
+
+<p><strong>Note:</strong> Create a tunnel from one local port to another local port.</p>
+
+<h3 id="e-download-file">e. Download file</h3>
+<p>Server (192.168.1.9)</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-lv</span> 8000 &lt; file.txt
+</code></pre></div></div>
+
+<p>Client</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-nv</span> 192.168.1.9 8000 <span class="o">&gt;</span> file.txt
+</code></pre></div></div>
+<p><strong>Note:</strong> Suppose you want to transfer a file “file.txt” from server A to client B.</p>
+
+<h3 id="f-upload-files">f. Upload files</h3>
+<p>Server (192.168.1.9)</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-lv</span> 8000 <span class="o">&gt;</span> file.txt
+</code></pre></div></div>
+
+<p>Client</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc 192.168.1.9 8000 &lt; file.txt
+</code></pre></div></div>
+
+<p><strong>Note:</strong> Suppose you want to transfer a file “file.txt” from client B to server A.</p>
+
+<h3 id="g-transfer-directory">g. Transfer Directory</h3>
+<p>Server (192.168.1.9)</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">tar</span> <span class="nt">-cvf</span> – dir_name | nc <span class="nt">-l</span> 8000
+</code></pre></div></div>
+
+<p>Client</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-n</span> 192.168.1.9 8000 | <span class="nb">tar</span> <span class="nt">-xvf</span> -
+</code></pre></div></div>
+
+<p><strong>Note:</strong> Suppose you want to transfer a directory over a network from A to B.</p>
+
+<h3 id="h-encrypt-transfer">h. Encrypt transfer</h3>
+<p>Server (192.168.1.9)</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-l</span> 8000 | openssl enc <span class="nt">-d</span> <span class="nt">-des3</span> <span class="nt">-pass</span> pass:password <span class="o">&gt;</span> file.txt
+</code></pre></div></div>
+
+<p>Client</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>openssl enc <span class="nt">-des3</span> <span class="nt">-pass</span> pass:password | nc 192.168.1.9 8000
+</code></pre></div></div>
+
+<p><strong>Note:</strong> Encrypt data before transferring over the network.</p>
+
+<h3 id="i-clones">i. Clones</h3>
+<p>Server (192.168.1.9)</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">dd </span><span class="k">if</span><span class="o">=</span>/dev/sda | nc <span class="nt">-l</span> 8000
+</code></pre></div></div>
+
+<p>Client</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-n</span> 192.168.1.9 8000 | <span class="nb">dd </span><span class="nv">of</span><span class="o">=</span>/dev/sda
+</code></pre></div></div>
+
+<p><strong>Note:</strong> Cloning a Linux PC is very easy. Let’s say your system disk is <code class="language-plaintext highlighter-rouge">/dev/sda</code>.</p>
+
+<h3 id="j-video-streaming">j. Video streaming</h3>
+<p>Server (192.168.1.9)</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">cat </span>video.avi | nc <span class="nt">-l</span> 8000
+</code></pre></div></div>
+
+<p>Client</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc 192.168.1.9 8000 | mplayer <span class="nt">-vo</span> x11 <span class="nt">-cache</span> 3000 -
+</code></pre></div></div>
+
+<p><strong>Note:</strong> Streaming video with netcat</p>
+
+<h3 id="k-remote-shell">k. Remote shell</h3>
+<p>Server (192.168.1.9)</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-lv</span> 8000 <span class="nt">-e</span> /bin/bash
+</code></pre></div></div>
+
+<p>Client</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc 192.168.1.9 8000
+</code></pre></div></div>
+
+<p><strong>Note:</strong> We have used remote shell using telnet and ssh but what if both are not installed and we don’t have permission to install them then we can create remote shell using netcat also.</p>
+
+<h3 id="l-reverse-shell">l. Reverse shell</h3>
+<p>Server (192.168.1.9)</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc <span class="nt">-lv</span> 8000
+</code></pre></div></div>
+
+<p>Client</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>nc 192.168.1.9 8000 <span class="nt">-v</span> <span class="nt">-e</span> /bin/bash
+</code></pre></div></div>
+
+<p><strong>Note:</strong> Reverse shells are often used to bypass firewall restrictions such as blocked incoming connections</p>
+
+<p>Netcat or nc, is a highly adaptable utility with a wide range of applications. This guide has illustrated how to use it through various examples, showing its capacity to establish connections, transfer data, and serve as an easy-to-use yet powerful networking tool.</p>
+
+<p>For network enthusiasts and administrators, it is an excellent resource for debugging, port scanning, and connection establishment. It is an essential part of any networking toolkit due to its simple syntax and extensive functionality. Users can leverage the capabilities of netcat to enhance their network-related tasks and troubleshooting efforts by using the knowledge they gain from this guide.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#unixshell" class="page__taxonomy-item" rel="tag">UnixShell</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-10T12:55:21+03:00">May 10, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=OpenBSD+Netcat+-+nc+Command+with+Examples%20https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fnetcat-nc-openbsd-example%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fnetcat-nc-openbsd-example%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fnetcat-nc-openbsd-example%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/send-google-gmail-with-msmtp-freebsd/" class="pagination--pager" title="Send Google Gmail Email with msmtp and FreeBSD
+">Previous</a>
+    
+    
+      <a href="/openbsd/static-dynamic-ip-address-openbsd/" class="pagination--pager" title="Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/openbsd/netcat-nc-openbsd-example/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/openbsd/netcat-nc-openbsd-example"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

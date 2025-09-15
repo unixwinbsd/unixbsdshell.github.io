@@ -1,0 +1,1079 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Running Linux with Bitcoin Full Node - Installation and Configuration - UnixBSDShell</title>
+<meta name="description" content="A full node is a program that fully validates transactions and blocks. Almost all full nodes also contribute to the network by receiving transactions and blocks from other full nodes, validating them, and then forwarding them to other full nodes.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Running Linux with Bitcoin Full Node - Installation and Configuration">
+<meta property="og:url" content="https://unixwinbsd.site/linux/linux-bitcoin-full-node-installation/">
+
+
+  <meta property="og:description" content="A full node is a program that fully validates transactions and blocks. Almost all full nodes also contribute to the network by receiving transactions and blocks from other full nodes, validating them, and then forwarding them to other full nodes.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Running Linux with Bitcoin Full Node - Installation and Configuration">
+  <meta name="twitter:description" content="A full node is a program that fully validates transactions and blocks. Almost all full nodes also contribute to the network by receiving transactions and blocks from other full nodes, validating them, and then forwarding them to other full nodes.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/linux/linux-bitcoin-full-node-installation/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-08-08T15:21:15+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/linux/linux-bitcoin-full-node-installation/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#linux" itemprop="item"><span itemprop="name">Linux</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Running Linux with Bitcoin Full Node - Installation and Configuration</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Running Linux with Bitcoin Full Node - Installation and Configuration">
+    <meta itemprop="description" content="A full node is a program that fully validates transactions and blocks. Almost all full nodes also contribute to the network by receiving transactions and blocks from other full nodes, validating them, and then forwarding them to other full nodes.">
+    <meta itemprop="datePublished" content="2025-08-08T15:21:15+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Running Linux with Bitcoin Full Node - Installation and Configuration
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-storage-space">1. Storage Space</a></li>
+  <li><a href="#2-ip-address">2. IP Address</a></li>
+  <li><a href="#3-tor-hidden-service">3. Tor Hidden Service</a></li>
+  <li><a href="#4-create-a-user-who-can-access-the-bitcoin-server">4. Create a User Who Can Access the Bitcoin Server</a></li>
+  <li><a href="#5-bitcoin-full-node-installation-process">5. Bitcoin Full Node Installation Process</a></li>
+  <li><a href="#6-ubuntu-upstart">6. Ubuntu Upstart</a></li>
+  <li><a href="#7-monitoring">7. Monitoring</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Bitcoin Full Node has been upgraded to the latest Bitcoin Core V0.25, along with bitcoin-qt, bitcoin-cli, and bitcoin-wallet, on Ubuntu 24.04. This version also includes the latest Ordinal installed, a numbering scheme for satoshis that allows tracking and transferring individual satoshis. For more information, please visit <a href="https://docs.ordinals.com/overview.html">the Ordinal documentation</a>.</p>
+
+<p>A full node is a program that fully validates transactions and blocks. Almost all full nodes also contribute to the network by receiving transactions and blocks from other full nodes, validating them, and then forwarding them to other full nodes.</p>
+
+<p>Most full nodes also serve light clients by allowing them to submit their transactions to the network and notifying them when transactions affect their wallets. If there aren’t enough nodes performing these functions, clients won’t be able to connect through the peer-to-peer network and will have to use centralized services instead.</p>
+
+<p>Many people and organizations have volunteered to run Bitcoin Full Nodes using their spare computing resources and bandwidth, but more volunteers are needed for Bitcoin to continue growing. This document explains how you can help and how much it will cost you to do so.</p>
+
+<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/A%20full%20node%20is%20a%20program%20that%20validates%20transactions.jpg" alt="A full node is a program that validates transactions" /></p>
+
+<p>Bitcoin full nodes are accessible via IPv4, IPv6, and as a hidden service over the Tor network. In this article, we’ll install what’s known as a Bitcoin full node.</p>
+
+<h2 id="1-storage-space">1. Storage Space</h2>
+<p>The Bitcoin blockchain is enormous and continues to grow. This is because every Bitcoin mined and every transaction ever made is recorded in the blockchain. As of April 2015, the blockchain was 32 gigabytes in size. Together with the index and other data, a single full node occupies approximately 42 gigabytes of disk space on the server.</p>
+
+<p>You can track the blockchain’s growth over time on the Bitcoin Blockchain Size website. To check the available disk space on your server, which will house the Bitcoin database.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ df -h /var/lib
+Filesystem                   Size  Used Avail Use% Mounted on
+/dev/mapper/server--vg-root  456G  102G  331G  24% /
+</code></pre></div></div>
+<p>You can check the disk space used by running nodes with the following command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ sudo du -hs /var/lib/bitcoind/*|sort -h
+0       /var/lib/bitcoind/db.log
+20K     /var/lib/bitcoind/fee_estimates.dat
+84K     /var/lib/bitcoind/wallet.dat
+212K    /var/lib/bitcoind/debug.log
+952K    /var/lib/bitcoind/peers.dat
+732M    /var/lib/bitcoind/chainstate
+41G     /var/lib/bitcoind/blocks
+</code></pre></div></div>
+
+<h2 id="2-ip-address">2. IP Address</h2>
+
+<p>This guide assumes that we allocate the following IP addresses for the Bitcoin daemon we will be running.</p>
+<ul>
+  <li>2001:db8::39 is the global public IPv6 address.</li>
+  <li>192.0.2.39 is the local private IPv4 address (port forwarded from the public IPv4 address).</li>
+  <li>36.90.10.34 is the dynamic public Internet address provided by your internet provider.</li>
+</ul>
+
+<p>Once we know the IP address, it’s time to determine the IP on the server that will be used.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ sudo ip addr add 192.0.2.39/24 dev eth0
+runtu@runtu-desktop:~$ sudo ip addr add 2001:db8::39/64 dev eth0
+</code></pre></div></div>
+<p>Don’t forget to also add it to the /etc/network/interfaces file to keep it static even if the system is restarted.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># btc.example.net
+iface eth0 inet static
+    address 192.0.2.39/24
+iface eth0 inet6 static
+address 2001:db8::39/64
+</code></pre></div></div>
+<p>In your DNS server settings, add the IP4 and IP6 addresses for the Bitcoin server.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Content</th>
+      <th>Priority</th>
+      <th>TTL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BTC</td>
+      <td>A</td>
+      <td>198.51.100.240</td>
+      <td> </td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <td>BTC</td>
+      <td>AAAA</td>
+      <td>2001:db8::39</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Please note that the Bitcoin daemon listens for incoming connections on TCP ports 8333 and 18333. Therefore, you must forward these ports to Bitcoin.</p>
+
+<p>IPv4 NAT port forwarding (private).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Protocol</th>
+      <th>Port No.</th>
+      <th>Forward To</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TCP</td>
+      <td>8333</td>
+      <td>192.0.2.39</td>
+      <td>Bitcoin network</td>
+    </tr>
+    <tr>
+      <td>8333</td>
+      <td>18333</td>
+      <td>192.0.2.39</td>
+      <td>Bitcoin TEST Network</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Izinkan juga koneksi untuk IP6</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Protocol</th>
+      <th>Port No.</th>
+      <th>Destination</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TCP</td>
+      <td>8333</td>
+      <td>2001:db8::39</td>
+      <td>Bitcoin Network</td>
+    </tr>
+    <tr>
+      <td>TCP</td>
+      <td>18333</td>
+      <td>2001:db8::39</td>
+      <td>Bitcoin Test Network</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="3-tor-hidden-service">3. Tor Hidden Service</h2>
+<p>To enhance the security of a Bitcoin full node, enable <code class="language-plaintext highlighter-rouge">TOR</code>, which anonymizes your network. To do this, edit <code class="language-plaintext highlighter-rouge">/etc/tor/torrc</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># BitCoin Full Node Hidden Service for btc.example.net
+HiddenServiceDir /var/lib/tor/hidden_services/bitcoin
+HiddenServicePort 8333
+HiddenServicePort 18333
+</code></pre></div></div>
+<p>Restart the TOR application that you activated above.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ sudo service tor reload
+</code></pre></div></div>
+<p>You can see the TOR host name (.onion) that you created above with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ sudo cat /var/lib/tor/hidden_services/bitcoin/hostname
+duskgytldkxiuqc6.onion
+</code></pre></div></div>
+
+<h2 id="4-create-a-user-who-can-access-the-bitcoin-server">4. Create a User Who Can Access the Bitcoin Server</h2>
+<p>For security reasons, it’s recommended that you run the Bitcoin daemon with a non-privileged user profile. Create a user that can access the Bitcoin daemon on your Ubuntu server system with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ sudo adduser --system --group --home /var/lib/bitcoind bitcoin
+</code></pre></div></div>
+
+<h2 id="5-bitcoin-full-node-installation-process">5. Bitcoin Full Node Installation Process</h2>
+<p>Almost all Linux systems, even BSD, don’t have the Bitcoin package available by default in their repositories. To install Bitcoin, you must first install the Bitcoin package on your Linux/Ubuntu system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ sudo apt-add-repository ppa:bitcoin/bitcoin
+runtu@runtu-desktop:~$ sudo apt-get update
+runtu@runtu-desktop:~$ sudo apt-get install bitcoind
+</code></pre></div></div>
+<p>After the Bitcoin installation process is complete, create an empty configuration directory and configuration file, then assign access rights to these files.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ sudo mkdir /etc//bitcoin
+runtu@runtu-desktop:~$ sudo touch /etc/bitcoin/bitcoin.conf
+runtu@runtu-desktop:~$ sudo chmod 600 /etc/bitcoin/bitcoin.conf
+</code></pre></div></div>
+<p>We need a password for remote procedure calls to the Bitcoin daemon. You must create this password manually by opening the <code class="language-plaintext highlighter-rouge">"/etc/bitcoin/bitcoin.conf"</code> file and adding the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpcuser=bitcoinuser
+rpcpassword=bitcoinpassword
+</code></pre></div></div>
+<p>Below we provide a complete example of the <code class="language-plaintext highlighter-rouge">"/etc/bitcoin/bitcoin.conf"</code> file script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Bitcoind Daemon Configuration
+#
+
+# General options
+datadir=/var/lib/bitcoind
+alertnotify=echo %s | mail -s "Bitcoin Alert" root
+
+# Connection options
+bind=192.0.2.39
+bind=[2001:db8::39]
+externalip=btc.example.net
+
+# Tor Hidden Service Options
+onion=127.0.0.1:9150
+bind=127.0.0.1
+externalip=duskgytldkxiuqc6.onion
+
+# Long running Bitcoin Nodes on the Tor Network
+# http://nodes.bitcoin.st/tor/
+addnode=pqosrh6wfaucet32.onion
+addnode=btc4xysqsf3mmab4.onion
+addnode=gb5ypqt63du3wfhn.onion
+addnode=3lxko7l4245bxhex.onion
+
+# Verified Online Bitcoin nodes on the Tor Network from 
+# https://rossbennetts.com/2015/04/running-bitcoind-via-tor/
+addnode=kjy2eqzk4zwi5zd3.onion
+addnode=it2pj4f7657g3rhi.onion
+
+# Verified Online Bitcoin nodes on the Tor Network from 
+# https://en.bitcoin.it/wiki/Fallback_Nodes#Tor_nodes
+addnode=hhiv5pnxenvbf4am.onion
+addnode=bpdlwholl7rnkrkw.onion
+addnode=vso3r6cmjoomhhgg.onion
+addnode=kjy2eqzk4zwi5zd3.onion
+
+# Verified Online Bitcoin nodes on the Tor Network from 
+# https://sky-ip.org
+addnode=h2vlpudzphzqxutd.onion
+addnode=xyp7oeeoptq7jllb.onion
+
+# RPC server options
+rpcuser=bitcoinrpc
+rpcpassword=HkFbv9YaWgEgyy7X4B9vi3GsENtGWgPNpwUf2ehsvXX1
+
+# Maintain a full index of historical transaction IDs
+# Required by Electrum Server
+txindex=1
+</code></pre></div></div>
+<p>After that, you give ownership rights to files and folders to the Bitcoin daemon.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ sudo chown -R bitcoin:bitcoin /etc/bitcoin
+</code></pre></div></div>
+
+<h2 id="6-ubuntu-upstart">6. Ubuntu Upstart</h2>
+<p>The Bitcoin Project recommends running the daemon as an Upstart service on Ubuntu and setting up an Upstart script for bitcoind. Download and install the Upstart script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ cd downloads
+runtu@runtu-desktop:~$ wget https://raw.githubusercontent.com/bitcoin/bitcoin/0.10/contrib/init/bitcoind.conf
+runtu@runtu-desktop:~$ sudo cp bitcoind.conf /etc/init/
+</code></pre></div></div>
+<p>The final step is to run Bitcoind.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ sudo start bitcoind
+bitcoind start/running, process 17019
+</code></pre></div></div>
+<p>If the message <code class="language-plaintext highlighter-rouge">"bitcoind start/running, process 17019"</code> appears, it means your Bitcoind daemon is running normally.</p>
+
+<h2 id="7-monitoring">7. Monitoring</h2>
+
+<p>Running a Bitcoin daemon wouldn’t be complete without monitoring it. The monitoring process is also useful for checking each running log. These logs allow you to check for any errors on the Bitcoin server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>runtu@runtu-desktop:~$ sudo -u bitcoin multitail /var/lib/bitcoind/debug.log
+</code></pre></div></div>
+<p>To see if your node is known and reachable in the Bitcoin network, check the Bitnodes website.</p>
+
+<p>https://getaddr.bitnodes.io/nodes/192.0.2.39-8333/
+https://getaddr.bitnodes.io/nodes/2001:db8::39-8333/</p>
+
+<p>You can also check your Tor Hidden Service *.onion node by entering its address in the form at the bottom of the page and clicking the “Check Node” button. However, no details will be displayed except for whether the node is accepting connections.</p>
+
+<p>To view transactions processed by your IPv4 node.</p>
+
+<p>https://blockchain.info/ip-address/192.0.2.39</p>
+
+<p>IPv6 and Tor Hidden Service Nodes are not supported by blockchain.info, so full details cannot be displayed.</p>
+
+<p>As mentioned previously, the database that stores the Bitcoin blockchain is very large. However, because it is a publicly available, distributed, peer-to-peer database, it does not need to be backed up by individual nodes. If data is lost on one node, other nodes can also be used, and any node can redownload and reprocess the blockchain at any time.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#anonymous" class="page__taxonomy-item" rel="tag">Anonymous</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#linux" class="page__taxonomy-item" rel="tag">Linux</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-08-08T15:21:15+03:00">August 8, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Running+Linux+with+Bitcoin+Full+Node+-+Installation+and+Configuration%20https%3A%2F%2Funixwinbsd.site%2Flinux%2Flinux-bitcoin-full-node-installation%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Flinux%2Flinux-bitcoin-full-node-installation%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Flinux%2Flinux-bitcoin-full-node-installation%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/install-xmrig-and-cpuminer-crypto-mining-freebsd/" class="pagination--pager" title="FreeBSD How to Install XMRIG and CPUMiner for Crypto Mining
+">Previous</a>
+    
+    
+      <a href="/freebsd/google-indexing-api-with-go-lang-freebsd/" class="pagination--pager" title="Google Indexing API With Go Lang For Submit URLs On FreeBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/linux/linux-bitcoin-full-node-installation/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/linux/linux-bitcoin-full-node-installation"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

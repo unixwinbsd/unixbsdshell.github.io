@@ -1,0 +1,1050 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Creating and Configuring a DNSSEC Root Zone With Bind DNS Server - UnixBSDShell</title>
+<meta name="description" content="Millions of devices communicate with DNS servers every day. Often, users don’t realize that every domain name we retrieve originates from the root zone. The existence of the root zone is crucial, if you remove or delete the root zone, the internet will not function because it will not have access to the DNS server.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Creating and Configuring a DNSSEC Root Zone With Bind DNS Server">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/create-root-dns-zone-bind-freebsd-server/">
+
+
+  <meta property="og:description" content="Millions of devices communicate with DNS servers every day. Often, users don’t realize that every domain name we retrieve originates from the root zone. The existence of the root zone is crucial, if you remove or delete the root zone, the internet will not function because it will not have access to the DNS server.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Creating and Configuring a DNSSEC Root Zone With Bind DNS Server">
+  <meta name="twitter:description" content="Millions of devices communicate with DNS servers every day. Often, users don’t realize that every domain name we retrieve originates from the root zone. The existence of the root zone is crucial, if you remove or delete the root zone, the internet will not function because it will not have access to the DNS server.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/create-root-dns-zone-bind-freebsd-server/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-07-25T15:32:21+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/create-root-dns-zone-bind-freebsd-server/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Creating and Configuring a DNSSEC Root Zone With Bind DNS Server</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Creating and Configuring a DNSSEC Root Zone With Bind DNS Server">
+    <meta itemprop="description" content="Millions of devices communicate with DNS servers every day. Often, users don’t realize that every domain name we retrieve originates from the root zone. The existence of the root zone is crucial, if you remove or delete the root zone, the internet will not function because it will not have access to the DNS server.">
+    <meta itemprop="datePublished" content="2025-07-25T15:32:21+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Creating and Configuring a DNSSEC Root Zone With Bind DNS Server
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#a-what-is-the-root-zone-and-why-is-it-important">A. What is the Root Zone and Why is it Important?</a></li>
+  <li><a href="#b-isc-bind-dns-server-installation-process-on-freebsd">B. ISC Bind DNS Server Installation Process on FreeBSD</a></li>
+  <li><a href="#c-root-zone-setup-with-dnssec">C. Root Zone Setup With DNSSEC</a>
+    <ul>
+      <li><a href="#c1-download-namedroot">c.1. Download named.root</a></li>
+      <li><a href="#c2-enable-dnssec-for-the-root-zone">c.2. Enable DNSSEC for the root zone</a></li>
+      <li><a href="#c3-modify-the-namedconf-file">c.3. Modify the named.conf file</a></li>
+    </ul>
+  </li>
+  <li><a href="#d-create-trust-anchors">D. Create trust-anchors</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Millions of devices communicate with DNS servers every day. Often, users don’t realize that every domain name we retrieve originates from the root zone. The existence of the root zone is crucial, if you remove or delete the root zone, the internet will not function because it will not have access to the DNS server.</p>
+
+<p>As part of your DNS server configuration, it’s also possible to create and configure an internal root zone for a specific environment. When we create one manually, DNS forwarding and DNS Root Hints, which resolve external DNS queries, are automatically disabled. This is how we can prevent external name resolution by using the internal root zone.</p>
+
+<p>The root zone is the starting point for all DNS queries. Understanding its role is crucial when troubleshooting and understanding DNS resolution. Once we create the root zone, it acts as the parent zone for all other zones.</p>
+
+<p>This article explains the steps required to create a local, augmented-signed root zone and DNSSEC. This tutorial requires an understanding of DNS concepts and a basic knowledge of DNSSEC. We’ll use <strong>FreeBSD 14</strong> to configure the root zone with DNSSEC on the BIND DNS Server.</p>
+
+<h2 id="a-what-is-the-root-zone-and-why-is-it-important">A. What is the Root Zone and Why is it Important?</h2>
+
+<p>Domain names are read from right to left, with the rightmost segment representing the most general domain level (TLD) and the leftmost segment representing the most specific domain level. DNS queries follow this same logic. When a query is performed, the DNS resolver starts at the Root Zone, then moves to the Top-Level Domain (TLD), and finally reaches a specific subdomain or host.</p>
+
+<p>Consider this analogy: if <code class="language-plaintext highlighter-rouge">"unixwinbsd.site"</code> represents a property within the broader <code class="language-plaintext highlighter-rouge">".site"</code> domain, then <code class="language-plaintext highlighter-rouge">"linuxfoundation.org"</code> is a property within <code class="language-plaintext highlighter-rouge">".org."</code> Here, the Root Zone functions like Earth—every domain, regardless of its specificity, is ultimately a subdivision of the Root Zone.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/17dns_structure_comparison_diagram.jpg" alt="dns structure comparison diagram" /></p>
+
+<p>For example, when you search for <code class="language-plaintext highlighter-rouge">"facebook.com,"</code> the query starts in the Root Zone, continues through the TLD <code class="language-plaintext highlighter-rouge">"com,"</code> and then reaches the specific subdomain <code class="language-plaintext highlighter-rouge">"facebook."</code> Technically, the Root Zone maintains a list of all TLDs. As discussed in the previous lesson, DNS zones delegate authority and responsibility for a group of domain names to specific organizations. VeriSign, for example, manages the TLD <code class="language-plaintext highlighter-rouge">".com."</code> Meanwhile, the Root Zone itself is managed by IANA (Internet Assigned Numbers Authority) under the auspices of ICANN (Internet Corporation for Assigned Names and Numbers). Think of ICANN as the global governing body that ensures the smooth operation of the internet’s naming infrastructure.
+IANA’s job is to maintain accurate and secure data about every top-level domain. This crucial, central role is similar to managing a global address book.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/15internet_root_zone_management_diagram.jpg" alt="internet root zone management diagram" /></p>
+
+<p><strong>There are several advantages to running a Root Server locally:</strong></p>
+
+<ul>
+  <li>The Root zone contains all TLD name servers and their IP addresses. This allows DNS resolvers to bypass the initial query to the Root Servers and directly query the TLD name servers, saving time.</li>
+  <li>Because the Root zone runs locally, queries for non-existent top-level domain (TLD) names are resolved locally.</li>
+  <li>This also improves resiliency because the Root zone is local and thus does not directly depend on the Root Servers for recursive resolution.</li>
+</ul>
+
+<p><strong>There are several disadvantages to running a Root Server locally:</strong></p>
+
+<ul>
+  <li>If there are updates to the Root zone, those changes will take a little longer to sync to your local Root zone. Although there shouldn’t be much of a noticeable issue.</li>
+  <li>If your local Root zone isn’t updated for any reason and isn’t detected, it will expire after 7 days (as per the Root SOA Expiration). This can cause some DNS resolvers to fail to resolve any queries when the cache expires. However, Technitium DNS Servers will fall back to root hints in such cases.</li>
+</ul>
+
+<p>Considering the pros and cons, it is a good idea to have a Root zone locally for recursive resolvers.</p>
+
+<h2 id="b-isc-bind-dns-server-installation-process-on-freebsd">B. ISC Bind DNS Server Installation Process on FreeBSD</h2>
+
+<p>To use the root zone, you must install a DNS server. You can select one from the available DNS server applications. In this article, we will use the ISC Bind application as the DNS server. To install ISC Bind on <code class="language-plaintext highlighter-rouge">FreeBSD 14</code>, you can use the ports system or the PKG package. Below is an example of installing ISC Bind and its dependencies using the PKG package.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install bind-tools pkgconf gmake autoconf automake libtool libnghttp2 libuv libidn2 lmdb libxml2 libedit libxkbcommon libxslt wayland protobuf
+</code></pre></div></div>
+
+<p>The version of ISC Bind we are using is version <code class="language-plaintext highlighter-rouge">bind918</code>, run the command below to install ISC Bind.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install bind918
+</code></pre></div></div>
+
+<p>After you’ve installed ISC Bind, you’ll need to configure it. This article doesn’t explain how to configure the Bind DNS Server. You can read our previous article, <a href="https://unixwinbsd.site/en/freebsd/2025/02/05/bind-dns-frontend-unbound-backend-freebsd/">Configuring ISC Bind DNS As Frontend and Unbound Backend For Caching and Forwarding</a>  and <a href="https://unixwinbsd.site/en/freebsd/2025/06/06/enable-dnssec-bind-dns-server-freebsd/">How to Enable DNSSEC Bind DNS Server On FreeBSD</a></p>
+
+<h2 id="c-root-zone-setup-with-dnssec">C. Root Zone Setup With DNSSEC</h2>
+
+<p>The root zone is available from ICANN DNS servers via zone transfer (AXFR-over-TCP):</p>
+<ul>
+  <li>xfr.cjr.dns.icann.org (192.0.47.132, 2620:0:2830:202::132)</li>
+  <li>xfr.lax.dns.icann.org (192.0.32.132, 2620: 0: 2d0: 202:: 132)</li>
+</ul>
+
+<p>The following Root Servers also support zone transfers (AXFR-over-TCP):</p>
+<ul>
+  <li>b.root-servers.net (199.9.14.201, 2001:500:200::b)</li>
+  <li>c.root-servers.net (192.33.4.12, 2001:500:2::c)</li>
+  <li>d.root-servers.net (199.7.91.13, 2001: 500: 2d:: d)</li>
+  <li>f.root-servers.net (192.5.5.241, 2001: 500: 2f:: f)</li>
+  <li>g.root-servers.net (192.112.36.4, 2001:500:12::d0d)</li>
+  <li>k.root-servers.net (193.0.14.129, 2001: 7fd:: 1)</li>
+</ul>
+
+<h3 id="c1-download-namedroot">c.1. Download named.root</h3>
+
+<p>You can download any of the root zone sources listed above. Below is the command used to download the root zone.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # mkdir -p /usr/local/etc/namedb/root
+root@ns3:~ # cd /usr/local/etc/namedb/root
+root@ns3:/usr/local/etc/namedb/root #
+</code></pre></div></div>
+
+<p>The above command is used to create a directory for the root zone. After that, you can directly download the root zone.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/namedb/root # dig @xfr.cjr.dns.icann.org . axfr +onesoa | grep -v DNSKEY &gt; named.root
+root@ns3:/usr/local/etc/namedb/root # dig @xfr.lax.dns.icann.org . axfr +onesoa | grep -v DNSKEY &gt; named.root
+
+or
+
+root@ns3:/usr/local/etc/namedb/root # dig @k.root-servers.net . axfr +onesoa | grep -v DNSKEY &gt; named.root
+root@ns3:/usr/local/etc/namedb/root # dig @f.root-servers.net . axfr +onesoa | grep -v DNSKEY &gt; named.root
+</code></pre></div></div>
+
+<p>You can choose any of the example commands above, but pay attention to the <code class="language-plaintext highlighter-rouge">"dot"</code> after org and net. This dot represents the <strong>root zone</strong>. From the example command above, we prefer to use the root server <strong>f.root-servers.net</strong>.</p>
+
+<p>You can check the downloaded root zone with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/namedb/root # named-checkzone . named.root
+</code></pre></div></div>
+
+<h3 id="c2-enable-dnssec-for-the-root-zone">c.2. Enable DNSSEC for the root zone</h3>
+
+<p>We recommend that you enable DNSSEC for the downloaded root zone. Next, we create a new <code class="language-plaintext highlighter-rouge">Zone-Signing-Key (ZSK)</code> and a <code class="language-plaintext highlighter-rouge">Key-Signing-Key (KSK)</code> for the <strong>root zone</strong>. The step you have to do is create a <code class="language-plaintext highlighter-rouge">key</code> directory for the <code class="language-plaintext highlighter-rouge">root zone</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/namedb/root # mkdir -p /usr/local/etc/namedb/keys/root
+root@ns3:/usr/local/etc/namedb/root # cd /usr/local/etc/namedb/keys/root
+root@ns3:/usr/local/etc/namedb/keys/root #
+</code></pre></div></div>
+
+<p>Then you run the command to create the <code class="language-plaintext highlighter-rouge">ZSK and KSK</code> keys.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/namedb/keys/root # dnssec-keygen -K /usr/local/etc/namedb/keys/root/ -a RSASHA256 -b 2048 -n ZONE .
+root@ns3:/usr/local/etc/namedb/keys/root # dnssec-keygen -K /usr/local/etc/namedb/keys/root/ -a RSASHA256 -b 4096 -f KSK  -n ZONE .
+</code></pre></div></div>
+
+<p>Once you have created your <code class="language-plaintext highlighter-rouge">ZSK and KSK</code> keys, copy them into the <code class="language-plaintext highlighter-rouge">named.root</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/ # cat /usr/local/etc/namedb/keys/root/K.+008+*.key &gt;&gt; /usr/local/etc/namedb/root/named.root
+</code></pre></div></div>
+
+<p>Then you run the command below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # dnssec-signzone -o . -t -R -S -K /usr/local/etc/namedb/keys/root/ /usr/local/etc/namedb/root/named.root
+dnssec-signzone: warning: /usr/local/etc/namedb/root/named.root:24860: using RFC1035 TTL semantics
+Verifying the zone using the following algorithms:
+- RSASHA256
+Zone fully signed:
+Algorithm: RSASHA256: KSKs: 1 active, 0 stand-by, 0 revoked
+                      ZSKs: 1 active, 0 stand-by, 0 revoked
+/usr/local/etc/namedb/root/named.root.signed
+Signatures generated:                     2791
+Signatures retained:                         0
+Signatures dropped:                       2788
+Signatures successfully verified:            0
+Signatures unsuccessfully verified:          0
+Signing time in seconds:                 4.911
+Signatures per second:                 568.249
+Runtime in seconds:                      5.701
+root@ns3:~ #
+</code></pre></div></div>
+
+<p>The above command will produce a new file named <code class="language-plaintext highlighter-rouge">"named.root.signed"</code> Check the file with the <code class="language-plaintext highlighter-rouge">"named-checkzone"</code> command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/ # named-checkzone . /usr/local/etc/namedb/root/named.root.signed
+</code></pre></div></div>
+
+<h3 id="c3-modify-the-namedconf-file">c.3. Modify the named.conf file</h3>
+
+<p>Before you edit the file <code class="language-plaintext highlighter-rouge">/usr/local/etc/namedb/named.conf</code>, First delete the default FreeBSD root zone file, namely <code class="language-plaintext highlighter-rouge">"named.root"</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/ # rm -f /usr/local/etc/namedb/named.root
+</code></pre></div></div>
+
+<p>Then you open the file <code class="language-plaintext highlighter-rouge">/usr/local/etc/namedb/named.conf</code>, search script <strong>zone “.” { type hint; file “/usr/local/etc/namedb/named.root”; };</strong>. You must replace this script with the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>zone "." {
+        type master;
+        file "/usr/local/etc/namedb/root/named.root.signed";
+	key-directory "/usr/local/etc/namedb/keys/root";
+        inline-signing yes;
+};
+</code></pre></div></div>
+
+<p>To activate the root zone you have to restart the DNS server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/ # service named restart
+</code></pre></div></div>
+
+<p>This is the time to check the BIND configuration and all zone-files:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/ # named-checkconf -z
+root@ns3:~ # named-checkconf /usr/local/etc/namedb/named.conf
+root@ns3:~ # named-checkzone . /usr/local/etc/namedb/root/named.root.signed
+
+</code></pre></div></div>
+<p>If <code class="language-plaintext highlighter-rouge">named-checkconf</code> and <code class="language-plaintext highlighter-rouge">named-checkzone</code> doesn’t report any errors, it means the root zone you configured is active and usable.</p>
+
+<h2 id="d-create-trust-anchors">D. Create trust-anchors</h2>
+
+<p>A trust anchor is a key that is placed into a validating resolver so that the validator can verify the results for a given request back to a known or trusted public key (the trust anchor). A validating resolver must have at least one trust anchor installed in order to perform DNSSEC validation.</p>
+
+<p>To create trust anchors, you must delete the bind.keys file and recreate it. Before deleting the bind.keys file, check the KSK and DS keys in the root zone. Here’s how to view these keys.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Note:</code> The KSK key you must use to create trust anchors</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/namedb/keys/root # ls -la
+total 37
+drwxr-xr-x  2 root wheel   10 Jul 25 18:35 .
+drwxr-xr-x  4 root wheel    4 Jul 25 14:46 ..
+-rw-r--r--  1 root wheel  584 Jul 25 14:47 K.+008+50040.key
+-rw-------  1 root wheel 1776 Jul 25 14:47 K.+008+50040.private
+-rw-r--r--  1 root wheel  929 Jul 25 14:47 K.+008+53054.key
+-rw-------  1 root wheel 3316 Jul 25 14:47 K.+008+53054.private
+root@ns3:/usr/local/etc/namedb/keys/root #
+</code></pre></div></div>
+
+<p>In the <code class="language-plaintext highlighter-rouge">ls</code> command above, the file <code class="language-plaintext highlighter-rouge">K.+008+53054.key</code> contains the <code class="language-plaintext highlighter-rouge">KSK key</code>. Now let’s look at the contents of the <code class="language-plaintext highlighter-rouge">K.+008+53054.key</code> file script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cat /usr/local/etc/namedb/keys/root/K.+008+53054.key
+; This is a key-signing key, keyid 53054, for .
+; Created: 20250725074726 (Fri Jul 25 14:47:26 2025)
+; Publish: 20250725074726 (Fri Jul 25 14:47:26 2025)
+; Activate: 20250725074726 (Fri Jul 25 14:47:26 2025)
+. IN DNSKEY 257 3 8 AwEAAfoKpuqhYTiRxbDLkbdXwtS4ipRxMUtS9V+8oOp7EDg9aK+rQboj 4ymgsq+QBC2VyET7jkgY9uE37mKYS/s8Hu5vLx8UgS+Xw9mz01vq9stl EXpv7r8uYc6nWH11IRWJTVHnZf9bM9vtJzQ4xPIYWO04CVz4XCK0AlKv ZzLyKWZ/fFwRZMRDrYNht5/MtAzKIixFMAr1s1f9m7IlM7CUlcclfFOZ wYIuxK/TtepbvZuPgdrwt87WuC1bZqvl4t4eRngEoQM420tSQJuLSWjf P1YxQ2ju3Qu/OFSNvpFJJk6O7Rw6RFrnoBcf3gcXlL7ApjY6b2xZkoDV y+Fw78ZxIKA/2scK/uYyyFST/QV06LbBUiJrG+VSbY4m9KQvn9uimdzc wIYapPes7U6NiXZ7Iyrvs7KxnD8R3KIFz1y5vqItRGdtVbXWhz1NaSf3 fbaBDuLJX27Pa8rajncwleym8sdGgaLHitYemgqy1WDrU/PoIpn0YrrU S2Jz4JTo3d5qUjI/zE8GvfhcpkhsclysOWT9/r5vVTqvmghHwkXSpDsM U85l3pHuwVcIg91DsqWCt0VcEVPZCXby7za4/P9jJM/6Ewkpof8y9mpy 5nKTUmOHtTd6GEHlKCmTVdPICK9pCqNIFEvOJspwCxyfJDroW6mRF8C+ 4F8G7cXIfN5fJYnR
+root@ns3:~ #
+</code></pre></div></div>
+
+<p>After that we look at the DS key of the root zone.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Note:</code> The KSK key you must use to generate the <code class="language-plaintext highlighter-rouge">DS key</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # dnssec-dsfromkey /usr/local/etc/namedb/keys/root/K.+008+53054.key
+. IN DS 53054 8 2 9B35E2D6EE36733B5D1506892293A87DE0C28A595D1F3A9A224B9384917A9D5B
+</code></pre></div></div>
+
+<p>Now we start entering the <code class="language-plaintext highlighter-rouge">KSK and DS</code> keys into the <code class="language-plaintext highlighter-rouge">bind.keys</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # rm -f /usr/local/etc/namedb/bind.keys
+root@ns3:~ # touch /usr/local/etc/namedb/bind.keys
+root@ns3:~ # chown -R root:bind /usr/local/etc/namedb/bind.keys
+root@ns3:~ # chmod -R 640 /usr/local/etc/namedb/bind.keys
+</code></pre></div></div>
+
+<p>After that, in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/namedb/bind.keys</code> file, enter the <code class="language-plaintext highlighter-rouge">KSK and DS</code> keys that you generated above. Pay attention to the example of the contents of the script file <strong>/usr/local/etc/namedb/bind.keys</strong> below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>trust-anchors {
+
+. initial-key 257 3 8 "AwEAAfoKpuqhYTiRxbDLkbdXwtS4ipRxMUtS9V+8oOp7EDg9aK+rQboj 4ymgsq+QBC2VyET7jkgY9uE37mKYS/s8Hu5vLx8UgS+Xw9mz01vq9stl EXpv7r8uYc6nWH11IRWJTVHnZf9bM9vtJzQ4xPIYWO04CVz4XCK0AlKv ZzLyKWZ/fFwRZMRDrYNht5/MtAzKIixFMAr1s1f9m7IlM7CUlcclfFOZ wYIuxK/TtepbvZuPgdrwt87WuC1bZqvl4t4eRngEoQM420tSQJuLSWjf P1YxQ2ju3Qu/OFSNvpFJJk6O7Rw6RFrnoBcf3gcXlL7ApjY6b2xZkoDV y+Fw78ZxIKA/2scK/uYyyFST/QV06LbBUiJrG+VSbY4m9KQvn9uimdzc wIYapPes7U6NiXZ7Iyrvs7KxnD8R3KIFz1y5vqItRGdtVbXWhz1NaSf3 fbaBDuLJX27Pa8rajncwleym8sdGgaLHitYemgqy1WDrU/PoIpn0YrrU S2Jz4JTo3d5qUjI/zE8GvfhcpkhsclysOWT9/r5vVTqvmghHwkXSpDsM U85l3pHuwVcIg91DsqWCt0VcEVPZCXby7za4/P9jJM/6Ewkpof8y9mpy 5nKTUmOHtTd6GEHlKCmTVdPICK9pCqNIFEvOJspwCxyfJDroW6mRF8C+ 4F8G7cXIfN5fJYnR";
+
+. initial-ds 53054 8 2 "9B35E2D6EE36733B5D1506892293A87DE0C28A595D1F3A9A224B9384917A9D5B";
+
+};
+</code></pre></div></div>
+
+<p>The dot in <code class="language-plaintext highlighter-rouge">. initial-key</code> and <code class="language-plaintext highlighter-rouge">. initial-ds</code>, means that the zone used is the <code class="language-plaintext highlighter-rouge">root zone</code>.</p>
+
+<p>Restart your DNS server, and you’re done.</p>
+
+<p>You can choose your root zone server as you like; I prefer using the <strong>OPENNIC</strong> root zone server.</p>
+
+<p>DNS root servers are technically nothing special. Apart from their privileged position, they are no different from other authoritative resolvers. If the root server currently in use goes down, simply configure and “promote” another cluster to replace it.</p>
+
+<p>The configuration and “promotion” process is also straightforward, using existing software to load existing data. Therefore, there’s no need to worry about major repercussions from DNS root server outages.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#dnsserver" class="page__taxonomy-item" rel="tag">DNSServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-07-25T15:32:21+03:00">July 25, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Creating+and+Configuring+a+DNSSEC+Root+Zone+With+Bind+DNS+Server%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreate-root-dns-zone-bind-freebsd-server%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreate-root-dns-zone-bind-freebsd-server%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreate-root-dns-zone-bind-freebsd-server%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/openbsd/install-openntpd-synchronize-clock-ntp-server/" class="pagination--pager" title="Install OpenBSD OpenNTPD to synchronize the clock with an NTP server.
+">Previous</a>
+    
+    
+      <a href="/freebsd/implementing-python-modules-unbound-dns-on-freebsd/" class="pagination--pager" title="Implementing Python Modules for Unbound on FreeBSD Servers
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="permalink">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or fram...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="permalink">How to Use Grafana and Prometheus to Monitor OpenBSD Activity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana ...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/create-root-dns-zone-bind-freebsd-server/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/create-root-dns-zone-bind-freebsd-server"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

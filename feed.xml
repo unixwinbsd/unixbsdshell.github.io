@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-16T01:47:04+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">How to Install Webmin on a FreeBSD System</title><link href="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="alternate" type="text/html" title="How to Install Webmin on a FreeBSD System" /><published>2025-09-15T09:35:11+03:00</published><updated>2025-09-15T09:35:11+03:00</updated><id>https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/"><![CDATA[<p>Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source applications, such as the BIND DNS Server, Apache HTTP Server, PHP, MySQL, and many more.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-16T02:35:11+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">How to Install Webmin on a FreeBSD System</title><link href="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="alternate" type="text/html" title="How to Install Webmin on a FreeBSD System" /><published>2025-09-15T09:35:11+03:00</published><updated>2025-09-15T09:35:11+03:00</updated><id>https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/"><![CDATA[<p>Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source applications, such as the BIND DNS Server, Apache HTTP Server, PHP, MySQL, and many more.</p>
 
 <p>In this article we will explain how to install and use Webmin on a FreeBSD 13.2 Stable system. As with other applications, installing Webmin on a FreeBSD system can use Ports and PKG. In this article we will explain how to install Webmin using both. OK, let’s just go ahead and install Webmin.</p>
 
@@ -106,7 +106,188 @@ webmin_enable="YES"
 
 <p>The IP address <code class="language-plaintext highlighter-rouge">192.168.9.3</code> is the FreeBSD system interface IP address and the Webmin port <code class="language-plaintext highlighter-rouge">10000</code> we created earlier, along with the username and password. After logging in with the admin username and password, Webmin will display the dashboard, indicating you have successfully installed Webmin on FreeBSD.</p>
 
-<p>Webmin provides a variety of functions for server administration, including DNS configuration, user and group management, hardware and software, and more. Webmin has a user-friendly and intuitive interface, which makes it very easy to use, even for novice users. It also supports many plugins and modules, which allows you to expand its functionality. With its attractive graphic design, Webmin will make it easier for System Administrators to configure servers.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="SysAdmin" /><summary type="html"><![CDATA[Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide]]></summary></entry><entry xml:lang="en"><title type="html">OpenBSD DHCP - Configuring IPv6 with dhcpcd</title><link href="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="alternate" type="text/html" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd" /><published>2025-08-19T13:01:32+03:00</published><updated>2025-08-19T13:01:32+03:00</updated><id>https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/"><![CDATA[<p>OpenBSD makes great routers. Its simplicity and ease of configuration make it perfect for network infrastructure applications. Everything you need to build a network of any size is already built into the base system, plus the manual pages and examples cover everything you need to know.</p>
+<p>Webmin provides a variety of functions for server administration, including DNS configuration, user and group management, hardware and software, and more. Webmin has a user-friendly and intuitive interface, which makes it very easy to use, even for novice users. It also supports many plugins and modules, which allows you to expand its functionality. With its attractive graphic design, Webmin will make it easier for System Administrators to configure servers.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="SysAdmin" /><summary type="html"><![CDATA[Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide]]></summary></entry><entry xml:lang="en"><title type="html">How to Configure FreeBSD with Radicale CalDAV CardDAV Server</title><link href="https://unixwinbsd.site/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="alternate" type="text/html" title="How to Configure FreeBSD with Radicale CalDAV CardDAV Server" /><published>2025-09-14T09:35:11+03:00</published><updated>2025-09-14T09:35:11+03:00</updated><id>https://unixwinbsd.site/freebsd/configuration-radicale-caldav-cardavv-server-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/"><![CDATA[<p>Radicale is a calendar and contact server designed to support the CalDav and CardDav protocols. Radicale’s configuration is very simple and easy to install, as it does not have a graphical administration interface. This application is written in Python, so it can be used on operating systems such as Linux, BSD, macOS, and Windows.</p>
+
+<p>As a free, open source, simple and powerful CalDAV and CardDAV server, Radicale is a complete solution for storing calendars and contacts on websites. With Radicale you share calendars and contact lists via CalDAV, CardDAV via http or https.</p>
+
+<p>In use, Radicale has very high security features, namely through TLS connection and authentication. Additionally, it works with many CalDAV and CardDAV clients such as gnome calendar, Mozilla thunderbird, DAVx (for android), evolution, etc.</p>
+
+<p>Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or can be integrated with existing web servers such as Nextcloud or Owncloud.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/14_FreeBSD_Radicale_Cover.jpg" alt="freebsd radicale cardav" /></p>
+
+<p>Radicale can be used for your various activities such as:</p>
+
+<ol>
+  <li>Supports events, tasks, journal entries and business cards.</li>
+  <li>Can be run directly, does not require complicated settings or configuration.</li>
+  <li>Can be used by multiple users with authentication.</li>
+  <li>Have file encryption with TLS.</li>
+  <li>Works with multiple CalDAV and CardDAV clients.</li>
+  <li>Stores all data on the file system in a simple folder structure.</li>
+  <li>Expandable with plugins.</li>
+  <li>As free software licensed under GPLv3.</li>
+</ol>
+
+<p>In this article, we will guide you through how to install and configure Radicale on a FreeBSD server.</p>
+
+<h2 id="1-installing-radicale-caldavcarddav-server">1. Installing Radicale CalDAV/CardDAV server</h2>
+
+<p>Before you install Radicale, we recommend installing several dependency packages for the Radicale installation. Because it is written in Python, Python dependencies are required to run Radicale. The following commands are the dependencies that you must install</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install python39 py39-setuptools py39-bcrypt py39-passlib py39-vobject py39-dateutil py39-defusedxml
+</code></pre></div></div>
+
+<p>On FreeBSD servers, by default the Radicale package is available in the PKG and Port package repositories. We install Radicale with the FReeBSD ports system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/www/radicale
+root@ns3:/usr/ports/www/radicale # make install clean
+</code></pre></div></div>
+
+<p>After the installation is complete, you have to run Radicale automatically, namely by adding some scripts to activate Radicale in <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/www/radicale # ee /etc/rc.conf
+radicale_enable="YES"
+radicale_config="/usr/local/etc/radicale/config"
+radicale_user="radicale"
+radicale_group="radicale"
+</code></pre></div></div>
+
+<p>Run Redicale (Restart Radicale)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service radicale restart
+</code></pre></div></div>
+
+<h2 id="2-radicale-configuration">2. Radicale Configuration</h2>
+
+<p>After you have completed the first part, continue by editing the default radicale configuration available in <code class="language-plaintext highlighter-rouge">'/usr/local/etc/radicale</code>. The configuration file called Radicale is called <code class="language-plaintext highlighter-rouge">"config"</code>, open the file and change the script as in the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/etc/radicale
+root@ns3:/usr/local/etc/radicale # ee config
+[server]
+hosts = localhost:5232
+max_connections = 20
+max_content_length = 100000000
+timeout = 30
+
+[encoding]
+request = utf-8
+stock = utf-8
+
+[auth]
+type = http_x_remote_user
+htpasswd_filename = /usr/local/etc/radicale/users
+htpasswd_encryption = md5
+delay = 1
+realm = Radicale - Password Required
+
+[rights]
+type = authenticated
+file = /usr/local/etc/radicale/rights
+
+[storage]
+type = multifilesystem
+filesystem_folder = /usr/local/share/radicale/collections
+max_sync_token_age = 2592000
+
+[web]
+type = internal
+
+[logging]
+level = warning
+mask_passwords = True
+
+[headers]
+Access-Control-Allow-Origin = *
+</code></pre></div></div>
+
+<p>In the above script [auth] we use <code class="language-plaintext highlighter-rouge">"type=htpasswd"</code> to manage users. All Radicale usernames will be stored in the <code class="language-plaintext highlighter-rouge">"users"</code> file, create a users file to hold all the usernames.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # touch /usr/local/etc/radicale/users
+</code></pre></div></div>
+
+<p>After that, you create a username that will access Radicale. Run the following command to add a new user to Radicale.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # htpasswd -B -c /usr/local/etc/radicale/users mary
+</code></pre></div></div>
+
+<p>If you want to add another username, htpasswd is used again but without any additional modifiers.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # htpasswd -B /usr/local/etc/radicale/users charles
+root@ns3:~ # htpasswd -B /usr/local/etc/radicale/users john
+</code></pre></div></div>
+
+<p>Continue by granting ownership rights to a file or directory.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chown -R radicale:radicale /usr/local/etc/radicale
+</code></pre></div></div>
+
+<h2 id="3-setting-up-apache-reverse-proxy">3. Setting up Apache reverse proxy</h2>
+
+<p>In this article we will run Redicale with <code class="language-plaintext highlighter-rouge">"Apache reverse proxy"</code>. You must activate Vhost Apache first by activating the script below in the <code class="language-plaintext highlighter-rouge">httpd.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /usr/local/etc/apache24/httpd.conf
+LoadModule vhost_alias_module libexec/apache24/mod_vhost_alias.so
+LoadModule alias_module libexec/apache24/mod_alias.so
+Include etc/apache24/extra/httpd-vhosts.conf
+</code></pre></div></div>
+
+<p>After that, open the <code class="language-plaintext highlighter-rouge">httpd-vhosts.conf</code> file, and type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /usr/local/etc/apache24/extra/httpd-vhosts.conf
+&lt;VirtualHost *:80&gt;
+        
+    ServerName datainchi.com
+    ServerAdmin datainchi@gmail.com
+
+    ProxyRequests Off
+    &lt;Proxy *&gt;
+        Order deny,allow
+        Allow from all
+    &lt;/Proxy&gt;
+
+    RewriteEngine On
+    RewriteRule ^/radicale$ /radicale/ [R,L]
+
+    &lt;Location "/radicale/"&gt;
+        AuthType     Basic
+        AuthName     "Radicale - Password Required"
+        AuthUserFile "/usr/local/etc/radicale/users"
+        Require      valid-user
+
+        ProxyPass        http://localhost:5232/ retry=0
+        ProxyPassReverse http://localhost:5232/
+        RequestHeader    set X-Script-Name /radicale
+        RequestHeader    set X-Remote-User expr=%{REMOTE_USER}
+    &lt;/Location&gt;
+
+    &lt;Location /&gt;
+        Order allow,deny
+        Allow from all
+    &lt;/Location&gt;
+
+&lt;/VirtualHost&gt;
+</code></pre></div></div>
+
+<p>Run Radicale and Apache24 servers.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service radicale start
+root@ns3:~ # service apache24 start
+</code></pre></div></div>
+
+<h2 id="4-test-radicale">4. Test Radicale</h2>
+
+<p>If you have done all the configurations above and haven’t missed anything, now is the time for us to test the Radicale server. Because Radicale runs on the Apache web server, we use Google Chrome or Modzilla Firefox for testing. In the address bar menu, type <code class="language-plaintext highlighter-rouge">"http://192.168.5.2/radicale"</code>, your monitor screen will appear as shown in the image below.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/14menu_login.jpg" alt="menu login radicale" /></p>
+
+<p>Type in the username and password that you created above. After that it will appear as shown in the image below.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/14CalDAV_CardDAV_Server_collection.jpg" alt="CalDAV CardDAV Server collection" /></p>
+
+<p>You can directly create or upload an <code class="language-plaintext highlighter-rouge">"addressbook or calendar"</code> by clicking on the options displayed by the Radicale server.</p>
+
+<p>Radicale is very light and very easy to configure, for the next stage you can use the Radicale server that you have installed and configured on FreeBSD. You can safely use the CalDAV/CardDAV client from a Windows computer or FreeBSD Desktop.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or can be integrated with existing web servers such as Nextcloud or Owncloud]]></summary></entry><entry xml:lang="en"><title type="html">OpenBSD DHCP - Configuring IPv6 with dhcpcd</title><link href="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="alternate" type="text/html" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd" /><published>2025-08-19T13:01:32+03:00</published><updated>2025-08-19T13:01:32+03:00</updated><id>https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/"><![CDATA[<p>OpenBSD makes great routers. Its simplicity and ease of configuration make it perfect for network infrastructure applications. Everything you need to build a network of any size is already built into the base system, plus the manual pages and examples cover everything you need to know.</p>
 
 <p>I recently built a home router from scratch using <code class="language-plaintext highlighter-rouge">OpenBSD 7</code> without installing any additional packages, using only what came with the OpenBSD OS installation. Initially, before deciding to “build it from scratch,” I had a goal of building a router using open source software to improve my network security. After exploring several popular open source firewall and routing projects (especially pfSense and OPNSense), I ultimately decided to build my own.</p>
 
@@ -1414,754 +1595,4 @@ root@ns7:/usr/local/etc/maven-wrapper/instances.d/jsoup-example # mvn compile &a
 
 <p>You can see all the scripts in this article in full on <a href="https://github.com/unixwinbsd/jsoup-example/tree/main">Github</a>.</p>
 
-<p>This example only shows a small portion of what jsoup can do. JSoup is an excellent choice for web scraping in Java. While this article introduces the library, you can learn more about it in the jsoup documentation. While jsoup is easy to use and efficient, it does have its drawbacks. For example, it can’t execute JavaScript code, which means it can’t be used for scraping dynamic web pages and single-page applications. In those cases, you’ll need to use something like Selenium.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Web scraping is one of the simplest, most effective, efficient, and beneficial ways to extract data from websites. Some websites may contain vast amounts of valuable data. This is where web scraping can help read and analyze the data.]]></summary></entry><entry xml:lang="en"><title type="html">A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD</title><link href="https://unixwinbsd.site/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/" rel="alternate" type="text/html" title="A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD" /><published>2025-08-11T11:01:33+03:00</published><updated>2025-08-11T11:01:33+03:00</updated><id>https://unixwinbsd.site/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/"><![CDATA[<p>The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn’t easy to fully understand how to create an SSL certificate. Therefore, in this article, we will briefly describe the general configuration and processing flow of the system, including two-tier private certificate authorities (Root CA, Signing CA), servers and clients that use the certificates, and then explain how to create the CA. We will also outline the specific steps involved.</p>
-
-<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/17openbsd%20ca%20authority.jpg" alt="openbsd ca authority" /></p>
-
-<p>Although the purposes for which certificates are issued and used by each party differ, the steps leading to certificate issuance are broadly as follows.</p>
-
-<p>The party receiving the certificate:</p>
-<ul>
-  <li>Generate a private key.</li>
-  <li>Create a Certificate Signing Request (CSR) from the private key. (Include the X.509v3 extension if necessary).</li>
-  <li>Submit the CSR to the CA.</li>
-</ul>
-
-<p>The party issuing the certificate:</p>
-<ul>
-  <li>Sign the CSR (the certificate is complete). Include the X.509v3 extensions in the certificate that correspond to the certificate’s purpose. Furthermore, in the case of a Signing CA, if the extensions included in the CSR are not included in the extensions above, copy them into the certificate.</li>
-  <li>Send the certificate to the requester.</li>
-</ul>
-
-<p>CSRs and certificates are exchanged between entities, and as mentioned above, each can include X.509v3 extensions. There are various extensions, but the figure shows an example of an extension that specifies the purpose of the certificate. The section names in the OpenSSL configuration file are shown in the figure, so if you’d like to learn more, please refer to the relevant section of the configuration file.</p>
-
-<h2 id="1-create-a-root-certificate-authority-root-ca">1. Create a root certificate authority (Root CA)</h2>
-<p>First, make sure OpenSSL is installed on your OpenBSD server, check by running the openssl version command to see the OpenSSL version.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~# openssl version
-OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
-</code></pre></div></div>
-
-<p>We’ll place all OpenBSD certificate configuration files in the OpenBSD_ca directory. Create the directories and files we’ll use to configure the certificates.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# mkdir -p /etc/ssl/OpenBSD_CA/root-ca
-ns3# cd /etc/ssl/OpenBSD_CA/root-ca
-ns3# mkdir -p certs crl db newcerts private
-ns3# chmod 700 /etc/ssl/OpenBSD_CA/root-ca/private
-</code></pre></div></div>
-<p>Create a serial file to store subsequent incremental serial numbers. Using random serial numbers, rather than incremental serial numbers, is a recommended security practice.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# touch /etc/ssl/OpenBSD_CA/root-ca/db/index &amp;&amp; touch /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf
-ns3# openssl rand -hex 16 &gt; /etc/ssl/OpenBSD_CA/root-ca/db/serial
-ns3# echo "1001" &gt; /etc/ssl/OpenBSD_CA/root-ca/db/crlnumber
-</code></pre></div></div>
-<p>The OpenSSL configuration for the root certificate authority is in the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf</code> file.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># OpenBSD root-ca.cnf --- unixwinbsd.site
-
-HOME			= .
-RANDFILE		= $ENV::HOME/.rnd
-#oid_file		= $ENV::HOME/.oid
-oid_section		= new_oids
-
-[ new_oids ]
-tsa_policy1 = 1.2.3.4.1
-tsa_policy2 = 1.2.3.4.5.6
-tsa_policy3 = 1.2.3.4.5.7
-
-[ default ]
-name		= root-ca
-
-[ ca ]
-default_ca	= CA_default	
-
-[ CA_default ]
-dir		= /etc/ssl/OpenBSD_CA/root-ca	
-certs		= $dir/certs	
-crl_dir		= $dir/crl	
-database	= $dir/db/index	
-unique_subject	= no		
-new_certs_dir	= $dir/newcerts
-revoked		= $dir/newcerts/$name.pem
-certificate	= $dir/certs/$name.crt
-serial		= $dir/db/serial
-crlnumber	= $dir/db/crlnumber
-crl		= $dir/crl/$name.crl	
-private_key	= $dir/private/$name.key
-RANDFILE	= $dir/private/.rnd
-x509_extensions	= usr_cert		
-name_opt 	= ca_default
-cert_opt 	= ca_default
-copy_extensions = none
-crl_extensions	= crl_ext
-default_days	= 3650	
-default_crl_days = 365	
-default_bits	= 2048
-default_md	= sha256
-preserve	= no	
-policy		= policy_match
-
-[ policy_match ]
-countryName		= match
-stateOrProvinceName	= match
-organizationName	= match
-organizationalUnitName	= optional
-commonName		= supplied
-emailAddress		= optional
-
-[ policy_anything ]
-countryName		= optional
-stateOrProvinceName	= optional
-localityName		= optional
-organizationName	= optional
-organizationalUnitName	= optional
-commonName		= supplied
-emailAddress		= optional
-
-[ req ]
-default_bits		= 2048
-default_keyfile 	= privkey.pem
-default_md		= sha256
-distinguished_name	= req_distinguished_name
-attributes		= req_attributes
-x509_extensions	= v3_ca	# The extentions to add to the self signed cert
-string_mask = utf8only
-req_extensions = v3_req # The extensions to add to a certificate request
-
-[ req_distinguished_name ]
-countryName			= Country Name (2 letter code)
-countryName_default		= US
-countryName_min			= 2
-countryName_max			= 2
-
-stateOrProvinceName		= State or Province Name (full name)
-stateOrProvinceName_default	= Texas
-
-localityName			= Locality Name (eg, city)
-localityName_default		= Austin
-
-0.organizationName		= Organization Name (eg, company)
-0.organizationName_default	= Internet Widgits Pty Ltd
-
-# we can do this but it is not needed normally :-)
-#1.organizationName		= Second Organization Name (eg, company)
-#1.organizationName_default	= World Wide Web Pty Ltd
-
-organizationalUnitName		= Organizational Unit Name (eg, section)
-organizationalUnitName_default	= Networking
-
-commonName			= Common Name (e.g. server FQDN or YOUR name)
-commonName_max			= 64
-commonName_default		= unixwinbsd.site
-
-emailAddress			= Email Address
-emailAddress_max		= 64
-emailAddress_default		= unixwinbsd@gmail.com
-
-[ req_attributes ]
-challengePassword		= A challenge password
-challengePassword_min		= 4
-challengePassword_max		= 20
-unstructuredName		= An optional company name
-
-[ usr_cert ]
-
-basicConstraints=CA:FALSE
-nsComment			= "OpenBSD Generated Certificate"
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
-
-[ v3_req ]
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-
-[ v3_ca ]
-
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid:always,issuer
-basicConstraints = critical,CA:true
-keyUsage = critical,cRLSign, keyCertSign
-nsCertType = sslCA, emailCA
-
-[ v3_sub_ca ]
-authorityKeyIdentifier	= keyid:always,issuer
-basicConstraints	= critical,CA:true,pathlen:0
-extendedKeyUsage	= clientAuth,serverAuth
-keyUsage		= critical,keyCertSign,cRLSign
-subjectKeyIdentifier	= hash
-
-[ name_constraints ]
-permitted;DNS.0	= example.org
-permitted;DNS.1	= example.com
-excluded;IP.0	= 0.0.0.0/0.0.0.0
-excluded;IP.1	= 0:0:0:0:0:0:0:0/0:0:0:0:0:0:0:0
-
-[ crl_ext ]
-authorityKeyIdentifier=keyid:always
-
-[ proxy_cert_ext ]
-basicConstraints=CA:FALSE
-nsComment			= "OpenBSD OpenSSL Generated Certificate"
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
-proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
-
-[ tsa ]
-default_tsa = tsa_config1	
-
-[ tsa_config1 ]
-dir		= ./demoCA		
-serial		= $dir/tsaserial	
-crypto_device	= builtin		
-signer_cert	= $dir/tsacert.pem 	
-certs		= $dir/cacert.pem	
-signer_key	= $dir/private/tsakey.pem
-default_policy	= tsa_policy1		
-other_policies	= tsa_policy2, tsa_policy3	
-digests		= md5, sha1		
-accuracy	= secs:1, millisecs:500, microsecs:100
-clock_precision_digits  = 0	
-ordering		= yes	
-tsa_name		= yes	
-ess_cert_id_chain	= no
-</code></pre></div></div>
-
-<h3 id="a-generate-a-new-csr-and-key">a. Generate a new CSR and Key</h3>
-
-<p>The following command generates a new password-protected EC or RSA key and a certificate signing request for the root.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cd /etc/ssl/OpenBSD_CA/root-ca
-ns3# openssl ecparam -name secp384r1 -genkey | openssl ec -out /etc/ssl/OpenBSD_CA/root-ca/private/root-ca.key -aes256
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl req -new \
-        -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \
-        -key /etc/ssl/OpenBSD_CA/root-ca/private/root-ca.key \
-        -out /etc/ssl/OpenBSD_CA/root-ca/root-ca.csr \
-        -sha512
-</code></pre></div></div>
-
-<h3 id="b-self-signing-the-root-certificate">b. Self-Signing the Root Certificate</h3>
-
-<p>If everything looks good, self-sign your request.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca \
-        -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \
-        -in /etc/ssl/OpenBSD_CA/root-ca/root-ca.csr \
-        -out /etc/ssl/OpenBSD_CA/root-ca/certs/root-ca.crt \
-        -md sha512 -selfsign -extensions v3_ca
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl x509 -in /etc/ssl/OpenBSD_CA/root-ca/certs/root-ca.crt -out /etc/ssl/OpenBSD_CA/root-ca/certs/root-ca.notext
-</code></pre></div></div>
-
-<h3 id="c-creating-a-certificate-revocation-list">c. Creating a Certificate Revocation List</h3>
-
-<p>Root CAs publish Certificate Revocation Lists periodically or when a certificate is revoked. Root CAs are expected to only issue revocations of self-signed or Intermediate CA certificates. No revocations have occurred yet, but clients and servers verifying one of our certificates will request the latest CRL for the web address published in the certificate.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca -gencrl -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf -out /etc/ssl/OpenBSD_CA/root-ca/crl/root-ca.crl
-</code></pre></div></div>
-<p>To create a certificate revocation list, navigate to the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/root-ca/db directory</code>. Find the index file and open the script’s contents.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cat /etc/ssl/OpenBSD_CA/root-ca/db/index
-V       340530094721Z           E4929714F26C79914F27932A76173963        unknown /C=US/ST=Texas/O=Internet Widgits Pty Ltd/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
-</code></pre></div></div>
-<p>Next, navigate to the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/root-ca/newcerts</code> directory. Within that directory, you’ll find the file <code class="language-plaintext highlighter-rouge">"E4929714F26C79914F27932A76173963.pem"</code>. Then, run the revoke command with the target file <code class="language-plaintext highlighter-rouge">"E4929714F26C79914F27932A76173963.pem"</code>.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca \
-        -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \
-        -revoke /etc/ssl/OpenBSD_CA/root-ca/newcerts/9B9ECA2E94B2ADA9668785CD951C451E.pem \
-        -crl_reason keyCompromise
-</code></pre></div></div>
-<p>Now take a look at the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/root-ca/db/index</code> script.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cat /etc/ssl/OpenBSD_CA/root-ca/db/index
-R	340530094721Z	240601102047Z,keyCompromise	E4929714F26C79914F27932A76173963	unknown	/C=US/ST=Texas/O=Internet Widgits Pty Ltd/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
-</code></pre></div></div>
-
-<h2 id="2-create-a-signing-certificate-authority-ca">2. Create a Signing Certificate Authority (CA)</h2>
-
-<p>Certificate authorities use a specific directory structure to secure keys, signed certificates, signing requests, and revocation lists. To setup a Signing CA, run the command below, which will generate the Signing CA’s private key.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# mkdir -p /etc/ssl/OpenBSD_CA/signing-ca
-ns3# cd /etc/ssl/OpenBSD_CA/signing-ca
-ns3# mkdir -p certs crl db newcerts private
-ns3# chmod 700 /etc/ssl/OpenBSD_CA/signing-ca/private
-</code></pre></div></div>
-<p>Several data files are required to track issued certificates, their serial numbers, and revocations.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# touch /etc/ssl/OpenBSD_CA/signing-ca/db/index &amp;&amp; touch /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf
-ns3# openssl rand -hex 16 &gt; /etc/ssl/OpenBSD_CA/signing-ca/db/serial
-ns3# echo "1001" &gt; /etc/ssl/OpenBSD_CA/signing-ca/db/crlnumber
-</code></pre></div></div>
-<p>The configuration for the signing certificate authority (Signing CA) is in the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf</code> file.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># OpenBSD signing-ca.cnf --- unixwinbsd.site
-HOME			= .
-RANDFILE		= $ENV::HOME/.rnd
-oid_section		= new_oids
-
-[ new_oids ]
-tsa_policy1 = 1.2.3.4.1
-tsa_policy2 = 1.2.3.4.5.6
-tsa_policy3 = 1.2.3.4.5.7
-
-[ default ]
-name		= signing-ca
-
-[ ca ]
-default_ca	= CA_default
-
-[ CA_default ]
-dir		= /etc/ssl/OpenBSD_CA/signing-ca		
-certs		= $dir/certs	
-crl_dir		= $dir/crl	
-database	= $dir/db/index	
-unique_subject	= no		
-new_certs_dir	= $dir/newcerts	
-certificate	= $dir/certs/$name.crt
-serial		= $dir/db/serial
-crlnumber	= $dir/db/crlnumber	
-crl		= $dir/crl/$name.crl	
-private_key	= $dir/private/$name.key
-RANDFILE	= $dir/private/.rand	
-x509_extensions	= usr_cert		
-name_opt 	= ca_default		
-cert_opt 	= ca_default		
-copy_extensions = copy
-crl_extensions	= crl_ext
-default_days	= 365			
-default_crl_days = 30			
-default_bits	= 2048
-default_md	= sha256		
-preserve	= no			
-policy		= policy_match
-
-[ policy_match ]
-countryName		= match
-stateOrProvinceName	= match
-organizationName	= match
-organizationalUnitName	= optional
-commonName		= supplied
-emailAddress		= optional
-
-[ policy_anything ]
-countryName		= optional
-stateOrProvinceName	= optional
-localityName		= optional
-organizationName	= optional
-organizationalUnitName	= optional
-commonName		= supplied
-emailAddress		= optional
-
-[ req ]
-default_bits		= 2048
-default_keyfile 	= privkey.pem
-default_md		= sha256
-distinguished_name	= req_distinguished_name
-attributes		= req_attributes
-x509_extensions	= v3_ca
-string_mask = utf8only
-req_extensions = v3_req
-
-[ req_distinguished_name ]
-countryName			= Country Name (2 letter code)
-countryName_default		= US
-countryName_min			= 2
-countryName_max			= 2
-
-stateOrProvinceName		= State or Province Name (full name)
-stateOrProvinceName_default	= Texas
-
-localityName			= Locality Name (eg, city)
-localityName_default		= Austin
-
-0.organizationName		= Organization Name (eg, company)
-0.organizationName_default	= Internet Widgits Pty Ltd
-
-# we can do this but it is not needed normally :-)
-#1.organizationName		= Second Organization Name (eg, company)
-#1.organizationName_default	= World Wide Web Pty Ltd
-
-organizationalUnitName		= Organizational Unit Name (eg, section)
-organizationalUnitName_default	= Education
-
-commonName			= Common Name (e.g. server FQDN or YOUR name)
-commonName_max			= 64
-commonName_default		= unixwinbsd.site
-
-emailAddress			= Email Address
-emailAddress_max		= 64
-emailAddress_default		= unixwinbsd@gmail.com
-
-[ req_attributes ]
-challengePassword		= A challenge password
-challengePassword_min		= 4
-challengePassword_max		= 20
-unstructuredName		= An optional company name
-
-[ usr_cert ]
-basicConstraints=CA:FALSE
-nsComment			= "OpenBSD Generated Certificate"
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
-
-[ v3_req ]
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-
-[ v3_ca ]
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid:always,issuer
-basicConstraints = critical,CA:true
-keyUsage = critical,cRLSign, keyCertSign
-nsCertType = sslCA, emailCA
-
-[ v3_sub_ca ]
-authorityKeyIdentifier	= keyid:always,issuer
-basicConstraints	= critical,CA:true,pathlen:0
-extendedKeyUsage	= clientAuth,serverAuth
-keyUsage		= critical,keyCertSign,cRLSign
-subjectKeyIdentifier	= hash
-
-[ name_constraints ]
-permitted;DNS.0	= example.org
-permitted;DNS.1	= example.com
-excluded;IP.0	= 0.0.0.0/0.0.0.0
-excluded;IP.1	= 0:0:0:0:0:0:0:0/0:0:0:0:0:0:0:0
-
-[ server_ext ]
-authorityKeyIdentifier	= keyid:always
-basicConstraints	= critical,CA:false
-extendedKeyUsage	= clientAuth,serverAuth
-keyUsage		= critical,digitalSignature,keyEncipherment
-nsCertType		= server
-subjectKeyIdentifier	= hash
-
-[ client_ext ]
-authorityKeyIdentifier	= keyid:always
-basicConstraints	= critical,CA:false
-extendedKeyUsage	= clientAuth
-keyUsage		= critical,digitalSignature,keyEncipherment,nonRepudiation
-nsCertType		= client
-subjectKeyIdentifier	= hash
-
-[ crl_ext ]
-authorityKeyIdentifier=keyid:always
-
-[ proxy_cert_ext ]
-basicConstraints=CA:FALSE
-nsComment			= "OpenSSL Generated Certificate"
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
-proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
-
-[ tsa ]
-default_tsa = tsa_config1
-
-[ tsa_config1 ]
-dir		= ./demoCA	
-serial		= $dir/tsaserial
-crypto_device	= builtin	
-signer_cert	= $dir/tsacert.pem
-certs		= $dir/cacert.pem
-signer_key	= $dir/private/tsakey.pem 
-default_policy	= tsa_policy1		
-other_policies	= tsa_policy2, tsa_policy3	
-digests		= md5, sha1		
-accuracy	= secs:1, millisecs:500, microsecs:100	
-clock_precision_digits  = 0	
-ordering		= yes	
-tsa_name		= yes	
-ess_cert_id_chain	= no
-</code></pre></div></div>
-
-<h3 id="a-generate-private-key-and-csr">a. Generate private key and CSR</h3>
-
-<p>Again, you can choose between an EC key and an RSA key. The RSA private key from the intermediate signing certificate must have a strength of <code class="language-plaintext highlighter-rouge">3072</code> bits.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ecparam -name secp384r1 -genkey | openssl ec -out /etc/ssl/OpenBSD_CA/signing-ca/private/signing-ca.key -aes256
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl req -new \
-        -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \
-        -key /etc/ssl/OpenBSD_CA/signing-ca/private/signing-ca.key \
-        -out /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.csr \
-        -sha512
-</code></pre></div></div>
-
-<h3 id="b-signing-the-ca-certificate-with-the-root-ca">b. Signing the CA certificate with the Root CA</h3>
-
-<p>The Signing CA certificate is <code class="language-plaintext highlighter-rouge">signing-ca.crt</code>. Run the command below to create the <code class="language-plaintext highlighter-rouge">signing-ca.crt</code> file.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca \
-        -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \
-        -in /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.csr \
-        -out /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt \
-        -md sha512 -extensions v3_sub_ca
-</code></pre></div></div>
-<p>Remove descriptive text in certificate.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl x509 \
-        -in /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt \
-        -out /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.notext
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca \
-        -gencrl \
-        -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \
-        -out /etc/ssl/OpenBSD_CA/signing-ca/crl/signing-ca.crl
-</code></pre></div></div>
-
-<h3 id="c-revoking-certificates-from-private-certificate-authorities-cas-on-openbsd">c. Revoking Certificates from Private Certificate Authorities (CAs) on OpenBSD</h3>
-
-<p>In the section on certificate issuance, we explained the procedure for issuing certificates using a private Certificate Authority (CA) on OpenBSD. When communicating between a server and a client, using a certificate allows us to verify that the other party (domain name) is indeed who they claim to be.</p>
-
-<p>However, what if the private key used to create the certificate is lost or leaked? A malicious actor could use a leaked private key to forge certificates and impersonate someone. In such cases, the certificate can no longer be used to certify that the other party is the legitimate party. In such cases, the certificate must be revoked immediately.</p>
-
-<p>In this article, in addition to issuing certificates, we will explain the other roles of a CA: processing certificate revocations and creating a revocation list. The following is an example of revoking a certificate issued by a Signing CA.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>R	340531023831Z	240602024009Z,keyCompromise	B214F9454080AD17279DDC32952E5DC5	unknown	/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Networking/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
-V	340531024205Z		B214F9454080AD17279DDC32952E5DC6	unknown	/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Education/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
-</code></pre></div></div>
-<p>After that, you see the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/root-ca/newcerts</code> directory with the <strong>“ls”</strong> command.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cd /etc/ssl/OpenBSD_CA/root-ca/newcerts
-ns3# ls
-B214F9454080AD17279DDC32952E5DC5.pem  B214F9454080AD17279DDC32952E5DC6.pem
-</code></pre></div></div>
-<p>Run the command to revoke the certificate issued by the CA Signer.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca \
-        -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \
-        -revoke /etc/ssl/OpenBSD_CA/root-ca/newcerts/B214F9454080AD17279DDC32952E5DC6.pem \
-        -crl_reason superseded
-</code></pre></div></div>
-<p>Take another look at the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD)CA/root-ca/db/index</code> script.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>R	340531023831Z	240602024009Z,keyCompromise	B214F9454080AD17279DDC32952E5DC5	unknown	/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Networking/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
-R	340531024205Z	240602025145Z,superseded	B214F9454080AD17279DDC32952E5DC6	unknown	/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Education/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
-</code></pre></div></div>
-<p>The personal CA creation is now complete. You are now ready to sign server or client certificates.</p>
-
-<h2 id="3-creating-serverclient-certificates">3. Creating server/client certificates</h2>
-
-<p>The next step is to create certificates for the server and client. The server and client certificates will be used directly by users running applications like NGINX or Apache24.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# mkdir -p /etc/ssl/OpenBSD_CA/san
-ns3# cd /etc/ssl/OpenBSD_CA/san &amp;&amp; mkdir -p certs private
-ns3# touch /etc/ssl/OpenBSD_CA/san/openbsd-san.cnf
-</code></pre></div></div>
-<p>Create a main configuration file script for server and client certificate generation.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># OpenBSD openbsd-san.cnf --- unixwinbsd.site
-HOME			= .
-RANDFILE		= $ENV::HOME/.rnd
-oid_section		= new_oids
-
-[ new_oids ]
-tsa_policy1 = 1.2.3.4.1
-tsa_policy2 = 1.2.3.4.5.6
-tsa_policy3 = 1.2.3.4.5.7
-
-[ ca ]
-default_ca	= CA_default
-
-[ CA_default ]
-dir		= ./demoCA	
-certs		= $dir/certs	
-crl_dir		= $dir/crl	
-database	= $dir/index.txt
-new_certs_dir	= $dir/newcerts	
-certificate	= $dir/cacert.pem 
-serial		= $dir/serial 	
-crlnumber	= $dir/crlnumber
-crl		= $dir/crl.pem 	
-private_key	= $dir/private/cakey.pem
-RANDFILE	= $dir/private/.rand	
-x509_extensions	= usr_cert		
-name_opt 	= ca_default		
-cert_opt 	= ca_default		
-default_days	= 365			
-default_crl_days= 30		
-default_md	= default		
-preserve	= no			
-policy		= policy_match
-
-[ policy_match ]
-countryName		= match
-stateOrProvinceName	= match
-organizationName	= match
-organizationalUnitName	= optional
-commonName		= supplied
-emailAddress		= optional
-
-[ policy_anything ]
-countryName		= optional
-stateOrProvinceName	= optional
-localityName		= optional
-organizationName	= optional
-organizationalUnitName	= optional
-commonName		= supplied
-emailAddress		= optional
-
-[ req ]
-default_bits		= 2048
-default_keyfile 	= privkey.pem
-distinguished_name	= req_distinguished_name
-attributes		= req_attributes
-x509_extensions	= v3_ca
-string_mask = utf8only
-
-[ req_distinguished_name ]
-countryName			= Country Name (2 letter code)
-countryName_default		= AU
-countryName_min			= 2
-countryName_max			= 2
-
-stateOrProvinceName		= State or Province Name (full name)
-stateOrProvinceName_default	= Mid North Coast
-
-localityName			= Locality Name (eg, city)
-localityName_default		= Coffs Harbour
-
-0.organizationName		= Organization Name (eg, company)
-0.organizationName_default	= Internet Certificate Service, Pty Ltd.
-
-# we can do this but it is not needed normally :-)
-#1.organizationName		= Second Organization Name (eg, company)
-#1.organizationName_default	= World Wide Web Pty Ltd
-
-organizationalUnitName		= Organizational Unit Name (eg, section)
-organizationalUnitName_default	= IT Networking
-
-commonName			= Common Name (e.g. server FQDN or YOUR name)
-commonName_max			= 64
-commonName_default		= kursor.my.id
-
-emailAddress			= Email Address
-emailAddress_max		= 64
-emailAddress_default		= cursor.com
-
-[ req_attributes ]
-challengePassword		= A challenge password
-challengePassword_min		= 4
-challengePassword_max		= 20
-unstructuredName		= An optional company name
-
-[ usr_cert ]
-basicConstraints=CA:FALSE
-nsComment			= "OpenBSD SAN Generated Certificate"
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
-
-[ v3_req ]
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-subjectAltName	= $ENV::OPENSSL_SAN
-
-[ v3_ca ]
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid:always,issuer
-basicConstraints = CA:true
-
-[ crl_ext ]
-authorityKeyIdentifier=keyid:always
-
-[ proxy_cert_ext ]
-basicConstraints=CA:FALSE
-nsComment			= "OpenBSD Generated Certificate"
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
-proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
-
-[ tsa ]
-default_tsa = tsa_config1
-
-[ tsa_config1 ]
-dir		= ./demoCA	
-serial		= $dir/tsaserial
-crypto_device	= builtin	
-signer_cert	= $dir/tsacert.pem
-certs		= $dir/cacert.pem
-signer_key	= $dir/private/tsakey.pem
-default_policy	= tsa_policy1
-other_policies	= tsa_policy2, tsa_policy3	
-digests		= md5, sha1	
-accuracy	= secs:1, millisecs:500, microsecs:100
-clock_precision_digits  = 0	
-ordering		= yes	
-tsa_name		= yes	
-ess_cert_id_chain	= no
-</code></pre></div></div>
-<p>The first command you have to run is <code class="language-plaintext highlighter-rouge">"exports"</code>. Notice the example below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cd /etc/ssl/OpenBSD_CA/san
-ns3# export OPENSSL_SAN="IP:192.168.5.3"
-</code></pre></div></div>
-<p>Create a private key file and place it in the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/san/private</code> directory.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl genrsa \
-        -out /etc/ssl/OpenBSD_CA/san/private/example_nopass.key 2048
-ns3# openssl rsa \
-        -in /etc/ssl/OpenBSD_CA/san/private/example_nopass.key \
-        -out /etc/ssl/OpenBSD_CA/san/private/example.key -aes256
-ns3# openssl rsa \
-         -in /etc/ssl/OpenBSD_CA/san/private/example.key \
-         -pubout \
-         -out /etc/ssl/OpenBSD_CA/san/certs/example.pub \
-         -outform PEM
-</code></pre></div></div>
-<p>Continue with the following commands.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl req -new \
-            -config /etc/ssl/OpenBSD_CA/san/openbsd-san.cnf \
-            -key /etc/ssl/OpenBSD_CA/san/private/example.key \
-            -out /etc/ssl/OpenBSD_CA/san/certs/example.csr \
-            -sha512 -reqexts v3_req
-</code></pre></div></div>
-
-<h3 id="a-server-certificate">a. Server certificate</h3>
-
-<p>In the first part, we will create a certificate for the server. Follow each command below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cd /etc/ssl/OpenBSD_CA/signing-ca
-ns3# export OPENSSL_SAN="IP:192.168.5.3"
-ns3# openssl ca \
-        -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \
-        -policy policy_anything \
-        -in /etc/ssl/OpenBSD_CA/san/certs/example.csr \
-        -out /etc/ssl/OpenBSD_CA/san/certs/example.crt \
-        -md sha512 -extensions server_ext
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl x509 \
-        -in /etc/ssl/OpenBSD_CA/san/certs/example.crt \
-        -out /etc/ssl/OpenBSD_CA/san/certs/example.crt.notext
-</code></pre></div></div>
-<p>The last command is to merge multiple certificate files.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cat /etc/ssl/OpenBSD_CA/san/certs/example.crt.notext \
-/etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.notext &gt; /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.full
-</code></pre></div></div>
-
-<h3 id="b-client-certificate">b. Client Certificate</h3>
-
-<p>The process for creating a client certificate is almost the same as creating a server certificate, with only a few minor differences. Here are the commands you must run to create a client certificate.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cd /etc/ssl/OpenBSD_CA/signing-ca
-ns3# export OPENSSL_SAN="IP:192.168.5.3"
-ns3# openssl ca \
-        -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \
-        -policy policy_anything \
-        -in /etc/ssl/OpenBSD_CA/san/certs/example.csr \
-        -out /etc/ssl/OpenBSD_CA/san/certs/client.crt \
-        -md sha512 -extensions client_ext
-</code></pre></div></div>
-<p>Delete descriptive text</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl x509 \
-        -in /etc/ssl/OpenBSD_CA/san/certs/client.crt \
-        -out /etc/ssl/OpenBSD_CA/san/certs/client.crt.notext
-</code></pre></div></div>
-<p>Combine certificate</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cat /etc/ssl/OpenBSD_CA/san/certs/client.crt.notext \
-/etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.notext &gt; /etc/ssl/OpenBSD_CA/signing-ca/certs/client.crt.full
-</code></pre></div></div>
-<p>If you’re running an OpenBSD server and need an SSL certificate for a secure connection, you can use the example we’ve described in this article.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="OpenBSD" /><category term="SysAdmin" /><summary type="html"><![CDATA[The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate]]></summary></entry></feed>
+<p>This example only shows a small portion of what jsoup can do. JSoup is an excellent choice for web scraping in Java. While this article introduces the library, you can learn more about it in the jsoup documentation. While jsoup is easy to use and efficient, it does have its drawbacks. For example, it can’t execute JavaScript code, which means it can’t be used for scraping dynamic web pages and single-page applications. In those cases, you’ll need to use something like Selenium.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Web scraping is one of the simplest, most effective, efficient, and beneficial ways to extract data from websites. Some websites may contain vast amounts of valuable data. This is where web scraping can help read and analyze the data.]]></summary></entry></feed>

@@ -1121,6 +1121,12 @@ var store = [{
         "url": "https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/",
         "teaser": null
       },{
+        "title": "How to Configure FreeBSD with Radicale CalDAV CardDAV Server",
+        "excerpt":"Radicale is a calendar and contact server designed to support the CalDav and CardDav protocols. Radicale’s configuration is very simple and easy to install, as it does not have a graphical administration interface. This application is written in Python, so it can be used on operating systems such as Linux,...","categories": ["FreeBSD"],
+        "tags": ["WebServer"],
+        "url": "https://unixwinbsd.site/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/",
+        "teaser": null
+      },{
         "title": "How to Install Webmin on a FreeBSD System",
         "excerpt":"Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source...","categories": ["FreeBSD"],
         "tags": ["SysAdmin"],

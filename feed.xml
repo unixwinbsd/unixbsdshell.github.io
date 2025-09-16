@@ -1,4 +1,162 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-16T06:00:56+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">How to Install Webmin on a FreeBSD System</title><link href="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="alternate" type="text/html" title="How to Install Webmin on a FreeBSD System" /><published>2025-09-15T09:35:11+03:00</published><updated>2025-09-15T09:35:11+03:00</updated><id>https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/"><![CDATA[<p>Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source applications, such as the BIND DNS Server, Apache HTTP Server, PHP, MySQL, and many more.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-16T21:04:43+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">Installing and Using the Java Development Kit on FreeBSD</title><link href="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/" rel="alternate" type="text/html" title="Installing and Using the Java Development Kit on FreeBSD" /><published>2025-09-16T10:57:03+03:00</published><updated>2025-09-16T10:57:03+03:00</updated><id>https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/"><![CDATA[<p>FreeBSD is a powerful and reliable operating system that is widely used by developers and system administrators. If you are a Java developer, you need to install a Java development environment on your FreeBSD system, to help make it easier to run your Java projects.</p>
+
+<p>In this article we will learn a brief introduction to setting up a Java development environment on your computer running reeBSD 13 or above. You can also apply the tutorials in this article to FreeBSD Desktops such as GhostBSD or Hello.</p>
+
+<h2 id="1-what-is-java">1. What Is Java</h2>
+
+<p>Java is a popular programming language, created in 1995 by Sun Microsystems (purchased by Oracle in 2010), and more than 3 billion devices in the world run Java.</p>
+
+<p>One of Java’s primary design goals is a high degree of portability across platforms. Java writing is summarized by the slogan write once, run anywhere, and is realized by compiling Java source code into ‘bytecode’, which can be run in a very uniform environment across different architectures and platforms.</p>
+
+<p>So, someone can write code on Windows, but execute it on FreeBSD or GNU/Linux servers. Over time, Java has become extremely popular, and is a very reliable choice for writing server-side applications as well as Android applications.</p>
+
+<p>Java environments can be found on all sorts of devices, large and small, and therefore a Java developer has more flexibility when it comes to being able to treat code as agnostic to the system on which it runs. The Java programming language itself is an object-oriented language that is syntactically similar to C++. Java has always been designed with an object-oriented design.</p>
+
+<p>Because Java is built with the C++ language which is similar to the FreeBSD system, it can be easily run on Unix-based computers, such as FreeBSD, DragonFly BSD, GhostBSD, HardenedBSD and others.</p>
+
+<p><strong>Java is used for:</strong></p>
+
+<ul>
+  <li>Desktop applications.</li>
+  <li>Web applications.</li>
+  <li>Mobile applications (specially Android apps).</li>
+  <li>Database connection.</li>
+  <li>Web servers and application servers.</li>
+  <li>Games.</li>
+  <li>And much, much more!.</li>
+</ul>
+
+<h2 id="2-install-the-java-development-kit">2. Install the Java Development Kit</h2>
+
+<p>Since Oracle Corporation bought Sun and is now the owner of the official Java runtime and development kit implementation. To be able to write Java, Oracle has provided implementations for Windows, Mac OSX, and Linux operating systems. The official reference implementation is open sourced under GPLv2 (with the exception of links), and therefore the OpenJDK implementation is workable for FreeBSD.</p>
+
+<p>To be able to write applications in Java on FreeBSD, you need the Java Development Kit which provides a compiler, runtime and standard libraries. This package is available on FeeBSD, you just need to install it.</p>
+
+<p>There are two different Java packages that can be installed:</p>
+
+<ul>
+  <li>Java Runtime Environment (JRE), and</li>
+  <li>Java Development Kit (JDK).</li>
+</ul>
+
+<p>JRE is an implementation of the Java Virtual Machine (JVM), which runs compiled Java applications and applets. Whereas the JDK includes the JRE and other software needed to write, develop, and compile Java applications and applets.</p>
+
+<p>Before we start installing Java, use the following command to view the list of Java available on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg search openjdk
+</code></pre></div></div>
+
+<p>You will see all versions of Java on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bootstrap-openjdk11-11.0.5.10.1 Java Development Kit 11
+bootstrap-openjdk17-17.0.1.12.1 Java Development Kit 17
+bootstrap-openjdk8-r450802_2   Java Development Kit 8
+openjdk11-11.0.21+9.1          Java Development Kit 11
+openjdk11-jre-11.0.21+9.1      Java Runtime Environment 11
+openjdk17-17.0.9+9.1           Java Development Kit 17
+openjdk17-jre-17.0.9+9.1       Java Runtime Environment 17
+openjdk18-18.0.2+9.1_2         Java Development Kit 18
+openjdk19-19.0.2+7.1_1         Java Development Kit 19
+openjdk20-20.0.2+9.1           Java Development Kit 20
+openjdk21-21.0.1+12.1          Java Development Kit 21
+openjdk8-8.392.08.1            Java Development Kit 8
+openjdk8-jre-8.392.08.1        Java Runtime Environment 8
+rxtx-openjdk8-2.2p2_4          Native interface to serial ports in Java
+</code></pre></div></div>
+
+<p>Please select the version of Java that you want to install, with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install openjdk17-17.0.9+9.1
+</code></pre></div></div>
+
+<h2 id="3-editing-java-code">3. Editing Java Code</h2>
+
+<p>Java Editor is a simple and powerful application for creating, editing, and saving Java files on your FreeBSD Drive. With an intuitive interface and important features such as import and export and syntax highlighting. The Java Editor makes it easy for you to write Java code while traveling or at home. Java Editor is the perfect tool for anyone who needs to manage their Java code. Install Java Editor on your FreeBSD server and experience the power of easy Java editing!.</p>
+
+<p>You can edit Java code using a plain text editor, but almost all Java programmers use an IDE to edit their code. There are several editors is available and you can install it on FreeBSD.</p>
+
+<h3 id="a-intellij-idea">a. Intellij IDEA</h3>
+
+<p>IntelliJ IDEA is an integrated development environment for Java applications from the JetBrains company. It is positioned as the smartest and most convenient Java development environment with support for all the latest technologies and frameworks. IntelliJ IDEA is one of the three most popular Java IDEs along with Eclipse IDE and NetBeans IDE.</p>
+
+<p>Users will find that every aspect of IntelliJ IDEA is designed to maximize developer productivity. Both powerful static code analysis and ergonomic program design make development not only productive. They can make it a pleasant experience if we compare it with other IDEs.</p>
+
+<p>Use the following command to install IntelliJ IDEA.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install intellij-2020.2.3
+root@ns7:~ # pkg install intellij-ultimate-2022.2.5_1
+</code></pre></div></div>
+
+<h3 id="b-netbeans">b. Netbeans</h3>
+
+<p>For those of you who are involved in the world of programming, you will definitely be familiar with this software. What is Netbeans? Netbeans is a software that is often used in the world of programmers or developers. Not an ordinary text editor, Netbeans is an IDE or Integrated Development Environment application that is based on Java and runs on Swing. What I mean by Swing here is a technology that allows the development of desktop applications and can run on various platforms such as FreeBSD, Windows, Mac OS, Linux and Solaris.</p>
+
+<p>Meanwhile, the Integrated Development Environment is a programming or development system that is integrated into software. Netbeans provides several tools such as a Graphic User Interface (GUI), code or text editor, a compiler and debugger. This will make the performance of programmers or developers who use Netbeans easier. Not only does it support the Java programming language, by using Netbeans you can also create or develop programs based on C, C++ or even dynamic languages such as PHP, JavaScript, Groovy, and Ruby.</p>
+
+<p>Netbeans is an open code (open source) application that is quite successful with many users and a growing community throughout the world and currently has 100 business partners and will likely continue to grow in the future. Sun Microsystems as the main sponsor of Netbeans has been around and developed since 2000 and to this day continues its collaboration.</p>
+
+<p>Installing Netbeans on FreeBSD is very easy, just run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install netbeans-17
+</code></pre></div></div>
+
+<h3 id="c-eclipse">c. Eclipse</h3>
+
+<p>Eclipse is a platform that has been designed to build various applications that can be integrated such as websites, mobile and so on. Eclipse is open source which is usually used to develop Java-based applications that allow software developers to create customized development environments (IDEs). You can develop and learn this platform if you take an Android course wherever you are.</p>
+
+<p>Eclipse was started in 2001 by IBM, at which time the company donated three million lines of code from its Java tool. The goal of Eclipse is to create and foster an open source IDE community that will complement the Apache community.</p>
+
+<p>Eclipse provides a common user interface (UI) model for working with other tools. It is designed to run on multiple operating systems while providing tight integration with each underlying OS. Plug-ins are used for Eclipse portable API programs and change on any of the supported operating systems.</p>
+
+<p>Before you install Eclipse, look at the version of Eclipse available on freeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg search Eclipse
+</code></pre></div></div>
+
+<p>Below are the Eclipse versions available on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eclipse-4.24_2                 Eclipse IDE 2022-06
+eclipse-EPIC-0.6.35_3          EPIC adds Perl support to the Eclipse IDE Framework
+eclipse-ShellEd-1.0.2a_4       Shell script editor for Eclipse
+eclipse-cdt-9.0.1              C/C++ plugin for Eclipse IDE
+eclipse-drjava-0.9.8_6         DrJava plugin for Eclipse
+eclipse-ecj-4.4.2_1            Eclipse Java Compiler
+eclipse-findbugs-3.0.1.20150306.5.a4.d1 Eclipse plug-in that provides FindBugs support
+eclipse-glassfish-5.1.0_1      Eclipse Jakarta EE Platform
+eclipse-pydev-10.2.1           Eclipse plugin for Python and Jython development
+phpeclipse-1.2.3_6             PHP Eclipse adds PHP support to the Eclipse IDE Framework
+redeclipse-2.0.0_2             Single-player and multi-player first-person ego-shooter
+redeclipse-data-2.0.0          Data files for Red Eclipse first-person shooter
+redeclipse-data16-1.6.0        Data files for Red Eclipse first-person shooter
+redeclipse16-1.6.0_2           Single-player and multi-player first-person ego-shooter
+</code></pre></div></div>
+
+<p>Run the following command to install Eclipse.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install eclipse-4.24_2
+</code></pre></div></div>
+
+<h3 id="d-maven">d. Maven</h3>
+
+<p>Maven is an application or program that is widely used to assist in creating Java projects. Maven was developed by the Apache Group with the aim of building, publishing, and distributing projects created by developers.</p>
+
+<p>On FreeBSD Maven can be installed with the ports or PKG system, in this article we will install Maven with the PKG package.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install maven
+</code></pre></div></div>
+
+<h3 id="e-scala">e. Scala</h3>
+
+<p>Scala is a general purpose programming language that supports object-oriented programming and functional programming. In general, the purpose of creating Scala is to criticize the Java programming language.</p>
+
+<p>Scala source code is built to compile with Java Bytecode, resulting in code execution running on a Java virtual machine. Scala provides language interoperability with Java, so that libraries written in these two languages can be referenced directly in Scala or Java code.</p>
+
+<p>Use the PKG package to install Scala on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install scala
+</code></pre></div></div>
+
+<p>Installing the Java Development Kit on a FreeBSD system can help you develop Java applications. While this article doesn’t go into detail about writing Java programs, customizing the IDE, or the various options you can provide to the JVM when running it, it can be used to supplement your knowledge of Java programming.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which requires a DB server when running the application]]></summary></entry><entry xml:lang="en"><title type="html">How to Install Webmin on a FreeBSD System</title><link href="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="alternate" type="text/html" title="How to Install Webmin on a FreeBSD System" /><published>2025-09-15T09:35:11+03:00</published><updated>2025-09-15T09:35:11+03:00</updated><id>https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/"><![CDATA[<p>Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source applications, such as the BIND DNS Server, Apache HTTP Server, PHP, MySQL, and many more.</p>
 
 <p>In this article we will explain how to install and use Webmin on a FreeBSD 13.2 Stable system. As with other applications, installing Webmin on a FreeBSD system can use Ports and PKG. In this article we will explain how to install Webmin using both. OK, let’s just go ahead and install Webmin.</p>
 
@@ -417,7 +575,351 @@ root@hostname1:/usr/ports/ports-mgmt/pkg # make reinstall
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # pkg update &amp;&amp; pkg upgrade
 </code></pre></div></div>
 
-<p>Be careful when changing mirrors. Replacing the default FreeBSD mirror with a local mirror is only useful when the download connection is very slow. Using a local mirror will speed up the download and installation process. This tutorial should only be used as a reference. In practice, simply use the default FreeBSD mirror.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software]]></summary></entry><entry xml:lang="en"><title type="html">OpenBSD DHCP - Configuring IPv6 with dhcpcd</title><link href="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="alternate" type="text/html" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd" /><published>2025-08-19T13:01:32+03:00</published><updated>2025-08-19T13:01:32+03:00</updated><id>https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/"><![CDATA[<p>OpenBSD makes great routers. Its simplicity and ease of configuration make it perfect for network infrastructure applications. Everything you need to build a network of any size is already built into the base system, plus the manual pages and examples cover everything you need to know.</p>
+<p>Be careful when changing mirrors. Replacing the default FreeBSD mirror with a local mirror is only useful when the download connection is very slow. Using a local mirror will speed up the download and installation process. This tutorial should only be used as a reference. In practice, simply use the default FreeBSD mirror.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software]]></summary></entry><entry xml:lang="en"><title type="html">Setting up FreeBSD System Monitoring Tool With Cacti</title><link href="https://unixwinbsd.site/freebsd/freebsd-system-monitoring-with-cacti/" rel="alternate" type="text/html" title="Setting up FreeBSD System Monitoring Tool With Cacti" /><published>2025-09-12T10:41:10+03:00</published><updated>2025-09-12T10:41:10+03:00</updated><id>https://unixwinbsd.site/freebsd/freebsd-system-monitoring-with-cacti</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/freebsd-system-monitoring-with-cacti/"><![CDATA[<p>Cacti is a complete frontend for RRDTool, it can store all the information needed to create graphs and copy all that information into MySQL Server database tables. Cacti’s frontend runs entirely in PHP. Besides being able to maintain Graphs, Data Sources, and Round Robin Archives in a database, Cacti can also handle data collection. Another advantage of Cacti is that it has SNMP support for those who are used to creating traffic graphs with MRTG.</p>
+
+<p>In general, with the help of Cacti you can graph channel usage, HDD partition usage, display resource latency, and much more. So it is very natural that everyone praises Cacti. Because, Cacti is an easy solution for monitoring servers and network devices, allowing you to monitor the status of beautiful graphs at various intervals.</p>
+
+<p>In this article we will look at Cacti as a complete graphics Solution based on RRDTool. The contents of this article will not teach you how to work with Cacti. But it will explain how to install and configure Cacti on a FreeBSD machine, so you can use it to monitor any devices you have on your network.</p>
+
+<h2 id="1-system-requirements">1. System Requirements</h2>
+
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>IP address: 192.168.5.2</li>
+  <li>Hostname: ns3</li>
+  <li>Database: mysql80-server</li>
+  <li>PHP version: PHP82</li>
+  <li>PHP-FPM</li>
+  <li>Web server: apache24</li>
+  <li>Dependencies: 
+rrdtool php82 php82-ctype php82-filter php82-gd php82-gettext hp82-gmp php82-intl php82-ldap php82-mbstring php82-pcntl php82-pdo php82-pdo_mysql php82-posix php82-session php82-simplexml php82-sockets php82-snmp php82-xml php82-zlib</li>
+</ul>
+
+<h2 id="2-install-dependencies-cacti-rrdtool">2. Install Dependencies Cacti RRDTool</h2>
+
+<p>Cacti runs with a web browser, therefore Cacti requires a web server such as Apache. In order for Cacti to connect with Apache, there are several PHP dependencies that must be installed. These PHP dependencies will connect Cacti with Apache, because almost all Cacti scripts are written in PHP. Run the following command to install PHP Cacti dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install php82 php82-ctype php82-filter php82-gd php82-gettext php82-intl php82-ldap php82-mbstring php82-pcntl php82-pdo php82-pdo_mysql php82-posix php82-session php82-simplexml php82-sockets php82-snmp php82-xml php82-zlib php82-gmp
+</code></pre></div></div>
+
+<p>As we explained above, Cacti is a RRDTool that is used to monitor all devices on your computer network. Because of this, Cacti needs a utility that can monitor all of our computer network activities. This is where RRDTool kicks in. It lets you log and analyze the data you gather from all kinds of data-sources. The data analysis part of RRDTool is based on the ability to quickly generate graphical representations of the data values collected over a definable time period.</p>
+
+<p>Run the following command to install the RRDTools utility.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/databases/rrdtool
+root@ns3:/usr/ports/databases/rrdtool # make install clean
+</code></pre></div></div>
+
+<h2 id="3-create-the-mysql-database-a-cacti-user-and-initialize">3. Create the MySQL database, a cacti user, and initialize</h2>
+
+<p>Cacti requires a database server, to store all monitoring results information. The monitoring results will be saved by Cacti in a database table which you can call back if necessary. The database commonly used by Cacti is MySQL Server. On the MySQL database server we will create a database, user and password for Cacti.</p>
+
+<p>OK, let’s just create a Cacti database, along with a user and password.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/databases/rrdtool # mysql -u root -p
+root@localhost [(none)]&gt; CREATE DATABASE `cacti`;
+root@localhost [(none)]&gt; CREATE USER 'usercacti'@'localhost' IDENTIFIED BY 'router123';
+root@localhost [(none)]&gt; FLUSH PRIVILEGES;
+</code></pre></div></div>
+
+<p>After that you run the command <code class="language-plaintext highlighter-rouge">"GRANTS"</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [(none)]&gt; GRANT ALL ON `cacti`.* TO 'usercacti'@'localhost';
+root@localhost [(none)]&gt; GRANT SELECT ON `mysql`.`time_zone_name` TO 'usercacti'@'localhost';
+root@localhost [(none)]&gt; FLUSH PRIVILEGES;
+</code></pre></div></div>
+
+<p>Run the Import default Cacti database command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [(none)]&gt; exit;
+root@ns3:~ # mysql -u root -p cacti &lt; /usr/local/share/cacti/cacti.sql
+</code></pre></div></div>
+
+<h2 id="4-install-cacti">4. Install Cacti</h2>
+
+<p>In this section the process of installing Cacti onto the FreeBSD system. This procedure starts after you have just created a cacti database. To install Cacti, we will use the FreeBSD ports system, although the installation process takes a long time, this method is more complete because it includes all the PHP library files. Run the following command to install Cacti.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/net-mgmt/cacti
+root@ns3:/usr/ports/net-mgmt/cacti # make install clean
+</code></pre></div></div>
+
+<p>All Cacti files from the installation are saved in the <code class="language-plaintext highlighter-rouge">"/usr/local/share/cacti"</code> directory, copy the files to the <code class="language-plaintext highlighter-rouge">"/usr/local/www"</code> directory.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/net-mgmt/cacti # cp -R /usr/local/share/cacti /usr/local/www
+</code></pre></div></div>
+
+<p>Run the chown and chmod commands in the <code class="language-plaintext highlighter-rouge">"/usr/local/www"</code> directory.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/net-mgmt/cacti # chown -R www:www /usr/local/www/cacti
+root@ns3:/usr/ports/net-mgmt/cacti # chmod -R 775 /usr/local/www/cacti
+</code></pre></div></div>
+
+<p>Create a config.php file by copying from an existing file. Follow the following commands.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/net-mgmt/cacti # cd /usr/local/www/cacti/include
+root@ns3:/usr/local/www/cacti/include # cp -R config.php.sample config.php
+</code></pre></div></div>
+
+<p>Open the file you copied, namely <code class="language-plaintext highlighter-rouge">/usr/local/www/cacti/include/config.php</code>, and look for the script below</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$database_type     = 'mysql';
+$database_default  = 'cacti';
+$database_hostname = 'localhost';
+$database_username = 'cactiuser';
+$database_password = 'cactiuser';
+$database_port     = '3306';
+$database_retries  = 5;
+$database_ssl      = false;
+$database_ssl_key  = '';
+$database_ssl_cert = '';
+$database_ssl_ca   = '';
+$database_persist  = false;
+</code></pre></div></div>
+
+<p>Replace the contents of the script above with the Cacti database that you created above.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$database_type     = 'mysql';
+$database_default  = 'cacti';
+$database_hostname = 'localhost';
+$database_username = 'usercacti';
+$database_password = 'router123';
+$database_port     = '3306';
+$database_retries  = 5;
+$database_ssl      = false;
+$database_ssl_key  = '';
+$database_ssl_cert = '';
+$database_ssl_ca   = '';
+$database_persist  = false;
+</code></pre></div></div>
+
+<h2 id="5-apache-vhost-configuration">5. Apache VHost Configuration</h2>
+
+<p>We assume you have installed PHP-FPM on the Apache web server. We will run Cacti with the Apche virtual host. So we just open the <code class="language-plaintext highlighter-rouge">/usr/local/etc/apache24/httpd.conf</code> file. To activate the Apache virtual host, you type or activate the script below in the file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LoadModule alias_module libexec/apache24/mod_alias.so
+LoadModule vhost_alias_module libexec/apache24/mod_vhost_alias.so
+Include etc/apache24/extra/httpd-vhosts.conf
+</code></pre></div></div>
+
+<p>After that, you create an Apache Virtual Host configuration file, in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/apache24/extra/httpd-vhosts.conf</code> file. In that file, type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost 192.168.5.2:80&gt;
+
+  ServerName datainchi.com
+
+  DocumentRoot "/usr/local/www/cacti"
+
+  DirectoryIndex index.php index.html
+
+  Alias /cacti /usr/local/www/cacti/
+
+  &lt;Directory /usr/local/www/cacti&gt;
+
+  AllowOverride None
+  Order Allow,deny
+  Allow from all
+  Require all granted
+
+
+  &lt;/Directory&gt;
+    ErrorLog "/var/log/cacti/log"
+    CustomLog "/var/log/dummy-host.example.com-access_log" common
+
+  &lt;/VirtualHost&gt;
+</code></pre></div></div>
+
+<p>In the Cacti log file, run the chown command, as in the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chown -R www:www /var/log/cacti/log
+</code></pre></div></div>
+
+<p>The next thing to do is to add a cron job that polls your machines and routers each 5 minutes. To do that add the following lines to your <code class="language-plaintext highlighter-rouge">/etc/crontab file</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>*/5 * * * * /usr/local/bin/php /usr/local/www/cacti/poller.php &gt; /dev/null 2&gt;&amp;1
+</code></pre></div></div>
+
+<p>Restart the Apache24 web server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service apache24 restart
+</code></pre></div></div>
+
+<p>Run Cacti by opening the Google Chrome web browser, and typing <code class="language-plaintext highlighter-rouge">"http://192.168.5.2/cacti/install/install.php"</code>.</p>
+
+<p>The display above is the Cacti opening screen, type the Cacti username and password. After you have successfully logged in, it means you have run Cacti on the FreeBSD server. Now you can monitor your computer or network activity with Cacti. All activities that occur on your computer will be stored in the Cacti database table.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Besides being able to maintain Graphs, Data Sources, and Round Robin Archives in a database, Cacti can also handle data collection. Another advantage of Cacti is that it has SNMP support for those who are used to creating traffic graphs with MRTG]]></summary></entry><entry xml:lang="en"><title type="html">Installation Guide and How to Use Redmine on FreeBSD</title><link href="https://unixwinbsd.site/freebsd/installation-guide-redmine-on-freebsd/" rel="alternate" type="text/html" title="Installation Guide and How to Use Redmine on FreeBSD" /><published>2025-09-11T10:57:03+03:00</published><updated>2025-09-11T10:57:03+03:00</updated><id>https://unixwinbsd.site/freebsd/installation-guide-redmine-on-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/installation-guide-redmine-on-freebsd/"><![CDATA[<p>Building a software system project is not easy, this is due to the level of consumer needs which are becoming more and more complex day by day, in addition to the development of application software itself which is increasing in number and must always be updated. In creating software systems, project management can be applied which can specifically monitor the performance of the software application system creator. With project management, a project manager can track bugs, find out the personnel involved, analyze the progress of the project and carry out project documentation.</p>
+
+<p>One alternative project management system application that can be used is Redmine, which has several features including the use of multiple projects/issues, access control rules, issue search, project statistics, project work schedule, document archives (both old/new documents), notifications via email or xml, integration with Subversion.</p>
+
+<p>Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which requires a DB server when running the application, where the technology can be used remotely which definitely makes your work easier anywhere because it has a wide reach.</p>
+
+<p>Redmine is a very flexible web-based project management application. Written using the Ruby on Rails framework, Redmine is cross-platform and cross-database. Redmine is open source and released under the GNU General Public License v2 (GPL).</p>
+
+<p>This utility is often used as a project management system that can be configured according to needs, so that project management can work effectively according to needs. Redmine is an alternative for other project management such as: JIRA, Basecamp, Trello, Asana, etc. This system is equipped with various plugins which are very useful and can help users to make their project management run more smoothly. Redmine is suitable as a project management system that is suitable for small-scale firms to large-scale companies. Redmine is an open source alternative to similar project management solutions such as Atlassian JIRA, Basecamp, Trello, Slack, Asana, Breeze, etc.</p>
+
+<h2 id="1-system-requirements">1. System Requirements</h2>
+
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>IP address: 192.168.5.2</li>
+  <li>Hostname: ns3</li>
+  <li>Ruby version: ruby 3.1.4p223 (2023-03-30 revision 957bb7cb81) [amd64-freebsd13]</li>
+  <li>Redmine version: redmine50</li>
+  <li>Rails version: rails7</li>
+  <li>Database Server: mysql-server8</li>
+  <li>Dependencies: rubygem-bundler_ext rubygem-bundler rubygem-rails70 rubygem-jquery-rails rubygem-coderay rubygem-request_store rubygem-mime-types rubygem-protected_attributes rubygem-mimemagic rubygem-mail rubygem-i18n rubygem-rails-html-sanitizer rubygem-rbpdf rubygem-ruby-openid rubygem-rack-openid rubygem-rake rubygem-redcarpet</li>
+</ul>
+
+<h2 id="2-install-ruby">2. Install Ruby</h2>
+
+<p>Because Redmine runs using the Ruby Framework, the first step we have to do is install Ruby. Ruby is a dynamic, simple and high productivity programming language. Ruby has an elegant syntax, is easy to read, write and another advantage is that it is open source. Run the following command to install Ruby.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/lang/ruby32
+root@ns3:/usr/ports/lang/ruby31 # make install clean
+</code></pre></div></div>
+
+<p>If you want to use the PKG package, run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ #  pkg install ruby32
+</code></pre></div></div>
+
+<p>After that install some standard libraries to run Ruby.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/databases/rubygem-dbm
+root@ns3:/usr/ports/databases/rubygem-dbm # make install clean
+root@ns3:/usr/ports/databases/rubygem-dbm # cd /usr/ports/databases/rubygem-gdbm
+root@ns3:/usr/ports/databases/rubygem-gdbm # make install clean
+</code></pre></div></div>
+
+<p>Check the Ruby version.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ruby -v
+ruby 3.1.4p223 (2023-03-30 revision 957bb7cb81) [amd64-freebsd13]
+</code></pre></div></div>
+
+<p>Ruby checking can also be done by creating a simple program. We will create a <code class="language-plaintext highlighter-rouge">"Hello World"</code> program to ensure Ruby is running on FreeBSD. All programs that run Ruby have the extension <code class="language-plaintext highlighter-rouge">*.rb</code> and on FreeBSD all files resulting from Ruby installation are stored in the <code class="language-plaintext highlighter-rouge">/usr/local/share/examples/ruby32</code> directory. Follow the guide below to create a Ruby program.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/share/examples/ruby32
+root@ns3:/usr/local/share/examples/ruby32 # ee rubytest.rb
+msg = Class.send(:new, String);
+mymsg = msg.send(:new, "Hello Ruby World !\n");
+STDOUT.send(:write, mymsg)
+</code></pre></div></div>
+
+<p>Run the Ruby Program.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/examples/ruby32 # ruby rubytest.rb
+Hello Ruby World !
+</code></pre></div></div>
+
+<h2 id="3-setting-up-redmine">3. Setting up Redmine</h2>
+
+<p>Redmine is a cross-platform and cross-database web application. In this section we will set up Redmine on FreeBSD. In this article, we will connect Redmine to the Apache24 web server and MySQL database.</p>
+
+<h3 id="a-install-dependencies">a. Install Dependencies</h3>
+
+<p>After you have finished installing Ruby, we continue with installing Redmine. Before you start installing Redmine, first install some Redmine dependencies. Run the following command to install Redmine dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install rubygem-bundler_ext rubygem-bundler rubygem-rails70 rubygem-jquery-rails rubygem-coderay rubygem-request_store rubygem-mime-types rubygem-protected_attributes rubygem-mimemagic rubygem-mail rubygem-i18n rubygem-rails-html-sanitizer rubygem-rbpdf rubygem-ruby-openid rubygem-rack-openid rubygem-rake rubygem-redcarpet
+</code></pre></div></div>
+
+<h3 id="b-install-redmine">b. Install Redmine</h3>
+
+<p>To install Redmine on FreeBSD, we recommend that you use the PKG package, because when using ports, there are often problems with the Redmine version and other dependencies. Run the command below to install Redmine with PKG.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install redmine50
+</code></pre></div></div>
+
+<p>All files resulting from the Redmine installation above will be stored in the <code class="language-plaintext highlighter-rouge">/usr/local/www/redmine</code> directory. After that, create a Start up script <code class="language-plaintext highlighter-rouge">rc.d</code>, so that Redmine can run automatically. Type the script below in the rc.conf file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /etc/rc.conf
+redmine_enable="YES"
+redmine_flags="-a 192.168.5.2 -p 3000 -e production"
+redmine_user="redmine"
+redmine_group="redmine"
+</code></pre></div></div>
+
+<h3 id="c-create-user-and-group-redmine">c. Create User and Group “redmine”</h3>
+
+<p>By default, FreeBSD installs Redmine with the user and group <code class="language-plaintext highlighter-rouge">"www:www"</code>, almost the same as Apache24. To avoid this, we will create a new user and group for Redmine.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pw add group redmine
+root@ns3:~ # pw add user -n redmine -g redmine -s /sbin/nologin -c "redmine"
+</code></pre></div></div>
+
+<h3 id="d-create-database-redmine">d. Create Database “redmine”</h3>
+
+<p>The Redmine server requires a database server, you can use Mysql, MariaDBSQLite or PostgreSQL. All database servers are supported by Redmine. In this article we will use a commonly used database server, namely MySQL. Run the command below to create a redmine database.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # mysql -u root -p
+Enter password:
+root@localhost [(none)]&gt; CREATE DATABASE redmine CHARACTER SET utf8;
+root@localhost [(none)]&gt; CREATE USER 'useredmine'@'localhost' IDENTIFIED BY 'router123';
+root@localhost [(none)]&gt; GRANT ALL PRIVILEGES ON redmine.* TO 'useredmine'@'localhost';
+root@localhost [(none)]&gt; FLUSH PRIVILEGES;
+root@localhost [(none)]&gt; exit;
+Bye
+root@ns3:~ #
+</code></pre></div></div>
+
+<p>Open the database.yml file, replace the production database script with the script below, adapt it to the MySQL database you created above.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/www/redmine/config
+root@ns3:/usr/local/www/redmine/config # ee database.yml
+production:
+  adapter: mysql2
+  database: redmine
+  host: localhost
+  username: useredmine
+  password: "router123"
+  # Use "utf8" instead of "utfmb4" for MySQL prior to 5.7.7
+  encoding: utf8mb4
+
+</code></pre></div></div>
+
+<h3 id="e-redmine-configuration">e. Redmine configuration</h3>
+
+<p>After you have set up the MySQL database in the <code class="language-plaintext highlighter-rouge">database.yml</code> file, next we configure Redmine with Ruby. The first step is to update the gem.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/www/redmine
+root@ns3:/usr/local/www/redmine # gem update --system 3.5.7
+</code></pre></div></div>
+
+<p>Continue by installing the gem.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/redmine # bundle install --gemfile /usr/local/www/redmine/Gemfile
+</code></pre></div></div>
+
+<p>The next step is to set up Redmine to connect to Ruby.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/www/redmine
+root@ns3:/usr/local/www/redmine # bundle install --without development test
+root@ns3:/usr/local/www/redmine # bundle exec rake generate_secret_token
+root@ns3:/usr/local/www/redmine # bundle exec rake db:migrate RAILS_ENV="production"
+</code></pre></div></div>
+
+<p>Change ownership and permissions Redmine.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chown -R redmine:redmine files log tmp public
+root@ns3:~ # chmod -R 755 files log tmp public
+</code></pre></div></div>
+
+<h3 id="f-run-configuration">f. Run configuration</h3>
+
+<p>The next step, run Redmine.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/redmine # service redmine restart
+root@ns3:/usr/local/www/redmine # ruby bin/rails server -e production
+</code></pre></div></div>
+
+<p>To open Redmine, open the Google Chrome web browser, type “http://192.168.5.2:3000/”, If there are no errors in the above settings, your monitor screen will display the Redmine Dashboard.</p>
+
+<p>After that, click the <code class="language-plaintext highlighter-rouge">"Sign in"</code> menu in the top right corner.</p>
+
+<p>In the Login and password menu, type:
+Login : admin
+Password: admin
+After that, a menu will appear to change the default password.</p>
+
+<p>With the continued increase in website needs, you can make Redmine a complete solution for project management and problem tracking. The features offered by Redmine are very complete, easy to use and free. You can save a lot of costs by choosing Redmine. Apart from that, you can increase productivity regarding the quality of your website, so that your business and enterprise can continue to grow.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which requires a DB server when running the application]]></summary></entry><entry xml:lang="en"><title type="html">OpenBSD DHCP - Configuring IPv6 with dhcpcd</title><link href="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="alternate" type="text/html" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd" /><published>2025-08-19T13:01:32+03:00</published><updated>2025-08-19T13:01:32+03:00</updated><id>https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/"><![CDATA[<p>OpenBSD makes great routers. Its simplicity and ease of configuration make it perfect for network infrastructure applications. Everything you need to build a network of any size is already built into the base system, plus the manual pages and examples cover everything you need to know.</p>
 
 <p>I recently built a home router from scratch using <code class="language-plaintext highlighter-rouge">OpenBSD 7</code> without installing any additional packages, using only what came with the OpenBSD OS installation. Initially, before deciding to “build it from scratch,” I had a goal of building a router using open source software to improve my network security. After exploring several popular open source firewall and routing projects (especially pfSense and OPNSense), I ultimately decided to build my own.</p>
 
@@ -1069,444 +1571,4 @@ hostname1# rcctl start grafana
 
 <p>The monitoring service aggregates, so you can install the node_exporter package on a remote server and update the <code class="language-plaintext highlighter-rouge">/etc/prometheus/targets.json</code> archive for that server.</p>
 
-<p>Overall, it’s great to have Grafana and Prometheus at your disposal for simplicity.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="OpenBSD" /><category term="WebServer" /><summary type="html"><![CDATA[It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana on separate servers. However, during testing, I was able to run both on a fairly small server.]]></summary></entry><entry xml:lang="en"><title type="html">Using pfsense for the first time - Installation and Configuration Guide</title><link href="https://unixwinbsd.site/networking/using-pfsense-for-the-first-time-installation-configuration-guide/" rel="alternate" type="text/html" title="Using pfsense for the first time - Installation and Configuration Guide" /><published>2025-08-15T09:05:27+03:00</published><updated>2025-08-15T09:05:27+03:00</updated><id>https://unixwinbsd.site/networking/using-pfsense-for-the-first-time-installation-configuration-guide</id><content type="html" xml:base="https://unixwinbsd.site/networking/using-pfsense-for-the-first-time-installation-configuration-guide/"><![CDATA[<p>Pfsense is an open source firewall or router application based on FreeBSD. PFSense can be installed on a physical computer or virtual machine to create a custom firewall or router for a network. PFSense is believed to be reliable and offers various features. Not only that, PFSense offers ease of configuration, namely via a web browser such as Google Chrome. With this convenience, PFSense users do not need special knowledge about the system
-FreeBSD.</p>
-
-<p>PFSense is generally used as a firewall or router. But with its myriad of features, PFSense can also be used as a DNS server, DHCP server, proxy server, Bandwith limiter, VPN and so on. All of this can be easily configured simply via Google Chrome.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQdklq6UA7CtF_m1op96JZJZ2vpKAZ92Dl30TWj45nvlqlUzfK1LddT1YJ_hBsP9SFO1VEmmxNDjijPuOmYWuNWJ_OU0P1mqvQjgr4LdxdVJfq347kK06dRuWRWYU1lfgXgIOrxpg-MzHzsvjp-iv9s7gxau54gbKUIdijhNfuHvgMlejzVOpwU6nJ0rp0/s16000/diagram%20router%20firewall%20pfsense.jpg" alt="diagram PFSense Router firewall" /></p>
-
-<h2 id="1-system-specifications">1. System specifications</h2>
-
-<ul>
-  <li>PFSense Version: PFSense 2.7.2-RELEASE (amd64)</li>
-  <li>Ethernet Card 1: nfe0 (WAN)</li>
-  <li>Ethernet Card 2: rl0 (LAN)</li>
-  <li>IP address nfe0: 192.168.5.2 (WAN)</li>
-  <li>IP address rl0: 192.168.7.1 (LAN)</li>
-  <li>CPU Type: Intel(R) Core(TM)2 Duo CPU E8400 @ 3.00GHz</li>
-</ul>
-
-<h2 id="2-download-pfsense">2. Download PFSense</h2>
-
-<p>Even though PFSense belongs to the FreeBSD family, the PFSense repository is not available in FreeBSD. To get PFSense you have to download it from the official PFSense website or another repository that provides the PFSense master. In this article we will download PFSense from the official PFSense website, please open the following link:
-<code class="language-plaintext highlighter-rouge">https://www.pfsense.org/download/</code></p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXUPnZzBglUD6ytqmFOTl_Vx-J9gWxLwuI_M36WOQNgkyIEWrdt7e-3vKOT2Mw9d0jLe62EtkSuhfMQCpiRuHZS19Y5bX17D2q1mxuBjmoUZJC71oN8PuRBFb8XYtX_Ry4tJoOV-S7dK5YB_aBdWIEKZWUf6M8HaY_A3KDD5SOqFmfhx5O6FY8-_l6jWW-/s16000/unduh%20pfsense.png" alt="download PFSense" /></p>
-
-<p>The image above will download PFSense with USB stick media. After you have finished downloading PFSense, create a bootable USB Flashdisk with Balena or other applications.</p>
-
-<h2 id="3-install-pfsense">3. Install PFSense</h2>
-
-<p>In this section we will discuss the PFSense installation process using USB Flash disk media. After you have finished creating a bootable Flashdisk, install PFSense on your computer. The method is very easy, follow all the PFSense installation instructions displayed on your monitor screen.</p>
-
-<p>After the installation process is complete, by default PFSense will display a menu like the image below.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjpADWpMZKo3DZh-lFhmBFqNMZbPXOkBeCRw4G7OwODwIZnhn0yoeHg7e-fdMTaVzGSvKAjSKoWzWRhhqjg6RSBVh3UgYNZ6bUWohqNUInLmYnNAIReZsM3H2uivf-96ATnJiYVBmKlYJXcgHkkkBxuWxB-eauZBqrHyhGYH6GjeUaA5mKyQPyFMDcugZ9j/s659/mengaktifkan%20interface%20di%20pfsense.png" alt="dashboard PFSense" /></p>
-
-<p>To continue the PFSense installation process, open the Google Chrome web browser and type <code class="language-plaintext highlighter-rouge">192.168.1.1</code>, so it will appear as shown in the image below.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjl7LL2QZty_s4TjObCmjX8tPpr815H0HjBV0pTqyiW63TNh4tLnCVTtm6VKfbxNWrqRNTSF5xqVhiWawiTT33d9ZYls8Qu_glzOpudS8g92ymNRCdg9rZ_LHOTrCXa-an6IvTndSiwLx4LfL1B89PARKOZBBLOMjnJ1kBINDlNOwiSPoDfAv6Ai3WMHMJ-/s16000/pfsense%20setup.png" alt="PFSEense main dashboard" /></p>
-
-<p>Click the Next button, to continue.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEirZkDb6wBXEUGw80pAV3UHcJP-7oHIW2l4lxHfqUl2n8I5JhRdqmoLb4tIvzmtNczcf6OH-ViL7qYIdE7hly2BBhiZiajwej3AN-EAQs0Q8bsdjvIZ7TWaXxLkrOQvlJ4RS0kfKVjKIhUIupbm6EBK79WlULAdNVhyphenhyphen0sjR_4bG2Uf5StS3msxxDcUlhHu8/s1131/menu%20wizard%20pfsense%20untuk%20instalasi.png" alt="setup PFSense" /></p>
-
-<p>After you click the Next button, the DNS server column will appear. You fill in the DNS IP with Public DNS IP <code class="language-plaintext highlighter-rouge">1.1.1.1 and 8.8.8.8</code>. Don’t forget to uncheck the <strong>“DNS Server Override”</strong> option. Click the Next button again, then a display like the image below will appear.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEghDAW8rs_qUzEfy7sWvtlwPRrvmQAVHRmfO4jpYXqh4PruuZonbvRgB68guz5gnHKh9OIoZwEgVZiACH_SFeY7CTNYDy4gUJXy8Q98asyBrn-HKHBI1Rf8_6FKnqn2eQ9dz4hHsSBi8hQ70FdGTwwArMkx-FIlARdQoN6rutnm6lHkU-IPPLFsjj4ad3Mc/s16000/pfsense%20setup%20general%20information.png" alt="general information DNS server PFSEnse" /></p>
-
-<p>In the <code class="language-plaintext highlighter-rouge">"Time server hostname"</code> option, fill in the time server. To make things easier, just choose the default PFSense, namely <code class="language-plaintext highlighter-rouge">"2.pfsense.pool.ntp.org"</code>. And in the <code class="language-plaintext highlighter-rouge">"Timezone"</code> column, you fill in the time zone where you live. Continue by pressing the Next button.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhiLER49ieJVfZt8_-N1F1QoznDJAUxADfR9iiT3mvvCNiNn_83GzYnZGunnKoW9ViaE0gabL1jUIgCOcauanwFUuN5LydqXe_aozb8881e_2lZEaOtxAyOSIZ1TFSq7767Ns0iE-z-sI1n920dKInk5PU8XmcbrNrmSiwuOrVA3t3vrYhSHwu1IPQdtDOF/s16000/pfsense%20setup%20time%20server%20configuration.png" alt="time server information PFSEnse" /></p>
-
-<p>In this section, you are required to configure the WAN interface. IP address 192.168.5.2 is the static IP of the WAN interface with Gateway <strong>192.168.5.1</strong>. After you set everything. click the Next button.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjOPkxZyx2xdMyqg2fZ9FT1dk646Xpkl9sQcSNiZPou_eke53mVLeZM5bYzbK7QIH78JdDRerHCFRLmXYY_QH11haV0cj1Q4q-DFloHkwNFhDMRnE3eeCaVZBoo-6WjO3XM-kh4tpzGsOocQYzi90m4xjDxKSpImqx7gZUJ-dFUlK1SIEFmO6FQFjgWEkA8/s16000/konfigurasi%20interface%20wan.png" alt="configure WAN Interface" /></p>
-
-<p>In the picture above, you have to set the IP address of the LAN interface. In this article we give an example of the LAN IP used <strong>192.168.7.1</strong>. Then click the Next button again.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiIW2thDyiZM2hzKgoUq9dJaPHfmv3BNFe3XRUx2VeNuQ-E2oK3GH1wgIStr6c3fDbCJAYgVyJrYWrR4SqBIsM-yKaN2pp3-S43v6rFdXdyP_Dp4PUkM9Cq4tX6WPjBVSYB6_JDjfSjnZV0QJhBVL3qtKhzL0FF8Mv8hDj1-CJpL6QbFp_zNJOV-V4lc8sc/s16000/konfigurasi%20interface%20lan.png" alt="configure lan interface" /></p>
-
-<h2 id="4-pfsense-configuration">4. PFSense configuration</h2>
-
-<p>The section above is the initial part of the PFSense configuration. In the configuration above, your PFSense is not yet connected to the internet. So that your PFsense can connect to the internet, we continue with the next configuration.</p>
-
-<h3 id="a-disable-dns-resolver">a. Disable DNS Resolver</h3>
-
-<p>Because you have changed the default PFSense IP from <code class="language-plaintext highlighter-rouge">192.168.1.1 to 192.168.7.1</code>, in Google Chrome type <code class="language-plaintext highlighter-rouge">https://192.168.7.1</code>. After the PFSense page appears, click the <strong>Service -» DNS Resolver</strong>, then uncheck the “Enable DNS resolver” option as shown in the image below.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1cwUnMroeCuvdK3s1mIN74Q6SKEVWBtbg7F9Jt-ClIoULOiLgbX5y6C6SnllW35tUf0OvNCbLJkj-0G35CBYxGRZlpre9O3AQghtni6TMwBlzh0jZaBasgW2xTXDzf6POXh_6770zqZj0RR2HQoxDj8pxHBAXYPF_upeeU1L-4zNCQ6EcvF0AHdtulX0k/s16000/mengaktifkan%20dns%20resolver.png" alt="disable DNS Resolver" /></p>
-
-<h3 id="b-create-nat-firewall">b. Create NAT (Firewall)</h3>
-
-<p>Next step, we will configure NAT. Click the <code class="language-plaintext highlighter-rouge">Firewall -&gt;&gt; NAT</code> menu, then click the <strong>“Outbound”</strong> menu and click again on the <strong>“Manual Outbound NAT rule generation”</strong> menu. (AON - Advanced Outbound NAT)”, you create NAT according to the image below.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDctZJOn3XJals5RMcAQuom0Qb8IIPnYwQKrfqpxEMmEaLb7s0v6soWxO_ojLJZVuD0y3AMHPZaBSmfIHclE26Xf3Cy1JBvHEnrCXN9Vkd2GXiCnWJYge8TFocqMwGN7IR2eNzGxuGd_pFVh3aW6mXNZsIcTk8wVlJU6c4WFK61onPFlORluV5_DBjH1T5/s16000/membuat%20firewall%20outbound.png" alt="Advanced Outbound NAT" /></p>
-
-<h3 id="c-disable-dhcpv6-server">c. Disable DHCPv6 Server</h3>
-
-<p>In this basic example, we only enable IP4. Therefore you must disable IP6. To disable IP6, click the <code class="language-plaintext highlighter-rouge">Services -&gt;&gt; DHCPv6 Server</code>, and uncheck the <code class="language-plaintext highlighter-rouge">"Enable DHCPv6 server on LAN interface"</code> option. follow the instructions in the image below.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgMoLRdIe9MhtKNcn3yY22sdc7tIcSQQznR0XSxWwFAnrGBfhRSDjafcSNGCreZ_EgXpbWhoJY3OyaJQckj06V29hZzKA6UJpp8cAQcLWI5oMnjMrdJU3sVabNhFRrnqLnkS9iTjeOua7p_zDmhbU2noYuYPQjySti4Kp1ZPaaXEvlfcKib8FbfxxwkWlce/s16000/konfigurasi%20lan%20dhcpv6%20server.png" alt="enable dhcp ipv6 server" /></p>
-
-<h3 id="d-disable-router-advertisement">d. Disable Router Advertisement</h3>
-
-<p>After that, you also disable Router Advertisement. To do this, click the <code class="language-plaintext highlighter-rouge">Service -&gt;&gt; Router Advertisement</code>. In the <code class="language-plaintext highlighter-rouge">"Router Mode:"</code> option, select disable. Look at the example below.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgBoN8Dh1OJGhFJnX8jq1AXC9Qq5cgSLT0SxVbuab-I9bWH5zcIc_hh7vw5yb6F_dqolzy5Raw5ksSapPwIo6FIAAk4HgtLx6MdwyH8xpmm9LC7dxitUgxPzqNLpXaxwXjuNOFkBK9GTSfgUzPC_osoGjSMTqEZLGHWDuM9oEGrLb4brD6ioICktVhmdC1w/s16000/router%20advertisement.png" alt="Router Advertisement" /></p>
-
-<h3 id="e-setup-interface-wan-and-lan">e. Setup Interface WAN and LAN</h3>
-
-<p>In this section we will configure the WAN and LAN interfaces. To understand it more easily, see the image below. Pay attention to the gateway choice. First we will configure the WAN interface.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMLX8LXEKr759nKdk62AKA2XREMKN3g1ZmOitguczGn-QgVOqGyTabj1lfDTdAdSejiVfnzXAtSxBSTn-TVnlqfxdB0o17-T0c_mKYAYkrZ3gFRO66CoUZq3swGO7esi5vlDFutsbSpn3U1B1E82GqGFhm3O9gjPw2m6uejmt96z7ywgn0DqpP8iB8IPED/s16000/konfigurasi%20wan%20interface.png" alt="wan interface" /></p>
-
-<p>After that, we configure the interface (without gateway). Look at the image below.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhS93dVR7z8noBiopuhz1p-JD8JwBnr6naZas0eyYm_6GYXPcX0GHZu8L2N_XuZlRBS2ew0wkPPITnfxeHCSGlBm0tP3hcU8OFV47qMJHrfxFURSoD8qBsrOuTb1MpETma7jFM73EJp1vbiVSreypkep0Tu15aA4nMTrTJI49VqEmkhKcn2Ef_uCRRaGbjC/s16000/konfigurasi%20lan%20interface.png" alt="lan interface" /></p>
-
-<h3 id="f-delete-gateway">f. Delete Gateway</h3>
-
-<p>In PFSense, the gateway has an important role in connecting your PFSense to the internet. Before we create a new Gateway, first delete the default Gateway that was created by PFSense automatically. like the picture below.</p>
-
-<p>To delete the gateway, click the <code class="language-plaintext highlighter-rouge">System -&gt;&gt; Routing</code> menu. After that, click on the trash can icon, as shown in the image below.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5o_bC5uciUaiGKq2V4uW4JJ9eWfwhyphenhyphen5FmU5Dn7cZLv1iqCgBKh4WcHZCjyqx9pjHLC_bTCkWmyzhTThCseLGCWMjy0Qv3YXp7CHfBmX3KlhQl9EJe788CPZVftvONh2mtO5S1ipbo1opBoDkJOS0ud6-WK7h4H6oz26Z7L2ZF6DwObaD6qsKeM_gMlsYO/s16000/membuat%20routing%20gateway.png" alt="delete gateway" /></p>
-
-<p>After you click the trash can icon, the results will look like the image below.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi71iy7ctfFNu6RVxszICvzKfeN-6mNyleAiZxi3Lc5jEvLF8dvNmsYTJ0SQedC-jb61hRsqeGfm_4f2irQO-zGNYWQ_ZQybSvu2GdhpPX5B5tdXHGZ5zU-UtnRnFbY8S3syGJYBNHQFfXPQWyrDVFv97kri7-v7UtwFOqbvbpHVceAu15uI7Tp13uZWhrn/s16000/membuat%20gateway%20koneksi.png" alt="routing gateway" /></p>
-
-<h3 id="g-creating-a-new-gateway">g. Creating a New Gateway</h3>
-
-<p>After that, we continue by creating a new gateway on the WAN interface. Click the <code class="language-plaintext highlighter-rouge">Interfaces -&gt;&gt; WAN</code> menu. Follow the image guide below. Note the gateway on this interface.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgvWHhYKP7v4uQdtl-n2p-zLseeongVh1kWttZ4lRsFzDubeljTCKMo4c-MffB7hBxmGILi-ZctdkSEDQYs5JK-gkVyJVtmO619job6IUHVVYZw1Aia6AZnyt7a930C42RLNHwBJafX-hQ9oO86yIcfwxe_-j9ID9bUR22W0c3OoG3o729ub_88__G2OCLV/s16000/membuat%20gateway%20untuk%20interface%20wan.png" alt="gateway wan interface" /></p>
-
-<h3 id="h-setup-dhcp-server">h. Setup DHCP Server</h3>
-
-<p>The next step you have to do is set up the DHCP server. To set up your DHCP server, click the <code class="language-plaintext highlighter-rouge">Services -&gt;&gt; DHCP Server</code>. Look at the image below, as your reference for configuring the DHCP server.</p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiB1CuSPC4WfajXCj6joaF-7Iz2N7dOG3zzqWnuoDA9j7zyQcdT2htmjwI2SiLmFOFwq_ee9XJGdn7Cwe9HVlfS1khlffxzDFdPCyD7_MjqQfOdqFSa57jYrm7sA5EAXMDrFzt5numS8pcfGCzLlLOxerwj2rLk0kqggJWMBCsuMAkGy_b6WuEoAKl12jMn/s16000/mengaktifkan%20dhcp%20server%20untuk%20lan.png" alt="service dhcp server lan" /></p>
-
-<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgeRYuafNimlbq1Z_OlWLylxXG4xhOgOik95xFxC6nkfKs37kpEgv8uznSLRVtJBt7qgvyXKZSKw4obEfPChUA7Uq8Tl6XBkeKfORZ08jD2iIaksBBw4QCRtUrsY-mxdK2eZhEtiwEVRDK48X7iUCCvqhSZglMTiCzw4MLmwliShr9Ui_xPMCnJFr9JDJmF/s16000/mengkonfigurasi%20dhcp%20server%20pfsense.png" alt="server option" /></p>
-
-<p>The final step is to reboot your PFSense server. Wait until PFSense returns to running normally. After that, you test by opening Google Chrome and typing “https://www.youtube.com/”. If you don’t go through each configuration that we have explained, you should be able to open YouTube.</p>
-
-<p>If your PFSense is not connected to the internet, you can start the steps in points “f” and “g”.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="Networking" /><category term="SysAdmin" /><summary type="html"><![CDATA[PFSense is generally used as a firewall or router. But with its myriad of features, PFSense can also be used as a DNS server, DHCP server, proxy server, Bandwith limiter, VPN and so on. All of this can be easily configured simply via Google Chrome.]]></summary></entry><entry xml:lang="en"><title type="html">FreeBSD OpenSearch - Configuring OpenSearch TLS Plugins and Certificates with OpenSSL</title><link href="https://unixwinbsd.site/freebsd/configuration-opensearch-tls-plugins-certificates-openssl-freebsd/" rel="alternate" type="text/html" title="FreeBSD OpenSearch - Configuring OpenSearch TLS Plugins and Certificates with OpenSSL" /><published>2025-08-14T09:05:27+03:00</published><updated>2025-08-14T09:05:27+03:00</updated><id>https://unixwinbsd.site/freebsd/configuration-opensearch-tls-plugins-certificates-openssl-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/configuration-opensearch-tls-plugins-certificates-openssl-freebsd/"><![CDATA[<p>OpenSearch is an open-source utility widely used as a search engine and also as a powerful tool for data analysis. OpenSearch is based on the Elasticsearch 7.10.2 codebase. The OpenSearch system includes:</p>
-
-<ul>
-  <li>Storage and search engine.</li>
-  <li>Web interface.</li>
-  <li>OpenSearch Dashboard data visualization environment.</li>
-  <li>Add-ons that allow you to use some of the Elasticsearch engine’s features.</li>
-</ul>
-
-<p>OpenSearch was born out of community participation and support from major companies like Red Hat, SAP, Capital One, and others. The OpenSearch system is often used for full-text web search because it can store and analyze logs, as well as visualize and analyze the information received.</p>
-
-<p>OpenSearch can be combined with Beat’s data delivery platforms (Filebeat, Winlogbeat, etc.), allowing OpenSearch users to build a full log management cycle, including collection, organization, and search.</p>
-
-<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/19opensearch%20kafka%20ON%20freebsd.jpg" alt="Opensearch kafka ON freebsd" /></p>
-
-<h2 id="a-specifications-of-the-system-used">A. Specifications of the System Used</h2>
-<ul>
-  <li>OS: FreeBSD 13.3</li>
-  <li>Hostname: ns3</li>
-  <li>IP address: 192.168.5.2</li>
-  <li>Logstash version: logstash8-8.11.3</li>
-  <li>Opensearch version: Opensearch-2.11.1</li>
-  <li>Dependencies: bash jna</li>
-</ul>
-
-<p><strong>Java version :</strong></p>
-<ul>
-  <li>openjdk version “17.0.9” 2023-10-17</li>
-  <li>OpenJDK Runtime Environment (build 17.0.9+9-1)</li>
-  <li>OpenJDK 64-Bit Server VM (build 17.0.9+9-1, mixed mode, sharing)</li>
-</ul>
-
-<h2 id="b-setting-up-transport-layer-tls">B. Setting up Transport layer TLS</h2>
-<p>In this section, we’ll explain how to configure the Opensearch security plugin on FreeBSD. Opensearch offers many plugins you can use, all of which require an SSL certificate to support many additional features and configuration methods. You can configure a TLS certificate using tools like OpenSSL.</p>
-
-<p>Adding a TLS certificate provides additional security for your Opensearch host. The TLS certificate allows clients to verify the node’s identity and encrypt traffic between the client and the host. The TLS certificate is configured in the opensearch.yml file, which we’ll store in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/opensearch</code> directory. Follow the steps below to create a <code class="language-plaintext highlighter-rouge">self-signed certificate</code>.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/etc/opensearch
-root@ns3:/usr/local/etc/opensearch # rm -f *pem
-</code></pre></div></div>
-
-<h3 id="a-generate-root-certificate">a. Generate root certificate</h3>
-<p>Before we go any further, let’s first create a private key for the <code class="language-plaintext highlighter-rouge">root</code> certificate. The root certificate is used to sign other certificates.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl genrsa -out root-ca-key.pem 2048
-Generating RSA private key, 2048 bit long modulus (2 primes)
-.........................................+++++
-.............................+++++
-e is 65537 (0x010001)
-</code></pre></div></div>
-<p>After that, you create your own self-signed <code class="language-plaintext highlighter-rouge">root CA certificate</code>. Use the -subj parameter to provide your host-specific information.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl req -new -x509 -sha256 -key root-ca-key.pem -out root-ca.pem -days 730
-</code></pre></div></div>
-
-<h3 id="b-generate-administrator-certificate">b. Generate Administrator Certificate</h3>
-<p>Next, create a certificate for the administrator. To create an <code class="language-plaintext highlighter-rouge">administrator certificate</code>, first generate a new key so the administrator can perform administrative tasks related to the security plugin.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl genrsa -out admin-key-temp.pem 2048
-</code></pre></div></div>
-
-<p>To make the administrator certificate usable with Java programs, convert the key to <code class="language-plaintext highlighter-rouge">PKCS</code> format.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl pkcs8 -inform PEM -outform PEM -in admin-key-temp.pem -topk8 -nocrypt -v1 PBE-SHA1-3DES -out admin-key.pem
-</code></pre></div></div>
-
-<p>Next, create a <code class="language-plaintext highlighter-rouge">certificate signing request (CSR)</code> for the administrator certificate (Certificate Signing Request) based on the private key. This file acts as an application to the CA for the certificate you just signed.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl req -new -key admin-key.pem -out admin.csr
-</code></pre></div></div>
-
-<p>Now that the private key and signing request have been created, sign the <code class="language-plaintext highlighter-rouge">administrator certificate</code> using the root certificate and private key you created earlier.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl x509 -req -in admin.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out admin.pem -days 730
-</code></pre></div></div>
-
-<h3 id="c-create-node-certificate">c. Create Node Certificate</h3>
-<p>Creating a node certificate is almost the same as the steps for creating an administrator certificate above. In this section, we’ll create a key and CSR with a new file name for each node and client certificate. To create a node or client certificate, first create a new key.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl genrsa -out node1-key-temp.pem 2048
-</code></pre></div></div>
-
-<p>Then convert the private key to <code class="language-plaintext highlighter-rouge">PKCS format</code>, so that it can be used by Java applications.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl pkcs8 -inform PEM -outform PEM -in node1-key-temp.pem -topk8 -nocrypt -v1 PBE-SHA1-3DES -out node1-key.pem
-</code></pre></div></div>
-
-<p>Next, create a new <code class="language-plaintext highlighter-rouge">CSR</code> for the host certificate based on the private key.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl req -new -key node1-key.pem -out node1.csr
-</code></pre></div></div>
-
-<p>For all host and client certificates, you must specify <code class="language-plaintext highlighter-rouge">a subject alternative name (SAN)</code>.
-Before creating a signed certificate, create a SAN extension file containing the hostname and domain name.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # echo 'subjectAltName=DNS:node1.datainchi.com' &gt; node1.ext
-</code></pre></div></div>
-<p>Next, create the certificate.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl x509 -req -in node1.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out node1.pem -days 730 -extfile node1.ext
-</code></pre></div></div>
-<p>Next, convert the CA root certificate to .crt format so that the <code class="language-plaintext highlighter-rouge">CA</code> root certificate can be installed on the Opensearch server.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # openssl x509 -outform der -in root-ca.pem -out root-ca.crt
-</code></pre></div></div>
-<p>Change the ownership and permissions of the directory to <code class="language-plaintext highlighter-rouge">opensearch:opensearch</code>.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # chown -R opensearch:opensearch /usr/local/etc/opensearch/
-</code></pre></div></div>
-
-<h3 id="d-preparing-certificates-for-opensearch">d. Preparing Certificates for Opensearch</h3>
-<p>Once you’ve created all the certificates, proceed to install them and add them to your OpenSearch configuration file,  <code class="language-plaintext highlighter-rouge">"opensearch.yml"</code> Open <code class="language-plaintext highlighter-rouge">"/usr/local/etc/opensearch/opensearch.yml"</code> and at the very bottom of the script (the end of the script), add the following script.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/opensearch # ee opensearch.yml
-plugins.security.ssl.transport.pemcert_filepath: /usr/local/etc/opensearch/node1.pem
-plugins.security.ssl.transport.pemkey_filepath: /usr/local/etc/opensearch/node1-key.pem
-plugins.security.ssl.transport.pemtrustedcas_filepath: /usr/local/etc/opensearch/root-ca.pem
-plugins.security.ssl.http.enabled: true
-plugins.security.ssl.http.pemcert_filepath: /usr/local/etc/opensearch/node1.pem
-plugins.security.ssl.http.pemkey_filepath: /usr/local/etc/opensearch/node1-key.pem
-plugins.security.ssl.http.pemtrustedcas_filepath: /usr/local/etc/opensearch/root-ca.pem
-plugins.security.allow_default_init_securityindex: true
-plugins.security.authcz.admin_dn:
-  - 'CN=A,OU=UNIT,O=ORG,L=TORONTO,ST=ONTARIO,C=CA'
-plugins.security.nodes_dn:
-  - 'CN=node1.datainchi.com,OU=UNIT,O=ORG,L=TORONTO,ST=ONTARIO,C=CA'
-plugins.security.audit.type: internal_opensearch
-plugins.security.enable_snapshot_restore_privilege: true
-plugins.security.check_snapshot_restore_write_privileges: true
-</code></pre></div></div>
-
-<h2 id="c-plugin-installation-process">C. Plugin Installation Process</h2>
-<p>As we know, Opensearch includes several core plugins as part of its release installation. In Opensearch, plugins are used to enhance core functions and features. In addition to core plugins, you can also write your own custom plugins, and there are also community-created plugins available on GitHub.</p>
-
-<p>For plugins to function properly and connect with Opensearch, all plugins must be able to access data in the cluster. Before using a plugin, you must first understand its function and benefits. Then, you should learn what plugins are available in Opensearch. You can view the available plugins by running the command below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/lib/opensearch/bin
-root@ns3:/usr/local/lib/opensearch/bin # ./opensearch-plugin list
-analysis-extension
-analysis-fess
-analysis-icu
-configsync
-minhash
-opensearch-alerting
-opensearch-anomaly-detection
-opensearch-asynchronous-search
-opensearch-cross-cluster-replication
-opensearch-custom-codecs
-opensearch-geospatial
-opensearch-index-management
-opensearch-job-scheduler
-opensearch-knn
-opensearch-ml
-opensearch-neural-search
-opensearch-notifications
-opensearch-notifications-core
-opensearch-observability
-opensearch-performance-analyzer
-opensearch-reports-scheduler
-opensearch-security
-opensearch-security-analytics
-opensearch-sql
-</code></pre></div></div>
-<p>Full list of supported additional plugins:</p>
-
-<p><strong>repository-gcs</strong>
-Added support for Google Cloud Storage service as a snapshot repository.</p>
-
-<p><strong>analysis-icu</strong>
-Added the Lucene ICU module with extended Unicode support and use of the ICU library. This module provides improved Asian language analysis, Unicode normalization, Unicode case conversion, matching support, and transliteration.</p>
-
-<p><strong>repository-azure</strong>
-Added support for Azure Blob storage as a snapshot repository.</p>
-
-<p><strong>analysis-kuromoji</strong>
-Added Lucene kuromoji analysis module for Japanese.</p>
-
-<p><strong>analysis-nori</strong>
-Added Lucene nori analysis module for Korea.</p>
-
-<p><strong>analysis-phonetic</strong>
-Provides a token filter that converts expressions to their phonetic representation using Soundex, Metaphone, and other algorithms.</p>
-
-<p><strong>repository-s3</strong>
-Added support for AWS S3 as a snapshot repository.</p>
-
-<p><strong>analysis-smartcn</strong>
-Added Smart Chinese Lucene analysis module for Chinese text or mixed Chinese, English text.</p>
-
-<p><strong>analysis-stempel</strong>
-Added Lucene Stamp analysis module for Polish language.</p>
-
-<p><strong>ingest-attachment</strong>
-Extract file attachments in common formats (such as PPT, XLS, and PDF) using the Apache Tika text extraction library.</p>
-
-<p><strong>mapper-annotated-text</strong>
-Indexing text is a combination of plain text and special markup. This combination is used to identify objects, such as people or organizations.</p>
-
-<p><strong>mapper-murmur3</strong>
-Computes the hash of the field value based on the index time and stores it in the index.</p>
-
-<p><strong>mapper-size</strong>
-Provides the metadata field size, which indexes the size in bytes of the source.</p>
-
-<p><strong>repository-hdfs</strong>
-Added support for HDFS file systems as snapshot repositories.</p>
-
-<p><strong>transport-nio</strong>
-A non-blocking client-server network library built using Netty.</p>
-
-<h2 id="d-how-to-use-the-opensearch-plugin">D. How to use the Opensearch plugin</h2>
-<p>Opensearch’s functionality and features can be enhanced by adding custom plugins. Examples of plugins that can enhance Opensearch’s functionality include adding custom mapping types, engine scripts, and more. In this section, we’ll learn how to use Opensearch plugins. Here’s a sample script for installing a plugin:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/local/lib/opensearch/bin/opensearch-plugin install plugin-name
-</code></pre></div></div>
-
-<p>To further your understanding of plugins, here’s an example of how to install a plugin.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/lib/opensearch/bin
-root@ns3:/usr/local/lib/opensearch/bin # ./opensearch-plugin install org.codelibs.opensearch:opensearch-analysis-fess:2.9.0
-root@ns3:/usr/local/lib/opensearch/bin # ./opensearch-plugin install org.codelibs.opensearch:opensearch-analysis-extension:2.9.0
-root@ns3:/usr/local/lib/opensearch/bin # ./opensearch-plugin install org.codelibs.opensearch:opensearch-minhash:2.9.0
-root@ns3:/usr/local/lib/opensearch/bin # ./opensearch-plugin install org.codelibs.opensearch:opensearch-configsync:2.9.0
-root@ns3:/usr/local/lib/opensearch/bin # ./opensearch-plugin install analysis-icu
-root@ns3:/usr/local/lib/opensearch/bin # ./opensearch-plugin install org.opensearch.plugin:opensearch-anomaly-detection:2.2.0.0
-</code></pre></div></div>
-
-<h2 id="e-how-to-delete-plugins">E. How to Delete Plugins</h2>
-<p>Once you’ve learned how to install a plugin, you’ll probably want to know how to remove it. The script is almost identical to installing a plugin, but here’s the syntax for removing a plugin:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/local/lib/opensearch/bin/opensearch-plugin remove plugin-name
-</code></pre></div></div>
-
-<p>Below, we show you how to <code class="language-plaintext highlighter-rouge">remove</code> a plugin.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/lib/opensearch/bin # ./opensearch-plugin remove org.codelibs.opensearch:opensearch-configsync:2.9.0
-root@ns3:/usr/local/lib/opensearch/bin # ./opensearch-plugin remove analysis-icu
-</code></pre></div></div>
-<p>In this post, we’ve detailed the process of creating an SSL certificate and how to install and remove the Opensearch plugin. We recommend reading all pages of the Opensearch documentation to gain a deeper understanding and make it easier to use its functions and features.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[OpenSearch was born out of community participation and support from major companies like Red Hat, SAP, Capital One, and others. The OpenSearch system is often used for full-text web search because it can store and analyze logs, as well as visualize and analyze the information received.]]></summary></entry><entry xml:lang="en"><title type="html">How to Create an IPFW Firewall on FreeBSD with One Network Card</title><link href="https://unixwinbsd.site/freebsd/create-ipfw-firewall-with-single-card-on-freebsd/" rel="alternate" type="text/html" title="How to Create an IPFW Firewall on FreeBSD with One Network Card" /><published>2025-08-13T12:15:47+03:00</published><updated>2025-08-13T12:15:47+03:00</updated><id>https://unixwinbsd.site/freebsd/create-ipfw-firewall-with-single-card-on-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/create-ipfw-firewall-with-single-card-on-freebsd/"><![CDATA[<p>IPFW is an IPv4 and IPv6 compatible stateful firewall designed for FreeBSD. It consists of a kernel firewall filter rules processor with integrated packet accounting facilities, logging facilities, NAT, dummynet traffic shaping, forward facilities, bridge facilities, and ipstealth facilities.</p>
-
-<p>FreeBSD includes example rule sets in <code class="language-plaintext highlighter-rouge">/etc/rc.firewall</code> that define many types of firewalls for specific circumstances to assist inexperienced users in developing appropriate rules. IPFW offers a powerful syntax that allows expert users to create customized rule sets that meet the security needs of specific environments.</p>
-
-<p>In the previous series of articles, we studied PF firewalls. After we configure it and explore its capabilities for various traffic functions. In the new loop, we will do the same for the IPFW firewall. As with the PF firewall, let’s start with a brief overview and create a simple configuration to protect our FreeBSD server. In the next section, we’ll dive in and configure step by step, introducing new rule types and adding some firewall rules.</p>
-
-<p>Ipfirewall is an open source module ported to many operating systems. This list includes FreeBSD, NetBSD, OpenBSD, SunOS, HP/UX and Solaris, Mac OS and even Windows. It is also frequently used for various embedded systems. It first appeared in FreeBSD version 2.0.</p>
-
-<p>In ipfw, configuration consists of numbered rules. Packets follow a rule, going from smaller numbers to larger numbers, until the first action (for example, allow or deny), after which processing stops. Somewhat similar to iptables on Linux.</p>
-
-<h2 id="1-create-a-start-up-script-rcd">1. Create a Start Up Script rc.d</h2>
-
-<p>Even though the IPFW Firewall is built into the FreeBSD system, this firewall is not automatically activated. To activate the IPFW Firewall we have to add several scripts to the /etc/rc.conf file. The following is an example of an IPFW Firewall script for automatic start up. Enter the script below into the <code class="language-plaintext highlighter-rouge">rc.conf</code> file.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>firewall_enable="YES"
-firewall type="open"
-firewall_script="/etc/ipfw.rules"
-firewall_logging="YES"
-firewall_logif="YES"
-</code></pre></div></div>
-
-<p>Only rules with the log option enabled will be logged. this option is not included in the default rules. Therefore, it is recommended to change the default rule set for logging. Additionally, if logs are stored in separate files, log rotation may be necessary. To set the logging limit we have to set it in the <code class="language-plaintext highlighter-rouge">/etc/sysctl.conf</code> file. Enter the following script in the <code class="language-plaintext highlighter-rouge">/etc/sysctl.conf</code> file.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # echo "net.inet.ip.fw.verbose_limit=5" &gt;&gt; /etc/sysctl.conf
-</code></pre></div></div>
-
-<p>To display logging file information, use the following script.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # tcpdump -t -n -i ipfw0
-</code></pre></div></div>
-
-<p>And to determine the number of logging limits, enter the following script into the <code class="language-plaintext highlighter-rouge">/etc/sysctl.conf</code> file.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net.inet.ip.fw.verbose_limit=5
-</code></pre></div></div>
-
-<h2 id="2-create-ipfw-firewall-rules">2. Create IPFW Firewall Rules</h2>
-
-<p>After the Start Up rc.d is created and the logging rules are set, it is time to create the IPFW Firewall Rules script. Before we write IPFW Firewall rules, add the following script to the <code class="language-plaintext highlighter-rouge">/etc/sysctl.conf</code> file.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net.inet.ip.fw.default_to_accept="1"
-</code></pre></div></div>
-
-<p>If the script above has been added to the <code class="language-plaintext highlighter-rouge">/etc/sysctl.conf</code> file, then we can start writing IPFW Firewall rules. To write these Rules, we look at the script in the <code class="language-plaintext highlighter-rouge">rc.conf</code> file above. In the <code class="language-plaintext highlighter-rouge">rc.conf</code> file the rules are defined with the file name <code class="language-plaintext highlighter-rouge">ipfw.rules</code>. Create the file with the following command.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # touch /etc/ipfw.rules
-root@router2:~ # chmod -R +x /etc/ipfw.rules
-</code></pre></div></div>
-
-<p>Next, in the <code class="language-plaintext highlighter-rouge">/etc/ipfw.rules</code> file, enter the following script.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipfw -q -f flush
-
-eif="re0"
-edns="8.8.8.8"
-cmd="ipfw -q add"
-ks="keep-state"
-
-$cmd 00010 allow all from any to any via lo0
-$cmd 00005 allow all from any to any via re0
-
-$cmd 00020 check-state 
-$cmd 00030 deny all from any to any frag 
-$cmd 00040 deny tcp from any to any established in via $eif
-
-
-$cmd 000100 allow tcp from any to me 80 in via $eif $ks
-$cmd 000110 allow tcp from any to me 443 in via $eif $ks
-#$cmd 000120 allow tcp from any to me 22 in via $eif $ks
-$cmd 000900 allow all from me to any out via $eif $ks
-$cmd 001000 deny log all from any to any
-</code></pre></div></div>
-
-<p>Then we continue by restarting the IPFW Firewall.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service ipfw restart
-</code></pre></div></div>
-
-<p>The method above is the simplest way to create an IPFW Firewall. This method can only be applied to Single Host or FreeBSD servers with one interface.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="Anonymous" /><summary type="html"><![CDATA[Ipfirewall is an open source module ported to many operating systems. This list includes FreeBSD, NetBSD, OpenBSD, SunOS, HP/UX and Solaris, Mac OS and even Windows. It is also frequently used for various embedded systems. It first appeared in FreeBSD version 2.0.]]></summary></entry></feed>
+<p>Overall, it’s great to have Grafana and Prometheus at your disposal for simplicity.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="OpenBSD" /><category term="WebServer" /><summary type="html"><![CDATA[It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana on separate servers. However, during testing, I was able to run both on a fairly small server.]]></summary></entry></feed>

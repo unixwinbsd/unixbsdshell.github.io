@@ -1,0 +1,969 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Installing and Using the Java Development Kit on FreeBSD - UnixBSDShell</title>
+<meta name="description" content="Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which requires a DB server when running the application">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Installing and Using the Java Development Kit on FreeBSD">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/">
+
+
+  <meta property="og:description" content="Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which requires a DB server when running the application">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Installing and Using the Java Development Kit on FreeBSD">
+  <meta name="twitter:description" content="Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which requires a DB server when running the application">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-09-16T10:57:03+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Installing and Using the Java Development Kit on FreeBSD</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Installing and Using the Java Development Kit on FreeBSD">
+    <meta itemprop="description" content="Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which requires a DB server when running the application">
+    <meta itemprop="datePublished" content="2025-09-16T10:57:03+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Installing and Using the Java Development Kit on FreeBSD
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-what-is-java">1. What Is Java</a></li>
+  <li><a href="#2-install-the-java-development-kit">2. Install the Java Development Kit</a></li>
+  <li><a href="#3-editing-java-code">3. Editing Java Code</a>
+    <ul>
+      <li><a href="#a-intellij-idea">a. Intellij IDEA</a></li>
+      <li><a href="#b-netbeans">b. Netbeans</a></li>
+      <li><a href="#c-eclipse">c. Eclipse</a></li>
+      <li><a href="#d-maven">d. Maven</a></li>
+      <li><a href="#e-scala">e. Scala</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>FreeBSD is a powerful and reliable operating system that is widely used by developers and system administrators. If you are a Java developer, you need to install a Java development environment on your FreeBSD system, to help make it easier to run your Java projects.</p>
+
+<p>In this article we will learn a brief introduction to setting up a Java development environment on your computer running reeBSD 13 or above. You can also apply the tutorials in this article to FreeBSD Desktops such as GhostBSD or Hello.</p>
+
+<h2 id="1-what-is-java">1. What Is Java</h2>
+
+<p>Java is a popular programming language, created in 1995 by Sun Microsystems (purchased by Oracle in 2010), and more than 3 billion devices in the world run Java.</p>
+
+<p>One of Java’s primary design goals is a high degree of portability across platforms. Java writing is summarized by the slogan write once, run anywhere, and is realized by compiling Java source code into ‘bytecode’, which can be run in a very uniform environment across different architectures and platforms.</p>
+
+<p>So, someone can write code on Windows, but execute it on FreeBSD or GNU/Linux servers. Over time, Java has become extremely popular, and is a very reliable choice for writing server-side applications as well as Android applications.</p>
+
+<p>Java environments can be found on all sorts of devices, large and small, and therefore a Java developer has more flexibility when it comes to being able to treat code as agnostic to the system on which it runs. The Java programming language itself is an object-oriented language that is syntactically similar to C++. Java has always been designed with an object-oriented design.</p>
+
+<p>Because Java is built with the C++ language which is similar to the FreeBSD system, it can be easily run on Unix-based computers, such as FreeBSD, DragonFly BSD, GhostBSD, HardenedBSD and others.</p>
+
+<p><strong>Java is used for:</strong></p>
+
+<ul>
+  <li>Desktop applications.</li>
+  <li>Web applications.</li>
+  <li>Mobile applications (specially Android apps).</li>
+  <li>Database connection.</li>
+  <li>Web servers and application servers.</li>
+  <li>Games.</li>
+  <li>And much, much more!.</li>
+</ul>
+
+<h2 id="2-install-the-java-development-kit">2. Install the Java Development Kit</h2>
+
+<p>Since Oracle Corporation bought Sun and is now the owner of the official Java runtime and development kit implementation. To be able to write Java, Oracle has provided implementations for Windows, Mac OSX, and Linux operating systems. The official reference implementation is open sourced under GPLv2 (with the exception of links), and therefore the OpenJDK implementation is workable for FreeBSD.</p>
+
+<p>To be able to write applications in Java on FreeBSD, you need the Java Development Kit which provides a compiler, runtime and standard libraries. This package is available on FeeBSD, you just need to install it.</p>
+
+<p>There are two different Java packages that can be installed:</p>
+
+<ul>
+  <li>Java Runtime Environment (JRE), and</li>
+  <li>Java Development Kit (JDK).</li>
+</ul>
+
+<p>JRE is an implementation of the Java Virtual Machine (JVM), which runs compiled Java applications and applets. Whereas the JDK includes the JRE and other software needed to write, develop, and compile Java applications and applets.</p>
+
+<p>Before we start installing Java, use the following command to view the list of Java available on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg search openjdk
+</code></pre></div></div>
+
+<p>You will see all versions of Java on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bootstrap-openjdk11-11.0.5.10.1 Java Development Kit 11
+bootstrap-openjdk17-17.0.1.12.1 Java Development Kit 17
+bootstrap-openjdk8-r450802_2   Java Development Kit 8
+openjdk11-11.0.21+9.1          Java Development Kit 11
+openjdk11-jre-11.0.21+9.1      Java Runtime Environment 11
+openjdk17-17.0.9+9.1           Java Development Kit 17
+openjdk17-jre-17.0.9+9.1       Java Runtime Environment 17
+openjdk18-18.0.2+9.1_2         Java Development Kit 18
+openjdk19-19.0.2+7.1_1         Java Development Kit 19
+openjdk20-20.0.2+9.1           Java Development Kit 20
+openjdk21-21.0.1+12.1          Java Development Kit 21
+openjdk8-8.392.08.1            Java Development Kit 8
+openjdk8-jre-8.392.08.1        Java Runtime Environment 8
+rxtx-openjdk8-2.2p2_4          Native interface to serial ports in Java
+</code></pre></div></div>
+
+<p>Please select the version of Java that you want to install, with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install openjdk17-17.0.9+9.1
+</code></pre></div></div>
+
+<h2 id="3-editing-java-code">3. Editing Java Code</h2>
+
+<p>Java Editor is a simple and powerful application for creating, editing, and saving Java files on your FreeBSD Drive. With an intuitive interface and important features such as import and export and syntax highlighting. The Java Editor makes it easy for you to write Java code while traveling or at home. Java Editor is the perfect tool for anyone who needs to manage their Java code. Install Java Editor on your FreeBSD server and experience the power of easy Java editing!.</p>
+
+<p>You can edit Java code using a plain text editor, but almost all Java programmers use an IDE to edit their code. There are several editors is available and you can install it on FreeBSD.</p>
+
+<h3 id="a-intellij-idea">a. Intellij IDEA</h3>
+
+<p>IntelliJ IDEA is an integrated development environment for Java applications from the JetBrains company. It is positioned as the smartest and most convenient Java development environment with support for all the latest technologies and frameworks. IntelliJ IDEA is one of the three most popular Java IDEs along with Eclipse IDE and NetBeans IDE.</p>
+
+<p>Users will find that every aspect of IntelliJ IDEA is designed to maximize developer productivity. Both powerful static code analysis and ergonomic program design make development not only productive. They can make it a pleasant experience if we compare it with other IDEs.</p>
+
+<p>Use the following command to install IntelliJ IDEA.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install intellij-2020.2.3
+root@ns7:~ # pkg install intellij-ultimate-2022.2.5_1
+</code></pre></div></div>
+
+<h3 id="b-netbeans">b. Netbeans</h3>
+
+<p>For those of you who are involved in the world of programming, you will definitely be familiar with this software. What is Netbeans? Netbeans is a software that is often used in the world of programmers or developers. Not an ordinary text editor, Netbeans is an IDE or Integrated Development Environment application that is based on Java and runs on Swing. What I mean by Swing here is a technology that allows the development of desktop applications and can run on various platforms such as FreeBSD, Windows, Mac OS, Linux and Solaris.</p>
+
+<p>Meanwhile, the Integrated Development Environment is a programming or development system that is integrated into software. Netbeans provides several tools such as a Graphic User Interface (GUI), code or text editor, a compiler and debugger. This will make the performance of programmers or developers who use Netbeans easier. Not only does it support the Java programming language, by using Netbeans you can also create or develop programs based on C, C++ or even dynamic languages such as PHP, JavaScript, Groovy, and Ruby.</p>
+
+<p>Netbeans is an open code (open source) application that is quite successful with many users and a growing community throughout the world and currently has 100 business partners and will likely continue to grow in the future. Sun Microsystems as the main sponsor of Netbeans has been around and developed since 2000 and to this day continues its collaboration.</p>
+
+<p>Installing Netbeans on FreeBSD is very easy, just run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install netbeans-17
+</code></pre></div></div>
+
+<h3 id="c-eclipse">c. Eclipse</h3>
+
+<p>Eclipse is a platform that has been designed to build various applications that can be integrated such as websites, mobile and so on. Eclipse is open source which is usually used to develop Java-based applications that allow software developers to create customized development environments (IDEs). You can develop and learn this platform if you take an Android course wherever you are.</p>
+
+<p>Eclipse was started in 2001 by IBM, at which time the company donated three million lines of code from its Java tool. The goal of Eclipse is to create and foster an open source IDE community that will complement the Apache community.</p>
+
+<p>Eclipse provides a common user interface (UI) model for working with other tools. It is designed to run on multiple operating systems while providing tight integration with each underlying OS. Plug-ins are used for Eclipse portable API programs and change on any of the supported operating systems.</p>
+
+<p>Before you install Eclipse, look at the version of Eclipse available on freeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg search Eclipse
+</code></pre></div></div>
+
+<p>Below are the Eclipse versions available on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eclipse-4.24_2                 Eclipse IDE 2022-06
+eclipse-EPIC-0.6.35_3          EPIC adds Perl support to the Eclipse IDE Framework
+eclipse-ShellEd-1.0.2a_4       Shell script editor for Eclipse
+eclipse-cdt-9.0.1              C/C++ plugin for Eclipse IDE
+eclipse-drjava-0.9.8_6         DrJava plugin for Eclipse
+eclipse-ecj-4.4.2_1            Eclipse Java Compiler
+eclipse-findbugs-3.0.1.20150306.5.a4.d1 Eclipse plug-in that provides FindBugs support
+eclipse-glassfish-5.1.0_1      Eclipse Jakarta EE Platform
+eclipse-pydev-10.2.1           Eclipse plugin for Python and Jython development
+phpeclipse-1.2.3_6             PHP Eclipse adds PHP support to the Eclipse IDE Framework
+redeclipse-2.0.0_2             Single-player and multi-player first-person ego-shooter
+redeclipse-data-2.0.0          Data files for Red Eclipse first-person shooter
+redeclipse-data16-1.6.0        Data files for Red Eclipse first-person shooter
+redeclipse16-1.6.0_2           Single-player and multi-player first-person ego-shooter
+</code></pre></div></div>
+
+<p>Run the following command to install Eclipse.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install eclipse-4.24_2
+</code></pre></div></div>
+
+<h3 id="d-maven">d. Maven</h3>
+
+<p>Maven is an application or program that is widely used to assist in creating Java projects. Maven was developed by the Apache Group with the aim of building, publishing, and distributing projects created by developers.</p>
+
+<p>On FreeBSD Maven can be installed with the ports or PKG system, in this article we will install Maven with the PKG package.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install maven
+</code></pre></div></div>
+
+<h3 id="e-scala">e. Scala</h3>
+
+<p>Scala is a general purpose programming language that supports object-oriented programming and functional programming. In general, the purpose of creating Scala is to criticize the Java programming language.</p>
+
+<p>Scala source code is built to compile with Java Bytecode, resulting in code execution running on a Java virtual machine. Scala provides language interoperability with Java, so that libraries written in these two languages can be referenced directly in Scala or Java code.</p>
+
+<p>Use the PKG package to install Scala on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install scala
+</code></pre></div></div>
+
+<p>Installing the Java Development Kit on a FreeBSD system can help you develop Java applications. While this article doesn’t go into detail about writing Java programs, customizing the IDE, or the various options you can provide to the JVM when running it, it can be used to supplement your knowledge of Java programming.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-09-16T10:57:03+03:00">September 16, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Installing+and+Using+the+Java+Development+Kit+on+FreeBSD%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstallation-java-development-kit-on-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstallation-java-development-kit-on-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstallation-java-development-kit-on-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" class="pagination--pager" title="How to Install Webmin on a FreeBSD System
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/freebsd-system-monitoring-with-cacti/" rel="permalink">Setting up FreeBSD System Monitoring Tool With Cacti
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Besides being able to maintain Graphs, Data Sources, and Round Robin Archives in a database, Cacti can also handle data collection. Another advantage of Cact...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/installation-java-development-kit-on-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

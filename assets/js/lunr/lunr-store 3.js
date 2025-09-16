@@ -934,6 +934,16 @@ var store = [{
         "tags": ["SysAdmin"],
         "url": "https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/",
         "teaser":null},{
+        "title": "Installation Guide and How to Use Redmine on FreeBSD",
+        "excerpt":"Building a software system project is not easy, this is due to the level of consumer needs which are becoming more and more complex day by day, in addition to the development of application software itself which is increasing in number and must always be updated. In creating software systems,...","categories": ["FreeBSD"],
+        "tags": ["WebServer"],
+        "url": "https://unixwinbsd.site/freebsd/installation-guide-redmine-on-freebsd/",
+        "teaser":null},{
+        "title": "Setting up FreeBSD System Monitoring Tool With Cacti",
+        "excerpt":"Cacti is a complete frontend for RRDTool, it can store all the information needed to create graphs and copy all that information into MySQL Server database tables. Cacti’s frontend runs entirely in PHP. Besides being able to maintain Graphs, Data Sources, and Round Robin Archives in a database, Cacti can...","categories": ["FreeBSD"],
+        "tags": ["WebServer"],
+        "url": "https://unixwinbsd.site/freebsd/freebsd-system-monitoring-with-cacti/",
+        "teaser":null},{
         "title": "Setting up a Mirror Site to convert PKG Packages on FreeBSD",
         "excerpt":"Those who are already very familiar with Linux systems may find that FreeBSD’s package management solution is actually more or less a perfect combination of the following two major Linux distribution package managers: Arch Linux: Pacman, which is compatible with pkg (also supports the KISS concept). Gentoo Linux: Portage, the...","categories": ["FreeBSD"],
         "tags": ["WebServer"],
@@ -948,6 +958,11 @@ var store = [{
         "excerpt":"Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source...","categories": ["FreeBSD"],
         "tags": ["SysAdmin"],
         "url": "https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/",
+        "teaser":null},{
+        "title": "Installing and Using the Java Development Kit on FreeBSD",
+        "excerpt":"FreeBSD is a powerful and reliable operating system that is widely used by developers and system administrators. If you are a Java developer, you need to install a Java development environment on your FreeBSD system, to help make it easier to run your Java projects. In this article we will...","categories": ["FreeBSD"],
+        "tags": ["WebServer"],
+        "url": "https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/",
         "teaser":null},{
         "title": "00 - What are Regex and why I should care?",
         "excerpt":"There is a quote from James Werner Zawinski who I deeply admire and goes by like Some people, when confronted with a problem, think “I know, I’ll use regular expressions.” Now they have two problems. I cannot but agree with the above statement but also think regular expression (regex for...","categories": [],

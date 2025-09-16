@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-16T02:35:11+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">How to Install Webmin on a FreeBSD System</title><link href="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="alternate" type="text/html" title="How to Install Webmin on a FreeBSD System" /><published>2025-09-15T09:35:11+03:00</published><updated>2025-09-15T09:35:11+03:00</updated><id>https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/"><![CDATA[<p>Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source applications, such as the BIND DNS Server, Apache HTTP Server, PHP, MySQL, and many more.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-16T06:00:56+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">How to Install Webmin on a FreeBSD System</title><link href="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="alternate" type="text/html" title="How to Install Webmin on a FreeBSD System" /><published>2025-09-15T09:35:11+03:00</published><updated>2025-09-15T09:35:11+03:00</updated><id>https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/"><![CDATA[<p>Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source applications, such as the BIND DNS Server, Apache HTTP Server, PHP, MySQL, and many more.</p>
 
 <p>In this article we will explain how to install and use Webmin on a FreeBSD 13.2 Stable system. As with other applications, installing Webmin on a FreeBSD system can use Ports and PKG. In this article we will explain how to install Webmin using both. OK, let’s just go ahead and install Webmin.</p>
 
@@ -287,7 +287,137 @@ root@ns3:~ # service apache24 start
 
 <p>You can directly create or upload an <code class="language-plaintext highlighter-rouge">"addressbook or calendar"</code> by clicking on the options displayed by the Radicale server.</p>
 
-<p>Radicale is very light and very easy to configure, for the next stage you can use the Radicale server that you have installed and configured on FreeBSD. You can safely use the CalDAV/CardDAV client from a Windows computer or FreeBSD Desktop.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or can be integrated with existing web servers such as Nextcloud or Owncloud]]></summary></entry><entry xml:lang="en"><title type="html">OpenBSD DHCP - Configuring IPv6 with dhcpcd</title><link href="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="alternate" type="text/html" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd" /><published>2025-08-19T13:01:32+03:00</published><updated>2025-08-19T13:01:32+03:00</updated><id>https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/"><![CDATA[<p>OpenBSD makes great routers. Its simplicity and ease of configuration make it perfect for network infrastructure applications. Everything you need to build a network of any size is already built into the base system, plus the manual pages and examples cover everything you need to know.</p>
+<p>Radicale is very light and very easy to configure, for the next stage you can use the Radicale server that you have installed and configured on FreeBSD. You can safely use the CalDAV/CardDAV client from a Windows computer or FreeBSD Desktop.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or can be integrated with existing web servers such as Nextcloud or Owncloud]]></summary></entry><entry xml:lang="en"><title type="html">Setting up a Mirror Site to convert PKG Packages on FreeBSD</title><link href="https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="alternate" type="text/html" title="Setting up a Mirror Site to convert PKG Packages on FreeBSD" /><published>2025-09-13T11:11:29+03:00</published><updated>2025-09-13T11:11:29+03:00</updated><id>https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd/"><![CDATA[<p>Those who are already very familiar with Linux systems may find that FreeBSD’s package management solution is actually more or less a perfect combination of the following two major Linux distribution package managers:</p>
+
+<ul>
+  <li><em>Arch Linux:</em> Pacman, which is compatible with pkg (also supports the KISS concept).</li>
+  <li><em>Gentoo Linux:</em> Portage, the equivalent of Ports (Portage itself is a clone of Ports).</li>
+</ul>
+
+<p>To understand what you should be working with with PKG packages, you first need to understand some common FreeBSD terminology that may have different meanings if you’re using other operating systems like Linux. PKG packages on FreeBSD contain pre-compiled collections of software – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software.</p>
+
+<p>In this article, we’ll discuss how to create a mirror repository for PKG packages. Using these mirrors can help speed up the process, as you can choose a FreeBSD mirror whose servers are close to your country.</p>
+
+<h2 id="a-what-is-a-pkg-package">A. What is a PKG Package?</h2>
+
+<p>In every operating system, packages are often referred to as structured files, denoted by the .pkg or .mpkg file extension. PKG packages are typically used to carry installable software. Packages can contain application or software components in the form of scripts, receipts, and other metadata needed to install, update, or uninstall an application. However, there are several types of packages you might encounter on each operating system.</p>
+
+<p>In general, a PKG package is a filename extension used for several file formats that contain software packages and other files to be installed on a device, on a specific operating system such as FreeBSD, OpenBSD, NetBSD, or DragonflyBSD.</p>
+
+<p>The pkg utility provides an interface for manipulating packages, primarily listing, adding, removing, and updating packages. pkg-static is a statically linked variant of pkg that is typically only used for initial pkg installations. There are some differences in functionality. See pkg.conf(5) for details.</p>
+
+<p>To use PKG packages on FreeBSD, you must first install the FreeBSD system. Afterward, you can use PKG to update, remove, or install applications. On FreeBSD, PKG packages are similar to the Ports system. However, PKG packages are faster for manipulating applications. This advantage makes PKG a top choice for application developers.</p>
+
+<h2 id="b-installation-sources-in-freebsd">B. Installation Sources in FreeBSD</h2>
+
+<p>Each operating system has its own way of creating installation sources, such as Linux and Ubuntu using apt packages. Similarly, FreeBSD has a different method than Linux. You can use several methods to install, remove, or update applications.</p>
+
+<p>In FreeBSD, there are four types of installation sources:</p>
+<ul>
+  <li>Paket pkg</li>
+  <li>System ports</li>
+  <li>portsnap, dan</li>
+  <li>update.</li>
+</ul>
+
+<h2 id="c-create-pkg-packages-for-freebsd-mirror-sites">C. Create PKG Packages for FreeBSD Mirror Sites</h2>
+
+<p>Many FreeBSD users and network administrators manage multiple servers. They face various challenges and demands when it comes to updating their infrastructure with the latest security and software patches. FreeBSD Update Server can simplify this process by allowing them to test updates on multiple machines before deploying them across the network. This also means they can update their servers more quickly from their local network rather than over a slower internet connection.</p>
+
+<p>The pkg package repository provides binary packages, whose pkg output paths are stored in <code class="language-plaintext highlighter-rouge">/var/cache/pkg/</code>. In FreeBSD, the pkg source is split into two configuration files: system-level and user-level. Before changing the PKG mirror path, add the following script to <code class="language-plaintext highlighter-rouge">/etc/make.conf</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /etc/make.conf
+WITH_PKG=yes
+</code></pre></div></div>
+
+<p>Not all sources have both quarterly and latest. To get rolling package updates, change quarterly to latest. The difference between the two can be found in the FreeBSD manual. Please note that the <code class="language-plaintext highlighter-rouge">CURRENT</code> version is only the latest version.</p>
+
+<p>Use the following command to change the system-level pkg source to use latest.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # sed -i '' 's/quarterly/latest/g' /etc/pkg/FreeBSD.conf
+</code></pre></div></div>
+
+<p>If you want to replace http with https, please install <code class="language-plaintext highlighter-rouge">/usr/ports/security/ca_root_nss</code> first, then change http to https, and run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # pkg update -f
+</code></pre></div></div>
+
+<p>Now we’ll change the default FreeBSD mirror path. Before changing the FreeBSD PKG mirror, we recommend <a href="https://unixwinbsd.site/freebsd/update-upgrade-pkg-ports-package-binary-freebsd">reading our previous article</a>.</p>
+
+<h3 id="a-create-user-level-source-directories-and-files">a. Create user-level source directories and files</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root@hostname1:~ # mkdir -p /usr/local/etc/pkg/repos
+ root@hostname1:~ # chmod -R +x /usr/local/etc/pkg/
+ root@hostname1:~ # ee /usr/local/etc/pkg/repos/163.conf
+ 
+163: {
+url: "http://mirrors.163.com/freebsd-pkg/${ABI}/quarterly",
+}
+FreeBSD: { enabled: no }
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root@hostname1:~ # ee /usr/local/etc/pkg/repos/ustc.conf
+ 
+ustc: {
+url: "http://mirrors.ustc.edu.cn/freebsd-pkg/${ABI}/quarterly",
+}
+FreeBSD: { enabled: no }
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root@hostname1:~ # ee /usr/local/etc/pkg/repos/nju.conf
+ 
+nju: {
+url: "http://mirrors.nju.edu.cn/freebsd-pkg/${ABI}/quarterly",
+}
+FreeBSD: { enabled: no }
+</code></pre></div></div>
+
+<h3 id="b-modify-the-makeconf-file">b. Modify the make.conf file</h3>
+
+<p>To enable the local mirror to run directly, you must type the following script in the <code class="language-plaintext highlighter-rouge">/etc/make.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # ee /etc/make.conf
+MASTER_SITE_OVERRIDE?=http://mirrors.nju.edu.cn/freebsd-ports/distfiles/${DIST_SUBDIR}/
+MASTER_SITE_OVERRIDE?=http://mirrors.163.com/freebsd-ports/distfiles/${DIST_SUBDIR}/
+MASTER_SITE_OVERRIDE?=http://mirrors.ustc.edu.cn/freebsd-ports/distfiles/${DIST_SUBDIR}/
+</code></pre></div></div>
+
+<h3 id="c-download-ports">c. Download Ports</h3>
+<p>This repository is the source for downloading the ports themselves. This repository is identical to the previous portsnap repository.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # cd /tmp
+root@hostname1:/tmp # fetch https://mirrors.nju.edu.cn/freebsd-ports/ports.tar.gz
+</code></pre></div></div>
+
+<h3 id="d-extract-ports">d. Extract ports</h3>
+
+<p>After that, run the extract command. Place the extracted files in <code class="language-plaintext highlighter-rouge">/usr/ports</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:/tmp # tar -zxvf ports.tar.gz -C /usr/ports
+</code></pre></div></div>
+
+<h3 id="e-install-the-pkg-package">e. Install the pkg Package</h3>
+
+<p>The next step is to install pkg. This will allow the FreeBSD mirror to immediately become the mirror we created earlier.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # cd /usr/ports/ports-mgmt/pkg
+root@hostname1:/usr/ports/ports-mgmt/pkg # make deinstall
+root@hostname1:/usr/ports/ports-mgmt/pkg # make reinstall
+</code></pre></div></div>
+
+<h3 id="f-delete-the-default-mirror">f. Delete the Default Mirror</h3>
+
+<p>Since we’re going to replace the default mirror with the one we created above, you’ll need to delete the default FreeBSD mirror.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # rm -rf /var/db/pkg/repos/FreeBSD
+</code></pre></div></div>
+
+<p>The final step is to update pkg, with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # pkg update &amp;&amp; pkg upgrade
+</code></pre></div></div>
+
+<p>Be careful when changing mirrors. Replacing the default FreeBSD mirror with a local mirror is only useful when the download connection is very slow. Using a local mirror will speed up the download and installation process. This tutorial should only be used as a reference. In practice, simply use the default FreeBSD mirror.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software]]></summary></entry><entry xml:lang="en"><title type="html">OpenBSD DHCP - Configuring IPv6 with dhcpcd</title><link href="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="alternate" type="text/html" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd" /><published>2025-08-19T13:01:32+03:00</published><updated>2025-08-19T13:01:32+03:00</updated><id>https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/"><![CDATA[<p>OpenBSD makes great routers. Its simplicity and ease of configuration make it perfect for network infrastructure applications. Everything you need to build a network of any size is already built into the base system, plus the manual pages and examples cover everything you need to know.</p>
 
 <p>I recently built a home router from scratch using <code class="language-plaintext highlighter-rouge">OpenBSD 7</code> without installing any additional packages, using only what came with the OpenBSD OS installation. Initially, before deciding to “build it from scratch,” I had a goal of building a router using open source software to improve my network security. After exploring several popular open source firewall and routing projects (especially pfSense and OPNSense), I ultimately decided to build my own.</p>
 
@@ -1379,220 +1509,4 @@ $cmd 001000 deny log all from any to any
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service ipfw restart
 </code></pre></div></div>
 
-<p>The method above is the simplest way to create an IPFW Firewall. This method can only be applied to Single Host or FreeBSD servers with one interface.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="Anonymous" /><summary type="html"><![CDATA[Ipfirewall is an open source module ported to many operating systems. This list includes FreeBSD, NetBSD, OpenBSD, SunOS, HP/UX and Solaris, Mac OS and even Windows. It is also frequently used for various embedded systems. It first appeared in FreeBSD version 2.0.]]></summary></entry><entry xml:lang="en"><title type="html">Using Java Jsoup Web Scraping to Extract Website Data with FreeBSD</title><link href="https://unixwinbsd.site/freebsd/java-jsoup-scraping-extract-website-freebsd/" rel="alternate" type="text/html" title="Using Java Jsoup Web Scraping to Extract Website Data with FreeBSD" /><published>2025-08-12T09:15:23+03:00</published><updated>2025-08-12T09:15:23+03:00</updated><id>https://unixwinbsd.site/freebsd/java-jsoup-scraping-extract-website-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/java-jsoup-scraping-extract-website-freebsd/"><![CDATA[<p>Java is one of the most popular and widely used programming languages, with a large community. This allows for the creation of highly scalable and reliable services and multi-threaded data extraction solutions. Let’s cover the key concepts of web scraping with Java and review the most popular libraries for orchestrating data extraction flows from websites with JSoup.</p>
-
-<p>JSoup is a Java library designed to work with HTML and Java scripts, simplifying work with HTML and XML. This allows developers to easily read and analyze data. JSoup can parse HTML from URLs, files, or strings. It offers an easy-to-use API for URL fetching, data parsing, extraction, and manipulation using DOM APIs, CSS, and xpath selector methods.</p>
-
-<p>This is an excellent library for simple web scraping due to its simplicity and ability to parse HTML scripts the same way browsers do, allowing you to use commonly used CSS selectors.</p>
-
-<p>JSoup works in much the same way as modern browsers, implementing the WHATWG HTML5 specification and parsing HTML into the DOM. Furthermore, JSoup offers several advantages that traditional browsers don’t.</p>
-
-<ul>
-  <li>Sanitize user-submitted content against a safelist to prevent XSS attacks.</li>
-  <li>Discover and extract data using DOM traversal or CSS selectors.</li>
-  <li>Scrape and parse HTML from URLs, files, or strings.</li>
-  <li>Produce clean HTML.</li>
-  <li>Manipulate HTML elements, attributes, and text.</li>
-</ul>
-
-<p>In this article, we’ll learn step-by-step how to extract data from a website using Java JSoup and Maven. The web scraping tutorial uses a FreeBSD server with Java and Maven installed.</p>
-
-<h2 id="1-what-is-web-scraping">1. What is Web Scraping?</h2>
-<p>Web scraping is one of the simplest, most effective, efficient, and beneficial ways to extract data from websites. Some websites may contain vast amounts of valuable data. This is where web scraping can help read and analyze the data.</p>
-
-<p>Web scraping refers to the extraction of data from a website. It is the process of obtaining data from a website, whether large or small. The information is then collected and exported into a more user-friendly format, whether it be a spreadsheet or an API.</p>
-
-<p>Using web scraping, we can obtain specific data such as images, tables, posts, or source code from the entire website content. The obtained data can be used for various purposes, such as data collection, research, analysis, and more.</p>
-
-<p>A web scraper can obtain all data from a website or blog. To obtain this data, we need to provide the URL of the website we want to scrape. It’s best to specify the type of data we want to scrape to speed up and streamline the process.</p>
-
-<p>For example, if we want videos or images from a website, we specify that we only need elements with the img tag to retrieve images. This will remove all img tags found on websites with the given URL. Web scrapers load all HTML code from the URL, although some advanced scrapers can even load CSS and JavaScript. The extracted data can be saved in an Excel file, a CSV file, or even a JSON file.</p>
-
-<h2 id="2-how-to-install-jsoup">2. How to Install JSoup</h2>
-<p>To use JSoup on a FreeBSD server, ensure your server has Java and Maven installed, as this article uses Maven as the JSoup build system. Read our previous article on how to install Maven and Java on FreeBSD.</p>
-
-<p>The FreeBSD repository doesn’t provide JSoup; you can install JSoup from GitHub. The commands below will guide you through installing JSoup on FreeBSD. Since you already have Maven installed, we’ll place the JSoup directory in the Maven directory <code class="language-plaintext highlighter-rouge">"/usr/local/etc/maven-wrapper/instances.d"</code>.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # cd /usr/local/etc/maven-wrapper/instances.d
-root@ns7:/usr/local/etc/maven-wrapper/instances.d # git clone https://github.com/jhy/jsoup.git
-root@ns7:/usr/local/etc/maven-wrapper/instances.d # cd jsoup
-root@ns7:/usr/local/etc/maven-wrapper/instances.d/jsoup #
-</code></pre></div></div>
-<p>The above script is used to configure JSoup from GitHub on your local FreeBSD server. Now let’s install <code class="language-plaintext highlighter-rouge">JSoup</code>.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d/jsoup # mvn install
-or
-root@ns7:/usr/local/etc/maven-wrapper/instances.d/jsoup # mvn install -X
-</code></pre></div></div>
-
-<h2 id="3-using-jsoup-web-scraping">3. Using jsoup Web Scraping</h2>
-<p>Web scraping should always start with a human touch. Before you scrape a website, you need to understand the HTML data structure of the website. Understanding data structures will give you an idea of how to navigate HTML tags when you apply a scraper.</p>
-
-<p>We will use Maven as a web scraping tool. To create a new Maven project, open a PuTTY terminal, if you are running it through Windows and run the following command.</p>
-
-<p><strong>“mvn archetype:generate -DgroupId=com.example.jsoupexample -DartifactId=jsoup-example -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false”</strong></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d # mvn archetype:generate -DgroupId=com.example.jsoupexample -DartifactId=jsoup-example -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
-[INFO] Scanning for projects...
-[INFO]
-[INFO] ------------------&lt; org.apache.maven:standalone-pom &gt;-------------------
-[INFO] Building Maven Stub Project (No POM) 1
-[INFO] --------------------------------[ pom ]---------------------------------
-[INFO]
-[INFO] &gt;&gt;&gt; archetype:3.2.1:generate (default-cli) &gt; generate-sources @ standalone-pom &gt;&gt;&gt;
-[INFO]
-[INFO] &lt;&lt;&lt; archetype:3.2.1:generate (default-cli) &lt; generate-sources @ standalone-pom &lt;&lt;&lt;
-[INFO]
-[INFO]
-[INFO] --- archetype:3.2.1:generate (default-cli) @ standalone-pom ---
-[INFO] Generating project in Batch mode
-[INFO] ----------------------------------------------------------------------------
-[INFO] Using following parameters for creating project from Archetype: maven-archetype-quickstart:1.4
-[INFO] ----------------------------------------------------------------------------
-[INFO] Parameter: groupId, Value: com.example.jsoupexample
-[INFO] Parameter: artifactId, Value: jsoup-example
-[INFO] Parameter: version, Value: 1.0-SNAPSHOT
-[INFO] Parameter: package, Value: com.example.jsoupexample
-[INFO] Parameter: packageInPathFormat, Value: com/example/jsoupexample
-[INFO] Parameter: package, Value: com.example.jsoupexample
-[INFO] Parameter: groupId, Value: com.example.jsoupexample
-[INFO] Parameter: artifactId, Value: jsoup-example
-[INFO] Parameter: version, Value: 1.0-SNAPSHOT
-[INFO] Project created from Archetype in dir: /usr/local/etc/maven-wrapper/instances.d/jsoup-example
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  5.997 s
-[INFO] Finished at: 2023-12-30T16:42:32+07:00
-[INFO] ------------------------------------------------------------------------
-</code></pre></div></div>
-<p>Edit the file <code class="language-plaintext highlighter-rouge">"/usr/local/etc/maven-wrapper/instances.d/jsoup-example/pom.xml"</code> and delete its entire contents. Replace it with the script below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-
-&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
-  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-  &lt;groupId&gt;com.example.jsoupexample&lt;/groupId&gt;
-  &lt;artifactId&gt;jsoup-example&lt;/artifactId&gt;
-  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
-
-  &lt;name&gt;jsoup-example&lt;/name&gt;
-  &lt;!-- FIXME change it to the project's website --&gt;
-  &lt;url&gt;http://www.example.com&lt;/url&gt;
-
-  &lt;properties&gt;
-    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-    &lt;maven.compiler.source&gt;1.7&lt;/maven.compiler.source&gt;
-    &lt;maven.compiler.target&gt;1.7&lt;/maven.compiler.target&gt;
-  &lt;/properties&gt;
-
-  &lt;dependencies&gt;
- &lt;dependency&gt;
-        &lt;groupId&gt;org.jsoup&lt;/groupId&gt;
-        &lt;artifactId&gt;jsoup&lt;/artifactId&gt;
-        &lt;version&gt;1.14.3&lt;/version&gt;
-    &lt;/dependency&gt;
-    &lt;dependency&gt;
-      &lt;groupId&gt;junit&lt;/groupId&gt;
-      &lt;artifactId&gt;junit&lt;/artifactId&gt;
-      &lt;version&gt;4.11&lt;/version&gt;
-      &lt;scope&gt;test&lt;/scope&gt;
-    &lt;/dependency&gt;
-  &lt;/dependencies&gt;
-
-  &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;
-                &lt;configuration&gt;
-                    &lt;archive&gt;
-                        &lt;manifest&gt;
-                            &lt;mainClass&gt;com.example.jsoupexample.App&lt;/mainClass&gt;
-                        &lt;/manifest&gt;
-                    &lt;/archive&gt;
-                    &lt;descriptorRefs&gt;
-                        &lt;descriptorRef&gt;jar-with-dependencies&lt;/descriptorRef&gt;
-                    &lt;/descriptorRefs&gt;
-                &lt;/configuration&gt;
-                &lt;executions&gt;
-                    &lt;execution&gt;
-                        &lt;id&gt;make-assembly&lt;/id&gt;  
-                        &lt;phase&gt;package&lt;/phase&gt;  
-                        &lt;goals&gt;
-                            &lt;goal&gt;single&lt;/goal&gt;
-                        &lt;/goals&gt;
-                    &lt;/execution&gt;
-                &lt;/executions&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-
-&lt;/project&gt;
-</code></pre></div></div>
-
-<p>Don’t forget, delete the entire contents of the file <code class="language-plaintext highlighter-rouge">"/usr/local/etc/maven-wrapper/instances.d/jsoup-example/src/main/java/com/example/jsoupexample/App.java"</code>, and replace it with the script below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.example.jsoupexample;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-
-public class App {
-
- public static void main(String[] args) {
-        for(int i = 1; i &lt;= 4; ++i) {
-            System.out.println("PAGE " + i);
-            try {
-                String url = (i==1) ? "https://www.scrapingbee.com/blog" : "https://www.scrapingbee.com/blog/page/" + i;
-
-                Document document = Jsoup.connect(url)
-                                        .timeout(5000)
-                                        .get();
-
-                Elements blogs = document.getElementsByClass("p-10");
-                for (Element blog : blogs) {
-                    String title = blog.select("h4").text();
-                    System.out.println("TITLE: " + title);
-
-                    String link = blog.select("a").attr("href");
-                    System.out.println("LINK: " + link);
-
-                    String headerImage = blog.selectFirst("img").attr("src");
-                    System.out.println("HEADER IMAGE: " + headerImage);
-                    String authorImage = blog.select("img[src*=authors]").attr("src");
-                    System.out.println("AUTHOR IMAGE:" + authorImage);
-
-                    System.out.println();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-}
-</code></pre></div></div>
-
-<p>To run the web scraper, open your terminal, navigate to the <code class="language-plaintext highlighter-rouge">"/usr/local/etc/maven-wrapper/instances.d/jsoup-example"</code> directory, and run the following command.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d # cd jsoup-example
-root@ns7:/usr/local/etc/maven-wrapper/instances.d/jsoup-example # mvn compile &amp;&amp; mvn package &amp;&amp; mvn install
-</code></pre></div></div>
-
-<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/17FreeBSD_JSoup_Maven_compilePackageInstall.jpg" alt="FreeBSD_JSoup_Maven_compilePackageInstall" /></p>
-
-<p>Run web scraper with jar.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d/jsoup-example # java -jar target/jsoup-example-1.0-SNAPSHOT-jar-with-dependencies.jar
-</code></pre></div></div>
-
-<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/18FreeBSD_Run_JSoup_webscraper.jpg" alt="FreeBSD_Run_JSoup_webscraper" /></p>
-
-<p>You can see all the scripts in this article in full on <a href="https://github.com/unixwinbsd/jsoup-example/tree/main">Github</a>.</p>
-
-<p>This example only shows a small portion of what jsoup can do. JSoup is an excellent choice for web scraping in Java. While this article introduces the library, you can learn more about it in the jsoup documentation. While jsoup is easy to use and efficient, it does have its drawbacks. For example, it can’t execute JavaScript code, which means it can’t be used for scraping dynamic web pages and single-page applications. In those cases, you’ll need to use something like Selenium.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Web scraping is one of the simplest, most effective, efficient, and beneficial ways to extract data from websites. Some websites may contain vast amounts of valuable data. This is where web scraping can help read and analyze the data.]]></summary></entry></feed>
+<p>The method above is the simplest way to create an IPFW Firewall. This method can only be applied to Single Host or FreeBSD servers with one interface.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="Anonymous" /><summary type="html"><![CDATA[Ipfirewall is an open source module ported to many operating systems. This list includes FreeBSD, NetBSD, OpenBSD, SunOS, HP/UX and Solaris, Mac OS and even Windows. It is also frequently used for various embedded systems. It first appeared in FreeBSD version 2.0.]]></summary></entry></feed>

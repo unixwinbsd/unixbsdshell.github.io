@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Nginx Configuration on OpenBSD - HTTP and HTTPS Ports - UnixBSDShell</title>
-<meta name="description" content="Currently, Nginx is popular and equipped with various sophisticated features, so it will make your website look more attractive and of course powerful.">
+<!-- begin _includes/seo.html --><title>Setting up a Mirror Site to convert PKG Packages on FreeBSD - UnixBSDShell</title>
+<meta name="description" content="PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software">
 
 
   <meta name="author" content="UnixBSDShell's Blog">
@@ -22,20 +22,20 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="UnixBSDShell">
-<meta property="og:title" content="Nginx Configuration on OpenBSD - HTTP and HTTPS Ports">
-<meta property="og:url" content="https://unixwinbsd.site/openbsd/configuration-nginx-openbsd-port-http-https-80-443/">
+<meta property="og:title" content="Setting up a Mirror Site to convert PKG Packages on FreeBSD">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd/">
 
 
-  <meta property="og:description" content="Currently, Nginx is popular and equipped with various sophisticated features, so it will make your website look more attractive and of course powerful.">
+  <meta property="og:description" content="PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software">
 
 
 
 
 
   <meta name="twitter:site" content="@iwanset96143401">
-  <meta name="twitter:title" content="Nginx Configuration on OpenBSD - HTTP and HTTPS Ports">
-  <meta name="twitter:description" content="Currently, Nginx is popular and equipped with various sophisticated features, so it will make your website look more attractive and of course powerful.">
-  <meta name="twitter:url" content="https://unixwinbsd.site/openbsd/configuration-nginx-openbsd-port-http-https-80-443/">
+  <meta name="twitter:title" content="Setting up a Mirror Site to convert PKG Packages on FreeBSD">
+  <meta name="twitter:description" content="PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd/">
 
   
     <meta name="twitter:card" content="summary">
@@ -46,7 +46,7 @@
 
 
 
-  <meta property="article:published_time" content="2025-05-16T15:15:13+03:00">
+  <meta property="article:published_time" content="2025-09-13T11:11:29+03:00">
 
 
 
@@ -57,7 +57,7 @@
   
 
 
-<link rel="canonical" href="https://unixwinbsd.site/openbsd/configuration-nginx-openbsd-port-http-https-80-443/">
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd/">
 
 
 
@@ -269,7 +269,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
         
         <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
           <meta itemprop="position" content="2" />
         </li>
         <span class="sep">/</span>
@@ -277,7 +277,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
       
       
-        <li class="current">Nginx Configuration on OpenBSD - HTTP and HTTPS Ports</li>
+        <li class="current">Setting up a Mirror Site to convert PKG Packages on FreeBSD</li>
       
     
   </ol>
@@ -415,15 +415,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Nginx Configuration on OpenBSD - HTTP and HTTPS Ports">
-    <meta itemprop="description" content="Currently, Nginx is popular and equipped with various sophisticated features, so it will make your website look more attractive and of course powerful.">
-    <meta itemprop="datePublished" content="2025-05-16T15:15:13+03:00">
+    <meta itemprop="headline" content="Setting up a Mirror Site to convert PKG Packages on FreeBSD">
+    <meta itemprop="description" content="PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software">
+    <meta itemprop="datePublished" content="2025-09-13T11:11:29+03:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Nginx Configuration on OpenBSD - HTTP and HTTPS Ports
+          <h1 id="page-title" class="page__title" itemprop="headline">Setting up a Mirror Site to convert PKG Packages on FreeBSD
 </h1>
           
 
@@ -439,7 +439,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          5 minute read
+          4 minute read
         
       </span>
     
@@ -455,13 +455,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
               <ul class="toc__menu">
-  <li><a href="#1-how-to-install-nginx">1. How to Install Nginx</a></li>
-  <li><a href="#2-configure-nginx-port-80-http">2. Configure Nginx Port 80 HTTP</a></li>
-  <li><a href="#3-configure-nginx-port-443-https">3. Configure Nginx Port 443 HTTPS</a>
+  <li><a href="#a-what-is-a-pkg-package">A. What is a PKG Package?</a></li>
+  <li><a href="#b-installation-sources-in-freebsd">B. Installation Sources in FreeBSD</a></li>
+  <li><a href="#c-create-pkg-packages-for-freebsd-mirror-sites">C. Create PKG Packages for FreeBSD Mirror Sites</a>
     <ul>
-      <li><a href="#a-create-an-ssl-certificate">a. Create an SSL certificate</a></li>
-      <li><a href="#b-create-https-root-server">b. Create HTTPS root server</a></li>
-      <li><a href="#c-nginx-https-configuration">c. Nginx HTTPS Configuration</a></li>
+      <li><a href="#a-create-user-level-source-directories-and-files">a. Create user-level source directories and files</a></li>
+      <li><a href="#b-modify-the-makeconf-file">b. Modify the make.conf file</a></li>
+      <li><a href="#c-download-ports">c. Download Ports</a></li>
+      <li><a href="#d-extract-ports">d. Extract ports</a></li>
+      <li><a href="#e-install-the-pkg-package">e. Install the pkg Package</a></li>
+      <li><a href="#f-delete-the-default-mirror">f. Delete the Default Mirror</a></li>
     </ul>
   </li>
 </ul>
@@ -469,215 +472,137 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </nav>
           </aside>
         
-        <p>Talking about web servers, what comes to mind for most of us is Apache. Okay, that’s right, because Apache is one of the most popular web servers in the world and is widely used by many websites in cyberspace. However, this time I will not discuss the Apache web server, this time I will discuss one of the web servers that is currently on the rise and starting to be popular, namely Nginx.</p>
+        <p>Those who are already very familiar with Linux systems may find that FreeBSD’s package management solution is actually more or less a perfect combination of the following two major Linux distribution package managers:</p>
 
-<p>Nginx is an open source web server like Apache, but it is very light and fast in processing. Since its release, Nginx has only functioned as HTTP or as a web serving only. Unlike Apache which has complete features with various modules embedded in it, this actually makes it heavier.</p>
-
-<p>Currently, Nginx is popular and equipped with various sophisticated features, so it will make your website look more attractive and of course powerful.</p>
-
-<p>Nginx also has many features and can be used as various servers, such as:</p>
 <ul>
-  <li>Reverse proxy server for HTTP, HTTPS, SMTP, POP3, and IMAP protocols.</li>
-  <li>HTTP load balancer and cache.</li>
-  <li>Front-end proxy for Apache and other web servers, combining the flexibility of Apache with the great static content performance of Nginx.</li>
+  <li><em>Arch Linux:</em> Pacman, which is compatible with pkg (also supports the KISS concept).</li>
+  <li><em>Gentoo Linux:</em> Portage, the equivalent of Ports (Portage itself is a clone of Ports).</li>
 </ul>
 
-<h2 id="1-how-to-install-nginx">1. How to Install Nginx</h2>
-<p>Of course, this is not the only tutorial explaining how to install Nginx. However, we have made the content of this article simple to make it easier for readers to understand the contents of the article. To install Nginx on OpenBSD, you can do it in two ways, namely pkg_add and ports. In order for all libraries to be installed completely, we will use the ports system to install Nginx. Run the command below to start the Nginx installation process.</p>
+<p>To understand what you should be working with with PKG packages, you first need to understand some common FreeBSD terminology that may have different meanings if you’re using other operating systems like Linux. PKG packages on FreeBSD contain pre-compiled collections of software – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software.</p>
 
-<p>First, we will check the version of Nginx available in the OpenBSD repository.</p>
+<p>In this article, we’ll discuss how to create a mirror repository for PKG packages. Using these mirrors can help speed up the process, as you can choose a FreeBSD mirror whose servers are close to your country.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# pkg_info -Q nginx
-nginx-1.24.0p0
+<h2 id="a-what-is-a-pkg-package">A. What is a PKG Package?</h2>
+
+<p>In every operating system, packages are often referred to as structured files, denoted by the .pkg or .mpkg file extension. PKG packages are typically used to carry installable software. Packages can contain application or software components in the form of scripts, receipts, and other metadata needed to install, update, or uninstall an application. However, there are several types of packages you might encounter on each operating system.</p>
+
+<p>In general, a PKG package is a filename extension used for several file formats that contain software packages and other files to be installed on a device, on a specific operating system such as FreeBSD, OpenBSD, NetBSD, or DragonflyBSD.</p>
+
+<p>The pkg utility provides an interface for manipulating packages, primarily listing, adding, removing, and updating packages. pkg-static is a statically linked variant of pkg that is typically only used for initial pkg installations. There are some differences in functionality. See pkg.conf(5) for details.</p>
+
+<p>To use PKG packages on FreeBSD, you must first install the FreeBSD system. Afterward, you can use PKG to update, remove, or install applications. On FreeBSD, PKG packages are similar to the Ports system. However, PKG packages are faster for manipulating applications. This advantage makes PKG a top choice for application developers.</p>
+
+<h2 id="b-installation-sources-in-freebsd">B. Installation Sources in FreeBSD</h2>
+
+<p>Each operating system has its own way of creating installation sources, such as Linux and Ubuntu using apt packages. Similarly, FreeBSD has a different method than Linux. You can use several methods to install, remove, or update applications.</p>
+
+<p>In FreeBSD, there are four types of installation sources:</p>
+<ul>
+  <li>Paket pkg</li>
+  <li>System ports</li>
+  <li>portsnap, dan</li>
+  <li>update.</li>
+</ul>
+
+<h2 id="c-create-pkg-packages-for-freebsd-mirror-sites">C. Create PKG Packages for FreeBSD Mirror Sites</h2>
+
+<p>Many FreeBSD users and network administrators manage multiple servers. They face various challenges and demands when it comes to updating their infrastructure with the latest security and software patches. FreeBSD Update Server can simplify this process by allowing them to test updates on multiple machines before deploying them across the network. This also means they can update their servers more quickly from their local network rather than over a slower internet connection.</p>
+
+<p>The pkg package repository provides binary packages, whose pkg output paths are stored in <code class="language-plaintext highlighter-rouge">/var/cache/pkg/</code>. In FreeBSD, the pkg source is split into two configuration files: system-level and user-level. Before changing the PKG mirror path, add the following script to <code class="language-plaintext highlighter-rouge">/etc/make.conf</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /etc/make.conf
+WITH_PKG=yes
 </code></pre></div></div>
-<p>After knowing the version of Nginx in the OpenBSD repository, we start installing Nginx.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# cd /usr/ports/www/nginx
-foo# make build
-foo# make install
-foo# make clean
-</code></pre></div></div>
-<p>Alternatively, if you want to install Nginx with pkg_add, run the command below.</p>
+<p>Not all sources have both quarterly and latest. To get rolling package updates, change quarterly to latest. The difference between the two can be found in the FreeBSD manual. Please note that the <code class="language-plaintext highlighter-rouge">CURRENT</code> version is only the latest version.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# pkg_add nginx-1.24.0p0
-</code></pre></div></div>
-<p>After that, you start and enable Nginx to start at boot time on OpenBSD.</p>
+<p>Use the following command to change the system-level pkg source to use latest.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# rcctl enable nginx
-foo# rcctl restart nginx
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # sed -i '' 's/quarterly/latest/g' /etc/pkg/FreeBSD.conf
 </code></pre></div></div>
 
-<h2 id="2-configure-nginx-port-80-http">2. Configure Nginx Port 80 HTTP</h2>
-<p>On OpenBSD, the main Nginx configuration file is located in the <strong>/etc/nginx</strong> directory. In that directory there is a file called nginx.conf. This file is the file that controls all Nginx behavior on the OpenBSD server.</p>
+<p>If you want to replace http with https, please install <code class="language-plaintext highlighter-rouge">/usr/ports/security/ca_root_nss</code> first, then change http to https, and run the following command.</p>
 
-<p>Before continuing this discussion, make sure Nginx is running normally on OpenBSD. To configure Nginx port 80 or http, we will create a virtual host for port 80. To do this, open the nginx.conf file then delete all the contents of the script and replace it with the script below.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # pkg update -f
+</code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# cd /etc/nginx
-foo# nano nginx.conf
-user  www;
-worker_processes  1;
+<p>Now we’ll change the default FreeBSD mirror path. Before changing the FreeBSD PKG mirror, we recommend <a href="https://unixwinbsd.site/freebsd/update-upgrade-pkg-ports-package-binary-freebsd">reading our previous article</a>.</p>
 
-error_log  logs/error.log;
-pid        logs/nginx.pid;
-worker_rlimit_nofile 1024;
+<h3 id="a-create-user-level-source-directories-and-files">a. Create user-level source directories and files</h3>
 
-events {
-    worker_connections  800;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root@hostname1:~ # mkdir -p /usr/local/etc/pkg/repos
+ root@hostname1:~ # chmod -R +x /usr/local/etc/pkg/
+ root@hostname1:~ # ee /usr/local/etc/pkg/repos/163.conf
+ 
+163: {
+url: "http://mirrors.163.com/freebsd-pkg/${ABI}/quarterly",
 }
+FreeBSD: { enabled: no }
+</code></pre></div></div>
 
-http {
-    include       mime.types;
-    default_type  application/octet-stream;
-    index         index.html index.htm;
-
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
-
-    access_log  logs/access.log  main;
-    keepalive_timeout  65;
-    server_tokens off;
-    
-include /etc/nginx/vhosts.conf;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root@hostname1:~ # ee /usr/local/etc/pkg/repos/ustc.conf
+ 
+ustc: {
+url: "http://mirrors.ustc.edu.cn/freebsd-pkg/${ABI}/quarterly",
 }
-</code></pre></div></div>
-<p>After that, you create a vhosts.conf file.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# touch /etc/nginx/vhosts.conf
-</code></pre></div></div>
-<p>In the <strong>/etc/vhosts.conf</strong> file, type the script below to run Nginx port 80.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /etc/nginx/vhosts.conf
-server {
-        listen       80;
-        listen       [::]:80;
-        server_name  datainchi.com;
-        root         /var/www/htdocs/serverblock;
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-        root  /var/www/htdocs/serverblock;
-        }
-    }
-</code></pre></div></div>
-<p>Create a directory for the virtual host, run the command below to create the <strong>/var/www/htdocs/serverblock</strong> directory.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# mkdir -p /var/www/htdocs/serverblock
-</code></pre></div></div>
-<p>Proceed by creating an <strong>index.html</strong> file and run the command to create ownership and permissions.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# touch /var/www/htdocs/serverblock/index.html
-foo# chown -R www:www /var/www/htdocs/serverblock/
-foo# chmod -R 775 /var/www/htdocs/serverblock
-</code></pre></div></div>
-<p>In the index.html file, type the script as in the example below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/www/htdocs/serverblock/index.html
-&lt;html&gt;
-&lt;head&gt;
-&lt;title&gt;Nginx port 80&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;p align="center"&gt;Welcome to Nginx Virtual Host port HTTP&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre></div></div>
-<p>Run Nginx with the rcctl command.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# rcctl restart nginx
-nginx(ok)
-nginx(ok)
-</code></pre></div></div>
-<p>To check whether the NGinx server is running normally or there are still script errors, run the curl command, as in the example below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# curl 192.168.5.3:80
-&lt;html&gt;
-&lt;head&gt;
-&lt;title&gt;Nginx port 80&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;p align="center"&gt;Welcome to Nginx Virtual Host port HTTP&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+FreeBSD: { enabled: no }
 </code></pre></div></div>
 
-<h2 id="3-configure-nginx-port-443-https">3. Configure Nginx Port 443 HTTPS</h2>
-<p>Once you understand how to run Nginx on port 80 or HTTP. We continue by running Nginx on port 443 or HTTPS. On port 443, NGinx requires SSL certificate encryption. Creating an SSL certificate, as the first step in starting the Nginx HTTPS configuration.</p>
-
-<h3 id="a-create-an-ssl-certificate">a. Create an SSL certificate</h3>
-<p>We use OpenSSL to create SSL certificates for Nginx which is free. With OpenSSL you can create SSL certificates easily. Here is an example of creating an SSL certificate with OpenSSL.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# cd /etc/nginx
-foo# mkdir -p SSL
-foo# cd SSL
-</code></pre></div></div>
-<p>Once you have created the SSL directory, proceed to run OpenSSL to begin generating SSL certificates.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/nginx/SSL/nginxssl.key -out /etc/nginx/SSL/nginxssl.crt
-</code></pre></div></div>
-<h3 id="b-create-https-root-server">b. Create HTTPS root server</h3>
-<p>Once you have an SSL certificate, the next step is to create a virtual host directory for Nginx HTTPS and give it ownership and permissions. Take a look at the example below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# mkdir -p /var/www/htdocs/nginxssl
-foo# chown -R www:www /var/www/htdocs/nginxssl/
-foo# chmod -R 775 /var/www/htdocs/nginxssl/
-</code></pre></div></div>
-<p>Create an index.html file that we will use to test Nginx HTTPS. In the index.html file, type the script below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# touch /var/www/htdocs/nginxssl/index.html
-foo# nano /var/www/htdocs/nginxssl/index.html
-&lt;html&gt;
-&lt;head&gt;
-&lt;title&gt;Nginx port 443&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;p align="center"&gt;Welcome to Nginx Virtual Host port 443 HTTPS&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root@hostname1:~ # ee /usr/local/etc/pkg/repos/nju.conf
+ 
+nju: {
+url: "http://mirrors.nju.edu.cn/freebsd-pkg/${ABI}/quarterly",
+}
+FreeBSD: { enabled: no }
 </code></pre></div></div>
 
-<h3 id="c-nginx-https-configuration">c. Nginx HTTPS Configuration</h3>
-<p>To run Nginx port 443, you need to create a conf file for the HTTPS virtual host. Open the nginx.conf file, then add the script below.</p>
+<h3 id="b-modify-the-makeconf-file">b. Modify the make.conf file</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /etc/nginx/nginx.conf
-include /etc/nginx/vhostsSSL.conf;
+<p>To enable the local mirror to run directly, you must type the following script in the <code class="language-plaintext highlighter-rouge">/etc/make.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # ee /etc/make.conf
+MASTER_SITE_OVERRIDE?=http://mirrors.nju.edu.cn/freebsd-ports/distfiles/${DIST_SUBDIR}/
+MASTER_SITE_OVERRIDE?=http://mirrors.163.com/freebsd-ports/distfiles/${DIST_SUBDIR}/
+MASTER_SITE_OVERRIDE?=http://mirrors.ustc.edu.cn/freebsd-ports/distfiles/${DIST_SUBDIR}/
 </code></pre></div></div>
-<p>After that create a vhostsSSL.conf file and type the script below in the vhostsSSL.conf file.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# touch /etc/nginx/vhostsSSL.conf
-foo# nano /etc/nginx/vhostsSSL.conf
-server {
-        listen       443 ssl;
-        server_name  datainchi.com;
-        root         /var/www/htdocs/nginxssl;
+<h3 id="c-download-ports">c. Download Ports</h3>
+<p>This repository is the source for downloading the ports themselves. This repository is identical to the previous portsnap repository.</p>
 
-        ssl_certificate      /etc/nginx/SSL/nginxssl.crt;
-        ssl_certificate_key  /etc/nginx/SSL/nginxssl.key;
-        ssl_session_timeout  5m;
-        ssl_session_cache    shared:SSL:1m;
-
-        ssl_ciphers  HIGH:!aNULL:!MD5:!RC4;
-        ssl_prefer_server_ciphers   on;
-    }
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # cd /tmp
+root@hostname1:/tmp # fetch https://mirrors.nju.edu.cn/freebsd-ports/ports.tar.gz
 </code></pre></div></div>
-<p>The next step is to run Nginx so it can run port 443 HTTPS.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# rcctl restart nginx
-nginx(ok)
-nginx(ok)
-</code></pre></div></div>
-<p>The last step, check the Nginx server. In this test, we use the curl command. Run the curl command as in the example below.</p>
+<h3 id="d-extract-ports">d. Extract ports</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# curl -k https://192.168.5.3:443
-&lt;html&gt;
-&lt;head&gt;
-&lt;title&gt;Nginx port 443&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;p align="center"&gt;Welcome to Nginx Virtual Host port 443 HTTPS&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+<p>After that, run the extract command. Place the extracted files in <code class="language-plaintext highlighter-rouge">/usr/ports</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:/tmp # tar -zxvf ports.tar.gz -C /usr/ports
 </code></pre></div></div>
-<p>If the script above looks like the command above, it means that all the configurations you have done are correct. You currently have an Nginx server running on port 80 and port 443. We recommend using port 443 for all Nginx server activities, to protect your important data.</p>
+
+<h3 id="e-install-the-pkg-package">e. Install the pkg Package</h3>
+
+<p>The next step is to install pkg. This will allow the FreeBSD mirror to immediately become the mirror we created earlier.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # cd /usr/ports/ports-mgmt/pkg
+root@hostname1:/usr/ports/ports-mgmt/pkg # make deinstall
+root@hostname1:/usr/ports/ports-mgmt/pkg # make reinstall
+</code></pre></div></div>
+
+<h3 id="f-delete-the-default-mirror">f. Delete the Default Mirror</h3>
+
+<p>Since we’re going to replace the default mirror with the one we created above, you’ll need to delete the default FreeBSD mirror.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # rm -rf /var/db/pkg/repos/FreeBSD
+</code></pre></div></div>
+
+<p>The final step is to update pkg, with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # pkg update &amp;&amp; pkg upgrade
+</code></pre></div></div>
+
+<p>Be careful when changing mirrors. Replacing the default FreeBSD mirror with a local mirror is only useful when the download connection is very slow. Using a local mirror will speed up the download and installation process. This tutorial should only be used as a reference. In practice, simply use the default FreeBSD mirror.</p>
 
         
       </section>
@@ -719,14 +644,14 @@ nginx(ok)
     
       
       
-      <a href="/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a>
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
     
     </span>
   </p>
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-16T15:15:13+03:00">May 16, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-09-13T11:11:29+03:00">September 13, 2025</time></p>
 
 
       </footer>
@@ -734,22 +659,22 @@ nginx(ok)
       <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Nginx+Configuration+on+OpenBSD+-+HTTP+and+HTTPS+Ports%20https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fconfiguration-nginx-openbsd-port-http-https-80-443%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Setting+up+a+Mirror+Site+to+convert+PKG+Packages+on+FreeBSD%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fsetup-mirror-site-convert-pkg-package-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fconfiguration-nginx-openbsd-port-http-https-80-443%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fsetup-mirror-site-convert-pkg-package-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fconfiguration-nginx-openbsd-port-http-https-80-443%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fsetup-mirror-site-convert-pkg-package-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/openbsd/static-dynamic-ip-address-openbsd/" class="pagination--pager" title="Static and Dynamic IP Configuration in OpenBSD - Static Dynamic IP Private Public
+      <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" class="pagination--pager" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd
 ">Previous</a>
     
     
-      <a href="/openbsd/nginx-fastcgi-mode-php-fpm-openbsd/" class="pagination--pager" title="Nginx FastCGI mode and PHP-FPM 8.3 on OpenBSD 7.6
+      <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" class="pagination--pager" title="How to Configure FreeBSD with Radicale CalDAV CardDAV Server
 ">Next</a>
     
   </nav>
@@ -853,45 +778,6 @@ nginx(ok)
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
         <a href="/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="permalink">OpenBSD DHCP - Configuring IPv6 with dhcpcd
 </a>
       
@@ -918,6 +804,45 @@ nginx(ok)
 
 
     <p class="archive__item-excerpt" itemprop="description">PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn abou...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="permalink">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integr...</p>
   </article>
 </div>
 
@@ -993,8 +918,8 @@ nginx(ok)
     
   <script>
     var disqus_config = function () {
-      this.page.url = "https://unixwinbsd.site/openbsd/configuration-nginx-openbsd-port-http-https-80-443/";  /* Replace PAGE_URL with your page's canonical URL variable */
-      this.page.identifier = "/openbsd/configuration-nginx-openbsd-port-http-https-80-443"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+      this.page.url = "https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/setup-mirror-site-convert-pkg-package-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
       var d = document, s = d.createElement('script');

@@ -934,6 +934,11 @@ var store = [{
         "tags": ["SysAdmin"],
         "url": "https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/",
         "teaser":null},{
+        "title": "Setting up a Mirror Site to convert PKG Packages on FreeBSD",
+        "excerpt":"Those who are already very familiar with Linux systems may find that FreeBSD’s package management solution is actually more or less a perfect combination of the following two major Linux distribution package managers: Arch Linux: Pacman, which is compatible with pkg (also supports the KISS concept). Gentoo Linux: Portage, the...","categories": ["FreeBSD"],
+        "tags": ["WebServer"],
+        "url": "https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd/",
+        "teaser":null},{
         "title": "How to Configure FreeBSD with Radicale CalDAV CardDAV Server",
         "excerpt":"Radicale is a calendar and contact server designed to support the CalDav and CardDav protocols. Radicale’s configuration is very simple and easy to install, as it does not have a graphical administration interface. This application is written in Python, so it can be used on operating systems such as Linux,...","categories": ["FreeBSD"],
         "tags": ["WebServer"],

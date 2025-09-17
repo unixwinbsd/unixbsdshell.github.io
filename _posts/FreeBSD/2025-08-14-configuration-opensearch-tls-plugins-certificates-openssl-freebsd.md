@@ -23,7 +23,7 @@ OpenSearch was born out of community participation and support from major compan
 
 OpenSearch can be combined with Beat's data delivery platforms (Filebeat, Winlogbeat, etc.), allowing OpenSearch users to build a full log management cycle, including collection, organization, and search.
 
-![Opensearch kafka ON freebsd](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/19opensearch%20kafka%20ON%20freebsd.jpg)
+![Opensearch kafka ON freebsd](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/FreeBSD_Apache_Kafka.jpg)
 
 
 ## A. Specifications of the System Used

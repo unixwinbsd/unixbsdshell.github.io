@@ -1,4 +1,111 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-24T10:24:57+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">Installing and Using the Java Development Kit on FreeBSD</title><link href="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/" rel="alternate" type="text/html" title="Installing and Using the Java Development Kit on FreeBSD" /><published>2025-09-16T10:57:03+03:00</published><updated>2025-09-16T10:57:03+03:00</updated><id>https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/"><![CDATA[<p>FreeBSD is a powerful and reliable operating system that is widely used by developers and system administrators. If you are a Java developer, you need to install a Java development environment on your FreeBSD system, to help make it easier to run your Java projects.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-24T13:11:04+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">Use PFSense with pfBlockerNG DNSBL to Block Ads, Malware, Ransomware, and Web Tracking</title><link href="https://unixwinbsd.site/freebsd/use-pfsense-pfBlockerNG-dnsbl-block-ads-malware/" rel="alternate" type="text/html" title="Use PFSense with pfBlockerNG DNSBL to Block Ads, Malware, Ransomware, and Web Tracking" /><published>2025-09-23T10:57:03+03:00</published><updated>2025-09-23T10:57:03+03:00</updated><id>https://unixwinbsd.site/freebsd/use-pfsense-pfBlockerNG-dnsbl-block-ads-malware</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/use-pfsense-pfBlockerNG-dnsbl-block-ads-malware/"><![CDATA[<p>pfBlockerNG has been around since 2018 and is a free and open-source distributed package. Since its inception, pfBlockerNG DNSBL has been built specifically for the PFSense Router software. With the pfBlockerNG DNSBL feature, PFSense is capable of blocking ads, blocking harmful content such as gambling and alcohol, and other noteworthy features, including pfBlockerNG’s geo-blocking capabilities with the help of MaxMid.</p>
+
+<p>By adding the pfBlockerNG package to your PFSense Router, you’ve blocked ads and also been able to block web tracking, ransomware, and malware. When you activate pfBlockerNG, you immediately gain additional network security and privacy, as your entire PFSense system is protected by pfBlockerNG with the help of the DNSBL (Domain Name System-based Blackhole List) feature.</p>
+
+<p>The pfBlockerNG package can also block the internet from specific IP addresses. You can select IP addresses from specific countries or regions that you want to block. This can be beneficial because IP address restrictions make it harder for hackers to infiltrate your system.</p>
+
+<p>In this article, we’ll explain how to use DNSBL from the pfBlockerNG package to remove ads and block malware and spamware. In this article, we’ll use PFSense version 2.7.2-RELEASE (amd64).</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/1_enable_insterface.png" alt="enable insterface pfsense" /></p>
+
+<h2 id="1-installing-the-pfblockerng-dnsbl-package">1. Installing the pfBlockerNG DNSBL package</h2>
+
+<p>Before installing pfBlockerNG, make sure you have enabled the Unbound DNS server (DNS Resolver). If not, enable the DNS resolver first. You can read the previous article on how to enable the Unbound DNS server in PFSense.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/2_enable_Python-Module.png" alt="enable python module" /></p>
+
+<p>However, to set up pfBlockerNG, you’ll need to enable the Python package in DNS Resolver. See the image below for instructions on enabling the Python package in DNS Resolver.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/3_pfblockerng-setup.png" alt="pfblockerng setup" /></p>
+
+<p>To install the pfBlockerNG DNSBL package, first click System -&gt; Package Manager -&gt; Available Packages, then locate the pfBlockerNG package and click the green Install button. Wait for the installation process to complete.</p>
+
+<p>Then, proceed to configure pfBlockerNG by clicking Firewall -&gt; pfBlockerNG. The first installation will show you the “Wizard” menu, as shown below.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/4_pfblockerNG-IP.png" alt="pfblockerng ip component configuration" /></p>
+
+<p>Click the “Next” button to continue until the image below appears.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/5-dnsbl-webserver-configuration.png" alt="dnsbl webserver configuration" /></p>
+
+<h2 id="2-general-settings-pfblockerng-dnsbl">2. General Settings pfBlockerNG DNSBL</h2>
+
+<p>After the installation process is complete, we continue with the general settings of pfBlockerNG, to do this, click Firewall -» pfBlockerNG -» General.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/6_menu-general-setup-pfsense.png" alt="menu general setting pfsense" /></p>
+
+<p>After that, click the “IP” option. You can leave the other settings as default. To complete the “MaxMind GeoIP configuration” field, you must register MaxMind GeoIP. Get your Account ID and License key at “https://www.maxmind.com/en/geolite2/signup”.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/7_firewall-fblockerng-ip.png" alt="firewall pfblockerng ip" /></p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/8-maxmind-geoip.png" alt="maxmind geoip configuration" /></p>
+
+<h2 id="3-enable-dnsbl">3. Enable DNSBL</h2>
+
+<p>In this section we will set how to activate DNSBL. click Firewall -» pfBlockerNG -» DNSBL. Then you fill in each column according to the guide below.</p>
+
+<h3 id="dnsbl">DNSBL</h3>
+
+<p>DNSBL: Check
+DNSBL Mode: Unbound python mode
+Wildcard Blocking (TLD): Check
+Python Control: Uncheck
+DNS Reply Logging: Check
+DNSBL Blocking: Check
+HSTS mode: Check
+TLD Allow: Uncheck
+IDN Blocking: Uncheck
+Regex Blocking: Uncheck
+CNAME Validation: Check
+no AAAA: Uncheck
+Python Group Policy: Uncheck</p>
+
+<h3 id="dnsbl-webserver-configuration">DNSBL Webserver Configuration</h3>
+
+<p>Virtual IP Address: 10.10.10.1
+IPv6 DNSBL: Uncheck
+DNSBL VIP Type: IP Alias
+Web Server Interface: Localhost
+DNSBL Event Logging: Uncheck</p>
+
+<h3 id="dnsbl-configuration">DNSBL Configuration</h3>
+
+<p>Permit Firewall RulesEnable: Uncheck
+Global Logging/Blocking Mode: No Global mode
+Blocked Webpage: dnsbl_default.php
+Resolver cache: Check</p>
+
+<p>After that, you click Firewall -» pfBlockerNG -» DNSBLDNSBL -» Category. To block porn sites or adult sites.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/9-DNSBL-Category.png" alt="dnsbl category" /></p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/10-maxmind-UT1.png" alt="maxmind ut1" /></p>
+
+<h2 id="4-enable-ipv4-blocking">4. Enable IPv4 Blocking</h2>
+
+<p>In the pfBlockerNG package, by default PFSense enables PRI1 decoys. The feed is a publicly available block list that the pfBlockerNG package is configured to synchronize regularly. To see a list of enabled IPv4 feeds, click to Firewall -» pfBlockerNG -&gt; IP -» IPv4.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/11-pfblockerng-IP4.png" alt="pfblockerng ip4" /></p>
+
+<p>After that enable additional IPv4 feeds in your pfBlockerNG package. This aims to avoid false positives because the PRI1 bait has quite wide coverage, it is likely that the bait will miss the real threat. To enable IPv4 feeds, click Firewall -» pfBlockerNG -» Feeds.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/12-pfblockerng-FEEDS.jpg" alt="pfblockerng feeds" /></p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/13-pr2-pr3.jpg" alt="pfblockerng pr2 pr3" /></p>
+
+<p>So the results from the IP4 Feed will look like the image below.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/14-pfblockerngIP4.png" alt="pfblockerng ip4 summary" /></p>
+
+<h2 id="5-enable-maxmind-geoip">5. Enable MaxMind GeoIP</h2>
+
+<p>One of the main features of pfBlockerNG is GeoIP from MaxMind Inc. This feature is used to limit internet access to certain countries or regions. To activate the GeoIP feature, click Firewall -» pfBlockerNG -» IP -» GeoIP.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/15-GeoIP-Summary.png" alt="geoip summary" /></p>
+
+<p>In the image above, we only block African countries and Proxy and Satellite networks.</p>
+
+<p>Adding pfBlockerNG to your PFSense router is a smart move. You can help prevent children or adults from using the internet for good purposes. You’re actually helping protect them from bad things.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="Networking" /><summary type="html"><![CDATA[By adding the pfBlockerNG package to your PFSense Router, you've blocked ads and also been able to block web tracking, ransomware, and malware. When you activate pfBlockerNG, you immediately gain additional network security and privacy, as your entire PFSense system is protected by pfBlockerNG with the help of the DNSBL (Domain Name System-based Blackhole List) feature]]></summary></entry><entry xml:lang="en"><title type="html">Installing and Using the Java Development Kit on FreeBSD</title><link href="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/" rel="alternate" type="text/html" title="Installing and Using the Java Development Kit on FreeBSD" /><published>2025-09-16T10:57:03+03:00</published><updated>2025-09-16T10:57:03+03:00</updated><id>https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/"><![CDATA[<p>FreeBSD is a powerful and reliable operating system that is widely used by developers and system administrators. If you are a Java developer, you need to install a Java development environment on your FreeBSD system, to help make it easier to run your Java projects.</p>
 
 <p>In this article we will learn a brief introduction to setting up a Java development environment on your computer running reeBSD 13 or above. You can also apply the tutorials in this article to FreeBSD Desktops such as GhostBSD or Hello.</p>
 
@@ -1462,113 +1569,4 @@ root@ns3:~ # ee /usr/local/www/apache24/data/post.html
 </code></pre></div></div>
 <p>Now try running the two html files, by opening the Google Chrome web browser. In the Google Chrome address bar menu, type <code class="language-plaintext highlighter-rouge">"http://192.168.5.2/index.html"</code> and <code class="language-plaintext highlighter-rouge">"http://192.168.5.2/post.html"</code>. See the results displayed on your monitor screen.</p>
 
-<p>Happy! You have successfully created a Python application with the wsgi module. WSGI comes from CGI. In this article, we have explained a Python implementation of WSGI using Apache mod_wsgi. Remember, each application may require additional configuration adjustments based on its specific needs, so always consult your application documentation for more detailed setup instructions.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or frameworks provide wsgi for easy deployment and embedding. Look at the image below.]]></summary></entry><entry xml:lang="en"><title type="html">How to Use Grafana and Prometheus to Monitor OpenBSD Activity</title><link href="https://unixwinbsd.site/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="alternate" type="text/html" title="How to Use Grafana and Prometheus to Monitor OpenBSD Activity" /><published>2025-08-16T11:17:21+03:00</published><updated>2025-08-16T11:17:21+03:00</updated><id>https://unixwinbsd.site/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/"><![CDATA[<p>It’s always recommended to enable some form of monitoring with any OpenBSD deployment. In the past, I’ve used Zabbix to monitor both the Findelabs public server and my private OpenBSD server. I was going to write an article on installing and configuring the web frontend and backend, but I put it off because the setup was a bit complicated. Last week, I finally migrated to a Grafana dashboard with Prometheus as my monitoring system.</p>
-
-<p>This approach turned out to be less complicated than Zabbix. If you’d like instructions for setting up the various Zabbix components, you can see the backend here and the frontend here. While Zabbix works as intended, I’ve always found its configuration, even in its interface, a bit cumbersome. Having experienced both Grafana and Prometheus in the past, I figured it should be fairly straightforward to run both on OpenBSD.</p>
-
-<p>It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana on separate servers. However, during testing, I was able to run both on a fairly small server.</p>
-
-<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/17Monitor_OpenBSD_Activity_with_Grafana_and_Prometheus.jpg" alt="Monitor OpenBSD Activity with Grafana and Prometheus" /></p>
-
-<p>First, install <code class="language-plaintext highlighter-rouge">Prometheus and node_exporter.</code> Node_exporter is a small application that exports server metrics on port <code class="language-plaintext highlighter-rouge">9100</code> from any installed server.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# pkg_add prometheus node_exporter
-</code></pre></div></div>
-<p>Next, edit <code class="language-plaintext highlighter-rouge">/etc/prometheus/prometheus.yml</code>. Here’s a sample configuration, with a little more complexity:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># my global config
-global:
-  scrape_interval:     5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-
-# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-# rule_files:
-  # - "first_rules.yml"
-  # - "second_rules.yml"
-
-scrape_configs:
-  # The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.
-  - job_name: 'prometheus'
-    static_configs:
-    - targets: ['0.0.0.0:9090']
-
-  # This is where you can add new servers to monitor
-  - job_name: 'node'
-    file_sd_configs:
-    - files:
-      - '/etc/prometheus/targets.json'
-</code></pre></div></div>
-<p>This configuration will get it up and running, although we still need to create the <code class="language-plaintext highlighter-rouge">/etc/prometheus/targets.json</code> file, as this is where Prometheus expects targets to be monitored in this configuration. This file can be quickly updated without restarting Prometheus:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[
-  {
-    "labels": {
-      "job": "node"
-    },
-
-    "targets": [
-      "server1:9100",
-      "server2:9100",
-      "server3:9100"
-    ]
-  }
-]
-</code></pre></div></div>
-<p>Using this target.json file, Prometheus will attempt to get metrics from servers 1/2/3. These servers can also be specified by IP, but Prometheus will store all metrics for each instance and tag them with the values specified in this target.json file.</p>
-
-<p>Therefore, I find it much easier to specify each server by its hostname and update <code class="language-plaintext highlighter-rouge">/etc/hosts</code> to point to the correct IP, unless I have DNS working for each server.</p>
-
-<p>You can then optionally modify the <code class="language-plaintext highlighter-rouge">/etc/rc.d/prometheus</code> script to set metric retention. The default retention period is just 15 days, which is fine, but I think it should be longer in my case. I usually specify <code class="language-plaintext highlighter-rouge">--storage.tsdb.retention.time=90</code> days in daemon_flags, as shown here.</p>
-
-<p>Also note that Prometheus will listen on all interfaces by default, which isn’t always ideal. You can specify to listen on localhost, for example with <code class="language-plaintext highlighter-rouge">--web.listen-address="localhost:9090"</code> in daemon_flags below.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh
-#
-# $OpenBSD: prometheus.rc,v 1.1.1.1 2018/01/10 16:26:19 claudio Exp $
-
-daemon="/usr/local/bin/prometheus"
-daemon_flags="--config.file /etc/prometheus/prometheus.yml"
-daemon_flags="${daemon_flags} --storage.tsdb.path '/var/prometheus' --storage.tsdb.retention.time=90d"
-daemon_user=_prometheus
-
-. /etc/rc.d/rc.subr
-
-pexp="${daemon}.*"
-rc_bg=YES
-rc_reload=NO
-
-rc_start() {
-        ${rcexec} "${daemon} ${daemon_flags} &lt; /dev/null 2&gt;&amp;1 | \
-                logger -p daemon.info -t prometheus"
-}
-
-rc_cmd $1
-</code></pre></div></div>
-<p>Now we can enable and start the prometheus and node_exporter services. Monitor <code class="language-plaintext highlighter-rouge">/var/log/daemon</code> to ensure prometheus is connecting properly:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# rcctl enable prometheus node_exporter
-hostname1# rcctl start prometheus node_exporter
-hostname1# tail -f /var/log/daemon
-
-# Test to make sure the frontend is accessible
-hostname1# curl localhost:9090/graph
-
-# Ensure node_exporter is working
-hostname1# curl localhost:9100/metrics
-</code></pre></div></div>
-
-<p>Now we can proceed to install and start <code class="language-plaintext highlighter-rouge">grafana</code>.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# pkg_add grafana
-hostname1# rcctl enable grafana
-hostname1# rcctl start grafana
-</code></pre></div></div>
-<p>When you start the service, go to the dashboard, log out on the 3000th login using the predefined method, and you’ll be authenticated as a normal administrator with the predefined administrator credentials. Once a session is started, Grafana will immediately require you to log in as an administrator. Instead of starting in the dashboard, click <code class="language-plaintext highlighter-rouge">"Collect Data"</code> and then <code class="language-plaintext highlighter-rouge">"Prometheus"</code></p>
-
-<p>To configure access to Prometheus, simply enter <code class="language-plaintext highlighter-rouge">"http://localhost:9090"</code> as the URL, click “Secure,” and verify. If Prometheus is running on your server, Grafana can be used to access the data source.</p>
-
-<p>Here, you can create dashboards to monitor OpenBSD servers. He published one of the simple dashboards he uses to monitor a small collection of my services. You can import the dashboard in the Control Panel/Administration and click <code class="language-plaintext highlighter-rouge">"Import"</code>. When you open the dashboard, you’ll be able to quickly view your server metrics.</p>
-
-<p>The monitoring service aggregates, so you can install the node_exporter package on a remote server and update the <code class="language-plaintext highlighter-rouge">/etc/prometheus/targets.json</code> archive for that server.</p>
-
-<p>Overall, it’s great to have Grafana and Prometheus at your disposal for simplicity.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="OpenBSD" /><category term="WebServer" /><summary type="html"><![CDATA[It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana on separate servers. However, during testing, I was able to run both on a fairly small server.]]></summary></entry></feed>
+<p>Happy! You have successfully created a Python application with the wsgi module. WSGI comes from CGI. In this article, we have explained a Python implementation of WSGI using Apache mod_wsgi. Remember, each application may require additional configuration adjustments based on its specific needs, so always consult your application documentation for more detailed setup instructions.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or frameworks provide wsgi for easy deployment and embedding. Look at the image below.]]></summary></entry></feed>

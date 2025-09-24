@@ -964,6 +964,11 @@ var store = [{
         "tags": ["WebServer"],
         "url": "https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/",
         "teaser":null},{
+        "title": "Use PFSense with pfBlockerNG DNSBL to Block Ads, Malware, Ransomware, and Web Tracking",
+        "excerpt":"pfBlockerNG has been around since 2018 and is a free and open-source distributed package. Since its inception, pfBlockerNG DNSBL has been built specifically for the PFSense Router software. With the pfBlockerNG DNSBL feature, PFSense is capable of blocking ads, blocking harmful content such as gambling and alcohol, and other noteworthy...","categories": ["FreeBSD"],
+        "tags": ["Networking"],
+        "url": "https://unixwinbsd.site/freebsd/use-pfsense-pfBlockerNG-dnsbl-block-ads-malware/",
+        "teaser":null},{
         "title": "00 - What are Regex and why I should care?",
         "excerpt":"There is a quote from James Werner Zawinski who I deeply admire and goes by like Some people, when confronted with a problem, think “I know, I’ll use regular expressions.” Now they have two problems. I cannot but agree with the above statement but also think regular expression (regex for...","categories": [],
         "tags": [],

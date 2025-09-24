@@ -86,18 +86,7 @@ In this section, you are required to configure the WAN interface. IP address **1
 
 ![configure WAN Interface](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/wan-configuration.jpg)
 
-
-
 In the picture above, you have to set the IP address of the LAN interface. In this article we give an example of the LAN IP used **192.168.7.1**. Then click the Next button again.
-
-
-![configure lan interface](http://45.83.122.181:8080/sept-05/pfsense-time-server-configuration.png)
-
-
-![WAN Configuration](http://45.83.122.181:8080/sept-05/wan-configuration.jpg)
-
-
-![configure lan interface on pfsense](http://45.83.122.181:8080/sept-05/configure-lan-interface.png)
 
 
 ## 4. PFSense configuration

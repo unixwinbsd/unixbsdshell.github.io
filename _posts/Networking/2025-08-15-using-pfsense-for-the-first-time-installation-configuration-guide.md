@@ -18,7 +18,7 @@ FreeBSD.
 PFSense is generally used as a firewall or router. But with its myriad of features, PFSense can also be used as a DNS server, DHCP server, proxy server, Bandwith limiter, VPN and so on. All of this can be easily configured simply via Google Chrome.
 
 
-![diagram PFSense Router firewall](http://45.83.122.137:8080/img/pfsense-firewall-router-diagram.jpg)
+![diagram PFSense Router firewall](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/diagram-pfsense-router-firewall.jpg)
 
 
 

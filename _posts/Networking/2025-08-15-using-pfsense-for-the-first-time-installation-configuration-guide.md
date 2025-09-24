@@ -64,10 +64,16 @@ Click the Next button, to continue.
 ![setup PFSense](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/menu-wizard-pfsense.jpg)
 
 
+![general information DNS server PFSEnse](http://45.83.122.181:8080/sept-05/set-adminweb-gui-password.png)
+
+
+![reload configuration](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/reload-configuration.png)
+
+
 After you click the Next button, the DNS server column will appear. You fill in the DNS IP with Public DNS IP `1.1.1.1 and 8.8.8.8`. Don't forget to uncheck the **"DNS Server Override"** option. Click the Next button again, then a display like the image below will appear.
 
 
-![general information DNS server PFSEnse](http://45.83.122.181:8080/sept-05/set-adminweb-gui-password.png)
+![pfsense setup genaral information](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/pfsense-setup-general-information.jpg)
 
 
 In the `"Time server hostname"` option, fill in the time server. To make things easier, just choose the default PFSense, namely `"2.pfsense.pool.ntp.org"`. And in the `"Timezone"` column, you fill in the time zone where you live. Continue by pressing the Next button.

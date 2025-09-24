@@ -1,0 +1,995 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>FreeBSD Elasticsearch and Logstash Tutorial - Installation and Configuration - UnixBSDShell</title>
+<meta name="description" content="Elasticsearch is an open-source application built on Apache Lucene. Written in Java, it is used as a distributed RESTful search and analytics engine capable of handling a wide range of use cases.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="FreeBSD Elasticsearch and Logstash Tutorial - Installation and Configuration">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/elastic-search-freebsd-tutorials-installation/">
+
+
+  <meta property="og:description" content="Elasticsearch is an open-source application built on Apache Lucene. Written in Java, it is used as a distributed RESTful search and analytics engine capable of handling a wide range of use cases.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="FreeBSD Elasticsearch and Logstash Tutorial - Installation and Configuration">
+  <meta name="twitter:description" content="Elasticsearch is an open-source application built on Apache Lucene. Written in Java, it is used as a distributed RESTful search and analytics engine capable of handling a wide range of use cases.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/elastic-search-freebsd-tutorials-installation/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-06-30T10:37:15+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/elastic-search-freebsd-tutorials-installation/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">FreeBSD Elasticsearch and Logstash Tutorial - Installation and Configuration</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="FreeBSD Elasticsearch and Logstash Tutorial - Installation and Configuration">
+    <meta itemprop="description" content="Elasticsearch is an open-source application built on Apache Lucene. Written in Java, it is used as a distributed RESTful search and analytics engine capable of handling a wide range of use cases.">
+    <meta itemprop="datePublished" content="2025-06-30T10:37:15+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">FreeBSD Elasticsearch and Logstash Tutorial - Installation and Configuration
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-system-requirements">1. System requirements</a></li>
+  <li><a href="#2-installing-elasticsearch-with-the-ports-system">2. Installing Elasticsearch with the Ports system</a></li>
+  <li><a href="#3-how-to-configure-elasticsearch">3. How to Configure Elasticsearch</a></li>
+  <li><a href="#4-how-to-install-logstash8">4. How to Install Logstash8</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>In today’s era, the ability of a website to search for files, analyze, and visualize data in small or large amounts is very important. This will certainly be very useful for the development of organizations and businesses that require speed in searching for data or files on a website. There are many search engines used by web developers. Elasticsearch is one of the many fast, sophisticated, and popular search and data analysis engines. Elasticsearch has gained tremendous popularity over the years.</p>
+
+<p>Since its inception until now, Elasticsearch has grown into something much bigger than when it was first introduced. Elasticsearch is not just an ordinary search engine, but more than that, it has become a complete ecosystem known as the “Elastic Stack.” This thing has become a superstar, capable of handling everything from basic website searches and log data analysis to complex data processing.</p>
+
+<p><br /></p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/1_FreeBSD_Elstic_search_apache.jpg" alt="Elatic Search FreeBSD apache" /></p>
+
+<p><br /></p>
+
+<p>Elasticsearch is an open-source application built on Apache Lucene. Written in Java, it is used as a distributed RESTful search and analytics engine capable of handling a wide range of use cases. Elasticsearch was first introduced by Elasticsearch N.V. in 2010, and is now part of the Elastic Stack.</p>
+
+<p>**</p>
+
+<blockquote>
+  <p>Elasticsearch was built with extremely high scalability in mind, so it
+is able to handle the challenges of scaling indexes horizontally and
+can handle large amounts of data like a pro.</p>
+</blockquote>
+
+<p>**</p>
+
+<p>Elasticsearch offers many excellent features, one of which is its very fast search and analysis capabilities. Elasticsearch is capable of performing real-time searches, namely within one second. Therefore, it is only natural that many people use it to handle large amounts of data easily, efficiently, and simply.</p>
+
+<h2 id="1-system-requirements">1. System requirements</h2>
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>Hostname: ns3</li>
+  <li>IP address: 192.168.5.2</li>
+  <li>Logstash version: logstash8-8.11.3</li>
+  <li>Elasticsearch version: elasticsearch8-8.11.3</li>
+  <li>Web server: Apache24</li>
+  <li>Dependencies: jna bash wazuh-server</li>
+  <li>Java version:</li>
+</ul>
+
+<p>a. openjdk version “17.0.9” 2023-10-17</p>
+
+<p>b. OpenJDK Runtime Environment (build 17.0.9+9-1)</p>
+
+<p>c. OpenJDK 64-Bit Server VM (build 17.0.9+9-1, mixed mode, sharing)</p>
+
+<p><br /></p>
+
+<h2 id="2-installing-elasticsearch-with-the-ports-system">2. Installing Elasticsearch with the Ports system</h2>
+<p>Before starting the elasticsearch installation, make sure the Java and Apache applications are running on FreeBSD. You can use the Java and Apache versions by following the instructions above. Okay, let’s start installing elasticsearch dependencies.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>jna bash wazuh-server
+</code></pre></div></div>
+<p>The next process after dependencies is to install elasticsearch. Use the FreeBSD port system, so that all libraries can be installed.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/textproc/elasticsearch8
+<span class="gp">root@ns3:/usr/ports/textproc/elasticsearch8 #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+<p>Then, you create a starter script, so that elasticsearch can run automatically on FreeBSD. Open the <code class="language-plaintext highlighter-rouge">rc.conf</code> file and type the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="go">elasticsearch_enable="YES"
+elasticsearch_user="elasticsearch"
+elasticsearch_group="elasticsearch"
+elasticsearch_config="/usr/local/etc/elasticsearch"
+elasticsearch_login_class="root"
+elasticsearch_java_home="/usr/local/openjdk17"
+</span></code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="3-how-to-configure-elasticsearch">3. How to Configure Elasticsearch</h2>
+<p>Once you have completed the installation, proceed to setting up elasticsearch. The main file you need to configure is elasticsearch.yml. Open the elasticsearch.yml file and change only a few scripts, as in the example below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /usr/local/etc/elasticsearch/elasticsearch.yml
+<span class="go">cluster.name: nextcloud2
+node.name: node-1
+path.data: /var/db/elasticsearch
+path.logs: /var/run/elasticsearch
+bootstrap.memory_lock: true
+network.host: 192.168.5.2
+http.port: 9200
+discovery.seed_hosts: ["127.0.0.1", "[::1]"]
+discovery.type: single-node
+xpack.ml.enabled: false
+xpack.security.enabled: false
+xpack.security.enrollment.enabled: false
+</span></code></pre></div></div>
+<p>While Elasticsearch has built-in features, you can extend its functionality by adding plugins to provide advanced analytics and process different types of data. You can install each plugin on a compatible Elasticsearch cluster, just like any other Elasticsearch plugin.</p>
+
+<p>In this article, we will try installing Elasticsearch plugins and interacting with them using the Elasticsearch API. Run the commands below to install commonly used plugins.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>/usr/local/lib/elasticsearch/bin/elasticsearch-plugin <span class="nb">install </span>ingest-attachment
+</code></pre></div></div>
+
+<p>The above command, installs the Elasticsearch plugin to index and search base64 encoded documents in formats like RTF, PDF, and PPT. You can also install the <code class="language-plaintext highlighter-rouge">"analysis-phonetic"</code> plugin to identify the search results performed by elasticsearch.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>/usr/local/lib/elasticsearch/bin/elasticsearch-plugin <span class="nb">install </span>analysis-phonetic
+<span class="go">
+</span></code></pre></div></div>
+<p>Another plugin you can install is <code class="language-plaintext highlighter-rouge">“ingest-user-agent”</code>. This plugin is used to parse the User Agent header from HTTP requests to provide identifying information about the client sending each request.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>/usr/local/lib/elasticsearch/bin/elasticsearch-plugin <span class="nb">install </span>ingest-user-agent
+</code></pre></div></div>
+
+<p>Run ownership commands on db and log files.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> elasticsearch:elasticsearch /var/db/elasticsearch
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> elasticsearch:elasticsearch /var/run/elasticsearch
+</code></pre></div></div>
+<p>The next step is to run elasticsearch.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>service elasticsearch restart
+</code></pre></div></div>
+<p>After that, you test whether Elasticsearch responds to queries.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # curl -X GET "192.168.5.2:9200"
+{
+  "name" : "node-1",
+  "cluster_name" : "nextcloud2",
+  "cluster_uuid" : "6oYpEqMpTPanRtTSe61E_w",
+  "version" : {
+    "number" : "8.11.3",
+    "build_flavor" : "default",
+    "build_type" : "tar",
+    "build_hash" : "64cf052f3b56b1fd4449f5454cb88aca7e739d9a",
+    "build_date" : "2023-12-08T11:33:53.634979452Z",
+    "build_snapshot" : false,
+    "lucene_version" : "9.8.0",
+    "minimum_wire_compatibility_version" : "7.17.0",
+    "minimum_index_compatibility_version" : "7.0.0"
+  },
+  "tagline" : "You Know, for Search"
+}
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="4-how-to-install-logstash8">4. How to Install Logstash8</h2>
+<p>Logstash is a real-time event processing engine for managing events and logs. You can use it to collect logs, parse them, and store them for later use. Logstash is usually paired with elasticsearch. In this section we will explain how to install Logstash on FreeBSD. After installing and configuring Logstash, we will connect it to elasticsearch, so that they can be used together.</p>
+
+<p>To install Logstash, you can use the PKG package, as in the example below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>logstash8
+</code></pre></div></div>
+<p>Add the script below to the <code class="language-plaintext highlighter-rouge">rc.conf</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="go">logstash_enable="YES"
+logstash_user="logstash"
+logstash_group="logstash"
+logstash_home="/usr/local/logstash"
+logstash_config="/usr/local/etc/logstash"
+logstash_log="YES"
+logstash_java_home="/usr/local/openjdk17"
+logstash_java_opts=""
+logstash_opts=""
+</span></code></pre></div></div>
+<p>Edit the <code class="language-plaintext highlighter-rouge">logstash.conf</code> file, so that it can connect to elasticsearch.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /usr/local/etc/logstash/logstash.conf
+<span class="go">input {
+  beats {
+</span><span class="gp">    port =&gt;</span><span class="w"> </span>5044
+<span class="go">  }
+}
+
+output {
+  elasticsearch {
+</span><span class="gp">    hosts =&gt;</span><span class="w"> </span><span class="o">[</span><span class="s2">"http://192.168.5.2:9200"</span><span class="o">]</span>
+<span class="gp">    index =&gt;</span><span class="w"> </span><span class="s2">"%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}"</span>
+<span class="gp">    #</span>user <span class="o">=&gt;</span> <span class="s2">"elastic"</span>
+<span class="gp">    #</span>password <span class="o">=&gt;</span> <span class="s2">"changeme"</span>
+<span class="go">  }
+}
+</span></code></pre></div></div>
+
+<p>Run Logstash with the service command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>service logstash restart
+<span class="go">Stopping logstash.
+Waiting for PIDS: 906, 906.
+Starting logstash.
+</span></code></pre></div></div>
+<p>Once everything is configured, you can see the result by checking elasticsearch, whether it is running normally or there is a script error. Open the Google Chrome web browser, type -<code class="language-plaintext highlighter-rouge">"http://192.168.5.2:9200/"</code>.</p>
+
+<p>The result will look like the image below.</p>
+
+<p><br /></p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/2Result_FreeBSD_Elstic_search_apache.jpg" alt="Result Elastic Search" /></p>
+
+<p><br /></p>
+
+<p>Overall, Elasticsearch is a powerful, real-time, fast, and high-performance data search and analysis engine. Its ability to handle complex queries and deliver fast search results makes it a valuable asset for organizations and enterprises dealing with large amounts of data.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-30T10:37:15+03:00">June 30, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=FreeBSD+Elasticsearch+and+Logstash+Tutorial+-+Installation+and+Configuration%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Felastic-search-freebsd-tutorials-installation%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Felastic-search-freebsd-tutorials-installation%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Felastic-search-freebsd-tutorials-installation%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/openbsd/nextcloud-nginx-configuration-openbsd/" class="pagination--pager" title="Nextcloud and Nginx Configuration on OpenBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/memcached-php-installation-freebsd/" class="pagination--pager" title="FreeBSD Memcached - Installing and Configuring Memcached With PHP
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/elastic-search-freebsd-tutorials-installation/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/elastic-search-freebsd-tutorials-installation"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

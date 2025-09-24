@@ -1,0 +1,950 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Install and Configure pgAdmin for PostgreSQL on FreeBSD - UnixBSDShell</title>
+<meta name="description" content="pgAdmin is one of the leaders in open source PostgreSQL-based management, often referred to as the world’s most advanced database platform. pgAdmin 4 is designed to meet the needs of both novice and experienced Postgres users, providing a powerful graphical interface that simplifies the creation, maintenance, and use of database object">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Install and Configure pgAdmin for PostgreSQL on FreeBSD">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/install-pgadmin-postgresql-freebsd/">
+
+
+  <meta property="og:description" content="pgAdmin is one of the leaders in open source PostgreSQL-based management, often referred to as the world’s most advanced database platform. pgAdmin 4 is designed to meet the needs of both novice and experienced Postgres users, providing a powerful graphical interface that simplifies the creation, maintenance, and use of database object">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Install and Configure pgAdmin for PostgreSQL on FreeBSD">
+  <meta name="twitter:description" content="pgAdmin is one of the leaders in open source PostgreSQL-based management, often referred to as the world’s most advanced database platform. pgAdmin 4 is designed to meet the needs of both novice and experienced Postgres users, providing a powerful graphical interface that simplifies the creation, maintenance, and use of database object">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/install-pgadmin-postgresql-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-06-02T20:42:11+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/install-pgadmin-postgresql-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Install and Configure pgAdmin for PostgreSQL on FreeBSD</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Install and Configure pgAdmin for PostgreSQL on FreeBSD">
+    <meta itemprop="description" content="pgAdmin is one of the leaders in open source PostgreSQL-based management, often referred to as the world’s most advanced database platform. pgAdmin 4 is designed to meet the needs of both novice and experienced Postgres users, providing a powerful graphical interface that simplifies the creation, maintenance, and use of database object">
+    <meta itemprop="datePublished" content="2025-06-02T20:42:11+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Install and Configure pgAdmin for PostgreSQL on FreeBSD
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#a-system-specifications">A. System Specifications:</a></li>
+  <li><a href="#b-how-to-install-pgadmin">B. How to Install pgadmin</a></li>
+  <li><a href="#c-create-python-symlink">C. Create Python Symlink</a></li>
+  <li><a href="#d-run-pgadmin">D. Run pgadmin</a></li>
+  <li><a href="#e-test-pgadmin">E. Test pgadmin</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>pgAdmin is a management tool for PostgreSQL and derived relational databases such as EDB (Advanced Server EnterpriseDB). This program can be run as a web application or desktop. pgAdmin is a free and very popular open source platform. pgAdmin was created to make it easier for PostgreSQL database users, because this program has a graphical user interface for managing relational databases. Some of its features include query tools for SQL statements and import/export of csv files.</p>
+
+<p>Graphical user interface (GUI) tools have become a standard part of today’s technology workflow. For PostgreSQL management, pgAdmin is considered the right solution for users who need a graphical or GUI display, such as using Windows. As stated by its developers, pgAdmin 4 is the latest version, and its development involved a complete rewrite of the original pgAdmin tool.</p>
+
+<p>pgAdmin is one of the leaders in open source PostgreSQL-based management, often referred to as the world’s most advanced database platform. pgAdmin 4 is designed to meet the needs of both novice and experienced Postgres users, providing a powerful graphical interface that simplifies the creation, maintenance, and use of database objects.</p>
+
+<p>pgAdmin is a free software project released under the PostgreSQL/Artistic license. pgAdmin 4 is software built using Python and JavaScript/jQuery. The desktop runtime written in C++ with Qt allows it to run standalone for individual users, or the web application code can be deployed directly on a web server for use by one or more users through their web browsers.</p>
+
+<p>Another interesting feature of pgAdmin is its ability to handle SQL queries, maintenance, and other necessary processes without using the command prompt. In addition, pgAdmin also provides monitoring tools that allow users to see the status of operations at a glance, and help automate routine and periodic work.</p>
+
+<p>Overall, it can be said that pgAdmin is a valuable addition to the workflow of most PostgreSQL users. With so much documentation, it is not difficult to get started, even if you have never installed a GUI tool on top of a database before. The next step is to make sure pgAdmin is compatible with the PostgreSQL installation that has been installed on your server.</p>
+
+<p>In this article, we will learn about PGAdmin, a PostgreSQL management tool. As you know, SQL Server Management Studio (SSMS) and MySQL Workbench are GUI management tools for SQL Server and MySQL. Similarly, to manage Postgres database and its services, PGAadmin is used.</p>
+
+<p>PGAdmin is a web-based GUI tool used to interact with Postgres database sessions, either locally or on a remote server. You can use PGAdmin to perform any type of database administration required for Postgres databases.</p>
+
+<p>This article is written based on the practice done on FreeBSD 13.2 server. The following are the system specifications used to write this article.</p>
+
+<h2 id="a-system-specifications">A. System Specifications:</h2>
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>IP Address: 192.168.5.2</li>
+  <li>Domain: unixexplore.com</li>
+  <li>PostgreSQL version: postgresql15</li>
+  <li>Python version: python39</li>
+  <li>Pgadmin version: pgadmin3</li>
+  <li>Pip version: pip23.1</li>
+</ul>
+
+<h2 id="b-how-to-install-pgadmin">B. How to Install pgadmin</h2>
+<p>In this article we will not discuss how to install PostgreSQL, we will assume that PostgreSQL has been installed on the FreeBSD server. So we continue with the installation of pgadmin. On the FreeBSD system, it is best to use the ports system to install pgadmin. Here’s how to install pgadmin with the FreeBSD ports system.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/databases/py-sqlite3
+<span class="gp">root@ns1:/usr/ports/databases/py-sqlite3 #</span><span class="w"> </span>make <span class="nb">install </span>clean
+<span class="gp">root@ns1:/usr/ports/databases/py-sqlite3 #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/lang/python39
+<span class="gp">root@ns1:/usr/ports/lang/python38 #</span><span class="w"> </span>make <span class="nb">install </span>clean
+<span class="gp">root@ns1:/usr/ports/lang/python38 #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/devel/py-pip
+<span class="gp">root@ns1:/usr/ports/devel/py-pip #</span><span class="w"> </span>make <span class="nb">install </span>clean
+<span class="gp">root@ns1:/usr/ports/devel/py-pip #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/devel/py-virtualenv
+<span class="gp">root@ns1:/usr/ports/devel/py-virtualenv #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+
+<p>The above command is a script to install the dependencies needed by the <code class="language-plaintext highlighter-rouge">pgadmin</code> program. The above command is very useful for running <code class="language-plaintext highlighter-rouge">pgadmin</code> on a FreeBSD system. After all the pgadmin dependencies are installed, here is how to install <code class="language-plaintext highlighter-rouge">pgadmin</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/databases/pgadmin3
+<span class="gp">root@ns1:/usr/ports/databases/pgadmin3 #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+
+<h2 id="c-create-python-symlink">C. Create Python Symlink</h2>
+<p>Because pgadmin runs with python application and many python versions are automatically installed in FreeBSD, creating python symlink is very important. This symlink can be used to confirm the python version used, because in this article using python38 symlink must be python38.</p>
+
+<p>Here are the steps to create python38 symlin in FreeBSD. The first step is to delete the existing symlink file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">rm</span> <span class="nt">-R</span> <span class="nt">-f</span> /usr/local/bin/python
+<span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-s</span> /usr/local/bin/python3.9 /usr/local/bin/python
+</code></pre></div></div>
+
+<p>The first script above explains the removal of the python binary file and the second script creates a <code class="language-plaintext highlighter-rouge">python38</code> symbolic link. Both of the above script commands can also be used to resolve errors in Python such as <code class="language-plaintext highlighter-rouge">env python: No such file or directory</code>. Once the symbolic link file is created, restart your computer for the symbolic link to take effect.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>reboot
+</code></pre></div></div>
+
+<h2 id="d-run-pgadmin">D. Run pgadmin</h2>
+<p>To run pgadmin, we must first create a working folder. We will create a working project named <code class="language-plaintext highlighter-rouge">projectPgadmin</code> and will place it in the <code class="language-plaintext highlighter-rouge">/tmp</code> folder.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /tmp/projectPgadmin
+<span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /tmp/projectPgadmin
+</code></pre></div></div>
+
+<p>After that, continue by creating a working project in the Python virtual environment with the name <code class="language-plaintext highlighter-rouge">pgadmin</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/tmp/projectPgadmin #</span><span class="w"> </span>python <span class="nt">-m</span> venv pgadmin
+<span class="gp">root@ns1:/tmp/projectPgadmin #</span><span class="w"> </span><span class="nb">cd </span>pgadmin
+</code></pre></div></div>
+
+<p>The above script is used to create a python working project named <code class="language-plaintext highlighter-rouge">pgadmin</code> and the working project is in the python virtual environment.</p>
+
+<p>The working project is not yet active, now we will activate the working project, type the script below to activate the working project <code class="language-plaintext highlighter-rouge">pgadmin</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/tmp/projectPgadmin/pgadmin #</span><span class="w"> </span><span class="nb">source </span>bin/activate.csh
+<span class="gp">(pgadmin) root@ns1:/tmp/projectPgadmin/pgadmin #</span><span class="w">
+</span></code></pre></div></div>
+
+<p>For more details about working in a <code class="language-plaintext highlighter-rouge">virtual python</code> environment, you can read the article above.</p>
+
+<p>Then continue with the script below to update the <code class="language-plaintext highlighter-rouge">pip</code> application.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">(pgadmin) root@ns1:/tmp/projectPgadmin/pgadmin #</span><span class="w"> </span>pip <span class="nb">install</span> <span class="nt">--upgrade</span> pip
+</code></pre></div></div>
+
+<p>Once <code class="language-plaintext highlighter-rouge">pip</code> is successfully updated, type the following command to install the <code class="language-plaintext highlighter-rouge">pgadmin</code> repository.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">(pgadmin) root@ns1:/tmp/projectPgadmin/pgadmin #</span><span class="w"> </span>python3 <span class="nt">-m</span> pip <span class="nb">install </span><span class="nv">cryptography</span><span class="o">==</span>3.3 pyopenssl ndg-httpsclient pyasn1 simple-websocket
+<span class="gp">(pgadmin) root@ns1:/tmp/projectPgadmin/pgadmin #</span><span class="w"> </span>python3 <span class="nt">-m</span> pip <span class="nb">install </span>https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v6.21/pip/pgadmin4-6.21-py3-none-any.whl
+</code></pre></div></div>
+
+<p>The next step is to type the following command to copy the <code class="language-plaintext highlighter-rouge">config.py</code> file to the <code class="language-plaintext highlighter-rouge">config_local.py</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">(pgadmin) root@ns1:/tmp/projectPgadmin/pgadmin #</span><span class="w"> </span><span class="nb">cd</span> ..
+<span class="gp">(pgadmin) root@ns1:/tmp/projectPgadmin #</span><span class="w"> </span><span class="nb">cp</span> ./pgadmin/lib/python3.9/site-packages/pgadmin4/config.py ./pgadmin/lib/python3.9/site-packages/pgadmin4/config_local.py
+</code></pre></div></div>
+
+<p>After the file copying process is complete, edit the <code class="language-plaintext highlighter-rouge">config_local.py</code> file and change the Server IP to the Private IP of our FreeBSD server computer. If you edit the config_local.py file using the <code class="language-plaintext highlighter-rouge">ee</code> or <code class="language-plaintext highlighter-rouge">vim</code> editor, you must exit the <code class="language-plaintext highlighter-rouge">Python virtual environment</code> first, use the <code class="language-plaintext highlighter-rouge">deactivate</code> command to exit the <code class="language-plaintext highlighter-rouge">Python virtual environment</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">(pgadmin) root@ns1:/tmp/projectPgadmin #</span><span class="w"> </span>deactivate
+<span class="gp">root@ns1:/tmp/projectPgadmin #</span><span class="w"> </span>ee ./pgadmin/lib/python3.9/site-packages/pgadmin4/config_local.py
+<span class="go">DEFAULT_SERVER = '192.168.5.2'
+DEFAULT_SERVER_PORT = 5050
+</span></code></pre></div></div>
+
+<h2 id="e-test-pgadmin">E. Test pgadmin</h2>
+<p>After all applications are configured, now we will test whether the pgadmin application can run on the FreeBSD server. To do this test, we must be active in the Python virtual environment.</p>
+
+<p>The following is a script used to activate pgadmin, starting from the <code class="language-plaintext highlighter-rouge">/root</code> folder.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /tmp/projectPgadmin/pgadmin
+<span class="gp">root@ns1:/tmp/projectPgadmin/pgadmin #</span><span class="w"> </span><span class="nb">source </span>bin/activate.csh
+<span class="gp">(pgadmin) root@ns1:/tmp/projectPgadmin/pgadmin #</span><span class="w"> </span><span class="nb">cd</span> ..
+<span class="gp">(pgadmin) root@ns1:/tmp/projectPgadmin #</span><span class="w"> </span>python ./pgadmin/lib/python3.9/site-packages/pgadmin4/pgAdmin4.py
+<span class="go">
+NOTE: Configuring authentication for SERVER mode.
+
+Enter the email address and password to use for the initial pgAdmin user account:
+
+Email address: datainchi@gmail.com
+Password: gunungrinjani
+Retype password: gunungrinjani
+pgAdmin 4 - Application Initialisation
+======================================
+
+Starting pgAdmin 4. Please navigate to http://192.168.5.2:5050 in your browser.
+ * Serving Flask app 'pgadmin' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+</span></code></pre></div></div>
+
+<p>The green script above is to activate the pgadmin application. Fill in the email according to the existing email and the password as desired.</p>
+
+<p>In this article, <code class="language-plaintext highlighter-rouge">password</code> will be written as <code class="language-plaintext highlighter-rouge">gunungrinjani</code>.</p>
+
+<p>After making sure the pgadmin application is active, open the Google Chrome, Yandex or Firefox web browser, in the address bar type <code class="language-plaintext highlighter-rouge">http://192.168.5.2:5050</code>.</p>
+
+<p>With pgadmin, you can easily use the PostgreSQL database, because the display is in graphical or GUI form, making it easy for users to manage, modify, and run PostgreSQL.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">DataBase</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-02T20:42:11+03:00">June 2, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Install+and+Configure+pgAdmin+for+PostgreSQL+on+FreeBSD%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstall-pgadmin-postgresql-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstall-pgadmin-postgresql-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstall-pgadmin-postgresql-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/complete-guide-using-openssl-freebsd/" class="pagination--pager" title="Guide to Using OpenSSL Commands in FreeBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/database-website-apache-php-postgresql/" class="pagination--pager" title="Creating a Database Website with Apache24 PHP and PostgreSQL On FreeBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/install-pgadmin-postgresql-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/install-pgadmin-postgresql-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

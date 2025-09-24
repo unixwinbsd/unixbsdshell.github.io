@@ -1,0 +1,1172 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>gpart Command To Manage Disk Partitions in FreeBSD - Part 1 - UnixBSDShell</title>
+<meta name="description" content="gpart GEOM Partitioning is a FreeBSD embedded shell command line for managing or recovering disk partition tables, especially if the primary partition table has been damaged or lost.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="gpart Command To Manage Disk Partitions in FreeBSD - Part 1">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/gpart-command-manage-disk-partitions/">
+
+
+  <meta property="og:description" content="gpart GEOM Partitioning is a FreeBSD embedded shell command line for managing or recovering disk partition tables, especially if the primary partition table has been damaged or lost.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="gpart Command To Manage Disk Partitions in FreeBSD - Part 1">
+  <meta name="twitter:description" content="gpart GEOM Partitioning is a FreeBSD embedded shell command line for managing or recovering disk partition tables, especially if the primary partition table has been damaged or lost.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/gpart-command-manage-disk-partitions/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-05T17:15:13+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/gpart-command-manage-disk-partitions/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">gpart Command To Manage Disk Partitions in FreeBSD - Part 1</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="gpart Command To Manage Disk Partitions in FreeBSD - Part 1">
+    <meta itemprop="description" content="gpart GEOM Partitioning is a FreeBSD embedded shell command line for managing or recovering disk partition tables, especially if the primary partition table has been damaged or lost.">
+    <meta itemprop="datePublished" content="2025-05-05T17:15:13+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">gpart Command To Manage Disk Partitions in FreeBSD - Part 1
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          13 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#a-about-the-gpart-command">A. About the gpart Command</a></li>
+  <li><a href="#b-basic-gpart-commands-flags">B. Basic gpart Commands (flags)</a></li>
+  <li><a href="#c-how-to-use-the-gpart-command">C. How to Use the gpart Command</a>
+    <ul>
+      <li><a href="#a-displaying-partition-information---gpart-show">a. Displaying Partition Information - gpart show</a>
+        <ul>
+          <li><a href="#a1-displaying-all-partitions">a.1. Displaying All Partitions</a></li>
+          <li><a href="#a2-displaying-one-disk-partition">a.2. Displaying One Disk (Partition)</a></li>
+          <li><a href="#a3-gpart-show-options">a.3. gpart show Options</a></li>
+        </ul>
+      </li>
+      <li><a href="#b-creating-a-partition-scheme---gpart-create">b. Creating a Partition Scheme - gpart create</a></li>
+    </ul>
+  </li>
+  <li><a href="#c-adding-a-new-partition---gpart-add">c. Adding a New Partition - gpart add</a>
+    <ul>
+      <li><a href="#d-deleting-schemes-and-partitions---gpart-destroy">d. Deleting Schemes and Partitions - gpart destroy</a></li>
+      <li><a href="#e-deleting-partitions---gpart-delete">e. Deleting Partitions - gpart delete</a></li>
+      <li><a href="#f-confirming-and-canceling">f. Confirming and Canceling</a>
+        <ul>
+          <li><a href="#f1-the-gpart-undo-command">f.1. The gpart undo command</a></li>
+          <li><a href="#f2-gpart-commit-command">f.2. gpart commit command</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>As if there is no word stop, FreeBSD continues to update its system. Some command lines that are no longer suitable for current conditions are replaced with the latest, better commands. Like the bsdlabel and fdisk commands, they are currently no longer usable. Even FreeBSD developers have forgotten about both commands.</p>
+
+<p>Instead, FreeBSD sets the gpart command as the default command to manage and organize Disks. This command is so amazingly capable of managing partitions on the latest Hard Disks with sizes reaching tera bytes. In fact, gpart is able to create, modify and delete partitions very effectively and quickly</p>
+
+<p>This article provides a complete guide on how to use the gpart command to manage partitions in FreeBSD, covering its features, commands, and practical examples.</p>
+
+<h2 id="a-about-the-gpart-command">A. About the gpart Command</h2>
+<p>Before you learn gpart, it’s a good idea to know what gpart is. gpart GEOM Partitioning is a FreeBSD embedded shell command line for managing or recovering disk partition tables, especially if the primary partition table has been damaged or lost. The gpart command works by reading the disk sector by sector and using various file system recognition modules to identify potential partition boundaries and types.</p>
+
+<p>This utility supports various partition schemes, including GPT (GUID Partition Table), MBR (Master Boot Record), and BSD labels. Basically, gpart helps recover lost or damaged partition information, allowing users to access data or recreate partitions.</p>
+
+<p>gpart has the main features that you can enjoy, including:</p>
+
+<ul>
+  <li>Support for Multiple Partitioning Schemes: gpart supports GPT, MBR, and BSD labels, making it versatile for a variety of use cases.</li>
+  <li>Partition Management: Easily create, delete, resize, and modify partitions.</li>
+  <li>Attribute Management: Set and modify partition attributes, such as bootable flags and partition types.</li>
+  <li>Boot Code Management: Install and manage boot code for a variety of architectures.</li>
+  <li>Scripting Capabilities: gpart commands can be scripted, making it suitable for automated tasks.</li>
+</ul>
+
+<p>In its use, gpart is very flexible and allows users to create, modify, and delete partitions, as well as manage partition attributes and boot code very easily. gpart is capable of scanning disk sector by sector, looking for patterns and signatures that indicate the beginning of various file systems or partition types, because gpart is specifically designed to recover partition information when the primary partition table (located in sector 0 of the disk) is damaged or lost.</p>
+
+<h2 id="b-basic-gpart-commands-flags">B. Basic gpart Commands (flags)</h2>
+<p>gpart has many options that you can use. You must use all of these options correctly, according to the function of the option. Each option that gpart has is different, between one option and another. There are even options that can be combined.</p>
+
+<p>You can see all the following gpart command lists with the options they have by typing the gpart -h command, as in the following example.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart <span class="nb">help</span>
+<span class="go">usage: gpart add -t type [-a alignment] [-b start] [-s size] [-i index] [-l label] [-f flags] geom
+       gpart backup geom
+       gpart bootcode [-N] [-b bootcode] [-p partcode -i index] [-f flags] geom
+       gpart commit geom
+       gpart create -s scheme [-n entries] [-f flags] provider
+       gpart delete -i index [-f flags] geom
+       gpart destroy [-F] [-f flags] geom
+       gpart modify -i index [-l label] [-t type] [-f flags] geom
+       gpart set -a attrib [-i index] [-f flags] geom
+       gpart show [-l | -r] [-p] [geom ...]
+       gpart undo geom
+       gpart unset -a attrib [-i index] [-f flags] geom
+       gpart resize -i index [-a alignment] [-s size] [-f flags] geom
+       gpart restore [-lF] [-f flags] provider [...]
+       gpart recover [-f flags] geom
+       gpart help
+       gpart list [-a] [name ...]
+       gpart status [-ags] [name ...]
+       gpart load [-v]
+       gpart unload [-v]
+</span><span class="gp">root@ns4:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<p>From the command display above, you should be able to understand how to use gpart and the options it has. However, we will provide a clearer explanation of how to use the gpart command.</p>
+
+<p>To get more complete information on how to use gpart, run the command below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>man gpart
+</code></pre></div></div>
+
+<h2 id="c-how-to-use-the-gpart-command">C. How to Use the gpart Command</h2>
+<p>After you know what gpart is, its functions and various features, in this section we will give an example of how to use each command that gpart has. In this article we use Flashdisk media to practice using gpart. However, each command that we provide can also be run on a Hard disk, you only need to change the disk name, for example da0 for Flashdisk if you use a hard disk replace da0 with ada0.</p>
+
+<p>Before you use the gpart command make sure how many disks your FreeBSD server computer has. Run the following command to see the number of disks on the FreeBSD system.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>camcontrol devlist
+<span class="gp">&lt;WDC WD2500AAKX-753CA1 19.01H19&gt;</span><span class="w">   </span>at scbus1 target 0 lun 0 <span class="o">(</span>pass0,ada0<span class="o">)</span>
+<span class="gp">&lt;JetFlash Transcend 16GB 1100&gt;</span><span class="w">     </span>at scbus3 target 0 lun 0 <span class="o">(</span>da0,pass1<span class="o">)</span>
+<span class="gp">root@ns4:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The command above explains that your computer only has 2 disks installed.</p>
+<ul>
+  <li>A WDC (western digital) hard disk with the label ada0, and</li>
+  <li>a Transcend flash disk with the label da0</li>
+</ul>
+
+<p>In this article we only use da0 as a practice. If you want to see the ownership rights and file permissions on the da0 flash disk, use the ps command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span><span class="nb">ls</span> <span class="nt">-l</span> /dev/da0
+<span class="go">crw-r-----  1 root operator 0x80 May 10 12:18 /dev/da0
+</span></code></pre></div></div>
+
+<h3 id="a-displaying-partition-information---gpart-show">a. Displaying Partition Information - gpart show</h3>
+<p>To see what partitions are used by a flash drive, use the gpart show command. This command is used to display current partition information for a specified geom, or all geoms if none are specified.</p>
+
+<h4 id="a1-displaying-all-partitions">a.1. Displaying All Partitions</h4>
+<p>If you want to see all disks installed on your FreeBSD computer, run the following command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart show
+<span class="gp">=&gt;</span><span class="w">       </span>40  488397088  ada0  GPT  <span class="o">(</span>233G<span class="o">)</span>
+<span class="go">         40       1024     1  freebsd-boot  (512K)
+       1064        984        - free -  (492K)
+       2048    4194304     2  freebsd-swap  (2.0G)
+    4196352  484200448     3  freebsd-zfs  (231G)
+  488396800        328        - free -  (164K)
+
+</span><span class="gp">=&gt;</span><span class="w">      </span>64  30834561  da0  GPT  <span class="o">(</span>15G<span class="o">)</span>
+<span class="go">        64   2374232    1  ms-basic-data  (1.1G)
+   2374296      8496    2  efi  (4.1M)
+   2382792       600    3  ms-basic-data  (300K)
+   2383392       480       - free -  (240K)
+   2383872  28448768    4  linux-data  (14G)
+  30832640      1985       - free -  (993K)
+
+</span><span class="gp">=&gt;</span><span class="w">      </span>64  30834561  iso9660/Runtu_LITE_24.04x64  GPT  <span class="o">(</span>15G<span class="o">)</span>
+<span class="go">        64   2374232                            1  ms-basic-data  (1.1G)
+   2374296      8496                            2  efi  (4.1M)
+   2382792       600                            3  ms-basic-data  (300K)
+   2383392       480                               - free -  (240K)
+   2383872  28448768                            4  linux-data  (14G)
+  30832640      1985                               - free -  (993K)
+
+</span><span class="gp">root@ns4:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="a2-displaying-one-disk-partition">a.2. Displaying One Disk (Partition)</h4>
+<p>The command below will display more specific information from the active disk.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart show da0
+<span class="gp">=&gt;</span><span class="w">      </span>64  30834561  da0  GPT  <span class="o">(</span>15G<span class="o">)</span>
+<span class="go">        64   2374232    1  ms-basic-data  (1.1G)
+   2374296      8496    2  efi  (4.1M)
+   2382792       600    3  ms-basic-data  (300K)
+   2383392       480       - free -  (240K)
+   2383872  28448768    4  linux-data  (14G)
+  30832640      1985       - free -  (993K)
+
+</span><span class="gp">root@ns4:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The above command displays default output including the logical start block of each partition, the partition size in blocks, the partition index number, the partition type, and the human-readable partition size. The block size and location are based on the device Sectorsize as shown by gpart list.</p>
+
+<h4 id="a3-gpart-show-options">a.3. gpart show Options</h4>
+<p>The gpart show command has several options including:</p>
+<blockquote>
+  <p><strong>-l :</strong> For partition schemes that support partition labels, print the labels instead of partition types.</p>
+
+  <p><strong>-p :</strong> Display provider names instead of partition indices.</p>
+
+  <p><strong>-r :</strong> Display raw partition types instead of symbolic names.</p>
+</blockquote>
+
+<p>Examples of using these options are as shown below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart show <span class="nt">-l</span>
+<span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart show <span class="nt">-l</span> da0
+<span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart show <span class="nt">-p</span> ada0
+<span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart show <span class="nt">-r</span> da0
+</code></pre></div></div>
+
+<h3 id="b-creating-a-partition-scheme---gpart-create">b. Creating a Partition Scheme - gpart create</h3>
+<p>The gpart create command is used to create a new partition scheme on a Flashdisk or Hard disk. The scheme to be used must be specified with the -s scheme option. So before you run the gpart add command. You must run the gpart create command first (don’t reverse the command).</p>
+
+<p>For example, you want to create a new partition, namely GPT on the da0 Flashdisk. The gpart create command will initialize da0 with the GPT partition scheme.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart create <span class="nt">-s</span> gpt /dev/da0
+<span class="go">da0 created
+</span></code></pre></div></div>
+
+<p>If you wish, you can replace GPT with MBR or BSD if you prefer those schemes.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart create <span class="nt">-s</span> bsd da0
+<span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart create <span class="nt">-s</span> mbr da0
+</code></pre></div></div>
+
+<p>After you have finished running the command above, continue with the gpart add command.</p>
+
+<h2 id="c-adding-a-new-partition---gpart-add">c. Adding a New Partition - gpart add</h2>
+<p>After the partition scheme is created, you can add a new partition to the Flashdisk. The partition type must be specified with the -t option. The location, size, and other partition attributes will be calculated automatically if the related options are not specified.</p>
+
+<p>The example command below will add a 10 GB partition to the Flashdisk <code class="language-plaintext highlighter-rouge">(da0)</code>, pay attention to the writing of the command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart add <span class="nt">-t</span> freebsd-ufs <span class="nt">-s</span> 10G da0
+<span class="go">da0p1 added
+</span></code></pre></div></div>
+
+<p>Let’s see the results of the command above.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart show da0
+<span class="gp">=&gt;</span><span class="w">      </span>40  30834608  da0  GPT  <span class="o">(</span>15G<span class="o">)</span>
+<span class="go">        40  20971520    1  freebsd-ufs  (10G)
+  20971560   9863088       - free -  (4.7G)
+</span></code></pre></div></div>
+
+<p>In the command above we can see, a 10 GB partition with the type freebsd-ufs (used for UFS file systems) has been added to da0. You can specify a different partition type, such as freebsd-zfs for ZFS or linux-data for Linux partitions.</p>
+
+<p>If you are working with a Hard disk that is larger than a Flashdisk. Can gpart create multiple partitions. gpart has many advantages, capable of creating multiple partitions on one disk.</p>
+
+<p>In the example below, we will create two partitions on a 16 GB Flashdisk. We will create the first partition without specifying the initial LBA, but with a size of 1 GB (2097152 blocks). On the second partition without specifying the initial LBA and without specifying its size. In this way the partition will be created on all free space.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart add <span class="nt">-t</span> freebsd-swap <span class="nt">-s</span> 2097152 /dev/da0
+<span class="go">da0p1 added
+</span><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart add <span class="nt">-t</span> freebsd-ufs /dev/da0
+<span class="go">da0p2 added
+</span><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart show da0
+<span class="gp">=&gt;</span><span class="w">      </span>40  30834608  da0  GPT  <span class="o">(</span>15G<span class="o">)</span>
+<span class="go">        40   2097152    1  freebsd-swap  (1.0G)
+   2097192  28737456    2  freebsd-ufs  (14G)
+
+</span><span class="gp">root@ns4:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The description of the above commands is:</p>
+<ul>
+  <li>The first command is used to create a 1 GB swap file (2097152 blocks).</li>
+  <li>The second command is used to create a UFS file system, with the remaining size of the swap file.</li>
+  <li>The third command views the partition.</li>
+</ul>
+
+<p>The table below shows the options of the gpart add command that you can use:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-a alignment</td>
+      <td>If specified, the gpart utility attempts to align the starting offset and partition size to be multiples of the alignment values.</td>
+    </tr>
+    <tr>
+      <td>-b start</td>
+      <td>The logical block address where the partition will start. SI unit suffixes are allowed.</td>
+    </tr>
+    <tr>
+      <td>-f flags</td>
+      <td>Additional operational options</td>
+    </tr>
+    <tr>
+      <td>-i index</td>
+      <td>The index in the partition table where the new partition will be placed. The index specifies the device-specific file name used to represent the partition.</td>
+    </tr>
+    <tr>
+      <td>-l label</td>
+      <td>The label attached to the partition. This option is only valid when used on a partition scheme that supports partition labels.</td>
+    </tr>
+    <tr>
+      <td>-s size</td>
+      <td>Create a partition with size size. SI unit suffixes are allowed.</td>
+    </tr>
+    <tr>
+      <td>-t type</td>
+      <td>Create a partition of type type. Partition types are discussed below in the section titled “PARTITION TYPES”.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can combine these options into one command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart add <span class="nt">-b</span> 1058 <span class="nt">-s</span> 2G <span class="nt">-l</span> namalabel <span class="nt">-a</span> 1M <span class="nt">-t</span> freebsd-ufs da0
+<span class="go">da0p1 added
+</span></code></pre></div></div>
+
+<p>To see the label name of the partition you created above, run the following command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>diskinfo /dev/gpt/namalabel
+<span class="go">/dev/gpt/namalabel      512     2147483648      4194304 0       1048576 261     255     63
+</span></code></pre></div></div>
+
+<h3 id="d-deleting-schemes-and-partitions---gpart-destroy">d. Deleting Schemes and Partitions - gpart destroy</h3>
+
+<p>What you need to pay attention to is that gpart destroy is not the same as gpart delete. The gpart destroy command is used to delete partition schemes and all disk partitions. This means that the commands you run with gpart create and gpart add will all be deleted by gpart destroy.</p>
+
+<p>For example, in the section above you have learned how to create a gpt partition scheme and create a UFS file system partition on a Flashdisk (ad0). With gpart destroy everything you create will be destroyed. How to run the gpart command to destroy the scheme and partitions in ad0 can be seen below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart destroy <span class="nt">-F</span> da0
+<span class="go">
+or
+
+</span><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart destroy <span class="nt">-F</span> /dev/da0
+</code></pre></div></div>
+
+<p>The above command removes all partitions and gpt schemes from da0. The -F option is used to force the destruction of the partition table even if it is not empty. Use this command with caution, as it will erase all data on the disk.</p>
+
+<h3 id="e-deleting-partitions---gpart-delete">e. Deleting Partitions - gpart delete</h3>
+<p>Unlike the gpart destroy command, the gpart delete command only deletes partitions on the disk. This means that gpart delete will only delete the command you ran with gpart add. While the partition scheme you created with gpart create is not deleted. So the difference between gpart destroy and gpart delete is very clear.</p>
+
+<p>Okay, so you don’t get confused, here are the differences between gpart destroy and gpart delete.
+gpart destroy: Deletes the results of the gpart create and gpart add commands (schemes or tables and partitions).
+gpart delete: Only deletes the results of the gpart add command (disk partitions)
+The gpart delete command has the -i (index) option, this option must always be used when deleting partitions. The example image below shows a Flashdisk that has 6 partition indexes.</p>
+
+<p><img src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/7index%20partitioning.jpg&amp;commit=1590e84c778a02e541259f58f1b9dcd6e433dc6a" alt="index partitioning" /></p>
+
+<p>Pay attention to the <code class="language-plaintext highlighter-rouge">da0</code> column, the numbers 1 to 6 are the partition index. This index number is very important for deleting partitions. Here is an example of how to use the <code class="language-plaintext highlighter-rouge">gpart delete</code> command with the index according to the image above.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart delete <span class="nt">-i</span> 3 da0
+<span class="go">da0p3 deleted
+</span></code></pre></div></div>
+
+<p>The example command above deletes the 3rd index partition. This means that the partition with serial number 3 has been deleted. To prove it, run the <code class="language-plaintext highlighter-rouge">gpart show da0</code> command.</p>
+
+<p><img src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/8delete%20index%20partitioning.jpg&amp;commit=26e1c24f41bcf2e8cfc873211ce9708096edc51e" alt="delete index partitioning" /></p>
+
+<h3 id="f-confirming-and-canceling">f. Confirming and Canceling</h3>
+
+<p>Partition Changes - gpart commit undo
+A useful feature of the gpart utility is the recognition of “pending” changes. That is, if you add the -f x option, then the changes will not be written to disk immediately, but only after you issue the gpart commit command.</p>
+
+<p>By default, the FreeBSD system runs the gpart command with the “C” option, meaning that every gpart command you run is immediately committed or executed. So that each gpart command is not immediately committed, you can specify the “-f x” option so that each gpart command produces pending changes. These pending changes can be immediately committed or canceled with the gpart undo command.</p>
+
+<h4 id="f1-the-gpart-undo-command">f.1. The gpart undo command</h4>
+<p>So in general the gpart commit and gpart undo commands are always paired in their use. To make it clearer, we will provide examples of the <code class="language-plaintext highlighter-rouge">gpart commit</code> and <code class="language-plaintext highlighter-rouge">gpart undo</code> commands.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart create <span class="nt">-f</span> x <span class="nt">-s</span> gpt da0
+</code></pre></div></div>
+
+<p>In the command above, create a partition scheme on Flashdisk (da0). Note the -f x option, with this option the partition scheme cannot be created, because it must be committed first or canceled.</p>
+
+<p>If you want to cancel the command above, use gpart undo. Before you run the undo command. See the partition on the Flashdisk.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart show da0
+<span class="gp">=&gt;</span><span class="w">      </span>40  30834608  da0  GPT  <span class="o">(</span>15G<span class="o">)</span>
+<span class="go">        40  30834608       - free -  (15G)
+</span></code></pre></div></div>
+
+<p>After that run the gpart undo command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart undo da0
+</code></pre></div></div>
+
+<p>Run the gpart show command again, see the results. The gpart create command to create a new partition scheme has been canceled.</p>
+
+<h4 id="f2-gpart-commit-command">f.2. gpart commit command</h4>
+<p>Because our goal is to create a new partition scheme, the gpart create command can be committed directly. Consider the example command below to create a new partition scheme with the -f x option and commit it directly.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart create <span class="nt">-f</span> x <span class="nt">-s</span> gpt da0
+</code></pre></div></div>
+
+<p>Since the above command uses the -f x option, to apply it, just run the gpart commit command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart show da0
+</code></pre></div></div>
+
+<p>If the gpart create command or other gpart command has been committed, then the gpart undo command cannot be used. As proof, run gpart undo.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gpart undo da0
+<span class="go">gpart: Operation not permitted
+</span></code></pre></div></div>
+
+<p>The message “Operation not permitted” appears, because the gpart create command above has been applied or committed with gpart commit.</p>
+
+<p>Because the discussion about the gpart command is quite long. In this article we divide it into two articles. For this first article we end with the gpart commit and undo commands. We continue with other gpart commands in the second article.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-05T17:15:13+03:00">May 5, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=gpart+Command+To+Manage+Disk+Partitions+in+FreeBSD+-+Part+1%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fgpart-command-manage-disk-partitions%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fgpart-command-manage-disk-partitions%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fgpart-command-manage-disk-partitions%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/monitoring-server-activity-with-ps-command/" class="pagination--pager" title="Monitoring FreeBSD Server Activity With the ps Command
+">Previous</a>
+    
+    
+      <a href="/freebsd/gpart-command-manage-disk-partitions-2/" class="pagination--pager" title="gpart Command To Manage Disk Partitions in FreeBSD - Part 2
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/gpart-command-manage-disk-partitions/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/gpart-command-manage-disk-partitions"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

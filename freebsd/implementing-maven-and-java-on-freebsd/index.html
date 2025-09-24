@@ -1,0 +1,1025 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Implementing Maven and Java on FreeBSD 14.1 - UnixBSDShell</title>
+<meta name="description" content="We present this tutorial for FreeBSD users so they can get to know Maven better, so that people can understand that Maven can be run on FreeBSD.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Implementing Maven and Java on FreeBSD 14.1">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/implementing-maven-and-java-on-freebsd/">
+
+
+  <meta property="og:description" content="We present this tutorial for FreeBSD users so they can get to know Maven better, so that people can understand that Maven can be run on FreeBSD.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Implementing Maven and Java on FreeBSD 14.1">
+  <meta name="twitter:description" content="We present this tutorial for FreeBSD users so they can get to know Maven better, so that people can understand that Maven can be run on FreeBSD.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/implementing-maven-and-java-on-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-02-19T17:13:15+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/implementing-maven-and-java-on-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Implementing Maven and Java on FreeBSD 14.1</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Implementing Maven and Java on FreeBSD 14.1">
+    <meta itemprop="description" content="We present this tutorial for FreeBSD users so they can get to know Maven better, so that people can understand that Maven can be run on FreeBSD.">
+    <meta itemprop="datePublished" content="2025-02-19T17:13:15+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Implementing Maven and Java on FreeBSD 14.1
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-system-specifications">1. System Specifications:</a></li>
+  <li><a href="#2-what-is-maven">2. What is Maven</a></li>
+  <li><a href="#3-running-maven-on-freebsd">3. Running Maven On FreeBSD</a></li>
+  <li><a href="#4-using-maven">4. Using Maven</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>This article discusses a Maven tutorial that provides basic and advanced concepts of Apache Maven technology. The entire contents of the tutorial are run on the FreeBSD system, but you can apply it to Linux systems such as Ubuntu, Debian and others.</p>
+
+<p>Before we discuss Maven further, it’s a good idea to get to know Maven. Since most people run Maven on Linux systems, it is rare to run Maven on FreeBSD. We deliberately present this tutorial for FreeBSD lovers to get to know Maven more closely, so that people don’t think that Maven cannot be run on a FreeBSD system.</p>
+
+<h2 id="1-system-specifications">1. System Specifications:</h2>
+<ul>
+  <li>OS:  FreeBSD 14.1-STABLE stable/14-n268734-9f319352d7ac GENERIC amd64</li>
+  <li>Hostname: ns4</li>
+  <li>IP Address: 192.168.5.71</li>
+  <li>Java version: openjdk version “20.0.2” 2023-07-18</li>
+  <li>Maven version: Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)</li>
+</ul>
+
+<h2 id="2-what-is-maven">2. What is Maven</h2>
+<p>Maven is a popular open source development tool developed by the Apache Group, it includes a powerful project management tool that is based on POM (project object model). Maven is often used to build, publish, and deploy multiple projects at once for better project management. This tool allows developers to build and document a lifecycle framework.</p>
+
+<p>Maven is written in the Java programming language and is used to build projects written in Scala, C#, Ruby, etc. Based on the Project Object Model (POM), this tool has made the life of Java developers easier while developing reports, checking builds, and testing setup automation.</p>
+
+<p>If you want to use maven in your java project then first thing you have to do is install maven java compiler after installation is complete you can create your first maven project. A Maven repository is a directory of JAR files packed with some metadata. Maven metadata is the POM file associated with the project that each package JAR file has, including the external dependencies that each package JAR has. The Maven repository stores all your project jars, plugins, library jars, other artifacts, and their dependencies are any third party software required by your project. You will find three types of repositories in Maven – local, central, and remote. The local repository stores all Maven dependencies.</p>
+
+<p>The Maven repository is a repository for JAR file dependencies written in a file called POM.XML. The POM.XML file contains Java classes, resources, and other dependencies. There are two types of Maven-like repositories that read pom.xml files. Maven can download dependencies specified in the pom.xml file into a local repository from a central or remote server repository. In the POM.XML file Maven can execute the lifecycle, phases, objectives and plugins defined in the pom.xml file.</p>
+
+<h2 id="3-running-maven-on-freebsd">3. Running Maven On FreeBSD</h2>
+<p>To run Maven on FreeBSD you must first install the Java OpenJDK application on FreeBSD, you can read the guide in the article below.</p>
+
+<p><a href="https://penaadventure.com/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/">Installing and Configuring Java OpenJDK 20 on FreeBSD 14.1 Stable</a></p>
+
+<p>If you have read the article above and have installed Java on FreeBSD, we continue by installing Maven. Write the command below to install Maven on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install maven-wrapper
+</code></pre></div></div>
+
+<p>Maven wrapper is used as a wrapper Script for various Maven installations. After the Maven wrapper script has been installed, we continue with installing Maven.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install maven39
+</code></pre></div></div>
+
+<p>The final step of this process is to validate whether Java and Maven are working, by checking the versions.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # java -version
+openjdk version "20.0.2" 2023-07-18
+OpenJDK Runtime Environment (build 20.0.2+9-1)
+OpenJDK 64-Bit Server VM (build 20.0.2+9-1, mixed mode, sharing)
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns4:~ # mvn -version
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: /usr/local/share/java/apache-maven-3.9
+Java version: 20.0.2, vendor: OpenJDK BSD Porting Team, runtime: /usr/local/openjdk20
+Default locale: en, platform encoding: UTF-8
+OS name: "freebsd", version: "14.1-stable", arch: "amd64", family: "unix"
+</code></pre></div></div>
+
+<p>If you see output like this, you know that Maven is available and ready to use. It is important for you to know, the Apache maven file is stored in the /usr/local/etc/maven-wrapper/instances.d folder with the file name “apache-maven-3.9”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # cd /usr/local/etc/maven-wrapper/instances.d
+root@ns7:/usr/local/etc/maven-wrapper/instances.d # ls
+apache-maven-3.9
+</code></pre></div></div>
+
+<p>Once we know where the Apache Maven files are, copy all the Maven files to the <strong>/usr/local/etc/maven-wrapper/instances.d</strong> folder.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # cd /usr/local/share/java/apache-maven-3.9
+root@ns7:/usr/local/share/java/apache-maven-3.9 # cp -R . /usr/local/etc/maven-wrapper/instances.d
+</code></pre></div></div>
+
+<h2 id="4-using-maven">4. Using Maven</h2>
+<p>Now we will try to create a new project with Maven, we will save all the files from the project in /usr/local/etc/maven-wrapper/instances.d.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # cd /usr/local/etc/maven-wrapper/instances.d
+root@ns7:/usr/local/etc/maven-wrapper/instances.d # mvn archetype:generate
+</code></pre></div></div>
+
+<p>First, the utility displays a list of all available templates and prompts you to select one of them. By default, you are prompted to select  <strong>2229</strong>, this is an example project using Maven.</p>
+
+<p>Then, specify the archetype:generate version, just choose the default, namely  <strong>8</strong>. In the groupId option, write  <strong>com.</strong> in the artifactId write <strong>com.package</strong> and package write  <strong>App</strong>. For other options, just press the ENTER button. Look at the image below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): 2229: 2229
+Choose org.apache.maven.archetypes:maven-archetype-quickstart version:
+1: 1.0-alpha-1
+2: 1.0-alpha-2
+3: 1.0-alpha-3
+4: 1.0-alpha-4
+5: 1.0
+6: 1.1
+7: 1.3
+8: 1.4
+9: 1.5
+Choose a number: 9: 9
+[INFO] Using property: javaCompilerVersion = 17
+[INFO] Using property: junitVersion = 5.11.0
+Define value for property 'groupId': com.
+Define value for property 'artifactId': com.package
+Define value for property 'version' 1.0-SNAPSHOT:
+Define value for property 'package' com.: App
+Confirm properties configuration:
+javaCompilerVersion: 17
+junitVersion: 5.11.0
+groupId: com.
+artifactId: com.package
+version: 1.0-SNAPSHOT
+package: App
+ Y: y
+</code></pre></div></div>
+
+<p>All configuration created in Maven will be stored in a file “<strong>/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml”</strong>. You can view its contents, and the program sources are located in the folder “<strong>/usr/local/etc/maven-wrapper/instances.d/com.package/src/main/java/App/App.java”</strong>.</p>
+
+<p>Open the file  <strong>“/usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml”</strong>, and find the script</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;plugin&gt;
+&lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;
+&lt;version&gt;3.4.2&lt;/version&gt;
+&lt;/plugin&gt;
+</code></pre></div></div>
+
+<p>Then we edit the contents of the file, so that it becomes.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;plugin&gt;
+&lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;
+&lt;version&gt;3.4.2&lt;/version&gt;
+&lt;configuration&gt;
+&lt;archive&gt;
+&lt;manifest&gt;
+&lt;addClasspath&gt;true&lt;/addClasspath&gt;
+&lt;mainClass&gt;App.App&lt;/mainClass&gt;
+&lt;/manifest&gt;
+&lt;/archive&gt;
+&lt;/configuration&gt;
+&lt;/plugin&gt;
+</code></pre></div></div>
+
+<p>After that, open the project folder that we created earlier and run it with the command <strong>“mvn compile, mvn package and mvn install”</strong>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d # cd com.package
+root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn compile
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------------&lt; com.:com.package &gt;--------------------------
+[INFO] Building com.package 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.0.2:resources (default-resources) @ com.package ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/main/resources
+[INFO]
+[INFO] --- compiler:3.8.0:compile (default-compile) @ com.package ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.377 s
+[INFO] Finished at: 2023-12-26T20:36:17+07:00
+[INFO] ------------------------------------------------------------------------
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn package
+</code></pre></div></div>
+
+<p><img src="https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/run_mvn_package.jpg" alt="run mvn package" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # mvn install
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------------&lt; com.:com.package &gt;--------------------------
+[INFO] Building com.package 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.0.2:resources (default-resources) @ com.package ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/main/resources
+[INFO]
+[INFO] --- compiler:3.8.0:compile (default-compile) @ com.package ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- resources:3.0.2:testResources (default-testResources) @ com.package ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /usr/local/etc/maven-wrapper/instances.d/com.package/src/test/resources
+[INFO]
+[INFO] --- compiler:3.8.0:testCompile (default-testCompile) @ com.package ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- surefire:2.22.1:test (default-test) @ com.package ---
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running App.AppTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.079 s - in App.AppTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- jar:3.0.2:jar (default-jar) @ com.package ---
+[INFO] Building jar: /usr/local/etc/maven-wrapper/instances.d/com.package/target/com.package-1.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- install:2.5.2:install (default-install) @ com.package ---
+[INFO] Installing /usr/local/etc/maven-wrapper/instances.d/com.package/target/com.package-1.0-SNAPSHOT.jar to /root/.m2/repository/com/com.package/1.0-SNAPSHOT/com.package-1.0-SNAPSHOT.jar
+[INFO] Installing /usr/local/etc/maven-wrapper/instances.d/com.package/pom.xml to /root/.m2/repository/com/com.package/1.0-SNAPSHOT/com.package-1.0-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.225 s
+[INFO] Finished at: 2023-12-26T20:38:23+07:00
+[INFO] ------------------------------------------------------------------------
+</code></pre></div></div>
+
+<p>The three commands above will execute the files in the “<strong>/usr/local/etc/maven-wrapper/instances.d/com.package/src</strong>” folder to the “<strong>/usr/local/etc/maven-wrapper/instances.d/com.package/target</strong>” folder. Look at the image below.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/balena-etcher-portable-173/-/raw/main/Maven_Compile_Target.jpg" alt="apache maven compile target" /></p>
+
+<p>The final step is to test with the “JAR” file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/usr/local/etc/maven-wrapper/instances.d/com.package # java -jar target/com.package-1.0-SNAPSHOT.jar
+Hello World!
+</code></pre></div></div>
+
+<p>Installing Java and Maven on a FreeBSD server is a simple and easy process that can be completed in just a few easy steps. By following the steps outlined in this article, you will be able to set up a fully functional Java development environment on your FreeBSD system in no time. With Java and Maven installed, you’ll be able to build and run Java applications easily, and take advantage of the many benefits that FreeBSD has to offer.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-02-19T17:13:15+03:00">February 19, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Implementing+Maven+and+Java+on+FreeBSD+14.1%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fimplementing-maven-and-java-on-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fimplementing-maven-and-java-on-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fimplementing-maven-and-java-on-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/openbsd/install-python-pip-on-openbsd/" class="pagination--pager" title="Installing Python Package Manager PIP on OpenBSD  7.6
+">Previous</a>
+    
+    
+      <a href="/openbsd/how-to-install-bitcoin-btc-on-openbsd/" class="pagination--pager" title="How to Install Bitcoin BTC on OpenBSD Server
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/implementing-maven-and-java-on-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/implementing-maven-and-java-on-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

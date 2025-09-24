@@ -1,0 +1,1574 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="rudeen"><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://unixwinbsd.site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://unixwinbsd.site/" rel="alternate" type="text/html" hreflang="rudeen" /><updated>2025-09-24T07:03:38+03:00</updated><id>https://unixwinbsd.site/feed.xml</id><title type="html">UnixBSDShell</title><subtitle>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</subtitle><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><entry xml:lang="en"><title type="html">Installing and Using the Java Development Kit on FreeBSD</title><link href="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/" rel="alternate" type="text/html" title="Installing and Using the Java Development Kit on FreeBSD" /><published>2025-09-16T10:57:03+03:00</published><updated>2025-09-16T10:57:03+03:00</updated><id>https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/installation-java-development-kit-on-freebsd/"><![CDATA[<p>FreeBSD is a powerful and reliable operating system that is widely used by developers and system administrators. If you are a Java developer, you need to install a Java development environment on your FreeBSD system, to help make it easier to run your Java projects.</p>
+
+<p>In this article we will learn a brief introduction to setting up a Java development environment on your computer running reeBSD 13 or above. You can also apply the tutorials in this article to FreeBSD Desktops such as GhostBSD or Hello.</p>
+
+<h2 id="1-what-is-java">1. What Is Java</h2>
+
+<p>Java is a popular programming language, created in 1995 by Sun Microsystems (purchased by Oracle in 2010), and more than 3 billion devices in the world run Java.</p>
+
+<p>One of Java’s primary design goals is a high degree of portability across platforms. Java writing is summarized by the slogan write once, run anywhere, and is realized by compiling Java source code into ‘bytecode’, which can be run in a very uniform environment across different architectures and platforms.</p>
+
+<p>So, someone can write code on Windows, but execute it on FreeBSD or GNU/Linux servers. Over time, Java has become extremely popular, and is a very reliable choice for writing server-side applications as well as Android applications.</p>
+
+<p>Java environments can be found on all sorts of devices, large and small, and therefore a Java developer has more flexibility when it comes to being able to treat code as agnostic to the system on which it runs. The Java programming language itself is an object-oriented language that is syntactically similar to C++. Java has always been designed with an object-oriented design.</p>
+
+<p>Because Java is built with the C++ language which is similar to the FreeBSD system, it can be easily run on Unix-based computers, such as FreeBSD, DragonFly BSD, GhostBSD, HardenedBSD and others.</p>
+
+<p><strong>Java is used for:</strong></p>
+
+<ul>
+  <li>Desktop applications.</li>
+  <li>Web applications.</li>
+  <li>Mobile applications (specially Android apps).</li>
+  <li>Database connection.</li>
+  <li>Web servers and application servers.</li>
+  <li>Games.</li>
+  <li>And much, much more!.</li>
+</ul>
+
+<h2 id="2-install-the-java-development-kit">2. Install the Java Development Kit</h2>
+
+<p>Since Oracle Corporation bought Sun and is now the owner of the official Java runtime and development kit implementation. To be able to write Java, Oracle has provided implementations for Windows, Mac OSX, and Linux operating systems. The official reference implementation is open sourced under GPLv2 (with the exception of links), and therefore the OpenJDK implementation is workable for FreeBSD.</p>
+
+<p>To be able to write applications in Java on FreeBSD, you need the Java Development Kit which provides a compiler, runtime and standard libraries. This package is available on FeeBSD, you just need to install it.</p>
+
+<p>There are two different Java packages that can be installed:</p>
+
+<ul>
+  <li>Java Runtime Environment (JRE), and</li>
+  <li>Java Development Kit (JDK).</li>
+</ul>
+
+<p>JRE is an implementation of the Java Virtual Machine (JVM), which runs compiled Java applications and applets. Whereas the JDK includes the JRE and other software needed to write, develop, and compile Java applications and applets.</p>
+
+<p>Before we start installing Java, use the following command to view the list of Java available on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg search openjdk
+</code></pre></div></div>
+
+<p>You will see all versions of Java on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bootstrap-openjdk11-11.0.5.10.1 Java Development Kit 11
+bootstrap-openjdk17-17.0.1.12.1 Java Development Kit 17
+bootstrap-openjdk8-r450802_2   Java Development Kit 8
+openjdk11-11.0.21+9.1          Java Development Kit 11
+openjdk11-jre-11.0.21+9.1      Java Runtime Environment 11
+openjdk17-17.0.9+9.1           Java Development Kit 17
+openjdk17-jre-17.0.9+9.1       Java Runtime Environment 17
+openjdk18-18.0.2+9.1_2         Java Development Kit 18
+openjdk19-19.0.2+7.1_1         Java Development Kit 19
+openjdk20-20.0.2+9.1           Java Development Kit 20
+openjdk21-21.0.1+12.1          Java Development Kit 21
+openjdk8-8.392.08.1            Java Development Kit 8
+openjdk8-jre-8.392.08.1        Java Runtime Environment 8
+rxtx-openjdk8-2.2p2_4          Native interface to serial ports in Java
+</code></pre></div></div>
+
+<p>Please select the version of Java that you want to install, with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install openjdk17-17.0.9+9.1
+</code></pre></div></div>
+
+<h2 id="3-editing-java-code">3. Editing Java Code</h2>
+
+<p>Java Editor is a simple and powerful application for creating, editing, and saving Java files on your FreeBSD Drive. With an intuitive interface and important features such as import and export and syntax highlighting. The Java Editor makes it easy for you to write Java code while traveling or at home. Java Editor is the perfect tool for anyone who needs to manage their Java code. Install Java Editor on your FreeBSD server and experience the power of easy Java editing!.</p>
+
+<p>You can edit Java code using a plain text editor, but almost all Java programmers use an IDE to edit their code. There are several editors is available and you can install it on FreeBSD.</p>
+
+<h3 id="a-intellij-idea">a. Intellij IDEA</h3>
+
+<p>IntelliJ IDEA is an integrated development environment for Java applications from the JetBrains company. It is positioned as the smartest and most convenient Java development environment with support for all the latest technologies and frameworks. IntelliJ IDEA is one of the three most popular Java IDEs along with Eclipse IDE and NetBeans IDE.</p>
+
+<p>Users will find that every aspect of IntelliJ IDEA is designed to maximize developer productivity. Both powerful static code analysis and ergonomic program design make development not only productive. They can make it a pleasant experience if we compare it with other IDEs.</p>
+
+<p>Use the following command to install IntelliJ IDEA.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install intellij-2020.2.3
+root@ns7:~ # pkg install intellij-ultimate-2022.2.5_1
+</code></pre></div></div>
+
+<h3 id="b-netbeans">b. Netbeans</h3>
+
+<p>For those of you who are involved in the world of programming, you will definitely be familiar with this software. What is Netbeans? Netbeans is a software that is often used in the world of programmers or developers. Not an ordinary text editor, Netbeans is an IDE or Integrated Development Environment application that is based on Java and runs on Swing. What I mean by Swing here is a technology that allows the development of desktop applications and can run on various platforms such as FreeBSD, Windows, Mac OS, Linux and Solaris.</p>
+
+<p>Meanwhile, the Integrated Development Environment is a programming or development system that is integrated into software. Netbeans provides several tools such as a Graphic User Interface (GUI), code or text editor, a compiler and debugger. This will make the performance of programmers or developers who use Netbeans easier. Not only does it support the Java programming language, by using Netbeans you can also create or develop programs based on C, C++ or even dynamic languages such as PHP, JavaScript, Groovy, and Ruby.</p>
+
+<p>Netbeans is an open code (open source) application that is quite successful with many users and a growing community throughout the world and currently has 100 business partners and will likely continue to grow in the future. Sun Microsystems as the main sponsor of Netbeans has been around and developed since 2000 and to this day continues its collaboration.</p>
+
+<p>Installing Netbeans on FreeBSD is very easy, just run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install netbeans-17
+</code></pre></div></div>
+
+<h3 id="c-eclipse">c. Eclipse</h3>
+
+<p>Eclipse is a platform that has been designed to build various applications that can be integrated such as websites, mobile and so on. Eclipse is open source which is usually used to develop Java-based applications that allow software developers to create customized development environments (IDEs). You can develop and learn this platform if you take an Android course wherever you are.</p>
+
+<p>Eclipse was started in 2001 by IBM, at which time the company donated three million lines of code from its Java tool. The goal of Eclipse is to create and foster an open source IDE community that will complement the Apache community.</p>
+
+<p>Eclipse provides a common user interface (UI) model for working with other tools. It is designed to run on multiple operating systems while providing tight integration with each underlying OS. Plug-ins are used for Eclipse portable API programs and change on any of the supported operating systems.</p>
+
+<p>Before you install Eclipse, look at the version of Eclipse available on freeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg search Eclipse
+</code></pre></div></div>
+
+<p>Below are the Eclipse versions available on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eclipse-4.24_2                 Eclipse IDE 2022-06
+eclipse-EPIC-0.6.35_3          EPIC adds Perl support to the Eclipse IDE Framework
+eclipse-ShellEd-1.0.2a_4       Shell script editor for Eclipse
+eclipse-cdt-9.0.1              C/C++ plugin for Eclipse IDE
+eclipse-drjava-0.9.8_6         DrJava plugin for Eclipse
+eclipse-ecj-4.4.2_1            Eclipse Java Compiler
+eclipse-findbugs-3.0.1.20150306.5.a4.d1 Eclipse plug-in that provides FindBugs support
+eclipse-glassfish-5.1.0_1      Eclipse Jakarta EE Platform
+eclipse-pydev-10.2.1           Eclipse plugin for Python and Jython development
+phpeclipse-1.2.3_6             PHP Eclipse adds PHP support to the Eclipse IDE Framework
+redeclipse-2.0.0_2             Single-player and multi-player first-person ego-shooter
+redeclipse-data-2.0.0          Data files for Red Eclipse first-person shooter
+redeclipse-data16-1.6.0        Data files for Red Eclipse first-person shooter
+redeclipse16-1.6.0_2           Single-player and multi-player first-person ego-shooter
+</code></pre></div></div>
+
+<p>Run the following command to install Eclipse.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install eclipse-4.24_2
+</code></pre></div></div>
+
+<h3 id="d-maven">d. Maven</h3>
+
+<p>Maven is an application or program that is widely used to assist in creating Java projects. Maven was developed by the Apache Group with the aim of building, publishing, and distributing projects created by developers.</p>
+
+<p>On FreeBSD Maven can be installed with the ports or PKG system, in this article we will install Maven with the PKG package.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install maven
+</code></pre></div></div>
+
+<h3 id="e-scala">e. Scala</h3>
+
+<p>Scala is a general purpose programming language that supports object-oriented programming and functional programming. In general, the purpose of creating Scala is to criticize the Java programming language.</p>
+
+<p>Scala source code is built to compile with Java Bytecode, resulting in code execution running on a Java virtual machine. Scala provides language interoperability with Java, so that libraries written in these two languages can be referenced directly in Scala or Java code.</p>
+
+<p>Use the PKG package to install Scala on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install scala
+</code></pre></div></div>
+
+<p>Installing the Java Development Kit on a FreeBSD system can help you develop Java applications. While this article doesn’t go into detail about writing Java programs, customizing the IDE, or the various options you can provide to the JVM when running it, it can be used to supplement your knowledge of Java programming.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which requires a DB server when running the application]]></summary></entry><entry xml:lang="en"><title type="html">How to Install Webmin on a FreeBSD System</title><link href="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="alternate" type="text/html" title="How to Install Webmin on a FreeBSD System" /><published>2025-09-15T09:35:11+03:00</published><updated>2025-09-15T09:35:11+03:00</updated><id>https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/how-to-install-webmin-on-freebsd-machine/"><![CDATA[<p>Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide. With webmin we are expected to be able to configure the internal operating system, such as users, disk quotas, services or configuration files, as well as modify and control open source applications, such as the BIND DNS Server, Apache HTTP Server, PHP, MySQL, and many more.</p>
+
+<p>In this article we will explain how to install and use Webmin on a FreeBSD 13.2 Stable system. As with other applications, installing Webmin on a FreeBSD system can use Ports and PKG. In this article we will explain how to install Webmin using both. OK, let’s just go ahead and install Webmin.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # pkg update
+root@router2:~ # pkg upgrade -y
+root@router2:~ # pkg install webmin
+</code></pre></div></div>
+
+<p>When using FreeBSD Ports, use the following syntax.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/ports/sysutils/webmin
+root@router2:~ # make install clean
+</code></pre></div></div>
+
+<p>After the installation process is complete, there are several command-line prompts you must follow. These prompts must be followed to ensure Webmin runs properly.</p>
+
+<p>Now we follow the instructions from the image above. Based on the image above Webmin is configured with the file <code class="language-plaintext highlighter-rouge">/usr/local/lib/webmin/setup.sh</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # /usr/local/lib/webmin/setup.sh
+***********************************************************************
+        Welcome to the Webmin setup script, version 2.013
+***********************************************************************
+Webmin is a web-based interface that allows Unix-like operating
+systems and common Unix services to be easily administered.
+
+Installing Webmin in /usr/local/lib/webmin
+
+***********************************************************************
+Webmin uses separate directories for configuration files and log files.
+Unless you want to run multiple versions of Webmin at the same time
+you can just accept the defaults.
+
+Config file directory [/usr/local/etc/webmin]:
+Log file directory [/var/db/webmin]:
+
+***********************************************************************
+Webmin is written entirely in Perl. Please enter the full path to the
+Perl 5 interpreter on your system.
+
+Full path to perl (default /usr/local/bin/perl):
+
+Testing Perl ..
+.. done
+
+***********************************************************************
+Operating system name:    FreeBSD
+Operating system version: 13.2
+
+***********************************************************************
+Webmin uses its own password protected web server to provide access
+to the administration programs. The setup script needs to know :
+ - What port to run the web server on. There must not be another
+   web server already using this port.
+ - The login name required to access the web server.
+ - The password required to access the web server.
+ - If the web server should use SSL (if your system supports it).
+ - Whether to start webmin at boot time.
+
+Web server port (default 10000):
+Login name (default admin):
+Login password: admin
+Password again: admin
+Use SSL (y/n): n
+
+***********************************************************************
+Creating web server config files ..
+.. done
+
+Creating access control file ..
+.. done
+
+Creating start and stop init scripts ..
+.. done
+
+Creating start and stop init symlinks to scripts ..
+.. done
+
+Copying config files ..
+.. done
+
+Changing ownership and permissions ..
+.. done
+
+Running postinstall scripts ..
+.. done
+
+Enabling background status collection ..
+.. done
+
+root@router2:~ #
+</code></pre></div></div>
+
+<p>When executing the file <code class="language-plaintext highlighter-rouge">/usr/local/lib/webmin/setup.sh</code>, we configure Webmin with username admin, password admin, use SSL NO and Webmin runs on port 10000. Now activate Webmin by adding the following command to the <code class="language-plaintext highlighter-rouge">/etc/rc file .conf</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/rc.conf
+webmin_enable="YES"
+</code></pre></div></div>
+
+<p>After we have activated Webmin in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file, run Webmin with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service webmin restart
+</code></pre></div></div>
+
+<p>If Webmin is active on the FreeBSD system, run Webmin in the Web Browser, to open Webmin you can use the Yandex Browser, Chrome, Firefox and others. Run Webmin with the chrome browser and type http://192.168.9.3:10000/.</p>
+
+<p>The IP address <code class="language-plaintext highlighter-rouge">192.168.9.3</code> is the FreeBSD system interface IP address and the Webmin port <code class="language-plaintext highlighter-rouge">10000</code> we created earlier, along with the username and password. After logging in with the admin username and password, Webmin will display the dashboard, indicating you have successfully installed Webmin on FreeBSD.</p>
+
+<p>Webmin provides a variety of functions for server administration, including DNS configuration, user and group management, hardware and software, and more. Webmin has a user-friendly and intuitive interface, which makes it very easy to use, even for novice users. It also supports many plugins and modules, which allows you to expand its functionality. With its attractive graphic design, Webmin will make it easier for System Administrators to configure servers.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="SysAdmin" /><summary type="html"><![CDATA[Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide]]></summary></entry><entry xml:lang="en"><title type="html">How to Configure FreeBSD with Radicale CalDAV CardDAV Server</title><link href="https://unixwinbsd.site/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="alternate" type="text/html" title="How to Configure FreeBSD with Radicale CalDAV CardDAV Server" /><published>2025-09-14T09:35:11+03:00</published><updated>2025-09-14T09:35:11+03:00</updated><id>https://unixwinbsd.site/freebsd/configuration-radicale-caldav-cardavv-server-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/"><![CDATA[<p>Radicale is a calendar and contact server designed to support the CalDav and CardDav protocols. Radicale’s configuration is very simple and easy to install, as it does not have a graphical administration interface. This application is written in Python, so it can be used on operating systems such as Linux, BSD, macOS, and Windows.</p>
+
+<p>As a free, open source, simple and powerful CalDAV and CardDAV server, Radicale is a complete solution for storing calendars and contacts on websites. With Radicale you share calendars and contact lists via CalDAV, CardDAV via http or https.</p>
+
+<p>In use, Radicale has very high security features, namely through TLS connection and authentication. Additionally, it works with many CalDAV and CardDAV clients such as gnome calendar, Mozilla thunderbird, DAVx (for android), evolution, etc.</p>
+
+<p>Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or can be integrated with existing web servers such as Nextcloud or Owncloud.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/14_FreeBSD_Radicale_Cover.jpg" alt="freebsd radicale cardav" /></p>
+
+<p>Radicale can be used for your various activities such as:</p>
+
+<ol>
+  <li>Supports events, tasks, journal entries and business cards.</li>
+  <li>Can be run directly, does not require complicated settings or configuration.</li>
+  <li>Can be used by multiple users with authentication.</li>
+  <li>Have file encryption with TLS.</li>
+  <li>Works with multiple CalDAV and CardDAV clients.</li>
+  <li>Stores all data on the file system in a simple folder structure.</li>
+  <li>Expandable with plugins.</li>
+  <li>As free software licensed under GPLv3.</li>
+</ol>
+
+<p>In this article, we will guide you through how to install and configure Radicale on a FreeBSD server.</p>
+
+<h2 id="1-installing-radicale-caldavcarddav-server">1. Installing Radicale CalDAV/CardDAV server</h2>
+
+<p>Before you install Radicale, we recommend installing several dependency packages for the Radicale installation. Because it is written in Python, Python dependencies are required to run Radicale. The following commands are the dependencies that you must install</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install python39 py39-setuptools py39-bcrypt py39-passlib py39-vobject py39-dateutil py39-defusedxml
+</code></pre></div></div>
+
+<p>On FreeBSD servers, by default the Radicale package is available in the PKG and Port package repositories. We install Radicale with the FReeBSD ports system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/www/radicale
+root@ns3:/usr/ports/www/radicale # make install clean
+</code></pre></div></div>
+
+<p>After the installation is complete, you have to run Radicale automatically, namely by adding some scripts to activate Radicale in <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/www/radicale # ee /etc/rc.conf
+radicale_enable="YES"
+radicale_config="/usr/local/etc/radicale/config"
+radicale_user="radicale"
+radicale_group="radicale"
+</code></pre></div></div>
+
+<p>Run Redicale (Restart Radicale)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service radicale restart
+</code></pre></div></div>
+
+<h2 id="2-radicale-configuration">2. Radicale Configuration</h2>
+
+<p>After you have completed the first part, continue by editing the default radicale configuration available in <code class="language-plaintext highlighter-rouge">'/usr/local/etc/radicale</code>. The configuration file called Radicale is called <code class="language-plaintext highlighter-rouge">"config"</code>, open the file and change the script as in the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/etc/radicale
+root@ns3:/usr/local/etc/radicale # ee config
+[server]
+hosts = localhost:5232
+max_connections = 20
+max_content_length = 100000000
+timeout = 30
+
+[encoding]
+request = utf-8
+stock = utf-8
+
+[auth]
+type = http_x_remote_user
+htpasswd_filename = /usr/local/etc/radicale/users
+htpasswd_encryption = md5
+delay = 1
+realm = Radicale - Password Required
+
+[rights]
+type = authenticated
+file = /usr/local/etc/radicale/rights
+
+[storage]
+type = multifilesystem
+filesystem_folder = /usr/local/share/radicale/collections
+max_sync_token_age = 2592000
+
+[web]
+type = internal
+
+[logging]
+level = warning
+mask_passwords = True
+
+[headers]
+Access-Control-Allow-Origin = *
+</code></pre></div></div>
+
+<p>In the above script [auth] we use <code class="language-plaintext highlighter-rouge">"type=htpasswd"</code> to manage users. All Radicale usernames will be stored in the <code class="language-plaintext highlighter-rouge">"users"</code> file, create a users file to hold all the usernames.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # touch /usr/local/etc/radicale/users
+</code></pre></div></div>
+
+<p>After that, you create a username that will access Radicale. Run the following command to add a new user to Radicale.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # htpasswd -B -c /usr/local/etc/radicale/users mary
+</code></pre></div></div>
+
+<p>If you want to add another username, htpasswd is used again but without any additional modifiers.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # htpasswd -B /usr/local/etc/radicale/users charles
+root@ns3:~ # htpasswd -B /usr/local/etc/radicale/users john
+</code></pre></div></div>
+
+<p>Continue by granting ownership rights to a file or directory.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chown -R radicale:radicale /usr/local/etc/radicale
+</code></pre></div></div>
+
+<h2 id="3-setting-up-apache-reverse-proxy">3. Setting up Apache reverse proxy</h2>
+
+<p>In this article we will run Redicale with <code class="language-plaintext highlighter-rouge">"Apache reverse proxy"</code>. You must activate Vhost Apache first by activating the script below in the <code class="language-plaintext highlighter-rouge">httpd.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /usr/local/etc/apache24/httpd.conf
+LoadModule vhost_alias_module libexec/apache24/mod_vhost_alias.so
+LoadModule alias_module libexec/apache24/mod_alias.so
+Include etc/apache24/extra/httpd-vhosts.conf
+</code></pre></div></div>
+
+<p>After that, open the <code class="language-plaintext highlighter-rouge">httpd-vhosts.conf</code> file, and type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /usr/local/etc/apache24/extra/httpd-vhosts.conf
+&lt;VirtualHost *:80&gt;
+        
+    ServerName datainchi.com
+    ServerAdmin datainchi@gmail.com
+
+    ProxyRequests Off
+    &lt;Proxy *&gt;
+        Order deny,allow
+        Allow from all
+    &lt;/Proxy&gt;
+
+    RewriteEngine On
+    RewriteRule ^/radicale$ /radicale/ [R,L]
+
+    &lt;Location "/radicale/"&gt;
+        AuthType     Basic
+        AuthName     "Radicale - Password Required"
+        AuthUserFile "/usr/local/etc/radicale/users"
+        Require      valid-user
+
+        ProxyPass        http://localhost:5232/ retry=0
+        ProxyPassReverse http://localhost:5232/
+        RequestHeader    set X-Script-Name /radicale
+        RequestHeader    set X-Remote-User expr=%{REMOTE_USER}
+    &lt;/Location&gt;
+
+    &lt;Location /&gt;
+        Order allow,deny
+        Allow from all
+    &lt;/Location&gt;
+
+&lt;/VirtualHost&gt;
+</code></pre></div></div>
+
+<p>Run Radicale and Apache24 servers.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service radicale start
+root@ns3:~ # service apache24 start
+</code></pre></div></div>
+
+<h2 id="4-test-radicale">4. Test Radicale</h2>
+
+<p>If you have done all the configurations above and haven’t missed anything, now is the time for us to test the Radicale server. Because Radicale runs on the Apache web server, we use Google Chrome or Modzilla Firefox for testing. In the address bar menu, type <code class="language-plaintext highlighter-rouge">"http://192.168.5.2/radicale"</code>, your monitor screen will appear as shown in the image below.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/14menu_login.jpg" alt="menu login radicale" /></p>
+
+<p>Type in the username and password that you created above. After that it will appear as shown in the image below.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/14CalDAV_CardDAV_Server_collection.jpg" alt="CalDAV CardDAV Server collection" /></p>
+
+<p>You can directly create or upload an <code class="language-plaintext highlighter-rouge">"addressbook or calendar"</code> by clicking on the options displayed by the Radicale server.</p>
+
+<p>Radicale is very light and very easy to configure, for the next stage you can use the Radicale server that you have installed and configured on FreeBSD. You can safely use the CalDAV/CardDAV client from a Windows computer or FreeBSD Desktop.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or can be integrated with existing web servers such as Nextcloud or Owncloud]]></summary></entry><entry xml:lang="en"><title type="html">Setting up a Mirror Site to convert PKG Packages on FreeBSD</title><link href="https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="alternate" type="text/html" title="Setting up a Mirror Site to convert PKG Packages on FreeBSD" /><published>2025-09-13T11:11:29+03:00</published><updated>2025-09-13T11:11:29+03:00</updated><id>https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/setup-mirror-site-convert-pkg-package-freebsd/"><![CDATA[<p>Those who are already very familiar with Linux systems may find that FreeBSD’s package management solution is actually more or less a perfect combination of the following two major Linux distribution package managers:</p>
+
+<ul>
+  <li><em>Arch Linux:</em> Pacman, which is compatible with pkg (also supports the KISS concept).</li>
+  <li><em>Gentoo Linux:</em> Portage, the equivalent of Ports (Portage itself is a clone of Ports).</li>
+</ul>
+
+<p>To understand what you should be working with with PKG packages, you first need to understand some common FreeBSD terminology that may have different meanings if you’re using other operating systems like Linux. PKG packages on FreeBSD contain pre-compiled collections of software – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software.</p>
+
+<p>In this article, we’ll discuss how to create a mirror repository for PKG packages. Using these mirrors can help speed up the process, as you can choose a FreeBSD mirror whose servers are close to your country.</p>
+
+<h2 id="a-what-is-a-pkg-package">A. What is a PKG Package?</h2>
+
+<p>In every operating system, packages are often referred to as structured files, denoted by the .pkg or .mpkg file extension. PKG packages are typically used to carry installable software. Packages can contain application or software components in the form of scripts, receipts, and other metadata needed to install, update, or uninstall an application. However, there are several types of packages you might encounter on each operating system.</p>
+
+<p>In general, a PKG package is a filename extension used for several file formats that contain software packages and other files to be installed on a device, on a specific operating system such as FreeBSD, OpenBSD, NetBSD, or DragonflyBSD.</p>
+
+<p>The pkg utility provides an interface for manipulating packages, primarily listing, adding, removing, and updating packages. pkg-static is a statically linked variant of pkg that is typically only used for initial pkg installations. There are some differences in functionality. See pkg.conf(5) for details.</p>
+
+<p>To use PKG packages on FreeBSD, you must first install the FreeBSD system. Afterward, you can use PKG to update, remove, or install applications. On FreeBSD, PKG packages are similar to the Ports system. However, PKG packages are faster for manipulating applications. This advantage makes PKG a top choice for application developers.</p>
+
+<h2 id="b-installation-sources-in-freebsd">B. Installation Sources in FreeBSD</h2>
+
+<p>Each operating system has its own way of creating installation sources, such as Linux and Ubuntu using apt packages. Similarly, FreeBSD has a different method than Linux. You can use several methods to install, remove, or update applications.</p>
+
+<p>In FreeBSD, there are four types of installation sources:</p>
+<ul>
+  <li>Paket pkg</li>
+  <li>System ports</li>
+  <li>portsnap, dan</li>
+  <li>update.</li>
+</ul>
+
+<h2 id="c-create-pkg-packages-for-freebsd-mirror-sites">C. Create PKG Packages for FreeBSD Mirror Sites</h2>
+
+<p>Many FreeBSD users and network administrators manage multiple servers. They face various challenges and demands when it comes to updating their infrastructure with the latest security and software patches. FreeBSD Update Server can simplify this process by allowing them to test updates on multiple machines before deploying them across the network. This also means they can update their servers more quickly from their local network rather than over a slower internet connection.</p>
+
+<p>The pkg package repository provides binary packages, whose pkg output paths are stored in <code class="language-plaintext highlighter-rouge">/var/cache/pkg/</code>. In FreeBSD, the pkg source is split into two configuration files: system-level and user-level. Before changing the PKG mirror path, add the following script to <code class="language-plaintext highlighter-rouge">/etc/make.conf</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /etc/make.conf
+WITH_PKG=yes
+</code></pre></div></div>
+
+<p>Not all sources have both quarterly and latest. To get rolling package updates, change quarterly to latest. The difference between the two can be found in the FreeBSD manual. Please note that the <code class="language-plaintext highlighter-rouge">CURRENT</code> version is only the latest version.</p>
+
+<p>Use the following command to change the system-level pkg source to use latest.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # sed -i '' 's/quarterly/latest/g' /etc/pkg/FreeBSD.conf
+</code></pre></div></div>
+
+<p>If you want to replace http with https, please install <code class="language-plaintext highlighter-rouge">/usr/ports/security/ca_root_nss</code> first, then change http to https, and run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # pkg update -f
+</code></pre></div></div>
+
+<p>Now we’ll change the default FreeBSD mirror path. Before changing the FreeBSD PKG mirror, we recommend <a href="https://unixwinbsd.site/freebsd/update-upgrade-pkg-ports-package-binary-freebsd">reading our previous article</a>.</p>
+
+<h3 id="a-create-user-level-source-directories-and-files">a. Create user-level source directories and files</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root@hostname1:~ # mkdir -p /usr/local/etc/pkg/repos
+ root@hostname1:~ # chmod -R +x /usr/local/etc/pkg/
+ root@hostname1:~ # ee /usr/local/etc/pkg/repos/163.conf
+ 
+163: {
+url: "http://mirrors.163.com/freebsd-pkg/${ABI}/quarterly",
+}
+FreeBSD: { enabled: no }
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root@hostname1:~ # ee /usr/local/etc/pkg/repos/ustc.conf
+ 
+ustc: {
+url: "http://mirrors.ustc.edu.cn/freebsd-pkg/${ABI}/quarterly",
+}
+FreeBSD: { enabled: no }
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root@hostname1:~ # ee /usr/local/etc/pkg/repos/nju.conf
+ 
+nju: {
+url: "http://mirrors.nju.edu.cn/freebsd-pkg/${ABI}/quarterly",
+}
+FreeBSD: { enabled: no }
+</code></pre></div></div>
+
+<h3 id="b-modify-the-makeconf-file">b. Modify the make.conf file</h3>
+
+<p>To enable the local mirror to run directly, you must type the following script in the <code class="language-plaintext highlighter-rouge">/etc/make.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # ee /etc/make.conf
+MASTER_SITE_OVERRIDE?=http://mirrors.nju.edu.cn/freebsd-ports/distfiles/${DIST_SUBDIR}/
+MASTER_SITE_OVERRIDE?=http://mirrors.163.com/freebsd-ports/distfiles/${DIST_SUBDIR}/
+MASTER_SITE_OVERRIDE?=http://mirrors.ustc.edu.cn/freebsd-ports/distfiles/${DIST_SUBDIR}/
+</code></pre></div></div>
+
+<h3 id="c-download-ports">c. Download Ports</h3>
+<p>This repository is the source for downloading the ports themselves. This repository is identical to the previous portsnap repository.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # cd /tmp
+root@hostname1:/tmp # fetch https://mirrors.nju.edu.cn/freebsd-ports/ports.tar.gz
+</code></pre></div></div>
+
+<h3 id="d-extract-ports">d. Extract ports</h3>
+
+<p>After that, run the extract command. Place the extracted files in <code class="language-plaintext highlighter-rouge">/usr/ports</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:/tmp # tar -zxvf ports.tar.gz -C /usr/ports
+</code></pre></div></div>
+
+<h3 id="e-install-the-pkg-package">e. Install the pkg Package</h3>
+
+<p>The next step is to install pkg. This will allow the FreeBSD mirror to immediately become the mirror we created earlier.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # cd /usr/ports/ports-mgmt/pkg
+root@hostname1:/usr/ports/ports-mgmt/pkg # make deinstall
+root@hostname1:/usr/ports/ports-mgmt/pkg # make reinstall
+</code></pre></div></div>
+
+<h3 id="f-delete-the-default-mirror">f. Delete the Default Mirror</h3>
+
+<p>Since we’re going to replace the default mirror with the one we created above, you’ll need to delete the default FreeBSD mirror.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # rm -rf /var/db/pkg/repos/FreeBSD
+</code></pre></div></div>
+
+<p>The final step is to update pkg, with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@hostname1:~ # pkg update &amp;&amp; pkg upgrade
+</code></pre></div></div>
+
+<p>Be careful when changing mirrors. Replacing the default FreeBSD mirror with a local mirror is only useful when the download connection is very slow. Using a local mirror will speed up the download and installation process. This tutorial should only be used as a reference. In practice, simply use the default FreeBSD mirror.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or update existing software]]></summary></entry><entry xml:lang="en"><title type="html">Setting up FreeBSD System Monitoring Tool With Cacti</title><link href="https://unixwinbsd.site/freebsd/freebsd-system-monitoring-with-cacti/" rel="alternate" type="text/html" title="Setting up FreeBSD System Monitoring Tool With Cacti" /><published>2025-09-12T10:41:10+03:00</published><updated>2025-09-12T10:41:10+03:00</updated><id>https://unixwinbsd.site/freebsd/freebsd-system-monitoring-with-cacti</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/freebsd-system-monitoring-with-cacti/"><![CDATA[<p>Cacti is a complete frontend for RRDTool, it can store all the information needed to create graphs and copy all that information into MySQL Server database tables. Cacti’s frontend runs entirely in PHP. Besides being able to maintain Graphs, Data Sources, and Round Robin Archives in a database, Cacti can also handle data collection. Another advantage of Cacti is that it has SNMP support for those who are used to creating traffic graphs with MRTG.</p>
+
+<p>In general, with the help of Cacti you can graph channel usage, HDD partition usage, display resource latency, and much more. So it is very natural that everyone praises Cacti. Because, Cacti is an easy solution for monitoring servers and network devices, allowing you to monitor the status of beautiful graphs at various intervals.</p>
+
+<p>In this article we will look at Cacti as a complete graphics Solution based on RRDTool. The contents of this article will not teach you how to work with Cacti. But it will explain how to install and configure Cacti on a FreeBSD machine, so you can use it to monitor any devices you have on your network.</p>
+
+<h2 id="1-system-requirements">1. System Requirements</h2>
+
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>IP address: 192.168.5.2</li>
+  <li>Hostname: ns3</li>
+  <li>Database: mysql80-server</li>
+  <li>PHP version: PHP82</li>
+  <li>PHP-FPM</li>
+  <li>Web server: apache24</li>
+  <li>Dependencies: 
+rrdtool php82 php82-ctype php82-filter php82-gd php82-gettext hp82-gmp php82-intl php82-ldap php82-mbstring php82-pcntl php82-pdo php82-pdo_mysql php82-posix php82-session php82-simplexml php82-sockets php82-snmp php82-xml php82-zlib</li>
+</ul>
+
+<h2 id="2-install-dependencies-cacti-rrdtool">2. Install Dependencies Cacti RRDTool</h2>
+
+<p>Cacti runs with a web browser, therefore Cacti requires a web server such as Apache. In order for Cacti to connect with Apache, there are several PHP dependencies that must be installed. These PHP dependencies will connect Cacti with Apache, because almost all Cacti scripts are written in PHP. Run the following command to install PHP Cacti dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install php82 php82-ctype php82-filter php82-gd php82-gettext php82-intl php82-ldap php82-mbstring php82-pcntl php82-pdo php82-pdo_mysql php82-posix php82-session php82-simplexml php82-sockets php82-snmp php82-xml php82-zlib php82-gmp
+</code></pre></div></div>
+
+<p>As we explained above, Cacti is a RRDTool that is used to monitor all devices on your computer network. Because of this, Cacti needs a utility that can monitor all of our computer network activities. This is where RRDTool kicks in. It lets you log and analyze the data you gather from all kinds of data-sources. The data analysis part of RRDTool is based on the ability to quickly generate graphical representations of the data values collected over a definable time period.</p>
+
+<p>Run the following command to install the RRDTools utility.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/databases/rrdtool
+root@ns3:/usr/ports/databases/rrdtool # make install clean
+</code></pre></div></div>
+
+<h2 id="3-create-the-mysql-database-a-cacti-user-and-initialize">3. Create the MySQL database, a cacti user, and initialize</h2>
+
+<p>Cacti requires a database server, to store all monitoring results information. The monitoring results will be saved by Cacti in a database table which you can call back if necessary. The database commonly used by Cacti is MySQL Server. On the MySQL database server we will create a database, user and password for Cacti.</p>
+
+<p>OK, let’s just create a Cacti database, along with a user and password.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/databases/rrdtool # mysql -u root -p
+root@localhost [(none)]&gt; CREATE DATABASE `cacti`;
+root@localhost [(none)]&gt; CREATE USER 'usercacti'@'localhost' IDENTIFIED BY 'router123';
+root@localhost [(none)]&gt; FLUSH PRIVILEGES;
+</code></pre></div></div>
+
+<p>After that you run the command <code class="language-plaintext highlighter-rouge">"GRANTS"</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [(none)]&gt; GRANT ALL ON `cacti`.* TO 'usercacti'@'localhost';
+root@localhost [(none)]&gt; GRANT SELECT ON `mysql`.`time_zone_name` TO 'usercacti'@'localhost';
+root@localhost [(none)]&gt; FLUSH PRIVILEGES;
+</code></pre></div></div>
+
+<p>Run the Import default Cacti database command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [(none)]&gt; exit;
+root@ns3:~ # mysql -u root -p cacti &lt; /usr/local/share/cacti/cacti.sql
+</code></pre></div></div>
+
+<h2 id="4-install-cacti">4. Install Cacti</h2>
+
+<p>In this section the process of installing Cacti onto the FreeBSD system. This procedure starts after you have just created a cacti database. To install Cacti, we will use the FreeBSD ports system, although the installation process takes a long time, this method is more complete because it includes all the PHP library files. Run the following command to install Cacti.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/net-mgmt/cacti
+root@ns3:/usr/ports/net-mgmt/cacti # make install clean
+</code></pre></div></div>
+
+<p>All Cacti files from the installation are saved in the <code class="language-plaintext highlighter-rouge">"/usr/local/share/cacti"</code> directory, copy the files to the <code class="language-plaintext highlighter-rouge">"/usr/local/www"</code> directory.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/net-mgmt/cacti # cp -R /usr/local/share/cacti /usr/local/www
+</code></pre></div></div>
+
+<p>Run the chown and chmod commands in the <code class="language-plaintext highlighter-rouge">"/usr/local/www"</code> directory.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/net-mgmt/cacti # chown -R www:www /usr/local/www/cacti
+root@ns3:/usr/ports/net-mgmt/cacti # chmod -R 775 /usr/local/www/cacti
+</code></pre></div></div>
+
+<p>Create a config.php file by copying from an existing file. Follow the following commands.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/net-mgmt/cacti # cd /usr/local/www/cacti/include
+root@ns3:/usr/local/www/cacti/include # cp -R config.php.sample config.php
+</code></pre></div></div>
+
+<p>Open the file you copied, namely <code class="language-plaintext highlighter-rouge">/usr/local/www/cacti/include/config.php</code>, and look for the script below</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$database_type     = 'mysql';
+$database_default  = 'cacti';
+$database_hostname = 'localhost';
+$database_username = 'cactiuser';
+$database_password = 'cactiuser';
+$database_port     = '3306';
+$database_retries  = 5;
+$database_ssl      = false;
+$database_ssl_key  = '';
+$database_ssl_cert = '';
+$database_ssl_ca   = '';
+$database_persist  = false;
+</code></pre></div></div>
+
+<p>Replace the contents of the script above with the Cacti database that you created above.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$database_type     = 'mysql';
+$database_default  = 'cacti';
+$database_hostname = 'localhost';
+$database_username = 'usercacti';
+$database_password = 'router123';
+$database_port     = '3306';
+$database_retries  = 5;
+$database_ssl      = false;
+$database_ssl_key  = '';
+$database_ssl_cert = '';
+$database_ssl_ca   = '';
+$database_persist  = false;
+</code></pre></div></div>
+
+<h2 id="5-apache-vhost-configuration">5. Apache VHost Configuration</h2>
+
+<p>We assume you have installed PHP-FPM on the Apache web server. We will run Cacti with the Apche virtual host. So we just open the <code class="language-plaintext highlighter-rouge">/usr/local/etc/apache24/httpd.conf</code> file. To activate the Apache virtual host, you type or activate the script below in the file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LoadModule alias_module libexec/apache24/mod_alias.so
+LoadModule vhost_alias_module libexec/apache24/mod_vhost_alias.so
+Include etc/apache24/extra/httpd-vhosts.conf
+</code></pre></div></div>
+
+<p>After that, you create an Apache Virtual Host configuration file, in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/apache24/extra/httpd-vhosts.conf</code> file. In that file, type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost 192.168.5.2:80&gt;
+
+  ServerName datainchi.com
+
+  DocumentRoot "/usr/local/www/cacti"
+
+  DirectoryIndex index.php index.html
+
+  Alias /cacti /usr/local/www/cacti/
+
+  &lt;Directory /usr/local/www/cacti&gt;
+
+  AllowOverride None
+  Order Allow,deny
+  Allow from all
+  Require all granted
+
+
+  &lt;/Directory&gt;
+    ErrorLog "/var/log/cacti/log"
+    CustomLog "/var/log/dummy-host.example.com-access_log" common
+
+  &lt;/VirtualHost&gt;
+</code></pre></div></div>
+
+<p>In the Cacti log file, run the chown command, as in the following example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chown -R www:www /var/log/cacti/log
+</code></pre></div></div>
+
+<p>The next thing to do is to add a cron job that polls your machines and routers each 5 minutes. To do that add the following lines to your <code class="language-plaintext highlighter-rouge">/etc/crontab file</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>*/5 * * * * /usr/local/bin/php /usr/local/www/cacti/poller.php &gt; /dev/null 2&gt;&amp;1
+</code></pre></div></div>
+
+<p>Restart the Apache24 web server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service apache24 restart
+</code></pre></div></div>
+
+<p>Run Cacti by opening the Google Chrome web browser, and typing <code class="language-plaintext highlighter-rouge">"http://192.168.5.2/cacti/install/install.php"</code>.</p>
+
+<p>The display above is the Cacti opening screen, type the Cacti username and password. After you have successfully logged in, it means you have run Cacti on the FreeBSD server. Now you can monitor your computer or network activity with Cacti. All activities that occur on your computer will be stored in the Cacti database table.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Besides being able to maintain Graphs, Data Sources, and Round Robin Archives in a database, Cacti can also handle data collection. Another advantage of Cacti is that it has SNMP support for those who are used to creating traffic graphs with MRTG]]></summary></entry><entry xml:lang="en"><title type="html">Installation Guide and How to Use Redmine on FreeBSD</title><link href="https://unixwinbsd.site/freebsd/installation-guide-redmine-on-freebsd/" rel="alternate" type="text/html" title="Installation Guide and How to Use Redmine on FreeBSD" /><published>2025-09-11T10:57:03+03:00</published><updated>2025-09-11T10:57:03+03:00</updated><id>https://unixwinbsd.site/freebsd/installation-guide-redmine-on-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/installation-guide-redmine-on-freebsd/"><![CDATA[<p>Building a software system project is not easy, this is due to the level of consumer needs which are becoming more and more complex day by day, in addition to the development of application software itself which is increasing in number and must always be updated. In creating software systems, project management can be applied which can specifically monitor the performance of the software application system creator. With project management, a project manager can track bugs, find out the personnel involved, analyze the progress of the project and carry out project documentation.</p>
+
+<p>One alternative project management system application that can be used is Redmine, which has several features including the use of multiple projects/issues, access control rules, issue search, project statistics, project work schedule, document archives (both old/new documents), notifications via email or xml, integration with Subversion.</p>
+
+<p>Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which requires a DB server when running the application, where the technology can be used remotely which definitely makes your work easier anywhere because it has a wide reach.</p>
+
+<p>Redmine is a very flexible web-based project management application. Written using the Ruby on Rails framework, Redmine is cross-platform and cross-database. Redmine is open source and released under the GNU General Public License v2 (GPL).</p>
+
+<p>This utility is often used as a project management system that can be configured according to needs, so that project management can work effectively according to needs. Redmine is an alternative for other project management such as: JIRA, Basecamp, Trello, Asana, etc. This system is equipped with various plugins which are very useful and can help users to make their project management run more smoothly. Redmine is suitable as a project management system that is suitable for small-scale firms to large-scale companies. Redmine is an open source alternative to similar project management solutions such as Atlassian JIRA, Basecamp, Trello, Slack, Asana, Breeze, etc.</p>
+
+<h2 id="1-system-requirements">1. System Requirements</h2>
+
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>IP address: 192.168.5.2</li>
+  <li>Hostname: ns3</li>
+  <li>Ruby version: ruby 3.1.4p223 (2023-03-30 revision 957bb7cb81) [amd64-freebsd13]</li>
+  <li>Redmine version: redmine50</li>
+  <li>Rails version: rails7</li>
+  <li>Database Server: mysql-server8</li>
+  <li>Dependencies: rubygem-bundler_ext rubygem-bundler rubygem-rails70 rubygem-jquery-rails rubygem-coderay rubygem-request_store rubygem-mime-types rubygem-protected_attributes rubygem-mimemagic rubygem-mail rubygem-i18n rubygem-rails-html-sanitizer rubygem-rbpdf rubygem-ruby-openid rubygem-rack-openid rubygem-rake rubygem-redcarpet</li>
+</ul>
+
+<h2 id="2-install-ruby">2. Install Ruby</h2>
+
+<p>Because Redmine runs using the Ruby Framework, the first step we have to do is install Ruby. Ruby is a dynamic, simple and high productivity programming language. Ruby has an elegant syntax, is easy to read, write and another advantage is that it is open source. Run the following command to install Ruby.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/lang/ruby32
+root@ns3:/usr/ports/lang/ruby31 # make install clean
+</code></pre></div></div>
+
+<p>If you want to use the PKG package, run the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ #  pkg install ruby32
+</code></pre></div></div>
+
+<p>After that install some standard libraries to run Ruby.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/databases/rubygem-dbm
+root@ns3:/usr/ports/databases/rubygem-dbm # make install clean
+root@ns3:/usr/ports/databases/rubygem-dbm # cd /usr/ports/databases/rubygem-gdbm
+root@ns3:/usr/ports/databases/rubygem-gdbm # make install clean
+</code></pre></div></div>
+
+<p>Check the Ruby version.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ruby -v
+ruby 3.1.4p223 (2023-03-30 revision 957bb7cb81) [amd64-freebsd13]
+</code></pre></div></div>
+
+<p>Ruby checking can also be done by creating a simple program. We will create a <code class="language-plaintext highlighter-rouge">"Hello World"</code> program to ensure Ruby is running on FreeBSD. All programs that run Ruby have the extension <code class="language-plaintext highlighter-rouge">*.rb</code> and on FreeBSD all files resulting from Ruby installation are stored in the <code class="language-plaintext highlighter-rouge">/usr/local/share/examples/ruby32</code> directory. Follow the guide below to create a Ruby program.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/share/examples/ruby32
+root@ns3:/usr/local/share/examples/ruby32 # ee rubytest.rb
+msg = Class.send(:new, String);
+mymsg = msg.send(:new, "Hello Ruby World !\n");
+STDOUT.send(:write, mymsg)
+</code></pre></div></div>
+
+<p>Run the Ruby Program.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/examples/ruby32 # ruby rubytest.rb
+Hello Ruby World !
+</code></pre></div></div>
+
+<h2 id="3-setting-up-redmine">3. Setting up Redmine</h2>
+
+<p>Redmine is a cross-platform and cross-database web application. In this section we will set up Redmine on FreeBSD. In this article, we will connect Redmine to the Apache24 web server and MySQL database.</p>
+
+<h3 id="a-install-dependencies">a. Install Dependencies</h3>
+
+<p>After you have finished installing Ruby, we continue with installing Redmine. Before you start installing Redmine, first install some Redmine dependencies. Run the following command to install Redmine dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install rubygem-bundler_ext rubygem-bundler rubygem-rails70 rubygem-jquery-rails rubygem-coderay rubygem-request_store rubygem-mime-types rubygem-protected_attributes rubygem-mimemagic rubygem-mail rubygem-i18n rubygem-rails-html-sanitizer rubygem-rbpdf rubygem-ruby-openid rubygem-rack-openid rubygem-rake rubygem-redcarpet
+</code></pre></div></div>
+
+<h3 id="b-install-redmine">b. Install Redmine</h3>
+
+<p>To install Redmine on FreeBSD, we recommend that you use the PKG package, because when using ports, there are often problems with the Redmine version and other dependencies. Run the command below to install Redmine with PKG.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install redmine50
+</code></pre></div></div>
+
+<p>All files resulting from the Redmine installation above will be stored in the <code class="language-plaintext highlighter-rouge">/usr/local/www/redmine</code> directory. After that, create a Start up script <code class="language-plaintext highlighter-rouge">rc.d</code>, so that Redmine can run automatically. Type the script below in the rc.conf file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /etc/rc.conf
+redmine_enable="YES"
+redmine_flags="-a 192.168.5.2 -p 3000 -e production"
+redmine_user="redmine"
+redmine_group="redmine"
+</code></pre></div></div>
+
+<h3 id="c-create-user-and-group-redmine">c. Create User and Group “redmine”</h3>
+
+<p>By default, FreeBSD installs Redmine with the user and group <code class="language-plaintext highlighter-rouge">"www:www"</code>, almost the same as Apache24. To avoid this, we will create a new user and group for Redmine.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pw add group redmine
+root@ns3:~ # pw add user -n redmine -g redmine -s /sbin/nologin -c "redmine"
+</code></pre></div></div>
+
+<h3 id="d-create-database-redmine">d. Create Database “redmine”</h3>
+
+<p>The Redmine server requires a database server, you can use Mysql, MariaDBSQLite or PostgreSQL. All database servers are supported by Redmine. In this article we will use a commonly used database server, namely MySQL. Run the command below to create a redmine database.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # mysql -u root -p
+Enter password:
+root@localhost [(none)]&gt; CREATE DATABASE redmine CHARACTER SET utf8;
+root@localhost [(none)]&gt; CREATE USER 'useredmine'@'localhost' IDENTIFIED BY 'router123';
+root@localhost [(none)]&gt; GRANT ALL PRIVILEGES ON redmine.* TO 'useredmine'@'localhost';
+root@localhost [(none)]&gt; FLUSH PRIVILEGES;
+root@localhost [(none)]&gt; exit;
+Bye
+root@ns3:~ #
+</code></pre></div></div>
+
+<p>Open the database.yml file, replace the production database script with the script below, adapt it to the MySQL database you created above.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/www/redmine/config
+root@ns3:/usr/local/www/redmine/config # ee database.yml
+production:
+  adapter: mysql2
+  database: redmine
+  host: localhost
+  username: useredmine
+  password: "router123"
+  # Use "utf8" instead of "utfmb4" for MySQL prior to 5.7.7
+  encoding: utf8mb4
+
+</code></pre></div></div>
+
+<h3 id="e-redmine-configuration">e. Redmine configuration</h3>
+
+<p>After you have set up the MySQL database in the <code class="language-plaintext highlighter-rouge">database.yml</code> file, next we configure Redmine with Ruby. The first step is to update the gem.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/www/redmine
+root@ns3:/usr/local/www/redmine # gem update --system 3.5.7
+</code></pre></div></div>
+
+<p>Continue by installing the gem.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/redmine # bundle install --gemfile /usr/local/www/redmine/Gemfile
+</code></pre></div></div>
+
+<p>The next step is to set up Redmine to connect to Ruby.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/www/redmine
+root@ns3:/usr/local/www/redmine # bundle install --without development test
+root@ns3:/usr/local/www/redmine # bundle exec rake generate_secret_token
+root@ns3:/usr/local/www/redmine # bundle exec rake db:migrate RAILS_ENV="production"
+</code></pre></div></div>
+
+<p>Change ownership and permissions Redmine.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chown -R redmine:redmine files log tmp public
+root@ns3:~ # chmod -R 755 files log tmp public
+</code></pre></div></div>
+
+<h3 id="f-run-configuration">f. Run configuration</h3>
+
+<p>The next step, run Redmine.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/redmine # service redmine restart
+root@ns3:/usr/local/www/redmine # ruby bin/rails server -e production
+</code></pre></div></div>
+
+<p>To open Redmine, open the Google Chrome web browser, type “http://192.168.5.2:3000/”, If there are no errors in the above settings, your monitor screen will display the Redmine Dashboard.</p>
+
+<p>After that, click the <code class="language-plaintext highlighter-rouge">"Sign in"</code> menu in the top right corner.</p>
+
+<p>In the Login and password menu, type:
+Login : admin
+Password: admin
+After that, a menu will appear to change the default password.</p>
+
+<p>With the continued increase in website needs, you can make Redmine a complete solution for project management and problem tracking. The features offered by Redmine are very complete, easy to use and free. You can save a lot of costs by choosing Redmine. Apart from that, you can increase productivity regarding the quality of your website, so that your business and enterprise can continue to grow.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which requires a DB server when running the application]]></summary></entry><entry xml:lang="en"><title type="html">OpenBSD DHCP - Configuring IPv6 with dhcpcd</title><link href="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/" rel="alternate" type="text/html" title="OpenBSD DHCP - Configuring IPv6 with dhcpcd" /><published>2025-08-19T13:01:32+03:00</published><updated>2025-08-19T13:01:32+03:00</updated><id>https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/openbsd-dhcp-configuration-ipv6-with-dhcpd/"><![CDATA[<p>OpenBSD makes great routers. Its simplicity and ease of configuration make it perfect for network infrastructure applications. Everything you need to build a network of any size is already built into the base system, plus the manual pages and examples cover everything you need to know.</p>
+
+<p>I recently built a home router from scratch using <code class="language-plaintext highlighter-rouge">OpenBSD 7</code> without installing any additional packages, using only what came with the OpenBSD OS installation. Initially, before deciding to “build it from scratch,” I had a goal of building a router using open source software to improve my network security. After exploring several popular open source firewall and routing projects (especially pfSense and OPNSense), I ultimately decided to build my own.</p>
+
+<p>PFSense and OPNSense seemed like decent software (and I’ve used both successfully in the past), but this time I wanted to “do it the hard way” and learn about the services that make up a typical router. Here are some of the cool DHCP server features OpenBSD has:</p>
+
+<ul>
+  <li>Almost completely open source, down to the BIOS and firmware.</li>
+  <li>Every DNS query going out of the network can be encrypted.</li>
+  <li>Can cache DNS lookups for each network device, which can improve query speed.</li>
+  <li>Supports custom local network DNS entries.</li>
+</ul>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/19openbsd_dhcp_ip6.jpg" alt="openbsd dhcp ip6" /></p>
+
+<p>This task is very easy in OpenBSD, as it comes with dhcpd on the base system. The OpenBSD project provides excellent documentation for this system under dhcpd(8) for the DHCP server itself, <a href="https://man.openbsd.org/dhcpd.conf.5">dhcpd.conf(5)</a> for configuration files, and <a href="https://man.openbsd.org/dhcpd.leases.5">dhcpd.leases(5)</a> for rental database format.</p>
+
+<p>The example we’ll cover in this post will be very simple, as it’s just for a small home network without any advanced options. I encourage you to read the manual if you want to create your own network, as I may not cover everything you need to know here.</p>
+
+<h2 id="a-installation--configuration">A. Installation &amp; Configuration</h2>
+
+<p>The DHCP server is available by default in the OpenBSD repositories. You can install it directly with the <code class="language-plaintext highlighter-rouge">"pkg_add"</code> command. Here’s how to install a DHCP server on OpenBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# pkg_add isc-dhcp-server isc-bind
+</code></pre></div></div>
+
+<p>After that you change the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# nano /etc/rc.d/dhcpcd
+daemon_flags="-Mq -C resolv.conf -c /etc/dhcpcd_up.sh"
+</code></pre></div></div>
+
+<p>This will prevent <code class="language-plaintext highlighter-rouge">resolv.conf</code> from being touched and calling our own hook ups.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# nano /etc/dhcpcd_up.sh
+route sourceaddr -inet4 192.168.0.1
+</code></pre></div></div>
+
+<p>Then you create a <code class="language-plaintext highlighter-rouge">pf.conf</code> file to improve the security of your DHCP server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# nano  /etc/pf.conf
+# interfaces
+lo_if = "lo0"
+wan_if = "em0"
+prod_if = "em1"
+dev_if = "em2"
+
+# cidr ranges
+prod_range = "192.168.0.0/24"
+dev_range = "192.168.2.0/24"
+
+# setup non-routable address list
+# note: since this firewall is behind a local network,
+#       do not include the default gateway in the table
+table &lt;martians&gt; { 0.0.0.0/8 10.0.0.0/8 127.0.0.0/8 169.254.0.0/16     \
+                   172.16.0.0/12 192.0.0.0/24 192.0.2.0/24 224.0.0.0/3 \
+                   192.168.0.0/16 198.18.0.0/15 198.51.100.0/24        \
+                   203.0.113.0/24 !192.168.0.1 }
+
+# drop blocked traffic
+set block-policy drop
+# set interface for logging
+set loginterface $wan_if
+# ignore loopback traffic
+set skip on $lo_if
+
+# normalize incoming packets
+match in all scrub (no-df random-id max-mss 1460)
+# perform NAT
+match out on $wan_if inet from !($wan_if:network) to any nat-to ($wan_if:0)
+
+# prevent spoofed traffic
+antispoof quick for { $wan_if $prod_if $dev_if }
+
+# block non-routable traffic
+block in quick on $wan_if from &lt;martians&gt; to any
+block return out quick on $wan_if from any to &lt;martians&gt;
+
+# block all traffic
+block all
+# allow outgoing traffic
+pass out inet
+# allow traffic from internal networks
+pass in on { $prod_if $dev_if } inet
+# block traffic from prod &lt;--&gt; dev
+block in on $prod_if from $prod_range to $dev_range
+block in on $dev_if from $dev_range to $prod_range
+# block outgoing unencrypted dns requests
+block proto { TCP UDP } from { $prod_range $dev_range } to any port 53
+pass proto { TCP UDP } from { $prod_range $dev_range} to self port 53
+</code></pre></div></div>
+<p>Next, to perform NAT (to make this device a true router), run the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# echo 'net.inet.ip.forwarding=1' &gt;&gt; /etc/sysctl.conf
+</code></pre></div></div>
+
+<p>Proceed by editing the <code class="language-plaintext highlighter-rouge">"dhcpd.conf"</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# nano /etc/dhcpd.conf
+
+# Network:          192.168.0.0/255.255.255.0
+# Domain name:      home.local
+# Name servers:     192.168.0.23 and 8.8.8.8
+# Default router:   192.168.0.1
+# Addresses:        192.168.0.30 - 192.168.0.200
+#
+option  domain-name "home.local";
+option  domain-name-servers 192.168.0.23, 8.8.8.8, 1.1.1.1;
+
+# prod network
+subnet 192.168.0.0 netmask 255.255.255.0 {
+        option routers 192.168.0.1;
+        option domain-name-servers 192.168.0.1;
+        range 192.168.1.100 192.168.1.149;
+        host special-device-1 {
+                fixed-address 192.168.0.2;
+                hardware ethernet 00:08:22:2c:da:fb;
+        }
+}
+# dev network
+subnet 192.168.2.0 netmask 255.255.255.0 {
+        option routers 192.168.2.1;
+        option domain-name-servers 192.168.2.1;
+        range 192.168.2.100 192.168.2.199;
+        host special-device-2 {
+                fixed-address 192.168.2.2;
+                hardware ethernet 18:89:5b:73:62:7f;
+        }
+}
+</code></pre></div></div>
+
+<p>Once you’re done with the configuration file, it’s time to start the DHCP server. To do this, I first enabled it and then started it using rcctl.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# rcctl enable dhcpd
+ns3# rcctl start dhcpd
+</code></pre></div></div>
+
+<p>With the server running, to see the leases currently held by dhcpd, you can check <code class="language-plaintext highlighter-rouge">/var/db/dhcpd.leases</code>. Entries are added to this file when clients make DHCP requests.</p>
+
+<p>So, that’s it. At this point, the device functions as a router, firewall, DHCP server, and caching DNS server. The software it runs on is completely open source. It maintains several dedicated DNS entries for services running on my local network. Every outgoing DNS request is guaranteed to be encrypted. For the past few months, I’ve been using this device on my home network and it’s working well. It’s secure, performant, minimal, and easy to maintain (only three configuration files).</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="OpenBSD" /><category term="SysAdmin" /><summary type="html"><![CDATA[PFSense and OPNSense seemed like decent software (and I've used both successfully in the past), but this time I wanted to "do it the hard way" and learn about the services that make up a typical router.]]></summary></entry><entry xml:lang="en"><title type="html">Running Apache Kafka Kraft - Data Streaming tool on FreeBSD</title><link href="https://unixwinbsd.site/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/" rel="alternate" type="text/html" title="Running Apache Kafka Kraft - Data Streaming tool on FreeBSD" /><published>2025-08-18T11:36:43+03:00</published><updated>2025-08-18T11:36:43+03:00</updated><id>https://unixwinbsd.site/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/running-apache-kafka-kraft-data-streaming-tool-freebsd/"><![CDATA[<p>For those of you who are currently researching or studying data engineering, you must be familiar with one of the mandatory tools that data engineers must master, namely Apache Kafka. Apache Kafka tools are generally used by data engineers to help carry out data streaming, which is the process of collecting data continuously to follow up on information.</p>
+
+<p>Actually, when talking about data engineering, there are many other tools besides Apache Kafka that you need to master too, including:</p>
+
+<ul>
+  <li><strong>Apache Hive</strong></li>
+</ul>
+
+<p>Tools used to analyze large datasets stored in HDFS Hadoop and Amazon S3 filesystems.</p>
+
+<ul>
+  <li><strong>Apache Airflow</strong></li>
+</ul>
+
+<p>Tools used to schedule and organize workflows or data pipelines for coordinating, organizing, scheduling and managing complex data pipelines from different sources.</p>
+
+<ul>
+  <li><strong>Tableau</strong></li>
+</ul>
+
+<p>Tools used to help make it easier to create visual analyzes in the form of dashboards, translate data into visual form, manage metadata, import various sizes and ranges of data, and create visualizations without the need for coding.</p>
+
+<ul>
+  <li><strong>Snowflake</strong></li>
+</ul>
+
+<p>Tools used to store and calculate data.</p>
+
+<ul>
+  <li><strong>Power BI</strong></li>
+</ul>
+
+<p>Tools used to combine, analyze and create data visualizations.</p>
+
+<p>If you are currently learning more about Apache Kafka, then read this article for more complete information about the definition of Apache Kafka, concepts, case studies, and recommendations for places to learn and practice Apache Kafka tools!</p>
+
+<h2 id="1-definition-of-apache-kafka">1. Definition of Apache Kafka</h2>
+
+<p>By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integration, and mission-critical applications. There are several main advantages of Apache Kafka so that it is used by many data engineers in various companies including large companies, including:</p>
+
+<ul>
+  <li><strong>Distributed</strong></li>
+</ul>
+
+<p>Apache Kafka can be used to receive, store, and send messages or data from various nodes.</p>
+
+<ul>
+  <li><strong>Horizontally-scalable</strong></li>
+</ul>
+
+<p>Apache Kafka can be used in clusters or groups so that with increasing data flow speed or data volume, data engineers only need to add new machines to the cluster without having to do vertical-scaling.</p>
+
+<ul>
+  <li><strong>Fault-tolerant</strong></li>
+</ul>
+
+<p>Apache Kafka can be used to replicate data to other nodes.</p>
+
+<ul>
+  <li><strong>Scalability</strong></li>
+</ul>
+
+<p>Apache Kafka can be used to handle millions of messages in a short time so it can be relied on to process data on a large scale.</p>
+
+<ul>
+  <li><strong>High performance</strong></li>
+</ul>
+
+<p>Apache Kafka has very fast performance and can handle large amounts of data at the same time.</p>
+
+<ul>
+  <li><strong>Failure recovery</strong></li>
+</ul>
+
+<p>Apache Kafka can save data and recover quickly if a failure occurs.</p>
+
+<p>Kafka combines two messaging models, queue and publish-subscribe, to provide consumers with the key benefits of each model. Look at the image below.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/18diagram_apache_kafka.jpg" alt="18diagram apache kafka" /></p>
+
+<p>Apache Kafka also has concepts that you need to know, including:</p>
+
+<p><strong>1. Producer</strong></p>
+
+<p>Application that sends messages to Apache Kafka.</p>
+
+<p><strong>2. Consumer</strong></p>
+
+<p>Application that uses data from Kafka.</p>
+
+<p><strong>3. Message</strong></p>
+
+<p>Data sent by the producer application to the consumer application via Kafka.</p>
+
+<p><strong>4. Node</strong></p>
+
+<p>Single server engine in an Apache Kafka cluster.</p>
+
+<p><strong>5. Connection</strong></p>
+
+<p>TCP connection between the Kafka cluster and the application.</p>
+
+<p><strong>6. Topic</strong></p>
+
+<p>Category that receives data and is sent to the consumer application.</p>
+
+<p><strong>7. Replicas</strong></p>
+
+<p>Replication of cluster nodes.</p>
+
+<p><strong>8. Consumer groups</strong></p>
+
+<p>A group of consumers who are interested in the same topic.</p>
+
+<p><strong>9. Offset</strong></p>
+
+<p>Offset from consumer.</p>
+
+<p><strong>10. Topic partition</strong></p>
+
+<p>Category of each partition on the engine node.</p>
+
+<p><strong>11. Cluster</strong></p>
+
+<p>A group of nodes or servers.</p>
+
+<h2 id="2-installing-apache-kafka">2. Installing Apache Kafka</h2>
+
+<p>Kafka requires dependencies, to run library files. Before you install Kafka, install the following dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install -y librdkafka bash git gradle openjdk17 zookeeper
+</code></pre></div></div>
+
+<p>On FreeBSD the Kafka repository is available, you can install it directly via the PKG package or the Ports system. In this article we will install Kafka with the FreeBSD ports system. Run the command “make install” to start the installation process.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/net/kafka
+root@ns3:/usr/ports/net/kafka # make install clean
+</code></pre></div></div>
+
+<p>After that, you run the command so that Kafka runs automatically on the FreeBSD server. Open the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file, and type the following script in the file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kafka_enable="YES"
+kafka_user="kafka"
+kafka_group="kafka"
+kafka_config="/usr/local/etc/kafka/kraft/server.properties"
+kafka_log4j_config="/usr/local/etc/kafka/log4j.properties"
+kafka_log_dir="/var/log/kafka"
+</code></pre></div></div>
+
+<p>Next, you run the chmod and chown commands so that the Kafka server has file access rights and file ownership.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chown -R kafka:kafka /usr/local/etc/kafka
+root@ns3:~ # chmod -R 775 /usr/local/etc/kafka
+root@ns3:~ # chown -R kafka:kafka /var/db/kafka-kraft
+</code></pre></div></div>
+
+<p>Open the <code class="language-plaintext highlighter-rouge">"/usr/local/etc/kafka/kraft/server.properties"</code> file, and activate the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>process.roles=broker,controller
+node.id=1
+controller.quorum.voters=1@127.0.0.1:9093
+listeners=PLAINTEXT://127.0.0.1:9092,CONTROLLER://:9093
+controller.listener.names=CONTROLLER
+log.dirs=/var/db/kafka-kraft
+delete.topic.enable=true
+</code></pre></div></div>
+
+<p>Run the restart command, so that you can use Apache Kafka immediately.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service kafka restart
+</code></pre></div></div>
+
+<h2 id="3-start-the-apache-kafka-server">3. Start the Apache Kafka Server</h2>
+
+<p>Now that the Apache Kafka server is active on your FreeBSD server, it’s time to start running the Apache Kafka server. To start Apache Kafka use the command “kafka-server-start.sh”. You must pass the path to the properties file you want to use.</p>
+
+<p>You need to know, in FreeBSD, the files to run the Kafka server are located in the <code class="language-plaintext highlighter-rouge">/usr/local/share/java/kafka/bin</code> directory. This directory contains all Kafka <code class="language-plaintext highlighter-rouge">"sh"</code> files and can be used to run a Kafka server.</p>
+
+<p>The first step to start Apache Kafka is to use the kafka-storage tool to generate a Cluster UUID and format the storage with the generated UUID when running Kafka in KRaft mode.</p>
+
+<p>You must explicitly create a cluster ID for the KRaft cluster, and format the storage that specifies that ID. Run the following command to create a Cluster UUID.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/share/java/kafka/bin
+root@ns3:/usr/local/share/java/kafka/bin # ./kafka-storage.sh random-uuid
+6rUpPQPAQhyX85qPrvxyPQ
+</code></pre></div></div>
+
+<p>After you have successfully created the Cluster UUID, run the command below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/java/kafka/bin # ./kafka-storage.sh format -t 6rUpPQPAQhyX85qPrvxyPQ -c /usr/local/etc/kafka/kraft/server.properties
+</code></pre></div></div>
+
+<p>Run Apache Kafka Server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/java/kafka/bin # ./kafka-server-start.sh /usr/local/etc/kafka/kraft/server.properties
+</code></pre></div></div>
+
+<h2 id="4-debugging-kraft-mode">4. Debugging Kraft Mode</h2>
+
+<p>In this section we will study the debugging aspects of Apache Kafka Kraft. Debugging in Kafka is critical to maintaining the health and performance of Kafka data pipelines. This process will involve identifying and resolving issues that can arise in a Kafka deployment, ranging from configuration errors to performance bottlenecks.</p>
+
+<p>You can view the runtime status of the cluster metadata partition with the <code class="language-plaintext highlighter-rouge">"kafka-metadata-quorum.sh"</code> command. Run the following command to display the quorum metadata summary.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/java/kafka/bin # ./kafka-metadata-quorum.sh --bootstrap-server  127.0.0.1:9092 describe --status
+ClusterId:              6rUpPQPAQhyX85qPrvxyPQ
+LeaderId:               1
+LeaderEpoch:            7
+HighWatermark:          84514
+MaxFollowerLag:         0
+MaxFollowerLagTimeMs:   0
+CurrentVoters:          [1]
+CurrentObservers:       []
+</code></pre></div></div>
+
+<p>You can also debug log segments and snapshots for the cluster metadata directory. Use the <code class="language-plaintext highlighter-rouge">"kafka-dump-log.sh"</code> command to decode and print the log in the first log segment.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/java/kafka/bin # ./kafka-dump-log.sh --cluster-metadata-decoder --files /var/db/kafka-kraft/__cluster_metadata-0/00000000000000000000.log
+</code></pre></div></div>
+
+<p>If you want to check partition metadata interactively, use the command <code class="language-plaintext highlighter-rouge">"kafka-metadata-shell.sh"</code>. The example below shows how to open a shell.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/java/kafka/bin # ./kafka-metadata-shell.sh --snapshot /var/db/kafka-kraft/__cluster_metadata-0/00000000000000008983-0000000004.checkpoint
+</code></pre></div></div>
+
+<h2 id="5-testing-the-cluster">5. Testing the Cluster</h2>
+
+<p>To successfully record data, you need to test the cluster by creating a topic. Use the command <code class="language-plaintext highlighter-rouge">"kafka-topics.sh"</code> use the default port which is <strong>9092</strong>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/java/kafka/bin # ./kafka-topics.sh --create --topic FreeBSDTest --bootstrap-server 127.0.0.1:9092
+Created topic FreeBSDTest.
+</code></pre></div></div>
+
+<p>The above command is used to create a FreeBSDTest topic. In the example above the topic was created with only one partition, because we did not specify the number of partitions. You can check it with the following command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/java/kafka/bin # ./kafka-topics.sh --describe --topic FreeBSDTest --bootstrap-server 127.0.0.1:9092
+Topic: FreeBSDTest      TopicId: R2R936jdT8GAB43vI5lz2Q PartitionCount: 1       ReplicationFactor: 1    Configs: segment.bytes=1073741824
+Topic: FreeBSDTest      Partition: 0    Leader: 1       Replicas: 1     Isr: 1
+</code></pre></div></div>
+
+<p>Now your topic is ready, we can write a message on that topic. Luckily, Kafka comes with a console utility that allows us to do this. Run the command <code class="language-plaintext highlighter-rouge">"kafka-console-producer.sh"</code> to write a message on the topic.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/java/kafka/bin # ./kafka-console-producer.sh --topic FreeBSDTest --bootstrap-server 127.0.0.1:9092
+&gt;Hello FreeBSD
+&gt;FreeBSD The Power To Server
+</code></pre></div></div>
+
+<p>Now we need to read the messages we have created above. To do this, run the command <code class="language-plaintext highlighter-rouge">"kafka-console-consumer.sh"</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/java/kafka/bin # ./kafka-console-consumer.sh --topic FreeBSDTest --bootstrap-server 127.0.0.1:9092
+</code></pre></div></div>
+
+<p>Close the user and call again, but with different settings. The command is still the same, but with the addition of <code class="language-plaintext highlighter-rouge">"--consumer-property"</code>, where we pass the setting <code class="language-plaintext highlighter-rouge">"auto.offset.reset=earliest"</code>. The earliest value indicates that reading the record will start with the earliest available message.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/share/java/kafka/bin # ./kafka-console-consumer.sh --topic FreeBSDTest --bootstrap-server 127.0.0.1:9092 --consumer-property auto.offset.reset=earliest
+</code></pre></div></div>
+
+<p>To be able to use various data engineering tools such as Apache Kafka, it is not enough to just master the theory, but you also have to practice by practicing these tools directly. You can learn data engineering as well as practice directly various data engineering tools using the FreeBSD server.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[By definition, Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines, streaming analytics, data integration, and mission-critical applications.]]></summary></entry><entry xml:lang="en"><title type="html">Running Python Scripts with Apache and Modules WSGI On FreeBSD 14</title><link href="https://unixwinbsd.site/freebsd/python-script-apache-mod-wsgi-freebsd14/" rel="alternate" type="text/html" title="Running Python Scripts with Apache and Modules WSGI On FreeBSD 14" /><published>2025-08-17T10:21:01+03:00</published><updated>2025-08-17T10:21:01+03:00</updated><id>https://unixwinbsd.site/freebsd/python-script-apache-mod-wsgi-freebsd14</id><content type="html" xml:base="https://unixwinbsd.site/freebsd/python-script-apache-mod-wsgi-freebsd14/"><![CDATA[<p>Apache web server with wsgi module one of the best solutions for hosting Python based web applications. Whether you run a small website like a blog or a professional hosting system. The wsgi module on apache offers high performance capabilities.</p>
+
+<p>The wsgi module is an Apache HTTP Server module created by Graham Dumpleton. This module provides a WSGI-compliant interface for hosting Python-based web applications on the Apache web server. The wsgi module is a bridge that Python uses to communicate with the NGINX or Apache web server. WSGI also uses Python to produce high-quality, high-performance web applications.</p>
+
+<p>The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or frameworks provide wsgi for easy deployment and embedding. Look at the image below.</p>
+
+<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/18diagram%20wsgi%20apache.jpg" alt="diagram wsgi apache" /></p>
+
+<p>We have made all the script examples in this article not too complicated, so you can easily understand them even if you are new to Python. To benefit your learning, follow every instruction in this article..</p>
+
+<h2 id="1-system-requirements">1. System Requirements</h2>
+
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>IP address: 192.168.5.2</li>
+  <li>Hostname: ns3</li>
+  <li>Python version: python39</li>
+  <li>Web Server: Apache24</li>
+  <li>Module: mod_wsgi</li>
+  <li>PHP-FPM</li>
+</ul>
+
+<h2 id="2-install-mod_python-on-apache">2. Install mod_python On Apache</h2>
+
+<p>Before you start activating the wsgi module, make sure the Apache server and PHP-FPM are installed correctly on FreeBSD. If you are sure that the Apache server is running normally, run the command below to start installing the wsgi module.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/www/mod_wsgi4
+root@ns3:/usr/ports/www/mod_wsgi4 # make install clean
+</code></pre></div></div>
+
+<p>After that, you activate mod_wsgi in Apache24.<br />
+<code class="language-plaintext highlighter-rouge">(/usr/local/etc/apache24/modules.d)</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # touch /usr/local/etc/apache24/modules.d/270_mod_wsgi.conf
+root@ns3:~ # ee /usr/local/etc/apache24/modules.d/270_mod_wsgi.conf
+LoadModule wsgi_module        libexec/apache24/mod_wsgi.so
+</code></pre></div></div>
+<p>Create a new directory called <code class="language-plaintext highlighter-rouge">"wsgi"</code>, this directory we will use to store all Python files.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # mkdir -p /usr/local/www/apache24/wsgi
+root@ns3:~ # chown -R www:www /usr/local/www/apache24/wsgi
+root@ns3:~ # chmod -R 775 /usr/local/www/apache24/wsgi
+</code></pre></div></div>
+
+<p>Open the <code class="language-plaintext highlighter-rouge">httpd.conf file</code>, and type the script below in the file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>###/usr/local/etc/apache24/httpd.conf
+
+&lt;Directory /usr/local/www/apache24/wsgi/&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+        Options +ExecCGI
+        SetHandler wsgi-script
+&lt;/Directory&gt;
+Alias /wsgi "/usr/local/www/apache24/wsgi/"
+</code></pre></div></div>
+
+<h2 id="3-wsgi-application">3. WSGI Application</h2>
+
+<p>The first wsgi application that we create is called <code class="language-plaintext highlighter-rouge">"pythonwsgi.py"</code>, then you type the following script in that file.</p>
+
+<p><code class="language-plaintext highlighter-rouge">(/usr/local/www/apache24/wsgi/pythonwsgi.py)</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # touch /usr/local/www/apache24/wsgi/pythonwsgi.py
+root@ns3:~ # ee /usr/local/www/apache24/wsgi/pythonwsgi.py
+
+def application(environ, start_response):
+    status = '200 OK'
+    output = b'Hello FreeBSD The Power To Server!'
+
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
+
+    return [output]
+</code></pre></div></div>
+
+<p>Do a test on the file, by opening Google Chrome, and typing the url <code class="language-plaintext highlighter-rouge">"http://192.168.5.2/wsgi/sample.py"</code>, and you will get the reply “Hello FreeBSD The Power To Server!”.</p>
+
+<p>Once you have successfully installed and configured the Python files with Apache mod_wsgi, we will show, the diagram below illustrates the relationship between the Python wsgi application and other entities.</p>
+
+<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/18FreeBSD%20WSGI%20Application.jpg" alt="FreeBSD WSGI Application" /></p>
+
+<p>Then you create another <code class="language-plaintext highlighter-rouge">pythonApp.py</code> file, type the script below in the <code class="language-plaintext highlighter-rouge">pythonApp.py</code> file.</p>
+
+<p><code class="language-plaintext highlighter-rouge">(/usr/local/www/apache24/wsgi/pythonApp.py)</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # touch /usr/local/www/apache24/wsgi/pythonApp.py
+root@ns3:~ # ee /usr/local/www/apache24/wsgi/pythonApp.py
+
+def application(environ, start_response):
+    status = '200 OK'
+
+    if environ['REQUEST_METHOD'] == 'GET' :
+        rdict = handle_get(environ)
+    elif environ['REQUEST_METHOD'] == 'POST' :
+        rdict = handle_post(environ)
+    else :
+        rdict = { "name": "", "price": 0 }
+
+    output = bytes(json.dumps(rdict), 'utf-8')
+
+    response_headers = [('Content-type', 'application/json'),
+                        ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
+
+    return [output]
+</code></pre></div></div>
+
+<p>Create index.html and post.html files.</p>
+
+<ul>
+  <li><strong>/usr/local/www/apache24/data/index.html</strong></li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # touch /usr/local/www/apache24/data/index.html
+root@ns3:~ # ee /usr/local/www/apache24/data/index.html
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;form action="http://192.168.5.2/wsgi/pythonApp.py" method="get" enctype="multipart/form-data"&gt;
+    &lt;input type="hidden" name="id" value="A001"&gt;
+    &lt;input type="submit" value="List Product A001 Info"&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div></div>
+
+<ul>
+  <li><strong>/usr/local/www/apache24/data/post.html</strong></li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # touch /usr/local/www/apache24/data/post.html
+root@ns3:~ # ee /usr/local/www/apache24/data/post.html
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;form action="http://192.168.5.2/wsgi/pythonApp.py" method="post" enctype="multipart/form-data"&gt;
+    &lt;input type="hidden" name="id" value="A002"&gt;
+    &lt;input type="submit" value="List Product A002 Info"&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div></div>
+<p>Now try running the two html files, by opening the Google Chrome web browser. In the Google Chrome address bar menu, type <code class="language-plaintext highlighter-rouge">"http://192.168.5.2/index.html"</code> and <code class="language-plaintext highlighter-rouge">"http://192.168.5.2/post.html"</code>. See the results displayed on your monitor screen.</p>
+
+<p>Happy! You have successfully created a Python application with the wsgi module. WSGI comes from CGI. In this article, we have explained a Python implementation of WSGI using Apache mod_wsgi. Remember, each application may require additional configuration adjustments based on its specific needs, so always consult your application documentation for more detailed setup instructions.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="FreeBSD" /><category term="WebServer" /><summary type="html"><![CDATA[The wsgi module is often used in Python as a standard way to connect various web applications without any hassle. Some well-known python applications or frameworks provide wsgi for easy deployment and embedding. Look at the image below.]]></summary></entry><entry xml:lang="en"><title type="html">How to Use Grafana and Prometheus to Monitor OpenBSD Activity</title><link href="https://unixwinbsd.site/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/" rel="alternate" type="text/html" title="How to Use Grafana and Prometheus to Monitor OpenBSD Activity" /><published>2025-08-16T11:17:21+03:00</published><updated>2025-08-16T11:17:21+03:00</updated><id>https://unixwinbsd.site/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity</id><content type="html" xml:base="https://unixwinbsd.site/openbsd/using-grafana-and-prometheus-monitor-openbsd-activity/"><![CDATA[<p>It’s always recommended to enable some form of monitoring with any OpenBSD deployment. In the past, I’ve used Zabbix to monitor both the Findelabs public server and my private OpenBSD server. I was going to write an article on installing and configuring the web frontend and backend, but I put it off because the setup was a bit complicated. Last week, I finally migrated to a Grafana dashboard with Prometheus as my monitoring system.</p>
+
+<p>This approach turned out to be less complicated than Zabbix. If you’d like instructions for setting up the various Zabbix components, you can see the backend here and the frontend here. While Zabbix works as intended, I’ve always found its configuration, even in its interface, a bit cumbersome. Having experienced both Grafana and Prometheus in the past, I figured it should be fairly straightforward to run both on OpenBSD.</p>
+
+<p>It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana on separate servers. However, during testing, I was able to run both on a fairly small server.</p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/17Monitor_OpenBSD_Activity_with_Grafana_and_Prometheus.jpg" alt="Monitor OpenBSD Activity with Grafana and Prometheus" /></p>
+
+<p>First, install <code class="language-plaintext highlighter-rouge">Prometheus and node_exporter.</code> Node_exporter is a small application that exports server metrics on port <code class="language-plaintext highlighter-rouge">9100</code> from any installed server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# pkg_add prometheus node_exporter
+</code></pre></div></div>
+<p>Next, edit <code class="language-plaintext highlighter-rouge">/etc/prometheus/prometheus.yml</code>. Here’s a sample configuration, with a little more complexity:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># my global config
+global:
+  scrape_interval:     5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+# rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['0.0.0.0:9090']
+
+  # This is where you can add new servers to monitor
+  - job_name: 'node'
+    file_sd_configs:
+    - files:
+      - '/etc/prometheus/targets.json'
+</code></pre></div></div>
+<p>This configuration will get it up and running, although we still need to create the <code class="language-plaintext highlighter-rouge">/etc/prometheus/targets.json</code> file, as this is where Prometheus expects targets to be monitored in this configuration. This file can be quickly updated without restarting Prometheus:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[
+  {
+    "labels": {
+      "job": "node"
+    },
+
+    "targets": [
+      "server1:9100",
+      "server2:9100",
+      "server3:9100"
+    ]
+  }
+]
+</code></pre></div></div>
+<p>Using this target.json file, Prometheus will attempt to get metrics from servers 1/2/3. These servers can also be specified by IP, but Prometheus will store all metrics for each instance and tag them with the values specified in this target.json file.</p>
+
+<p>Therefore, I find it much easier to specify each server by its hostname and update <code class="language-plaintext highlighter-rouge">/etc/hosts</code> to point to the correct IP, unless I have DNS working for each server.</p>
+
+<p>You can then optionally modify the <code class="language-plaintext highlighter-rouge">/etc/rc.d/prometheus</code> script to set metric retention. The default retention period is just 15 days, which is fine, but I think it should be longer in my case. I usually specify <code class="language-plaintext highlighter-rouge">--storage.tsdb.retention.time=90</code> days in daemon_flags, as shown here.</p>
+
+<p>Also note that Prometheus will listen on all interfaces by default, which isn’t always ideal. You can specify to listen on localhost, for example with <code class="language-plaintext highlighter-rouge">--web.listen-address="localhost:9090"</code> in daemon_flags below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh
+#
+# $OpenBSD: prometheus.rc,v 1.1.1.1 2018/01/10 16:26:19 claudio Exp $
+
+daemon="/usr/local/bin/prometheus"
+daemon_flags="--config.file /etc/prometheus/prometheus.yml"
+daemon_flags="${daemon_flags} --storage.tsdb.path '/var/prometheus' --storage.tsdb.retention.time=90d"
+daemon_user=_prometheus
+
+. /etc/rc.d/rc.subr
+
+pexp="${daemon}.*"
+rc_bg=YES
+rc_reload=NO
+
+rc_start() {
+        ${rcexec} "${daemon} ${daemon_flags} &lt; /dev/null 2&gt;&amp;1 | \
+                logger -p daemon.info -t prometheus"
+}
+
+rc_cmd $1
+</code></pre></div></div>
+<p>Now we can enable and start the prometheus and node_exporter services. Monitor <code class="language-plaintext highlighter-rouge">/var/log/daemon</code> to ensure prometheus is connecting properly:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# rcctl enable prometheus node_exporter
+hostname1# rcctl start prometheus node_exporter
+hostname1# tail -f /var/log/daemon
+
+# Test to make sure the frontend is accessible
+hostname1# curl localhost:9090/graph
+
+# Ensure node_exporter is working
+hostname1# curl localhost:9100/metrics
+</code></pre></div></div>
+
+<p>Now we can proceed to install and start <code class="language-plaintext highlighter-rouge">grafana</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hostname1# pkg_add grafana
+hostname1# rcctl enable grafana
+hostname1# rcctl start grafana
+</code></pre></div></div>
+<p>When you start the service, go to the dashboard, log out on the 3000th login using the predefined method, and you’ll be authenticated as a normal administrator with the predefined administrator credentials. Once a session is started, Grafana will immediately require you to log in as an administrator. Instead of starting in the dashboard, click <code class="language-plaintext highlighter-rouge">"Collect Data"</code> and then <code class="language-plaintext highlighter-rouge">"Prometheus"</code></p>
+
+<p>To configure access to Prometheus, simply enter <code class="language-plaintext highlighter-rouge">"http://localhost:9090"</code> as the URL, click “Secure,” and verify. If Prometheus is running on your server, Grafana can be used to access the data source.</p>
+
+<p>Here, you can create dashboards to monitor OpenBSD servers. He published one of the simple dashboards he uses to monitor a small collection of my services. You can import the dashboard in the Control Panel/Administration and click <code class="language-plaintext highlighter-rouge">"Import"</code>. When you open the dashboard, you’ll be able to quickly view your server metrics.</p>
+
+<p>The monitoring service aggregates, so you can install the node_exporter package on a remote server and update the <code class="language-plaintext highlighter-rouge">/etc/prometheus/targets.json</code> archive for that server.</p>
+
+<p>Overall, it’s great to have Grafana and Prometheus at your disposal for simplicity.</p>]]></content><author><name>UnixBSDShell&apos;s Blog</name><email>iwanse1212@yandex.com</email></author><category term="OpenBSD" /><category term="WebServer" /><summary type="html"><![CDATA[It turns out everything is quite easy to configure and monitor. The first step is to launch Prometheus. For my setup, I typically run Prometheus and Grafana on separate servers. However, during testing, I was able to run both on a fairly small server.]]></summary></entry></feed>

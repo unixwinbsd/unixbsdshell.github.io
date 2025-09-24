@@ -1,0 +1,1030 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Go Lang and FreeBSD Collaboration - Creating Simple Web Apps - UnixBSDShell</title>
+<meta name="description" content="Google uses Go in a number of its internal systems, including the Kubernetes container orchestration platform and the Google Search search engine.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Go Lang and FreeBSD Collaboration - Creating Simple Web Apps">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/go-lang-freebsd-web-app/">
+
+
+  <meta property="og:description" content="Google uses Go in a number of its internal systems, including the Kubernetes container orchestration platform and the Google Search search engine.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Go Lang and FreeBSD Collaboration - Creating Simple Web Apps">
+  <meta name="twitter:description" content="Google uses Go in a number of its internal systems, including the Kubernetes container orchestration platform and the Google Search search engine.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/go-lang-freebsd-web-app/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2024-12-25T17:11:10+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/go-lang-freebsd-web-app/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Go Lang and FreeBSD Collaboration - Creating Simple Web Apps</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Go Lang and FreeBSD Collaboration - Creating Simple Web Apps">
+    <meta itemprop="description" content="Google uses Go in a number of its internal systems, including the Kubernetes container orchestration platform and the Google Search search engine.">
+    <meta itemprop="datePublished" content="2024-12-25T17:11:10+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Go Lang and FreeBSD Collaboration - Creating Simple Web Apps
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-system-specifications">1. System Specifications</a></li>
+  <li><a href="#2-create-simple-web-applications">2. Create Simple Web Applications</a></li>
+  <li><a href="#3-determining-routes-and-handler-functions-in-go">3. Determining Routes and Handler Functions in Go</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Go or Go lang is a popular programming language widely used in industry to create various applications, including web servers, blogs, networking tools and system utilities. Go is known for its simplicity, efficiency, and concurrency support, making it suitable for building scalable, high-performance systems.</p>
+
+<p>Go is used by many companies and organizations, including:</p>
+
+<ol>
+  <li><strong>Google :</strong>  Google uses Go in a number of its internal systems, including its Kubernetes container orchestration platform and Google Search search engine.</li>
+  <li><strong>Netflix :</strong>  Netflix uses Go across a number of its systems, including its data pipeline and recommendation engine.</li>
+  <li><strong>Dropbox :</strong>  Dropbox uses Go for a number of its services, including its file sync engine and server infrastructure.</li>
+  <li><strong>Uber :</strong>  Uber uses Go in a number of its systems, including distributed data storage and routing engines.</li>
+</ol>
+
+<p>One of Go’s greatest strengths lies in its suitability for developing web applications. Google’s Go lang offers great performance, is easy to deploy, and has many of the essential tools you need to build and deploy scalable web services in its standard library.</p>
+
+<p>This tutorial will explain and guide you to create a practical example of building a web application with Go and deploying it to the internet network so that it can be read by many people. This guide will cover the basics of using Go’s built-in HTTP server and templating language, as well as how to interact with external APIs.</p>
+
+<h2 id="1-system-specifications">1. System Specifications</h2>
+<ul>
+  <li>OS: FreeBSD 13.2</li>
+  <li>Hostname/Domain: ns1@unixexplore.com</li>
+  <li>IP Address: 192.168.5.2</li>
+  <li>go version: go1.20.7 freebsd/amd64</li>
+  <li>Port GoLang Web: 8999</li>
+</ul>
+
+<h2 id="2-create-simple-web-applications">2. Create Simple Web Applications</h2>
+<p>The first step to get started with Go is to install it on our server computer. For the Go installation process, you can read our previous article: “<a href="https://penaadventure.com/en/freebsd/2024-12-24-go-lang-freebsd14-golang-install/">How to Install GOLANG GO Language on FreeBSD</a>”. You can practice all the contents of this article on Linux server machines such as Ubuntu, Debian and others, and can also be applied to Windows and MacOS operating systems.</p>
+
+<p>As basic material or opening material, we start by creating a simple web application that only displays text in a web browser. To start, we will create a working folder/directory, here are the steps.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # mkdir -p /var/GoogleBlog
+root@ns1:~ # cd /var/GoogleBlog
+</code></pre></div></div>
+
+<p>The explanation of the script above is to create a working directory with the name GoogleBlog folder which we place in the /var/GoogleBlog folder. After we have successfully created the working directory, the next step is to write the program code in GO language.</p>
+
+<p>Go programs are organized into packages. A package is a collection of source files in the same directory that are compiled together. Functions, types, variables, and constants defined in one source file are visible to all other source files in the same package.</p>
+
+<p>A repository contains one or more modules. A module is a collection of related Go packages released together. A Go repository usually contains only one module, located at the root of the repository. A file named go.mod declares the module path:import path prefix for all packages in the module. The module contains packages in a directory containing the go.mod file as well as subdirectories of that directory, up to the next subdirectory containing other go.mod files (if any).</p>
+
+<p>To compile and run a simple program, first select the module path (we will use the working directory above and create a go.mod file declaring it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cd /var/GoogleBlog
+root@ns1:/var/GoogleBlog # go mod init GoogleBlog
+go: creating new go.mod: module GoogleBlog
+root@ns1:/var/GoogleBlog #
+</code></pre></div></div>
+
+<p>The script above will create a go.mod file that we will use to compile and run Go programs. After the go.mod compilation file has been successfully created, the next step is to create the main Go file which we call “main.go” and enter the script code below in the “main.go” file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:/var/GoogleBlog # ee main.go
+
+package main
+
+import (
+	"net/http"
+	"os"
+)
+
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("&lt;h1&gt;Good Morning, FreeBSD!&lt;/h1&gt;"))
+}
+
+func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8999"
+	}
+
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/", indexHandler)
+	http.ListenAndServe("192.168.5.2:"+port, mux)
+}
+</code></pre></div></div>
+
+<p>Then we run the “main.go” file by typing in the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:/var/GoogleBlog # go run main.go
+</code></pre></div></div>
+
+<p>We can see the results by opening the Mozilla Firefox or Google Chrome web browser, in the address bar menu type “http://192.168.5.2:8999/” and the results will look like the image below.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/freebsd-golang-mysql-crud/-/raw/main/template/Good_Morning__FreeBSD.jpg" alt="Good Morning FreeBSD 14" /></p>
+
+<p>Another example of a script that you can practice, delete all the scripts in the “main.go” file and replace them with the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package main
+import (
+    "fmt"
+    "net/http"
+)
+type msg string
+func (m msg) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+   fmt.Fprint(resp, m) 
+}
+func main() {
+    msgHandler := msg("Hello from Web Server in Go")
+    fmt.Println("Server is listening...")
+    http.ListenAndServe("192.168.5.2:8999", msgHandler)
+}
+</code></pre></div></div>
+
+<p>Run the Go application.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:/var/GoogleBlog # go run main.go
+</code></pre></div></div>
+
+<p>Open Google Chrome and type “http://192.168.5.2:8999/” in the address bar menu and you can see the results in Google Chrome.</p>
+
+<h2 id="3-determining-routes-and-handler-functions-in-go">3. Determining Routes and Handler Functions in Go</h2>
+<p>There are many ways to perform HTTP path routing in Go, including the http.ServeMux standard library, but they only support basic prefix matching. Apart from that, there are also many third-party router libraries. In Go, routing can be done in several ways, including:</p>
+
+<ol>
+  <li>By utilizing the http.HandleFunc().</li>
+  <li>function Implementing the http.Handler interface in a struct, to then be used in the http.Handle() function.</li>
+  <li>Create your own multiplexer using the http.ServeMux struct.</li>
+  <li>And others</li>
+</ol>
+
+<p>We can define paths for applications and corresponding controller functions. Routers in Go are a combination of HTTP methods (such as GET , PUT , or POST ) and URL patterns that Go applications must respond to. To determine routing, we will use the http.HandleFunc function which takes a pattern and a handler function as arguments. For example.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+  // Add handler code here
+})
+</code></pre></div></div>
+
+<p>The above script will determine the path that responds to the GET request at the URL “/”. The controller function will receive two arguments, the ResponseWriter interface, which is used to write the response to the client, and the Request structure, which contains information about the request made by the client.</p>
+
+<p>Next, we have to write a controller function for the application path we are going to create. These functions will be tasked with carrying out appropriate actions for each path and returning a response to the client. For example, if we are creating a server that displays a list of users, you might have a controller function that queries the database for the list of users and then renders an HTML template with the list of users that has been stored in the database.</p>
+
+<p>To render an HTML template, you must first parse the template file using the template.ParseFiles function. Like the example below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmpl, err := template.ParseFiles("template.html")
+if err != nil {
+  http.Error(w, err.Error(), http.StatusInternalServerError)
+  return
+}
+</code></pre></div></div>
+
+<p>HTML templates are files that contain the layout and content of application pages. We can include placeholders for dynamic data that will be passed by the controller function. For example, here’s a simple HTML template that displays a list of users. Type the script below in the file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cd /var/GoogleBlog
+root@ns1:/var/GoogleBlog # ee index.html
+</code></pre></div></div>
+<p><a href="https://github.com/unixwinbsd/integralist/blob/main/index.html">Example index.html</a></p>
+
+<p>After that, we create the main Go file which we name “/var/GoogleBlog./main.go” and enter the script below in the “main.go” file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:/var/GoogleBlog # ee main.go
+
+package main
+
+import (
+	"html/template"
+	"net/http"
+	"strconv"
+)
+
+type User struct {
+	Name string
+	Age  int
+}
+
+var users []User
+
+func main() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// Parse the HTML template
+		tmpl, err := template.ParseFiles("index.html")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Define the data for the template
+		data := struct {
+			Title string
+			Users []User
+		}{
+			Title: "Users",
+			Users: users,
+		}
+
+		// Render the template with the data
+		err = tmpl.Execute(w, data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	})
+
+	http.HandleFunc("/add", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			// Parse the form values
+			name := r.FormValue("name")
+			ageStr := r.FormValue("age")
+			age, err := strconv.Atoi(ageStr)
+			if err != nil {
+				http.Error(w, "Invalid age", http.StatusBadRequest)
+				return
+			}
+
+			// Add the user to the list of users
+			users = append(users, User{Name: name, Age: age})
+
+			// Redirect the user back to the homepage
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+		}
+	})
+
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	http.ListenAndServe("192.168.5.2:8999", nil)
+}
+</code></pre></div></div>
+
+<p>The next step is, we run the Go server, by typing the command below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:/var/GoogleBlog # go run main.go
+</code></pre></div></div>
+
+<p>We can see the results by opening the Google Chrome or Yandex web browser, in the address bar menu type “http://192.168.5.2:8999/”, then it will look like the image below.</p>
+
+<p><img src="https://www.opencode.net/unixbsdshell/freebsd-golang-mysql-crud/-/raw/main/template/golang_web_app_user_and_group.jpg" alt="go lang web app create user and group" /></p>
+
+<p>In this tutorial, we learn how to create a web application in Go from scratch. we also learn how to import the necessary packages, define controller paths and functions, create an HTML template, and start an HTTP server. We have finished this article for now, we will continue to the next article with material that is quite difficult and a challenging script.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2024-12-25T17:11:10+03:00">December 25, 2024</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Go+Lang+and+FreeBSD+Collaboration+-+Creating+Simple+Web+Apps%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fgo-lang-freebsd-web-app%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fgo-lang-freebsd-web-app%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fgo-lang-freebsd-web-app%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/go-lang-freebsd14-golang-install/" class="pagination--pager" title="How to Install GOLANG GO Language on FreeBSD 14
+">Previous</a>
+    
+    
+      <a href="/freebsd/bash-bashtop-freebsd-system-monitoring/" class="pagination--pager" title="Configuration Bashtop - System Monitoring resources On FreeBSD 14
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/go-lang-freebsd-web-app/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/go-lang-freebsd-web-app"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

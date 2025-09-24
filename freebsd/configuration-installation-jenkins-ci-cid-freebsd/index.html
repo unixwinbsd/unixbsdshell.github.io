@@ -1,0 +1,914 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to Configure Jenkins Continuous Integration on FreeBSD - UnixBSDShell</title>
+<meta name="description" content="Continuous Integration (CI) is the most important part of DevOps which is used to integrate various stages of DevOps. Jenkins is the most famous Continuous Integration tool. Jenkins is an open source application automation tool written in Java with plugins built for continuous integration.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="How to Configure Jenkins Continuous Integration on FreeBSD">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/configuration-installation-jenkins-ci-cid-freebsd/">
+
+
+  <meta property="og:description" content="Continuous Integration (CI) is the most important part of DevOps which is used to integrate various stages of DevOps. Jenkins is the most famous Continuous Integration tool. Jenkins is an open source application automation tool written in Java with plugins built for continuous integration.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Configure Jenkins Continuous Integration on FreeBSD">
+  <meta name="twitter:description" content="Continuous Integration (CI) is the most important part of DevOps which is used to integrate various stages of DevOps. Jenkins is the most famous Continuous Integration tool. Jenkins is an open source application automation tool written in Java with plugins built for continuous integration.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/configuration-installation-jenkins-ci-cid-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-06-04T09:31:25+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/configuration-installation-jenkins-ci-cid-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Configure Jenkins Continuous Integration on FreeBSD</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to Configure Jenkins Continuous Integration on FreeBSD">
+    <meta itemprop="description" content="Continuous Integration (CI) is the most important part of DevOps which is used to integrate various stages of DevOps. Jenkins is the most famous Continuous Integration tool. Jenkins is an open source application automation tool written in Java with plugins built for continuous integration.">
+    <meta itemprop="datePublished" content="2025-06-04T09:31:25+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Configure Jenkins Continuous Integration on FreeBSD
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#a-jenkins-benefits">A. Jenkins Benefits</a></li>
+  <li><a href="#b-what-is-continuous-integration">B. What is Continuous Integration?</a></li>
+  <li><a href="#c--continuous-integration-with-jenkins">C. ## Continuous Integration with Jenkins</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Continuous Integration (CI) is the most important part of DevOps that is used to integrate various stages of DevOps. Jenkins is the most popular Continuous Integration tool. Jenkins is an open-source application automation tool written in Java with plugins built for continuous integration.</p>
+
+<p>Jenkins is used to build and test software projects continuously, making it easy for developers to integrate changes to the project, and easy for users to get the latest version of the application they are using. Jenkins also allows its users to continuously deliver software by continuously integrating a large number of testing and deployment technologies.</p>
+
+<p>With Jenkins, organizations can accelerate the software development process through automation. Jenkins integrates all types of development lifecycle processes, including building, documenting, testing, packaging, staging, deploying, static analysis, and more.</p>
+
+<p>Jenkins can achieve its purpose as a continuous integration tool with the help of plugins. Plugins allow integration of various stages of DevOps. If we want to integrate a particular tool, we are required to install a plugin for that tool. For example, Git, Maven 2 project, Amazon EC2, HTML publisher and others.</p>
+
+<p>Jenkins is an open-source continuous integration (CI) server written in Java. It is a web application that allows you to automate various software development tasks such as building, testing, and deploying. Jenkins can be used for a variety of projects, regardless of their size or complexity.</p>
+
+<p>Jenkins is a great tool that can help automate the software development process and improve its quality. If you are looking for a way to improve your software development process, Jenkins is a great choice.</p>
+
+<h2 id="a-jenkins-benefits">A. Jenkins Benefits</h2>
+<p>The Jenkins platform has many advantages that make it very popular for automating software development processes. Here are some of the most obvious advantages of this platform:</p>
+
+<ul>
+  <li>Free and Open Source: It is a free, open source platform, meaning it is free to use and contribute to its development.</li>
+  <li>Powerful: It has many features that allow you to automate various software development tasks.</li>
+  <li>Extensible: It has many plugins that you can use to add new features and integrate with other tools.</li>
+  <li>Community: It has a large and active community of users and developers who can provide support and assistance.</li>
+  <li>Very easy to install.</li>
+</ul>
+
+<h2 id="b-what-is-continuous-integration">B. What is Continuous Integration?</h2>
+<p>Continuous Integration (CI) is a development practice that requires developers to push source code changes to a shared repository multiple times a day or more frequently. Any commits made to that repository are then committed.</p>
+
+<p>This allows teams to detect issues early. Additionally, depending on the Continuous Integration tool, there are several other features such as deploying the build application to a test server, sharing build and test results with a group of stakeholders, etc.</p>
+
+<p>Continuous <a href="https://aws.amazon.com/id/devops/continuous-integration/">integration is a DevOps software development practice</a> in which developers regularly merge their code changes into a central repository, after which automated builds and tests are run. Continuous integration most often refers to the build or integration phase of the software release process and requires both an automation component (e.g., CI or build services) and a cultural component (e.g., learning to integrate regularly).</p>
+
+<p>The primary goals of continuous integration are to find and resolve bugs faster, improve software quality, and reduce the time it takes to validate and release new software updates.</p>
+
+<p>In software engineering, Continuous Integration is often defined as a form of <a href="https://www.atlassian.com/continuous-delivery/continuous-integration">quality control</a>, where small efforts are applied frequently, as opposed to the more traditional method of applying quality control after development is complete. Integration is verified by automated builds that are used to detect integration errors as early as possible and test the software.</p>
+
+<p>Development teams use a continuous integration approach to software development because it allows them to develop in a faster and more efficient manner than if they were working in isolation for a longer period of time.</p>
+
+<h2 id="c--continuous-integration-with-jenkins">C. ## Continuous Integration with Jenkins</h2>
+
+<p>Imagine a scenario where the complete source code for an application has been built and then deployed to a test server for testing. This seems like an ideal way to develop software, but the process has many drawbacks. I will try to explain them one by one.</p>
+<ul>
+  <li>Developers have to wait until the full test results of the software are developed.</li>
+  <li>There is a high probability that the test results will show some errors. Developers have a hard time finding bugs because they have to check the entire source code of the application.</li>
+  <li>Slows down the software delivery process.</li>
+  <li>There is no continuous feedback on issues such as coding or architecture issues, build failures, test status, and release file uploads, which can reduce the quality of the software.</li>
+  <li>The entire process is done manually, increasing the risk of frequent failures.</li>
+</ul>
+
+<p>From the above problems, it can be seen that the software delivery process is not only slow, but the quality of the software also decreases. This leads to customer dissatisfaction. Therefore, to overcome this chaos, a system is needed that allows developers to continuously run builds and tests for every change made to the source code. That is the purpose of CI. Jenkins is the most mature CI tool available, so let’s see how continuous integration with Jenkins has overcome the above shortcomings.</p>
+
+<p>First, I will explain to you the general scheme of continuous integration with Jenkins so that it becomes clear how Jenkins overcomes the above shortcomings:</p>
+
+<ul>
+  <li>First, the developer commits the code to the source code repository. Meanwhile, the Jenkins server regularly checks the repository for changes.</li>
+  <li>Once a commit occurs, the Jenkins server detects the changes made in the source code repository. Jenkins will commit these changes and start preparing a new version.</li>
+  <li>If the build fails, the appropriate team is notified.</li>
+  <li>If the build succeeds, Jenkins deploys the built-in testing server.</li>
+  <li>After testing, Jenkins generates feedback and then notifies the developer about the build and test results.</li>
+  <li>Jenkins will continue to check the source code repository for changes made to the source code, and the whole process will repeat itself.</li>
+</ul>
+
+<p>Since Jenkins is built on Java, it is a good idea to read the article about Java that we have written before <a href="https://unixwinbsd.site/en/freebsd/2025/02/14/installing-java-openjdk20-on-freebsd14.1stable/">“Installing and Configuring Java OpenJDK 20 on FreeBSD 14”</a>.</p>
+
+<p>To install Jenkins, we must first install Java. Let’s say you have read the Java article above and the Java system has been installed on your FreeBSD computer. So now let’s continue the process of installing Jenkins on your FreeBSD computer. In this article we will install Jenkins on FreeBSD 13.2 OS. Here is how to install Jenkins.</p>
+
+<p>To install Jenkins, we must first install Java. Let’s assume you have read the Java article above and the Java system has been installed on your FreeBSD computer. So now let’s continue with the process of installing Jenkins on your FreeBSD computer. In this article we install Jenkins on FreeBSD 13.2 OS. Here is how to install Jenkins.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/devel/jenkins root@ns1:/usr/ports/devel/jenkins <span class="c"># make install clean</span>
+</code></pre></div></div>
+
+<p>After the installation process is complete, continue by editing the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file, to start rc.d. Enter the following command in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>ee /etc/rc.conf  <span class="nv">jenkins_enable</span><span class="o">=</span><span class="s2">"YES"</span>
+<span class="go">jenkins_home="/usr/local/jenkins"
+</span><span class="gp">jenkins_args="--webroot=$</span><span class="o">{</span>jenkins_home<span class="o">}</span>/war <span class="nt">--httpListenAddress</span><span class="o">=</span>192.168.5.2 <span class="nt">--httpPort</span><span class="o">=</span>8180<span class="s2">"
+</span><span class="go">jenkins_java_home="/usr/local/openjdk11"
+jenkins_user="jenkins"
+jenkins_group="jenkins"
+jenkins_log_file="/var/log/jenkins.log"
+</span></code></pre></div></div>
+
+<p>Then we proceed to the next step, which is to restart Jenkins to activate Jenkins on the FreeBSD system.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp"> root@ns1:~ #</span><span class="w"> </span>service jenkins restart  Stopping jenkins.
+<span class="go">Waiting for PIDS: 913.
+Starting jenkins.
+</span></code></pre></div></div>
+
+<p>Up to here the Jenkins configuration via the Command Line interface menu is complete, now we will continue the Jenkins configuration via the GUI menu. It’s easier because there are images like we are using Windows. To configure Jenkins with GUI, we open the Google Chrome or Yandex web browser.</p>
+
+<p>In the new address menu, type the IP address and port that we have specified earlier <strong>http://192.168.5.2:8180/jenkins/</strong>, after pressing the “enter” button an image will appear as below.</p>
+
+<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixwinbsd.github.io/refs/heads/master/Image/Please%20wait%20a%20moment%20Jenkins%20will%20be%20ready%20to%20use.jpg" alt="Please wait a moment Jenkins will be ready to use" /></p>
+
+<p>Jenkins password can be seen in the file <code class="language-plaintext highlighter-rouge">/usr/local/jenkins/secrets/initialAdminPassword</code>, open the file and copy and paste the password to open Jenkins.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>ee /usr/local/jenkins/secrets/initialAdminPassword  79fa6b92b88b4ec593fd2ae77ffc501f
+</code></pre></div></div>
+
+<p><strong><em>79fa6b92b88b4ec593fd2ae77ffc501f</em></strong> is the Jenkins password. With this password we can enter the Jenkins GUI menu and can change the password. After the Jenkins menu opens, the first time Jenkins will synchronize, wait a few moments until the synchronization process is complete.</p>
+
+<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixwinbsd.github.io/refs/heads/master/Image/unlock%20Jenkins.jpg" alt="unlock jenkins" /></p>
+
+<p><br /></p>
+
+<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixwinbsd.github.io/refs/heads/master/Image/wellcome%20to%20jenkins.jpg" alt="wellcome to jenkins" /></p>
+
+<p><br /></p>
+
+<p>As mentioned at the beginning of this post, the discussion in this article is just a brief introduction to Continuous Integration with Jenkins on FreeBSD.</p>
+
+<p>You are advised to check the online documentation about Jenkins and Continuous Integration on the official Jenkins website. Jenkins also provides many ready-to-use plugins that extend its functionality. You can check the available plugins for Jenkins here and install them as needed.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#unixshell" class="page__taxonomy-item" rel="tag">UnixShell</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-04T09:31:25+03:00">June 4, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Configure+Jenkins+Continuous+Integration+on+FreeBSD%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fconfiguration-installation-jenkins-ci-cid-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fconfiguration-installation-jenkins-ci-cid-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fconfiguration-installation-jenkins-ci-cid-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/openbsd/installing-dns-bind-stunnel-openbsd/" class="pagination--pager" title="Bind DNS Server with TLS using Stunnel on OpenBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/apache-reverse-proxy-jenkins-freebsd/" class="pagination--pager" title="Apache as Reverse Proxy Jenkins CI CID on FreeBSD Server
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/configuration-installation-jenkins-ci-cid-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/configuration-installation-jenkins-ci-cid-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

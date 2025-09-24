@@ -1,0 +1,937 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Setup OpenSMTPD SMTP Mail Relay to Google’s gmail With FreeBSD - UnixBSDShell</title>
+<meta name="description" content="OpenSMTPD is part of the OpenBSD project developed by Gilles Chehade, Pierre-Yves Ritschard, Jacek Masiulaniec and many others who are members of the OpenBSD project. Its primary goal is to be a secure mailing daemon without the licensing restrictions of Postfix and without the added complexity of sendmail">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Setup OpenSMTPD SMTP Mail Relay to Google’s gmail With FreeBSD">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/opensmtpd-smtp-mail-relay-google-gmail-freebsd/">
+
+
+  <meta property="og:description" content="OpenSMTPD is part of the OpenBSD project developed by Gilles Chehade, Pierre-Yves Ritschard, Jacek Masiulaniec and many others who are members of the OpenBSD project. Its primary goal is to be a secure mailing daemon without the licensing restrictions of Postfix and without the added complexity of sendmail">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Setup OpenSMTPD SMTP Mail Relay to Google’s gmail With FreeBSD">
+  <meta name="twitter:description" content="OpenSMTPD is part of the OpenBSD project developed by Gilles Chehade, Pierre-Yves Ritschard, Jacek Masiulaniec and many others who are members of the OpenBSD project. Its primary goal is to be a secure mailing daemon without the licensing restrictions of Postfix and without the added complexity of sendmail">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/opensmtpd-smtp-mail-relay-google-gmail-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-06-04T17:50:05+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/opensmtpd-smtp-mail-relay-google-gmail-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Setup OpenSMTPD SMTP Mail Relay to Google's gmail With FreeBSD</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Setup OpenSMTPD SMTP Mail Relay to Google’s gmail With FreeBSD">
+    <meta itemprop="description" content="OpenSMTPD is part of the OpenBSD project developed by Gilles Chehade, Pierre-Yves Ritschard, Jacek Masiulaniec and many others who are members of the OpenBSD project. Its primary goal is to be a secure mailing daemon without the licensing restrictions of Postfix and without the added complexity of sendmail">
+    <meta itemprop="datePublished" content="2025-06-04T17:50:05+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Setup OpenSMTPD SMTP Mail Relay to Google’s gmail With FreeBSD
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-initial-setup-opensmtp">1. Initial Setup OpenSMTP</a></li>
+  <li><a href="#2-opensmtpd-configuration">2. OpenSMTPD Configuration</a></li>
+  <li><a href="#3-mail-delivery-and-eelay-to-googles-gmail">3. Mail Delivery and Eelay to Google’s GMAIL</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>There are many reasons people have for running a dedicated email server, such as privacy concerns or simply wanting to do it for fun and to learn about building a private server. Whatever the reason, building a private server is satisfying or perhaps beneficial for everyone.</p>
+
+<p>OpenSMTPD is part of the OpenBSD project developed by Gilles Chehade, Pierre-Yves Ritschard, Jacek Masiulaniec and many others who are members of the OpenBSD project. Its primary goal is to be a secure mailing daemon without the licensing restrictions of Postfix and without the added complexity of sendmail. OpenSMTP is very stable, fast, secure and easy to configure, use and is under the ISC license.</p>
+
+<p>OpenSMTPD is a free, easy-to-use and simple implementation of the Simple Mail Transfer Protocol. OpenSMTPD was created to make it easy to send and receive email, as well as acting as a relay host. It aims to be reliable and respect RFCs and standard behavior if it does not reduce overall system security.</p>
+
+<p><br /></p>
+
+<p><img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_684053c0c8677d586f684376_684056e9443a9c0119ea6f8c/scale_1200" alt="freebsd Relay Email SMTP OpenSMTPD" /></p>
+
+<p><br /></p>
+
+<p>In this article, we will explain the process of installing, configuring and using OpenSMTP on FreeBSD. This guide is intended for people familiar with the Linux and BSD command lines.</p>
+
+<h2 id="1-initial-setup-opensmtp">1. Initial Setup OpenSMTP</h2>
+
+<p>On FreeBSD servers OpenSMTPD is included in the PKG package or port. In this discussion we will explain several examples running on the FreeBSD server. You can also use every configuration in this article on OpenBSD. The only difference is the file path.</p>
+
+<p>First, we need to install the dependencies that OpenSMTPD requires, namely build and library dependencies.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>groff libevent opensmtpd-extras
+</code></pre></div></div>
+<p>Now you can install OpenSMTPd, the <code class="language-plaintext highlighter-rouge">PORTS</code> system is highly recommended, although the installation process takes a long time, all libraries can be installed perfectly.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/mail/opensmtpd
+<span class="gp">root@ns3:/usr/ports/mail/opensmtpd #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+<p>Create an OpenSMTPd script to run automatically on FreeBSD. Type the script below in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="go">smtpd_enable="YES"
+smtpd_config="/usr/local/etc/mail/smtpd.conf"
+smtpd_procname="/usr/local/sbin/smtpd"
+smtpd_flags=""
+</span></code></pre></div></div>
+<p>You must also disable sendmail in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="go">sendmail_enable="NONE"
+</span></code></pre></div></div>
+
+<h2 id="2-opensmtpd-configuration">2. OpenSMTPD Configuration</h2>
+
+<p>The OpenSMTP configuration file is <code class="language-plaintext highlighter-rouge">smtpd.conf</code>. You can change the script file according to your FreeBSD server needs and specifications.</p>
+
+<p>Below is an example of the <code class="language-plaintext highlighter-rouge">/usr/local/etc/mail/smtpd.conf</code> script.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /usr/local/etc/mail/smtpd.conf
+<span class="go">table aliases file:/etc/mail/aliases
+table secrets file:/etc/mail/secrets
+table domains file:/etc/mail/domains
+
+listen on 127.0.0.1 port 25 hostname datainchi.com
+
+</span><span class="gp">action "local" maildir alias &lt;aliases&gt;</span><span class="w">
+</span><span class="go">action "relay" relay
+
+match for local action "local"
+match from local for any action "relay"
+</span></code></pre></div></div>
+<p>Create secret and domain folders, then change permissions and ownership.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">touch</span> /etc/mail/secrets
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">touch</span> /etc/mail/domains
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chmod </span>640 /etc/mail/secrets
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown </span>root:_smtpd /etc/mail/secrets
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chmod </span>640 /etc/mail/domains
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown </span>root:_smtpd /etc/mail/domains
+</code></pre></div></div>
+<p>Update permissions and ownership.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /var/spool/smtpd/corrupt
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> _smtpq:wheel /var/spool/smtpd/corrupt
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> root:_smtpq /var/spool/smtpd/offline
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> _smtpq:wheel /var/spool/smtpd/purge
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> _smtpq:wheel /var/spool/smtpd/queue
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> _smtpq:wheel /var/spool/smtpd/temporary
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 770 /var/spool/smtpd/offline
+<span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 700 /var/spool/smtpd/purge
+</code></pre></div></div>
+<p>In the <code class="language-plaintext highlighter-rouge">/etc/mail/mailer.conf</code> file, type the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /etc/mail/mailer.conf
+<span class="go">sendmail        /usr/local/sbin/smtpctl
+send-mail       /usr/local/sbin/smtpctl
+mailq           /usr/local/sbin/smtpctl
+makemap         /usr/local/libexec/opensmtpd/makemap
+newaliases      /usr/local/libexec/opensmtpd/makemap
+</span></code></pre></div></div>
+<p>Check the validity errors of your configuration file, <code class="language-plaintext highlighter-rouge">/usr/local/etc/mail/smtpd.conf</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>smtpd <span class="nt">-n</span>
+<span class="go">configuration OK
+</span></code></pre></div></div>
+
+<h2 id="3-mail-delivery-and-eelay-to-googles-gmail">3. Mail Delivery and Eelay to Google’s GMAIL</h2>
+
+<p>After you have successfully installed and configured OpenSMTPD, the next step we will use OpenSMTPD to send email to a Gmail account. In this example we will send a Gmail email from datainchi@gmail.com to inchimediatama@gmail.com.</p>
+
+<p>In OpenSMTPD, the process of sending an email to a Gmail account requires your email account password. For my use case, I use a GMail account that requires two-factor authentication. Therefore, I have to use App Password instead of regular password. For GMail users who experience a similar situation, you can read instructions on how to create an Application Password in our previous article.</p>
+
+<div align="center">
+
+[Freebsd Send Emails Gmail with msmtp Command](https://unixwinbsd.site/en/freebsd/2025/05/09/send-google-gmail-with-msmtp-freebsd/)
+
+</div>
+
+<p>After that, open the <code class="language-plaintext highlighter-rouge">/usr/local/etc/mail/smtpd.conf</code> file, look for the relay action script “relay” and replace it with the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /usr/local/etc/mail/smtpd.conf
+<span class="go">table aliases file:/etc/mail/aliases
+table secrets file:/etc/mail/secrets
+table domains file:/etc/mail/domains
+
+listen on 127.0.0.1 port 25 hostname datainchi.com
+
+</span><span class="gp">action "local" maildir alias &lt;aliases&gt;</span><span class="w">
+</span><span class="gp">#</span><span class="c">###action "relay" relay</span>
+<span class="gp">action "relay" relay host smtp+tls://label@smtp.gmail.com:587 auth &lt;secrets&gt;</span><span class="w">
+</span><span class="go">
+match for local action "local"
+match from local for any action "relay"
+</span></code></pre></div></div>
+<p>Open the <code class="language-plaintext highlighter-rouge">/etc/mail/secrets</code> file and type in the password that comes from your Gmail account’s <code class="language-plaintext highlighter-rouge">"App Password"</code>. In this example the password: App Password is <strong>“thll cbrj ahvd pkrw”</strong>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span>ee /etc/mail/secrets
+<span class="go">label datainchi@gmail.com:thll cbrj ahvd pkrw
+</span></code></pre></div></div>
+<p>Run the command below to send an email to a Gmail account.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns3:~ #</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"FreeBSD OpenSMTPD"</span> | mail <span class="nt">-s</span> <span class="s2">"Setup OpenSMTPD SMTP Mail Server With FreeBSD"</span> inchimediatama@gmail.com
+</code></pre></div></div>
+
+<p>If everything works and there is nothing wrong with the above configuration, you will receive an email at the specified address.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#unixshell" class="page__taxonomy-item" rel="tag">UnixShell</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-04T17:50:05+03:00">June 4, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Setup+OpenSMTPD+SMTP+Mail+Relay+to+Google%27s+gmail+With+FreeBSD%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fopensmtpd-smtp-mail-relay-google-gmail-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fopensmtpd-smtp-mail-relay-google-gmail-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fopensmtpd-smtp-mail-relay-google-gmail-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/ghostscript-freebsd-reduce-pdf-file/" class="pagination--pager" title="Using FreeBSD and Ghostscript to Reduce PDF File Size
+">Previous</a>
+    
+    
+      <a href="/freebsd/laravel-php-composer-freebsd-hosting/" class="pagination--pager" title="FreeBSD Server for Composer Laravel Hosting - Installation and Configuration
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/opensmtpd-smtp-mail-relay-google-gmail-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/opensmtpd-smtp-mail-relay-google-gmail-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

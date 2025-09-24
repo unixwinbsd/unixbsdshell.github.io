@@ -1,0 +1,922 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to Configure Traffic Shaping and Quality of Service in PFSense - UnixBSDShell</title>
+<meta name="description" content="Traffic shaping is used to optimize or guarantee network traffic performance, improve latency, and increase usable bandwidth for some packet types by delaying others. Therefore, traffic shaping is an effort to control network traffic to optimize bandwidth and ensure network performance.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="How to Configure Traffic Shaping and Quality of Service in PFSense">
+<meta property="og:url" content="https://unixwinbsd.site/networking/configuration-traffic-shaping-quality-of-service-pfsense/">
+
+
+  <meta property="og:description" content="Traffic shaping is used to optimize or guarantee network traffic performance, improve latency, and increase usable bandwidth for some packet types by delaying others. Therefore, traffic shaping is an effort to control network traffic to optimize bandwidth and ensure network performance.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Configure Traffic Shaping and Quality of Service in PFSense">
+  <meta name="twitter:description" content="Traffic shaping is used to optimize or guarantee network traffic performance, improve latency, and increase usable bandwidth for some packet types by delaying others. Therefore, traffic shaping is an effort to control network traffic to optimize bandwidth and ensure network performance.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/networking/configuration-traffic-shaping-quality-of-service-pfsense/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-08-01T10:01:25+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/networking/configuration-traffic-shaping-quality-of-service-pfsense/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#networking" itemprop="item"><span itemprop="name">Networking</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Configure Traffic Shaping and Quality of Service in PFSense</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to Configure Traffic Shaping and Quality of Service in PFSense">
+    <meta itemprop="description" content="Traffic shaping is used to optimize or guarantee network traffic performance, improve latency, and increase usable bandwidth for some packet types by delaying others. Therefore, traffic shaping is an effort to control network traffic to optimize bandwidth and ensure network performance.">
+    <meta itemprop="datePublished" content="2025-08-01T10:01:25+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Configure Traffic Shaping and Quality of Service in PFSense
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-why-traffic-shaping-is-important">1. Why Traffic Shaping Is Important</a></li>
+  <li><a href="#2-benefits-of-traffic-shaping">2. Benefits of Traffic Shaping</a></li>
+  <li><a href="#3-how-to-set-up-traffic-shaping">3. How to Set Up Traffic Shaping</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Traffic shaping is used to optimize or guarantee network traffic performance, improve latency, and increase usable bandwidth for some packet types by delaying others. Therefore, traffic shaping is an effort to control network traffic to optimize bandwidth and ensure network performance.</p>
+
+<p>Traffic shaping is a QoS (Quality of Service) technique that can be used to enforce lower bitrates than the physical interface can handle. Most ISPs use <code class="language-plaintext highlighter-rouge">"traffic shaping"</code> or policing to enforce “traffic contracts” with their customers. For example, when your internet connection uses traffic shaping, it will buffer traffic at a certain bitrate; policing will stop traffic when it exceeds a predetermined bitrate.</p>
+
+<p>Let’s discuss an example of why you or your internet service provider might use traffic shaping to streamline network traffic.</p>
+
+<p>Your ISP sells you a fiber optic connection with a traffic and bandwidth contract of 10 Mbits, but the fiber interface is capable of transmitting 100 Mbits per second. Most ISPs will configure policing to stop all traffic above 10 Mbits. This prevents your internet network from using more bandwidth than you paid for.</p>
+
+<p>They might also downgrade to 10 Mbps, but shaping means they have to buffer the data, while policing means they can simply discard it. The 10 Mbps we pay for is called the Committed Information Rate (CIR).</p>
+
+<p>As we know, routers can only send data bits at the physical clock speed. For example, let’s say you have a serial link with a bandwidth of 128 kbps. Imagine you want to shape it to 64 kbps. To achieve this speed, you need to ensure that you’re sending packets 50% of the time and stopping 50% of the time. 50% of 128 kbps = an effective CIR of 64 kbps.</p>
+
+<p>As another example, let’s say you have the same 128 kbps link, but your CIR speed is 96 kbps. This means we’ll be transmitting 75% of the time and stopping 25% of the time (96 / 128 = 0.75).</p>
+
+<p>For more clarity, see the following Traffic Shaping Terminology image.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh01sH-uLHWpVLu4llg4AXv_ZVWaSOP-OwhT3v2Yip1Fg0Ozzi3-eBeyFDmWd3wSBzQ8EeaqXGYkskX790B17TThJpHI0K96XEVVfXZNWN8Wai80QW3gSBPvZwoOh5y1oGcZFY-6AU1aIuegE-2VYegB3v87zJ3JAUHs11j_aWi7sdyk7VGgLI4E1mg3X6P/s16000/Terminology%20Traffic%20Shaping.jpg" alt="Terminology Traffic Shaping" /></p>
+
+<h2 id="1-why-traffic-shaping-is-important">1. Why Traffic Shaping Is Important</h2>
+<p>Limited network resources make bandwidth prioritization a necessity. Traffic shaping is one of the most important techniques for ensuring high quality of service for business applications and data. It is a crucial requirement for network firewalls.</p>
+
+<p>Traffic shaping, or packet shaping, is a congestion management method that regulates network data transfer by delaying the flow of less important or less desirable packets. Network professionals use traffic shaping to optimize network performance by prioritizing specific traffic flows to ensure traffic rates do not exceed bandwidth limits.
+Network professionals can control traffic flow by doing the following:</p>
+
+<ul>
+  <li>
+    <p>Bandwidth limiting. Regulating the flow of packets into the network.</p>
+  </li>
+  <li>
+    <p>Rate limiting. Regulating the flow of packets out of the network.</p>
+  </li>
+</ul>
+
+<h2 id="2-benefits-of-traffic-shaping">2. Benefits of Traffic Shaping</h2>
+<p>Using a router firewall device such as PFSense, which is equipped with Traffic Shaping has many benefits, including:</p>
+
+<ul>
+  <li>Accelerates and streamlines network traffic.</li>
+  <li>Avoids network congestion by detecting abnormal bandwidth consumption.</li>
+  <li>Improves application performance.</li>
+  <li>Blocks attacker IP addresses.</li>
+  <li>Limits unwanted traffic.</li>
+  <li>Ensures high transmission quality for critical applications.</li>
+  <li>Maximizes resource utilization and prioritizes application programs by allocating bandwidth according to usage.</li>
+</ul>
+
+<p>Leveraging the Traffic Shaping feature on PFSense routers can help ensure critical data and business applications run efficiently with bandwidth appropriate to their usage. Ultimately, traffic shaping ensures better <code class="language-plaintext highlighter-rouge">quality of service (QoS)</code>, delivers higher performance, maximizes usable bandwidth, reduces latency, and <code class="language-plaintext highlighter-rouge">improves return on investment (ROI)</code>.</p>
+<h2 id="3-how-to-set-up-traffic-shaping">3. How to Set Up Traffic Shaping</h2>
+<p>Now we get to the core of this article: installing traffic shaping on your Pfsense router firewall. However, before implementing traffic shaping, you must first know how much internet bandwidth your internet service provider provides.</p>
+
+<p>Once you know the amount of bandwidth your internet service provider provides, log in to the main Pfsense dashboard. Then, go to the Firewall - Traffic Shaper menu, select Wizards, and the Traffic Shaper Wizards menu will appear, as shown in the following image.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj2PhAa-7ZxFLXRwlL0V2n-sKflpBzGqL2zQcTMpuOtNDjuEFQHqD0CGUt98ajHP2y7OelInMTkS6oM0se2zwzkQGEV7eonKEpoziDkDORq3AoGgJfyEA16ErBd3LiTIcNgauoNwhmzlagwfKCaxgNa2Oy1eOEZRPaAq1yzu6m3fb9mJlDSYjmNHR-aImal/s16000/firewall%20traffic%20shaping.jpg" alt="firewall traffic shaping" /></p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEy1xK19aUav66E0hMtacazdt-7MGNL8bKlIxx3xapGtJiMaPpu5kjP1eWaNVNgg7LT4LQhClaHMtsmU0ANkOxfGv8pRjJvve8hTHG_WFCxFy6ARK4ZkbmdXt5PKZ1eFOQhfsgvIGLnsvN9khmoe13ZZcwC0gKwwLS-N0cw38pF7w0hIvB17ud1arTd_Wb/w640-h334/menu%20wizard%20traffic%20shaper.jpg" alt="menu wizard traffic shaper" /></p>
+
+<p>If your computer uses two WAN (WAN) interfaces connected to the modem, or three WANs and one LAN, or two LANs, or even up to eight LANs, it’s highly recommended to select the Multiple LAN/WAN menu. However, if your Pfsense router only has one WAN, click Dedicated Links.</p>
+
+<p>In this article, there’s only one interface connected to the modem (WAN), so select the <code class="language-plaintext highlighter-rouge">"dedicated links"</code> menu. Next, click <code class="language-plaintext highlighter-rouge">traffic_shaper_wizard_dedicated.xml</code>.</p>
+
+<p>Type 1 in <code class="language-plaintext highlighter-rouge">"Enter number of WAN type connections"</code> because we only have one WAN, then click Next. Next, we’ll move on to step 1 of 8. For more details, see the following image.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj7S-ZQUZ9Uq_IL5UCgV1ahmXmfGAXvV-Q0IbXEr9IzZuyP5_Ca_ZrC1X0slQ70OJ6co6Cc6SZGu9pgcIWI3cT_tHFsLe_othR4nHXFZ7pozC3iI1Tf6iI5C4YQX-DhpCh8I9W7eC6LOhN1ZJi6_uOs6DQgNXlzionczSPN47igOR2Ta6Iua33Hjwu9TrJ8/s16000/pfsense%20traffic%20shaper.png" alt="pfsense traffic shaper" /></p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVTy8hjpWLg6LXFlY9kJVlbosmaZN9nqN2szqrDcQmVy_Ovwx6e-T7DFp_uhzK1JyAqU3WcsJ-fYYtwFcJk1t3McvD3tbp6AWqYQUsF7X12ykyHJx4xFcD08ft-rkwxhHJQonzZOFUFK0dE0DrW5E874fUpjAfAxJ8Xv-MLjHKnDVHe26rXi-caDaBQ8Pz/s1129/pfsense%20shaper%20configuration.png" alt="pfsense shaper configuration" /></p>
+
+<p>Step 2 of 8 is to enable the Voice over IP (VOIP) menu. If your home internet doesn’t have a VoIP server, you can skip this step. If your office or home internet does, this parameter must be filled in.</p>
+
+<p>Let’s assume there’s no VOIP server at your office or home, so we can skip this step or don’t enable this menu. Then, click Next, and we’ll move on to Step 3 of 8.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEguLvae6lZzn7jzZw-NLGmqkhRSjC7SN-1CKoo9_dP__2Iw_j4g8XQvstFVuTbOEQ1SKfsmvqC3I97rU4f6LJB-1A9JDQDAox9Xkw7wyAGX__SyefcUtMaZhQbnBwXciNx2NfbYIeD08GW2_uqG6ntgIrFKdt5ECZbDy_-Ys6-nQSObGre2JLOaDqC7cLyR/s16000/voice%20over%20IP.png" alt="voice over IP" /></p>
+
+<p>Step 3 of 8 is often referred to as a <code class="language-plaintext highlighter-rouge">bandwidth hog</code> meaning that one of the users on your computer network is using a lot of bandwidth. A bandwidth hog is a device, user, or application that consumes a large portion of the available internet bandwidth, leaving less for other users on the network.</p>
+
+<p>Common Causes of High Bandwidth Usage:
+Streaming Video dan Musik.
+Unduhan File Besar.
+Permainan Daring.
+Pembaruan Perangkat Lunak Otomatis.
+Berbagi File dan Jaringan P2P.
+Beberapa Perangkat yang Terhubung.
+To address <code class="language-plaintext highlighter-rouge">Bandwidth Hogs</code> you can configure them in this section. For example, if the <code class="language-plaintext highlighter-rouge">Bandwidth Hog</code> IP address is <code class="language-plaintext highlighter-rouge">192.168.9.100</code>, you’ll grant that person 2% bandwidth. In the case of “Bandwidth Hogs,” pfSense accepts a range of 2% to 15%.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiFXL6xxui-xVsn3u5aDEG0oi0-_dewfDxh42WDTCfpWiH9EThE7EE1visI2ybYLX0bjnZUoyNGBK6GBg95YOVNCOO_p9iP0ZgJOtGGseLIkzq0-BPMin9rp4orLMJLQ2ibR8Kl35r1XencX2Fli9ssL5GN3mrpo1Tw-1gDYD322VSeoo5IBWuloA_BE4cu/s16000/menu%20penalty%20box.png" alt="menu penalty box" /></p>
+
+<p>What if there are multiple “Bandwidth Hogs” on a single network? In this case, we can create multiple IP addresses for each “Bandwidth Hog” by clicking the Firewall - Alias - IP menu.</p>
+
+<p>After completing step 3 of 8, click Next, and we’ll move on to step 4 of 8. This step contains the Peer-to-Peer network parameters, or those related to torrent files. Let’s skip step 4 of 8.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimMbmyKhZUfSN7ZoNqRY8Eu__i9IPfRQhhURulabgp1bPZlJR1HKERi0YVk-127ywbZflA3351ICm7u_XmqvSZbaCnv1evlLlhIxH6md74IHQGImP9Xcqgnnh8HRO1NZPtncydIYYlUwu4_RsYQOhQWnMa9pV1q9B1-TzUbUuSq-rUlU-jdo6j4h8KzIfO/s16000/peer%20to%20peer%20networking.png" alt="peer to peer networking" /></p>
+
+<p>JUST GOT HERE. Continue…</p>
+
+<p>Next, we’ll move on to step 5 of 8, which contains the Network Game parameters.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhk-n5hp4-h7a_GjIpu7EFRbVlekF8B3J8Zx8jTHm_MxBN2MtbSIUTABAan2y-wqJZ5jzVA5j-nb_yVhM8vOHsICdGpUCRd-vjZlhruOQp4hDGAE-h29FykzlX1elLOS-sbTQ9NDPBPD7XuQrOn6TPZScEzIeANJh4gpmYzYtPN3KGYQUrR3bFo7jeX6XA8/s16000/menu%20networks%20games.png" alt="menu networks games" /></p>
+
+<p>In the image above, you can adjust it according to your needs. Select only frequently used online games.</p>
+
+<p>Let’s move on to step 6 of 8, which contains the Raise or Lower Other Applications parameter. Step 6 of 8 is very important because it’s often used on computer network servers. You can also adjust it as needed. In this article, I’ll only be filling in a few parameters.</p>
+
+<ul>
+  <li>Enable = checklist</li>
+  <li>HTTP = Higher priority</li>
+  <li>SMTP = Lower priority</li>
+  <li>POP3 = Lower priority</li>
+  <li>IMAP = Lower priority</li>
+  <li>DNS = Higher priority</li>
+</ul>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhdIxeNEa1G9XQspUcHXjm3loDSsGwZ9Tl7EjOEQCxGlGs5sScm4SJvJdWe62tRBoHS5IYGhQxcqJ33NoD7TZQgy9rNGMpdBDR9Ng_7Rsv7-Y_sB_DykeuHJezdQUxCBfRZXM5bzDpbIgZHW0V00XlAv7ObQFDw_x81j5QRAMkJphPMi9oFtMW5A9Y0q1la/s16000/menu%20raise%20or%20lower.png" alt="menu raise or lower" /></p>
+
+<p>After that, click Next. We’ll move on to step 7 of 8, which is Reload profile or Finish.</p>
+
+<p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj3yr6TQzPDEcfHyPyF7njXRVOWwe_GUXV52EGW_KBYtZNi5eYUUE1R8tDVDyYANHR08aSZhML7f9zmo3ubxgdT1CrPstIjyTUMgoQ8mr6I4I6jgpzVCY7r-DEyc_H6uqpkSHLff-vgjfu8eNsEqZB4ZD7gHiwoQ9SaN3-gaxmIyDOskZ36y5nQWZuNsgpK/s16000/reload%20profile.png" alt="reload profile" /></p>
+
+<p>Excessive bandwidth usage can significantly impact network performance, especially as data-intensive devices and applications become part of everyday life.</p>
+
+<p>Understanding what causes excessive bandwidth usage and how to manage it effectively is crucial to ensuring a smooth and high-performance internet experience. By using tools like QoS, monitoring your network, and educating users, you can better allocate bandwidth and minimize the impact of a large number of users or devices on your network.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#router" class="page__taxonomy-item" rel="tag">Router</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#networking" class="page__taxonomy-item" rel="tag">Networking</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-08-01T10:01:25+03:00">August 1, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Configure+Traffic+Shaping+and+Quality+of+Service+in+PFSense%20https%3A%2F%2Funixwinbsd.site%2Fnetworking%2Fconfiguration-traffic-shaping-quality-of-service-pfsense%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Fnetworking%2Fconfiguration-traffic-shaping-quality-of-service-pfsense%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Fnetworking%2Fconfiguration-traffic-shaping-quality-of-service-pfsense%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/networking/updating-pfsense-using-shell-command-google-browser/" class="pagination--pager" title="Guide to Updating pfSense Using Shell Commands and Google Browser
+">Previous</a>
+    
+    
+      <a href="/freebsd/go-lang-reverse-proxy-with-freebsd/" class="pagination--pager" title="Setup Go Lang Reverse Proxy With FreeBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/networking/configuration-traffic-shaping-quality-of-service-pfsense/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/networking/configuration-traffic-shaping-quality-of-service-pfsense"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

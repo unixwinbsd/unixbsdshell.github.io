@@ -1,0 +1,1259 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>BIND DNSSEC Configuration And Implementation On Linux System - UnixBSDShell</title>
+<meta name="description" content="DNSSEC is part of internet engineering that is needed to keep you free from risks that threaten your privacy when surfing the internet. The process of installing DNSSEC on Linux is very easy and very fun">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="BIND DNSSEC Configuration And Implementation On Linux System">
+<meta property="og:url" content="https://unixwinbsd.site/linux/bind-dnssec-implementation-configuration-linux/">
+
+
+  <meta property="og:description" content="DNSSEC is part of internet engineering that is needed to keep you free from risks that threaten your privacy when surfing the internet. The process of installing DNSSEC on Linux is very easy and very fun">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="BIND DNSSEC Configuration And Implementation On Linux System">
+  <meta name="twitter:description" content="DNSSEC is part of internet engineering that is needed to keep you free from risks that threaten your privacy when surfing the internet. The process of installing DNSSEC on Linux is very easy and very fun">
+  <meta name="twitter:url" content="https://unixwinbsd.site/linux/bind-dnssec-implementation-configuration-linux/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-07-08T10:45:23+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/linux/bind-dnssec-implementation-configuration-linux/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#linux" itemprop="item"><span itemprop="name">Linux</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">BIND DNSSEC Configuration And Implementation On Linux System</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="BIND DNSSEC Configuration And Implementation On Linux System">
+    <meta itemprop="description" content="DNSSEC is part of internet engineering that is needed to keep you free from risks that threaten your privacy when surfing the internet. The process of installing DNSSEC on Linux is very easy and very fun">
+    <meta itemprop="datePublished" content="2025-07-08T10:45:23+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">BIND DNSSEC Configuration And Implementation On Linux System
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#a-dnssec-installation-process-on-linux">A. DNSSEC Installation Process On Linux</a>
+    <ul>
+      <li><a href="#a1-install-bind">a.1. Install Bind</a></li>
+      <li><a href="#a2-enable-bind9">a.2. Enable Bind9</a></li>
+      <li><a href="#a3-enabling-bind9-options">a.3. Enabling Bind9 Options</a></li>
+    </ul>
+  </li>
+  <li><a href="#b-dnssec-configuration-process-with-bind9">B. DNSSEC Configuration Process With Bind9</a>
+    <ul>
+      <li><a href="#b1-creating-hostname-and-hosts">b.1. Creating hostname and hosts</a></li>
+      <li><a href="#b2-creating-zone-file">b.2. Creating Zone File</a></li>
+      <li><a href="#b3-create-key-signing-key-and-zone-signing-key">b.3. Create key-signing key and zone-signing key</a>
+        <ul>
+          <li><a href="#b31-for-unixwinbsdsite-zone">b.3.1 For unixwinbsd.site Zone</a></li>
+          <li><a href="#b32-for-zone-5168192in-addrarpa">b.3.2 For Zone 5.168.192.in-addr.arpa</a></li>
+        </ul>
+      </li>
+      <li><a href="#b4-enable-ksk-and-zsk-keys-in-etcbindnamedconflocal-file">b.4. Enable KSK and ZSK Keys In /etc/bind/named.conf.local File</a></li>
+      <li><a href="#b5-ownership-and-permissions">b.5. Ownership and Permissions</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Domain Name System Security Extensions or more commonly known as DNSSEC or DNS Security Extensions) is a set of Internet Engineering Task Force (IETF) specifications for securing certain types of information provided by the Domain Name System (DNS) as used on the Internet.</p>
+
+<p>DNSSEC provides authentication of the origin of DNS resolvers for DNS data, denial of existence and integrity of authenticated data, but not availability or confidentiality. DNSSEC authenticates DNS using digital signatures based on public key cryptography. With DNSSEC, it is not the DNS query or response that is signed, but the DNS data itself that is signed by the data owner.</p>
+
+<p>With the presence of digital signatures, DNSSEC is able to protect domains from cyber threats, ensure the authenticity of data, and strengthen the security of your website with cryptographic validation.</p>
+
+<p>DNSSEC is designed to guarantee the validity of data sources, maintain data accuracy, and confirm the absence of certain entries in the DNS structure. The DNSSEC protocol can improve the security and reliability of DNS by using digital signatures and cryptographic methods, although it does not encrypt DNS traffic, providing authentication without changing the core DNS framework.</p>
+
+<p>While implementing and monitoring DNSSEC can be difficult due to its complex nature, the substantial security benefits it provides make it an essential tool for protecting network resources and maintaining the accuracy of domain data against widespread threats such as DNS cache corruption and DNS impersonation.</p>
+
+<p><br /></p>
+
+<p><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/9_DNSSEC_Usage_Diagram.jpg" alt="DNSSEC Usage Diagram" /></p>
+
+<p><br /></p>
+
+<h2 id="a-dnssec-installation-process-on-linux">A. DNSSEC Installation Process On Linux</h2>
+<p>In this article we will explain how to install DNSSEC with BIND DNS Server on a Linux system. The explanation in this article can be applied to almost all Linux families such as Ubuntu, Debian and others.</p>
+
+<h3 id="a1-install-bind">a.1. Install Bind</h3>
+
+<p>You can apply DNSSEC to various DNS server applications such as PowerDNS, Unbound, Knot Resolver and others. However, in this article we only focus on implementing DNSSEC together with ISC BIND Named.</p>
+
+<p>DNSSEC cannot stand alone, because DNSSEC is only an extension, so before you apply DNSSEC you must first install BIND as a place to apply DNSSEC.</p>
+
+<p>You can run the command below to start installing <code class="language-plaintext highlighter-rouge">bind9</code> on Ubuntu or Debian.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span>apt update <span class="nt">-y</span>
+<span class="gp">root@ns2:~#</span><span class="w"> </span>apt list <span class="nt">--upgradable</span>
+<span class="gp">root@ns2:~#</span><span class="w"> </span>apt upgrade <span class="nt">-y</span>
+</code></pre></div></div>
+
+<p>After the above process is complete, you continue by installing the dependencies required by <code class="language-plaintext highlighter-rouge">bind</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span>apt <span class="nb">install </span>bind9-utils dnsutils bind9-doc bind9-libs libatomic1 libc6 libjemalloc2 libxml2 <span class="nt">-y</span>
+</code></pre></div></div>
+
+<p>The final step of the installation process is to install <code class="language-plaintext highlighter-rouge">bind9</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span>apt <span class="nb">install </span>bind9 <span class="nt">-y</span>
+</code></pre></div></div>
+
+<h3 id="a2-enable-bind9">a.2. Enable Bind9</h3>
+
+<p>Before <code class="language-plaintext highlighter-rouge">bind9</code> is activated, you should first check which version of <code class="language-plaintext highlighter-rouge">bind9</code> you are using.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span>named <span class="nt">-v</span>
+<span class="gp">BIND 9.18.30 (Extended Support Version) &lt;id:cdc8d69&gt;</span><span class="w">
+</span></code></pre></div></div>
+
+<p>To enable <code class="language-plaintext highlighter-rouge">bind9</code>, you can run the command below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">systemctl enable named
+systemctl restart named
+</span></code></pre></div></div>
+
+<p>After you have successfully activated <code class="language-plaintext highlighter-rouge">bind9</code>, check the status of <code class="language-plaintext highlighter-rouge">bind9</code>, whether it is running normally or not.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">systemctl status named
+</span></code></pre></div></div>
+<h3 id="a3-enabling-bind9-options">a.3. Enabling Bind9 Options</h3>
+
+<p>By default on Linux operating systems Options for <code class="language-plaintext highlighter-rouge">bind9</code> are located in <code class="language-plaintext highlighter-rouge">/etc/default/named</code>. Open that file and apply some bind9 options that you need. In this article we set the bind9 options as follows.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## /etc/default/named ##
+# run resolvconf?
+RESOLVCONF=no
+
+# startup options for the server
+OPTIONS="-c /etc/bind/named.conf -p 53 -g -u bind"
+</code></pre></div></div>
+
+<h2 id="b-dnssec-configuration-process-with-bind9">B. DNSSEC Configuration Process With Bind9</h2>
+
+<p>In this section, we will configure the bind9 server according to your network needs and the specifications of the computer system you are using. The first step you must do is activate the <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> file. Because on almost all Linux systems such as Ubuntu and Debian the file is a symlink. You must delete the symlink.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">unlink</span> /etc/resolv.conf
+<span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">touch</span> /etc/resolv.conf
+</code></pre></div></div>
+
+<p>In the <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> file, type the following script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## /etc/resolv.conf ##
+domain unixwinbsd.site
+nameserver 192.168.5.2
+nameserver 127.0.0.1
+# nameserver 8.8.8.8
+# nameserver 1.1.1.1
+</code></pre></div></div>
+
+<p>Match the domain name with the domain name you are using.</p>
+
+<h3 id="b1-creating-hostname-and-hosts">b.1. Creating <code class="language-plaintext highlighter-rouge">hostname</code> and <code class="language-plaintext highlighter-rouge">hosts</code></h3>
+
+<p>On the Linux system, there are many symlinks that are created automatically. To create a <code class="language-plaintext highlighter-rouge">hostname</code> name, open the <code class="language-plaintext highlighter-rouge">/etc/hostname</code> file, and type the <code class="language-plaintext highlighter-rouge">hostname</code> name that you will use. In this article we use the hostname <code class="language-plaintext highlighter-rouge">ns2</code>.</p>
+
+<p>While for the <code class="language-plaintext highlighter-rouge">hosts</code> name there is a symlink. To create a <code class="language-plaintext highlighter-rouge">hosts</code> name, you must open the <code class="language-plaintext highlighter-rouge">/etc/cloud/templates/hosts.debian.tmpl</code> file. In that file, type the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## /etc/cloud/templates/hosts.debian.tmpl ##
+## template:jinja
+manage_etc_hosts: True
+192.168.5.2 unixwinbsd.site ns2
+127.0.0.1 localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1 localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+</code></pre></div></div>
+
+<p>Then you type the script in the <code class="language-plaintext highlighter-rouge">/etc/systemd/resolved.conf</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="c">#  /etc/systemd/resolved.conf ##</span>
+<span class="gp">#</span><span class="w"> </span>See resolved.conf<span class="o">(</span>5<span class="o">)</span> <span class="k">for </span>details
+<span class="go">
+[Resolve]
+DNS=192.168.5.2 8.8.8.8 9.9.9.9
+FallbackDNS=192.168.5.2 8.8.8.8 9.9.9.9
+Domains=unixwinbsd.site
+</span><span class="gp">#</span><span class="nv">LLMNR</span><span class="o">=</span>no
+<span class="gp">#</span><span class="nv">MulticastDNS</span><span class="o">=</span>no
+<span class="go">DNSSEC=yes
+DNSOverTLS=yes
+</span><span class="gp">#</span><span class="nv">Cache</span><span class="o">=</span>no-negative
+<span class="go">DNSStubListener=yes
+ReadEtcHosts=yes
+</span></code></pre></div></div>
+
+<h3 id="b2-creating-zone-file">b.2. Creating Zone File</h3>
+
+<p>In this section, we’ll set up our DNS server to be authoritative for domain unixwinbsd.site. We’ll create a forward lookup zone and a reverse lookup zone.</p>
+
+<p>The forward lookup zone will typically contain A, AAAA, CNAME, MX, NS, and SOA records. The reverse lookup zone will contain PTR and SOA records. A few zone files are already included in the default installation, a.o. the zone file for the root zone.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /etc/bind/zones
+<span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">touch</span> /etc/bind/zones/db.5.168.192
+<span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">touch</span> /etc/bind/zones/db.unixwinbsd.site
+</code></pre></div></div>
+
+<p>After that, in each zone you created above, type the script as in the example below.</p>
+
+<p><br /></p>
+
+<p><strong>For Zone /etc/bind/zones/db.unixwinbsd.site</strong></p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span>TTL    604800
+<span class="go">unixwinbsd.site.    IN    SOA    ns2.unixwinbsd.site. admin.unixwinbsd.site. (
+</span><span class="gp">             2019061308    ;</span><span class="w"> </span>Serial
+<span class="gp">             604800        ;</span><span class="w"> </span>Refresh
+<span class="gp">              86400        ;</span><span class="w"> </span>Retry
+<span class="gp">            2419200        ;</span><span class="w"> </span>Expire
+<span class="gp">             604800 )    ;</span><span class="w"> </span>Negative Cache TTL
+<span class="gp">;</span><span class="w">
+</span><span class="gp">;</span><span class="w"> </span>name servers - NS records
+<span class="go">unixwinbsd.site.	300	IN	NS	ns2.unixwinbsd.site.
+
+</span><span class="gp">;</span><span class="w"> </span>name servers - A records
+<span class="go">ns2.unixwinbsd.site.	300	IN	A	192.168.5.2
+unixwinbsd.site.	300	IN	A	192.168.5.2
+
+</span><span class="gp">;</span><span class="w"> </span>www			300	IN	A	185.238.3.236
+<span class="go">www.unixwinbsd.site.	300	IN	CNAME	unixwinbsd.site.
+</span></code></pre></div></div>
+<p><br /></p>
+
+<p><strong>For Zone /etc/bind/zones/db.5.168.192</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$TTL    604800
+5.168.192.in-addr.arpa.    IN    SOA    unixwinbsd.site. root.unixwinbsd.site. (
+            2019061304    ; Serial
+             604800        ; Refresh
+              86400        ; Retry
+            2419200        ; Expire
+             604800 )    ; Negative Cache TTL
+; name servers
+5.168.192.in-addr.arpa.    300	IN    NS    ns2.unixwinbsd.site.
+5.168.192.in-addr.arpa.    300	IN    NS    unixwinbsd.site.
+
+; PTR Records
+2.5.168.192.in-addr.arpa.	300	IN	PTR	ns2.unixwinbsd.site.
+2.5.168.192.in-addr.arpa.	300	IN	PTR	unixwinbsd.site.
+2.5.168.192.in-addr.arpa.	300	IN	PTR	www.unixwinbsd.site.
+</code></pre></div></div>
+
+<p>After all the scripts for each zone are created, continue by creating symlinks.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">cd</span> /var/cache/bind
+<span class="gp">root@ns2:/var/cache/bind#</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-s</span> /etc/bind/zones/db.5.168.192 <span class="nb">.</span>
+<span class="gp">root@ns2:/var/cache/bind#</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-s</span> /etc/bind/zones/db.unixwinbsd.site <span class="nb">.</span>
+</code></pre></div></div>
+
+<h3 id="b3-create-key-signing-key-and-zone-signing-key">b.3. Create <code class="language-plaintext highlighter-rouge">key-signing key</code> and <code class="language-plaintext highlighter-rouge">zone-signing key</code></h3>
+
+<p>The process of creating KSK and ZSK keys is very important, these keys are used to enable DNSSEC on <code class="language-plaintext highlighter-rouge">bind9</code>. The dnssec-keygen program is used to generate keys.</p>
+
+<h4 id="b31-for-unixwinbsdsite-zone">b.3.1 For <code class="language-plaintext highlighter-rouge">unixwinbsd.site</code> Zone</h4>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /etc/bind/keys
+<span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">cd</span> /etc/bind/keys
+<span class="gp">root@ns2:/etc/bind/keys#</span><span class="w"> </span>dnssec-keygen <span class="nt">-K</span> /etc/bind/keys/ <span class="nt">-a</span> RSASHA256 <span class="nt">-b</span> 2048 <span class="nt">-n</span> ZONE unixwinbsd.site
+<span class="gp">root@ns2:/etc/bind/keys#</span><span class="w"> </span>dnssec-keygen <span class="nt">-K</span> /etc/bind/keys/ <span class="nt">-a</span> RSASHA256 <span class="nt">-b</span> 4096 <span class="nt">-f</span> KSK  <span class="nt">-n</span> ZONE unixwinbsd.site
+</code></pre></div></div>
+
+<p>View the results of creating the key with the <code class="language-plaintext highlighter-rouge">ls</code> command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:/etc/bind/keys#</span><span class="w"> </span><span class="nb">ls</span> <span class="nt">-l</span>
+<span class="go">total 16
+-rw-r--r-- 1 root bind  613 Jul  8 06:56 Kunixwinbsd.site.+008+09154.key
+-rw------- 1 root bind 1776 Jul  8 06:56 Kunixwinbsd.site.+008+09154.private
+-rw-r--r-- 1 root bind  959 Jul  8 06:56 Kunixwinbsd.site.+008+54787.key
+-rw------- 1 root bind 3316 Jul  8 06:56 Kunixwinbsd.site.+008+54787.private
+</span></code></pre></div></div>
+
+<p>Then you enter the key values ​​into each zone file that you created above.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">cat</span> /etc/bind/keys/Kunixwinbsd.site.+008+<span class="k">*</span>.key <span class="o">&gt;&gt;</span> /etc/bind/zones/db.unixwinbsd.site
+</code></pre></div></div>
+
+<p>The results can be seen in the files <code class="language-plaintext highlighter-rouge">/etc/bind/zones/db.5.168.192</code> and <code class="language-plaintext highlighter-rouge">/etc/bind/zones/db.unixwinbsd.site</code>. Both key values ​​are at the bottom of each zone’s script.</p>
+
+<p>After that you run the command below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span>dnssec-signzone <span class="nt">-o</span> unixwinbsd.site <span class="nt">-t</span> <span class="nt">-R</span> <span class="nt">-S</span> <span class="nt">-K</span> /etc/bind/keys/ /etc/bind/zones/db.unixwinbsd.site
+<span class="go">Verifying the zone using the following algorithms:
+- RSASHA256
+Zone fully signed:
+Algorithm: RSASHA256: KSKs: 1 active, 0 stand-by, 0 revoked
+                      ZSKs: 1 active, 0 stand-by, 0 revoked
+/etc/bind/zones/db.unixwinbsd.site.signed
+Signatures generated:                       10
+Signatures retained:                         0
+Signatures dropped:                          0
+Signatures successfully verified:            0
+Signatures unsuccessfully verified:          0
+Signing time in seconds:                 0.044
+Signatures per second:                 227.272
+Runtime in seconds:                      0.096
+</span><span class="gp">root@ns2:~#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The result of the command above will create a new file named <code class="language-plaintext highlighter-rouge">/etc/bind/zones/db.unixwinbsd.site.signed</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">ls</span> <span class="nt">-l</span> /etc/bind/zones
+<span class="go">total 16
+-rw-r--r-- 1 root bind  610 Jul  8 07:25 db.5.168.192
+-rw-r--r-- 1 root bind 2126 Jul  8 07:27 db.unixwinbsd.site
+-rw-r--r-- 1 root bind 7329 Jul  8 07:27 db.unixwinbsd.site.signed
+</span></code></pre></div></div>
+
+<h4 id="b32-for-zone-5168192in-addrarpa">b.3.2 For Zone <code class="language-plaintext highlighter-rouge">5.168.192.in-addr.arpa</code></h4>
+
+<p>The method for creating KSK and ZSK keys for the <code class="language-plaintext highlighter-rouge">5.168.192.in-addr.arpa</code> zone is the same as creating keys for the <code class="language-plaintext highlighter-rouge">unixwinbsd.site</code> zone.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span>dnssec-keygen <span class="nt">-K</span> /etc/bind/keys/ <span class="nt">-a</span> RSASHA256 <span class="nt">-b</span> 2048 <span class="nt">-n</span> ZONE 5.168.192.in-addr.arpa
+<span class="go">Generating key pair...............................+++++ .......................................................+++++
+K5.168.192.in-addr.arpa.+008+26140
+
+</span><span class="gp">root@ns2:~#</span><span class="w"> </span>dnssec-keygen <span class="nt">-K</span> /etc/bind/keys/ <span class="nt">-a</span> RSASHA256 <span class="nt">-b</span> 4096 <span class="nt">-f</span> KSK  <span class="nt">-n</span> ZONE 5.168.192.in-addr.arpa
+<span class="go">Generating key pair.........................................++++ ..............................................++++
+K5.168.192.in-addr.arpa.+008+36127
+</span><span class="gp">root@ns2:~#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Enter the values ​​of both keys into the file <code class="language-plaintext highlighter-rouge">/etc/bind/zones/db.5.168.192</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">cat</span> /etc/bind/keys/K5.168.192.in-addr.arpa.+008+<span class="k">*</span>.key <span class="o">&gt;&gt;</span> /etc/bind/zones/db.5.168.192
+</code></pre></div></div>
+<p>The results of the command above can be seen in the example below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span>TTL    604800
+<span class="go">5.168.192.in-addr.arpa.    IN    SOA    unixwinbsd.site. root.unixwinbsd.site. (
+</span><span class="gp">            2019061304    ;</span><span class="w"> </span>Serial
+<span class="gp">             604800        ;</span><span class="w"> </span>Refresh
+<span class="gp">              86400        ;</span><span class="w"> </span>Retry
+<span class="gp">            2419200        ;</span><span class="w"> </span>Expire
+<span class="gp">             604800 )    ;</span><span class="w"> </span>Negative Cache TTL
+<span class="gp">;</span><span class="w"> </span>name servers
+<span class="go">5.168.192.in-addr.arpa.    300	IN    NS    ns2.unixwinbsd.site.
+5.168.192.in-addr.arpa.    300	IN    NS    unixwinbsd.site.
+
+</span><span class="gp">;</span><span class="w"> </span>PTR Records
+<span class="go">2.5.168.192.in-addr.arpa.	300	IN	PTR	ns2.unixwinbsd.site.
+2.5.168.192.in-addr.arpa.	300	IN	PTR	unixwinbsd.site.
+2.5.168.192.in-addr.arpa.	300	IN	PTR	www.unixwinbsd.site.
+
+</span><span class="gp">;</span><span class="w"> </span>This is a zone-signing key, keyid 26140, <span class="k">for </span>5.168.192.in-addr.arpa.
+<span class="gp">;</span><span class="w"> </span>Created: 20250708071417 <span class="o">(</span>Tue Jul  8 07:14:17 2025<span class="o">)</span>
+<span class="gp">;</span><span class="w"> </span>Publish: 20250708071417 <span class="o">(</span>Tue Jul  8 07:14:17 2025<span class="o">)</span>
+<span class="gp">;</span><span class="w"> </span>Activate: 20250708071417 <span class="o">(</span>Tue Jul  8 07:14:17 2025<span class="o">)</span>
+<span class="go">5.168.192.in-addr.arpa. IN DNSKEY 256 3 8 AwEAAb+iS0/SflPwxqTDqajZ4Z1HvgkxeqGV96chitbWeXTO/qfxWVCE aWQDcF5wKznWb3YebWrhovp2VixNcfSMOzIZgbNAMSqZPn0p58api1zR NR6JOZ6iuxjNDzktAhnMoPgUk30ATG/So0O1RnFwG6H9L5rrkkv4nkTi 3RYoj34/575KnVzsnjmaCiFju9OA2xtkRVNYxLnXwaqY2q1CEM7kO7M6 rwQRvV/CmeM9lKkXYcBviy04OVEw7T+dGpswSiGdVIOKeJmUWLmbkRbk yRMCLg4TXoM031uuK/o1UAq59RrRbUK5XgDPkxdCPvd6OI157AQQiogE nY1dUlP7vcM=
+</span><span class="gp">;</span><span class="w"> </span>This is a key-signing key, keyid 36127, <span class="k">for </span>5.168.192.in-addr.arpa.
+<span class="gp">;</span><span class="w"> </span>Created: 20250708071428 <span class="o">(</span>Tue Jul  8 07:14:28 2025<span class="o">)</span>
+<span class="gp">;</span><span class="w"> </span>Publish: 20250708071428 <span class="o">(</span>Tue Jul  8 07:14:28 2025<span class="o">)</span>
+<span class="gp">;</span><span class="w"> </span>Activate: 20250708071428 <span class="o">(</span>Tue Jul  8 07:14:28 2025<span class="o">)</span>
+<span class="go">5.168.192.in-addr.arpa. IN DNSKEY 257 3 8 AwEAAdtyXnLiKvOnE8jKResc2ZPKoJ0g7dlBu7jxYKor4nu0YZYlaQk8 68T3NB6TsSJQIXbLROLKMHIqmBGNbbdUydmJHtY1Sqc6nXPZq0cfZ5lC aQnTU2NFNLdGWChKztYCQXma2V3twwa0qYiH0GxN12xzgsP1HJjRPWNt n3RRm1aBHEmJlm5wv3yT+LOvPZL6Y9QetlXmkK2vDXTtqmoJnTqDkfCJ 1ZuBAbbnsFII7/Ifka/5Kp4aMkrdM015bKtQMzuRp05Qi63YG4sWkLdE 5URpQDzhBe/XfT9VCb9W967ZYr1m1aGu7mzxz6gzAnBdQjM04RMp1ccw iVl6Ue7y8Ia/qSYEsZ6fGVm8XH3my3QTwJAnwdjF6/TMJXCWbITS7Vj6 YpBU9h+mkt0LTd9K2bWgPrZUEB2Rgx5J/BaRPXoazS2Z5IiC7+gWqQpw EPW8wGYMRcG8pFoHUltpVqt4jb5+CmagmNJYWzQONDN6cQS/AS9iYzIZ AsXq2QpOfv8UrukRd5eIcrdFTVYc4ygmcqllce/yNj1ZGoM2hMLen7ob Qk4dJGVKAQV6NBwNty/v6Lf7BIMmZMHHgwe93hfGt0rGyz9GB8KUeqCl FVcdqtVkUscJRPqDlGMJ79q6XVUPcXy14O1xYSdEfG6eCcTsxYI4W3xV nxpweoWWentS5rKF
+</span></code></pre></div></div>
+
+<p>After that, continue with the command below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span>dnssec-signzone <span class="nt">-o</span> 5.168.192.in-addr.arpa <span class="nt">-t</span> <span class="nt">-R</span> <span class="nt">-S</span> <span class="nt">-K</span> /etc/bind/keys/ /etc/bind/zones/db.5.168.192
+<span class="go">Verifying the zone using the following algorithms:
+- RSASHA256
+Zone fully signed:
+Algorithm: RSASHA256: KSKs: 1 active, 0 stand-by, 0 revoked
+                      ZSKs: 1 active, 0 stand-by, 0 revoked
+/etc/bind/zones/db.5.168.192.signed
+Signatures generated:                        7
+Signatures retained:                         0
+Signatures dropped:                          0
+Signatures successfully verified:            0
+Signatures unsuccessfully verified:          0
+Signing time in seconds:                 0.044
+Signatures per second:                 159.090
+Runtime in seconds:                      0.080
+</span></code></pre></div></div>
+
+<p>The result of the command above will create a new file named <code class="language-plaintext highlighter-rouge">/etc/bind/zones/db.5.168.192.signed</code>.</p>
+
+<p>Both files with the extension <code class="language-plaintext highlighter-rouge">*.signed</code> you create a symlink to /var/cache/bind.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span><span class="nb">cd</span> /var/cache/bind
+<span class="gp">root@ns2:/var/cache/bind#</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-s</span> /etc/bind/zones/db.5.168.192.signed <span class="nb">.</span>
+<span class="gp">root@ns2:/var/cache/bind#</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-s</span> /etc/bind/zones/db.unixwinbsd.site.signed <span class="nb">.</span>
+<span class="gp">root@ns2:/var/cache/bind#</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="b4-enable-ksk-and-zsk-keys-in-etcbindnamedconflocal-file">b.4. Enable KSK and ZSK Keys In <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.local</code> File</h3>
+
+<p>All keys from the file you created above must be activated in <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.local</code>. The example below is a script from the <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.local</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+</span><span class="gp">//include "/etc/bind/zones.rfc1918";</span><span class="w">
+</span><span class="go">zone "unixwinbsd.site" {
+</span><span class="gp">    type master;</span><span class="w">
+</span><span class="gp">    file "/var/cache/bind/db.unixwinbsd.site.signed";</span><span class="w">
+</span><span class="gp">//  journal "/var/cache/bind/managed-keys.bind.jnl";</span><span class="w">
+</span><span class="gp">    key-directory "/var/cache/bind";</span><span class="w">
+</span><span class="gp">    inline-signing yes;</span><span class="w">
+</span><span class="gp">    update-policy local;</span><span class="w">
+</span><span class="gp">    sig-validity-interval 20 10;</span><span class="w">
+</span><span class="gp">    allow-transfer { any;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+<span class="gp">    notify yes;</span><span class="w">
+</span><span class="gp">    };</span><span class="w">
+</span><span class="go">
+zone "5.168.192.in-addr.arpa" {
+</span><span class="gp">    type master;</span><span class="w">
+</span><span class="gp">    file "/var/cache/bind/db.5.168.192.signed";</span><span class="w">
+</span><span class="gp">    key-directory "/var/cache/bind";</span><span class="w">
+</span><span class="gp">//  journal "/var/cache/bind/truested.mkeys.jnl";</span><span class="w">
+</span><span class="gp">    inline-signing yes;</span><span class="w">
+</span><span class="gp">    update-policy local;</span><span class="w">
+</span><span class="gp">    sig-validity-interval 20 10;</span><span class="w">
+</span><span class="gp">    allow-transfer { any;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+<span class="gp">    notify yes;</span><span class="w">
+</span><span class="gp">    };</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Meanwhile, you can see an example script file <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.options</code> below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">acl trusted {
+</span><span class="gp">192.168.5.2;</span><span class="w">
+</span><span class="gp">127.0.0.1;</span><span class="w">
+</span><span class="gp">};</span><span class="w">
+</span><span class="go">
+options {
+</span><span class="gp">directory "/var/cache/bind";</span><span class="w">
+</span><span class="gp">// key-directory "/var/named/keys/";</span><span class="w">
+</span><span class="gp">listen-on port 53 { 192.168.5.2;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+<span class="gp">//listen-on-v6 port 53 { 2a0d:1640:1:241::1;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+<span class="gp">statistics-file "/var/run/named/named.stats";</span><span class="w">
+</span><span class="gp">dump-file "/var/log/bind/bind.dump";</span><span class="w">
+</span><span class="gp">max-cache-size 241172480;</span><span class="w"> </span>// 256 Mb
+<span class="go">
+</span><span class="gp">forwarders { 8.8.8.8;</span><span class="w"> </span>9.9.9.9<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
+<span class="go">
+</span><span class="gp">dnssec-validation yes;</span><span class="w">
+</span><span class="go">
+</span><span class="gp">minimal-responses yes;</span><span class="w">
+</span><span class="gp">allow-query { trusted;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+<span class="gp">auth-nxdomain no;</span><span class="w">   
+</span><span class="gp">recursion yes;</span><span class="w">
+</span><span class="gp">allow-recursion-on { trusted;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+<span class="gp">querylog yes;</span><span class="w">
+</span><span class="gp">#</span>query-source-v6 2a0d:1640:1:241::1<span class="p">;</span> 
+<span class="gp">#</span>transfer-source-v6 2a0d:1640:1:241::1<span class="p">;</span>
+<span class="gp">#</span>notify-source-v6 2a0d:1640:1:241::1<span class="p">;</span>	
+<span class="gp">empty-zones-enable yes;</span><span class="w">
+</span><span class="gp">allow-query-cache { trusted;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+<span class="go">
+</span><span class="gp">};</span><span class="w">
+</span><span class="gp">// include "/etc/bind/rootzone.key";</span><span class="w">
+</span><span class="gp">// include "/usr/share/GeoIP/GeoIP.acl";</span><span class="w">
+</span><span class="go">
+</span></code></pre></div></div>
+
+<h3 id="b5-ownership-and-permissions">b.5. Ownership and Permissions</h3>
+
+<p>The chown and chmod commands are used to grant file ownership and file usage permissions. Run the commands below, copy each file you have created above.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:/var/cache/bind#</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> <span class="nb">bind</span>:bind /var/cache/bind/
+<span class="gp">root@ns2:/var/cache/bind#</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> <span class="nb">bind</span>:bind /etc/bind/keys/
+<span class="gp">root@ns2:/var/cache/bind#</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> <span class="nb">bind</span>:bind /etc/bind/zones/
+<span class="gp">root@ns2:/var/cache/bind#</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 640 /etc/bind/keys/
+<span class="gp">root@ns2:/var/cache/bind#</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 775 /var/cache/bind/
+</code></pre></div></div>
+
+<p>The last step is to run the <code class="language-plaintext highlighter-rouge">restart</code> command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span>systemctl restart named
+<span class="gp">root@ns2:~#</span><span class="w"> </span>systemctl status named
+</code></pre></div></div>
+
+<p>To prove whether your Bind DNS server is running or not, run the <code class="language-plaintext highlighter-rouge">dig</code> command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns2:~#</span><span class="w"> </span>dig yahoo.com
+<span class="gp">root@ns2:~#</span><span class="w"> </span>dig @ns2.unixwinbsd.site unixwinbsd.site
+<span class="gp">root@ns2:~#</span><span class="w"> </span>dig @ns2.unixwinbsd.site version.bind chaos txt
+<span class="gp">root@ns2:~#</span><span class="w"> </span>dig @ns2.unixwinbsd.site www.isc.org
+<span class="gp">root@ns2:~#</span><span class="w"> </span>dig @192.168.5.2 www.isc.org. A +dnssec +multiline
+<span class="gp">root@ns2:~#</span><span class="w"> </span>dig @192.168.5.2 www.dnssec-failed.org. A
+<span class="gp">root@ns2:~#</span><span class="w"> </span>dig @216.218.130.2 www.dnssec-failed.org. A
+<span class="gp">root@ns2:~#</span><span class="w"> </span>dig @192.168.5.2 unixwinbsd.site. AXFR +multiline +onesoa
+<span class="gp">root@ns2:~#</span><span class="w"> </span>dig @192.168.5.2 unixwinbsd.site. DNSKEY +multiline +noall +answer
+<span class="gp">root@ns2:~#</span><span class="w"> </span>dig @192.168.5.2 unixwinbsd.site. SOA +dnssec +multiline
+</code></pre></div></div>
+
+<p>To complete this material, you can see an example of a DNS server bind file that we <a href="https://prohoster.info/">host</a> at <code class="language-plaintext highlighter-rouge">https://prohoster.info/</code></p>
+
+<ul>
+  <li><a href="https://raw.githubusercontent.com/unixwinbsd/integralist/refs/heads/main/named.conf.local?token=GHSAT0AAAAAADEWNV53GLPWJXXKDUZLQNUE2DM22UQ">named.conf.local</a></li>
+  <li><a href="https://raw.githubusercontent.com/unixwinbsd/integralist/refs/heads/main/named.conf.options?token=GHSAT0AAAAAADEWNV52J4OPUG3XT4KGFCYY2DM23QA">named.conf.options</a></li>
+  <li><a href="https://github.com/unixwinbsd/integralist">Full Script</a></li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#dnsserver" class="page__taxonomy-item" rel="tag">DNSServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#linux" class="page__taxonomy-item" rel="tag">Linux</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-07-08T10:45:23+03:00">July 8, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=BIND+DNSSEC+Configuration+And+Implementation+On+Linux+System%20https%3A%2F%2Funixwinbsd.site%2Flinux%2Fbind-dnssec-implementation-configuration-linux%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Flinux%2Fbind-dnssec-implementation-configuration-linux%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Flinux%2Fbind-dnssec-implementation-configuration-linux%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/install-modul-mod-jk-java-freebsd/" class="pagination--pager" title="Freebsd Install mod jk Java module For Apache Tomcat
+">Previous</a>
+    
+    
+      <a href="/freebsd/install-and-use-socat-command-freebsd/" class="pagination--pager" title="How to Install and Use Socat Command on Freebsd
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/linux/bind-dnssec-implementation-configuration-linux/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/linux/bind-dnssec-implementation-configuration-linux"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

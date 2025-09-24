@@ -1,0 +1,1144 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>FreeBSD Gitlab Runner - Installation and Usage Guide - UnixBSDShell</title>
+<meta name="description" content="GitLab Runner is an open source project used to run your work and send the results back to GitLab.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="FreeBSD Gitlab Runner - Installation and Usage Guide">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/install-gitlab-runner-freebsd/">
+
+
+  <meta property="og:description" content="GitLab Runner is an open source project used to run your work and send the results back to GitLab.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="FreeBSD Gitlab Runner - Installation and Usage Guide">
+  <meta name="twitter:description" content="GitLab Runner is an open source project used to run your work and send the results back to GitLab.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/install-gitlab-runner-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-24T10:55:35+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/install-gitlab-runner-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">FreeBSD Gitlab Runner - Installation and Usage Guide</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="FreeBSD Gitlab Runner - Installation and Usage Guide">
+    <meta itemprop="description" content="GitLab Runner is an open source project used to run your work and send the results back to GitLab.">
+    <meta itemprop="datePublished" content="2025-05-24T10:55:35+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">FreeBSD Gitlab Runner - Installation and Usage Guide
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-system-specifications">1. System Specifications</a></li>
+  <li><a href="#2-runner-executors">2. Runner Executors</a></li>
+  <li><a href="#3-gitlab-runner-installation">3. Gitlab Runner Installation</a>
+    <ul>
+      <li><a href="#31-enabling-gitlab-runner">3.1. Enabling Gitlab Runner</a></li>
+      <li><a href="#32-running-gitlab-runner">3.2. Running Gitlab Runner</a></li>
+      <li><a href="#33-register-gitlab-runner">3.3. Register Gitlab Runner</a></li>
+      <li><a href="#34-displaying-gitlab-runner-list">3.4. Displaying Gitlab Runner List</a></li>
+      <li><a href="#35-gitlab-runner-flags">3.5. Gitlab Runner flags</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>It seems that Gitlab has big ambitions to replace Github, because there are so many applications created to manage Gitlab repositories. With these applications, it is very easy for Gitlab users to connect and communicate with their repositories in Gitlab. As if Gitlab users are spoiled with the convenience of these applications. One of the applications that is often used by developers is <code class="language-plaintext highlighter-rouge">gitlab-runner</code>.</p>
+
+<p>GitLab Runner is an open source project that is used to run your work and send the results back to GitLab. This project is used in conjunction with GitLab CI/CID, an open source continuous integration service included with GitLab that
+coordinates the work. In other words, this is an important component of GitLab’s continuous integration and deployment workflow.</p>
+
+<p>As an application that runs on a separate machine or container, the main purpose of GitLab Runner is to run jobs from the GitLab CI/CD configuration. When we push code to the GitLab repository, the runner takes the job, runs the specified commands, and reports the results back to GitLab. So, by using GitLab Runner, we can automate the process of building, testing, and deploying, saving time and reducing the risk of manual errors.</p>
+
+<p>In this tutorial we will see how to set up and configure GitLab Runner on FreeBSD, as well as its various features and capabilities.</p>
+
+<h2 id="1-system-specifications">1. System Specifications</h2>
+<ul>
+  <li>OS: FreeBSD 14. 3</li>
+  <li>Hostname: ns4</li>
+  <li>IP Address: 192.168.5.71</li>
+  <li>Gilab Runner Version: 18.0.0</li>
+</ul>
+
+<h2 id="2-runner-executors">2. Runner Executors</h2>
+<p>In carrying out its tasks, GitLab Runner implements various executors that can be used to run your builds in various environments.</p>
+
+<p>GitLab Runner provides the following executors:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Executor</th>
+      <th>Required configuration</th>
+      <th>Where jobs are executed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>shell</td>
+      <td> </td>
+      <td>Local shell. Default executor.</td>
+    </tr>
+    <tr>
+      <td>docker</td>
+      <td>[runners.docker] and Docker Engine</td>
+      <td>Docker container.</td>
+    </tr>
+    <tr>
+      <td>docker-windows</td>
+      <td>[runners.docker] and Docker Engine</td>
+      <td>Windows Dockercontainer.</td>
+    </tr>
+    <tr>
+      <td>docker-ssh</td>
+      <td>[runners.docker], [runners.ssh], and Docker Engine</td>
+      <td>Docker container, but with an SSH connection. The Docker container is executed on the local machine. This setting changes how commands are run inside the container. If you want to run docker commands on an external machine, change the parameterhostin the sectionrunners.docker.</td>
+    </tr>
+    <tr>
+      <td>ssh</td>
+      <td>[runners.ssh]</td>
+      <td>SSH, remotely.</td>
+    </tr>
+    <tr>
+      <td>parallels</td>
+      <td>[runners.parallels] and [runners.ssh]</td>
+      <td>Parallels VM, SSH connection.</td>
+    </tr>
+    <tr>
+      <td>virtualbox</td>
+      <td>[runners.virtualbox] and [runners.ssh]</td>
+      <td>VirtualBox VM, SSH connection.</td>
+    </tr>
+    <tr>
+      <td>docker+machine</td>
+      <td>[runners.docker] and [runners.machine]</td>
+      <td>Likedocker, but uses auto-scaled Docker machines.</td>
+    </tr>
+    <tr>
+      <td>docker-ssh+machine</td>
+      <td>[runners.docker] and [runners.machine]</td>
+      <td>Likedocker-ssh, but uses auto-scaled Docker machines.</td>
+    </tr>
+    <tr>
+      <td>kubernetes</td>
+      <td>[runners.kubernetes]</td>
+      <td>Kubernetes pods.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="3-gitlab-runner-installation">3. Gitlab Runner Installation</h2>
+<p>On FreeBSD Gitlab Runner is available in the PKG package and the ports system. You can install it directly with one of these packages. We recommend using the PKG package to make the installation process easier. Below are the commands you can run to install Gitlab Runner</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>devel/gitlab-runner
+</code></pre></div></div>
+<p>Please note, during the installation process, the system will create a user and group for Gitlab Runner with the name <code class="language-plaintext highlighter-rouge">gitlab-runner:gitlab-runner</code>.</p>
+
+<h3 id="31-enabling-gitlab-runner">3.1. Enabling Gitlab Runner</h3>
+<p>After the installation process is complete, you can immediately activate Gitlab Runner in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file. In that file, type the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">gitlab_runner_enable="YES"
+gitlab_runner_dir="/var/tmp/gitlab_runner"
+gitlab_runner_user="gitlab-runner"
+gitlab_runner_group="gitlab-runner"
+gitlab_runner_syslogtag="gitlab-runner"
+gitlab_runner_svcj_options="net_basic"
+</span></code></pre></div></div>
+
+<h3 id="32-running-gitlab-runner">3.2. Running Gitlab Runner</h3>
+<p>The script in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file is used to enable Gitlab Runner to run automatically. You can also run Gitlab Runner by running the following command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w">   </span>service gitlab_runner restart
+<span class="go">Stopping gitlab_runner.
+Waiting for PIDS: 1156, 1156.
+Starting gitlab_runner.
+</span><span class="gp">root@ns4:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="33-register-gitlab-runner">3.3. Register Gitlab Runner</h3>
+<p>The Gitlab Runner that you have activated must be registered immediately to Gitlab so that you can use its functions. Registering the runner will create a connection between the runner and GitLab, so that both can communicate and run tasks.</p>
+
+<p>To create a Runner, you must register your Runner on the Gitlab site. In your working repository on Gitlab, click the <code class="language-plaintext highlighter-rouge">Settings &gt;&gt; CI/CD</code> menu, then click the <code class="language-plaintext highlighter-rouge">Runners</code> menu. In the <code class="language-plaintext highlighter-rouge">Project runners</code> menu, click the <code class="language-plaintext highlighter-rouge">create project runner</code> menu. Look at the following picture.</p>
+
+<p><br /><br />
+<img src="https://gitea.com/UnixBSDShell/Web-Static-With-Ruby-Jekyll-Site-NetBSD/raw/branch/main/images/create%20project%20runner.jpg" alt="create project runner gitlab" /></p>
+
+<p><br /><br />
+<img src="https://gitea.com/UnixBSDShell/Web-Static-With-Ruby-Jekyll-Site-NetBSD/raw/branch/main/images/configuration%20runner.jpg" alt="configuration runner" />
+<br /><br /></p>
+
+<p>After that, the runner token code will appear, you must register this code via the FreeBSD shell menu.</p>
+
+<p><br /><br />
+<img src="https://gitea.com/UnixBSDShell/Web-Static-With-Ruby-Jekyll-Site-NetBSD/raw/branch/main/images/register%20runner.jpg" alt="register runner" />
+<br /><br /></p>
+
+<p>In the 3rd image, <code class="language-plaintext highlighter-rouge">Step 1</code> and <code class="language-plaintext highlighter-rouge">Step 3</code> must be run through the FreeBSD Shell menu. Here is the command to register the Gitlab Runner.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gitlab-runner register  <span class="nt">--url</span> https://gitlab.com  <span class="nt">--token</span> glrt-pJESaf7VlJfjyaryLccHN286MQpwOjE1djNkegp0OjMKdTpncXhwcBg.01.1j1mlp8bv
+<span class="go">Runtime platform                                    arch=amd64 os=freebsd pid=1078 revision=18.0.0 version=18.0.0
+Running in system-mode.
+WARNING: You need to manually start builds processing:
+</span><span class="gp">WARNING: $</span><span class="w"> </span>gitlab-runner run
+<span class="go">
+Enter the GitLab instance URL (for example, https://gitlab.com/):
+[https://gitlab.com]:
+Verifying runner... is valid                        runner=pJESaf7Vl
+Enter a name for the runner. This is stored only in the local config.toml file:
+[ns4]:
+Enter an executor: kubernetes, shell, ssh, docker, docker-windows, docker+machine, docker-autoscaler, instance, custom, parallels, virtualbox:
+shell
+Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
+
+Configuration (with the authentication token) was saved in "/usr/local/etc/gitlab-runner/config.toml"
+</span><span class="gp">root@ns4:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>gitlab-runner run
+</code></pre></div></div>
+<p>On FreeBSD systems, all the Gitlab Runner information you have created above will be stored in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/gitlab-runner/config.toml</code> file.</p>
+
+<p>To see the script contents of the file, run the <code class="language-plaintext highlighter-rouge">cat</code> command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span><span class="nb">cat</span> /usr/local/etc/gitlab-runner/config.toml
+<span class="go">concurrent = 1
+check_interval = 0
+connection_max_age = "15m0s"
+shutdown_timeout = 0
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "ns4"
+  url = "https://gitlab.com"
+  id = 47669129
+  token = "glrt-pJESaf7VlJfjyaryLccHN286MQpwOjE1djNkegp0OjMKdTpncXhwcBg.01.1j1mlp8bv"
+  token_obtained_at = 2025-05-31T08:45:47Z
+  token_expires_at = 0001-01-01T00:00:00Z
+  executor = "shell"
+  [runners.cache]
+    MaxUploadedArchiveSize = 0
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+</span><span class="gp">root@ns4:~ #</span><span class="w">
+</span><span class="go">
+</span></code></pre></div></div>
+
+<h3 id="34-displaying-gitlab-runner-list">3.4. Displaying Gitlab Runner List</h3>
+<p>In Gitlab you can create many Runners, we recommend creating Runners as needed. To see a list of Runners that you have created, run the following command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns4:~ #</span><span class="w"> </span>service gitlab_runner list
+<span class="go">Runtime platform                                    arch=amd64 os=freebsd pid=1113 revision=18.0.0 version=18.0.0
+Listing configured runners                          ConfigFile=/var/tmp/gitlab_runner/.gitlab-runner/config.toml
+runner1234                                          Executor=shell Token=glrt-NgUu45FU3jLLOE6YbT6Hd286MQpwOjE1djNkegp0OjMKdTpncXhwcBg.01.1j0dbf347 URL=https://gitlab.com
+</span></code></pre></div></div>
+
+<h3 id="35-gitlab-runner-flags">3.5. Gitlab Runner flags</h3>
+<p>The <code class="language-plaintext highlighter-rouge">gitlab-runner</code> command has many options, but the options we explained above are one of the most important commands and must be run when you are going to use Gitlab Runner. The following is a list of <code class="language-plaintext highlighter-rouge">gitlab-runner</code> command options that you can try.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>list</td>
+      <td>List all configured runners</td>
+    </tr>
+    <tr>
+      <td>run</td>
+      <td>run multi runner service</td>
+    </tr>
+    <tr>
+      <td>register</td>
+      <td>register a new runner</td>
+    </tr>
+    <tr>
+      <td>reset-token</td>
+      <td>reset a runner’s token</td>
+    </tr>
+    <tr>
+      <td>install</td>
+      <td>install service</td>
+    </tr>
+    <tr>
+      <td>uninstall</td>
+      <td>uninstall service</td>
+    </tr>
+    <tr>
+      <td>start</td>
+      <td>start service</td>
+    </tr>
+    <tr>
+      <td>Stop</td>
+      <td>stop service</td>
+    </tr>
+    <tr>
+      <td>restart</td>
+      <td>restart service</td>
+    </tr>
+    <tr>
+      <td>status</td>
+      <td>get status of a service</td>
+    </tr>
+    <tr>
+      <td>run-single</td>
+      <td>start single runner</td>
+    </tr>
+    <tr>
+      <td>unregister</td>
+      <td>unregister specific runner</td>
+    </tr>
+    <tr>
+      <td>verify</td>
+      <td>verify all registered runners</td>
+    </tr>
+    <tr>
+      <td>wrapper</td>
+      <td>start multi runner service wrapped with gRPC manager server</td>
+    </tr>
+    <tr>
+      <td>fleeting</td>
+      <td>manage fleeting plugins</td>
+    </tr>
+    <tr>
+      <td>artifacts-downloader</td>
+      <td>download and extract build artifacts (internal)</td>
+    </tr>
+    <tr>
+      <td>artifacts-uploader</td>
+      <td>create and upload build artifacts (internal)</td>
+    </tr>
+    <tr>
+      <td>cache-archiver</td>
+      <td>create and upload cache artifacts (internal)</td>
+    </tr>
+    <tr>
+      <td>cache-extractor</td>
+      <td>download and extract cache artifacts (internal)</td>
+    </tr>
+    <tr>
+      <td>cache-init</td>
+      <td>changed permissions for cache paths (internal)</td>
+    </tr>
+    <tr>
+      <td>health-check</td>
+      <td>check health for a specific address</td>
+    </tr>
+    <tr>
+      <td>proxy-exec</td>
+      <td>execute internal commands (internal)</td>
+    </tr>
+    <tr>
+      <td>read-logs</td>
+      <td>reads job logs from a file, used by kubernetes executor (internal)</td>
+    </tr>
+    <tr>
+      <td>help, h</td>
+      <td>Shows a list of commands or help for one command</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>–cpuprofile value</td>
+      <td>write cpu profile to file [$CPU_PROFILE]</td>
+    </tr>
+    <tr>
+      <td>–debug</td>
+      <td>debug mode [$RUNNER_DEBUG]</td>
+    </tr>
+    <tr>
+      <td>–log-format value</td>
+      <td>Choose log format (options: runner, text, json) [$LOG_FORMAT]</td>
+    </tr>
+    <tr>
+      <td>–log-level value, -l value</td>
+      <td>Log level (options: debug, info, warn, error, fatal, panic) [$LOG_LEVEL]</td>
+    </tr>
+    <tr>
+      <td>–help, -h</td>
+      <td>show help</td>
+    </tr>
+    <tr>
+      <td>–version, -v</td>
+      <td>print the version</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In short, gitlab-runner is an essential tool for managing CI/CD job execution in GitLab. It simplifies the registration, configuration, deployment, and management of GitLab Runners, so you can automate and organize your software development and deployment processes efficiently.</p>
+
+<p>Using the examples provided, you can efficiently register, manage, and verify runners, so that the development-to-deployment process runs smoothly. Whether you are setting up a new environment, maintaining an active system, or troubleshooting connectivity issues, this tool equips you with the skills you need to adapt to the demands of your evolving projects.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-24T10:55:35+03:00">May 24, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=FreeBSD+Gitlab+Runner+-+Installation+and+Usage+Guide%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstall-gitlab-runner-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstall-gitlab-runner-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Finstall-gitlab-runner-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/openbsd/instal-isc-dns-bind-server-openbsd/" class="pagination--pager" title="Install ISC Bind DNS Server Using OpenBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/setting-env-path-java-composer-go-freebsd/" class="pagination--pager" title="Setting ENV Paths in Freebsd for Java and Go Composer
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/install-gitlab-runner-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/install-gitlab-runner-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

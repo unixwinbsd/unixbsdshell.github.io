@@ -1,0 +1,1221 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Ubuntu Install Guide on FreeBSD - Linux Binary Compatibility - UnixBSDShell</title>
+<meta name="description" content="FreeBSD’s native Linux Binatibility allows FreeBSD users, running i386 32-bit, amd64 64-bit, or arm64 64-bit architectures, to install and run 32-bit and 64-bit Linux binaries directly on a FreeBSD machine. This is done through system call tables, meaning, Linux applications can run without emulation or virtualization. FreeBSD’s native Linux Binatibility was introduced in the 90s.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Ubuntu Install Guide on FreeBSD - Linux Binary Compatibility">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/linux-binary-compatibility-ubuntu-freebsd/">
+
+
+  <meta property="og:description" content="FreeBSD’s native Linux Binatibility allows FreeBSD users, running i386 32-bit, amd64 64-bit, or arm64 64-bit architectures, to install and run 32-bit and 64-bit Linux binaries directly on a FreeBSD machine. This is done through system call tables, meaning, Linux applications can run without emulation or virtualization. FreeBSD’s native Linux Binatibility was introduced in the 90s.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Ubuntu Install Guide on FreeBSD - Linux Binary Compatibility">
+  <meta name="twitter:description" content="FreeBSD’s native Linux Binatibility allows FreeBSD users, running i386 32-bit, amd64 64-bit, or arm64 64-bit architectures, to install and run 32-bit and 64-bit Linux binaries directly on a FreeBSD machine. This is done through system call tables, meaning, Linux applications can run without emulation or virtualization. FreeBSD’s native Linux Binatibility was introduced in the 90s.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/linux-binary-compatibility-ubuntu-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-29T11:01:00+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/linux-binary-compatibility-ubuntu-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Ubuntu Install Guide on FreeBSD - Linux Binary Compatibility</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Ubuntu Install Guide on FreeBSD - Linux Binary Compatibility">
+    <meta itemprop="description" content="FreeBSD’s native Linux Binatibility allows FreeBSD users, running i386 32-bit, amd64 64-bit, or arm64 64-bit architectures, to install and run 32-bit and 64-bit Linux binaries directly on a FreeBSD machine. This is done through system call tables, meaning, Linux applications can run without emulation or virtualization. FreeBSD’s native Linux Binatibility was introduced in the 90s.">
+    <meta itemprop="datePublished" content="2025-05-29T11:01:00+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Ubuntu Install Guide on FreeBSD - Linux Binary Compatibility
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-vulnerability-statistics">1. Vulnerability Statistics</a></li>
+  <li><a href="#2-freebsd-kernel-for-ubuntu-linux">2. FreeBSD Kernel For Ubuntu Linux</a></li>
+  <li><a href="#3-create-a-basic-ubuntu-system-script-on-freebsd-rcd">3. Create a Basic Ubuntu System Script on FreeBSD rcd</a></li>
+  <li><a href="#4-create-a-linux-compatibility-directory-zfs-data-sheet">4. Create a Linux Compatibility Directory ZFS Data Sheet</a></li>
+  <li><a href="#5-installing-ubuntu-base-system-to-linux-compatibility-directory">5. Installing Ubuntu Base System to Linux Compatibility Directory</a></li>
+  <li><a href="#6-ubuntu-configuration">6. Ubuntu Configuration</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>This article will cover the procedure for installing a base Ubuntu system into FreeBSD’s native Linux Binary Compatibility, so that Ubuntu and Debian-based desktop applications, such as Signal, Spotify, and Netflix, can run directly on FreeBSD. The discussion in this article uses Ubuntu 20.04 which will be installed into a FreeBSD 13.2 Stable system for the AMD64 64-bit architecture.</p>
+
+<p>FreeBSD’s native Linux Binatibility allows FreeBSD users, running i386 32-bit, amd64 64-bit, or arm64 64-bit architectures, to install and run 32-bit and 64-bit Linux binaries directly on a FreeBSD machine. This is done through system call tables, meaning, Linux applications can run without emulation or virtualization. FreeBSD’s native Linux Binatibility was introduced in the 90s.</p>
+
+<p><br />&lt;/br&gt;
+<img src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/15Starting%20Point%20for%20LinuxBot.jpg&amp;commit=502843a8a243a1d20b43a0e577b73ae88fa5e5d8" alt="starting point for linuxbot" />
+<br />&lt;/br&gt;</p>
+
+<h2 id="1-vulnerability-statistics">1. Vulnerability Statistics</h2>
+<p>This is a list of vulnerability statistics for FreeBSD and Linux. The generally lower amount of security issues on FreeBSD doesn’t necessarily mean that FreeBSD is more secure than Linux, even though I do believe it is, but it can also be because there is a lot more eyes on Linux. However, the attack surface on most Linux distributions are considerably higher that on FreeBSD.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>FreeBSD</th>
+      <th>Linux</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1999</td>
+      <td>18</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td>2000</td>
+      <td>27</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>2001</td>
+      <td>36</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <td>2002</td>
+      <td>31</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <td>2003</td>
+      <td>14</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td>2004</td>
+      <td>15</td>
+      <td>51</td>
+    </tr>
+    <tr>
+      <td>2005</td>
+      <td>17</td>
+      <td>133</td>
+    </tr>
+    <tr>
+      <td>2006</td>
+      <td>27</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <td>2007</td>
+      <td>9</td>
+      <td>62</td>
+    </tr>
+    <tr>
+      <td>2008</td>
+      <td>15</td>
+      <td>71</td>
+    </tr>
+    <tr>
+      <td>2009</td>
+      <td>11</td>
+      <td>102</td>
+    </tr>
+    <tr>
+      <td>2010</td>
+      <td>8</td>
+      <td>123</td>
+    </tr>
+    <tr>
+      <td>2011</td>
+      <td>10</td>
+      <td>83</td>
+    </tr>
+    <tr>
+      <td>2012</td>
+      <td>10</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <td>2013</td>
+      <td>13</td>
+      <td>189</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>18</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <td>2015</td>
+      <td>6</td>
+      <td>86</td>
+    </tr>
+    <tr>
+      <td>2016</td>
+      <td>6</td>
+      <td>217</td>
+    </tr>
+    <tr>
+      <td>2017</td>
+      <td>23</td>
+      <td>454</td>
+    </tr>
+    <tr>
+      <td>2018</td>
+      <td>29</td>
+      <td>177</td>
+    </tr>
+    <tr>
+      <td>2019</td>
+      <td>18</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <td>2020</td>
+      <td>31</td>
+      <td>126</td>
+    </tr>
+    <tr>
+      <td>2021</td>
+      <td>25</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <td>2022</td>
+      <td>1</td>
+      <td>73</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td>Total</td>
+      <td>430</td>
+      <td>2780</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For further information about the specific vulnerabilities you can take a look at the <a href="https://www.blogger.com/blog/post/edit/2425380976366117670/8935719792500982828#">CVE Details</a> website for  <a href="https://www.blogger.com/blog/post/edit/2425380976366117670/8935719792500982828#">FreeBSD</a>  and  <a href="https://www.cvedetails.com/product/47/Linux-Linux-Kernel.html?vendor_id=33">Linux</a></p>
+
+<h2 id="2-freebsd-kernel-for-ubuntu-linux">2. FreeBSD Kernel For Ubuntu Linux</h2>
+<p>The first step to run Ubuntu on FreeBSD is to enable the Ubuntu Linux kernel on your FreeBSD computer. FreeBSD has built-in binary compatibility with Linux. This allows you to run both Ubuntu and Linux binaries. This is enabled by loading a Linux kernel module. Here is the Linux kernel on FreeBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kldload linux
+kldload linux64
+kldload fdescfs
+kldload linprocfs
+kldload tmpfs
+kldload linsysfs
+</code></pre></div></div>
+<p>In order for the Linux kernel to be active on the FreeBSD machine, so that when the computer is restarted, the kernel can be read directly by FreeBSD. Enter the Linux kernel script in the /boot/loader.conf file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>ee /boot/loader.conf
+<span class="go">linux_load="YES"
+linux64_load="YES"      
+fdescfs_load="YES"
+linprocfs_load="YES"
+tmpfs_load="YES"
+linsysfs_load="YES"
+</span></code></pre></div></div>
+<p>The above script will make the Ubuntu Linux kernel permanent on the FreeBSD system. Once the kernel is permanent, create the rc.d script in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="go">kld_list="linux linux64 cuse fusefs /boot/modules/i915kms.ko"
+linux_enable="YES"
+ubuntu_enable="YES"
+</span></code></pre></div></div>
+
+<h2 id="3-create-a-basic-ubuntu-system-script-on-freebsd-rcd">3. Create a Basic Ubuntu System Script on FreeBSD rcd</h2>
+<p>Type the following script to start activating the Ubuntu Base System.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">touch</span> /usr/local/etc/rc.d/ubuntu
+<span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">chmod</span> +x /usr/local/etc/rc.d/ubuntu
+<span class="gp">root@ns1:~ #</span><span class="w"> </span>ee /usr/local/etc/rc.d/ubuntu
+<span class="gp">#</span><span class="o">!</span>/bin/sh
+<span class="gp">#</span><span class="w">
+</span><span class="gp">#</span><span class="w"> </span>PROVIDE: ubuntu
+<span class="gp">#</span><span class="w"> </span>REQUIRE: archdep mountlate
+<span class="gp">#</span><span class="w"> </span>KEYWORD: nojail
+<span class="gp">#</span><span class="w">
+</span><span class="go">
+. /etc/rc.subr
+
+name="ubuntu"
+desc="Ubuntu for FreeBSD Linux Binary Compatibility"
+rcvar="ubuntu_enable"
+</span><span class="gp">start_cmd="$</span><span class="o">{</span>name<span class="o">}</span>_start<span class="s2">"
+</span><span class="go">stop_cmd=":"
+
+unmounted()
+{
+</span><span class="gp">  [ `stat -f "%d" "$</span>1<span class="s2">"</span><span class="sb">`</span> <span class="o">==</span> <span class="sb">`</span><span class="s2">stat -f "</span>%d<span class="s2">" "</span><span class="nv">$1</span>/..<span class="s2">"</span><span class="sb">`</span> <span class="nt">-a</span> <span class="sb">`</span><span class="s2">stat -f "</span>%i<span class="s2">" "</span><span class="nv">$1</span><span class="s2">"</span><span class="sb">`</span> <span class="o">!=</span> <span class="sb">`</span><span class="s2">stat -f "</span>%i<span class="s2">" "</span><span class="nv">$1</span>/..<span class="s2">"</span><span class="sb">`</span> <span class="o">]</span>
+<span class="go">}
+
+ubuntu_start()
+{
+  local _tmpdir
+  load_kld -e 'linux(aout|elf)' linux
+  case `sysctl -n hw.machine_arch` in
+    amd64)
+      load_kld -e 'linux64elf' linux64
+</span><span class="gp">      ;</span><span class="p">;</span>
+<span class="go">  esac
+</span><span class="gp">  if [ -x "/compat/ubuntu/sbin/ldconfigDisabled" ];</span><span class="w"> </span><span class="k">then</span>
+<span class="go">    _tmpdir=`mktemp -d -t linux-ldconfig`
+</span><span class="gp">    /compat/ubuntu/sbin/ldconfig -C $</span><span class="o">{</span>_tmpdir<span class="o">}</span>/ld.so.cache
+<span class="gp">    if ! cmp -s "$</span><span class="o">{</span>_tmpdir<span class="o">}</span>/ld.so.cache<span class="s2">" "</span>/compat/ubuntu/etc/ld.so.cache<span class="s2">"; then
+</span><span class="gp">      cat "$</span><span class="s2">{_tmpdir}/ld.so.cache"</span> <span class="o">&gt;</span> <span class="s2">"/compat/ubuntu/etc/ld.so.cache"</span>
+<span class="go">    fi
+</span><span class="gp">    rm -rf $</span><span class="o">{</span>_tmpdir<span class="o">}</span>
+<span class="go">  fi
+  load_kld pty
+</span><span class="gp">  if [ `sysctl -ni kern.elf64.fallback_brand` -eq "-1" ];</span><span class="w"> </span><span class="k">then</span>
+<span class="gp">    sysctl kern.elf64.fallback_brand=3 &gt;</span><span class="w"> </span>/dev/null
+<span class="go">  fi
+</span><span class="gp">  if [ `sysctl -ni kern.elf32.fallback_brand` -eq "-1" ];</span><span class="w"> </span><span class="k">then</span>
+<span class="gp">    sysctl kern.elf32.fallback_brand=3 &gt;</span><span class="w"> </span>/dev/null
+<span class="go">  fi
+  sysctl compat.linux.emul_path="/compat/ubuntu"
+  unmounted "/compat/ubuntu/dev" &amp;&amp; (mount -o nocover -t devfs devfs "/compat/ubuntu/dev" || exit 1)
+  unmounted "/compat/ubuntu/dev/fd" &amp;&amp; (mount -o nocover,linrdlnk -t fdescfs fdescfs "/compat/ubuntu/dev/fd" || exit 1)
+  unmounted "/compat/ubuntu/dev/shm" &amp;&amp; (mount -o nocover,mode=1777 -t tmpfs tmpfs "/compat/ubuntu/dev/shm" || exit 1)
+  unmounted "/compat/ubuntu/home" &amp;&amp; (mount -t nullfs /home "/compat/ubuntu/home" || exit 1)
+  unmounted "/compat/ubuntu/proc" &amp;&amp; (mount -o nocover -t linprocfs linprocfs "/compat/ubuntu/proc" || exit 1)
+  unmounted "/compat/ubuntu/sys" &amp;&amp; (mount -o nocover -t linsysfs linsysfs "/compat/ubuntu/sys" || exit 1)
+  unmounted "/compat/ubuntu/tmp" &amp;&amp; (mount -t nullfs /tmp "/compat/ubuntu/tmp" || exit 1)
+  unmounted /dev/fd &amp;&amp; (mount -o nocover -t fdescfs fdescfs /dev/fd || exit 1)
+  unmounted /proc &amp;&amp; (mount -o nocover -t procfs procfs /proc || exit 1)
+  true
+}
+
+</span><span class="gp">load_rc_config $</span>name
+<span class="gp">run_rc_command "$</span>1<span class="s2">"
+</span></code></pre></div></div>
+<p>The above script will enable Ubuntu Base System on FreeBSD computer. So, when the computer reboots/restarts the FreeBSD system, the computer will automatically read the above Ubuntu Base System script. Let’s try restarting Ubuntu Base System now.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>service ubuntu restart
+</code></pre></div></div>
+
+<h2 id="4-create-a-linux-compatibility-directory-zfs-data-sheet">4. Create a Linux Compatibility Directory ZFS Data Sheet</h2>
+<p>The Linux ZFS datasheet is used to create snapshots, delete files, and securely erase entire volumes without disturbing the FreeBSD directory file system. Follow the script below to create a ZFS datasheet for Linux.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>zfs create <span class="nt">-o</span> <span class="nv">compression</span><span class="o">=</span>on <span class="nt">-o</span> <span class="nv">mountpoint</span><span class="o">=</span>/compat zroot/compat
+<span class="gp">root@ns1:~ #</span><span class="w"> </span>zfs snapshot <span class="nt">-r</span> zroot/compat@2022-04-22
+</code></pre></div></div>
+<p>Once the Linux ZFS datasheet has been created, proceed to create a directory for the Ubuntu Base System.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /compat/ubuntu/<span class="o">{</span>dev/fd,dev/shm,home,proc,sys,tmp<span class="o">}</span>
+</code></pre></div></div>
+<p>Enable Ubuntu Base System on FreeBSD.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>service ubuntu restart
+<span class="gp">compat.linux.emul_path: /compat/ubuntu -&gt;</span><span class="w"> </span>/compat/ubuntu
+</code></pre></div></div>
+
+<h2 id="5-installing-ubuntu-base-system-to-linux-compatibility-directory">5. Installing Ubuntu Base System to Linux Compatibility Directory</h2>
+<p>The Ubuntu Base System installation file is <code class="language-plaintext highlighter-rouge">debootstrap</code>. This file will be used to download and install the Ubuntu base system by specifying the Ubuntu target, such as focal for Focal Fossa, which is a version of Ubuntu 20.04 LTS.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>linux-sublime-text4
+<span class="gp">root@ns1:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>debootstrap
+</code></pre></div></div>
+<p>Download and install Ubuntu Base System to the Linux compatibility directory.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span>debootstrap <span class="nt">--arch</span><span class="o">=</span>amd64 <span class="nt">--no-check-gpg</span> focal /compat/ubuntu
+<span class="go">I: Configuring netcat-openbsd...
+I: Configuring isc-dhcp-client...
+I: Configuring debconf-i18n...
+I: Configuring vim-tiny...
+I: Configuring ca-certificates...
+I: Configuring libapt-pkg6.0:amd64...
+I: Configuring gir1.2-glib-2.0:amd64...
+I: Configuring whiptail...
+I: Configuring keyboard-configuration...
+I: Configuring libpython3.8-stdlib:amd64...
+I: Configuring python3.8...
+I: Configuring libxml2:amd64...
+I: Configuring libpython3-stdlib:amd64...
+I: Configuring apt...
+I: Configuring apt-utils...
+I: Configuring python3...
+I: Configuring python3-six...
+I: Configuring python3-gi...
+I: Configuring shared-mime-info...
+I: Configuring python3-netifaces...
+I: Configuring lsb-release...
+I: Configuring python3-cffi-backend...
+I: Configuring python3-pkg-resources...
+I: Configuring python3-dbus...
+I: Configuring python3-yaml...
+I: Configuring netplan.io...
+I: Configuring ubuntu-advantage-tools...
+I: Configuring python3-nacl...
+I: Configuring networkd-dispatcher...
+I: Configuring python3-pymacaroons...
+I: Configuring console-setup-linux...
+I: Configuring console-setup...
+I: Configuring kbd...
+I: Configuring ubuntu-minimal...
+I: Configuring libc-bin...
+I: Configuring systemd...
+I: Configuring ca-certificates...
+I: Base system installed successfully.
+</span></code></pre></div></div>
+<p>Fixed dynamic linking (ELF interpreter) with symbolic links.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /compat/ubuntu/lib64/
+<span class="gp">root@ns1:/compat/ubuntu/lib64 #</span><span class="w"> </span><span class="nb">rm</span> ./ld-linux-x86-64.so.2
+<span class="gp">root@ns1:/compat/ubuntu/lib64 #</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-s</span> ../lib/x86_64-linux-gnu/ld-2.31.so ld-linux-x86-64.so.2
+</code></pre></div></div>
+<p>After that, you restart Ubuntu.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/compat/ubuntu/lib64 #</span><span class="w"> </span>service linux restart
+<span class="gp">root@ns1:/compat/ubuntu/lib64 #</span><span class="w"> </span>service ubuntu restart
+<span class="gp">compat.linux.emul_path: /compat/ubuntu -&gt;</span><span class="w"> </span>/compat/ubuntu
+</code></pre></div></div>
+
+<h2 id="6-ubuntu-configuration">6. Ubuntu Configuration</h2>
+<p>To configure Ubuntu on a FreBSD system, we need to enter a chroot jail, which will limit the configuration process to the base Ubuntu file system. If Ubuntu displays a message about a missing group ID, this can be ignored. You will notice that the Command Prompt will change.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">chroot</span> /compat/ubuntu /bin/bash
+<span class="gp">root@ns1:/#</span><span class="w"> </span><span class="nb">printf</span> <span class="s2">"%b</span><span class="se">\n</span><span class="s2">"</span> <span class="s2">"0.0 0 0.0</span><span class="se">\n</span><span class="s2">0</span><span class="se">\n</span><span class="s2">UTC"</span> <span class="o">&gt;</span> /etc/adjtime
+<span class="gp">root@ns1:/#</span><span class="w"> </span>dpkg-reconfigure tzdata
+<span class="go">
+Current default time zone: 'Asia/Jakarta'
+Local time is now:      Sun Jul  9 14:31:08 WIB 2023.
+Universal Time is now:  Sun Jul  9 07:31:08 UTC 2023.
+
+</span><span class="gp">root@ns1:/#</span><span class="w"> </span><span class="nb">printf</span> <span class="s2">"APT::Cache-Start 251658240;"</span> <span class="o">&gt;</span> /etc/apt/apt.conf.d/00aptitude
+<span class="gp">root@ns1:/#</span><span class="w"> </span><span class="nb">printf</span> <span class="s2">"APT::Cache-Start 251658240;"</span> <span class="o">&gt;</span> /etc/apt/apt.conf.d/00aptitude
+<span class="gp">root@ns1:/#</span><span class="w"> </span><span class="nb">printf</span> <span class="s2">"deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse"</span> <span class="o">&gt;</span> /etc/apt/sources.list
+<span class="gp">root@ns1:/#</span><span class="w"> </span><span class="nb">exit</span>
+<span class="go">exit
+</span><span class="gp">root@ns1:~ #</span><span class="w">
+</span></code></pre></div></div>
+<p>If the above script has been executed, it means that we have enabled Linux Binary Compatibility on FreeBSD and installed the Ubuntu base system on it. With Ubuntu Linux active on FreeBSD, we can now install the Ubuntu repository on FreeBSD. Now we test by updating Ubuntu with the basic Ubuntu script, namely <code class="language-plaintext highlighter-rouge">apt update</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">chroot</span> /compat/ubuntu /bin/bash
+<span class="gp">root@ns1:/#</span><span class="w"> </span>apt update
+<span class="go">Get:1 http://archive.ubuntu.com/ubuntu focal InRelease [265 kB]
+Get:2 http://archive.ubuntu.com/ubuntu focal/main amd64 Packages [970 kB]
+Get:3 http://archive.ubuntu.com/ubuntu focal/main Translation-en [506 kB]
+Get:4 http://archive.ubuntu.com/ubuntu focal/restricted amd64 Packages [22.0 kB]
+Get:5 http://archive.ubuntu.com/ubuntu focal/restricted Translation-en [6212 B]
+Get:6 http://archive.ubuntu.com/ubuntu focal/universe amd64 Packages [8628 kB]
+Get:7 http://archive.ubuntu.com/ubuntu focal/universe Translation-en [5124 kB]                                      
+Get:8 http://archive.ubuntu.com/ubuntu focal/multiverse amd64 Packages [144 kB]                                     
+Get:9 http://archive.ubuntu.com/ubuntu focal/multiverse Translation-en [104 kB]                                     
+Fetched 15.8 MB in 9s (1715 kB/s)                                                                                   
+Reading package lists... Done
+Building dependency tree... Done
+All packages are up to date.
+</span></code></pre></div></div>
+<p>From the script above, everything is running normally. Let’s continue by upgrading Ubuntu.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/#</span><span class="w"> </span>apt list <span class="nt">--upgradable</span>
+<span class="go">Listing... Done
+</span><span class="gp">root@ns1:/#</span><span class="w"> </span>apt upgrade
+<span class="go">Reading package lists... Done
+Building dependency tree... Done
+Calculating upgrade... Done
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+</span><span class="gp">root@ns1:/#</span><span class="w"> </span>apt autoremove
+<span class="go">Reading package lists... Done
+Building dependency tree... Done
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+</span><span class="gp">root@ns1:/#</span><span class="w"> </span>apt clean
+<span class="gp">root@ns1:/#</span><span class="w">
+</span></code></pre></div></div>
+<p>Perfect!. All configurations are fine and Ubuntu is running normally on your FreeBSD computer. Now you can install Ubuntu-based programs on FreeBSD. To be more sure, we tested the installation of the NGINX application on Ubuntu.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">chroot</span> /compat/ubuntu /bin/bash
+<span class="gp">root@ns1:/#</span><span class="w"> </span>apt update
+<span class="go">Hit:1 http://archive.ubuntu.com/ubuntu focal InRelease
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+All packages are up to date.
+</span><span class="gp">root@ns1:/#</span><span class="w"> </span>apt <span class="nb">install </span>nginx
+<span class="go">Reading package lists... Done
+Building dependency tree... Done
+The following additional packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libfreetype6 libgd3 libjbig0 libjpeg-turbo8 libjpeg8
+  libnginx-mod-http-image-filter libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libpng16-16
+  libtiff5 libwebp6 libx11-6 libx11-data libxau6 libxcb1 libxdmcp6 libxpm4 libxslt1.1 nginx-common nginx-core
+Suggested packages:
+  libgd-tools fcgiwrap nginx-doc ssl-cert
+The following NEW packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libfreetype6 libgd3 libjbig0 libjpeg-turbo8 libjpeg8
+  libnginx-mod-http-image-filter libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libpng16-16
+  libtiff5 libwebp6 libx11-6 libx11-data libxau6 libxcb1 libxdmcp6 libxpm4 libxslt1.1 nginx nginx-common nginx-core
+0 upgraded, 25 newly installed, 0 to remove and 0 not upgraded.
+Need to get 3851 kB of archives.
+After this operation, 12.8 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+</span></code></pre></div></div>
+<p>To install Ubuntu applications on a FreeBSD computer, all you need to do is change the command prompt. Consider the following example.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">chroot</span> /compat/ubuntu /bin/bash
+<span class="gp">root@ns1:/#</span><span class="w"> 
+</span></code></pre></div></div>
+<p>The above script explains <code class="language-plaintext highlighter-rouge">root@ns1:~ #</code> is the <code class="language-plaintext highlighter-rouge">FreeBSD</code> command prompt, you cannot run Ubuntu applications in this command prompt.</p>
+
+<p>However, after you run the command <code class="language-plaintext highlighter-rouge">chroot /compat/ubuntu /bin/bash</code>, the command prompt will change to <code class="language-plaintext highlighter-rouge">root@ns1:/#</code>, meaning you have been active in the <code class="language-plaintext highlighter-rouge">Ubuntu</code> command prompt and can install <code class="language-plaintext highlighter-rouge">Ubuntu</code> applications in the <code class="language-plaintext highlighter-rouge">root@ns1:/#</code> command prompt.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-29T11:01:00+03:00">May 29, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Ubuntu+Install+Guide+on+FreeBSD+-+Linux+Binary+Compatibility%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Flinux-binary-compatibility-ubuntu-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Flinux-binary-compatibility-ubuntu-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Flinux-binary-compatibility-ubuntu-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/elasticsearch-freebsd-enable-text-search-netxcloud/" class="pagination--pager" title="FreeBSD Elasticsearch - Enabling Text Search in NextCloud
+">Previous</a>
+    
+    
+      <a href="/freebsd/creating-mysql-database-connection-php-apache-freebsd/" class="pagination--pager" title="Creating a MySQL Database Connection with PHP and Apache on FreeBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/linux-binary-compatibility-ubuntu-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/linux-binary-compatibility-ubuntu-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

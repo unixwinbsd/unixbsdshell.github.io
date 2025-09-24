@@ -1,0 +1,1628 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>FreeBSD Article - Creating NSD Authoritative DNS Master and Slave - UnixBSDShell</title>
+<meta name="description" content="One server is selected to be the master name server, which is the authority for all resource records in the zone file. Another server is selected to be the slave name server, which will reflect the master resource record. The zone master will get its resource records locally, while the zone slaves will get their resource records by copying from the master. Both the master and slave can then serve records to clients requesting name server resolution.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="FreeBSD Article - Creating NSD Authoritative DNS Master and Slave">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/article-nsd-master-slave-authoritative-freebsd/">
+
+
+  <meta property="og:description" content="One server is selected to be the master name server, which is the authority for all resource records in the zone file. Another server is selected to be the slave name server, which will reflect the master resource record. The zone master will get its resource records locally, while the zone slaves will get their resource records by copying from the master. Both the master and slave can then serve records to clients requesting name server resolution.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="FreeBSD Article - Creating NSD Authoritative DNS Master and Slave">
+  <meta name="twitter:description" content="One server is selected to be the master name server, which is the authority for all resource records in the zone file. Another server is selected to be the slave name server, which will reflect the master resource record. The zone master will get its resource records locally, while the zone slaves will get their resource records by copying from the master. Both the master and slave can then serve records to clients requesting name server resolution.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/article-nsd-master-slave-authoritative-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-06-06T12:27:11+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/article-nsd-master-slave-authoritative-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">FreeBSD Article - Creating NSD Authoritative DNS Master and Slave</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="FreeBSD Article - Creating NSD Authoritative DNS Master and Slave">
+    <meta itemprop="description" content="One server is selected to be the master name server, which is the authority for all resource records in the zone file. Another server is selected to be the slave name server, which will reflect the master resource record. The zone master will get its resource records locally, while the zone slaves will get their resource records by copying from the master. Both the master and slave can then serve records to clients requesting name server resolution.">
+    <meta itemprop="datePublished" content="2025-06-06T12:27:11+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">FreeBSD Article - Creating NSD Authoritative DNS Master and Slave
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          21 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#a-system-specifications">A. System Specifications:</a></li>
+  <li><a href="#b-nsd-installation">B. NSD installation</a></li>
+  <li><a href="#c-create-a-tsig-key">C. Create a TSIG Key</a></li>
+  <li><a href="#d-create-zone-files">D. Create Zone Files</a></li>
+  <li><a href="#e-nsd-configuration">E. NSD configuration</a></li>
+  <li><a href="#f-create-a-rotation-log-file">F. Create a Rotation Log file</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>The Internet RFC requires that each DNS zone have at least two name servers (master and slave) to provide redundancy if one server goes offline. These two name servers will serve resource records and need to be synchronized. To do this, we can set the master/slave configuration of our nameservers.</p>
+
+<p>One server is selected to be the master name server, which is the authority for all resource records in the zone file. Another server is selected to be the slave name server, which will reflect the master resource record. The zone master will get its resource records locally, while the zone slaves will get their resource records by copying from the master. Both the master and slave can then serve records to clients requesting name server resolution.</p>
+
+<p>To replicate resource records, the master name server needs to periodically transfer its resource records to the slave name server. Whenever any changes are made to the master server’s local records, it can issue a NOTIFY message to the slave servers to immediately propagate the changes.</p>
+
+<p>In this article we will try to explain in full the NSD Authoritative DNS Server configuration. In its implementation we will use 2 server computers, 1 computer for the Master NSD and 1 computer for the Slave NSD.</p>
+
+<h2 id="a-system-specifications">A. System Specifications:</h2>
+
+<p><strong>NSD Master Servers:</strong></p>
+<ul>
+  <li>OS: PFSense 2.6.0-RELEASE (amd64)</li>
+  <li>CPU: Intel(R) Core(TM)2 Duo CPU E8400 @ 3.00GHz</li>
+  <li>Because it uses PFSense, there are 2 Land Cards
+  a. WAN IP: 192.168.1.2
+  b. LAN IP: 192.168.5.2</li>
+  <li>Hostname: ns1</li>
+  <li>Domain: unixexplore.com</li>
+  <li>Unbound Caching DNS Server: 192.168.5.2@53</li>
+  <li>Master NSD DNS Server: 192.168.5.2@5053</li>
+</ul>
+
+<p><strong>NSD Slave Servers:</strong></p>
+<ul>
+  <li>OS: FreeBSD 13.2 Stable</li>
+  <li>Processor: AMD Phenom II X4 965 3400 MHz</li>
+  <li>Memory: 2 GB</li>
+  <li>Hostname: ns2</li>
+  <li>Domain: unixexplore.com</li>
+  <li>LAN IP: 192.168.5.3/24</li>
+  <li>Unbound Caching DNS Server: 192.168.5.3@53</li>
+  <li>Slave NSD DNS Server: 192.168.5.3@5053</li>
+</ul>
+
+<p>Pay attention to the system specifications that we created, on the NSD Master server, I used the PFSense Router, while on the NSD Slave Server I used the FreeBSD 13.2 Stable Server. You need to know, in this tutorial we will not explain how to install and configure the Unbound Server, you can read the previous article about installing Unbound. In this article Unbound is used as a DNS caching server for clients on our LAN. Every DNS request from the client will be served by Unbound.</p>
+
+<h2 id="b-nsd-installation">B. NSD installation</h2>
+
+<p>OK, let’s just start installing the NSD application. To install NSD, you can use FreeBSD Ports or the pkg package. We will practice installing NSD using FreeBSD Port.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/dns/nsd
+<span class="gp">root@ns1:/usr/ports/dns/nsd #</span><span class="w"> </span>make <span class="nb">install </span>clean
+<span class="gp">root@ns1:/usr/ports/dns/nsd #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/converters/base64
+<span class="gp">root@ns1:/usr/ports/converters/base64 #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div>
+<p>After the NSD installation is complete, nsd automatically has user: <code class="language-plaintext highlighter-rouge">"nsd"</code> and group: <code class="language-plaintext highlighter-rouge">"nsd"</code>. The next step we create the directory structure required for NSD settings. Create a directory structure in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/nsd</code> folder. The chown command below will assign the <code class="language-plaintext highlighter-rouge">"nsd"</code> user and group to the zonefile and tmp db log folders.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/usr/ports/converters/base64 #</span><span class="w"> </span><span class="nb">cd</span> /usr/local/etc/nsd
+<span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> log db zonefile tmp
+<span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">chown </span>nsd:nsd log db zonefile tmp
+<span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">chmod </span>755 log db zonefile tmp
+</code></pre></div></div>
+<p>The next step, set NSD to automatically <strong>RUNNING</strong> when the server computer is turned off or restarted, create the following script in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span>ee ee /etc/rc.conf
+<span class="go">nsd_enable="YES"
+</span></code></pre></div></div>
+
+<h2 id="c-create-a-tsig-key">C. Create a TSIG Key</h2>
+
+<p>NSD supports Transaction Signature (TSIG) for zone transfers and to notify sending and receiving, for any request to the server. The Transaction Signature (TSIG) key is used to secure and encrypt zone transfers. This TSIG key generation can only be done on the NSD Master Server.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/local/etc/nsd
+<span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">dd </span><span class="k">if</span><span class="o">=</span>/dev/random <span class="nv">of</span><span class="o">=</span>/dev/stdout <span class="nv">count</span><span class="o">=</span>1 <span class="nv">bs</span><span class="o">=</span>32 | openssl <span class="nb">base64</span>
+<span class="go">1+0 records in
+1+0 records out
+32 bytes transferred in 0.000062 secs (517808 bytes/sec)
+/9u+zAEFCCcSe15VKuicwGIMuNCEZkWRJp+1tYWjCW8=
+</span><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w">
+</span></code></pre></div></div>
+<p>The blue color in the script above is the TSIG key created by NSD. Save the TSIG key so you don’t lose it, to anticipate if the NSD server is damaged, we have a backup of the TSIG key. After you save the TSIG key.</p>
+
+<p>Next we run the <code class="language-plaintext highlighter-rouge">nsd-control-setup</code> script.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span>nsd-control-setup
+<span class="go">setup in directory /usr/local/etc/nsd
+Generating RSA private key, 3072 bit long modulus (2 primes)
+.....................................++++
+.....++++
+e is 65537 (0x010001)
+Generating RSA private key, 3072 bit long modulus (2 primes)
+................++++
+.................................++++
+e is 65537 (0x010001)
+Signature ok
+subject=CN = nsd-control
+Getting CA Private Key
+removing artifacts
+Setup success. Certificates created. Enable in nsd.conf file to use
+</span><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="d-create-zone-files">D. Create Zone Files</h2>
+
+<p>The next step is to create zone files (forward and reverse) on the NSD Master and NSD Slave servers. On each NSD server (master and slave), we create two zone files, and we place them in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/nsd/zonefile</code> folder.</p>
+
+<p>For free file zone naming, in this article we name the file zones as follows:</p>
+<ul>
+  <li>File unixexplore.com.forward   <code class="language-plaintext highlighter-rouge">(/usr/local/etc/nsd/zonefile/unixexplore.com.forward)</code>.</li>
+  <li>File unixexplore.com.reverse   <code class="language-plaintext highlighter-rouge">(/usr/local/etc/nsd/zonefile/unixexplore.com.reverse)</code>.</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">touch</span> /usr/local/etc/nsd/zonefile/unixexplore.com.forward
+<span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">chmod</span> +x /usr/local/etc/nsd/zonefile/unixexplore.com.forward
+<span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">touch</span> /usr/local/etc/nsd/zonefile/unixexplore.com.reverse
+<span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">chmod</span> +x /usr/local/etc/nsd/zonefile/unixexplore.com.reverse
+</code></pre></div></div>
+<p>Below is an example of a script file <code class="language-plaintext highlighter-rouge">"unixexplore.com.forward"</code> For NSD Master dan Slave.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ORIGIN unixexplore.com. ; default zone domain
+$TTL 86400               ; default time to live
+
+@ IN SOA ns1.unixexplore.com. admin.unixexplore.com. (
+                 2014010203 ; serial number
+                 28800      ; Refresh
+                 7200       ; Retry
+                 864000     ; Expire
+                 86400      ; Min TTL
+                   )
+
+@		IN NS ns1.unixexplore.com.
+@		IN NS ns2.unixexplore.com.
+
+@               IN    A    192.168.5.2
+ns1             IN    A    192.168.5.2 
+ns2             IN    A    192.168.5.3
+</code></pre></div></div>
+
+<p>Below is an example of a script file <code class="language-plaintext highlighter-rouge">"unixexplore.com.reverse"</code> for  NSD Master dan Slave.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ORIGIN unixexplore.com. ; default zone domain
+$TTL 86400       ; default time to live
+
+5.168.192.in-addr.arpa. IN SOA ns1.unixexplore.com. admin.unixexplore.com. (
+                            2014010203 ; serial number
+                            28800      ; Refresh
+                            7200       ; Retry
+                            864000     ; Expire
+                            86400      ; Min TTL
+                             )
+; Name Servers
+
+@				IN		NS		ns1
+@				IN		NS		ns2
+
+2.5.168.192.in-addr.arpa.	IN		PTR		@
+2.5.168.192.in-addr.arpa.	IN		PTR		ns1
+3.5.168.192.in-addr.arpa.	IN		PTR		ns2
+</code></pre></div></div>
+
+<h2 id="e-nsd-configuration">E. NSD configuration</h2>
+
+<p>Because we will run NSD with an Unbound DNS caching server, so, to avoid void conflicts, configure NSD using port <code class="language-plaintext highlighter-rouge">5053</code>, because port <code class="language-plaintext highlighter-rouge">53</code> is used by the Unbound DNS caching server. NSD will listen to requests from the LAN server IP. Before we run the NSD application, make sure we have edited the nsd.conf file in the <code class="language-plaintext highlighter-rouge">/usr/local/etc</code> folder to suit internet needs and the specifications of our server computer.</p>
+
+<p>Below is the <code class="language-plaintext highlighter-rouge">"/usr/local/etc/nsd/nsd.conf"</code> script to serve NSD Master</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#
+# nsd.conf -- the NSD(8) configuration file, nsd.conf(5).
+#
+# Copyright (c) 2001-2011, NLnet Labs. All rights reserved.
+#
+# See LICENSE for the license.
+#
+
+# This is a comment.
+# Sample configuration file
+# include: "file" # include that file's text over here.
+
+# options for the nsd server
+
+server:
+ 
+# Number of NSD servers to fork. Put the number of CPUs to use here.
+# server-count: 1
+
+# uncomment to specify specific interfaces to bind (default are the
+# wildcard interfaces 0.0.0.0 and ::0).
+# ip-address: 1.2.3.4
+# ip-address: 1.2.3.4@5678
+# ip-address: 12fe::8ef0
+ip-address: 192.168.9.1
+ip-address: 127.0.0.1
+
+# Allow binding to non local addresses. Default no.
+# ip-transparent: no
+
+# enable debug mode, does not fork daemon process into the background.
+# debug-mode: no
+
+# listen on IPv4 connections
+  do-ip4: yes
+
+# listen on IPv6 connections
+# do-ip6: yes
+
+# port to answer queries on. default is 53.
+port: 5053
+
+# Verbosity level.
+  verbosity: 2
+
+# After binding socket, drop user privileges.
+# can be a username, id or id.gid.
+username: nsd
+
+# Run NSD in a chroot-jail.
+# make sure to have pidfile and database reachable from there.
+# by default, no chroot-jail is used.
+chroot: "/usr/local/etc/nsd"
+
+# The directory for zonefile: files. The daemon chdirs here.
+  zonesdir: "/usr/local/etc/nsd/zonefile"
+ 
+# the list of dynamically added zones.
+  zonelistfile: "/usr/local/etc/nsd/db/zone.list"
+
+# the database to use
+  database: "/usr/local/etc/nsd/db/nsd.db"
+
+# log messages to file. Default to stderr and syslog (with
+# facility LOG_DAEMON). stderr disappears when daemon goes to bg.
+  logfile: "/usr/local/etc/nsd/log/nsd.log"
+
+# File to store pid for nsd in.
+  pidfile: "/usr/local/etc/nsd/nsd.pid"
+
+# The file where secondary zone refresh and expire timeouts are kept.
+# If you delete this file, all secondary zones are forced to be 
+# 'refreshing' (as if nsd got a notify).
+  xfrdfile: "/usr/local/etc/nsd/db/xfrd.state"
+
+# The directory where zone transfers are stored, in a subdir of it.
+  xfrdir: "/usr/local/etc/nsd/tmp"
+
+# don't answer VERSION.BIND and VERSION.SERVER CHAOS class queries
+  hide-version: yes
+
+# identify the server (CH TXT ID.SERVER entry).
+  identity: "unidentified server"
+
+# NSID identity (hex string, or "ascii_somestring"). default disabled.
+# nsid: "aabbccdd"
+
+# Maximum number of concurrent TCP connections per server.
+# tcp-count: 100
+
+# Maximum number of queries served on a single TCP connection.
+# By default 0, which means no maximum.
+# tcp-query-count: 0
+
+# Override the default (120 seconds) TCP timeout.
+# tcp-timeout: 120
+
+# Preferred EDNS buffer size for IPv4.
+# ipv4-edns-size: 4096
+
+# Preferred EDNS buffer size for IPv6.
+# ipv6-edns-size: 4096
+
+# statistics are produced every number of seconds. Prints to log.
+# statistics: 3600
+
+# Number of seconds between reloads triggered by xfrd.
+# xfrd-reload-timeout: 1
+
+# check mtime of all zone files on start and sighup
+# zonefiles-check: yes
+
+# RRLconfig
+# Response Rate Limiting, size of the hashtable. Default 1000000.
+# rrl-size: 1000000
+
+# Response Rate Limiting, maximum QPS allowed (from one query source).
+# Default 200. If set to 0, ratelimiting is disabled. Also set
+# rrl-whitelist-ratelimit to 0 to disable ratelimit processing.
+# rrl-ratelimit: 200
+
+# Response Rate Limiting, number of packets to discard before
+# sending a SLIP response (a truncated one, allowing an honest
+# resolver to retry with TCP). Default is 2 (one half of the
+# queries will receive a SLIP response, 0 disables SLIP (all
+# packets are discarded), 1 means every request will get a
+# SLIP response.
+# rrl-slip: 2
+
+# Response Rate Limiting, IPv4 prefix length. Addresses are
+# grouped by netblock. 
+# rrl-ipv4-prefix-length: 24
+
+# Response Rate Limiting, IPv6 prefix length. Addresses are
+# grouped by netblock. 
+# rrl-ipv6-prefix-length: 64
+
+# Response Rate Limiting, maximum QPS allowed (from one query source)
+# for whitelisted types. Default 2000.
+# rrl-whitelist-ratelimit: 2000
+# RRLend
+
+# Remote control config section. 
+
+remote-control:
+ 
+# Enable remote control with nsd-control(8) here.
+# set up the keys and certificates with nsd-control-setup.
+  control-enable: yes 
+
+# what interfaces are listened to for control, default is on localhost.
+  control-interface: 127.0.0.1
+# control-interface: ::1
+
+# port number for remote control operations (uses TLS over TCP).
+  control-port: 8952
+
+# nsd server key file for remote control.
+  server-key-file: "/usr/local/etc/nsd/nsd_server.key"
+
+# nsd server certificate file for remote control.
+  server-cert-file: "/usr/local/etc/nsd/nsd_server.pem"
+
+# nsd-control key file.
+  control-key-file: "/usr/local/etc/nsd/nsd_control.key"
+
+# nsd-control certificate file.
+  control-cert-file: "/usr/local/etc/nsd/nsd_control.pem"
+
+
+# Secret keys for TSIGs that secure zone transfers.
+# You could include: "secret.keys" and put the 'key:' statements in there,
+# and give that file special access control permissions.
+#
+key:
+# The key name is sent to the other party, it must be the same
+name: "secure_key"
+# algorithm hmac-md5, or hmac-sha1, or hmac-sha256 (if compiled in)
+algorithm: hmac-sha256
+# secret material, must be the same as the other party uses.
+# base64 encoded random number.
+# e.g. from dd if=/dev/random of=/dev/stdout count=1 bs=32 | base64
+secret: "D4Xurm0OcyfCxMCcXpnPC/F1LpcRtLIQrlcH4ABxy/Y="                              
+
+
+# Patterns have zone configuration and they are shared by one or more zones.
+# 
+# pattern:
+# name by which the pattern is referred to
+# name: "myzones"
+# the zonefile for the zones that use this pattern.
+# if relative then from the zonesdir (inside the chroot).
+# the name is processed: %s - zone name (as appears in zone:name).
+# %1 - first character of zone name, %2 second, %3 third.
+# %z - topleveldomain label of zone, %y, %x next labels in name.
+# if label or character does not exist you get a dot '.'.
+# for example "%s.zone" or "zones/%1/%2/%3/%s" or "secondary/%z/%s"
+# zonefile: "%s.zone"
+ 
+# If no master and slave access control elements are provided,
+# this zone will not be served to/from other servers.
+
+# A master zone needs notify: and provide-xfr: lists. A slave
+# may also allow zone transfer (for debug or other secondaries).
+# notify these slaves when the master zone changes, address TSIG|NOKEY
+# IP can be ipv4 and ipv6, with @port for a nondefault port number.
+# notify: 192.0.2.1 NOKEY
+# allow these IPs and TSIG to transfer zones, addr TSIG|NOKEY|BLOCKED
+# address range 192.0.2.0/24, 1.2.3.4&amp;255.255.0.0, 3.0.2.20-3.0.2.40
+# provide-xfr: 192.0.2.0/24 my_tsig_key_name
+# set the number of retries for notify.
+# notify-retry: 5
+
+# uncomment to provide AXFR to all the world
+# provide-xfr: 0.0.0.0/0 NOKEY
+# provide-xfr: ::0/0 NOKEY
+
+# A slave zone needs allow-notify: and request-xfr: lists.
+# allow-notify: 2001:db8::0/64 my_tsig_key_name
+# By default, a slave will request a zone transfer with IXFR/TCP.
+# If you want to make use of IXFR/UDP use: UDP addr tsigkey
+# for a master that only speaks AXFR (like NSD) use AXFR addr tsigkey
+# request-xfr: 192.0.2.2 the_tsig_key_name
+# Attention: You cannot use UDP and AXFR together. AXFR is always over 
+# TCP. If you use UDP, we higly recommend you to deploy TSIG.
+# Allow AXFR fallback if the master does not support IXFR. Default
+# is yes.
+# allow-axfr-fallback: yes
+# set local interface for sending zone transfer requests.
+# default is let the OS choose.
+# outgoing-interface: 10.0.0.10
+
+# if you give another pattern name here, at this point the settings
+# from that pattern are inserted into this one (as if it were a 
+# macro). The statement can be given in between other statements,
+# because the order of access control elements can make a difference
+# (which master to request from first, which slave to notify first).
+# include-pattern: "common-masters"
+
+
+# Fixed zone entries. Here you can config zones that cannot be deleted.
+# Zones that are dynamically added and deleted are put in the zonelist file.
+#
+# zone:
+# name: "example.com"
+# you can give a pattern here, all the settings from that pattern
+# are then inserted at this point
+# include-pattern: "master"
+# You can also specify (additional) options directly for this zone.
+# zonefile: "example.com.zone"
+# request-xfr: 192.0.2.1 example.com.key
+
+# RRLconfig
+# Response Rate Limiting, whitelist types
+# rrl-whitelist: nxdomain
+# rrl-whitelist: error
+# rrl-whitelist: referral
+# rrl-whitelist: any
+# rrl-whitelist: rrsig
+# rrl-whitelist: wildcard
+# rrl-whitelist: nodata
+# rrl-whitelist: dnskey
+# rrl-whitelist: positive
+# rrl-whitelist: all
+# RRLend
+
+  zone:
+   name: "unixexplore.com"
+   zonefile: unixexplore.com.forward
+   notify: 192.168.9.3@5053 secure_key
+   provide-xfr: 192.168.9.3 secure_key
+
+  zone:
+   name: "9.168.192.in-addr.arpa"
+   zonefile: unixexplore.com.reverse
+   notify: 192.168.9.3@5053 secure_key
+   provide-xfr: 192.168.9.3 secure_key
+</code></pre></div></div>
+
+<p>Below is the <code class="language-plaintext highlighter-rouge">"/usr/local/etc/nsd/nsd.conf"</code> script for the NSD Slave server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#
+# nsd.conf -- the NSD(8) configuration file, nsd.conf(5).
+#
+# Copyright (c) 2001-2011, NLnet Labs. All rights reserved.
+#
+# See LICENSE for the license.
+#
+
+# This is a comment.
+# Sample configuration file
+# include: "file" # include that file's text over here.
+
+# options for the nsd server
+
+server:
+ 
+# Number of NSD servers to fork. Put the number of CPUs to use here.
+ server-count: 1
+
+# uncomment to specify specific interfaces to bind (default are the
+# wildcard interfaces 0.0.0.0 and ::0).
+# ip-address: 1.2.3.4
+# ip-address: 1.2.3.4@5678
+# ip-address: 12fe::8ef0
+  ip-address: 192.168.9.3
+  ip-address: 127.0.0.1
+ 
+
+# Allow binding to non local addresses. Default no.
+# ip-transparent: no
+
+# enable debug mode, does not fork daemon process into the background.
+# debug-mode: no
+
+# listen on IPv4 connections
+  do-ip4: yes
+
+# listen on IPv6 connections
+# do-ip6: yes
+
+# port to answer queries on. default is 53.
+  port: 5053
+
+# Verbosity level.
+  verbosity: 2 
+
+# After binding socket, drop user privileges.
+# can be a username, id or id.gid.
+  username: nsd
+
+# Run NSD in a chroot-jail.
+# make sure to have pidfile and database reachable from there.
+# by default, no chroot-jail is used.
+  chroot: "/usr/local/etc/nsd"
+
+# The directory for zonefile: files. The daemon chdirs here.
+  zonesdir: "/usr/local/etc/nsd/zonefile"
+ 
+# the list of dynamically added zones.
+  zonelistfile: "/usr/local/etc/nsd/db/zone.list"
+
+# the database to use
+  database: "/usr/local/etc/nsd/db/nsd.db"
+
+# log messages to file. Default to stderr and syslog (with
+# facility LOG_DAEMON). stderr disappears when daemon goes to bg.
+  logfile: "/usr/local/etc/nsd/log/nsd.log"
+
+# File to store pid for nsd in.
+  pidfile: "/usr/local/etc/nsd/nsd.pid"
+
+# The file where secondary zone refresh and expire timeouts are kept.
+# If you delete this file, all secondary zones are forced to be 
+# 'refreshing' (as if nsd got a notify).
+  xfrdfile: "/usr/local/etc/nsd/db/xfrd.state"
+
+# The directory where zone transfers are stored, in a subdir of it.
+  xfrdir: "/usr/local/etc/nsd/tmp"
+
+# don't answer VERSION.BIND and VERSION.SERVER CHAOS class queries
+  hide-version: yes 
+
+# identify the server (CH TXT ID.SERVER entry).
+  identity: "unidentified server"
+
+# NSID identity (hex string, or "ascii_somestring"). default disabled.
+# nsid: "aabbccdd"
+
+# Maximum number of concurrent TCP connections per server.
+# tcp-count: 100
+
+# Maximum number of queries served on a single TCP connection.
+# By default 0, which means no maximum.
+# tcp-query-count: 0
+
+# Override the default (120 seconds) TCP timeout.
+# tcp-timeout: 120
+
+# Preferred EDNS buffer size for IPv4.
+# ipv4-edns-size: 4096
+
+# Preferred EDNS buffer size for IPv6.
+# ipv6-edns-size: 4096
+
+# statistics are produced every number of seconds. Prints to log.
+# statistics: 3600
+
+# Number of seconds between reloads triggered by xfrd.
+# xfrd-reload-timeout: 1
+
+# check mtime of all zone files on start and sighup
+# zonefiles-check: yes
+
+# RRLconfig
+# Response Rate Limiting, size of the hashtable. Default 1000000.
+# rrl-size: 1000000
+
+# Response Rate Limiting, maximum QPS allowed (from one query source).
+# Default 200. If set to 0, ratelimiting is disabled. Also set
+# rrl-whitelist-ratelimit to 0 to disable ratelimit processing.
+# rrl-ratelimit: 200
+
+# Response Rate Limiting, number of packets to discard before
+# sending a SLIP response (a truncated one, allowing an honest
+# resolver to retry with TCP). Default is 2 (one half of the
+# queries will receive a SLIP response, 0 disables SLIP (all
+# packets are discarded), 1 means every request will get a
+# SLIP response.
+# rrl-slip: 2
+
+# Response Rate Limiting, IPv4 prefix length. Addresses are
+# grouped by netblock. 
+# rrl-ipv4-prefix-length: 24
+
+# Response Rate Limiting, IPv6 prefix length. Addresses are
+# grouped by netblock. 
+# rrl-ipv6-prefix-length: 64
+
+# Response Rate Limiting, maximum QPS allowed (from one query source)
+# for whitelisted types. Default 2000.
+# rrl-whitelist-ratelimit: 2000
+# RRLend
+
+# Remote control config section. 
+
+remote-control:
+ 
+# Enable remote control with nsd-control(8) here.
+# set up the keys and certificates with nsd-control-setup.
+  control-enable: yes 
+
+# what interfaces are listened to for control, default is on localhost.
+  control-interface: 127.0.0.1
+# control-interface: ::1
+
+# port number for remote control operations (uses TLS over TCP).
+  control-port: 8952
+
+# nsd server key file for remote control.
+  server-key-file: "/usr/local/etc/nsd/nsd_server.key"
+
+# nsd server certificate file for remote control.
+  server-cert-file: "/usr/local/etc/nsd/nsd_server.pem"
+
+# nsd-control key file.
+  control-key-file: "/usr/local/etc/nsd/nsd_control.key"
+
+# nsd-control certificate file.
+  control-cert-file: "/usr/local/etc/nsd/nsd_control.pem"
+
+
+# Secret keys for TSIGs that secure zone transfers.
+# You could include: "secret.keys" and put the 'key:' statements in there,
+# and give that file special access control permissions.
+#
+key:
+# The key name is sent to the other party, it must be the same
+name: "secure_key"
+# algorithm hmac-md5, or hmac-sha1, or hmac-sha256 (if compiled in)
+algorithm: hmac-sha256
+# secret material, must be the same as the other party uses.
+# base64 encoded random number.
+# e.g. from dd if=/dev/random of=/dev/stdout count=1 bs=32 | base64
+secret: "D4Xurm0OcyfCxMCcXpnPC/F1LpcRtLIQrlcH4ABxy/Y="
+
+
+# Patterns have zone configuration and they are shared by one or more zones.
+# 
+# pattern:
+# name by which the pattern is referred to
+# name: "myzones"
+# the zonefile for the zones that use this pattern.
+# if relative then from the zonesdir (inside the chroot).
+# the name is processed: %s - zone name (as appears in zone:name).
+# %1 - first character of zone name, %2 second, %3 third.
+# %z - topleveldomain label of zone, %y, %x next labels in name.
+# if label or character does not exist you get a dot '.'.
+# for example "%s.zone" or "zones/%1/%2/%3/%s" or "secondary/%z/%s"
+# zonefile: "%s.zone"
+ 
+# If no master and slave access control elements are provided,
+# this zone will not be served to/from other servers.
+
+# A master zone needs notify: and provide-xfr: lists. A slave
+# may also allow zone transfer (for debug or other secondaries).
+# notify these slaves when the master zone changes, address TSIG|NOKEY
+# IP can be ipv4 and ipv6, with @port for a nondefault port number.
+# notify: 192.0.2.1 NOKEY
+# allow these IPs and TSIG to transfer zones, addr TSIG|NOKEY|BLOCKED
+# address range 192.0.2.0/24, 1.2.3.4&amp;255.255.0.0, 3.0.2.20-3.0.2.40
+# provide-xfr: 192.0.2.0/24 my_tsig_key_name
+# set the number of retries for notify.
+# notify-retry: 5
+
+# uncomment to provide AXFR to all the world
+# provide-xfr: 0.0.0.0/0 NOKEY
+# provide-xfr: ::0/0 NOKEY
+
+# A slave zone needs allow-notify: and request-xfr: lists.
+# allow-notify: 2001:db8::0/64 my_tsig_key_name
+# By default, a slave will request a zone transfer with IXFR/TCP.
+# If you want to make use of IXFR/UDP use: UDP addr tsigkey
+# for a master that only speaks AXFR (like NSD) use AXFR addr tsigkey
+# request-xfr: 192.0.2.2 the_tsig_key_name
+# Attention: You cannot use UDP and AXFR together. AXFR is always over 
+# TCP. If you use UDP, we higly recommend you to deploy TSIG.
+# Allow AXFR fallback if the master does not support IXFR. Default
+# is yes.
+# allow-axfr-fallback: yes
+# set local interface for sending zone transfer requests.
+# default is let the OS choose.
+# outgoing-interface: 10.0.0.10
+
+# if you give another pattern name here, at this point the settings
+# from that pattern are inserted into this one (as if it were a 
+# macro). The statement can be given in between other statements,
+# because the order of access control elements can make a difference
+# (which master to request from first, which slave to notify first).
+# include-pattern: "common-masters"
+
+
+# Fixed zone entries. Here you can config zones that cannot be deleted.
+# Zones that are dynamically added and deleted are put in the zonelist file.
+#
+# zone:
+# name: "example.com"
+# you can give a pattern here, all the settings from that pattern
+# are then inserted at this point
+# include-pattern: "master"
+# You can also specify (additional) options directly for this zone.
+# zonefile: "example.com.zone"
+# request-xfr: 192.0.2.1 example.com.key
+
+# RRLconfig
+# Response Rate Limiting, whitelist types
+# rrl-whitelist: nxdomain
+# rrl-whitelist: error
+# rrl-whitelist: referral
+# rrl-whitelist: any
+# rrl-whitelist: rrsig
+# rrl-whitelist: wildcard
+# rrl-whitelist: nodata
+# rrl-whitelist: dnskey
+# rrl-whitelist: positive
+# rrl-whitelist: all
+# RRLend
+
+  zone:
+   name: "unixexplore.com"
+   zonefile: unixexplore.com.forward
+   allow-notify: 192.168.9.1 secure_key
+   allow-notify: 127.0.0.1 NOKEY
+   request-xfr: AXFR 192.168.9.1@5053 secure_key
+ 
+  zone:
+   name: "9.168.192.in-addr.arpa"
+   zonefile: unixexplore.com.reverse
+   allow-notify: 192.168.9.1 secure_key
+   allow-notify: 127.0.0.1 NOKEY
+   request-xfr: AXFR 192.168.9.1@5053 secure_key
+</code></pre></div></div>
+
+<h2 id="f-create-a-rotation-log-file">F. Create a Rotation Log file</h2>
+
+<p>Since NSD will generate a large number of log entries depending on the verbosity level, managing log rotation is critical. The script below is required on both NSD Master and Slave Servers.</p>
+
+<p>Add the script below to the file <code class="language-plaintext highlighter-rouge">/etc/newsyslog.conf</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/local/etc/nsd/log
+<span class="gp">root@ns1:/usr/local/etc/nsd/log #</span><span class="w"> </span>ee /etc/newsyslog.conf
+<span class="go">/usr/local/etc/nsd/log/nsd.log  bind:wheel     640  7     *    @T12  R   /usr/local/etc/nsd/log_reopen
+</span></code></pre></div></div>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">log_reopen</code> file in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/nsd</code> folder, enter the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/local/etc/nsd
+<span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">touch </span>log_reopen
+<span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span>ee log_reopen
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span><span class="o">!</span>/bin/sh
+<span class="gp">#</span><span class="w"> </span>This script restarts NSD after log rotation by newsyslog<span class="o">(</span>8<span class="o">)</span>
+<span class="go">/usr/local/sbin/nsd-control log_reopen
+exit 0
+</span></code></pre></div></div>
+
+<p>Create permissions on the <code class="language-plaintext highlighter-rouge">log_reopen</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> nsd:nsd /usr/local/etc/nsd/log_reopen
+</code></pre></div></div>
+
+<p>When you update the zone file with new DNS records and increase the domain serial number, NSD will update the NSD Slave Server, at the time the zone file is reloaded using nsd-control reload or if the nsd service is restarted from the NSD Master Server.</p>
+
+<p>Since the NSD database is updated with the changed zone information, the actual zone files, in our case, unixexplore.com.forward and unixexplore.com.reverse are not updated on the Slave NSD Server.</p>
+
+<p>However, NSD provides the nsd-control write utility to perform this task. It is recommended to use a cron job once a day to update the text zone files on the NSD Master and Slave Servers.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">touch</span> /usr/local/etc/nsd/zone_write
+<span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span>ee /usr/local/etc/nsd/zone_write
+<span class="go">
+</span><span class="gp">#</span><span class="o">!</span>/bin/sh
+<span class="gp">#</span>This script writes the zone files to the NSD Slave Server
+<span class="go">/usr/local/sbin/nsd-control write
+exit 0
+</span></code></pre></div></div>
+
+<p><br /></p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span>ee /etc/crontab
+<span class="go">
+00     08     *     *     *     /usr/local/etc/nsd/zone_write
+</span></code></pre></div></div>
+
+<p><br /></p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> nsd:nsd /usr/local/etc/nsd/zone_write
+</code></pre></div></div>
+
+<p>Restart NSD.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span>service nsd restart
+<span class="go">Stopping nsd.
+Waiting for PIDS: 954.
+Starting nsd.
+</span><span class="gp">root@router1:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Up to now, NSD has been running well, but cannot be used yet. The NSD is RUNNING but not working, why? At the beginning of the article we discussed, the NSD Server functions with the Unbound DNS Server. So that the NSD Server can function properly, we must add the following script to the unbound.conf file in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/unbound</code> folder.</p>
+
+<p>The following script is added to the <code class="language-plaintext highlighter-rouge">unbound.conf</code> file on both the Master and Slave computers.</p>
+
+<p><br /></p>
+
+<p><strong>Script /usr/local/etc/unbound/unbound.conf on the NSD Master server.</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stub-zone:
+   name: "unixexplore.com"
+   stub-addr: 192.168.5.2@5053
+
+   stub-zone:
+   name: "9.168.192.in-addr.arpa."
+   stub-addr: 192.168.5.2@5053
+</code></pre></div></div>
+
+<p><strong>Script /usr/local/etc/unbound/unbound.conf on the NSD Slave server.</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stub-zone:
+   name: "unixexplore.com"
+   stub-addr: 192.168.5.3@5053
+
+   stub-zone:
+   name: "9.168.192.in-addr.arpa."
+   stub-addr: 192.168.5.3@5053
+</code></pre></div></div>
+
+<p>You can place the script in unbound.conf above at the end of the <code class="language-plaintext highlighter-rouge">/usr/local/etc/unbound/unbound.conf</code> file. Now restart the NSD again.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/usr/local/etc/nsd #</span><span class="w"> </span>service nsd restart
+<span class="go">Stopping nsd.
+Waiting for PIDS: 954.
+Starting nsd.
+</span><span class="gp">root@router1:~ #</span><span class="w">
+</span></code></pre></div></div>
+<p>Now your server computer has the NSD application installed which is RUNNING and can function properly together with Server Unbound.</p>
+
+<p>In this article, NSD as an Authoritative DNS Server has been configured for internal LAN DNS resolution. Combining unbound together with nsd is an effective combination as a replacement for Bind, to serve DNS servers and authoritative name servers for clients that require DNS.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#dnsserver" class="page__taxonomy-item" rel="tag">DNSServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-06T12:27:11+03:00">June 6, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=FreeBSD+Article+-+Creating+NSD+Authoritative+DNS+Master+and+Slave%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Farticle-nsd-master-slave-authoritative-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Farticle-nsd-master-slave-authoritative-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Farticle-nsd-master-slave-authoritative-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/enable-dnssec-bind-dns-server-freebsd/" class="pagination--pager" title="How to Enable DNSSEC Bind DNS Server On FreeBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/isc-bind-dns-master-slave-configuration-freebsd/" class="pagination--pager" title="FreeBSD ISC Bind - Master and Slave DNS Configuration
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/article-nsd-master-slave-authoritative-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/article-nsd-master-slave-authoritative-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

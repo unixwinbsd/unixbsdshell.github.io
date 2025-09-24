@@ -1,0 +1,945 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Bind DNS Server with TLS using Stunnel on OpenBSD - UnixBSDShell</title>
+<meta name="description" content="Stunnel has the power to create blocks of data in a format that cannot be deciphered by attackers. This allows for the creation of encrypted tunnels for specific applications, making it a popular tool in the world of ethical hacking and penetration testing. The encryption is known as a key and is stored locally on both the client and server computers.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Bind DNS Server with TLS using Stunnel on OpenBSD">
+<meta property="og:url" content="https://unixwinbsd.site/openbsd/installing-dns-bind-stunnel-openbsd/">
+
+
+  <meta property="og:description" content="Stunnel has the power to create blocks of data in a format that cannot be deciphered by attackers. This allows for the creation of encrypted tunnels for specific applications, making it a popular tool in the world of ethical hacking and penetration testing. The encryption is known as a key and is stored locally on both the client and server computers.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Bind DNS Server with TLS using Stunnel on OpenBSD">
+  <meta name="twitter:description" content="Stunnel has the power to create blocks of data in a format that cannot be deciphered by attackers. This allows for the creation of encrypted tunnels for specific applications, making it a popular tool in the world of ethical hacking and penetration testing. The encryption is known as a key and is stored locally on both the client and server computers.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/openbsd/installing-dns-bind-stunnel-openbsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-06-03T19:11:11+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/openbsd/installing-dns-bind-stunnel-openbsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Bind DNS Server with TLS using Stunnel on OpenBSD</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Bind DNS Server with TLS using Stunnel on OpenBSD">
+    <meta itemprop="description" content="Stunnel has the power to create blocks of data in a format that cannot be deciphered by attackers. This allows for the creation of encrypted tunnels for specific applications, making it a popular tool in the world of ethical hacking and penetration testing. The encryption is known as a key and is stored locally on both the client and server computers.">
+    <meta itemprop="datePublished" content="2025-06-03T19:11:11+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Bind DNS Server with TLS using Stunnel on OpenBSD
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-how-to-install-stunnel">1. How to Install Stunnel</a></li>
+  <li><a href="#2-stunnel-configuration">2. Stunnel Configuration</a></li>
+  <li><a href="#3-configure-isc-bind-dns-server">3. Configure ISC Bind DNS Server</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Stunnel is a versatile open source client-server based program that provides encryption for secure data communication using SSL/TLS protocols. Stunnel can run on various operating systems such as Unix, Linux, BSD, Windows, and others. Stunnel is designed to help secure HTTP/HTTPS ports, as Stunnel is able to encrypt traffic, proxy connections, and redirect applications so that they can run safely on your computer with untrusted network connections.</p>
+
+<p>Stunnel can also inspect each packet in the encrypted tunnel and make adjustments to improve performance. Stunnel manages one or more client-server TCP/IP connections by creating encrypted tunnels through which only the client and server are allowed to communicate. These encrypted connections serve as a substitute for direct connections between the client application and the server application, which helps prevent communication from being interrupted while in transit from one end of the connection to the other.</p>
+
+<p>Stunnel has the power to create blocks of data in a format that cannot be deciphered by attackers. This allows for the creation of encrypted tunnels for specific applications, making it a popular tool in the world of ethical hacking and penetration testing. The encryption is known as a key and is stored locally on both the client and server computers.</p>
+
+<p>When communication is required between two endpoints, Stunnel connects to the server, receives the essential information for a particular connection (hostname, port number, and protocol) from the server, and then creates an encrypted tunnel over an encrypted TCP/IP connection. Once the tunnel is established, Stunnel releases its TCP/IP credentials and terminates it.</p>
+
+<p>Stunnel software is an implementation of the SSL protocol or often called Secure Sockets Layer and TLS (Transport Layer Security). The benefits of Stunnel can facilitate end-to-end encryption, data integrity, and authentication between two hosts. The transmission protocol can be several protocols, such as FTP, IMAP, POP3, telnet, and HTTP. Stunnel can be used to authenticate with the server through a client certificate or with an authentication agent through single sign-on (SSO). Stunnel can also be used to provide an encrypted layer for network traffic that does not require authentication with the server.</p>
+
+<p><br /></p>
+
+<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixwinbsd.github.io/refs/heads/master/themes/PaperMod/images/server%20dns%20bind%20with%20stunnel.jpg" alt="diagram server dns bind with stunnel" /></p>
+
+<p><br /></p>
+
+<h2 id="1-how-to-install-stunnel">1. How to Install Stunnel</h2>
+<p>As we know, Bind DNS server does not have direct DNS-over-TLS (DOT) support. If you want to enable DOT support on Bind, you need to add Stunnel, so that Bind can forward DNS directly to the TLS protocol. Due to its flexibility and power, Stunnel is able to encrypt TLS without making any major changes to the running client or server.</p>
+
+<p>On OpenBSD, Stunnel repository is available in PKG package and port, you can install it directly. To make the process easier, use PKG package to install Stunnel, as in the example below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>pkg_add stunnel
+</code></pre></div></div>
+<p>During the installation process, OpenBSD automatically creates a user and group for Stunnel. These groups and users are very useful during the Stunnel setup process.</p>
+
+<p>Run the command below to grant file ownership.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> _stunnel:_stunnel /etc/stunnel/
+</code></pre></div></div>
+
+<h2 id="2-stunnel-configuration">2. Stunnel Configuration</h2>
+<p>On OpenBSD, the Stunnel configuration file is located at <code class="language-plaintext highlighter-rouge">/etc/stunnel</code>. Please open and edit the stunnel.conf file. We recommend that you delete the entire contents of the stunnel.conf script, and replace it with the script we have created. Adjust the script to your OpenBSD server specifications. Here is a complete example of the <code class="language-plaintext highlighter-rouge">/etc/stunnel/stunnel.conf</code> script.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">chroot = /etc/stunnel
+setuid = _stunnel
+setgid = _stunnel
+</span><span class="gp">;</span>pid <span class="o">=</span> /var/stunnel/stunnel.pid
+<span class="gp">;</span>foreground <span class="o">=</span> <span class="nb">yes</span>
+<span class="gp">;</span>debug <span class="o">=</span> info
+<span class="gp">;</span>output <span class="o">=</span> /var/stunnel/stunnel.log
+<span class="go">
+[dnsclient]
+client = yes
+CApath = /etc/ssl
+CAfile = /etc/ssl/cert.pem
+cert = /etc/stunnel/server-cert.pem
+key = /etc/stunnel/server-key.pem
+accept = 192.168.5.3:1053
+connect = 8.8.8.8:853
+verifyChain = yes
+verify = 4
+checkIP = 8.8.8.8
+checkHost = dns.google
+OCSPaia = yes
+
+[dnsserver]
+client = no
+cert = /etc/stunnel/client-cert.pem
+key = /etc/stunnel/client-key.pem
+accept = 853
+connect = 1053
+</span></code></pre></div></div>
+
+<p>In the example script above, we divide three stunnel settings:</p>
+<ul>
+  <li>Global Settings.</li>
+  <li>DNS Server Settings, and</li>
+  <li>DNS Client Settings</li>
+</ul>
+
+<p>What you need to pay attention to is creating a TLS certificate. Here we provide an example of creating a TLS certificate for a DNS server and DNS client. The first thing you need to do is create a root <code class="language-plaintext highlighter-rouge">CA</code> certificate.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span><span class="nb">cd</span> /etc/stunnel
+<span class="gp">ns3#</span><span class="w"> </span>openssl genrsa 2048 <span class="o">&gt;</span> ca-key.pem
+<span class="go">Generating RSA private key, 2048 bit long modulus
+</span><span class="c">.................................................
+..............
+</span><span class="go">e is 65537 (0x010001)
+</span><span class="gp">ns3#</span><span class="w"> </span>openssl req <span class="nt">-new</span> <span class="nt">-x509</span> <span class="nt">-nodes</span> <span class="nt">-days</span> 1825 <span class="nt">-key</span> ca-key.pem <span class="nt">-out</span> ca-cert.pem
+</code></pre></div></div>
+<p>After that you create a server certificate, remove the password and sign it with the <code class="language-plaintext highlighter-rouge">CA key</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>openssl req <span class="nt">-newkey</span> rsa:2048 <span class="nt">-days</span> 1825 <span class="nt">-nodes</span> <span class="nt">-keyout</span> server-key.pem <span class="nt">-out</span> server-req.pem
+<span class="gp">ns3#</span><span class="w"> </span>openssl rsa <span class="nt">-in</span> server-key.pem <span class="nt">-out</span> server-key.pem
+<span class="gp">ns3#</span><span class="w"> </span>openssl x509 <span class="nt">-req</span> <span class="nt">-in</span> server-req.pem <span class="nt">-days</span> 1825 <span class="nt">-CA</span> ca-cert.pem <span class="nt">-CAkey</span> ca-key.pem <span class="nt">-set_serial</span> 01 <span class="nt">-out</span> server-cert.pem
+</code></pre></div></div>
+<p>Proceed by creating a client certificate, removing the password and signing with the <code class="language-plaintext highlighter-rouge">CA key</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>openssl req <span class="nt">-newkey</span> rsa:2048 <span class="nt">-days</span> 1825 <span class="nt">-nodes</span> <span class="nt">-keyout</span> client-key.pem <span class="nt">-out</span> client-req.pem
+<span class="gp">ns3#</span><span class="w"> </span>openssl rsa <span class="nt">-in</span> client-key.pem <span class="nt">-out</span> client-key.pem
+<span class="gp">ns3#</span><span class="w"> </span>openssl x509 <span class="nt">-req</span> <span class="nt">-in</span> client-req.pem <span class="nt">-days</span> 1825 <span class="nt">-CA</span> ca-cert.pem <span class="nt">-CAkey</span> ca-key.pem <span class="nt">-set_serial</span> 01 <span class="nt">-out</span> client-cert.pem
+</code></pre></div></div>
+
+<p><br /></p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>openssl verify <span class="nt">-CAfile</span> ca-cert.pem server-cert.pem client-cert.pem
+</code></pre></div></div>
+<p>After that, activate Stunnel with the rcctl command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>rcctl <span class="nb">enable </span>stunnel
+<span class="gp">ns3#</span><span class="w"> </span>rcctl restart stunnel
+</code></pre></div></div>
+
+<h2 id="3-configure-isc-bind-dns-server">3. Configure ISC Bind DNS Server</h2>
+<p>The main requirement for setting up Bind is that you must have read the previous article <a href="https://unixwinbsd.site/ru/openbsd/2024/12/01/install-isc-dns-bind-on-openbsd/">“Install ISC Bind DNS Server Using OpenBSD”</a>. Because in this article we will not discuss how to install Bind and we will assume that your ISC Bind server is running normally on OpenBSD.</p>
+
+<p>Open the configuration file <strong>/var/named/etc/named.conf</strong>. Change the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">zone "." {
+</span><span class="gp">  type forward;</span><span class="w">
+</span><span class="gp">  forward first;</span><span class="w">
+</span><span class="gp">  forwarders { 1.1.1.1;</span><span class="w"> </span>8.8.8.8<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
+<span class="gp">};</span><span class="w">
+</span></code></pre></div></div>
+<p>Replace with the script below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">zone "." {
+</span><span class="gp">  type forward;</span><span class="w">
+</span><span class="gp">  forward first;</span><span class="w">
+</span><span class="go">  forwarders {
+</span><span class="gp">    192.168.5.3 port 1053;</span><span class="w">    
+</span><span class="gp">  };</span><span class="w">
+</span><span class="gp">};</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Then you run ISC Bind DNS Server.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">foo#</span><span class="w"> </span>rcctl restart isc_named
+</code></pre></div></div>
+<p>The last step is to check ISC Bind, whether it is running or not.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>dig yahoo.com
+<span class="gp">ns3#</span><span class="w"> </span>nslookup facebook.com
+</code></pre></div></div>
+<p>Congratulations, you have successfully installed DNS Bind with Stunnel. You can apply it on your Windows computer by setting up the Windows interface, as shown in the image below.</p>
+
+<p><br /></p>
+
+<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixwinbsd.github.io/refs/heads/master/themes/PaperMod/images/Test%20bind%20stunnel%20on%20windows.jpg" alt="Test bind stunnel on windows" /></p>
+
+<p><br /></p>
+
+<p>As you can see, setting up stunnel on OpenBSD is not difficult at all, so we hope this article was useful for you and you will adopt another way to use network services safely.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#dnsserver" class="page__taxonomy-item" rel="tag">DNSServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-03T19:11:11+03:00">June 3, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Bind+DNS+Server+with+TLS+using+Stunnel+on+OpenBSD%20https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Finstalling-dns-bind-stunnel-openbsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Finstalling-dns-bind-stunnel-openbsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Finstalling-dns-bind-stunnel-openbsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/installing-dnscrypt-proxy-openbsd/" class="pagination--pager" title="Installing DNSCrypt-proxy on OpenBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/configuration-installation-jenkins-ci-cid-freebsd/" class="pagination--pager" title="How to Configure Jenkins Continuous Integration on FreeBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/openbsd/installing-dns-bind-stunnel-openbsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/openbsd/installing-dns-bind-stunnel-openbsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

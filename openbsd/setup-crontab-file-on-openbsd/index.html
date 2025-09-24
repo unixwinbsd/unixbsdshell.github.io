@@ -1,0 +1,910 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Setting up a crontab file on OpenBSD - UnixBSDShell</title>
+<meta name="description" content="The active line in a crontab file is where the environment variable or cron command is set. Setting an environment variable in the crontab file creates the environment in which any commands in the crontab are executed.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Setting up a crontab file on OpenBSD">
+<meta property="og:url" content="https://unixwinbsd.site/openbsd/setup-crontab-file-on-openbsd/">
+
+
+  <meta property="og:description" content="The active line in a crontab file is where the environment variable or cron command is set. Setting an environment variable in the crontab file creates the environment in which any commands in the crontab are executed.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Setting up a crontab file on OpenBSD">
+  <meta name="twitter:description" content="The active line in a crontab file is where the environment variable or cron command is set. Setting an environment variable in the crontab file creates the environment in which any commands in the crontab are executed.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/openbsd/setup-crontab-file-on-openbsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-07-10T13:35:33+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/openbsd/setup-crontab-file-on-openbsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Setting up a crontab file on OpenBSD</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Setting up a crontab file on OpenBSD">
+    <meta itemprop="description" content="The active line in a crontab file is where the environment variable or cron command is set. Setting an environment variable in the crontab file creates the environment in which any commands in the crontab are executed.">
+    <meta itemprop="datePublished" content="2025-07-10T13:35:33+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Setting up a crontab file on OpenBSD
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#a-overview-of-the-crontab-file">A. Overview of the Crontab File</a></li>
+  <li><a href="#b-how-to-create-a-crontab-file">B. How to Create a Crontab File</a></li>
+  <li><a href="#c-what-you-need-to-know-about-the-crontab-file">C. What You Need to Know About the Crontab File</a></li>
+  <li><a href="#d-crontab-file-syntax">D. Crontab File Syntax</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>The crontab file is a file that contains instructions to the daemon <a href="https://man.openbsd.org/cron.8">cron(8)</a>. Commands in any crontab file will be executed either as the user that owns the crontab or, in the case of a system crontab, as the user specified on the command line. Although crontabs are text files, they are not intended to be edited directly. Creating, modifying, and deleting crontabs must be done using the crontab command <a href="https://man.openbsd.org/crontab.1">crontab(1)</a>.</p>
+
+<p>The active line in a crontab file is where the environment variable or cron command is set. Setting an environment variable in the crontab file creates the environment in which any commands in the crontab are executed.</p>
+
+<p>On OpenBSD systems, the crontab file is not immediately active. You must activate the crontab file for it to run according to your instructions. By default, on OpenBSD systems, the crontab file is located in <code class="language-plaintext highlighter-rouge">/etc/crontab</code>.</p>
+
+<h2 id="a-overview-of-the-crontab-file">A. Overview of the Crontab File</h2>
+
+<p>To make it easier to understand crontab files, we will briefly explain what crontab files are. Crontab files are commands <a href="https://www.techtarget.com/searchdatacenter/definition/Unix">UNIX</a> which creates a table or list of commands, each of which will be executed by the operating system (OS) at a specific time and according to a schedule you specify. The crontab file is used to create a crontab file (list) and then to modify a previously created crontab file.</p>
+
+<p>A crontab, short for cron table, is a file that schedules various cron entries to run at specific times. Another way to describe a crontab is as a utility that allows tasks to be run automatically at specified intervals in the background by the cron daemon (see below).</p>
+
+<p>A crontab file contains simple instructions to the daemon that mean “run this command at a specific time and on a specific date.” The crontab instructions specify which commands to run, on what date, and at what time.</p>
+
+<p>This utility makes it easy for users to run OpenBSD scripts or commands at specific times and intervals. It’s ideal for repetitive tasks like system maintenance, backups, and updates.</p>
+
+<h2 id="b-how-to-create-a-crontab-file">B. How to Create a Crontab File</h2>
+
+<p>As discussed above, to run crontab, you must enable it. In this section, we will create a crontab file and enable it on an OpenBSD system.</p>
+
+<p>To create a crontab file, run the following command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns2#</span><span class="w"> </span><span class="nb">touch</span> /etc/crontab
+<span class="gp">ns2#</span><span class="w"> </span><span class="nb">chown </span>root:wheel /etc/crontab
+<span class="gp">ns2#</span><span class="w"> </span><span class="nb">chmod </span>0600 /etc/crontab
+</code></pre></div></div>
+<p>After you create a crontab file, you can type a cron script into it. For example, below is a script from the <code class="language-plaintext highlighter-rouge">/etc/crontab</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w">	</span><span class="nv">$OpenBSD</span>: crontab,v 1.28 2020/04/18 17:22:43 jmc Exp <span class="err">$</span>
+<span class="gp">#</span><span class="w">
+</span><span class="gp">#</span><span class="w"> </span>/var/cron/tabs/root - root<span class="s1">'s crontab
+</span><span class="gp">#</span><span class="w">
+</span><span class="go">SHELL=/bin/sh
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+HOME=/var/log
+</span><span class="gp">#</span><span class="w">
+</span><span class="gp">#</span>minute	hour	mday	month	wday	<span class="o">[</span>flags] <span class="nb">command</span>
+<span class="gp">#</span><span class="w">
+</span><span class="gp">#</span><span class="w"> </span>rotate log files every hour, <span class="k">if </span>necessary
+<span class="go">0	*	*	*	*	/usr/bin/newsyslog
+</span><span class="gp">#</span><span class="w"> </span>send log file notifications, <span class="k">if </span>necessary
+<span class="gp">#</span>1-59	<span class="k">*</span>	<span class="k">*</span>	<span class="k">*</span>	<span class="k">*</span>	/usr/bin/newsyslog <span class="nt">-m</span>
+<span class="gp">#</span><span class="w">
+</span><span class="gp">#</span><span class="w"> </span><span class="k">do </span>daily/weekly/monthly maintenance
+<span class="go">30	1	*	*	*	/bin/sh /etc/daily
+30	3	*	*	6	/bin/sh /etc/weekly
+30	5	1	*	*	/bin/sh /etc/monthly
+</span><span class="gp">#</span>~	<span class="k">*</span>	<span class="k">*</span>	<span class="k">*</span>	<span class="k">*</span>	/usr/libexec/spamd-setup
+<span class="go">
+</span><span class="gp">#</span>~	<span class="k">*</span>	<span class="k">*</span>	<span class="k">*</span>	<span class="k">*</span>	<span class="nt">-ns</span> rpki-client <span class="nt">-v</span> <span class="o">&amp;&amp;</span> bgpctl reload
+</code></pre></div></div>
+<p>To further clarify how to use a crontab script, we’ll provide an example. Here’s an example where we want to download the <code class="language-plaintext highlighter-rouge">br.zone</code> file on the 12th of every month at 5:00 AM.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>Example of job definition:
+<span class="gp">#</span><span class="w"> </span>.---------------- minute <span class="o">(</span>0 - 59<span class="o">)</span>
+<span class="gp">#</span><span class="w"> </span>|  .------------- hour <span class="o">(</span>0 - 23<span class="o">)</span>
+<span class="gp">#</span><span class="w"> </span>|  |  .---------- day of month <span class="o">(</span>1 - 31<span class="o">)</span>
+<span class="gp">#</span><span class="w"> </span>|  |  |  .------- month <span class="o">(</span>1 - 12<span class="o">)</span> OR jan,feb,mar,apr ...
+<span class="gp">#</span><span class="w"> </span>|  |  |  |  .---- day of week <span class="o">(</span>0 - 6<span class="o">)</span> <span class="o">(</span><span class="nv">Sunday</span><span class="o">=</span>0 or 7<span class="o">)</span> OR sun,mon,tue,wed,thu,fri,sat
+<span class="gp">#</span><span class="w"> </span>|  |  |  |  |
+<span class="gp">#</span><span class="w"> </span><span class="k">*</span>  <span class="k">*</span>  <span class="k">*</span>  <span class="k">*</span>  <span class="k">*</span> user-name <span class="nb">command </span>to be executed
+<span class="go">0 5 12 * * root wget --no-check-certificate https://www.ipdeny.com/ipblocks/data/countries/br.zone -O /etc/tables/br.zone
+</span></code></pre></div></div>
+<p>To see the activity of downloading the br.zone file, you can view the log file with the following command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns2#</span><span class="w"> </span><span class="nb">tail</span> <span class="nt">-f</span> /var/cron/log
+</code></pre></div></div>
+
+<h2 id="c-what-you-need-to-know-about-the-crontab-file">C. What You Need to Know About the Crontab File</h2>
+
+<p>Before we go any further, there are a few things you need to know about configuring the <code class="language-plaintext highlighter-rouge">/etc/crontab</code> file:</p>
+
+<ul>
+  <li><strong>Log files</strong>: The crontab log files are located in <code class="language-plaintext highlighter-rouge">"/var/cron/log"</code>. These files are useful for tracking the correct execution of commands.</li>
+  <li><strong>Time to fetch file changes</strong>: cron checks the modification time in the system crontab file every minute.</li>
+  <li><strong>File mode</strong>: The crontab file will be ignored if it does not have the correct file mode. The mode must be 0600. The file must not be writable by users other than root and must not have the execute, set-user-ID, set-group-ID, or sticky bits set.</li>
+  <li><strong>Restart cron</strong>: To reload the cron file run the command <code class="language-plaintext highlighter-rouge">"/etc/rc.d/cron restart"</code>.</li>
+  <li><strong>Alternatively</strong>: we can use the <code class="language-plaintext highlighter-rouge">/var/cron/tabs/root</code> file, to set up a crontab file at the root level.</li>
+</ul>
+
+<h2 id="d-crontab-file-syntax">D. Crontab File Syntax</h2>
+
+<p>A crontab file is a built-in automation tool for OpenBSD users to manage task scheduling. Each user can have a separate crontab that holds multiple cronjobs that will be executed periodically by the cron daemon.</p>
+
+<p>Below is the crontab syntax you can use when working with a crontab file.</p>
+
+<ul>
+  <li>crontab [-u (for user)]</li>
+  <li>crontab [-e (edit)]</li>
+  <li>crontab [-l (list)]</li>
+  <li>crontab [-r (remove)]</li>
+</ul>
+
+<p>You can see an example of its use below.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns2#</span><span class="w"> </span>crontab <span class="nt">-u</span> root /etc/crontab
+<span class="gp">ns2#</span><span class="w"> </span>crontab <span class="nt">-e</span>
+<span class="gp">ns2#</span><span class="w"> </span>crontab <span class="nt">-l</span>
+<span class="gp">ns2#</span><span class="w"> </span>crontab <span class="nt">-r</span>
+</code></pre></div></div>
+<p>To activate crontab, you can use the restart command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns2#</span><span class="w"> </span>/etc/rc.d/cron restart
+</code></pre></div></div>
+
+<p>Although the crontab file is disabled by default in OpenBSD, you should enable it to automate all daemon operations, especially those that run repeatedly, such as updating the IP address of the ddclient daemon and others.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#unixshell" class="page__taxonomy-item" rel="tag">UnixShell</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-07-10T13:35:33+03:00">July 10, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Setting+up+a+crontab+file+on+OpenBSD%20https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fsetup-crontab-file-on-openbsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fsetup-crontab-file-on-openbsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fsetup-crontab-file-on-openbsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/install-and-use-socat-command-freebsd/" class="pagination--pager" title="How to Install and Use Socat Command on Freebsd
+">Previous</a>
+    
+    
+      <a href="/freebsd/installing-rtorrent-rutorrent-freebsd-apache/" class="pagination--pager" title="Installing rtorrent and ruTorrent with FreeBSD and Apache
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/openbsd/setup-crontab-file-on-openbsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/openbsd/setup-crontab-file-on-openbsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

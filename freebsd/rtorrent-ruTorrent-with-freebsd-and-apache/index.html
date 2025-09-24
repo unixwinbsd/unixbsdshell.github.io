@@ -1,0 +1,1143 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Installing rtorrent and ruTorrent with FreeBSD and Apache Web Server - UnixBSDShell</title>
+<meta name="description" content="In the Torrent application environment, Rtorrent is the most stable and efficient. One of the main advantages of Rtorrent is its very flexible configuration and automation capabilities">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Installing rtorrent and ruTorrent with FreeBSD and Apache Web Server">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/rtorrent-ruTorrent-with-freebsd-and-apache/">
+
+
+  <meta property="og:description" content="In the Torrent application environment, Rtorrent is the most stable and efficient. One of the main advantages of Rtorrent is its very flexible configuration and automation capabilities">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Installing rtorrent and ruTorrent with FreeBSD and Apache Web Server">
+  <meta name="twitter:description" content="In the Torrent application environment, Rtorrent is the most stable and efficient. One of the main advantages of Rtorrent is its very flexible configuration and automation capabilities">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/rtorrent-ruTorrent-with-freebsd-and-apache/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-02T18:10:35+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/rtorrent-ruTorrent-with-freebsd-and-apache/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Installing rtorrent and ruTorrent with FreeBSD and Apache Web Server</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Installing rtorrent and ruTorrent with FreeBSD and Apache Web Server">
+    <meta itemprop="description" content="In the Torrent application environment, Rtorrent is the most stable and efficient. One of the main advantages of Rtorrent is its very flexible configuration and automation capabilities">
+    <meta itemprop="datePublished" content="2025-05-02T18:10:35+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Installing rtorrent and ruTorrent with FreeBSD and Apache Web Server
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-rtorrent-installation-process">1. Rtorrent Installation Process</a></li>
+  <li><a href="#2-create-user-and-directory-rtorrent">2. Create User and Directory rtorrent</a></li>
+  <li><a href="#3-create-start-up-script-rcd">3. Create Start Up Script rc.d</a></li>
+  <li><a href="#4-configuring-the-httpdconf-file-apache24">4. Configuring the httpd.conf File (Apache24)</a></li>
+  <li><a href="#5-installation-process-of-rtorrent-web-based-control-panel">5. Installation Process of rtorrent Web Based Control Panel</a></li>
+  <li><a href="#6-downloading-files-with-rtorrent">6. Downloading Files with rtorrent</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Rtorrent is a BitTorrents client program written in C++ for unix and uses the ncurses library to provide a textual user interface. Rtorrent can be used in a terminal session (SSH) together with a terminal multiplexer such as tmux, which provides a very efficient bittorrent solution. Using the XMLRPC remote control API, an alternative user interface can be provided by a web client such as ruTorrent, or a command line client such as pyrocore and its rtcontrol command.</p>
+
+<p>In the Torrent application environment, Rtorrent is the most stable and efficient. One of the main advantages of Rtorrent is its very flexible configuration and automation capabilities. In addition, Rtorrent also has several features that are not inferior to the uTorrent and bitTorrent clients.</p>
+
+<p>The main features of rtorrent and ruTorrent are:</p>
+<ul>
+  <li>Use URL or file path to add torrents at runtime.</li>
+  <li>Stop/remove/resume torrents.</li>
+  <li>Optionally auto-load/save/remove torrents in session directory.</li>
+  <li>Secure fast resume support.</li>
+  <li>Peer download speed is calculated from incoming HAVE messages.</li>
+  <li>Download Results Report.</li>
+</ul>
+
+<h2 id="1-rtorrent-installation-process">1. Rtorrent Installation Process</h2>
+
+<p>In this article we will learn the installation technique, configuration and application of Rtorrent in a web browser to download torrent files. To run Rtorrent, we must install the application and its supporting repositories, such as apache24, php, php mod and scgi mod.</p>
+
+<p>Okay, now we start installing Rtorent from the FreeBSD port. The system used in writing this article uses FreeBSD 13 which is used to run Rtorrent. IP LAN server 192.168.9.3.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/ports/net-p2p/rtorrent
+root@router2:/usr/ports/net-p2p/rtorrent # make install clean
+
+root@router2:~ # cd /usr/ports/sysutils/screen
+root@router2:/usr/ports/sysutils/screen # make install clean
+</code></pre></div></div>
+<p>After Torrent is successfully installed on the FreeBSD 13 system, we continue by installing the php mod and scgi mod.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/ports/lang/php82
+root@router2:/usr/ports/lang/php82 # make install clean
+root@router2:~ # cd /usr/ports/www/mod_php82
+root@router2:/usr/ports/www/mod_php82 # make install clean
+root@router2:~ # cd /usr/ports/www/mod_scgi
+root@router2:/usr/ports/www/mod_scgi # make install clean
+</code></pre></div></div>
+
+<h2 id="2-create-user-and-directory-rtorrent">2. Create User and Directory rtorrent</h2>
+
+<p>After installing all the required packages, we will create a user that will run rtorrent. In creating a user there are no standard rules, to make the configuration easier we simply create a user with the name “rtorrent”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # pw useradd rtorrent -s /sbin/nologin
+</code></pre></div></div>
+
+<p>Then create a directory or folder to place the Rtorrent file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # mkdir -p /usr/local/etc/rtorrent/downloads
+root@router2:~ # mkdir -p /usr/local/etc/rtorrent/sessions
+root@router2:~ # chown -R rtorrent:rtorrent /usr/local/etc/rtorrent/
+</code></pre></div></div>
+
+<p>The chown script above is used to assign the username and group “rtorrent” to the /usr/local/etc/rtorrent folder and the files and folders inside. Meanwhile, the download folder is used to store downloaded files.</p>
+
+<h2 id="3-create-start-up-script-rcd">3. Create Start Up Script rc.d</h2>
+
+<p>Usually other applications always create rc.d script at the end of installation, rtorrent at the end of installation does not create rc.d script, we must create rc.d script to run rtorrent as daemon. To create it, open the /local/etc/rc.d folder and create rtorrent.sh file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /usr/local/etc/rc.d/rtorrent.sh
+
+#!/bin/sh
+##
+# PROVIDE: rtorrent
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+. /etc/rc.subr
+
+name="rtorrent"
+rcvar=`set_rcvar`
+
+load_rc_config $name
+
+: ${rtorrent_enable="NO"}
+: ${rtorrent_downloads="/usr/local/etc/rtorrent/downloads"}
+: ${rtorrent_sessions="/usr/local/etc/rtorrent/sessions"}
+: ${rtorrent_scgi_port=""}
+: ${rtorrent_encoding_list="UTF-8;cp1251;koi8-r"}
+: ${rtorrent_args=""}
+: ${rtorrent_user="rtorrent"}
+: ${rtorrent_autoload_dir=""}
+
+command="/usr/local/bin/rtorrent"
+screen="/usr/local/bin/screen"
+
+rtorrent_args="-d ${rtorrent_downloads} -s ${rtorrent_sessions} ${rtorrent_args}"
+
+[ -n "${rtorrent_autoload_dir}" ] &amp;&amp; rtorrent_args="-O schedule='watch_directory,5,5,load_start=${rtorrent_autoload_dir}' ${rtorrent_args}"
+[ -n "${rtorrent_scgi_port}" ] &amp;&amp; rtorrent_args="-O scgi_port='${rtorrent_scgi_port}' ${rtorrent_args}"
+[ -n "${rtorrent_encoding_list}" ] &amp;&amp; rtorrent_args="-O encoding_list='${rtorrent_encoding_list}' ${rtorrent_args}"
+
+start_cmd="echo Starting ${name}.; su -m ${rtorrent_user} -c \"${screen} -A -m -d -S rtorrent ${command} ${rtorrent_args}\""
+
+run_rc_command "$1"
+</code></pre></div></div>
+
+<p>Give permission to the rtorrent.sh file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # chmod +x /usr/local/etc/rc.d/rtorrent.sh
+</code></pre></div></div>
+<p>To have the script in the rtorrent.sh file run automatically when your FreeBSD computer is restarted/rebooted, add the following script to the rc.conf file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/rc.conf
+rtorrent_enable="YES"
+rtorrent_scgi_port="192.168.9.3:5000"
+rtorrent_user="rtorrent"
+</code></pre></div></div>
+
+<h2 id="4-configuring-the-httpdconf-file-apache24">4. Configuring the httpd.conf File (Apache24)</h2>
+
+<p>In this article we will not discuss the installation of apache24, we will assume that our FreeBSD server has apache24 installed. Because Rtorrent runs on a web browser, a web server application is needed so that Rtorrent can run properly on web browsers such as Yandex, Firefox and others. Open the /usr/local/etc/apache24/httpd.conf file and insert the following script at the end of the httpd.conf file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Alias /rutorrent/ "/usr/local/www/ruTorrent/"
+&lt;Directory "/usr/local/www/ruTorrent/"&gt;
+ AllowOverride None
+    Options None
+    Require all granted
+&lt;/Directory&gt;
+
+&lt;FilesMatch "\.php$"&gt;
+    SetHandler application/x-httpd-php
+&lt;/FilesMatch&gt;
+&lt;FilesMatch "\.phps$"&gt;
+    SetHandler application/x-httpd-php-source
+&lt;/FilesMatch&gt;
+
+AddType application/x-compress .Z
+AddType application/x-gzip .gz .tgz
+
+AddType application/x-httpd-php .php
+AddType application/x-httpd-php .php .phtml .php3
+AddType application/x-httpd-php-source .phps
+
+LoadModule scgi_module libexec/apache24/mod_scgi.so
+</code></pre></div></div>
+
+<p>The next step is to create a configuration file for the SCGI mod (authorization is required for security) in the /usr/local/etc/apache24/Includes/scgi.conf folder and insert the following script:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee  /usr/local/etc/apache24/Includes/scgi.conf
+&lt;IfModule mod_scgi.c&gt;
+SCGIMount /RPC2 192.168.9.3:5000
+SCGIServerTimeout 60
+
+ &lt;Location /RPC2&gt;
+ Allow from all
+ ###########Enable only authorized users
+ #AuthName "Enter password for torrent"
+ #AuthType Basic
+ #AuthUserFile /usr/local/www/rutorrent/.htpasswd
+ #require valid-user
+ SetHandler scgi-handler
+ SCGIServer serv0:5000
+ SCGIHandler On
+ Options -Multiviews
+ &lt;/Location&gt;
+
+&lt;/IfModule&gt;
+</code></pre></div></div>
+
+<h2 id="5-installation-process-of-rtorrent-web-based-control-panel">5. Installation Process of rtorrent Web Based Control Panel</h2>
+
+<p>To install the Web Based Control Panel, we can download it on GitHub.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/local/www
+root@router2:/usr/local/www # git clone https://github.com/Novik/ruTorrent.git
+</code></pre></div></div>
+
+<p>Give ownership to the /usr/local/www/ruTorrent file and create a log file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # touch /var/log/rutorrent-errors.log
+root@router2:~ # chown -R www:www /usr/local/www/ruTorrent/
+root@router2:~ # chown -R www:www /var/log/rutorrent-errors.log
+</code></pre></div></div>
+
+<p>Edit the file /usr/local/www/ruTorrent/conf/config.php.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$log_file = '/var/log/rutorrent-errors.log';
+$scgi_port = 5000;
+$scgi_host = "192.168.9.3";
+$router2 = array(			
+		"192.168.9.3",
+		"router2",
+);
+</code></pre></div></div>
+
+<p>The next step is to copy the file /usr/local/share/examples/rtorrent/rtorrent.rc to /usr/local/etc/rtorrent.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cp /usr/local/share/examples/rtorrent/rtorrent.rc /usr/local/etc/rtorrent
+</code></pre></div></div>
+
+<p>Edit the /usr/local/etc/rtorrent/rtorrent.rc file by following the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#############################################################################
+# This is an (old) example resource file for rTorrent.
+# Copy to ~/.rtorrent.rc and enable/modify the options as needed.
+# Remember to uncomment the options you wish to enable.
+#
+# See 'rtorrent.rc-example' for a newer, basic configuration.
+#
+#   Sample: https://github.com/rakshasa/rtorrent/wiki/CONFIG-Template
+# Complete: https://rtorrent-docs.readthedocs.io/en/latest/cmd-ref.html
+#   Useful: https://rtorrent-docs.readthedocs.io/en/latest/use-cases.html
+#   Manual: https://rtorrent-docs.readthedocs.io/en/latest/
+#  Convert: https://github.com/rakshasa/rtorrent/wiki/rTorrent-0.9-Comprehensive-Command-list-(WIP)
+# Handbook: https://media.readthedocs.org/pdf/rtorrent-docs/latest/rtorrent-docs.pdf
+#     File: https://github.com/rakshasa/rtorrent/blob/master/doc/rtorrent.rc
+#############################################################################
+
+# Maximum and minimum number of peers to connect to per torrent.
+#
+#throttle.min_peers.normal.set = 40
+#throttle.max_peers.normal.set = 100
+
+# Same as above but for seeding completed torrents.
+# "-1" = same as downloading.
+#
+throttle.min_peers.seed.set = 10
+throttle.max_peers.seed.set = 50
+
+# Maximum number of simultaneous uploads per torrent.
+#
+throttle.max_uploads.set = 15
+
+# Global upload and download rate in KiB.
+# "0" for unlimited.
+#
+#throttle.global_down.max_rate.set_kb = 0
+#throttle.global_up.max_rate.set_kb = 0
+
+# Default directory to save the downloaded torrents.
+#
+directory.default.set = /usr/local/etc/rtorrent/downloads
+
+# Default session directory. Make sure you don't run multiple instance
+# of rTorrent using the same session directory. Perhaps using a
+# relative path?
+#
+session.path.set = /usr/local/etc/rtorrent/sessions
+
+# Watch a directory for new torrents, and stop those that have been
+# deleted.
+#
+#schedule2 = watch_directory,5,5,load.start=./watch/*.torrent
+
+# Close torrents when disk-space is low.
+#
+#schedule2 = low_diskspace,5,60,close_low_diskspace=100M
+
+# The IP address reported to the tracker.
+#
+network.local_address.set = 192.168.9.3
+#network.local_address.set = rakshasa.no
+
+# The IP address the listening socket and outgoing connections is
+# bound to.
+#
+#network.bind_address.set = 127.0.0.1
+#network.bind_address.set = rakshasa.no
+
+# Port range to use for listening.
+#
+#network.port_range.set = 6890-6999
+
+# Start opening ports at a random position within the port range.
+#
+#network.port_random.set = no
+
+# Check hash for finished torrents. Might be useful until the bug is
+# fixed that causes lack of disk-space not to be properly reported.
+#
+#pieces.hash.on_completion.set = no
+
+# Set whether the client should try to connect to UDP trackers.
+#
+#trackers.use_udp.set = yes
+
+# Alternative calls to bind and IP that should handle dynamic IP's.
+#
+#schedule2 = ip_tick,0,1800,ip=rakshasa
+#schedule2 = bind_tick,0,1800,bind=rakshasa
+
+# Encryption options, set to none (default) or any combination of the following:
+# allow_incoming, try_outgoing, require, require_RC4, enable_retry, prefer_plaintext
+#
+# The example value allows incoming encrypted connections, starts unencrypted
+# outgoing connections but retries with encryption if they fail, preferring
+# plain-text to RC4 encryption after the encrypted handshake.
+#
+# protocol.encryption.set = allow_incoming,enable_retry,prefer_plaintext
+
+# Enable DHT support for trackerless torrents or when all trackers are down.
+# May be set to "disable" (completely disable DHT), "off" (do not start DHT),
+# "auto" (start and stop DHT as needed), or "on" (start DHT immediately).
+# The default is "off". For DHT to work, a session directory must be defined.
+#
+dht.mode.set = auto
+
+# UDP port to use for DHT.
+#
+#dht.port.set = 6881
+
+# Enable peer exchange (for torrents not marked private).
+#
+#protocol.pex.set = yes
+
+# Set download list layout style ("full", "compact").
+#
+#ui.torrent_list.layout.set = "full"
+
+# Run rTorrent as a daemon, controlled via XMLRPC.
+#
+#system.daemon.set = false
+
+# SCGI Connectivity (for alternative rtorrent interfaces, XMLRPC)
+# Use a IP socket with scgi_port, or a Unix socket with scgi_local.
+# schedule can be used to set permissions on the unix socket.
+#
+network.scgi.open_port = "192.168.9.3:5000"
+#network.scgi.open_local = (cat,(session.path),/rpc.sock)
+#schedule2 = socket_chmod, 0, 0, "execute.nothrow=chmod,770,(cat,(session.path),/rpc.sock)"
+</code></pre></div></div>
+
+<p>Once everything is done, reboot the FreeBSD computer.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # reboot
+</code></pre></div></div>
+
+<h2 id="6-downloading-files-with-rtorrent">6. Downloading Files with rtorrent</h2>
+
+<p>After the FreeBSD computer returns to normal, before we do the test by downloading torrent files, we first restart apache24 and rtorrent.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service rtorrent.sh restart
+root@router2:~ # service apache24 restart
+</code></pre></div></div>
+
+<p>Now let’s do a trial by downloading a torrent file, make sure you have a torrent file, if you don’t have a torrent file, please download it from https://rutracker.org/. In this study, I have 2 torrent files, namely Windows 7 SP1 52in1 (x86 x64) + - Office 2019 by Eagle123 (04.2023) [Ru En] [rutracker-6356940].torrent and WinRAR 6.22 x86 x64 RePack (&amp; ​​​​Portable) by TryRooM [05.2023, Multi + RUS] [rutracker-6370744].torrent.</p>
+
+<p>To download both of these files, open the Google Chrome web browser and on the address bar menu type “http://192.168.9.3/rutorrent/”.</p>
+
+<p>Downloading torrent files with rtorrent with apache24 Web Server provides excellent speed and stability, after seeing the download results above, you can try it and make rtorrent your main choice for downloading files with torrent extension.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#webserver" class="page__taxonomy-item" rel="tag">WebServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-02T18:10:35+03:00">May 2, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Installing+rtorrent+and+ruTorrent+with+FreeBSD+and+Apache+Web+Server%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Frtorrent-ruTorrent-with-freebsd-and-apache%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Frtorrent-ruTorrent-with-freebsd-and-apache%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Frtorrent-ruTorrent-with-freebsd-and-apache%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/exploring-freebsd-ifconfig-features/" class="pagination--pager" title="Exploring IFCONFIG Features On FreeBSD Servers
+">Previous</a>
+    
+    
+      <a href="/freebsd/copy-move-delete-file-directory-freebsd/" class="pagination--pager" title="How to Copy Move Delete Files and Directories in FreeBSD 14
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/rtorrent-ruTorrent-with-freebsd-and-apache/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/rtorrent-ruTorrent-with-freebsd-and-apache"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,1198 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to Create Column Tables and Databases in MySql Server and MariaDB - UnixBSDShell</title>
+<meta name="description" content="As we know MariaDB = MySQL Server, or you could say MariaDB is the sibling of MySQL Server. If we run or operate MariaDB it means we are using MySQL. There are only a few differences between MariaDB and MySQL, all the SQL script commands are almost the same">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="How to Create Column Tables and Databases in MySql Server and MariaDB">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/create-coloumn-table-database-mysql-server-freebsd/">
+
+
+  <meta property="og:description" content="As we know MariaDB = MySQL Server, or you could say MariaDB is the sibling of MySQL Server. If we run or operate MariaDB it means we are using MySQL. There are only a few differences between MariaDB and MySQL, all the SQL script commands are almost the same">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Create Column Tables and Databases in MySql Server and MariaDB">
+  <meta name="twitter:description" content="As we know MariaDB = MySQL Server, or you could say MariaDB is the sibling of MySQL Server. If we run or operate MariaDB it means we are using MySQL. There are only a few differences between MariaDB and MySQL, all the SQL script commands are almost the same">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/create-coloumn-table-database-mysql-server-freebsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-07-21T11:55:21+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/create-coloumn-table-database-mysql-server-freebsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Create Column Tables and Databases in MySql Server and MariaDB</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to Create Column Tables and Databases in MySql Server and MariaDB">
+    <meta itemprop="description" content="As we know MariaDB = MySQL Server, or you could say MariaDB is the sibling of MySQL Server. If we run or operate MariaDB it means we are using MySQL. There are only a few differences between MariaDB and MySQL, all the SQL script commands are almost the same">
+    <meta itemprop="datePublished" content="2025-07-21T11:55:21+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Create Column Tables and Databases in MySql Server and MariaDB
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#read-also">Read Also:</a></li>
+  <li><a href="#a-create-a-table-students">a. Create a table students</a></li>
+  <li><a href="#b-create-a-course-table">b. Create a course Table</a></li>
+  <li><a href="#c-create-a-students-courses-table">c. Create a students courses table</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>As we know MariaDB = MySQL Server, or you could say MariaDB is the sibling of MySQL Server. If we run or operate MariaDB it means we are using MySQL. There are only a few differences between MariaDB and MySQL, all the SQL script commands are almost the same.</p>
+
+<p>As you delve deeper into the intricacies of table structures, understanding columns and their functionalities becomes crucial. In DBeaver, columns are fundamental components of tables, which in turn are housed within databases. Before you can create columns, you must first establish a database and a table.</p>
+
+<p>Columns in DBeaver are versatile and customizable. You can create new columns, modify their settings, and even delete them when necessary. Each column in a table has a specific data type, dictating the kind of data it can store. You can also enforce rules on columns such as nullability, unique constraints, check constraints, and default values. These rules are essential to maintain data integrity, accuracy, and reliability in your database.</p>
+
+<p>Beyond these basic operations, you can perform more advanced tasks with columns. You can rename columns, change their data types, adjust permissions, and add comments. All databases may not support some of these operations, so it’s essential to be aware of the specific capabilities of your database system.</p>
+
+<p>This guide will walk you through the process of creating, modifying, and deleting columns, as well as customizing their settings to suit your needs. We will operate the MariaDB application on a FreeBSD 13.2 server computer. If you haven’t installed MariaDB or MySQL, read our previous article about the MariaDB and MySQL installation process.</p>
+
+<p><img src="https://raw.githubusercontent.com/unixwinbsd/unixwinbsd.github.io/refs/heads/master/Image/17skema%20mariadb%20database.png" alt="skema mariadb database" /></p>
+
+<h3 id="read-also">Read Also:</h3>
+<p><a href="https://unixwinbsd.site/en/openbsd/2024/12/29/freebsd-mysql-mariadb-bdatabase/">FreeBSD MariaDB Databases Installation and Configuration</a></p>
+
+<p><a href="https://unixwinbsd.site/en/freebsd/2025/05/04/learn-install-mysql-server-freebsd/">Learn to Install MySQL Server on a FreeBSD Machine</a>
+<br /></p>
+
+<p>In this article, our FreeBSD system has MariaDB installed and has access to the MariaDB root user. OK, now we will log in to the root user to see the contents of the existing MariaDB database.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # /usr/local/bin/mariadb -u root -p
+Enter password: router
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 12
+Server version: 10.5.21-MariaDB FreeBSD Ports
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+root@localhost [(none)]&gt;
+</code></pre></div></div>
+
+<p>View the MariaDB database.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [(none)]&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+3 rows in set (0.000 sec)
+</code></pre></div></div>
+
+<p>Now we will create a database with the name <code class="language-plaintext highlighter-rouge">"courseMariaDB"</code>, this database contains all records of students who took the course.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [(none)]&gt; create database kursusMariaDB;
+Query OK, 1 row affected (0.000 sec)
+</code></pre></div></div>
+
+<p>The above command will create a database <code class="language-plaintext highlighter-rouge">"courseMariaDB"</code>, now we check whether the database was created successfully, run the show databases command once again.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [(none)]&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| kursusMariaDB      |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.000 sec)
+</code></pre></div></div>
+
+<p>We have successfully created a new database <code class="language-plaintext highlighter-rouge">"courseMariaDB"</code>, we continue by accessing the database and creating a table in the database <code class="language-plaintext highlighter-rouge">"courseMariaDB"</code>. To access the database, we will use the USE command. The USE command must be followed by the name of the existing database to avoid errors, once this command is executed.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [(none)]&gt; use kursusMariaDB;
+Database changed
+root@localhost [kursusMariaDB]&gt;
+</code></pre></div></div>
+
+<p>Now that the database has been successfully modified, notice that the database name is listed between the brackets next to <code class="language-plaintext highlighter-rouge">root@localhost</code>, indicating the current database.</p>
+
+<h2 id="1-creating-tables">1. Creating Tables</h2>
+
+<h3 id="a-create-a-table-students">a. Create a table students</h3>
+
+<p>The next step is to create a table with the name <code class="language-plaintext highlighter-rouge">"students"</code>. The following is a description or contents of the <code class="language-plaintext highlighter-rouge">"students"</code> table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column Name</th>
+      <th>Data Type</th>
+      <th>Information</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>student_id</td>
+      <td>int</td>
+      <td>No induk siswa</td>
+    </tr>
+    <tr>
+      <td>first_name</td>
+      <td>Varchar (60)</td>
+      <td>nama depan ssiwa</td>
+    </tr>
+    <tr>
+      <td>last_name</td>
+      <td>Varchar (60)</td>
+      <td>nama belakang</td>
+    </tr>
+    <tr>
+      <td>address</td>
+      <td>Varchar (255)</td>
+      <td>alamat</td>
+    </tr>
+    <tr>
+      <td>city</td>
+      <td>Varchar (45)</td>
+      <td>kota</td>
+    </tr>
+    <tr>
+      <td>state</td>
+      <td>char (2)</td>
+      <td>negara</td>
+    </tr>
+    <tr>
+      <td>zip_code</td>
+      <td>char (5)</td>
+      <td>Kode Pos</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now let’s convert this table structure into executable SQL, to create our table we will use the CREATE command, followed by TABLE and then append it with the table structure. In SQL, column description is done by stating the column name first and then adding the column data type. The students table has multiple columns, and column information must be separated by commas (,).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [kursusMariaDB]&gt; create table students(student_id int,first_name Varchar(60),last_name Varchar(60),address Varchar(255),city Varchar(40),state char(2),zip_code char(5));
+Query OK, 0 rows affected (0.057 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre></div></div>
+
+<p>Now that the query has been executed, the <code class="language-plaintext highlighter-rouge">"students"</code> table has been created. To verify whether the student table has been successfully created, and to see the list of tables that exist in the current database, we can use the SHOW utility command and append it with TABLES.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [kursusMariaDB]&gt; show tables;
++-------------------------+
+| Tables_in_kursusMariaDB |
++-------------------------+
+| students                |
++-------------------------+
+1 row in set (0.000 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre></div></div>
+
+<p>We have successfully created the <code class="language-plaintext highlighter-rouge">"students"</code> table, now let’s verify whether our students table has the same table structure as we wanted before. We use the DESCRIBE command followed by the table name to see the table structure:</p>
+
+<pre><code class="language-mysql">root@localhost [kursusMariaDB]&gt; describe students;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| student_id | int(11)      | YES  |     | NULL    |       |
+| first_name | varchar(60)  | YES  |     | NULL    |       |
+| last_name  | varchar(60)  | YES  |     | NULL    |       |
+| address    | varchar(255) | YES  |     | NULL    |       |
+| city       | varchar(40)  | YES  |     | NULL    |       |
+| state      | char(2)      | YES  |     | NULL    |       |
+| zip_code   | char(5)      | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+7 rows in set (0.002 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre>
+
+<h3 id="b-create-a-course-table">b. Create a course Table</h3>
+
+<p>The following is the contents of the <code class="language-plaintext highlighter-rouge">"course"</code> table structure.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column Name</th>
+      <th>Data Type</th>
+      <th>Information</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>course_id</td>
+      <td>Int</td>
+      <td>No induk siswa</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>Varchar (60)</td>
+      <td>nama ssiwa</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>Varchar (255)</td>
+      <td>Deskripsi kursus</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now let’s convert this table structure into executable SQL to create a course table:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [kursusMariaDB]&gt; create table kursus(course_id int,name varchar(60),description varchar(255));
+Query OK, 0 rows affected (0.064 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre></div></div>
+
+<p>Let’s now see if the structure of the <code class="language-plaintext highlighter-rouge">"course"</code> table is in accordance with the structure we have determined above.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [kursusMariaDB]&gt; show tables;
++-------------------------+
+| Tables_in_kursusMariaDB |
++-------------------------+
+| kursus                  |
+| students                |
++-------------------------+
+2 rows in set (0.000 sec)
+
+root@localhost [kursusMariaDB]&gt; describe kursus;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| course_id   | int(11)      | YES  |     | NULL    |       |
+| name        | varchar(60)  | YES  |     | NULL    |       |
+| description | varchar(255) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+3 rows in set (0.001 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre></div></div>
+
+<h3 id="c-create-a-students-courses-table">c. Create a students courses table</h3>
+
+<p>The next step is to create a <code class="language-plaintext highlighter-rouge">"student course"</code> table with the following table structure:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column Name</th>
+      <th>Data Type</th>
+      <th>Information</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>course_id</td>
+      <td>int</td>
+      <td>No Pendaftaran kursus</td>
+    </tr>
+    <tr>
+      <td>student_id</td>
+      <td>int</td>
+      <td>ID Pelajar/Nomor Induk Siswa</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [kursusMariaDB]&gt; create table students_courses(course_id int,student_id int);
+Query OK, 0 rows affected (0.066 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre></div></div>
+
+<p>The above command will query has been executed, let’s run the SHOW TABLES command to verify whether the table <code class="language-plaintext highlighter-rouge">"student_course"</code> has been created.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [kursusMariaDB]&gt; show tables;
++-------------------------+
+| Tables_in_kursusMariaDB |
++-------------------------+
+| kursus                  |
+| students                |
+| students_courses        |
++-------------------------+
+3 rows in set (0.000 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre></div></div>
+
+<h2 id="2-entering-data-into-tables">2. Entering Data into Tables</h2>
+
+<p>We have completed the steps for creating the table, now it’s time to enter data into the table. Let’s look at some different methods for inserting a single row of data and inserting multiple rows of data. To insert data into a table, we will use the INSERT command, and provide the table name and values for the available columns. Let’s start by entering student data into the “students” table.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [kursusMariaDB]&gt; insert into students values( 1,"Asep","Munarman","Gang Delima","Bekasi","BK","17841");
+Query OK, 1 row affected (0.016 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre></div></div>
+
+<p>In the example above we insert student data into the “students” table. In the method above, filling in the table uses the VALUES clause. This syntax, although it looks very simple, is not a secure method for entering data. This INSERT statement relies on the column order specified in the table structure, so the data in the VALUES clause will be mapped by position, 1 will go to the first column in the table.</p>
+
+<p>Even though it is intended to be included in the student_id column. If the student table is recreated locally or on a different machine, there is no guarantee that the column order will remain the same. Another approach that is considered safer when compared to this approach is the INSERT statement, where the column names are mentioned explicitly in SQL.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [kursusMariaDB]&gt; insert into students(student_id,first_name,last_name,address,city,state,zip_code) values( 2,"Asep","Subekti","Gang Mawar","Karawang","KW","17842");
+Query OK, 1 row affected (0.016 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre></div></div>
+
+<p>Even though the method above is a little longer, it will guarantee that the data passed through the VALUES clause will go into the right column. By using this INSERT syntax, the order in which the columns are mentioned is no longer important. When this query is executed, MariaDB matches each item in the column list with its respective value in the VALUES list by position.</p>
+
+<p>This syntax can also be used when data is available for only a few columns. Let’s create an INSERT statement that has data for some columns and uses NULL for columns that don’t have any data.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [kursusMariaDB]&gt; insert into students(student_id,first_name,last_name,address,city,state,zip_code) values( 3,"Asep","Sarkim","NULL","Subang","SB","17843");
+Query OK, 1 row affected (0.021 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre></div></div>
+
+<p>In this example, we are inserting student data whose addresses are unknown, so we use NULL to fill in the column.</p>
+
+<p>Now that we have looked at the different insert syntaxes for inserting a single row of records, let’s move forward and see how multiple records can be inserted. There are two ways to insert multiple records into a table, the first method is where an INSERT statement is created for each row, and separated by a statement terminator (;).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>insert into kursus(
+	course_id, name, description
+)
+values(1, "CS-101",
+	"Introduction to Computer Science");
+	
+insert into kursus(
+	course_id, name, description
+)
+values(2, "CE-101",
+	"Introduction to Computer Engineering");
+</code></pre></div></div>
+
+<p>Another way to insert multiple records is to use a single VALUES clause while passing multiple records, separating each record with a comma (,), and adding a statement terminator at the end of the last record.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>insert into students_courses(
+	student_id, course_id)
+values
+	(1,1), -- Student id 1 &amp; Course id 1
+	(1,2), -- Student id 1 &amp; Course id 2
+	(2,2), -- Student id 2 &amp; Course id 2
+	(3,1); -- Student id 3 &amp; Course id 1
+</code></pre></div></div>
+
+<p>In the example above, we inserted several records into the <code class="language-plaintext highlighter-rouge">"Students_courses"</code> table. In executing this SQL query, the first statement inserts an associative record into the student_courses table and the value for the student_id column is 1, which maps back to Asep Munarman’s student data, and the value for course_id is 1 which corresponds to the CS-101 course record. Inline comments at the end of each statement are used to describe the data entered through this statement.</p>
+
+<p>Although these comments are added to INSERT statements, they are only intended to explain the purpose of the statements and will not be processed by MariaDB.</p>
+
+<h2 id="3-viewing-table-data-contents">3. Viewing Table Data Contents</h2>
+
+<p>In part 2 above, we learned how to insert or insert data into a table. Now we will learn how to view the contents of table data. There are various mechanisms for viewing the contents of table data, we will use the SELECT command to view the contents of table data.</p>
+
+<p>The SELECT statement will expect a minimum of two things, the first is what to retrieve and the second is where to retrieve it. The following is an example of using the SELECT command to view the contents of table data.</p>
+
+<pre><code class="language-mysql">root@localhost [kursusMariaDB]&gt; select * from students;
++------------+------------+-----------+-------------+----------+-------+----------+
+| student_id | first_name | last_name | address     | city     | state | zip_code |
++------------+------------+-----------+-------------+----------+-------+----------+
+|          1 | Asep       | Munarman  | Gang Delima | Bekasi   | BK    | 17841    |
+|          2 | Asep       | Subekti   | Gang Mawar  | Karawang | KW    | 17842    |
+|          3 | Asep       | Sarkim    | NULL        | Subang   | SB    | 17843    |
++------------+------------+-----------+-------------+----------+-------+----------+
+3 rows in set (0.000 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre>
+
+<p>In this query, we use * to retrieve data for all columns from the <code class="language-plaintext highlighter-rouge">"students"</code>     table, this is not the preferred data retrieval method. The preferred data retrieval method is to specify each column separated by a comma (,) after the SELECT clause.</p>
+
+<pre><code class="language-mysql">root@localhost [kursusMariaDB]&gt; select student_id, first_name, last_name from students where last_name="Sarkim";
++------------+------------+-----------+
+| student_id | first_name | last_name |
++------------+------------+-----------+
+|          3 | Asep       | Sarkim    |
++------------+------------+-----------+
+1 row in set (0.000 sec)
+
+root@localhost [kursusMariaDB]&gt;
+</code></pre>
+
+<p>The command above will display student_id, first_name, last_name data from the <code class="language-plaintext highlighter-rouge">"students"</code> table with the last_name record keyword named “Sarkim”. The results of the command above only display data for the student named Asep Sarkim, while the names of other students are not displayed.</p>
+
+<p>Below are some examples that you can practice using commands SELECT.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>select student_id, first_name, last_name
+from students
+where last_name="Subekti";
+
+select student_id, first_name, last_name
+from students
+where student_id&gt;1;
+
+select student_id, first_name, last_name
+from students
+where student_id&lt;4
+
+select student_id, first_name, last_name
+from students
+where student_id between 1 and 4;
+</code></pre></div></div>
+
+<p>This article is specifically written for those of you who want to learn about the MariaDB database. We hope this article is helpful and beneficial to readers.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">DataBase</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-07-21T11:55:21+03:00">July 21, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Create+Column+Tables+and+Databases+in+MySql+Server+and+MariaDB%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreate-coloumn-table-database-mysql-server-freebsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreate-coloumn-table-database-mysql-server-freebsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fcreate-coloumn-table-database-mysql-server-freebsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/openbsd/how-to-install-redis-cache-openbsd/" class="pagination--pager" title="How to Install Redis Cache DB on OpenBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/installation-matomo-web-analytics-freebsd-apache/" class="pagination--pager" title="How to Install Matomo Web Analytics With Apache On FreeBSD 14
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/create-coloumn-table-database-mysql-server-freebsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/create-coloumn-table-database-mysql-server-freebsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

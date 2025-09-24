@@ -1,0 +1,1103 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Install ISC Bind DNS Server Using OpenBSD - UnixBSDShell</title>
+<meta name="description" content="How DNS caching server works is when the DNS server finds the DNS address you requested, the DNS server will immediately send it to you who requested the DNS address, then store the DNS address in its database">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Install ISC Bind DNS Server Using OpenBSD">
+<meta property="og:url" content="https://unixwinbsd.site/openbsd/instal-isc-dns-bind-server-openbsd/">
+
+
+  <meta property="og:description" content="How DNS caching server works is when the DNS server finds the DNS address you requested, the DNS server will immediately send it to you who requested the DNS address, then store the DNS address in its database">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Install ISC Bind DNS Server Using OpenBSD">
+  <meta name="twitter:description" content="How DNS caching server works is when the DNS server finds the DNS address you requested, the DNS server will immediately send it to you who requested the DNS address, then store the DNS address in its database">
+  <meta name="twitter:url" content="https://unixwinbsd.site/openbsd/instal-isc-dns-bind-server-openbsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-23T10:55:35+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/openbsd/instal-isc-dns-bind-server-openbsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Install ISC Bind DNS Server Using OpenBSD</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Install ISC Bind DNS Server Using OpenBSD">
+    <meta itemprop="description" content="How DNS caching server works is when the DNS server finds the DNS address you requested, the DNS server will immediately send it to you who requested the DNS address, then store the DNS address in its database">
+    <meta itemprop="datePublished" content="2025-05-23T10:55:35+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Install ISC Bind DNS Server Using OpenBSD
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-system-specifications">1. System Specifications</a></li>
+  <li><a href="#2-how-to-install-isc-bind-dns-server">2. How to Install ISC Bind DNS Server</a></li>
+  <li><a href="#3-configuration-process">3. Configuration Process</a>
+    <ul>
+      <li><a href="#a-enable-isc-bind">a. Enable ISC Bind</a></li>
+      <li><a href="#b-edit-the-configuration-file-named-conf">b. Edit the configuration file named .conf</a></li>
+      <li><a href="#c-add-the-zone-settings">c. Add the zone settings</a></li>
+      <li><a href="#d-change-permissions-and-ownership">d. Change permissions and ownership</a></li>
+      <li><a href="#e-root-hints-file">e. Root hints file</a></li>
+      <li><a href="#f-edit-the-resolvconf-file">f. Edit the resolv.conf file</a></li>
+      <li><a href="#g-check-the-zone">g. Check the zone</a></li>
+      <li><a href="#h-check-dns-name-servers">h. Check DNS name servers</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>For those of you who have slow internet, DNS server caching is a smart solution to increase internet browsing speed. In general, the DNS server application functions to change names into numbers. Every website name you type will be changed to an IP address so that it will display a web page as you see it in Google Chrome or Firefox.</p>
+
+<p>In general, there are several types of DNS servers. The caching type is a type that does not contain raw mapping from name to address, this type is called an authoritative DNS server which can then be divided into master, slave, and stealth. DNS server caching is also called a recursive server. All types of DNS servers can be titled server names.</p>
+
+<p>How DNS caching server works is when the DNS server finds the DNS address you requested, the DNS server will immediately send it to you who requested the DNS address, then store the DNS address in its database. Later, when a friend of yours requests the same DNS address, the DNS caching server will take the DNS address from its database. So it can speed up the processing time of DNS requests.</p>
+
+<p>The slower your internet connection, the more useful the DNS server cache is to improve internet access. To maintain accuracy, there is a configurable expiration time (time to live/TTL) on the server data that forces it to return to the internet periodically for updates.</p>
+
+<h2 id="1-system-specifications">1. System Specifications</h2>
+<ul>
+  <li>OS: OpenBSD 7.6</li>
+  <li>domain: kursor.my.id</li>
+  <li>Hostname: foo</li>
+  <li>IP Address: 192.168.7.3</li>
+  <li>Bind version: isc-bind-9.18.25v3</li>
+</ul>
+
+<h2 id="2-how-to-install-isc-bind-dns-server">2. How to Install ISC Bind DNS Server</h2>
+<p>One of the advantages of ISC Bind is that it can be installed on all operating systems, such as Windows, MacOS, Linux, and BSD including OpenBSD. However, each system has a different way of configuration. In this section, we will learn how to install, configure, and use ISC Bind on an OpenBSD server.</p>
+
+<p>Since DNS Bind is very familiar, like other operating systems, in OpenBSD ISC Bind is already available in the pkg_add repository. You can run the command below to install ISC Bind on OpenBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# pkg_add isc-bind-9.18.25v3
+</code></pre></div></div>
+<p>After the installation process is complete, by default the ISC Bind application creates a user and group named <strong>_bind:_bind</strong>. This user will be very useful when doing configuration. The location of the ISC Bind directory on OpenBSD is slightly different from FreeBSD. OpenBSD places the ISC Bind application in <strong>/var/named</strong>. All configuration files are stored in that directory.</p>
+
+<p>By default the <strong>/var/named</strong> directory contains two folders, namely /etc and /tmp, during the configuration process we will add several folders to this directory, such as /master, /standard and others.</p>
+
+<h2 id="3-configuration-process">3. Configuration Process</h2>
+<p>In this section we will discuss the steps to configure ISC Bind. The ISC Bind configuration file is named “named.conf”. You can set all your DNS server caching needs in that file.</p>
+
+<h3 id="a-enable-isc-bind">a. Enable ISC Bind</h3>
+<p>Before you configure ISC Bind, first enable the Bind DNS server by running the command below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# rcctl enable isc_named
+foo# rcctl restart isc_named
+isc_named(ok)
+isc_named(ok)
+</code></pre></div></div>
+<p>The above command is to enable ISC Bind and create rndc.key file. Try opening the contents of rndc.key script file with cat command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# cat /var/named/etc/rndc.key
+key "rndc-key" {
+        algorithm hmac-sha256;
+        secret "sLhSyJAo609lksFnU2Z0y5MbiSnoVJfTMz21foPVv3g=";
+};
+</code></pre></div></div>
+
+<h3 id="b-edit-the-configuration-file-named-conf">b. Edit the configuration file named .conf</h3>
+<p>We will use the entire contents of the rndc.key script file to configure the named.conf file. Now you open the named.conf file, then you delete the entire contents of the script and replace it with the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/named/etc/named.conf
+key "rndc-key" {
+	algorithm hmac-sha256;
+	secret "sLhSyJAo609lksFnU2Z0y5MbiSnoVJfTMz21foPVv3g=";
+};
+
+ 
+ controls {
+ 	inet 127.0.0.1 port 953
+ 		allow { 127.0.0.1; } keys { "rndc-key"; };
+ };
+
+acl clients {
+	192.168.7.0/24;
+	127.0.0.1;
+};
+acl IP_LAN { 192.168.7.3; };
+
+options {
+	directory "/tmp";
+	version "dns foo.kursor.my.id";
+	listen-on port 53 { IP_LAN; };
+	#listen-on-v6 { any; };
+	allow-recursion { clients; };
+	allow-query { clients; };
+	allow-query-cache { clients; };
+        allow-transfer { none; };
+	empty-zones-enable yes;
+	recursion yes;
+	auth-nxdomain no;
+	dnssec-validation yes;
+};
+
+zone "localhost" {
+        type master;
+        file "standard/localhost";
+        allow-transfer { 127.0.0.1; };
+};
+
+zone "127.in-addr.arpa" {
+        type master;
+        file "standard/loopback";
+        allow-transfer { 127.0.0.1; };
+};
+
+zone "." {
+  type forward;
+  forward first;
+  forwarders { 1.1.1.1; 8.8.8.8; };
+};
+
+zone "kursor.my.id" in {
+        type master;
+        file "master/internal.lan";
+};
+
+zone "7.168.192.in-addr.arpa" in {
+        type master;
+        file "master/insternal.rev";
+};
+</code></pre></div></div>
+
+<h3 id="c-add-the-zone-settings">c. Add the zone settings</h3>
+<p>In the named.conf file script above, there are several zones that will be used by ISC Bind. We will customize the zone creation according to the script above. The first step is to create a directory for the zone.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# mkdir -p /var/named/standard
+foo# mkdir -p /var/named/master
+foo# touch /var/named/standard/localhost
+foo# touch /var/named/standard/loopback
+foo# touch /var/named/master/internal.lan
+foo# touch /var/named/master/internal.rev
+</code></pre></div></div>
+<p>After that, in the zone file you add a script like the example below. As usual, we use the nano text editor.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/named/standard/localhost
+$ORIGIN localhost.
+$TTL 6h
+
+@       IN      SOA     localhost. root.localhost. (
+                        1       ; serial
+                        1h      ; refresh
+                        30m     ; retry
+                        7d      ; expiration
+                        1h )    ; minimum
+
+                NS      localhost.
+                A       127.0.0.1
+                AAAA    ::1
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/named/standard/loopback
+$ORIGIN 127.in-addr.arpa.
+$TTL 6h
+
+@       IN      SOA     localhost. root.localhost. (
+                        1       ; serial
+                        1h      ; refresh
+                        30m     ; retry
+                        7d      ; expiration
+                        1h )    ; minimum
+
+                NS      localhost.
+1.0.0           PTR     localhost.
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/named/master/internal.lan
+$ORIGIN .
+$TTL    86400   ; 24 hours
+kursor.my.id    IN SOA  foo.kursor.my.id. root.foo.kursor.my.id. (
+                        2010022201 ; Serial
+                        86400           ; Refresh (24 hours)
+                        3600             ; Retry (1 hour)
+                        172800         ; Expire (48 hours)
+                        3600             ; Minimum (1 hour)
+                )
+kursor.my.id.		IN	NS      foo.kursor.my.id.
+
+$ORIGIN kursor.my.id.
+foo.kursor.my.id.	IN	A       192.168.7.3
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /var/named/master/insternal.rev
+$ORIGIN .
+$TTL    86400   ; 24 hours
+7.168.192.in-addr.arpa	IN	SOA	foo.kursor.my.id. root.foo.kursor.my.id. (
+                                2010022201      ; Serial
+                                86400           ; Refresh (24 hours)
+                                3600            ; Retry (1 hour)
+                                172800          ; Expire (48 hours)
+                                3600            ; Minimum (1 hour)
+                                )
+	IN	NS      foo.kursor.my.id.
+
+$ORIGIN 7.168.192.in-addr.arpa.
+100	IN     PTR     foo.kursor.my.id.
+</code></pre></div></div>
+
+<h3 id="d-change-permissions-and-ownership">d. Change permissions and ownership</h3>
+<p>As we explained above, by default ISB Bind running on OpenBSD has “_bind” user and group. Run the command below for file permissions and ownership.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# cd /var/named
+foo# chown -R _bind:_bind master standard var tmp
+</code></pre></div></div>
+
+<h3 id="e-root-hints-file">e. Root hints file</h3>
+<p>The Root hints file is a file that contains the names and IP addresses of authoritative name servers for the root zone, so that the software can bootstrap the DNS resolution process. You should download this file from the official Iana site repository.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# wget https://www.internic.net/domain/named.root -P /var/named/etc
+</code></pre></div></div>
+
+<h3 id="f-edit-the-resolvconf-file">f. Edit the resolv.conf file</h3>
+<p>The resolv.conf file in OpenBSD is used to connect the OpenBSD server to the domain name system (DNS). You must populate this file with the DNS you want to use. Since you are using ISC Bind as a caching DNS server, we will populate this file with the private IP address of the OpenBSD server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nano /etc/resolv.conf
+domain kursor.my.id
+nameserver 192.168.7.3
+</code></pre></div></div>
+
+<h3 id="g-check-the-zone">g. Check the zone</h3>
+<p>Untuk memastikan tidak ada kesalahan di setiap zona yang telah Anda buat, periksa dengan perintah di bawah ini. Pertama, kita periksa berkas konfigurasi utama yang bernama  <strong>*“/var/named/etc/named.conf”</strong>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# named-checkconf /var/named/etc/named.conf
+</code></pre></div></div>
+<p>Then, you continue by checking the zones you have created above.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# named-checkzone kursor.my.id /var/named/master/internal.lan
+zone kursor.my.id/IN: loaded serial 2010022201
+OK
+foo# named-checkzone 7.168.192.in-addr.arpa /var/named/master/internal.rev
+zone 7.168.192.in-addr.arpa/IN: loaded serial 2010022201
+OK
+</code></pre></div></div>
+
+<h3 id="h-check-dns-name-servers">h. Check DNS name servers</h3>
+<p>If nothing is wrong, we continue with checking the DNS name server. This check aims to ensure that the ISB Bind DNS server is functioning properly. We use the dig command to check the DNS name server. Consider the example command below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# dig yahoo.com
+
+; &lt;&lt;&gt;&gt; dig 9.10.8-P1 &lt;&lt;&gt;&gt; yahoo.com
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 59861
+;; flags: qr rd ra; QUERY: 1, ANSWER: 6, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;yahoo.com.                     IN      A
+
+;; ANSWER SECTION:
+yahoo.com.              1800    IN      A       74.6.231.21
+yahoo.com.              1800    IN      A       98.137.11.163
+yahoo.com.              1800    IN      A       74.6.143.25
+yahoo.com.              1800    IN      A       74.6.231.20
+yahoo.com.              1800    IN      A       98.137.11.164
+yahoo.com.              1800    IN      A       74.6.143.26
+
+;; Query time: 27 msec
+;; SERVER: 192.168.7.3#53(192.168.7.3)
+;; WHEN: Wed Apr 17 16:40:48 WIB 2024
+;; MSG SIZE  rcvd: 134
+
+</code></pre></div></div>
+<p>Here are some dig commands you can use to check the ISC Bind DNS server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# dig @192.168.7.3 azion.com
+foo# dig facebook.com +trace
+foo# dig -x 172.217.14.238
+foo# dig google.com +short
+forcesafesearch.google.com.
+216.239.38.120
+</code></pre></div></div>
+<p>Apart from using the dig command, you can also use the nslookup command. Below we provide an example of using nslookup.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nslookup -type=ns google.com
+Server:         192.168.7.3
+Address:        192.168.7.3#53
+
+Non-authoritative answer:
+google.com      nameserver = ns2.google.com.
+google.com      nameserver = ns3.google.com.
+google.com      nameserver = ns4.google.com.
+google.com      nameserver = ns1.google.com.
+
+Authoritative answers can be found from:
+ns1.google.com  internet address = 216.239.32.10
+ns2.google.com  internet address = 216.239.34.10
+ns3.google.com  internet address = 216.239.36.10
+ns4.google.com  internet address = 216.239.38.10
+ns1.google.com  has AAAA address 2001:4860:4802:32::a
+ns2.google.com  has AAAA address 2001:4860:4802:34::a
+ns3.google.com  has AAAA address 2001:4860:4802:36::a
+ns4.google.com  has AAAA address 2001:4860:4802:38::a
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo# nslookup -type=mx yahoo.com
+foo# nslookup -type=soa facebook.com
+foo# nslookup -type=txt google.com
+foo# nslookup google.com ns1.google.com
+</code></pre></div></div>
+<p>By following this tutorial, you can use ISB Bind as your personal DNS server. You can use it for your Windows computer by setting the DNS server IP to the IP address 192.168.7.3. Now experience the speed of accessing the internet with the ISC Bind DNS server. Surely you will feel the difference.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#dnsserver" class="page__taxonomy-item" rel="tag">DNSServer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-23T10:55:35+03:00">May 23, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Install+ISC+Bind+DNS+Server+Using+OpenBSD%20https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Finstal-isc-dns-bind-server-openbsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Finstal-isc-dns-bind-server-openbsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Finstal-isc-dns-bind-server-openbsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/how-to-install-redis-cache-db-openbsd/" class="pagination--pager" title="How to Install Redis Cache DB on OpenBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/install-gitlab-runner-freebsd/" class="pagination--pager" title="FreeBSD Gitlab Runner - Installation and Usage Guide
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/openbsd/instal-isc-dns-bind-server-openbsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/openbsd/instal-isc-dns-bind-server-openbsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

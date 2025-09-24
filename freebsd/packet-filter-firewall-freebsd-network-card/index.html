@@ -1,0 +1,1049 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Packet Filter PF Firewall For FreeBSD With One Network Card - UnixBSDShell</title>
+<meta name="description" content="With PF Firewall it is possible to filter traffic in and out of the FreeBSD system. Firewalls use one or more sets of “rules” to evaluate network packets as they enter or leave a network connection and allow or disallow traffic. Firewall rules examine one or more packet attributes, including the protocol type, source/destination host address, and source destination port and interface used to transfer the traffic">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="Packet Filter PF Firewall For FreeBSD With One Network Card">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/packet-filter-firewall-freebsd-network-card/">
+
+
+  <meta property="og:description" content="With PF Firewall it is possible to filter traffic in and out of the FreeBSD system. Firewalls use one or more sets of “rules” to evaluate network packets as they enter or leave a network connection and allow or disallow traffic. Firewall rules examine one or more packet attributes, including the protocol type, source/destination host address, and source destination port and interface used to transfer the traffic">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="Packet Filter PF Firewall For FreeBSD With One Network Card">
+  <meta name="twitter:description" content="With PF Firewall it is possible to filter traffic in and out of the FreeBSD system. Firewalls use one or more sets of “rules” to evaluate network packets as they enter or leave a network connection and allow or disallow traffic. Firewall rules examine one or more packet attributes, including the protocol type, source/destination host address, and source destination port and interface used to transfer the traffic">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/packet-filter-firewall-freebsd-network-card/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-04-17T10:21:11+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/packet-filter-firewall-freebsd-network-card/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Packet Filter PF Firewall For FreeBSD With One Network Card</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Packet Filter PF Firewall For FreeBSD With One Network Card">
+    <meta itemprop="description" content="With PF Firewall it is possible to filter traffic in and out of the FreeBSD system. Firewalls use one or more sets of “rules” to evaluate network packets as they enter or leave a network connection and allow or disallow traffic. Firewall rules examine one or more packet attributes, including the protocol type, source/destination host address, and source destination port and interface used to transfer the traffic">
+    <meta itemprop="datePublished" content="2025-04-17T10:21:11+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Packet Filter PF Firewall For FreeBSD With One Network Card
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          12 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#️-1-enable-packet-filter-firewall">🗺️ 1. Enable Packet Filter Firewall</a></li>
+  <li><a href="#️-2-create-pf-rulesets">🗺️ 2. Create PF Rulesets</a></li>
+  <li><a href="#️-3-using-the-pfctl-script">🗺️ 3. Using the pfctl Script</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>In July 2003, OpenBSD firewall software known as PF was embedded into FreeBSD systems and became available from the FreeBSD port pool. The first release in which PF was integrated into the main system was FreeBSD 5.3 in November 2004. PF is a full-featured firewall, which has optional support for ALTQ (Alternate Queuing). ALTQ provides Quality of Service (QoS) bandwidth management, which allows you to guarantee bandwidth for various services based on filtering rules.</p>
+
+<p>With PF Firewall it is possible to filter traffic in and out of the FreeBSD system. Firewalls use one or more sets of “rules” to evaluate network packets as they enter or leave a network connection and allow or disallow traffic. Firewall rules examine one or more packet attributes, including the protocol type, source/destination host address, and source/destination port and interface used to transfer the traffic.</p>
+
+<p>Firewalls improve the security of a network or host by protecting and isolating applications, services, and internal network devices from unwanted Internet traffic. PF Firewall can be used to limit or disable host access on an internal network to Internet services. Additionally, PF Firewall supports network address translation (NAT), which allows internal networks to use private IP addresses and share a single connection to the public Internet using a single IP address or a set of automatically allocated public addresses.</p>
+
+<p>Packet Filter, also known as PF or pf, is a BSD-licensed stateful packet filter used to filter TCP/IP traffic and perform Network Address Translation (NAT.) PF was created by Daniel Hartmeier for OpenBSD and is currently maintained and developed by the OpenBSD team . PF has been ported to several other operating systems, such as FreeBSD and DragonflyBSD, today. Since OpenBSD 3.0, PF has been a component of the GENERIC kernel.</p>
+
+<p>PF functions mostly in kernel space, within the network code. Based on the source or destination of the packet, as well as the protocol, connection, and destination port, PF can identify where the packet should be directed or whether it should be allowed to pass through.</p>
+
+<p>One of PF’s most important features is that it can detect and block traffic that you don’t want to let into your local network or out to the outside world. In addition to TCP/IP traffic normalization and conditioning, PF offers bandwidth management and packet prioritization. Packet filters are a very flexible and valuable instrument for controlling network activity.</p>
+
+<p>Key features of Packet Filter Firewall:</p>
+<ul>
+  <li>Filtering based on address, port, protocol and interface.</li>
+  <li>NAT, which consists of source, destination, spoofing and packet forwarding addresses.</li>
+  <li>Scrub - normalization of network traffic.</li>
+  <li>SYN-proxy - Protection against SYN-flood attacks.</li>
+  <li>Connection balancer.</li>
+  <li>Failover - pfcync allows you to synchronize the firewall state on multiple hosts, in combination with the CARP protocol.</li>
+  <li>Transparent firewall (Without its own IP address, including layer 2 filters).</li>
+  <li>Macros are analogous to variables.</li>
+  <li>The table, dynamically changes the list of IP addresses without reloading the configuration.</li>
+  <li>Label, allows you to label packages if simple filtering is not enough.</li>
+  <li>Anchors are collections of rules, similar to IPTables tables in Linux.</li>
+  <li>Collecting statistics and displaying graphs using the pfstat utility.</li>
+  <li>Automatic optimization of rules on load.</li>
+</ul>
+
+<p>In this article we will try to setup a Packet Filter Firewall on a FreeBSD machine. The PF Firewall that we will setup runs on only one interface, namely “re0”. The FreeBSD system used in this article has the following specifications:</p>
+<ul>
+  <li>OS: FreeBSD 13.2 Stable.</li>
+  <li>Server IP: 192.168.9.3</li>
+  <li>Interface: re0</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="️-1-enable-packet-filter-firewall">🗺️ 1. Enable Packet Filter Firewall</h2>
+
+<p>To use PF Firewall on FreeBSD we must first activate this feature. How to activate it is very easy, open the /etc/rc.conf file and enter the following script in the rc.conf file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@router2:~ #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="gp">pf_enable="YES"                 #</span><span class="w"> </span>Enable PF <span class="o">(</span>load module <span class="k">if </span>required<span class="o">)</span>
+<span class="gp">pf_rules="/etc/pf.conf"         #</span><span class="w"> </span>rules definition file <span class="k">for </span>pf
+<span class="gp">pf_flags=""                     #</span><span class="w"> </span>additional flags <span class="k">for </span>pfctl startup
+<span class="gp">pflog_enable="YES"              #</span><span class="w"> </span>start pflogd<span class="o">(</span>8<span class="o">)</span>
+<span class="gp">pflog_logfile="/var/log/pflog"  #</span><span class="w"> </span>where pflogd should store the logfile
+<span class="go">pflog_flags="-s"         
+</span></code></pre></div></div>
+
+<p>With the script above, PF Firewall will automatically filter all internet traffic. When finished, create a log file with the name pflog and place it in the <code class="language-plaintext highlighter-rouge">/var/log</code> folder.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">root@router2:~ touch /var/log/pflog
+</span></code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="️-2-create-pf-rulesets">🗺️ 2. Create PF Rulesets</h2>
+
+<p>After activating PF Firewall, the next step is to create rulesets. These rules are used to load the PF Firewall, because PF receives its configuration rules from pf.conf, as loaded by the rc.conf script above. Note that although pf.conf is the default configuration file and is imported by the system rc script, it is just a text file that is loaded and processed by pfctl and placed into pf.</p>
+
+<p>Some applications may load additional rule sets from other files at startup. OK, now let’s just create the <code class="language-plaintext highlighter-rouge">/etc/pf.conf</code> file.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">root@router2:~ touch /etc/pf.conf
+root@router2:~ chmod +x /etc/pf.conf
+</span></code></pre></div></div>
+
+<p>If the pf.conf file is successfully created, enter the script below in the <code class="language-plaintext highlighter-rouge">/etc/pf.conf</code> file. This script applies to one interface or one landcard only.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="c"># interface Sever FreeBSD##</span>
+<span class="go">ext_if="re0"
+
+</span><span class="gp">#</span><span class="c"># IP Server FreeBSDs ##</span>
+<span class="go">ext_if_ip="192.168.9.3"
+
+</span><span class="gp">#</span><span class="c"># Set and drop these IP ranges on public interface ##</span>
+<span class="go">private  =  "{ 127.0.0.0/8, 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8, 169.254.0.0/16, 192.0.2.0/24, 0.0.0.0/8, 240.0.0.0/4 }"
+
+</span><span class="gp">#</span><span class="c"># Set http(80)/https (443) port here ##</span>
+<span class="go">webports  =  "{http, https}"
+
+</span><span class="gp">#</span><span class="c"># enable these services ##</span>
+<span class="go">int_tcp_services  =  "{53, 853, 123, 22}"
+int_udp_services  =  "{53, 123}"
+
+</span><span class="gp">#</span><span class="c"># Skip loop back interface - Skip all PF processing on interface ##</span>
+<span class="go">set skip on lo0
+set optimization normal
+set block-policy drop
+
+</span><span class="gp">#</span><span class="c"># Sets the interface for which PF should gather statistics such as bytes in/out and packets passed/blocked ##</span>
+<span class="gp">set loginterface $</span>ext_if
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Deal with attacks based on incorrect handling of packet fragments
+<span class="go">scrub in all
+</span><span class="gp">scrub on $</span>ext_if all reassemble tcp
+<span class="go">
+block return in log all
+block out all
+
+</span><span class="gp">#</span><span class="nb">set </span>skip on lo0
+<span class="gp">set skip on $</span>ext_if
+<span class="go">
+</span><span class="gp">#</span>rdr pass on lo0 proto <span class="o">{</span> tcp udp <span class="o">}</span> from any to port 53 -&gt; 192.168.9.3 port 9053
+<span class="gp">#</span>rdr pass on <span class="nv">$ext_if</span> proto <span class="o">{</span> tcp <span class="o">}</span> from any to port 80 -&gt; 192.168.9.3 port 818
+<span class="go">
+</span><span class="gp">#</span><span class="c"># Blocking spoofed packets</span>
+<span class="gp">antispoof quick for $</span>ext_if
+<span class="go">
+</span><span class="gp">#</span><span class="c">### Drop all Non-Routable Addresses</span>
+<span class="gp">block drop in quick on $</span>ext_if from <span class="nv">$private</span> to any
+<span class="gp">block drop out quick on $</span>ext_if from any to <span class="nv">$private</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Allow Ping
+<span class="go">pass inet proto icmp icmp-type echoreq
+
+</span><span class="gp">#</span><span class="w"> </span>All access to our Nginx/Apache/Lighttpd Webserver ports
+<span class="gp">pass proto tcp from any to $</span>ext_if port <span class="nv">$webports</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Allow essential outgoing traffic
+<span class="gp">pass out quick on $</span>ext_if proto tcp to any port <span class="nv">$int_tcp_services</span>
+<span class="gp">pass out quick on $</span>ext_if proto udp to any port <span class="nv">$int_udp_services</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Add custom rules below
+</code></pre></div></div>
+<p>Now we continue by restarting the Packet Filter Firewall.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">root@router2:~ service pf restart
+root@router2:~ service pflog restart
+</span></code></pre></div></div>
+
+<p>Well, up to this point we have successfully configured PF Firewall on the FreeBSD system, meaning now our FreeBSD server has been protected or guarded with a Packet Filter Firewall.</p>
+
+<p><br /></p>
+
+<h2 id="️-3-using-the-pfctl-script">🗺️ 3. Using the pfctl Script</h2>
+
+<p>Even though currently our internet traffic is being guarded by the PF Firewall, there’s no harm in studying the scripts used to monitor the PF firewall.</p>
+
+<p>pfctl is a utility that communicates with packet filter devices using the ioctl interface to control packet filter (PF) devices. This allows configuration of rules and parameters and retrieval of packet filter status information. To view pfctl options, run the following command:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@router2:~ #</span><span class="w"> </span>pfctl <span class="nt">-e</span>
+<span class="go">pfctl: pf already enabled
+</span><span class="gp">root@router2:~ #</span><span class="w"> </span>pfctl <span class="nt">-h</span>
+<span class="go">usage: pfctl [-AdeghMmNnOPqRrvz] [-a anchor] [-D macro=value] [-F modifier]
+        [-f file] [-i interface] [-K host | network]
+        [-k host | network | gateway | label | id] [-o level] [-p device]
+        [-s modifier] [-t table -T command [address ...]] [-x level]
+</span><span class="gp">root@router2:~ #</span><span class="w"> </span>pfctl <span class="nt">-e</span>
+<span class="go">pfctl: pf already enabled
+</span><span class="gp">root@router2:~ #</span><span class="w"> </span>pfctl <span class="nt">-d</span>
+<span class="go">pf disabled
+</span><span class="gp">root@router2:~ #</span><span class="w"> </span>pfctl <span class="nt">-F</span> all <span class="nt">-f</span> /etc/pf2.conf
+<span class="go">rules cleared
+nat cleared
+0 tables deleted.
+altq cleared
+0 states cleared
+source tracking entries cleared
+pf: statistics cleared
+pf: interface flags reset
+</span><span class="gp">root@router2:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If we want to check the firewall ruleset <code class="language-plaintext highlighter-rouge">/etc/pf.conf</code> as a whole, use the following script.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@router2:~ #</span><span class="w"> </span>pfctl <span class="nt">-vnf</span> /etc/pf.conf
+<span class="go">set limit table-entries 400000
+set optimization normal
+set limit states 172000
+set limit src-nodes 172000
+ext_if = "re0"
+tcp_port = "22 123 853 53 54 55 56 9050 9001 8008 8118 1080 3128 57 7092 8181 8443 9000 4444 4445 4447 9001 7652 7657 9053 5000 3074 6800"
+udp_port = "22 123 853 53 54 55 56 9050 9001 8008 8118 1080 3128 57 7092 4444 7657 9053 5000 3074 6800"
+inbound_tcp_services = "{auth, http, https,  22 123 853 53 54 55 56 9050 9001 8008 8118 1080 3128 57 7092 8181 8443 9000 4444 4445 4447 9001 7652 7657 9053 5000 3074 6800  }"
+inbound_udp_services = "{dhcpv6-client,openvpn,  22 123 853 53 54 55 56 9050 9001 8008 8118 1080 3128 57 7092 4444 7657 9053 5000 3074 6800  }"
+set loginterface re0
+set skip on { pfsync0 }
+set skip on { lo0 }
+set skip on { re0 }
+scrub in all fragment reassemble
+</span><span class="gp">rdr pass on lo0 inet proto tcp from any to any port = domain -&gt;</span><span class="w"> </span>192.168.9.3 port 9053
+<span class="gp">rdr pass on lo0 inet proto udp from any to any port = domain -&gt;</span><span class="w"> </span>192.168.9.3 port 9053
+<span class="go">block drop in on ! re0 inet from 192.168.9.0/24 to any
+block drop all
+pass in quick on re0 proto tcp from any to any port = auth flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = http flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = https flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = ssh flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = ntp flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = domain-s flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = domain flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = xns-ch flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = isi-gl flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = xns-auth flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 9050 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 9001 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 8008 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = privoxy flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = socks flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 3128 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 57 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 7092 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 8181 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 8443 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 9000 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = krb524 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 4445 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 4447 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 7652 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 7657 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 9053 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 5000 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 3074 flags S/SA keep state
+pass in quick on re0 proto tcp from any to any port = 6800 flags S/SA keep state
+pass in quick on re0 proto udp from any to any port = dhcpv6-client keep state
+pass in quick on re0 proto udp from any to any port = openvpn keep state
+pass in quick on re0 proto udp from any to any port = ssh keep state
+pass in quick on re0 proto udp from any to any port = ntp keep state
+pass in quick on re0 proto udp from any to any port = domain-s keep state
+pass in quick on re0 proto udp from any to any port = domain keep state
+pass in quick on re0 proto udp from any to any port = xns-ch keep state
+pass in quick on re0 proto udp from any to any port = isi-gl keep state
+pass in quick on re0 proto udp from any to any port = xns-auth keep state
+pass in quick on re0 proto udp from any to any port = 9050 keep state
+pass in quick on re0 proto udp from any to any port = 9001 keep state
+pass in quick on re0 proto udp from any to any port = 8008 keep state
+pass in quick on re0 proto udp from any to any port = privoxy keep state
+pass in quick on re0 proto udp from any to any port = socks keep state
+pass in quick on re0 proto udp from any to any port = 3128 keep state
+pass in quick on re0 proto udp from any to any port = 57 keep state
+pass in quick on re0 proto udp from any to any port = 7092 keep state
+pass in quick on re0 proto udp from any to any port = krb524 keep state
+pass in quick on re0 proto udp from any to any port = 7657 keep state
+pass in quick on re0 proto udp from any to any port = 9053 keep state
+pass in quick on re0 proto udp from any to any port = 5000 keep state
+pass in quick on re0 proto udp from any to any port = 3074 keep state
+pass in quick on re0 proto udp from any to any port = 6800 keep state
+pass quick on re0 proto icmp all keep state
+pass quick on re0 proto ipv6-icmp all keep state
+pass out quick on re0 all flags S/SA keep state
+</span><span class="gp">root@router2:~ #</span><span class="w">
+</span></code></pre></div></div>
+
+<p>With the PF Firewall on our FreeBSD server, all attacks coming from outside the network will be blocked by the PF Firewall. With the ruleset rules that we create accurately and precisely, PF Firewall becomes a frightening figure for network intruders.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#sysadmin" class="page__taxonomy-item" rel="tag">SysAdmin</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-04-17T10:21:11+03:00">April 17, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=Packet+Filter+PF+Firewall+For+FreeBSD+With+One+Network+Card%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fpacket-filter-firewall-freebsd-network-card%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fpacket-filter-firewall-freebsd-network-card%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fpacket-filter-firewall-freebsd-network-card%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/configuration-ansible-install-freebsd/" class="pagination--pager" title="How to Configure Ansible on FreeBSD 14
+">Previous</a>
+    
+    
+      <a href="/freebsd/using-chown-command-in-freebsd/" class="pagination--pager" title="Using the Chown Command in FreeBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/packet-filter-firewall-freebsd-network-card/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/packet-filter-firewall-freebsd-network-card"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

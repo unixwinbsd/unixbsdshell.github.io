@@ -1,0 +1,1250 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to Index Blogger URLs With FreeBSD and Python - UnixBSDShell</title>
+<meta name="description" content="Python is a pretty versatile tool that can help automate certain tasks, can be used to extract and analyze your site’s data and, if used correctly, can help analyze and improve the way our sites are crawled and indexed. I hope you find this tutorial useful for your next use of the Google API index.">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="How to Index Blogger URLs With FreeBSD and Python">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/index-url-blogger-freebsd-python/">
+
+
+  <meta property="og:description" content="Python is a pretty versatile tool that can help automate certain tasks, can be used to extract and analyze your site’s data and, if used correctly, can help analyze and improve the way our sites are crawled and indexed. I hope you find this tutorial useful for your next use of the Google API index.">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Index Blogger URLs With FreeBSD and Python">
+  <meta name="twitter:description" content="Python is a pretty versatile tool that can help automate certain tasks, can be used to extract and analyze your site’s data and, if used correctly, can help analyze and improve the way our sites are crawled and indexed. I hope you find this tutorial useful for your next use of the Google API index.">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/index-url-blogger-freebsd-python/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-05-03T15:31:05+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/index-url-blogger-freebsd-python/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Index Blogger URLs With FreeBSD and Python</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to Index Blogger URLs With FreeBSD and Python">
+    <meta itemprop="description" content="Python is a pretty versatile tool that can help automate certain tasks, can be used to extract and analyze your site’s data and, if used correctly, can help analyze and improve the way our sites are crawled and indexed. I hope you find this tutorial useful for your next use of the Google API index.">
+    <meta itemprop="datePublished" content="2025-05-03T15:31:05+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Index Blogger URLs With FreeBSD and Python
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#a-system-requirements">A. System Requirements</a></li>
+  <li><a href="#b-what-do-we-know-about-google-indexing">B. What do we know about Google indexing?</a></li>
+  <li><a href="#c-preparation-creating-an-api-project">C. Preparation: creating an API project</a></li>
+  <li><a href="#d-perform-api-indexing-in-python">D. Perform API indexing in Python</a></li>
+  <li><a href="#e-method-1">E. Method 1</a></li>
+  <li><a href="#f-method-2">F. Method 2</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Google APIs are a collection of application programming interfaces (APIs) created by Google that allow users to communicate with Google Services. APIs follow certain rules and processes to ensure that requests and responses are communicated clearly.</p>
+
+<p>In this tutorial, we will try to teach you how to index your web pages with the help of Google Indexing API in Python on FreeBSD Machine.</p>
+
+<h2 id="a-system-requirements">A. System Requirements</h2>
+<ul>
+  <li>OS: FreeBSD 13.2 Stable.</li>
+  <li>Private Domain: unixexplore.com.</li>
+  <li>IP Address: 192.168.5.2.</li>
+  <li>Blogger Name: https://unixwinbsd.site.</li>
+  <li>Python version: Python 3.9.18.</li>
+  <li>PIP version: py39-pip-23.2.1.</li>
+  <li>NPM version: NPM 10.2.0.</li>
+</ul>
+
+<h2 id="b-what-do-we-know-about-google-indexing">B. What do we know about Google indexing?</h2>
+
+<p>When talking about indexing in a search engine (Google), first of all we mean the crowling budget. This definition includes many factors that affect indexing: linking, site size, frequency of site crawling by search engine robots, customized headers, and more. To learn more about the concept of “crowling budget”, follow the link.</p>
+
+<p>Indexing API is an application programming interface that allows site owners to notify Google about adding or removing pages. This allows Google to index any web page instantly. It is mainly used for short-term content such as job ads and news articles.</p>
+
+<p>When using the indexing API, Google will prioritize this URL for crawling and indexing over others. The limit for sending data to Google is 200 links per day.</p>
+
+<p>Using the indexing API, you can:</p>
+<ul>
+  <li>Update URLs in the index.</li>
+  <li>Remove URLs from the index.</li>
+  <li>Get the status of the last request.</li>
+  <li>Send batch requests to reduce the number of API calls.</li>
+</ul>
+
+<p>To start using the Indexing API, you need to create a new API project in the Google Developer Console and enable the use of the Indexing API in the library.</p>
+
+<p>For the Indexing API to work properly, you need to give ownership to the service account email address in Webmaster Center. To do this, you need to go to Search Console and add the property that requires the indexing API, or select it from the list.</p>
+
+<h2 id="c-preparation-creating-an-api-project">C. Preparation: creating an API project</h2>
+<p>For this tutorial, you will need a few things:</p>
+<ul>
+  <li>Python is already installed.</li>
+  <li>Open https://console.cloud.google.com/</li>
+  <li>Read: https://www.unixwinbsd.site/2023/11/blogger-indexing-api-with-npm-node.html</li>
+  <li>Read: https://www.unixwinbsd.site/2023/11/how-to-install-freebsd-python-venv.html</li>
+</ul>
+
+<h2 id="d-perform-api-indexing-in-python">D. Perform API indexing in Python</h2>
+
+<p>The first step to running the indexing API in Python is to install the Python Environment. We create a Python Environment with the work project <code class="language-plaintext highlighter-rouge">"bloggerindex"</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /tmp
+<span class="gp">root@ns1:/tmp #</span><span class="w"> </span>python <span class="nt">-m</span> venv bloggerindex
+</code></pre></div></div>
+<p>After creating a Python Environment project, then activate the Python Environment.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:/tmp #</span><span class="w"> </span><span class="nb">cd </span>bloggerindex
+<span class="gp">root@ns1:/tmp/googleindex #</span><span class="w"> </span><span class="nb">source </span>bin/activate.csh
+<span class="gp">(bloggerindex) root@ns1:/tmp/googleindex #</span><span class="w">
+</span></code></pre></div></div>
+<p>Here we need to install some library files through the Python Environment terminal, as shown below:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span> <span class="c1"># pip install oauth2client
+</span><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span> <span class="c1"># pip install logging argparse
+</span><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span> <span class="c1"># pip install pandas
+</span><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span> <span class="c1"># pip3 install pandas
+</span><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span> <span class="c1"># pip install datetime httplib2
+</span><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span> <span class="c1"># pip install google-api-python-client
+</span><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span> <span class="c1"># pip install  requests discovery openpyxl
+</span></code></pre></div></div>
+
+<h2 id="e-method-1">E. Method 1</h2>
+<p>To start method 1, we will create a folder named “googleindex1” in the Python Environment. Here’s how.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span> <span class="c1"># mkdir -p googleindex1
+</span><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span> <span class="c1"># cd googleindex1
+</span><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span><span class="o">/</span><span class="n">googleindex1</span> <span class="c1">#
+</span></code></pre></div></div>
+<p>Then we create a file named <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex1/index1.py"</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span><span class="o">/</span><span class="n">googleindex1</span> <span class="c1"># touch /tmp/bloggerindex/googleindex1/index1.py
+</span><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span><span class="o">/</span><span class="n">googleindex1</span> <span class="c1"># chmod +x /tmp/bloggerindex/googleindex1/index1.py
+</span></code></pre></div></div>
+<p>After that, we enter the script below into the file <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex1/index1.py"</code>.</p>
+
+<p>Full script of file <code class="language-plaintext highlighter-rouge">"index1.py"</code>. (/tmp/bloggerindex/googleindex1/index1.py):</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from oauth2client.service_account import ServiceAccountCredentials
+import httplib2
+import json
+
+import pandas as pd
+
+# https://developers.google.com/search/apis/indexing-api/v3/prereqs#header_2
+JSON_KEY_FILE = "unix-bsd-project-blogger-a3ad06815d72.json"
+SCOPES = ["https://www.googleapis.com/auth/indexing"]
+
+credentials = ServiceAccountCredentials.from_json_keyfile_name(JSON_KEY_FILE, scopes=SCOPES)
+http = credentials.authorize(httplib2.Http())
+
+def indexURL(urls, http):
+    # print(type(url)); print("URL: {}".format(url));return;
+
+    ENDPOINT = "https://indexing.googleapis.com/v3/urlNotifications:publish"
+    
+    for u in urls:
+        # print("U: {} type: {}".format(u, type(u)))
+    
+        content = {}
+        content['url'] = u.strip()
+        content['type'] = "URL_UPDATED"
+        json_ctn = json.dumps(content)    
+        # print(json_ctn);return
+    
+        response, content = http.request(ENDPOINT, method="POST", body=json_ctn)
+
+        result = json.loads(content.decode())
+
+        # For debug purpose only
+        if("error" in result):
+            print("Error({} - {}): {}".format(result["error"]["code"], result["error"]["status"], result["error"]["message"]))
+        else:
+            print("urlNotificationMetadata.url: {}".format(result["urlNotificationMetadata"]["url"]))
+            print("urlNotificationMetadata.latestUpdate.url: {}".format(result["urlNotificationMetadata"]["latestUpdate"]["url"]))
+            print("urlNotificationMetadata.latestUpdate.type: {}".format(result["urlNotificationMetadata"]["latestUpdate"]["type"]))
+            print("urlNotificationMetadata.latestUpdate.notifyTime: {}".format(result["urlNotificationMetadata"]["latestUpdate"]["notifyTime"]))
+
+"""
+data.csv has 2 columns: URL and date.
+I just need the URL column.
+"""
+csv = pd.read_csv("urls.csv")
+csv[["URL"]].apply(lambda x: indexURL(x, http))
+</code></pre></div></div>
+
+<p>Then we create a file named <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex1/urls.csv"</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span><span class="o">/</span><span class="n">googleindex1</span> <span class="c1"># touch /tmp/bloggerindex/googleindex1/urls.csv
+</span><span class="p">(</span><span class="n">bloggerindex</span><span class="p">)</span> <span class="n">root</span><span class="o">@</span><span class="n">ns1</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bloggerindex</span><span class="o">/</span><span class="n">googleindex1</span> <span class="c1"># chmod +x /tmp/bloggerindex/googleindex1/urls.csv
+</span></code></pre></div></div>
+
+<p>After that, we enter the script below into the file <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex1/urls.csv"</code>.</p>
+
+<p>Full script of file <code class="language-plaintext highlighter-rouge">"urls.csv"</code>. (/tmp/bloggerindex/googleindex1/urls.csv):</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>URL,Date
+https://www.unixwinbsd.site/2023/11/freebsd-reduce-pdf-file-size-using.html 5,
+https://www.unixwinbsd.site/2023/11/doge-coin-installation-and.html 5,
+https://www.unixwinbsd.site/2023/11/how-to-install-python-pip-package.html 5,
+https://www.unixwinbsd.site/2023/11/freebsd-install-xmrig-and-cpuminer-for.html 4,
+https://www.unixwinbsd.site/2023/11/freebsd-inetd-daemon-and-inetd-conf.html 4,
+https://www.unixwinbsd.site/2023/11/how-to-install-freebsd-python-venv.html 4,
+https://www.unixwinbsd.site/2023/11/how-to-install-sudo-on-freebsd-system.html 4,
+https://www.unixwinbsd.site/2023/11/freebsd-and-python-writing-daemon_4.html 4,
+https://www.unixwinbsd.site/2023/11/freebsd-and-python-writing-daemon.html 4,
+https://www.unixwinbsd.site/2023/11/how-to-install-golang-go-language-on.html 4,
+https://www.unixwinbsd.site/2023/11/how-to-install-npm-nodejs-on-freebsd.html 3,
+https://www.unixwinbsd.site/2023/11/how-to-use-stream-editor-sed-command-on.html 3,
+https://www.unixwinbsd.site/2023/11/mudahnya-membuat-user-dan-group-pada.html 2,
+https://www.unixwinbsd.site/2023/11/apa-yang-harus-dilakukan-setelah.html 2,
+https://www.unixwinbsd.site/2023/11/mengkonfigurasi-dns-bind-sebagai.html 2,
+https://www.unixwinbsd.site/2023/11/cara-install-java-openjdk-pada-komputer.html 2,
+https://www.unixwinbsd.site/2023/11/polipo-sebagai-proxy-server-dengan.html 1,
+https://www.unixwinbsd.site/2023/11/konfigurasi-unbound-sebagai-dns-server.html 1,
+https://www.unixwinbsd.site/2023/11/merotasi-ip-public-web-scraping-dengan.html 1,
+https://www.unixwinbsd.site/2023/11/belajar-instalasi-dan-konfigurasi.html 1,
+https://www.unixwinbsd.site/2023/10/freebsd-install-bugzilla-with-apache24.html 31,
+https://www.unixwinbsd.site/2023/10/belajar-cara-install-nginx-web-server.html 30,
+https://www.unixwinbsd.site/2023/10/tor-dan-privoxy-security-anonymous.html 28,
+https://www.unixwinbsd.site/2023/10/installation-and-configuration-tor-on.html 28,
+https://www.unixwinbsd.site/2023/10/belajar-nginstall-mysql-server-pada.html 26,
+https://www.unixwinbsd.site/2023/10/speedtest-cli-on-freebsd-to-check.html 26,
+https://www.unixwinbsd.site/2023/09/belajar-membuat-blog-dengan-go-hugo.html 24,
+https://www.unixwinbsd.site/2023/09/membuat-website-database-with-apache24.html 7,
+https://www.unixwinbsd.site/2023/09/installation-and-basic-setup-of-tomcat.html 1,
+https://www.unixwinbsd.site/2023/07/cara-cepat-konfigurasi-openssh-server.html 1,
+</code></pre></div></div>
+
+<p>The number after the URL address is the date the article was created on Blogspot.</p>
+
+<p>After that, upload the file <code class="language-plaintext highlighter-rouge">"unix-bsd-project-blogger-a3ad06815d72.json"</code> to the folder <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex1"</code>.</p>
+
+<p>Let’s look at the folder <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex1"</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex/googleindex1 #</span><span class="w"> </span><span class="nb">ls</span>
+<span class="go">index1.py         unix-bsd-project-blogger-a3ad06815d72.json      urls.csv
+</span></code></pre></div></div>
+<p>Now run the script with the below command <code class="language-plaintext highlighter-rouge">"python index1.py"</code>.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(bloggerindex) root@ns1:/tmp/bloggerindex/googleindex1 # python index1.py
+urlNotificationMetadata.url: https://www.unixwinbsd.site/2023/11/freebsd-reduce-pdf-file-size-using.html 5
+urlNotificationMetadata.latestUpdate.url: https://www.unixwinbsd.site/2023/11/freebsd-reduce-pdf-file-size-using.html 5
+urlNotificationMetadata.latestUpdate.type: URL_UPDATED
+urlNotificationMetadata.latestUpdate.notifyTime: 2023-11-11T07:58:29.241655444Z
+urlNotificationMetadata.url: https://www.unixwinbsd.site/2023/11/doge-coin-installation-and.html 5
+urlNotificationMetadata.latestUpdate.url: https://www.unixwinbsd.site/2023/11/doge-coin-installation-and.html 5
+urlNotificationMetadata.latestUpdate.type: URL_UPDATED
+urlNotificationMetadata.latestUpdate.notifyTime: 2023-11-11T07:58:29.657017024Z
+urlNotificationMetadata.url: https://www.unixwinbsd.site/2023/11/how-to-install-python-pip-package.html 5
+urlNotificationMetadata.latestUpdate.url: https://www.unixwinbsd.site/2023/11/how-to-install-python-pip-package.html 5
+urlNotificationMetadata.latestUpdate.type: URL_UPDATED
+urlNotificationMetadata.latestUpdate.notifyTime: 2023-11-11T07:58:30.430826670Z
+urlNotificationMetadata.url: https://www.unixwinbsd.site/2023/11/freebsd-install-xmrig-and-cpuminer-for.html 4
+urlNotificationMetadata.latestUpdate.url: https://www.unixwinbsd.site/2023/11/freebsd-install-xmrig-and-cpuminer-for.html 4
+urlNotificationMetadata.latestUpdate.type: URL_UPDATED
+</code></pre></div></div>
+
+<p>You will see a screen like the one above that contains a list of URLs, dates and times submitted for indexing.</p>
+
+<h2 id="f-method-2">F. Method 2</h2>
+<p>To start method 2, we will create a folder named <code class="language-plaintext highlighter-rouge">"googleindex2"</code> in the Python Environment. Here’s how.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cd</span> /tmp/bloggerindex
+<span class="gp">root@ns1:/tmp/bloggerindex #</span><span class="w"> </span><span class="nb">source </span>bin/activate.csh
+<span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> googleindex2
+<span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex #</span><span class="w"> </span><span class="nb">cd </span>googleindex2
+<span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex/googleindex2 #</span><span class="w">
+</span></code></pre></div></div>
+<p>Then we create a file named <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex1/index2.py"</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex/googleindex2 #</span><span class="w"> </span><span class="nb">touch</span> /tmp/bloggerindex/googleindex2/index2.py
+<span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex/googleindex2 #</span><span class="w"> </span><span class="nb">chmod</span> +x /tmp/bloggerindex/googleindex2/index2.py
+</code></pre></div></div>
+
+<p>After that, we enter the script below into the file <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex2/index2.py"</code>.</p>
+
+<p>Full script of file <code class="language-plaintext highlighter-rouge">"index2.py"</code>. (/tmp/bloggerindex/googleindex2/index2.py):</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import json
+import re
+
+import httplib2
+from oauth2client.service_account import ServiceAccountCredentials
+
+
+class GoogleIndexationAPI:
+    def __init__(self, key_file, urls_list):
+        """
+        :param  key_file: .json key Google API filename
+        :param urls_list: .txt urls list filename
+        """
+        self.key_file = key_file
+        self.urls_list = urls_list
+
+    def parse_json_key(self):
+        """
+        Hello msg. Parses and validates JSON
+        """
+        with open(self.key_file, 'r') as f:
+            key_data = json.load(f)
+            try:
+                input(f'Please add OWNER rights in GSC resource to: {key_data["client_email"]} \nand press Enter')
+
+            except Exception as e:
+                print(e, type(e))
+                exit()
+
+    @staticmethod
+    def get_domain():
+        """
+        Input URL and strips it to a domain name
+        :return stripped_domain:
+        """
+        domain = input('Enter domain you are going to work with: ')
+        stripped_domain = re.sub('(https://)|(http://)|(www.)|/(.*)', '', domain)
+        return stripped_domain
+
+    @staticmethod
+    def choose_method():
+        """
+        Choosing a method for Google Indexing API request
+        :return method: method name
+        """
+        while True:
+            choose_msg = input('Choose one of methods (print number) and press Enter \n'
+                               '1 - URL_UPDATED\n'
+                               '2 - URL_DELETED:\n')
+            if '1' in choose_msg:
+                method = 'URL_UPDATED'
+                break
+            elif '2' in choose_msg:
+                method = 'URL_DELETED'
+                break
+            else:
+                print('Please enter correct number')
+
+        print('You chose method: ', method)
+        return method
+
+    def get_urls(self):
+        """
+        Gets URL list from a file and clean from not unique and not valid data
+        :return final_urls:
+        """
+        urls = []
+        domain = self.get_domain()
+        try:
+            with open(self.urls_list, 'r', encoding='utf-8') as f:
+                for line in f:
+                    urls.append(line.strip())
+
+                # Clean not unique urs
+                urls = list(set(urls))
+                # Delete urls without ^http or which don't contain our domain name
+                for url in urls.copy():
+                    if ('http' not in url) or (domain not in url):
+                        urls.pop(urls.index(url))
+
+                # 200 requests a day quota :(
+                if len(urls) &gt; 200:
+                    print(f'You have a 200 request per day quota. You are trying to index {len(urls)}. ')
+
+                    len_answer = input(f'I will make requests only for the first 200 urls containing {domain}. '
+                                       f'Continue (YES/NO) ???\n')
+                    if 'yes' in len_answer.lower():
+                        final_urls = urls[0:199]
+                        left_urls = urls[200:]
+
+                        # Write urls over quota limit in file
+                        with open('not_send_urls.txt', 'w', encoding='utf-8') as log:
+                            for item in left_urls:
+                                log.write(f'{item}\n')
+                        print(f'There are {len(left_urls)} not send to Googlebot. \n'
+                              f'Check not_send_urls.txt file in the script folder')
+
+                    elif 'no' in len_answer.lower():
+                        exit()
+                    else:
+                        print('Please enter correct answer (YES / NO)')
+                else:
+                    final_urls = urls
+
+                if len(final_urls) <span class="nt">&lt;</span> <span class="err">1</span><span class="na">:</span>
+                    <span class="na">assert</span> <span class="na">print</span><span class="err">('</span><span class="na">There</span> <span class="na">are</span> <span class="na">no</span> <span class="na">urls</span> <span class="na">in</span> <span class="na">your</span> <span class="na">file</span><span class="err">')</span>
+                    <span class="na">exit</span><span class="err">()</span>
+
+                <span class="na">return</span> <span class="na">final_urls</span>
+
+        <span class="na">except</span> <span class="na">Exception</span> <span class="na">as</span> <span class="na">e:</span>
+            <span class="na">print</span><span class="err">(</span><span class="na">e</span><span class="err">,</span> <span class="na">type</span><span class="err">(</span><span class="na">e</span><span class="err">))</span>
+            <span class="na">exit</span><span class="err">()</span>
+
+    <span class="na">def</span> <span class="na">single_request_index</span><span class="err">(</span><span class="na">self</span><span class="err">,</span> <span class="na">__url</span><span class="err">,</span> <span class="na">__method</span><span class="err">)</span><span class="na">:</span>
+        <span class="err">"""</span>
+        <span class="na">Makes</span> <span class="na">a</span> <span class="na">request</span> <span class="na">to</span> <span class="na">Google</span> <span class="na">Indexing</span> <span class="na">API</span> <span class="na">with</span> <span class="na">a</span> <span class="na">selected</span> <span class="na">method</span>
+        <span class="na">:param</span> <span class="na">__url:</span>
+        <span class="na">:param</span> <span class="na">__method:</span>
+        <span class="na">:return</span> <span class="na">content:</span>
+        <span class="err">"""</span>
+        <span class="na">api_scopes = </span><span class="s">["https://www.googleapis.com/auth/indexing"]</span>
+        <span class="na">api_endpoint = </span><span class="s">"https://indexing.googleapis.com/v3/urlNotifications:publish"</span>
+        <span class="na">credentials = </span><span class="s">ServiceAccountCredentials.from_json_keyfile_name(self.key_file,</span> <span class="na">scopes=</span><span class="s">api_scopes)</span>
+
+        <span class="na">try:</span>
+            <span class="na">http = </span><span class="s">credentials.authorize(httplib2.Http())</span>
+            <span class="na">r_content = </span><span class="s">""</span><span class="err">"{"""</span> <span class="err">+</span> <span class="na">f</span><span class="err">"'</span><span class="na">url</span><span class="err">'</span><span class="na">:</span> <span class="err">'{</span><span class="na">__url</span><span class="err">}',</span> <span class="err">'</span><span class="na">type</span><span class="err">'</span><span class="na">:</span> <span class="err">'{</span><span class="na">__method</span><span class="err">}'"</span> <span class="err">+</span> <span class="err">"""}"""</span>
+            <span class="na">response</span><span class="err">,</span> <span class="na">content = </span><span class="s">http.request(api_endpoint,</span> <span class="na">method=</span><span class="s">"POST"</span><span class="err">,</span> <span class="na">body=</span><span class="s">r_content)</span>
+            <span class="na">return</span> <span class="na">content</span>
+
+        <span class="na">except</span> <span class="na">Exception</span> <span class="na">as</span> <span class="na">e:</span>
+            <span class="na">print</span><span class="err">(</span><span class="na">e</span><span class="err">,</span> <span class="na">type</span><span class="err">(</span><span class="na">e</span><span class="err">))</span>
+
+    <span class="na">def</span> <span class="na">indexation_worker</span><span class="err">(</span><span class="na">self</span><span class="err">)</span><span class="na">:</span>
+        <span class="err">"""</span>
+        <span class="na">Run</span> <span class="na">this</span> <span class="na">method</span> <span class="na">after</span> <span class="na">class</span> <span class="na">instance</span> <span class="na">creating.</span>
+        <span class="na">Gets</span> <span class="na">an</span> <span class="na">URL</span> <span class="na">list</span><span class="err">,</span> <span class="na">parses</span> <span class="na">JSON</span> <span class="na">key</span> <span class="na">file</span><span class="err">,</span> <span class="na">chooses</span> <span class="na">API</span> <span class="na">method</span><span class="err">,</span>
+        <span class="na">then</span> <span class="na">sends</span> <span class="na">a</span> <span class="na">request</span> <span class="na">for</span> <span class="na">an</span> <span class="na">each</span> <span class="na">URL</span> <span class="na">and</span> <span class="na">logs</span> <span class="na">responses.</span>
+        <span class="err">"""</span>
+        <span class="na">self.parse_json_key</span><span class="err">()</span>
+        <span class="na">urls = </span><span class="s">self.get_urls()</span>
+        <span class="na">method = </span><span class="s">self.choose_method()</span>
+        <span class="na">with</span> <span class="na">open</span><span class="err">('</span><span class="na">logs.txt</span><span class="err">',</span> <span class="err">'</span><span class="na">w</span><span class="err">',</span> <span class="na">encoding=</span><span class="s">'utf-8'</span><span class="err">)</span> <span class="na">as</span> <span class="na">f:</span>
+            <span class="na">for</span> <span class="na">url</span> <span class="na">in</span> <span class="na">urls:</span>
+                <span class="na">result = </span><span class="s">self.single_request_index(url,</span> <span class="na">method</span><span class="err">)</span>
+                <span class="na">f.write</span><span class="err">(</span><span class="na">f</span><span class="err">'{</span><span class="na">result</span><span class="err">}\</span><span class="na">n</span><span class="err">')</span>
+
+        <span class="na">print</span><span class="err">(</span><span class="na">f</span><span class="err">'</span><span class="na">Done</span><span class="err">!</span> <span class="na">We</span><span class="err">\'</span><span class="na">ve</span> <span class="na">sent</span> <span class="err">{</span><span class="na">len</span><span class="err">(</span><span class="na">urls</span><span class="err">)}</span> <span class="na">URLs</span> <span class="na">to</span> <span class="na">Googlebot.</span><span class="err">\</span><span class="na">n</span><span class="err">'</span>
+              <span class="na">f</span><span class="err">'</span><span class="na">You</span> <span class="na">can</span> <span class="na">check</span> <span class="na">responses</span> <span class="na">in</span> <span class="na">logs.txt</span><span class="err">')</span>
+
+
+<span class="na">if</span> <span class="na">__name__ =</span><span class="s">=</span> <span class="err">'</span><span class="na">__main__</span><span class="err">'</span><span class="na">:</span>
+    <span class="na">g_index = </span><span class="s">GoogleIndexationAPI('unix-bsd-project-blogger-a3ad06815d72.json',</span> <span class="err">'</span><span class="na">urls.txt</span><span class="err">')</span>
+    <span class="na">g_index.indexation_worker</span><span class="err">()</span>
+</code></pre></div></div>
+
+<p>Then we create a file named <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex2/urls.txt"</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex/googleindex2 #</span><span class="w"> </span><span class="nb">touch</span> /tmp/bloggerindex/googleindex2/urls.txt
+<span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex/googleindex2 #</span><span class="w"> </span><span class="nb">chmod</span> +x /tmp/bloggerindex/googleindex2/urls.txt
+</code></pre></div></div>
+
+<p>After that, we enter the script below into the file <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex2/urls.txt"</code>.</p>
+
+<p>Full script of file <code class="language-plaintext highlighter-rouge">"urls.txt"</code>. (/tmp/bloggerindex/googleindex2/urls.txt):</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://www.unixwinbsd.site/2023/11/freebsd-reduce-pdf-file-size-using.html
+https://www.unixwinbsd.site/2023/11/doge-coin-installation-and.html
+https://www.unixwinbsd.site/2023/11/how-to-install-python-pip-package.html
+https://www.unixwinbsd.site/2023/11/freebsd-install-xmrig-and-cpuminer-for.html
+https://www.unixwinbsd.site/2023/11/freebsd-inetd-daemon-and-inetd-conf.html
+https://www.unixwinbsd.site/2023/11/how-to-install-freebsd-python-venv.html
+https://www.unixwinbsd.site/2023/11/how-to-install-sudo-on-freebsd-system.html
+https://www.unixwinbsd.site/2023/11/freebsd-and-python-writing-daemon.html
+https://www.unixwinbsd.site/2023/11/how-to-install-golang-go-language-on.html
+https://www.unixwinbsd.site/2023/11/how-to-install-npm-nodejs-on-freebsd.html
+https://www.unixwinbsd.site/2023/11/how-to-use-stream-editor-sed-command-on.html
+https://www.unixwinbsd.site/2023/11/mudahnya-membuat-user-dan-group-pada.html
+https://www.unixwinbsd.site/2023/11/apa-yang-harus-dilakukan-setelah.html
+https://www.unixwinbsd.site/2023/11/mengkonfigurasi-dns-bind-sebagai.html
+https://www.unixwinbsd.site/2023/11/cara-install-java-openjdk-pada-komputer.html
+https://www.unixwinbsd.site/2023/11/polipo-sebagai-proxy-server-dengan.html
+https://www.unixwinbsd.site/2023/11/konfigurasi-unbound-sebagai-dns-server.html
+https://www.unixwinbsd.site/2023/11/merotasi-ip-public-web-scraping-dengan.html
+https://www.unixwinbsd.site/2023/11/belajar-instalasi-dan-konfigurasi.html
+https://www.unixwinbsd.site/2023/10/freebsd-install-bugzilla-with-apache24.html
+https://www.unixwinbsd.site/2023/10/belajar-cara-install-nginx-web-server.html
+https://www.unixwinbsd.site/2023/10/tor-dan-privoxy-security-anonymous.html
+https://www.unixwinbsd.site/2023/10/speedtest-cli-on-freebsd-to-check.html
+</code></pre></div></div>
+
+<p>After that, upload the file <code class="language-plaintext highlighter-rouge">"unix-bsd-project-blogger-a3ad06815d72.json"</code> into the folder <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex2"</code>.</p>
+
+<p>Let’s take a look at the folder <code class="language-plaintext highlighter-rouge">"/tmp/bloggerindex/googleindex2"</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex/googleindex2 #</span><span class="w"> </span><span class="nb">ls</span>
+<span class="go">blog-project-43540-b0fb76f2bcb0.json            logs.txt            urls.txt
+index2.py             unix-bsd-project-blogger-a3ad06815d72.json
+</span></code></pre></div></div>
+<p>Now run the script with below command <code class="language-plaintext highlighter-rouge">"python index2.py"</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex/googleindex2 #</span><span class="w"> </span>python index2.py
+<span class="go">Please add OWNER rights in GSC resource to: blog-project-api@blog-project-43540.iam.gserviceaccount.com
+and press Enter  press the enter key
+Enter domain you are going to work with: https://www.unixwinbsd.site
+Choose one of methods (print number) and press Enter
+1 - URL_UPDATED
+2 - URL_DELETED:
+1
+You chose method:  URL_UPDATED
+Done! We've sent 23 URLs to Googlebot.
+You can check responses in logs.txt
+</span><span class="gp">(bloggerindex) root@ns1:/tmp/bloggerindex/googleindex2 #</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Python is a pretty versatile tool that can help automate certain tasks, can be used to extract and analyze your site’s data and, if used correctly, can help analyze and improve the way our sites are crawled and indexed. I hope you find this tutorial useful for your next use of the Google API index.</p>
+
+<p>While the API is still intended for websites with fast turnaround pages – like job boards – it’s still a great tool. And maybe, who knows, the API could be extended to more things in the future and this tutorial will prove even more useful.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#unixshell" class="page__taxonomy-item" rel="tag">UnixShell</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-03T15:31:05+03:00">May 3, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Index+Blogger+URLs+With+FreeBSD+and+Python%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Findex-url-blogger-freebsd-python%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Findex-url-blogger-freebsd-python%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Findex-url-blogger-freebsd-python%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/copy-move-delete-file-directory-freebsd/" class="pagination--pager" title="How to Copy Move Delete Files and Directories in FreeBSD 14
+">Previous</a>
+    
+    
+      <a href="/freebsd/learn-install-nginx-web-server-freebsd/" class="pagination--pager" title="Learn How to Install NGINX Web Server on FreeBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/index-url-blogger-freebsd-python/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/index-url-blogger-freebsd-python"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

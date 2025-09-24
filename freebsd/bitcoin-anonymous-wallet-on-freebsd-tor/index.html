@@ -1,0 +1,1042 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to Install an Anonymous Bitcoin Wallet with FeeBSD and TOR - UnixBSDShell</title>
+<meta name="description" content="Bitcoin, as a conditionally anonymous cryptocurrency, means that transactions do not reveal the name of the wallet owner. At the same time, information about ongoing transactions is available to everyone, as records are kept in a public register">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="How to Install an Anonymous Bitcoin Wallet with FeeBSD and TOR">
+<meta property="og:url" content="https://unixwinbsd.site/freebsd/bitcoin-anonymous-wallet-on-freebsd-tor/">
+
+
+  <meta property="og:description" content="Bitcoin, as a conditionally anonymous cryptocurrency, means that transactions do not reveal the name of the wallet owner. At the same time, information about ongoing transactions is available to everyone, as records are kept in a public register">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Install an Anonymous Bitcoin Wallet with FeeBSD and TOR">
+  <meta name="twitter:description" content="Bitcoin, as a conditionally anonymous cryptocurrency, means that transactions do not reveal the name of the wallet owner. At the same time, information about ongoing transactions is available to everyone, as records are kept in a public register">
+  <meta name="twitter:url" content="https://unixwinbsd.site/freebsd/bitcoin-anonymous-wallet-on-freebsd-tor/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-07-28T13:54:21+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/freebsd/bitcoin-anonymous-wallet-on-freebsd-tor/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#freebsd" itemprop="item"><span itemprop="name">Freebsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Install an Anonymous Bitcoin Wallet with FeeBSD and TOR</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to Install an Anonymous Bitcoin Wallet with FeeBSD and TOR">
+    <meta itemprop="description" content="Bitcoin, as a conditionally anonymous cryptocurrency, means that transactions do not reveal the name of the wallet owner. At the same time, information about ongoing transactions is available to everyone, as records are kept in a public register">
+    <meta itemprop="datePublished" content="2025-07-28T13:54:21+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Install an Anonymous Bitcoin Wallet with FeeBSD and TOR
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-tor-installation-and-configuration-process">1. TOR Installation and Configuration Process</a></li>
+  <li><a href="#2-bitcoin-installation-and-configuration-process">2. Bitcoin Installation and Configuration Process</a></li>
+  <li><a href="#3-how-to-connect-bitcoin-with-tor">3. How to Connect Bitcoin with TOR</a></li>
+  <li><a href="#4-test-bitcoin">4. Test Bitcoin</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Bitcoin isn’t anonymous, but rather pseudo-anonymous—most experienced members of the Bitcoin community know this. However, most people don’t understand why Bitcoin isn’t anonymous, how Bitcoin users can be identified, and what can be done to prevent it.</p>
+
+<p>Bitcoin, as a conditionally anonymous cryptocurrency, means that transactions do not reveal the name of the wallet owner. At the same time, information about ongoing transactions is available to everyone, as records are kept in a public register. This allows the owner’s identity to be tracked and compared with ongoing Bitcoin transactions. Attempts to convert cryptocurrency through exchanges into fiat money (dollars, euros, rubles, and other “traditional” currencies) can lead to the identification of the wallet owner.</p>
+
+<p>In late June 2017, victims of the NotPetya ransomware paid attackers approximately $10,000 in Bitcoin to ransom their files. The creators of the malicious software disguised as ransomware managed to anonymously withdraw funds from their Bitcoin wallets on July 4, 2017, despite law enforcement efforts to track down the owners.</p>
+
+<p>To cover their tracks, the hackers used a method called bitcoin mixing, often referred to as a bitcoin tumbler. This procedure allows users to transfer cryptocurrency into a system that distributes the funds to hundreds of thousands of wallets. The bitcoins then end up in the sender’s designated storage.</p>
+
+<p>There are three reasons why Bitcoin is considered anonymous:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">First,</code> unlike bank accounts and most other payment systems, Bitcoin addresses are not tied to user identities at the protocol level. Anyone can create a new, randomly generated Bitcoin address (and associated private key) at any time without having to provide any personal information to anyone.</li>
+  <li><code class="language-plaintext highlighter-rouge">Second,</code> transactions are also not tied to user identities. This way, if a miner agrees to include a transaction in a block, anyone can transfer bitcoins from one address to another without revealing any personal information. Just like cash, the recipient doesn’t need to know the sender.</li>
+  <li><code class="language-plaintext highlighter-rouge">And third,</code> Bitcoin transaction information is sent through randomly selected P2P network nodes. Although Bitcoin nodes are connected to each other via IP addresses, they don’t know whether the transactions they receive were initiated by the node that sent the information or simply forwarded it.</li>
+</ul>
+
+<p>In this cryptocurrency article, we’ll discuss how to create an anonymous Bitcoin using the Tor application. In practice, the FreeBSD 13.2 operating system was used to create an anonymous Bitcoin at the time of writing.</p>
+
+<h2 id="1-tor-installation-and-configuration-process">1. TOR Installation and Configuration Process</h2>
+<p>Okay, first let’s start by installing TOR Network, here’s how to install TOR on a FreeBSD system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # pkg install tor
+Updating FreeBSD repository catalogue...
+FreeBSD repository is up to date.
+All repositories are up to date.
+Checking integrity... done (0 conflicting)
+The following 1 package(s) will be affected (of 0 checked):
+
+New packages to be INSTALLED:
+	tor: 0.4.7.13
+</code></pre></div></div>
+<p>The command above shows how to install TOR using the pkg package. For those of you who prefer to install using the ports system, here’s the command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cd /usr/ports/security/tor
+root@ns1:/usr/ports/security/tor # make install clean
+</code></pre></div></div>
+<p>The next step after the installation process is complete is to configure TOR. For more information on the TOR installation and configuration process, you can read the article <a href="https://unixwinbsd.site/freebsd/installation-configuration-tor-onion-freebsd/">TOR Installation And Configuration On FreeBSD Server</a>.</p>
+
+<p>The main TOR configuration file is located at <code class="language-plaintext highlighter-rouge">/usr/local/etc/tor/torrc</code>. Edit that file and enable the script below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /usr/local/etc/tor/torrc
+SOCKSPort 192.168.5.2:9050
+SOCKSPolicy accept 192.168.5.2/24
+DNSPort 192.168.5.2:9053
+Log notice syslog
+RunAsDaemon 1
+DataDirectory /var/db/tor
+ControlPort 9051
+HiddenServiceDir /var/db/tor/bitcoin/
+HiddenServicePort 8333 192.168.5.2:8333
+</code></pre></div></div>
+<p>Then activate the rc.d start up, so that TOR can run automatically when the computer is rebooted or restarted.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /etc/rc.conf
+tor_enable="YES"
+tor_instances=""
+tor_conf="/usr/local/etc/tor/torrc"
+tor_user="_tor"
+tor_group="_tor"
+tor_datadir="/var/db/tor"
+</code></pre></div></div>
+
+<h2 id="2-bitcoin-installation-and-configuration-process">2. Bitcoin Installation and Configuration Process</h2>
+<p>To install Bitcoin, it’s recommended to use the ports system, as this method ensures all Bitcoin dependencies are installed seamlessly. Here’s how to install Bitcoin using the FreeBSD ports system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # cd /usr/ports/net-p2p/bitcoin
+root@ns1:/usr/ports/net-p2p/bitcoin # make install clean
+</code></pre></div></div>
+<p>During installation, options will appear that you can choose according to your needs, in this article we will examine all of these options.</p>
+
+<p>Bitcoin installation can also be done in other ways. You can read a complete explanation regarding Bitcoin installation in the article <a href="https://unixwinbsd.site/openbsd/how-to-install-bitcoin-btc-on-openbsd/">How to Configure and Install Bitcoin on OpenBSD</a>. In this article, we assume you have read the article, so we immediately configure Bitcoin so that it can connect to the TOR Network network.</p>
+
+<h2 id="3-how-to-connect-bitcoin-with-tor">3. How to Connect Bitcoin with TOR</h2>
+<p>In part 3, we’ll cover how to connect your Bitcoin Core Wallet to the TOR Network server. The main Tor onion file is located at <code class="language-plaintext highlighter-rouge">/var/db/tor/bitcoin/hostname</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /var/db/tor/bitcoin/hostname
+zywbdxiug6353tvks46c6gzpr3t2jhc4mm6e2pa5pftbnd3yykmkctyd.onion
+</code></pre></div></div>
+<p>The contents of this file will anonymously connect Bitcoin to the TOR network. Once we have the .onion file, we’ll proceed to configure the <code class="language-plaintext highlighter-rouge">/usr/local/etc/bitcoin.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /usr/local/etc/bitcoin.conf
+rpcuser=iwanse1212
+rpcpassword=iwanse_1212
+#rpcbind=127.0.0.1, 192.168.5.2
+rpcallowip=127.0.0.1
+server=1
+daemon=1
+gen=0
+port=8333
+rpcport=8332
+
+proxy=192.168.5.2:9050
+listen=1
+bind=192.168.5.2
+discover=1
+externalip=zywbdxiug6353tvks46c6gzpr3t2jhc4mm6e2pa5pftbnd3yykmkctyd.onion
+onlynet=onion
+
+addnode=sato7wjyyc5wr7ssj24q4yeiwsd4vp7ruc6sea2vztwkikbhx5mslnad.onion:8333
+addnode=shinjxqy427avxlboncgwutwl53ynfgzhh4ev246ncvdwl4pwmx4rlqd.onion:8333
+addnode=nakaiqmpnvtryxsr4ed4g3poko4swq5d2hqzz6fqhmtl7plii5hi34ad.onion:8333
+addnode=motozgkgpbhhxs3ize3eudhgwz277l3q7r6jspewjdtfzzbmtni7x6ad.onion:8333
+addnode=26dclk7xbzy4f6gaspbxzsmhhb332ozcjhaaksyq4x66ia5ckfdsryad.onion:8333
+addnode=2it222nsdjr6xeamcynu2ddsctbovdgfgy5dcstw6u6k44pnxjcttmad.onion:8333
+addnode=2jmtxvyup3ijr7u6uvu7ijtnojx4g5wodvaedivbv74w4vzntxbrhvad.onion:8333
+addnode=sato7wjyyc5wr7ssj24q4yeiwsd4vp7ruc6sea2vztwkikbhx5mslnad.onion:8333
+addnode=shinjxqy427avxlboncgwutwl53ynfgzhh4ev246ncvdwl4pwmx4rlqd.onion:8333
+addnode=nakaiqmpnvtryxsr4ed4g3poko4swq5d2hqzz6fqhmtl7plii5hi34ad.onion:8333
+addnode=motozgkgpbhhxs3ize3eudhgwz277l3q7r6jspewjdtfzzbmtni7x6ad.onion:8333
+</code></pre></div></div>
+<p>After that we create a symlink to the <code class="language-plaintext highlighter-rouge">/root</code> folder.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ln -s /var/db/bitcoin /root/.bitcoin
+root@ns1:~ # ln -s /usr/local/etc/bitcoin.conf /root/.bitcoin
+</code></pre></div></div>
+<p>If the symlink file has been created, the next step is to create a rc.d start up in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # ee /etc/rc.conf
+bitcoind_enable="YES"
+bitcoind_user="bitcoin"
+bitcoind_group="bitcoin"
+bitcoind_data_dir="/var/db/bitcoin"
+</code></pre></div></div>
+<p>The final step in the configuration is to reboot the computer, or you can also restart Bitcoin, but it’s best to reboot/restart the computer at the beginning of the configuration. The command below is used to restart the Bitcoin program.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # service bitcoind restart
+</code></pre></div></div>
+
+<h2 id="4-test-bitcoin">4. Test Bitcoin</h2>
+<p>Once the steps above have been completed and nothing has been missed, let’s test whether Bitcoin is connected to the TOR network. Type the following command to view the Bitcoin and TOR networks.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # service bitcoind restart
+root@ns1:~ # bitcoin-cli getblockchaininfo
+{
+  "chain": "main",
+  "blocks": 185008,
+  "headers": 806682,
+  "bestblockhash": "000000000000068b678282b2ec7d5e3f17add5ce1cc3dcf71d6f48ffbb9bc896",
+  "difficulty": 1583177.847444009,
+  "time": 1339955740,
+  "mediantime": 1339953777,
+  "verificationprogress": 0.004859871523494127,
+  "initialblockdownload": true,
+  "chainwork": "00000000000000000000000000000000000000000000001366594d3db4970233",
+  "size_on_disk": 2122223223,
+  "pruned": false,
+  "warnings": ""
+}
+</code></pre></div></div>
+<p>Pay attention to the script writing <code class="language-plaintext highlighter-rouge">185008</code>, currently our Bitcoin network has been synchronized up to block 185008. Wait for about 3 or 5 minutes, if this number increases, it means our Bitcoin network can now connect to TOR.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # bitcoin-cli getblockchaininfo
+{
+  "chain": "main",
+  "blocks": 186698,
+  "headers": 806682,
+  "bestblockhash": "00000000000007b5e6a1cd7ed89e63e7d63659ee1bce8dd65ec83d58b86c48b8",
+  "difficulty": 1726566.55919348,
+  "time": 1340936488,
+  "mediantime": 1340933909,
+  "verificationprogress": 0.005239946366819443,
+  "initialblockdownload": true,
+  "chainwork": "000000000000000000000000000000000000000000000014105088546ee78a1c",
+  "size_on_disk": 2291710528,
+  "pruned": false,
+  "warnings": ""
+}
+</code></pre></div></div>
+<p>After 3 or 5 minutes, the block number will have changed, meaning we’ve successfully created Anonymous Bitcoin via the TOR network. Now let’s check the Bitcoin network to see if there are any proxy and .onion tags. Type the following command to check the Bitcoin network.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # bitcoin-cli getnetworkinfo
+{
+  "version": 250000,
+  "subversion": "/Satoshi:25.0.0/",
+  "protocolversion": 70016,
+  "localservices": "0000000000000409",
+  "localservicesnames": [
+    "NETWORK",
+    "WITNESS",
+    "NETWORK_LIMITED"
+  ],
+  "localrelay": true,
+  "timeoffset": -1,
+  "networkactive": true,
+  "connections": 11,
+  "connections_in": 0,
+  "connections_out": 11,
+  "networks": [
+    {
+      "name": "ipv4",
+      "limited": true,
+      "reachable": false,
+      "proxy": "192.168.5.2:9050",
+      "proxy_randomize_credentials": true
+    },
+    {
+      "name": "ipv6",
+      "limited": true,
+      "reachable": false,
+      "proxy": "192.168.5.2:9050",
+      "proxy_randomize_credentials": true
+    },
+    {
+      "name": "onion",
+      "limited": false,
+      "reachable": true,
+      "proxy": "192.168.5.2:9050",
+      "proxy_randomize_credentials": true
+    },
+    {
+      "name": "i2p",
+      "limited": true,
+      "reachable": false,
+      "proxy": "",
+      "proxy_randomize_credentials": false
+    },
+    {
+      "name": "cjdns",
+      "limited": true,
+      "reachable": false,
+      "proxy": "192.168.5.2:9050",
+      "proxy_randomize_credentials": true
+    }
+  ],
+  "relayfee": 0.00001000,
+  "incrementalfee": 0.00001000,
+  "localaddresses": [
+    {
+      "address": "zywbdxiug6353tvks46c6gzpr3t2jhc4mm6e2pa5pftbnd3yykmkctyd.onion",
+      "port": 8333,
+      "score": 4
+    }
+  ],
+  "warnings": ""
+}
+</code></pre></div></div>
+<p>It turns out it says proxy and .onion, meaning our Core Bitcoin Wallet is now anonymous. We just need to wait for the synchronization process so the Bitcoin Core wallet can be used to receive and transfer Bitcoin. Keep in mind that this Bitcoin synchronization process can take days, due to the large number of blocks. It can even take 3 or 4 days if your internet connection is slow.</p>
+
+<p>While TOR has its drawbacks and isn’t a 100% effective solution for securing the Bitcoin network, it does provide more protection than simply running a Bitcoin Core wallet without TOR.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#anonymous" class="page__taxonomy-item" rel="tag">Anonymous</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#freebsd" class="page__taxonomy-item" rel="tag">FreeBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-07-28T13:54:21+03:00">July 28, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Install+an+Anonymous+Bitcoin+Wallet+with+FeeBSD+and+TOR%20https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fbitcoin-anonymous-wallet-on-freebsd-tor%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fbitcoin-anonymous-wallet-on-freebsd-tor%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Ffreebsd%2Fbitcoin-anonymous-wallet-on-freebsd-tor%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/installation-and-configuration-doge-coin-freebsd/" class="pagination--pager" title="How to Install and Configure DOGE Coin on FreeBSD
+">Previous</a>
+    
+    
+      <a href="/freebsd/configuration-guide-mining-bitcoin-freebsd/" class="pagination--pager" title="FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/freebsd/bitcoin-anonymous-wallet-on-freebsd-tor/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/freebsd/bitcoin-anonymous-wallet-on-freebsd-tor"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

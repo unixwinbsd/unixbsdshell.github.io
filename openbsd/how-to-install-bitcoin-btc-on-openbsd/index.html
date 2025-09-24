@@ -1,0 +1,954 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to Install Bitcoin BTC on OpenBSD Server - UnixBSDShell</title>
+<meta name="description" content="Bitcoind is a program that implements the Bitcoin protocol for use with remote procedure calls (RPC Server)">
+
+
+  <meta name="author" content="UnixBSDShell's Blog">
+  
+  <meta property="article:author" content="UnixBSDShell's Blog">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="UnixBSDShell">
+<meta property="og:title" content="How to Install Bitcoin BTC on OpenBSD Server">
+<meta property="og:url" content="https://unixwinbsd.site/openbsd/how-to-install-bitcoin-btc-on-openbsd/">
+
+
+  <meta property="og:description" content="Bitcoind is a program that implements the Bitcoin protocol for use with remote procedure calls (RPC Server)">
+
+
+
+
+
+  <meta name="twitter:site" content="@iwanset96143401">
+  <meta name="twitter:title" content="How to Install Bitcoin BTC on OpenBSD Server">
+  <meta name="twitter:description" content="Bitcoind is a program that implements the Bitcoin protocol for use with remote procedure calls (RPC Server)">
+  <meta name="twitter:url" content="https://unixwinbsd.site/openbsd/how-to-install-bitcoin-btc-on-openbsd/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-02-23T22:19:21+03:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://unixwinbsd.site/openbsd/how-to-install-bitcoin-btc-on-openbsd/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "UnixBSDShell Blog",
+      "url": "https://unixwinbsd.site/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="googledc9be5e5382da4fd" />
+
+
+  <meta name="msvalidate.01" content="BCDF1444D895EBA62C6422C90DF8EA1C">
+
+
+
+  <meta name="yandex-verification" content="69d778baa1dbd371">
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="UnixBSDShell Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- <script data-ad-client="ca-pub-8799681346916578" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+<!-- end custom head snippets -->
+
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  </head>
+
+  <body class="layout--single">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7TLZSRG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          UnixBSDShell
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Posts by Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts by Year</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://unixwinbsd.site/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#openbsd" itemprop="item"><span itemprop="name">Openbsd</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">How to Install Bitcoin BTC on OpenBSD Server</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/pscustomobject.jpg" alt="UnixBSDShell's Blog" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">UnixBSDShell's Blog</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>unixwinbsd.site is an online learning platform that provides online tutorials and videos about unix, FreeBSD, OpenBSD and Linux. Not only that, unixwinbsd.site also presents a variety of topics, including software development, programming, web design, and more. This blog provides various online tutorials and videos for beginners and experienced professionals. This blog also provides a Q&amp;A forum for users to ask questions and get help from other members.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Moscow, Russia</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">DevOps Notes</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/iwan-setiawan-943659164/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:iwanse1212@yandex.com">
+            <meta itemprop="email" content="iwanse1212@yandex.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to Install Bitcoin BTC on OpenBSD Server">
+    <meta itemprop="description" content="Bitcoind is a program that implements the Bitcoin protocol for use with remote procedure calls (RPC Server)">
+    <meta itemprop="datePublished" content="2025-02-23T22:19:21+03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to Install Bitcoin BTC on OpenBSD Server
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#a-how-does-bitcoind-work">A. How does bitcoind work?</a>
+    <ul>
+      <li><a href="#a-initialization-and-startup">a). Initialization and Startup</a></li>
+      <li><a href="#b-node-discovery">b). Node Discovery</a></li>
+      <li><a href="#c-node-connectivity">c). Node Connectivity</a></li>
+      <li><a href="#d-sockets-and-messaging">d). Sockets and Messaging</a></li>
+      <li><a href="#e-block-exchange">e). Block Exchange</a></li>
+      <li><a href="#f-transaction-exchange">f). Transaction Exchange</a></li>
+      <li><a href="#g-wallet-services">g). Wallet Services</a></li>
+      <li><a href="#h-rpc-interface">h). RPC Interface</a></li>
+      <li><a href="#i-user-interface">i). User Interface</a></li>
+    </ul>
+  </li>
+  <li><a href="#b-bitcoin-btc-installation-process-on-openbsd">B. Bitcoin BTC Installation Process on OpenBSD</a>
+    <ul>
+      <li><a href="#1-install-bitcoin-dependencies">1. Install Bitcoin Dependencies</a></li>
+      <li><a href="#2-install-bitcoind">2. Install bitcoind</a></li>
+    </ul>
+  </li>
+  <li><a href="#c-bitcoin-btc-configuration-process-on-openbsd">C. Bitcoin BTC Configuration Process on OpenBSD</a>
+    <ul>
+      <li><a href="#2-edit-the-bitcoinconf-file">2. Edit the bitcoin.conf File</a></li>
+      <li><a href="#3-copy-the-bitcoinconf-file-to-root">3. Copy the bitcoin.conf file to /root</a></li>
+    </ul>
+  </li>
+  <li><a href="#d-running-bitcoin-btc-on-openbsd">D. Running Bitcoin BTC on OpenBSD</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>There are many different Bitcoin wallets for different operating systems, but one of the best wallets available to use is Bitcoin Core. One of the main reasons to use it is because it is the official Bitcoin wallet, so you can trust it. Plus, it has a lot of cool features that are easy to set up and use. In this article, we will cover the different ways to install and activate the Bitcoin Core Wallet on an OpenBSD server. We will also cover how to download the Bitcoin blockchain to use, how to encrypt and back up your Core wallet, and more!</p>
+
+<h2 id="a-how-does-bitcoind-work">A. How does bitcoind work?</h2>
+<p>Bitcoind is a program that implements the Bitcoin protocol for use with remote procedure calls (RPC Server). It is also the second Bitcoin client in the history of the network. It is available under the MIT license in 32-bit and 64-bit versions for Windows, BSD, Linux, and Mac OS X.</p>
+
+<p>bitcoind is a multithreaded C++ program. It is designed to be used across Windows, Mac, and Linux systems. The multithreaded aspect introduces some complexity and uses certain code patterns to handle concurrency that may be unfamiliar to many programmers. Additionally, the code is aggressive in its use of C++ constructs, so it helps to be familiar with map, multimap, set, string, vector, iostream, and templates. As is common with C++ programs, much of the code tends to end up in header files, so be sure to look for .cpp and .h files when looking for functions.</p>
+
+<p>The client is oriented around a few key operations, which are described in a separate detailed article and summarized in the following sections.</p>
+
+<h3 id="a-initialization-and-startup">a). Initialization and Startup</h3>
+<p>At startup, the client performs various initialization routines including starting multiple threads to handle concurrent operations.</p>
+<h3 id="b-node-discovery">b). Node Discovery</h3>
+<p>The client uses various techniques to find out about other Bitcoin nodes currently connected to the network.</p>
+<h3 id="c-node-connectivity">c). Node Connectivity</h3>
+<p>The client initiates and maintains connections to other nodes.</p>
+<h3 id="d-sockets-and-messaging">d). Sockets and Messaging</h3>
+<p>The client processes messages from other nodes and sends messages to other nodes using socket connections.</p>
+<h3 id="e-block-exchange">e). Block Exchange</h3>
+<p>Nodes advertise their block inventories to each other and exchange blocks to build the block chain.</p>
+<h3 id="f-transaction-exchange">f). Transaction Exchange</h3>
+<p>Nodes exchange and relay transactions with each other. The client associates transactions with bitcoin addresses in local wallets.</p>
+<h3 id="g-wallet-services">g). Wallet Services</h3>
+<p>The client can create transactions using a local wallet. The client associates transactions with bitcoin addresses in local wallets. The client provides services to manage local wallets.</p>
+<h3 id="h-rpc-interface">h). RPC Interface</h3>
+<p>The client offers a JSON-RPC interface over HTTP via sockets to perform various operational functions and manage local wallets.</p>
+<h3 id="i-user-interface">i). User Interface</h3>
+<p>Bitcoind’s current user interface is command line, whereas previously it was based on wxWidgets. A graphical user interface is now available in version 0.5+ for the reference client.</p>
+
+<h2 id="b-bitcoin-btc-installation-process-on-openbsd">B. Bitcoin BTC Installation Process on OpenBSD</h2>
+<p>Before we start the Bitcoin installation process, there are many dependencies that you must set. The main function of these dependencies is to connect the client computer (OpenBSD) to the Bitcoin Blockchain network. Similar to other operating systems, dependencies are the main and basic things that must be done before installing Bitcoin.</p>
+
+<h3 id="1-install-bitcoin-dependencies">1. Install Bitcoin Dependencies</h3>
+<p>On the OpenBSD system, there are many dependencies needed to run Bitcoin (BTC). You must install all of these dependencies, and don’t miss any. Okay, let’s just install the Bitcoin dependencies for OpenBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# pkg_add bash git gmake libevent libtool boost
+ns5# pkg_add autoconf automake python
+</code></pre></div></div>
+
+<p>Another very important dependency is sqlite3. This application will record all Bitcoin transactions and wallet addresses.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# pkg_add sqlite3
+</code></pre></div></div>
+
+<h3 id="2-install-bitcoind">2. Install bitcoind</h3>
+<p>After all the above dependencies are installed, then we continue by installing the bitcoind wallet. There are two ways to install bitcoind, namely through the Github repository or through the pkg package in OpenBSD.</p>
+
+<p>However, because we are using the OpenBSD server, we recommend that you use the bitcoind pkg package in the OpenBSD repository. As a first step, we will update your OpenBSD pkg package.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# pkg_add -uvi
+</code></pre></div></div>
+
+<p>After the update process is complete, we continue by installing bitcoin.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# pkg_add bitcoin
+</code></pre></div></div>
+
+<h2 id="c-bitcoin-btc-configuration-process-on-openbsd">C. Bitcoin BTC Configuration Process on OpenBSD</h2>
+<p>After you have run all the steps above, you cannot run bitcoind. In order for bitcoind to run normally, you must set up some bitcoin scripts.</p>
+
+<ol>
+  <li>Create RPC user and password
+To be able to connect securely to your Bitcoin wallet, you must create a Bitcoin user and password.</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# /usr/local/share/bitcoin/rpcauth.py unixwinbsd
+String to be appended to bitcoin.conf:
+rpcauth=unixwinbsd:7313031c969f8d09285f14df3ea4b4fc$f426ac2491495cee7cc1148c72273b87bc485b6360fc954708c3c6d1e32df4ba
+Your password:
+NfV8c-LBkMkxbX4y6wqAhCa9I6E7EYUF3lAf1WXy6sg
+</code></pre></div></div>
+
+<p>“unixwinbsd” is the Bitcoin RPC username, you can replace unixwinbsd as you wish.</p>
+
+<h3 id="2-edit-the-bitcoinconf-file">2. Edit the bitcoin.conf File</h3>
+<p>The main Bitcoin configuration file is “bitcoin.conf”. You must change this file so that Bitcoin can run according to the script instructions in it. Open the file and enter the password and RPC user that you created above.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>port=8333
+rpcport=8332
+rpcuser=unixwinbsd
+rpcpassword=NfV8c-LBkMkxbX4y6wqAhCa9I6E7EYUF3lAf1WXy6sg
+prune=550
+</code></pre></div></div>
+
+<h3 id="3-copy-the-bitcoinconf-file-to-root">3. Copy the bitcoin.conf file to /root</h3>
+<p>By default in OpenBSD, all the contents of the blocks and chainstate files are in /root. So you should change the path of bitcoin.conf in /etc. It’s okay if you don’t change it, but we recommend that you change the path of bitcoin.conf to /root. Follow the instructions below to copy the bitcoin.conf file to .root.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# mkdir -p /root/.bitcoin
+ns5# cp -R /etc/bitcoin.conf /root/.bitcoin
+</code></pre></div></div>
+
+<p>Well, the configuration process is now complete. Now your bitcoind is ready to run.</p>
+
+<h2 id="d-running-bitcoin-btc-on-openbsd">D. Running Bitcoin BTC on OpenBSD</h2>
+<p>This step is the last step and the one you have been waiting for, because we will test whether bitcoind has run well or not. Before you run bitcoind, first activate bitcoind on OpenBSD.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# rcctl enable bitcoind
+ns5# rcctl restart bitcoind
+bitcoind(ok)
+bitcoind(ok)
+ns5#
+</code></pre></div></div>
+
+<p>Once bitcoind is active, you can run bitcoind with the “daemon” command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# bitcoind -daemon
+Bitcoin Core starting
+ns5#
+</code></pre></div></div>
+
+<p>Selain itu, Anda dapat memeriksa dan memantau bagaimana proses sinkronisasi berjalan dengan perintah ini.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# bitcoin-cli getblockchaininfo | grep verification
+  "verificationprogress": 8.553447505757082e-10,
+</code></pre></div></div>
+
+<p>Note that the “verificationprogress” parameter does not need to reach 1.0000, as a value closer to 0.9999 will indicate that the node is already synchronized.</p>
+
+<p>Once the blockchain is synchronized, you can check its status with bitcoin-cli.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns5# bitcoin-cli getconnectioncount
+10
+ns5# bitcoin-cli getblockcount
+0
+</code></pre></div></div>
+
+<p>Remember to reduce the blockchain size by pruning (removing) old blocks, otherwise you will have to download and verify the entire chain and this may take a few days. Check the prue value in /etc/bitcoin.conf. I prefer 550MB.</p>
+
+<p>That’s it! You should now have a fully functional Bitcoin node!</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#anonymous" class="page__taxonomy-item" rel="tag">Anonymous</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#openbsd" class="page__taxonomy-item" rel="tag">OpenBSD</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-02-23T22:19:21+03:00">February 23, 2025</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=iwanset96143401&text=How+to+Install+Bitcoin+BTC+on+OpenBSD+Server%20https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fhow-to-install-bitcoin-btc-on-openbsd%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fhow-to-install-bitcoin-btc-on-openbsd%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funixwinbsd.site%2Fopenbsd%2Fhow-to-install-bitcoin-btc-on-openbsd%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/freebsd/implementing-maven-and-java-on-freebsd/" class="pagination--pager" title="Implementing Maven and Java on FreeBSD 14.1
+">Previous</a>
+    
+    
+      <a href="/openbsd/how-to-download-torrent-file-i2psnark-on-openbsd/" class="pagination--pager" title="How to Download Torrent Files with I2PSnark on OpenBSD
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/installation-java-development-kit-on-freebsd/" rel="permalink">Installing and Using the Java Development Kit on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Redmine is open source software or application that uses the Ruby On Rails Framework. Redmine is a project management or project tracking application which r...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/how-to-install-webmin-on-freebsd-machine/" rel="permalink">How to Install Webmin on a FreeBSD System
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Webmin is a web-based system administration tool for Unix-like servers, and a service with approximately 1,000,000 annual installations worldwide
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/configuration-radicale-caldav-cardavv-server-freebsd/" rel="permalink">How to Configure FreeBSD with Radicale CalDAV CardDAV Server
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Radicale is run with the help of the Apache or NGINX web server, so it can be operated either as a standalone package using its internal http/https server or...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/freebsd/setup-mirror-site-convert-pkg-package-freebsd/" rel="permalink">Setting up a Mirror Site to convert PKG Packages on FreeBSD
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PKG packages on FreeBSD contain pre-compiled software packages – called packages. This is the easiest way to install additional software under TwinCAT/BSD or...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/catanesi/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn Profile</a></li>
+        
+      
+        
+          <li><a href="https://github.com/unixwinbsd/unixwinbsd.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 UnixBSDShell Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://unixwinbsd.site/openbsd/how-to-install-bitcoin-btc-on-openbsd/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/openbsd/how-to-install-bitcoin-btc-on-openbsd"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://UnixBSDShell.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+
+
+  </body>
+</html>

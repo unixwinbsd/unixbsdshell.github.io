@@ -159,7 +159,7 @@ After that, we continue by creating a new gateway on the WAN interface. Click th
 
 The next step you have to do is set up the DHCP server. To set up your DHCP server, click the `Services ->> DHCP Server`. Look at the image below, as your reference for configuring the DHCP server.
 
-![service dhcp server lan](http://45.83.122.181:8080/sept-05/enable-dhcpserver-pfsense.jpg)
+![service dhcp server lan](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/enable-dhcpserver-pfsense.jpg)
 
 
 ![server option](http://45.83.122.181:8080/sept-05/enable-dhcpserver-pfsense2.jpg)

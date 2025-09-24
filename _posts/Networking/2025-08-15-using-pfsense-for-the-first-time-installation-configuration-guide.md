@@ -79,12 +79,12 @@ After you click the Next button, the DNS server column will appear. You fill in 
 In the `"Time server hostname"` option, fill in the time server. To make things easier, just choose the default PFSense, namely `"2.pfsense.pool.ntp.org"`. And in the `"Timezone"` column, you fill in the time zone where you live. Continue by pressing the Next button.
 
 
-![time server information PFSEnse](http://45.83.122.181:8080/sept-05/reload-configuration.png)
+![time server information PFSEnse](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/pfsense-time-server-configuration.png)
 
 
-In this section, you are required to configure the WAN interface. IP address 192.168.5.2 is the static IP of the WAN interface with Gateway **192.168.5.1**. After you set everything. click the Next button.
+In this section, you are required to configure the WAN interface. IP address **192.168.5.2** is the static IP of the WAN interface with Gateway **192.168.5.1**. After you set everything. click the Next button.
 
-![configure WAN Interface](http://45.83.122.181:8080/sept-05/pfsense-setup-general-information.jpg)
+![configure WAN Interface](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/wan-configuration.jpg)
 
 
 

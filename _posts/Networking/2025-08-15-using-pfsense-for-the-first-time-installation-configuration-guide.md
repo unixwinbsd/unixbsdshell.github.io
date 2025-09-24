@@ -131,7 +131,7 @@ In this section we will configure the WAN and LAN interfaces. To understand it m
 
 After that, we configure the interface (without gateway). Look at the image below.
 
-![lan interface](http://45.83.122.181:8080/sept-05/lan-rl0.jpg)
+![lan interface](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/lan-rl0.jpg)
 
 
 ### f. Delete Gateway
@@ -140,19 +140,19 @@ In PFSense, the gateway has an important role in connecting your PFSense to the 
 
 To delete the gateway, click the `System ->> Routing` menu. After that, click on the trash can icon, as shown in the image below.
 
-![delete gateway](http://45.83.122.181:8080/sept-05/routing-gateway.jpg)
+![delete gateway](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/routing-gateway.jpg)
 
 
 After you click the trash can icon, the results will look like the image below.
 
-![routing gateway](http://45.83.122.181:8080/sept-05/make-gateway.png)
+![routing gateway](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/make-gateway.png)
 
 
 ### g. Creating a New Gateway
 
 After that, we continue by creating a new gateway on the WAN interface. Click the `Interfaces ->> WAN` menu. Follow the image guide below. Note the gateway on this interface.
 
-![gateway wan interface](http://45.83.122.181:8080/sept-05/create-new-gateway.jpg)
+![gateway wan interface](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/create-new-gateway.jpg)
 
 
 ### h. Setup DHCP Server

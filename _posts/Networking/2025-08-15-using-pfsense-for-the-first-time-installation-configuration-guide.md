@@ -87,10 +87,10 @@ In the picture above, you have to set the IP address of the LAN interface. In th
 
 ![configure lan interface](http://45.83.122.181:8080/sept-05/pfsense-time-server-configuration.png)
 
-<br/>
+
 ![WAN Configuration](http://45.83.122.181:8080/sept-05/wan-configuration.jpg)
 
-<br/>
+
 ![configure lan interface on pfsense](http://45.83.122.181:8080/sept-05/configure-lan-interface.png)
 
 

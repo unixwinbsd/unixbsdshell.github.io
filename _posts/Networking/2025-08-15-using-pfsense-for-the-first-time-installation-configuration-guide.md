@@ -162,7 +162,7 @@ The next step you have to do is set up the DHCP server. To set up your DHCP serv
 ![service dhcp server lan](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/enable-dhcpserver-pfsense.jpg)
 
 
-![server option](http://45.83.122.181:8080/sept-05/enable-dhcpserver-pfsense2.jpg)
+![server option](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/enable-dhcpserver-pfsense2.jpg)
 
 
 The final step is to reboot your PFSense server. Wait until PFSense returns to running normally. After that, you test by opening Google Chrome and typing "https://www.youtube.com/". If you don't go through each configuration that we have explained, you should be able to open YouTube.

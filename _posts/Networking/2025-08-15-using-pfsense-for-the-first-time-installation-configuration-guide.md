@@ -37,7 +37,7 @@ PFSense is generally used as a firewall or router. But with its myriad of featur
 Even though PFSense belongs to the FreeBSD family, the PFSense repository is not available in FreeBSD. To get PFSense you have to download it from the official PFSense website or another repository that provides the PFSense master. In this article we will download PFSense from the official PFSense website, please open the following link:
 `https://www.pfsense.org/download/`
 
-![download PFSense](http://45.83.122.181:8080/sept-05/download-pfsense.jpg)
+![download PFSense](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/download-pfsense.jpg)
 
 
 The image above will download PFSense with USB stick media. After you have finished downloading PFSense, create a bootable USB Flashdisk with Balena or other applications.
@@ -49,19 +49,19 @@ In this section we will discuss the PFSense installation process using USB Flash
 
 After the installation process is complete, by default PFSense will display a menu like the image below.
 
-![dashboard PFSense](http://45.83.122.181:8080/sept-05/enable-interface-in-pfsense.jpg)
+![dashboard PFSense](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/enable-interface-in-pfsense.jpg)
 
 
 
 To continue the PFSense installation process, open the Google Chrome web browser and type `192.168.1.1`, so it will appear as shown in the image below.
 
-![PFSEense main dashboard](http://45.83.122.181:8080/sept-05/pfsense-setup.png)
+![PFSEense main dashboard](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/pfsense-setup.png)
 
 
 Click the Next button, to continue.
 
 
-![setup PFSense](http://45.83.122.181:8080/sept-05/menu-wizard-pfsense.jpg)
+![setup PFSense](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/menu-wizard-pfsense.jpg)
 
 
 After you click the Next button, the DNS server column will appear. You fill in the DNS IP with Public DNS IP `1.1.1.1 and 8.8.8.8`. Don't forget to uncheck the **"DNS Server Override"** option. Click the Next button again, then a display like the image below will appear.

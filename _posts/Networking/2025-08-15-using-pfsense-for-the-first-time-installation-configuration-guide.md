@@ -97,14 +97,14 @@ The section above is the initial part of the PFSense configuration. In the confi
 
 Because you have changed the default PFSense IP from `192.168.1.1 to 192.168.7.1`, in Google Chrome type `https://192.168.7.1`. After the PFSense page appears, click the **Service ->> DNS Resolver**, then uncheck the "Enable DNS resolver" option as shown in the image below.
 
-![disable DNS Resolver](http://45.83.122.181:8080/sept-05/enable-dns-resolver.png)
+![disable DNS Resolver](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/enable-dns-resolver.png)
 
 
 ### b. Create NAT (Firewall)
 
 Next step, we will configure NAT. Click the `Firewall ->> NAT` menu, then click the **"Outbound"** menu and click again on the **"Manual Outbound NAT rule generation"** menu. (AON - Advanced Outbound NAT)", you create NAT according to the image below.
 
-![Advanced Outbound NAT](http://45.83.122.181:8080/sept-05/create-firewall-outbound.jpg)
+![Advanced Outbound NAT](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/create-firewall-outbound.jpg)
 
 
 ### c. Disable DHCPv6 Server
@@ -112,7 +112,7 @@ Next step, we will configure NAT. Click the `Firewall ->> NAT` menu, then click 
 In this basic example, we only enable IP4. Therefore you must disable IP6. To disable IP6, click the `Services ->> DHCPv6 Server`, and uncheck the `"Enable DHCPv6 server on LAN interface"` option. follow the instructions in the image below.
 
 
-![enable dhcp ipv6 server](http://45.83.122.181:8080/sept-05/configuration-lan-dhcpv6-server.jpg)
+![enable dhcp ipv6 server](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/configuration-lan-dhcpv6-server.jpg)
 
 
 ### d. Disable Router Advertisement

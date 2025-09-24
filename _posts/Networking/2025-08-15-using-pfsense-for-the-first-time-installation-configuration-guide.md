@@ -119,14 +119,14 @@ In this basic example, we only enable IP4. Therefore you must disable IP6. To di
 
 After that, you also disable Router Advertisement. To do this, click the `Service ->> Router Advertisement`. In the `"Router Mode:"` option, select disable. Look at the example below.
 
-![Router Advertisement](http://45.83.122.181:8080/sept-05/router-advertisement.jpg)
+![Router Advertisement](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/router-advertisement.jpg)
 
 
 ### e. Setup Interface WAN and LAN
 
 In this section we will configure the WAN and LAN interfaces. To understand it more easily, see the image below. Pay attention to the gateway choice. First we will configure the WAN interface.
 
-![wan interface](http://45.83.122.181:8080/sept-05/wan-interfaces.jpg)
+![wan interface](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/wan-interfaces.jpg)
 
 
 After that, we configure the interface (without gateway). Look at the image below.

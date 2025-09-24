@@ -60,15 +60,18 @@ To continue the PFSense installation process, open the Google Chrome web browser
 
 Click the Next button, to continue.
 
+
 ![setup PFSense](http://45.83.122.181:8080/sept-05/menu-wizard-pfsense.jpg)
 
 
 After you click the Next button, the DNS server column will appear. You fill in the DNS IP with Public DNS IP `1.1.1.1 and 8.8.8.8`. Don't forget to uncheck the **"DNS Server Override"** option. Click the Next button again, then a display like the image below will appear.
 
+
 ![general information DNS server PFSEnse](http://45.83.122.181:8080/sept-05/set-adminweb-gui-password.png)
 
 
 In the `"Time server hostname"` option, fill in the time server. To make things easier, just choose the default PFSense, namely `"2.pfsense.pool.ntp.org"`. And in the `"Timezone"` column, you fill in the time zone where you live. Continue by pressing the Next button.
+
 
 ![time server information PFSEnse](http://45.83.122.181:8080/sept-05/reload-configuration.png)
 
@@ -80,6 +83,7 @@ In this section, you are required to configure the WAN interface. IP address 192
 
 
 In the picture above, you have to set the IP address of the LAN interface. In this article we give an example of the LAN IP used **192.168.7.1**. Then click the Next button again.
+
 
 ![configure lan interface](http://45.83.122.181:8080/sept-05/pfsense-time-server-configuration.png)
 

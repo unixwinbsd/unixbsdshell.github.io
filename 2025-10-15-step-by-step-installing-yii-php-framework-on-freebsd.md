@@ -26,6 +26,8 @@ Yii's advantages over other frameworks are its high speed and excellent OOP supp
     </b>
 </div>
 
+<br/>
+
 Yii is released under the BSD license, allowing it to be used commercially and embedded in proprietary products. Yii has excellent documentation and a large community. This large developer community provides an opportunity to quickly get help and discuss important topics.
 
 <br/>

@@ -41,7 +41,7 @@ On the positive side, Spree Commerce offers a wide range of in-depth design cust
 
 <br/>
 
-In this article, we will explain the installation and configuration process of Spree Commerce with "Ruby on Rails" on a FreeBSD machine and the entire content of this article is written using the following applications and utilities:
+In this article, we will explain the installation and configuration process of Spree Commerce with `Ruby on Rails` on a FreeBSD machine and the entire content of this article is written using the following applications and utilities:
 
 - Operating system: FreeBSD 13.3
 - IP Addres: 192.168.5.2
@@ -73,19 +73,18 @@ root@ns3:/usr/local/www # pw add user -n spree -g spree -s /sbin/nologin -c "spr
 
 Run the chown and chmod commands to grant permissions and ownership to Spree Commerce.
 
-
 ```sh
 root@ns3:/usr/local/www # chown -R spree:spree /usr/local/www/spree/
 root@ns3:/usr/local/www # chmod -R 775 /usr/local/www/spree
 ```
 
 ## 2. Prepare Spree Commerce
+
 The next step is to configure Spree Commerce. This section is quite lengthy, so don't skip any configurations or scripts.
 
 ### a. Bundler Settings
 
 Before you install the gem, run the Initialize Bundler command.
-
 
 ```sh
 root@ns3:/usr/local/www # cd spree
@@ -117,15 +116,14 @@ gem "railties"
 ```
 
 ### c. Process of installing gems Gemfile
+
 Then install the Spree Commerce extension dependencies.
 
 ```sh
 root@ns3:/usr/local/www/spree # bundle install
 root@ns3:/usr/local/www/spree # bundle update
 ```
-
 After that, in the `/usr/local/www/spree/bin` directory, run the command below.
-
 
 ```sh
 root@ns3:/usr/local/www/spree # bin/bundle_ruby.sh
@@ -138,16 +136,17 @@ root@ns3:/usr/local/www/spree # rake db:migrate
 
 Run the `rails new` command to create a new Rails application with the default directory structure and configuration at the path you specified, namely `/usr/local/www/spree/weblog`.
 
-
 ```sh
 root@ns3:/usr/local/www/spree # rails new /usr/local/www/spree/weblog
 root@ns3:/usr/local/www/spree # rails _7.1.3.2_ new weblog
 root@ns3:/usr/local/www/spree # rails new weblog --api
 root@ns3:/usr/local/www/spree # rails new weblog --skip-action-mailer
 ```
+
 The above command will create a new rails directory named `"weblog"`.
 
 ### e. Generator installation process
+
 The next step is to run the installation generator on the Rails weblog you created above. This command is used to set up Spree Commerce. Before running the installation generator, add the following script to the Gemfile in the `/usr/local/www/spree/weblog` directory.
 
 ```sh
@@ -165,14 +164,15 @@ gem "spree_i18n"
 gem "sassc", github: 'sass/sassc-ruby', branch: 'master'
 gem "railties"
 ```
-
 Run the installation generator on the Rails weblog.
-
 
 ```sh
 root@ns3:/usr/local/www/spree/weblog # bundle install
 root@ns3:/usr/local/www/spree/weblog # bundle update
 ```
+
+<br/>
+
 ```
 root@ns3:/usr/local/www/spree/weblog # bin/rails g spree:install --user_class=Spree::User
 root@ns3:/usr/local/www/spree/weblog # bin/rails g spree:backend:install
@@ -183,7 +183,6 @@ root@ns3:/usr/local/www/spree/weblog # bin/rails g spree_gateway:install
 
 In the `/usr/local/www/spree/weblog` directory, run the Run bin/setup command.
 
-
 ```
 root@ns3:/usr/local/www/spree/weblog # bin/setup
 ```
@@ -192,13 +191,11 @@ root@ns3:/usr/local/www/spree/weblog # bin/setup
 
 By default, when you run the installation generator command, the migration will run automatically and add the seed. This can be disabled using the command.
 
-
 ```sh
 root@ns3:/usr/local/www/spree/weblog # bin/rails g spree:install --migrate=false --sample=false --seed=false
 ```
 
 You also run the command below.
-
 
 ```sh
 root@ns3:/usr/local/www/spree/weblog # bin/rake railties:install:migrations
@@ -211,12 +208,12 @@ root@ns3:/usr/local/www/spree/weblog # bin/rake spree_sample:load
 
 When you run the rails g spree:install command, it will automatically install Spree, installing the Spree::Core::Engine component by automatically inserting this line into `config/routes.rb`.
 
-
 ```
 root@ns3:/usr/local/www/spree/weblog # mount Spree::Core::Engine, at: '/'
 ```
 
 ## 3. Run Spree Commerce
+
 Once you've completed all the Spree Commerce configuration steps above, the next step is to run Spree Commerce. Type the following command into your shell menu.
 
 ```sh

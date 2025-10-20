@@ -20,13 +20,14 @@ Most full nodes also serve light clients by allowing them to submit their transa
 
 Many people and organizations have volunteered to run Bitcoin Full Nodes using their spare computing resources and bandwidth, but more volunteers are needed for Bitcoin to continue growing. This document explains how you can help and how much it will cost you to do so.
 
-![A full node is a program that validates transactions](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/A%20full%20node%20is%20a%20program%20that%20validates%20transactions.jpg)
+![A full node is a program that validates transactions](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/oct-25-25.jpg)
 
 
 Bitcoin full nodes are accessible via IPv4, IPv6, and as a hidden service over the Tor network. In this article, we'll install what's known as a Bitcoin full node.
 
 
 ## 1. Storage Space
+
 The Bitcoin blockchain is enormous and continues to grow. This is because every Bitcoin mined and every transaction ever made is recorded in the blockchain. As of April 2015, the blockchain was 32 gigabytes in size. Together with the index and other data, a single full node occupies approximately 42 gigabytes of disk space on the server.
 
 You can track the blockchain's growth over time on the Bitcoin Blockchain Size website. To check the available disk space on your server, which will house the Bitcoin database.
@@ -71,6 +72,7 @@ iface eth0 inet static
 iface eth0 inet6 static
 address 2001:db8::39/64
 ```
+
 In your DNS server settings, add the IP4 and IP6 addresses for the Bitcoin server.
 
 | Name       | Type          | Content        |  Priority        |  TTL        |
@@ -97,6 +99,7 @@ Izinkan juga koneksi untuk IP6
 
 
 ## 3. Tor Hidden Service
+
 To enhance the security of a Bitcoin full node, enable `TOR`, which anonymizes your network. To do this, edit `/etc/tor/torrc`.
 
 ```
@@ -105,6 +108,7 @@ HiddenServiceDir /var/lib/tor/hidden_services/bitcoin
 HiddenServicePort 8333
 HiddenServicePort 18333
 ```
+
 Restart the TOR application that you activated above.
 
 ```
@@ -118,6 +122,7 @@ duskgytldkxiuqc6.onion
 ```
 
 ## 4. Create a User Who Can Access the Bitcoin Server
+
 For security reasons, it's recommended that you run the Bitcoin daemon with a non-privileged user profile. Create a user that can access the Bitcoin daemon on your Ubuntu server system with the following command.
 
 ```
@@ -125,6 +130,7 @@ runtu@runtu-desktop:~$ sudo adduser --system --group --home /var/lib/bitcoind bi
 ```
 
 ## 5. Bitcoin Full Node Installation Process
+
 Almost all Linux systems, even BSD, don't have the Bitcoin package available by default in their repositories. To install Bitcoin, you must first install the Bitcoin package on your Linux/Ubuntu system.
 
 ```
@@ -139,6 +145,7 @@ runtu@runtu-desktop:~$ sudo mkdir /etc//bitcoin
 runtu@runtu-desktop:~$ sudo touch /etc/bitcoin/bitcoin.conf
 runtu@runtu-desktop:~$ sudo chmod 600 /etc/bitcoin/bitcoin.conf
 ```
+
 We need a password for remote procedure calls to the Bitcoin daemon. You must create this password manually by opening the `"/etc/bitcoin/bitcoin.conf"` file and adding the following script.
 
 ```
@@ -197,6 +204,7 @@ rpcpassword=HkFbv9YaWgEgyy7X4B9vi3GsENtGWgPNpwUf2ehsvXX1
 # Required by Electrum Server
 txindex=1
 ```
+
 After that, you give ownership rights to files and folders to the Bitcoin daemon.
 
 ```
@@ -204,6 +212,7 @@ runtu@runtu-desktop:~$ sudo chown -R bitcoin:bitcoin /etc/bitcoin
 ```
 
 ## 6. Ubuntu Upstart
+
 The Bitcoin Project recommends running the daemon as an Upstart service on Ubuntu and setting up an Upstart script for bitcoind. Download and install the Upstart script.
 
 ```
@@ -211,6 +220,7 @@ runtu@runtu-desktop:~$ cd downloads
 runtu@runtu-desktop:~$ wget https://raw.githubusercontent.com/bitcoin/bitcoin/0.10/contrib/init/bitcoind.conf
 runtu@runtu-desktop:~$ sudo cp bitcoind.conf /etc/init/
 ```
+
 The final step is to run Bitcoind.
 
 ```

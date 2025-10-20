@@ -5,6 +5,7 @@ id: how-to-install-webmin-on-freebsd-machine
 lang: en
 layout: single
 author_profile: true
+robots: index, follow
 categories:
   - FreeBSD
 tags: SysAdmin

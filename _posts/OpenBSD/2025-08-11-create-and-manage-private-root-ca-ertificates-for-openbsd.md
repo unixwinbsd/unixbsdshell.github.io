@@ -14,7 +14,7 @@ keywords: create, manage, private, rrot, ca, certificate, openbsd, openssl, ssl,
 
 The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate. Therefore, in this article, we will briefly describe the general configuration and processing flow of the system, including two-tier private certificate authorities (Root CA, Signing CA), servers and clients that use the certificates, and then explain how to create the CA. We will also outline the specific steps involved.
 
-![openbsd ca authority](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/17openbsd%20ca%20authority.jpg)
+![openbsd ca authority](https://raw.githubusercontent.com/unixwinbsd/FreeBSD_Lighttpd_Mod_OpenSSL/refs/heads/main/usr/local/openbsd%20ca%20authority.jpg)
 
 
 Although the purposes for which certificates are issued and used by each party differ, the steps leading to certificate issuance are broadly as follows.

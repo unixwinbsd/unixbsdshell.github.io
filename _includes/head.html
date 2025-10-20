@@ -1,19 +1,53 @@
 <meta charset="utf-8">
-
-{% include seo.html %}
-
-<link href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ site.title }} Feed">
-
-<!-- https://t.co/dKP3o1e -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- {% include seo.html %} -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ site.title }} {% if page.title %} - {{ page.title }} {% endif %}</title>
+<meta name="description" content="{{ site.description }} {% if page.description %} - {{ page.description }} {% endif %}" />
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="https://unixwinbsd.site/feed.xml" />
+<link rel="feed" type="application/rss+xml" title="{{ site.title }}" href="https://unixwinbsd.site/feed.xml" />
+{% unless site.atom_feed.hide %}
+  <link href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ site.title }} Feed">
+{% endunless %}
+<meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g" />
+ {% if page.keywords %}
+ <meta name="keywords" content="{{ page.keywords }}" />
+ {% else %}
+ <meta name="keywords" content="{{ site.keywords }}" />
+ {% endif %}  
+<meta name="theme-color" content="{{ site.themecolor }}" />
+<meta name="application-name" content="{{ site.title }}" />
+<meta name="apple-mobile-web-app-title" content="{{ site.title }}" />
+<link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html',''}}" />
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<meta name="language" content="english" />
+<meta name="author" content="Iwan Setiawan" />
+<meta name="generator" content="Jekyll v3.10.0"/>
+
+
+<link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin">
+<link rel="dns-prefetch" href="http://45.83.122.137/">
+<link href="https://www.googletagmanager.com" rel="dns-prefetch"/>
+<link href="https://mc.yandex.ru" rel="dns-prefetch"/>
+
+{%- comment %} https://docs.google.com/presentation/d/1rmxwWa9P6_xHqonmh5ONXRS-jPc5XKbnv99Rjkhe04s/present {% endcomment -%}
+
 
 <script>
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  {% if site.enable_copy_code_button -%}
+    window.enable_copy_code_button = true;
+  {%- endif %}
 </script>
 
-<!-- For all browsers -->
 <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+<link rel="preload" href="/assets/css/main.css" as="style" />
+<link rel="preload" href="/assets/js/_main.js" as="script" />
+<link rel="manifest" href="{{ '/assets/images/site.webmanifest' | relative_url }}">
+
 
 <!--[if IE]>
   <style>

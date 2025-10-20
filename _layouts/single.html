@@ -2,6 +2,200 @@
 layout: default
 ---
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "url": "{{ site.url }}{{ page.url }}",
+  "name": {{ page.title | jsonify }},
+  "headline": {{ page.tags | jsonify }},
+  "keywords": {{ page.keywords | jsonify }},
+  "description": {{ page.excerpt | strip_newlines | strip | jsonify }},
+  "articleBody": {{ page.content | strip_html | jsonify }},
+"dateCreated": {{ page.date | jsonify }},
+  "datePublished": {{ page.date | jsonify }},
+  "dateModified": {{ page.updated | default: page.date | jsonify }},
+  "author": {
+   "@type": "Person",
+   "name": "Iwan Setiawan",
+    "givenName": "Bata",
+    "familyName": "Iwan Setiawan",
+    "email": "iwanse1212@yandex.com",
+"url": "https://www.blogger.com/profile/08958087252392329520",  
+"gender": "male",
+"description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions",
+"alternateName": "Iwan Sting",
+"additionalName": "Setiawan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+"award": "Navigasi Darat",
+"seeks": "Fame",
+
+"image": {
+"@type": "ImageObject",
+"caption": "Photo Kecil",
+"name": "Iwan Setiawan",
+"alternateName": "Iwan Sting",
+"description": "Phtoto Saya Waktu Masih Kecil",
+"height": 50,
+"width": 50,
+"url": "https://unixwinbsd.site/img/jaka.jpg"
+}
+},
+
+  "publisher": {
+    "@type": "Organization",
+    "name": "WARNET DAPURNET",
+    "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu",
+    "logo": {
+      "@type": "ImageObject",
+      "width": 32,
+      "height": 32,
+      "url": "{{ site.url }}/Logo.png"
+    }
+  },
+
+"image": {
+"@type": "ImageObject",
+"caption": {{ page.id | jsonify }},
+"name": {{ page.title | jsonify }},
+"description": {{ page.excerpt | jsonify }},
+"height": 350,
+"width": 350,
+"url": "{{ site.url }}{{ page.img }}"
+},
+
+  
+
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ site.url }}{{ page.url }}",
+    "headline": {{ page.title | jsonify }},
+  "author": {
+    "@type": "ProfilePage",
+    "@id": "https://unixwinbsd.site/#profileauthor",
+    "name": "Iwan Setiawan",
+   "url": "https://www.blogger.com/profile/08958087252392329520"  },
+
+"breadcrumb":
+  {  
+"@type": "BreadcrumbList",
+    "@id": "https://unixwinbsd.site/#bs_breadcrumb",
+"url": {{ site.url | jsonify }},
+"name": {{ page.title | jsonify }},
+"description": {{ page.excerpt | jsonify }},                         
+ 
+  "itemListElement": 
+  [  
+  
+
+  {  "@type": "ListItem",  
+  "position": 1,  
+  "item": 
+  {   
+      "@type": "WebPage",
+  "@id": "https://unixwinbsd.site/#home",
+    "url": {{ site.url | jsonify }},
+  "identifier": "Home",
+  "description": {{ page.excerpt | jsonify }},
+  "name": "Home",
+  "sameAs": {{ site.url | jsonify }}
+}
+ },    
+  
+    {  "@type": "ListItem",  
+    "position": 2,  
+    "item":   {   
+    "@type": "WebPage",
+    "@id": "{{ page.categories }}/#label",
+    "url": "https://unixwinbsd.site/categories/#{{ page.categories }}",
+    "identifier": "categories",
+    "name": "{{ page.categories }}",
+  "description": {{ page.excerpt | jsonify }},
+      "sameAs": "{{ site.url }}/{{ page.categories }}"
+} },
+  
+  {"@type": "ListItem", 
+    "position": 3, 
+    "item": {
+    "@type": "WebPage", 
+    "@id": "https://unixwinbsd.site/#judul",
+    "url": "{{ site.url }}/{{ page.url }}",
+    "identifier": "judul",
+    "name": {{ page.title | jsonify }},
+  "description": {{ page.excerpt | jsonify }},
+  "sameAs": "{{ site.url }}/{{ page.url }}"
+ }}
+     
+  ]}
+
+
+
+  }
+
+
+
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+"@context": "https://schema.org",
+"@type": "CreativeWorkSeries",
+"url": "{{ site.url }}{{ page.url }}",
+"name": {{ page.title | jsonify }},
+"description": {{ page.excerpt | strip_newlines | strip | jsonify }},
+"dateCreated": {{ page.date | jsonify }},
+  "datePublished": {{ page.date | jsonify }},
+  "dateModified": {{ page.updated | default: page.date | jsonify }},
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.94",
+        "bestRating": "5",
+        "ratingCount": "169"	 },  	
+  
+  "review": 
+    { "@type": "Review",
+  
+  "author": {
+   "@type": "Person",
+   "name": "Iwan Setiawan",
+    "givenName": "Bata",
+    "familyName": "Iwan Setiawan",
+    "email": "iwanse1212@yandex.com",
+"url": "https://www.blogger.com/profile/08958087252392329520",  
+"gender": "male",
+"description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions",
+"alternateName": "Iwan Sting",
+"additionalName": "Setiawan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+"award": "Navigasi Darat",
+"seeks": "Fame"
+},
+  
+      "datePublished": {{ page.date | jsonify }},
+      "name": {{ page.title | jsonify }},
+  "headline": {{ page.title | jsonify }},
+  "description": {{ page.excerpt | strip_newlines | strip | jsonify }},
+      "reviewRating": {
+        "@type": "Rating",
+        "bestRating": "5",
+        "ratingValue": "3",
+        "worstRating": "1" 	}
+    } 
+}
+    
+    </script>
+
+{% if page.robots %}
+  <meta name="robots" content="{{page.robots}}" />
+{% endif %}
 {% if page.header.overlay_color or page.header.overlay_image or page.header.image %}
   {% include page__hero.html %}
 {% elsif page.header.video.id and page.header.video.provider %}

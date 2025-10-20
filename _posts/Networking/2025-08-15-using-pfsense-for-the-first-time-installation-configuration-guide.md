@@ -64,7 +64,7 @@ Click the Next button, to continue.
 ![setup PFSense](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/menu-wizard-pfsense.jpg)
 
 
-![general information DNS server PFSEnse](http://45.83.122.181:8080/sept-05/set-adminweb-gui-password.png)
+![general information DNS server PFSEnse](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/PFSensePassword.png)
 
 
 ![reload configuration](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/reload-configuration.png)

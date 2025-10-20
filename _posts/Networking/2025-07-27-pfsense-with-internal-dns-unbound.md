@@ -1,6 +1,6 @@
 ---
 title: PFSense with Internal DNS - Setup Remote Unbound DNS Resolver For LAN Network
-date: "2025-07-26 13:32:21 +0100"
+date: "2025-07-27 13:32:21 +0100"
 id: pfsense-with-internal-dns-unbound
 lang: en
 layout: single
@@ -24,7 +24,7 @@ The DNS resolver searches the first DNS server address specified by the user. Th
 
 Then next, namely DHCP, Dynamic Host Configuration Protocol (DHCP) is a service that allows devices to distribute/assign IP addresses automatically to hosts on a network. How it works, the DHCP Server will respond to requests sent by the DHCP Client. Apart from IP addresses, DHCP is also able to distribute netmask information, default gateway, DNS and NTP server configuration and many more custom options (depending on whether the DHCP client can support it).
 
-![PFSense with Internal DNS - Setup Remote Unbound DNS Resolver For LAN Network](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/17PFSense%20with%20Internal%20DNS%20-%20Setup%20Remote%20Unbound%20DNS%20Resolver%20For%20LAN%20Network.jpg)
+![PFSense with Internal DNS - Setup Remote Unbound DNS Resolver For LAN Network](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/oct-25-26.jpg){:loading='eager'}
 
 
 ## 1. System specifications
@@ -46,10 +46,10 @@ Then next, namely DHCP, Dynamic Host Configuration Protocol (DHCP) is a service 
 
 To activate DNS Resolver, the first thing you have to do is set the **DNS Server Settings** section. This setting is very important, because it relates to the DNS IP that will be used by PFSense. To start setting up this section, click the `System ->> General Setup` menu. To make it clearer, look at the image below.
 
-![menu system general setup](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/17menu%20system%20general%20setup.png)
+![menu system general setup](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/oct-25-27.png){:loading='eager'}
 
 
-![type the domain name and hostname](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/18-type%20the%20domain%20name%20and%20hostname.jpg)
+![type the domain name and hostname](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/oct-25-28.jpg){:loading='eager'}
 
 
 IP 192.168.1.1 is your PFSense LAN IP and we will make it the DNS server IP. On the DNS Resolution Behavior menu, select "Use remote DNS Servers, ignore local DNS". By default, PFSense will use the local DNS service with IP 127.0.0.1. This option will change the default DNS IP to your PFSense LAN IP.
@@ -59,14 +59,15 @@ IP 192.168.1.1 is your PFSense LAN IP and we will make it the DNS server IP. On 
 
 After that we continue by configuring the DNS Resolver (Unbound). To activate DNS Resolver, click the `Service ->> DNS Resolver`. Look at the image below.
 
-![setup dns resolver](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/19setup%20dns%20resolver.jpg)
+![setup dns resolver](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/oct-25-29.png){:loading='eager'}
 
 
 Then you check the `Enable DNS resolver` option. For other settings, you can follow the following image guide.
 
-![enable dns resolver](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/19enable%20dns%20resolver.jpg)
+![enable dns resolver](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/oct-25-30.jpg){:loading='eager'}
 
-![menu custome option](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/19menu%20custom%20option.jpg)
+
+![menu custome option](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/oct-25-31.png){:loading='eager'}
 
 
 The most important part of DNS Resolver settings is in the "Custom options" option. In this option you type the following script.
@@ -87,11 +88,11 @@ Your final step is to click the blue `"Save"` icon and the `"Apply Changes"` men
 
 In this section we will test the DNS Resolver that you have configured above. This test aims to ensure whether the DNS Resolver is running or not. The way to do the test is to open the `Diagnostics ->> Command Prompt` menu as shown in the image below.
 
-![how to test DNS resolver](/img/1how-to-test-DNS-resolver.jpg)
+![how to test DNS resolver](/img/1how-to-test-DNS-resolver.jpg){:loading='eager'}
 
 In the "Execute Shell Command" option, type the script **dig yahoo.com** as in the example in the following image.
 
-![command to test dns resolver](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/1command_to_test_dns_resolver.jpg)
+![command to test dns resolver](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/1command_to_test_dns_resolver.jpg){:loading='eager'}
 
 What you need to pay attention to is that the server must point to your PFSense LAN IP, namely 192.168.1.1. If the test results are like the picture above. You can be sure that your PFSense DNS Resolver is running normally. Next, you must reset DNS to DNS IP 192.168.1.1.
 
@@ -100,15 +101,19 @@ What you need to pay attention to is that the server must point to your PFSense 
 
 This section is only a summary of the contents of this article. After you have successfully run the DNS Resolver on PFSense, so that all clients connecting to the PFSense server use the DNS IP 192.168.1.1, we do a redirect on the Firewall. To do this, click the `Firewall ->> NAT ->> Fort Port Forward ->> Add`  menu. Look at the image below.
 
-![create NAT on PFSEnese](/img/create-nat-pfsese.png)
+![create NAT on PFSEnese](/img/create-nat-pfsese.png){:loading='eager'}
 
-![create port forward](/img/create-port-forward.png)
 
-![NAT Port Forward](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/2nat_port_forward.jpg)
+![create port forward](/img/create-port-forward.png){:loading='eager'}
+
+
+![NAT Port Forward](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/2nat_port_forward.jpg){:loading='eager'}
+
 
 Another option, you just make the default (don't change it). When finished, you can see the results of creating the NAT Firewall Rules above in `Firewall ->> Rules`.
 
-![create firewall rules](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/2create_firewall_rule.jpg)
+
+![create firewall rules](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/2create_firewall_rule.jpg){:loading='eager'}
 
 
 
@@ -118,7 +123,7 @@ In this section we will improve your PFSense DNS Resolver security system with O
 
 To enable DNS Over TLS, you must enable SSH in PFSense. In this article, we will not discuss SSH in PFSesne, so we will just open SSH. If you use Ubuntu open Remmina and if you use Windows open the Putty application. In this article we use Remmina to remote the PFSesne server.
 
-![Menu Shell PFSense](/img/3menu-shel-pfsense.jpg)
+![Menu Shell PFSense](/img/3menu-shel-pfsense.jpg){:loading='eager'}
 
 Then you type option number 8 to enter the Shell Remmina menu.
 
@@ -139,7 +144,7 @@ After that, we create a TLS certificate with OpenSSL. Follow the script below.
 
 The next step, you enter the TLS script into the DNS Resolver configuration, as shown below.
 
-![display custom option pfsense](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/display_custom_option_pfsense.jpg)
+![display custom option pfsense](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/display_custom_option_pfsense.jpg){:loading='eager'}
 
 
 ```

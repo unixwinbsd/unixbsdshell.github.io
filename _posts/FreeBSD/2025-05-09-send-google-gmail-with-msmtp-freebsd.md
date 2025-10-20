@@ -62,7 +62,7 @@ To send email with msmtp command, you have to do a little configuration on your 
 
 <br/>
 
-![Create app password Gmail](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/18Create%20app%20password%20Gmail.jpg)
+![Create app password Gmail](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/oct-25-32.jpg)
 
 <br/>
 

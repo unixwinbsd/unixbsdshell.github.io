@@ -31,14 +31,14 @@ By default, PFSense routers recognize two update methods, namely:
 
 The update process using the GUI (web browser) is very easy, as you simply run the command by clicking the update menu. To perform the first update, you can do so from the PFSense dashboard, as shown in the image below.
 
-![Dashboard PFSense](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgNO5GLAJ_McRH4bPwUKlt9uBBSC60u1lrImFGyc73VuYqybHdr4qUqFE9R2KAyRQdLq9BMRkeahYUWctDGlhVDXM2sAgvw0g04xuP1Q6kzdwlSbKVriz4X04PIStaHhqj66ooX-hsmdknFe1t1M40JEinyx0C10EMyRA81eIdTIWq-pdBOVVXI8D-AD2Vp/s16000/Dashboard%20PFSense.jpg)
+![Dashboard PFSense](https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/DashboardPFSenseView.jpg)
 
 
 In the image above, notice the green text. Simply click the circular arrow, and the update process will start automatically.
 
 The GUI update process is very fast; in just a few minutes, you'll have successfully updated PFSense. Another way to do this is by clicking the `System -> Update menu`. See the example image below.
 
-![System Update PFSense](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhOsteo3MpGVZlssRArbtCcqo6zyaON0fS2EFyZzqLYMQb7lN_3agkccqF2TacFIlXgKE00GzvtrHZGutAnSg3LZeFMAPzgsGwHV2Gtx6FwwJRyv_BZzm8jh9dUxGdc4Em7SLPntsIHWLfcEAuQhU-Aj4TrvCFYXvQNpvI0OQya_nQdB8FeY-6NfGll-RNL/s16000/System%20Update%20PFSense.jpg)
+![System Update PFSense](https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/SystemUpdatePFSense.jpg)
 
 
 ## 2. Updating With Shell Commands / Command line
@@ -50,7 +50,7 @@ During the command-line update process, you must enable SSH to log in to the PFS
 In the PuTTY menu, type your IP address, PFSense user, and password. Once logged in, type 13 to start updating PFSense using the command line (see the example image below).
 
 
-![Update from Console](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_Zd1ql5GEJwTJ8lcrTXIQBM_P41wlbW8byAX719eAR1pl_AH2qrhq9ywcx5rXQo-9fxqXktuEqZJMYfHtVnrTn_NBvqpmiLY_nkZ2eeVZiBP6DOyt4M8_xxm15CI2WM4eb_TbvRx-i7i7QnujJwIb9JnQlgxpnIJmCjxzn5WJwII7YdGSRuGADW6spXZA/s16000/Update%20from%20Console.jpg)
+![Update from Console](https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/UpdatefromConsole.jpg)
 
 
 Besides updating PFSense using the method above, there's another way to update PFSense: using shell commands. This method is the best and we highly recommend it. The update process uses `PKG packages`, just like FreeBSD's.

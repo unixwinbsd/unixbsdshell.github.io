@@ -1,0 +1,62 @@
+---
+title: Sitemap
+layout: archive
+permalink: /sitemap/
+entries_layout: grid
+---
+
+A list of all the posts and pages found on this site. For you robots out there, there is an <a href="{{ "sitemap.xml" | relative_url }}">XML version</a> available for digesting as well.
+
+<!-- Get list of pages, excluding ones without a title -->
+{%- capture site_pages -%}
+  {%- for post in site.pages -%}
+    {%- if post.title -%}
+      {{- post | first -}}
+      {%- unless forloop.last -%}
+        ,
+      {%- endunless -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign pages_list = site_pages | split: ',' -%}
+
+<!-- Display taxonomy index -->
+<ul class="taxonomy__index">
+  <li>
+    <a href="#posts">
+      <strong>Posts</strong> <span class="taxonomy__count">{{- site.posts.size -}}</span>
+    </a>
+  </li>
+  <li>
+    <a href="#pages">
+      <strong>Pages</strong> <span class="taxonomy__count">{{- pages_list.size -}}</span>
+    </a>
+  </li>
+</ul>
+
+<!-- Assign layout of entries -->
+{%- assign entries_layout = page.entries_layout | default: 'list' -%}
+
+<!-- Display list of posts -->
+<section id="posts" class="taxonomy__section">
+  <h2 class="archive__subtitle">Posts</h2>
+  <div class="entries-{{ entries_layout }}">
+    {%- for post in site.posts -%}
+      {%- include archive-single.html type=entries_layout -%}
+    {%- endfor -%}
+  </div>
+  <a href="#page-title" class="back-to-top">{{- site.data.ui-text[site.locale].back_to_top | default: 'Back to Top' -}} &uarr;</a>
+</section>
+
+<!-- Display list of pages -->
+<section id="pages" class="taxonomy__section">
+  <h2 class="archive__subtitle">Pages</h2>
+  <div class="entries-{{ entries_layout }}">
+    {%- for post in site.pages -%}
+      {%- if post.title -%}
+        {%- include archive-single.html type=entries_layout -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  <a href="#page-title" class="back-to-top">{{- site.data.ui-text[site.locale].back_to_top | default: 'Back to Top' -}} &uarr;</a>
+</section>

@@ -5,6 +5,7 @@ id: installation-java-development-kit-on-freebsd
 lang: en
 layout: single
 author_profile: true
+robots: index, follow
 categories:
   - FreeBSD
 tags: WebServer

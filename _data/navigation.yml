@@ -2,9 +2,15 @@
 main:
   - title: "About"
     url: /about/
-  #- title: "Posts by Year"
-  #  url: /year-archive/
-  - title: "Posts by Category"
-    url: /categories/
   - title: "Posts by Year"
     url: /year-archive/
+  - title: "Posts by Category"
+    url: /categories/
+
+side:
+  - title: 'All Posts'
+    url: year-archive
+  - title: Tags
+    url: tags
+  - title: Categories
+    url: categories

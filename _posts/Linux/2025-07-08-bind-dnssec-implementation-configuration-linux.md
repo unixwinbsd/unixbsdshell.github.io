@@ -24,7 +24,7 @@ While implementing and monitoring DNSSEC can be difficult due to its complex nat
 
 <br/>
 
-![DNSSEC Usage Diagram](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/9_DNSSEC_Usage_Diagram.jpg)
+![DNSSEC Usage Diagram](https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/9_DNSSEC_Usage_Diagram.jpg){:loading='eager'}
 
 <br/>
 

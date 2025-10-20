@@ -1,17 +1,41 @@
 {
   "name": "minimal-mistakes",
-  "version": "4.20.2",
-  "description": "Minimal Mistakes 2 column Jekyll theme.",
+  "version": "4.27.2",
+  "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others",
   "repository": {
     "type": "git",
     "url": "git://github.com/mmistakes/minimal-mistakes.git"
   },
   "keywords": [
     "jekyll",
-    "theme",
-    "minimal"
+    "freebsd",
+    "openbsd",
+    "netbsd",
+    "linux",
+    "ubuntu",
+    "debian",
+    "unix",
+    "pfsense",
+    "centos",
+    "command",
+    "shell",
+    "opnsense",
+    "router",
+    "firewall",
+    "web design",
+    "web development",
+    "server",
+    "client",
+    "ruby",
+    "database",
+    "dns server",
+    "web server",
+    "wordpress",
+    "html",
+    "css",
+    "nginx"
   ],
-  "author": "Michael Rose",
+  "author": "Iwan Setiawan",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mmistakes/minimal-mistakes/issues"

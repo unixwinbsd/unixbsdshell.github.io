@@ -229,15 +229,17 @@ root@ns7:/usr/local/etc/maven-wrapper/instances.d/jsoup-example # mvn compile &&
 ```
 
 
-![FreeBSD_JSoup_Maven_compilePackageInstall](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/17FreeBSD_JSoup_Maven_compilePackageInstall.jpg)
+![FreeBSD_JSoup_Maven_compilePackageInstall](https://raw.githubusercontent.com/unixwinbsd/FreeBSD_sitemap_checker/refs/heads/main/build/1FreeBSD_JSoup_Maven_compilePackageInstall.jpg)
 
 
 Run web scraper with jar.
+
 ```
 root@ns7:/usr/local/etc/maven-wrapper/instances.d/jsoup-example # java -jar target/jsoup-example-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-![FreeBSD_Run_JSoup_webscraper](https://raw.githubusercontent.com/unixwinbsd/unixshellbsd.github.io/refs/heads/master/Image/18FreeBSD_Run_JSoup_webscraper.jpg)
+![FreeBSD_Run_JSoup_webscraper](https://raw.githubusercontent.com/unixwinbsd/FreeBSD-Tweet-Twitter-API/refs/heads/main/2FreeBSD_Run_JSoup_webscraper.jpg)
+
 
 
 You can see all the scripts in this article in full on [Github](https://github.com/unixwinbsd/jsoup-example/tree/main).

@@ -6,7 +6,7 @@
     <channel>
         <!-- Information about the source site  -->
         <title>UnixBSDShell</title>
-        <link>https://penaadventure.com/</link>
+        <link>https://unixwinbsd.site/</link>
         <description>A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others</description>
         <language>ru</language>
         <turbo:analytics>95806836</turbo:analytics>
@@ -14,17 +14,17 @@
         <item turbo="true">
             <!-- Page information -->
             <turbo:extendedHtml>true</turbo:extendedHtml>
-            <link>https://penaadventure.com</link>
+            <link>https://unixwinbsd.site</link>
             <turbo:source></turbo:source>
             <turbo:topic></turbo:topic>
             <pubDate>Tue, 20 Apr 2025 14:15:00 +0300
             <author>Iwan Setiawan</author>
             <metrics>
-                <yandex schema_identifier="https://penaadventure.com/#webpage">
+                <yandex schema_identifier="https://unixwinbsd.site/#webpage">
                     <breadcrumblist>
-                        <breadcrumb url="https://penaadventure.com/" text="UnixBSDShell"/>
-                        <breadcrumb url="https://penaadventure.com/" text="tags"/>
-                        <breadcrumb url="https://penaadventure.com/" text="page.title"/>
+                        <breadcrumb url="https://unixwinbsd.site/" text="UnixBSDShell"/>
+                        <breadcrumb url="https://unixwinbsd.site/" text="tags"/>
+                        <breadcrumb url="https://unixwinbsd.site/" text="page.title"/>
                                             </breadcrumblist>
                 </yandex>
             </metrics>

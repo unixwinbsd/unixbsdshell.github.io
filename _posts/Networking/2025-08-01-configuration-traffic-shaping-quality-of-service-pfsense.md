@@ -28,7 +28,7 @@ As another example, let's say you have the same 128 kbps link, but your CIR spee
 
 For more clarity, see the following Traffic Shaping Terminology image.
 
-![Terminology Traffic Shaping](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh01sH-uLHWpVLu4llg4AXv_ZVWaSOP-OwhT3v2Yip1Fg0Ozzi3-eBeyFDmWd3wSBzQ8EeaqXGYkskX790B17TThJpHI0K96XEVVfXZNWN8Wai80QW3gSBPvZwoOh5y1oGcZFY-6AU1aIuegE-2VYegB3v87zJ3JAUHs11j_aWi7sdyk7VGgLI4E1mg3X6P/s16000/Terminology%20Traffic%20Shaping.jpg)
+![Terminology Traffic Shaping](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/TerminologyTrafficShaping.jpg)
 
 ## 1. Why Traffic Shaping Is Important
 Limited network resources make bandwidth prioritization a necessity. Traffic shaping is one of the most important techniques for ensuring high quality of service for business applications and data. It is a crucial requirement for network firewalls.
@@ -53,15 +53,18 @@ Using a router firewall device such as PFSense, which is equipped with Traffic S
 - Maximizes resource utilization and prioritizes application programs by allocating bandwidth according to usage.
 
 Leveraging the Traffic Shaping feature on PFSense routers can help ensure critical data and business applications run efficiently with bandwidth appropriate to their usage. Ultimately, traffic shaping ensures better `quality of service (QoS)`, delivers higher performance, maximizes usable bandwidth, reduces latency, and `improves return on investment (ROI)`.
+
 ## 3. How to Set Up Traffic Shaping
+
 Now we get to the core of this article: installing traffic shaping on your Pfsense router firewall. However, before implementing traffic shaping, you must first know how much internet bandwidth your internet service provider provides.
 
 Once you know the amount of bandwidth your internet service provider provides, log in to the main Pfsense dashboard. Then, go to the Firewall - Traffic Shaper menu, select Wizards, and the Traffic Shaper Wizards menu will appear, as shown in the following image.
 
-![firewall traffic shaping](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj2PhAa-7ZxFLXRwlL0V2n-sKflpBzGqL2zQcTMpuOtNDjuEFQHqD0CGUt98ajHP2y7OelInMTkS6oM0se2zwzkQGEV7eonKEpoziDkDORq3AoGgJfyEA16ErBd3LiTIcNgauoNwhmzlagwfKCaxgNa2Oy1eOEZRPaAq1yzu6m3fb9mJlDSYjmNHR-aImal/s16000/firewall%20traffic%20shaping.jpg)
+
+![firewall traffic shaping](https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/firewalltrafficshaping.jpg)
 
 
-![menu wizard traffic shaper](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEy1xK19aUav66E0hMtacazdt-7MGNL8bKlIxx3xapGtJiMaPpu5kjP1eWaNVNgg7LT4LQhClaHMtsmU0ANkOxfGv8pRjJvve8hTHG_WFCxFy6ARK4ZkbmdXt5PKZ1eFOQhfsgvIGLnsvN9khmoe13ZZcwC0gKwwLS-N0cw38pF7w0hIvB17ud1arTd_Wb/w640-h334/menu%20wizard%20traffic%20shaper.jpg)
+![menu wizard traffic shaper](https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/menuwizardtrafficshaper.jpg)
 
 
 If your computer uses two WAN (WAN) interfaces connected to the modem, or three WANs and one LAN, or two LANs, or even up to eight LANs, it's highly recommended to select the Multiple LAN/WAN menu. However, if your Pfsense router only has one WAN, click Dedicated Links.
@@ -72,11 +75,11 @@ Type 1 in `"Enter number of WAN type connections"` because we only have one WAN,
 
 
 
-![pfsense traffic shaper](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj7S-ZQUZ9Uq_IL5UCgV1ahmXmfGAXvV-Q0IbXEr9IzZuyP5_Ca_ZrC1X0slQ70OJ6co6Cc6SZGu9pgcIWI3cT_tHFsLe_othR4nHXFZ7pozC3iI1Tf6iI5C4YQX-DhpCh8I9W7eC6LOhN1ZJi6_uOs6DQgNXlzionczSPN47igOR2Ta6Iua33Hjwu9TrJ8/s16000/pfsense%20traffic%20shaper.png)
+![pfsense traffic shaper](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/pfsensetrafficshaper.png)
 
 
 
-![pfsense shaper configuration](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVTy8hjpWLg6LXFlY9kJVlbosmaZN9nqN2szqrDcQmVy_Ovwx6e-T7DFp_uhzK1JyAqU3WcsJ-fYYtwFcJk1t3McvD3tbp6AWqYQUsF7X12ykyHJx4xFcD08ft-rkwxhHJQonzZOFUFK0dE0DrW5E874fUpjAfAxJ8Xv-MLjHKnDVHe26rXi-caDaBQ8Pz/s1129/pfsense%20shaper%20configuration.png)
+![pfsense shaper configuration](https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/pfsenseshaperconfiguration.png)
 
 
 
@@ -85,35 +88,39 @@ Step 2 of 8 is to enable the Voice over IP (VOIP) menu. If your home internet do
 
 Let's assume there's no VOIP server at your office or home, so we can skip this step or don't enable this menu. Then, click Next, and we'll move on to Step 3 of 8.
 
-![voice over IP](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEguLvae6lZzn7jzZw-NLGmqkhRSjC7SN-1CKoo9_dP__2Iw_j4g8XQvstFVuTbOEQ1SKfsmvqC3I97rU4f6LJB-1A9JDQDAox9Xkw7wyAGX__SyefcUtMaZhQbnBwXciNx2NfbYIeD08GW2_uqG6ntgIrFKdt5ECZbDy_-Ys6-nQSObGre2JLOaDqC7cLyR/s16000/voice%20over%20IP.png)
+
+![voice over IP](https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/voiceOver-IP.png)
 
 
 Step 3 of 8 is often referred to as a `bandwidth hog` meaning that one of the users on your computer network is using a lot of bandwidth. A bandwidth hog is a device, user, or application that consumes a large portion of the available internet bandwidth, leaving less for other users on the network.
 
 Common Causes of High Bandwidth Usage:
-Streaming Video dan Musik.
-Unduhan File Besar.
-Permainan Daring.
-Pembaruan Perangkat Lunak Otomatis.
-Berbagi File dan Jaringan P2P.
-Beberapa Perangkat yang Terhubung.
+
+- Video and Music Streaming.
+- Large File Downloads.
+- Online Gaming.
+- Automatic Software Updates.
+- File Sharing and P2P Networking.
+- Multiple Connected Devices.
+
 To address `Bandwidth Hogs` you can configure them in this section. For example, if the `Bandwidth Hog` IP address is `192.168.9.100`, you'll grant that person 2% bandwidth. In the case of "Bandwidth Hogs," pfSense accepts a range of 2% to 15%.
 
-![menu penalty box](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiFXL6xxui-xVsn3u5aDEG0oi0-_dewfDxh42WDTCfpWiH9EThE7EE1visI2ybYLX0bjnZUoyNGBK6GBg95YOVNCOO_p9iP0ZgJOtGGseLIkzq0-BPMin9rp4orLMJLQ2ibR8Kl35r1XencX2Fli9ssL5GN3mrpo1Tw-1gDYD322VSeoo5IBWuloA_BE4cu/s16000/menu%20penalty%20box.png)
+![menu penalty box](https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/MenuPenaltyBOX.png)
 
 
-What if there are multiple "Bandwidth Hogs" on a single network? In this case, we can create multiple IP addresses for each "Bandwidth Hog" by clicking the Firewall - Alias - IP menu.
+What if there are multiple **"Bandwidth Hogs"** on a single network? In this case, we can create multiple IP addresses for each "Bandwidth Hog" by clicking the Firewall - Alias - IP menu.
 
-After completing step 3 of 8, click Next, and we'll move on to step 4 of 8. This step contains the Peer-to-Peer network parameters, or those related to torrent files. Let's skip step 4 of 8.
+After completing step 3 of 8, click `Next`, and we'll move on to step 4 of 8. This step contains the Peer-to-Peer network parameters, or those related to torrent files. Let's skip step 4 of 8.
 
-![peer to peer networking](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimMbmyKhZUfSN7ZoNqRY8Eu__i9IPfRQhhURulabgp1bPZlJR1HKERi0YVk-127ywbZflA3351ICm7u_XmqvSZbaCnv1evlLlhIxH6md74IHQGImP9Xcqgnnh8HRO1NZPtncydIYYlUwu4_RsYQOhQWnMa9pV1q9B1-TzUbUuSq-rUlU-jdo6j4h8KzIfO/s16000/peer%20to%20peer%20networking.png)
+
+![peer to peer networking](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/peerTOpeerNETWORKING.png)
 
 
 JUST GOT HERE. Continue...
 
 Next, we'll move on to step 5 of 8, which contains the Network Game parameters.
 
-![menu networks games](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhk-n5hp4-h7a_GjIpu7EFRbVlekF8B3J8Zx8jTHm_MxBN2MtbSIUTABAan2y-wqJZ5jzVA5j-nb_yVhM8vOHsICdGpUCRd-vjZlhruOQp4hDGAE-h29FykzlX1elLOS-sbTQ9NDPBPD7XuQrOn6TPZScEzIeANJh4gpmYzYtPN3KGYQUrR3bFo7jeX6XA8/s16000/menu%20networks%20games.png)
+![menu networks games](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/NetworkGames.jpg)
 
 
 In the image above, you can adjust it according to your needs. Select only frequently used online games.
@@ -127,12 +134,12 @@ Let's move on to step 6 of 8, which contains the Raise or Lower Other Applicatio
 - IMAP = Lower priority
 - DNS = Higher priority
 
-![menu raise or lower](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhdIxeNEa1G9XQspUcHXjm3loDSsGwZ9Tl7EjOEQCxGlGs5sScm4SJvJdWe62tRBoHS5IYGhQxcqJ33NoD7TZQgy9rNGMpdBDR9Ng_7Rsv7-Y_sB_DykeuHJezdQUxCBfRZXM5bzDpbIgZHW0V00XlAv7ObQFDw_x81j5QRAMkJphPMi9oFtMW5A9Y0q1la/s16000/menu%20raise%20or%20lower.png)
+![menu raise or lower](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/images/RaiseLower.jpg)
 
 
 After that, click Next. We'll move on to step 7 of 8, which is Reload profile or Finish.
 
-![reload profile](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj3yr6TQzPDEcfHyPyF7njXRVOWwe_GUXV52EGW_KBYtZNi5eYUUE1R8tDVDyYANHR08aSZhML7f9zmo3ubxgdT1CrPstIjyTUMgoQ8mr6I4I6jgpzVCY7r-DEyc_H6uqpkSHLff-vgjfu8eNsEqZB4ZD7gHiwoQ9SaN3-gaxmIyDOskZ36y5nQWZuNsgpK/s16000/reload%20profile.png)
+![reload profile](https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/ReloadProfile.png)
 
 
 Excessive bandwidth usage can significantly impact network performance, especially as data-intensive devices and applications become part of everyday life.

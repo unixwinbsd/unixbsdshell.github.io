@@ -14,22 +14,23 @@ Panduan instalasi Nextcloud ini menjelaskan instalasi, konfigurasi, dan penguata
 
 <div align="center">
     <b>
-"Sebelum kita mulai, pastikan web server Apache24, server MySQL, PHP, PHP mod dan PHP-PFM sudah terinstal dan berjalan normal di server FreeBSD Anda"
+"Before we start, make sure the Apache24 web server, MySQL server, PHP, PHP mod and PHP-PFM are installed and running normally on your FreeBSD server."
     </b>
 
 </div>
 
 ## 1. Create a Nextcloud Database
+
 Databases are crucial in Nextcloud. A database in Nextcloud stores all the configurations and data you enter into Nextcloud. Nextcloud supports many databases, but in this article, we'll be using a MySQL server database.
 
 To create a Nextcloud database, you'll need to log in to the MySQL server. Once you're logged in, proceed to create a Nextcloud database. Here's a guide you can follow.
 
-User: **usernextcloud**
-Host: **Localhost**
-Database name: **nextcloud**
-Password: **router123**
+- User: **usernextcloud**
+- Host: **Localhost**
+- Database name: **nextcloud**
+- Password: **router123**
 
-```
+```sh
 root@ns3:~ # mysql -u root -p
 Enter password:
 root@localhost [(none)]> CREATE DATABASE nextcloud;
@@ -41,6 +42,7 @@ root@ns3:~ #
 ```
 
 ## 2. Nextcloud Installation Process
+
 The first step is to install the Nextcloud dependencies. These dependencies consist of a PHP application that will create a library file.
 
 ```sh
@@ -50,15 +52,14 @@ root@ns3:~ # pkg install php82-xsl php82-dom php82-gmp php82-pcntl php82-pdo php
 
 FreeBSD makes it easy for you, as the Nextcloud repository is available as a PKG package or a system port. You can choose either, but we recommend using the system port to install Nextcloud. Here's how.
 
-```
+```sh
 root@ns3:~ # cd /usr/ports/www/nextcloud
 root@ns3:/usr/ports/www/nextcloud # make install clean
 ```
 
 Change file permissions and ownership.
 
-
-```
+```sh
 root@ns3:/usr/ports/www/nextcloud # chown -R www:www /usr/local/www/nextcloud
 root@ns3:/usr/ports/www/nextcloud # chmod -R 775 /usr/local/www/nextcloud
 ```
@@ -73,10 +74,11 @@ Caching is used to improve Nextcloud's speed. The difference in speed between us
 
 Nextcloud uses several caches, including APCU, Redis, and Memcached. In this article, we will use Memcached. Run the following command to install Memcached.
 
-```
+```sh
 root@ns3:~ # cd /usr/ports/databases/memcached
 root@ns3:/usr/ports/databases/memcached # make install clean
 ```
+
 In this section, we will not explain the complete memcached configuration process, you can read our previous article.
 
 [Playing around with FreeBSD Memcached How to implement an in-memory data caching service](https://unixwinbsd.site/freebsd/freebsd-memcached-implement-memory-caching-service)
@@ -99,8 +101,8 @@ root@ns3:~ # ee /usr/local/www/nextcloud/config/config.php
 ```
 
 ### b. Activate Pretty links
-Just like creating a theme in Joomla or WordPress, pretty links aren't mandatory, but they add to the overall aesthetic of your server. You'll need to enable `"Pretty Links"` in your `config.php` file.
 
+Just like creating a theme in Joomla or WordPress, pretty links aren't mandatory, but they add to the overall aesthetic of your server. You'll need to enable `"Pretty Links"` in your `config.php` file.
 
 ```sh
 root@ns3:~ # ee /usr/local/www/nextcloud/config/config.php
@@ -138,6 +140,7 @@ root@ns3:~ # ee /etc/crontab
 */15 * * * * /usr/local/bin/php -f /usr/local/www/apache24/data/nextcloud/cron.php
 */5 * * * * php -f /usr/local/www/nextcloud/occ dav:send-event-reminders
 ```
+
 <br/>
 
 ![create nextcloud cron](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/oct-25/oct-25-125.jpg)
@@ -147,7 +150,6 @@ root@ns3:~ # ee /etc/crontab
 ### f. PHP Opcache configuration
 
 On FreeBSD servers, PHP Opcache settings are essential for caching pre-compiled bytecode. Proper PHP Opcache settings will improve Nextcloud performance. Enable the script below in the `php.ini` file.
-
 
 ```sh
 root@ns3:~ # ee /usr/local/etc/php.ini
@@ -167,7 +169,6 @@ upload_max_filesize = 32M
 ### g. Enable Nextcloud Providers
 
 Enabling the `Nextcloud Providers` option speeds up preview creation using external microservices. To implement this option, you need to deploy the service and ensure it's not accessible from outside your server. You can then configure Nextcloud to use Imaginary by editing the `config.php` file.
-
 
 ```sh
 root@ns3:~ # ee /usr/local/www/nextcloud/config/config.php
@@ -198,7 +199,6 @@ root@ns3:~ # ee /usr/local/www/nextcloud/config/config.php
 ```
 
 You can see the complete script of the `config.php` file below.
-
 
 ```sh
 <?php
@@ -295,8 +295,7 @@ root@ns3:/usr/local/etc/apache24/ssl #
 
 After that, you continue by creating an SSL certificate.
 
-
-```
+```sh
 root@ns3:/usr/local/etc/apache24/ssl # openssl genrsa -out server.key 2048
 root@ns3:/usr/local/etc/apache24/ssl # openssl req -new -key server.key -out server.csr
 root@ns3:/usr/local/etc/apache24/ssl # openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
@@ -305,7 +304,6 @@ root@ns3:/usr/local/etc/apache24/ssl # cat server.crt server.key > server.bundle
 
 Change file ownership permissions.
 
-
 ```
 root@ns3:/usr/local/etc/apache24/ssl # chmod -R 640 /usr/local/etc/apache24/ssl
 ```
@@ -313,7 +311,6 @@ root@ns3:/usr/local/etc/apache24/ssl # chmod -R 640 /usr/local/etc/apache24/ssl
 ## 5. Create an SSL Vhost in Apache
 
 Since the Apache24 web server is running normally, we can immediately enable Vhost. Open the `httpd.conf` file and activate the script below.
-
 
 ```sh
 root@ns3:~ # ee /usr/local/etc/apache24/httpd.conf
@@ -324,8 +321,8 @@ LoadModule ssl_module libexec/apache24/mod_ssl.so
 LoadModule rewrite_module libexec/apache24/mod_rewrite.so
 Include etc/apache24/extra/httpd-ssl.conf
 ```
-Now we'll set up Apache with a self-signed certificate as part of the Nextcloud installation, so we'll use that for this guide. Open the httpd-ssl.conf file and delete all the scripts and replace them with the one below.
 
+Now we'll set up Apache with a self-signed certificate as part of the Nextcloud installation, so we'll use that for this guide. Open the httpd-ssl.conf file and delete all the scripts and replace them with the one below.
 
 ```sh
 root@ns3:~ # ee /usr/local/etc/apache24/extra/httpd-ssl.conf

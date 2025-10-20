@@ -1,3 +1,26 @@
+---
+title: Nextcloud configuration on FreeBSD with Apache and OpenSSL HTTPS port
+date: "2025-10-21 17:25:12 +0100"
+updated: "2025-10-21 17:25:12 +0100"
+id: nextcloud-configuration-freebsd-with-apache-openssl-https-port
+lang: en
+layout: single
+author_profile: true
+robots: index, follow
+categories: freebsd
+tags: DataBase
+img: /img/oct-25/oct-25-126.jpg
+header: 
+    teaser: "/img/oct-25/oct-25-126.jpg"
+toc: true
+toc_label: "Table of Contents"
+toc_icon: "heart"
+toc_sticky: true
+seo.type: BlogPosting
+excerpt: In this article, we'll set up a NextCloud server from scratch by adding an SSL certificate. There are many tutorials covering this topic, but very few tutorials for configuring Nextcloud on a FreeBSD server that provide SSL certificates
+keywords: freebsd, mysql, nextcloud, php, fpm, openssl, mod, https, apache, apache24
+---
+
 In this article, we'll set up a NextCloud server from scratch by adding an SSL certificate. There are many tutorials covering this topic, but very few tutorials for configuring Nextcloud on a FreeBSD server that provide SSL certificates. In this article, the SSL certificate will be provided by OpenSSL, and the web server we'll use is Apache24. Before following this guide, ensure Apache, MySQL, PHP, PHP mod, and PHP-PFM are installed on your FreeBSD server.
 
 

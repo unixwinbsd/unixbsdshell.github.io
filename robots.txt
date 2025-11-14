@@ -1,0 +1,14 @@
+---
+layout: null
+permalink: robots.txt
+---
+
+User-agent: *
+Disallow: /assets/
+Disallow: /search/
+Disallow: /blog/
+
+Sitemap: {{ site.url }}/sitemap.xml
+Sitemap: {{ site.url }}/atom.xml
+Sitemap: {{ site.url }}/feed.xml
+Sitemap: {{ site.url }}/rssyandex.xml

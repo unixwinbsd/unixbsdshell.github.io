@@ -1,0 +1,90 @@
+<footer class="d-print-none">
+  <div class="container">
+    <div class="row">
+      {% if site.social %}
+        <div class="col-lg">
+          <ul class="list-inline">
+            {% if site.social.email %}
+              <li class="list-inline-item mb-2">
+                <a href="mailto:{{ site.social.email }}">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa-solid fa-circle fa-stack-2x"></i>
+                    <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            {% endif %}
+
+            {% if site.social.twitter %}
+              <li class="list-inline-item mb-2">
+                <a href="https://twitter.com/{{ site.social.twitter }}">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa-solid fa-circle fa-stack-2x"></i>
+                    <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            {% endif %}
+
+            {% if site.social.linkedin %}
+              <li class="list-inline-item mb-2">
+                <a href="{{ site.social.linkedin }}">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa-solid fa-circle fa-stack-2x"></i>
+                    <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            {% endif %}
+
+            {% if site.social.facebook %}
+              <li class="list-inline-item mb-2">
+                <a href="{{ site.social.facebook }}">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa-solid fa-circle fa-stack-2x"></i>
+                    <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            {% endif %}
+
+            {% if site.social.github %}
+              <li class="list-inline-item mb-2">
+                <a href="https://github.com/{{ site.social.github }}">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa-solid fa-circle fa-stack-2x"></i>
+                    <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            {% endif %}
+
+            {% if site.archive_permalink %}
+              <li class="list-inline-item mb-2">
+                <a href="{{ '/feed.xml' | absolute_url }}">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa-solid fa-circle fa-stack-2x"></i>
+                    <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
+
+
+    </div>
+
+    <div class="small mt-2">
+      {% if site.url %}
+        <p>Copyright 2023-{{ site.time | date: '%Y' }} {{ site.name }}</p>
+      {% endif %}
+      {% if site.data.footer.license %}
+       - Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish
+      {% endif %}
+
+    </div>
+  </div>
+</footer>
+

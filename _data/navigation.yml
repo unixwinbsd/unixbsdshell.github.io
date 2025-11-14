@@ -1,0 +1,11 @@
+# Links listed below will be included in your site's navbar (navigation at the top)
+
+- text: Home
+  href: /
+- text: About
+  href: /about/
+- text: Blog
+  href: /blog/
+- text: GitHub
+  href: https://github.com/unixwinbsd/unixbsdshell.github.io
+  new_window: true

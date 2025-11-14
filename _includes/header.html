@@ -1,0 +1,44 @@
+{% comment %}background is defined in head.html{% endcomment %}
+
+
+  <header>
+
+    <div class="container">
+      <div class="row p-4">
+        <div class="text-wrap text-center">
+      <h1 class="fw-bold text-danger" {% if page.layout == 'home' %} class="home" {% endif %}> {{ page.title | rel='index follow' }} </h1>
+          
+          <div class="lead badge bg-primary text-wrap">
+<h6>{{ page.excerpt | markdownify }}</h6>
+</div>
+          
+          {% if page.collection == 'posts' %}
+            <p class="meta">
+<h6>       <time>{{ page.date | date: '%B %d, %Y' }}</time>
+              {% if page.author or page.authors %}
+                &bull; {{ page.author | join: ', ' }}{{ page.authors | join: ', ' }}
+              {% endif %} 
+            {% if page.collection == 'posts' and page.tags and site.archive_permalink %}
+              {% for tag in page.tags %}
+              <a class="badge tags text-bg-secondary{% if site.rounded_corners != false %} rounded-pill{% endif %}" href="{{ site.archive_permalink | relative_url }}?tag={{ tag | url_encode }}">{{ tag }}</a>
+              {% endfor %}
+            {% endif %}
+&middot; {% include read_time.html
+              content=page.content %}
+</h6>  </p>
+   {% endif %}
+
+
+        </div>
+      </div>
+    </div>
+    {% if page.background.img and page.background.by %}
+      <div class="caption d-print-none">
+        {% if page.background.href %}
+          Image by <a href="{{ page.background.href }}">{{ page.background.by }}</a>
+        {% else %}
+          Image by {{ page.background.by }}
+        {% endif %}
+      </div>
+    {% endif %}
+  </header>

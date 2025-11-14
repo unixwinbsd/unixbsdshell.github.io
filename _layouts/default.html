@@ -1,0 +1,113 @@
+---
+layout: base
+excerpt: Default template for pages and posts, with contained width.
+---
+
+<div class="row">
+  {% if page.toc %}
+  <div class="col-md-10 col-lg-3 mx-auto">
+
+<h3 class='fs-5 fw-bold text-primary'>Organization</h3>
+<img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="{{ 'https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png' | relative_url }}">
+<h3 class='fs-3 entry-title fw-bold text-muted'>UnixBSDShell</h3>
+<br/> 
+
+    <div class="toc">
+      <span class='fs-5 fw-bold text-primary'>Table Of Content</span>
+      {% include toc.html
+        html=content
+        sanitize=true
+        h_min=2
+        h_max=3
+      %}
+    </div>
+
+  </div>
+  {% endif %}
+
+
+  <div class="col-md-10 col-lg-8 order-lg-first mx-auto">
+
+<!-- Breadcrumb -->
+  {% if page.layout != 'home' %}
+<div class="mb-4 text-danger" id="breadcrumbs">
+{% assign crumbs = page.url | remove:'/index.html' | split: '/' %}
+<a class="fw-bold" href="{{site.url}}">Home</a>
+{% for crumb in crumbs offset: 1 %}
+  {% if forloop.last %}
+    / {{ page.title }}
+  {% else %}
+    / {{ crumb }}
+  {% endif %}
+{% endfor %}
+</div>
+  {% endif %}
+
+<div class="article">
+    {{ content }}
+
+<!-- pagination -->
+<!--  <div class="Previous-next">
+  {% if page.previous.url %}
+    <a class="previous" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
+  {% endif %}
+  {% if page.next.url %}
+    <a class="next" href="{{page.next.url}}">{{page.next.title}} &raquo;</a>
+  {% endif %}
+</div>
+<br/>  -->
+<div class="PageNavigation">
+  {% if page.previous.url %}
+    <a class="prev" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
+  {% endif %}
+  {% if page.next.url %}
+    <a class="next" href="{{page.next.url}}">{{page.next.title}} &raquo;</a>
+  {% endif %}
+</div>
+<style>
+.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}
+</style>
+
+
+
+
+</div>
+
+
+    {% if page.comments %}
+      <div id="disqus_thread"></div>
+      <script>
+        // Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "{{ page.url | absolute_url }}";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://{{ site.social.disqus }}.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    {% endif %}
+
+
+  </div>
+<!-- scroll to top -->
+</div>

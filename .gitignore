@@ -1,0 +1,16 @@
+*.gem
+.bundle
+ _site/
+ .sass-cache/
+Gemfile.lock
+node_modules/
+.jekyll-cache/
+.jekyll-metadata
+gulpfile.js
+package.json
+
+# npm
+node_modules
+
+# Mac OS X
+.DS_Store

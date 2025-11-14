@@ -1,0 +1,210 @@
+---
+title: Rotating Public IP with TOR and Privoxy on FreeBSD
+date: "2025-11-10 09:10:31 +0000"
+updated: "2025-11-10 09:10:31 +0000"
+id: rotating-public-ip-with-tor-privoxyfreebsd
+lang: en
+author: Iwan Setiawan
+robots: index, follow
+categories: freebsd
+tags: Anonymous
+background: https://cdn.publish0x.com/prod/fs/images/499543d4bf3edbcf8a5b99e1a92c2751720021710f784d2087c38601258f8049.jpg
+toc: true
+comments: true
+published: true
+excerpt: In this tutorial, the computer I'm using has Tor and Privoxy installed. We're using FreeBSD 13.2 Stable for the OS, and the Python version we're using is python39.
+keywords: tor, privoxy, python, freebsd, unix, bsd, rotating, ip, public, ip public, ip dynamic, ip static
+---
+
+In this tutorial, we'll explain how to rotate proxy IP addresses from Tor and Privoxy using the Python stem program, which periodically rotates proxy IP addresses. The most common use case for using Tor and Privoxy proxies to access web browsers is to change your identity and data. Both programs have the ability to disguise and hide your true identity and data.
+
+Because, as we know, if we use Tor and Privoxy to browse the web, for example, when we open Google Chrome, our IP address isn't our original IP address, but rather a proxy IP address that has been altered by Tor and Privoxy. In other words, if we use Telkom's MyIndihome internet service with a public IP address of 36.90.67.41, when we use TOR/Privoxy, our MyIndihome IP address will change. We'll receive a foreign IP address, such as one from Germany, the Netherlands, the United States, and so on.
+
+Okay, let's get straight to the point: how to rotate public IP addresses with TOR, Python, and Privoxy.
+
+To make it easier for readers to configure ["Public IP Rotation with Python"](https://unixwinbsd.site/openbsd/static-dynamic-ip-address-openbsd/) you should also read our previous article.
+
+In this article, we won't explain how to install Tor and Privoxy; you can read about them in the article above. Let's assume our FreeBSD server already has the Tor and Privoxy applications installed.
+
+In this tutorial, the computer I'm using has Tor installed with the IP/Port: 192.168.5.2:9050 and Privoxy with the Port 192.168.5.2:8008. We're using FreeBSD 13.2 Stable, and the Python version we're using is python39.
+
+What you need to pay attention to is the script in the privoxy program's configuration file in the /usr/local/etc/privoxy folder. In the forward-socks5 script, you have to point it to the Tor IP and Port, which is 192.168.5.2:9050.
+
+```yml
+root@router2:~ # cd /usr/local/etc/privoxy
+root@router2:/usr/local/etc/privoxy # ee config
+```
+
+Look for the forward-socks5 script and change the IP and Port to TOR IP and Port.
+
+```console
+forward-socks5 / 192.168.5.2:9050 .
+```
+
+## A. Install Python and Stem
+
+The first thing you need to do is install python39 and py-stem.
+
+```console
+root@ns1:~ # cd /usr/ports/lang/python39
+root@ns1:/usr/ports/lang/python39 # make install clean
+
+root@ns1:/usr/ports/lang/python39 # cd /usr/ports/security/py-stem
+root@ns1:/usr/ports/security/py-stem # make install clean
+
+root@ns1:/usr/ports/security/py-stem # cd /usr/ports/www/py-requests
+root@ns1:/usr/ports/www/py-requests # make install clean
+```
+
+## B. Avoid Python Errors
+
+Because there are so many versions of Python on FreeBSD, errors often occur that prevent Python programs from running. The most common error encountered with Python on FreeBSD is env python: No such file or directory. To avoid this error, follow these steps:
+
+### a. Delete the existing python file.
+
+```yml
+root@ns1:~ # rm -R -f /usr/local/bin/python
+```
+
+### b. Create a link, adapting it to the Python we're going to run. In this case, we're using python39.
+
+```yml
+root@ns1:~ # ln -s /usr/local/bin/python3.9 /usr/local/bin/python
+```
+
+## C. Create a Python Script
+
+In this session, we will create a py script that will rotate the proxy IP addresses of Tor and Privoxy. Before creating the py script, open the `/usr/local/etc/tor` folder, as we will be editing the torrc file first. Enable the `"CookieAuthentication"` script by removing the `"#"` sign in front of the script.
+
+```yml
+#CookieAuthentication 1
+```
+
+become
+
+```yml
+CookieAuthentication 1
+```
+
+Next, we'll create a password called `"HashedControlPassword"`. In this article, we'll assume we'll use `"12345678"` to create this password. After we've set the password, in the PUTTY remote console, type the script "tor --hash-password my_password" (for example, password: 12345678). Here's an example of how to write it in PUTTY.
+
+```yml
+root@ns1:~ # cd /usr/local/etc/tor
+root@ns1:/usr/local/etc/tor # tor --hash-password 12345678
+May 30 13:54:29.399 [warn] You are running Tor as root. You don't need to, and you probably shouldn't.
+16:9D461F3F7FFA43C060AE6D904DD812BD51148C8CD9992D5DBBFFF930F8
+root@ns1:/usr/local/etc/tor #
+```
+
+The blue text above is the hash generated by the `"tor --hash-password 12345678"` script. We'll insert this hash into the script in the `/usr/local/etc/tor/torrc` file. The next step is to edit the TOR configuration file, `/usr/local/etc/tor/torrc`. If you're using Windows, use `PUTTY/WINSCP` for easier editing. Using PUTTY in the `/usr/local/etc/tor/torrc` file, type the script below.
+
+```console
+root@ns1:~ # ee /usr/local/etc/tor/torrc
+ControlPort 9051
+HashedControlPassword 16:9D461F3F7FFA43C060AE6D904DD812BD51148C8CD9992D5DBBFFF930F8
+```
+
+The HashedControlPassword script should be the same as the blue script above. Once everything is configured correctly, the next step is to restart the TOR application.
+
+```yml
+root@ns1:/usr/local/etc/tor # service tor restart
+```
+
+After configuring the TOR application, we move on to configuring the Python application. This step is crucial because Python rotates public IP addresses. The first step is to create a `ConnectionManager.py` file located in the `/usr/local/etc/tor` folder. Here's how to create the file.
+
+```yml
+root@ns1:/usr/local/etc/tor # touch ConnectionManager.py
+root@ns1:/usr/local/etc/tor # chmod -R 755 ConnectionManager.py
+```
+
+After creating the `/usr/local/etc/tor/ConnectionManager.py` file, insert the following script into the file.
+
+```console
+root@ns1:/usr/local/etc/tor # ee ConnectionManager.py
+
+import time
+import stem
+import stem.connection
+import requests
+from stem import Signal
+from stem.control import Controller
+
+with Controller.from_port(port=9051) as controller:
+	controller.authenticate(password="12345678")
+	controller.signal(Signal.NEWNYM)
+	controller.close()
+
+proxies = {"http": "http://192.168.5.2:8008"}
+
+headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.73.11 (KHTML, like Gecko) Version/7.0.1 Safari/537.73.11'}
+
+r = requests.get("http://icanhazip.com", proxies=proxies, headers=headers)
+
+print (r.text)
+```
+
+Note that the password `"12345678"` is the one we defined in the discussion above. Meanwhile, `http://192.168.5.2:8008` is the Privoxy IP address and port.
+
+## D. Python Test Script
+
+Now let's test the `ConnectionManager.py` file. If you're using the Putty console, you'll need to be in the `/usr/local/etc/tor` folder, as the .py file we created is located there. If you're still root, navigate to the `/usr/local/etc/tor` folder with the command cd `/usr/local/etc/tor`. Here's how to test the `ConnectionManager.py` file.
+
+```console
+root@ns1:~ # cd /usr/local/etc/tor
+root@ns1:/usr/local/etc/tor # python ConnectionManager.py
+103.251.167.20
+```
+
+The IP address 103.251.167.20 in the script above is the public IP address of the proxy server on our FreeBSD computer. Wait about a minute, then run the test again. Check the results; the public IP address will definitely change.
+
+```console
+root@ns1:/usr/local/etc/tor # python ConnectionManager.py
+173.249.57.253
+```
+
+Every time we run ConnectionManager.py, our Public IP address will constantly change. You can also check for any changes to your Public IP address at `https://icanhazip.com/`.
+
+Next, we'll create a Public IP rotation file, named `rotate.py`.
+
+```yml
+root@ns1:~ # cd /usr/local/etc/tor
+root@ns1:/usr/local/etc/tor # touch rotate.py
+root@ns1:/usr/local/etc/tor # chmod -R 755 rotate.py
+```
+
+In the file `/usr/local/etc/tor/rotate.py` we enter the script below.
+
+```console
+root@ns1:/usr/local/etc/tor # ee /usr/local/etc/tor/rotate.py
+
+import time
+from stem import Signal
+from stem.control import Controller
+def main():
+    while True:
+        time.sleep(20)
+        print ("Merotasi IP Proxy")
+        with Controller.from_port(port = 9051) as controller:
+          controller.authenticate()
+          controller.signal(Signal.NEWNYM)
+if __name__ == '__main__':
+    main()
+```
+
+After that, you run the `rotate.py` file script.
+
+```console
+root@ns1:~ # cd /usr/local/etc/tor
+root@ns1:/usr/local/etc/tor #  python rotate.py
+Merotasi IP Proxy
+Merotasi IP Proxy
+Merotasi IP Proxy
+Merotasi IP Proxy
+Merotasi IP Proxy
+Merotasi IP Proxy
+Merotasi IP Proxy
+```
+
+The Tor network can be used to send requests to various public IP addresses. In this tutorial, we used the TOR controller to change public IP addresses using a Python program, and you now know how.
+
+If you followed this tutorial carefully, you should be able to configure regular public IP rotation.

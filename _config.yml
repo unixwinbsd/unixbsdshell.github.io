@@ -1,0 +1,94 @@
+# SITE SETTINGS
+encoding: utf-8
+title: UnixBSDShell
+subtitle: UnixBSDShell's Blog
+name: UnixBSDShell's Blog
+description: A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others
+lang: en
+locale: en-US
+author: Iwan Setiawan
+owner_name: Iwan Setiawan
+email: iwanse1212@yandex.com
+baseurl: "" 
+url: "https://unixwinbsd.github.io"
+tweets_on_home: true
+search: true
+search_full_content: true
+search_provider: lunr
+dnsPrefetch: "on"
+dns:
+      - "//unixwinbsd.site"
+      - "//prohoster.info"
+robots: index, follow
+copyright: Copyright 2023-2025 UnixBSDShell's Blog
+keywords: freebsd, openbsd, netbsd, linux, ubuntu, debian, unix, pfsense, centos, command, shell, opnsense, router, firewall, web design, web development, server, client, ruby, database, dns server, web server, jekyll, wordpress, html, css
+
+# SOCIAL PROFILES
+social:
+  email: iwanse1212@yandex.com
+  bluesky: bluesky_username.bsky.social
+  mastodon: https://mastodon.social/@mastodon_username
+  twitter: twitter_username
+  linkedin: https://linkedin.com/company/project_name/
+  facebook: https://facebook.com/groups/group_id/
+  github: github_username               # Can also be a github_username/repository
+  disqus: disqus_sitename               # Enable Disqus comments from disqus_sitename.disqus.com
+
+# THEME SETTINGS (ALL OPTIONAL)
+posts_on_home: 6                        # Show x number of latest posts on homepage, can be 0
+archive_permalink: /blog/               # Permalink of page using the archive.html layout, required when using post tags
+github_edit: false
+colors:
+  links: "#007bff"                      # Color for links: use a readable color that contrasts well with dark text
+  banner: "#007bff"                     # Background color for page banners: use color that contrasts well with white
+  footer: "#6c757d"                     # Background color for footer: use color that contrasts well with white
+font_serif: true                        # Font type for page content: serif (default) or slightly smaller sans-serif
+rounded_corners: true                   # Enable (default) rounded corners on boxes and buttons
+logo: /img/Logo.png
+
+# BUILD SETTINGS
+markdown: kramdown
+#plugins:                                # If you build your site on gh-pages, only use these plugins: https://pages.github.com/versions/
+#  - jekyll-feed
+#  - jekyll-sitemap
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - LICENSE
+  - package-lock.json
+  - package.json
+#  - jekyll-theme-petridish.gemspec
+  - CITATION.cff
+  - gulpfile.js
+  - .jekyll-cache
+
+
+# FRONTMATTER DEFAULTS
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default                   # Use default.html layout by default for all files
+  - scope:
+      type: posts
+    values:
+      permalink: "/:categories/:slug/"
+      comments: true
+feed:
+  collections:
+    - posts
+feed_items: 10
+feed_update_period: daily
+feed_update_frequency: 1
+
+keep_files:
+  - _site/sass/css
+  - _site/assets/theme/js
+
+
+# search: https://www.stephanmiller.com/static-site-search/
+# lazysize.min.js:  https://github.com/aFarkas/lazysizes/tree/gh-pages
+# gulp:  https://github.com/kogakure?tab=repositories
+# Kumpulan jekyll bootstrap: https://github.com/search?q=jekyll+bootstrap&type=repositories&p=33

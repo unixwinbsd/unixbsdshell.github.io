@@ -1,0 +1,316 @@
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta name= "mobile-web-app-capable" content= "yes" >
+<meta name="apple-mobile-web-app-status-bar-style" content="{{ site.title }}" />
+<meta name="application-name" content="{{ site.title }}" />
+<meta http-equiv="x-dns-prefetch-control" content="{{ site.dnsPrefetch }}">
+    <meta http-equiv="Cache-control" content="public">
+    <meta http-equiv="Expires" content="31536000">
+    <meta name="revisit-after" content="7 days">
+    {%- for dns in site.dns -%}
+    <link rel="dns-prefetch" href="{{ dns }}">
+    {%- endfor -%}
+
+  {% if page.url == '/index.html' %}
+  <title>{{page.title}}</title>
+  {% elsif page.title %}
+  <title>{{page.title}}</title>
+  {% elsif page.layout == 'home' %}
+  <title>{{ page.title }} - {{ site.title }}</title>
+  {% else %}
+  <title>{{site.title}}</title>
+  {% endif %}
+
+  {% comment %}Deprecated variables{% endcomment %} 
+  {% if site.email %}
+    {% assign site.social.email = site.email %}
+  {% endif %}
+  {% if site.twitter_username %}
+    {% assign site.social.twitter = site.twitter_username %}
+  {% endif %}
+  {% if site.github_username %}
+    {% assign site.social.github = site.github_username %}
+  {% endif %}
+
+ {% if site.url == 'page.url' %}
+  <meta name="description" content="{{site.description}}">
+  {% elsif page.excerpt %}
+  <meta name="description" content="{{page.excerpt}}">
+  {% elsif site.description %}
+  <description>{{site.description}}</description>
+  {% else %}
+  <meta name="description" content="{{page.excerpt}}">
+  {% endif %}
+
+  {% if page.robots %}
+    <meta name="robots" content="index, follow">
+  {% else %}
+    <meta name="robots" content="noindex, nofollow">
+  {% endif %}
+
+  {% if page.author %}
+    {% assign author = page.author | join: ", " %}
+  {% else %}
+    {% assign author = site.author %}
+  {% endif %}
+  {% if author %}
+    <meta name="author" content="{{ author }}">
+  {% endif %}
+  {% if site.remote_theme %}
+    <meta name="generator" content="Jekyll, theme: {{ site.remote_theme }}">
+  {% endif %}
+
+ {% if page.keywords %}
+ <meta name="keywords" content="{{ page.keywords }}" />
+ {% else %}
+ <meta name="keywords" content="{{ site.keywords }}" />
+ {% endif %}  
+
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:type" content="{% if page.collection == 'posts' %}article{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ description }}">
+  {% if page.background.first %}
+    {% assign background = page.background.img %}
+  {% else %}
+    {% assign background = page.background %}
+  {% endif %}
+  {% if background %}
+    <meta property="og:image" content="{{ background | absolute_url }}">
+  {% endif %}
+
+<meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw" />
+<meta name="language" content="english" />
+<meta name="generator" content="Jekyll v3.10.0"/>
+<meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g" />
+<meta name="owner" content="{{ site.owner_name }}">
+<meta name="copyright" content="Copyright 2023-{{ site.time | date: '%Y' }} {{ site.name }}">
+<meta content='Inchimediatama Nusantara' name='publisher'/>
+
+<link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin">
+<link rel="dns-prefetch" href="http://45.83.122.137/">
+<link href="https://www.googletagmanager.com" rel="dns-prefetch"/>
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link href="https://mc.yandex.ru" rel="dns-prefetch"/>
+<link href='https://schema.org' rel='dns-prefetch preconnect'/>
+    <link href='https://cdn.jsdelivr.net' rel='dns-prefetch preconnect'/>
+    <link href='https://ajax.googleapis.com' rel='dns-prefetch preconnect'/>
+    <link href='https://img.youtube.com' rel='dns-prefetch preconnect'/>
+    <link href='https://drive.google.com/drive/u/0/home' rel='dns-prefetch preconnect'/>
+<link href='https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143' rel='dns-prefetch preconnect'/> 
+<link href='https://unixwinbsd.site/about/' rel='me'/>
+<link href='https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu' rel='publisher'/>
+
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.url }}/feed.xml">
+<link rel="self" type="application/rss+xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.url }}/feed.xml">
+<link rel="alternate" type="application/atom+xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.url }}/atom.xml">
+<link rel="self" type="application/atom+xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.url }}/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.url }}/rssyandex.xml">
+<link rel="self" type="application/atom+xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.url }}/rssyandex.xml">
+<link rel="sitemap" type="application/xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.url }}/sitemap.xml">
+<link rel="sitemap" type="application/xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.url }}/sitemap_google.xml">
+<link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+<link rel="shortcut icon" href="{{ "/favicon.ico" | prepend:site.baseurl }}">
+<link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | absolute_url }}">
+<link href="{{site.url}}/" rel="alternate" type="text/html" />
+<!-- CSS: Bootstrap CSS is included in main.css -->
+<link rel="stylesheet" href="{{ '/assets/theme/css/main.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/theme/css/pygments.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/theme/css/fontawesome-all.min.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/theme/css/bootstrap.min.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/theme/css/bootstrap-icons.min.css' | relative_url }}">
+{% if site.font_serif != false %}
+<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet">
+{% endif %}
+<link href="https://unixwinbsd.site" hreflang="en" rel="alternate"/>
+<link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"/>  
+<link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"/>
+<link href='http://pubsubhubbub.appspot.com/' rel='hub'/>
+
+
+<!-- Javascript: loaded here so they are available in templates -->
+<script src="{{ '/assets/theme/js/jquery.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/theme/js/popper.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/theme/js/bootstrap.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/theme/js/anchor.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/theme/js/lazysizes.min.js' | relative_url }}"></script>
+
+
+<link rel="preload" href="/assets/theme/css/main.css" as="style" />
+<link rel="preload" href="/assets/theme/css/pygments.css" as="style" />
+<link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style" />
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style" />
+<link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style" />
+<link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style" />
+
+<link rel="preload" href="/assets/theme/js/jquery.min.js" as="script" />
+<link rel="preload" href="/assets/theme/js/popper.min.js" as="script" />
+<link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script" />
+<link rel="preload" href="/assets/theme/js/anchor.min.js" as="script" />
+<link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script" />
+
+
+
+<!-- Open Graph -->
+    <meta property="og:site_name" content="{{ site.title }}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="og:type" content="website">
+<meta property="og:locale" content="{{ site.locale }}">
+  <meta property="og:published_time" content="{% if page.date %}{{ page.date }}{% else %}{{ site.date }}{% endif %}">
+    <meta property="og:image" content="{{ page.background }}">
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="{{ page.excerpt }}"/>
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary">
+<meta property="twitter:domain" content='{{ site.url | split: "//" | last | split: "/" | first }}'>
+<meta property="twitter:url" content="{{ page.url | absolute_url }}">
+    <meta name="twitter:site" content="@{{ site.author.twitter }}">
+    <meta name="twitter:creator" content="@{{ site.author.twitter }}">
+    <meta name="twitter:image" content="{{ page.background }}">
+    <meta name="twitter:title" content="{{ page.title }}">
+    <meta name="twitter:description" content="{{ page.excerpt }}">
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');
+</script>
+
+<script>
+gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script>
+<!-- End Google Tag Manager -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+"@id": "https://unixwinbsd.site/#profileauthor",
+"url": "https://www.blogger.com/profile/08958087252392329520",
+    "name": "Iwan Setiawan",
+"inLanguage": "en",
+"abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.",
+"relatedLink": "httpss://www.github.com/unixbsdshell",
+
+"mainEntity":
+{
+    "@type": "Person",
+    "name": "Iwan Setiawan",
+    "givenName": "Bata",
+    "familyName": "Iwan Setiawan",
+    "email": "iwanse1212@yandex.com",
+"url": "https://www.blogger.com/profile/08958087252392329520",  
+"gender": "male",
+"description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions",
+"alternateName": "Iwan Sting",
+"additionalName": "Setiawan",
+"birthDate": "1977",
+"birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia",
+"jobTitle": "Blogger Writer",
+"spouse": "Siti Umaroh",  
+"award": "Navigasi Darat",
+"seeks": "Fame"
+},
+
+"image": {
+"@type": "ImageObject",
+"caption": "Photo Kecil",
+"name": "Iwan Setiawan",
+"alternateName": "Iwan Sting",
+"description": "Phtoto Saya Waktu Masih Kecil",
+"height": 50,
+"width": 50,
+"url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg"
+}
+
+
+}
+</script>
+
+
+
+<script type="application/ld+json"> 
+{ 
+"@context": "https://schema.org", 
+"@type": "WebSite", 
+"name": {{ site.title | jsonify }},
+"url": {{ site.url | jsonify }},
+"description": {{ site.description | jsonify }},
+"headline": {{ site.name | jsonify }},
+"inLanguage": "en",
+"sourceOrganization": "WARNET DAPURNET",
+"disambiguatingDescription": "Education Blog of UnixBSDShell",
+"copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara",
+"isFamilyFriendly": "http://schema.org/True",
+
+  "author": {
+    "@type": "ProfilePage",
+   "@id": "https://unixwinbsd.site/#profileauthor",
+   "url": "https://www.blogger.com/profile/08958087252392329520"
+  },
+
+    "image": {
+      "@type": "ImageObject",
+      "width": 32,
+      "height": 32,
+      "url": "{{ site.url }}/img/Logo.png"
+    }
+
+
+} 
+</script>
+
+</head>

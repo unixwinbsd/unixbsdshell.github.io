@@ -1,0 +1,677 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD</title><meta name="description" content="The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate"><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="create, manage, private, rrot, ca, certificate, openbsd, openssl, ssl, key"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/"><meta property="og:type" content="article"><meta property="og:title" content="A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD"><meta property="og:description"><meta property="og:image" content="https://raw.githubusercontent.com/unixwinbsd/FreeBSD_Lighttpd_Mod_OpenSSL/refs/heads/main/usr/local/openbsd%20ca%20authority.jpg"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-08-11 11:01:33 +0300"><meta property="og:image" content="https://raw.githubusercontent.com/unixwinbsd/FreeBSD_Lighttpd_Mod_OpenSSL/refs/heads/main/usr/local/openbsd%20ca%20authority.jpg"><meta property="og:title" content="A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD"><meta property="og:description" content="The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate"><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="https://raw.githubusercontent.com/unixwinbsd/FreeBSD_Lighttpd_Mod_OpenSSL/refs/heads/main/usr/local/openbsd%20ca%20authority.jpg"><meta name="twitter:title" content="A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD"><meta name="twitter:description" content="The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate"><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD</h1><div class="lead badge bg-primary text-wrap"><h6><p>The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn’t easy to fully understand how to create an SSL certificate</p></h6></div><p class="meta"></p><h6><time>August 11, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=SysAdmin">SysAdmin</a> &middot; <span class="reading-time" title="Estimated read time">22 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-create-a-root-certificate-authority-root-ca">1. Create a root certificate authority (Root CA)</a><ul><li><a href="#a-generate-a-new-csr-and-key">a. Generate a new CSR and Key</a></li><li><a href="#b-self-signing-the-root-certificate">b. Self-Signing the Root Certificate</a></li><li><a href="#c-creating-a-certificate-revocation-list">c. Creating a Certificate Revocation List</a></li></ul></li><li><a href="#2-create-a-signing-certificate-authority-ca">2. Create a Signing Certificate Authority (CA)</a><ul><li><a href="#a-generate-private-key-and-csr">a. Generate private key and CSR</a></li><li><a href="#b-signing-the-ca-certificate-with-the-root-ca">b. Signing the CA certificate with the Root CA</a></li><li><a href="#c-revoking-certificates-from-private-certificate-authorities-cas-on-openbsd">c. Revoking Certificates from Private Certificate Authorities (CAs) on OpenBSD</a></li></ul></li><li><a href="#3-creating-serverclient-certificates">3. Creating server/client certificates</a><ul><li><a href="#a-server-certificate">a. Server certificate</a></li><li><a href="#b-client-certificate">b. Client Certificate</a></li></ul></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / openbsd / A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD</div><div class="article"><p>The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn’t easy to fully understand how to create an SSL certificate. Therefore, in this article, we will briefly describe the general configuration and processing flow of the system, including two-tier private certificate authorities (Root CA, Signing CA), servers and clients that use the certificates, and then explain how to create the CA. We will also outline the specific steps involved.</p><noscript><img src="https://raw.githubusercontent.com/unixwinbsd/FreeBSD_Lighttpd_Mod_OpenSSL/refs/heads/main/usr/local/openbsd%20ca%20authority.jpg" alt="openbsd ca authority"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://raw.githubusercontent.com/unixwinbsd/FreeBSD_Lighttpd_Mod_OpenSSL/refs/heads/main/usr/local/openbsd%20ca%20authority.jpg" alt="openbsd ca authority" class="lazyload fade-in"></p><p>Although the purposes for which certificates are issued and used by each party differ, the steps leading to certificate issuance are broadly as follows.</p><p>The party receiving the certificate:</p><ul><li>Generate a private key.</li><li>Create a Certificate Signing Request (CSR) from the private key. (Include the X.509v3 extension if necessary).</li><li>Submit the CSR to the CA.</li></ul><p>The party issuing the certificate:</p><ul><li>Sign the CSR (the certificate is complete). Include the X.509v3 extensions in the certificate that correspond to the certificate’s purpose. Furthermore, in the case of a Signing CA, if the extensions included in the CSR are not included in the extensions above, copy them into the certificate.</li><li>Send the certificate to the requester.</li></ul><p>CSRs and certificates are exchanged between entities, and as mentioned above, each can include X.509v3 extensions. There are various extensions, but the figure shows an example of an extension that specifies the purpose of the certificate. The section names in the OpenSSL configuration file are shown in the figure, so if you’d like to learn more, please refer to the relevant section of the configuration file.</p><h2 id="1-create-a-root-certificate-authority-root-ca">1. Create a root certificate authority (Root CA)</h2><p>First, make sure OpenSSL is installed on your OpenBSD server, check by running the openssl version command to see the OpenSSL version.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~# openssl version
+OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
+</code></pre></div></div><p>We’ll place all OpenBSD certificate configuration files in the OpenBSD_ca directory. Create the directories and files we’ll use to configure the certificates.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# mkdir -p /etc/ssl/OpenBSD_CA/root-ca
+ns3# cd /etc/ssl/OpenBSD_CA/root-ca
+ns3# mkdir -p certs crl db newcerts private
+ns3# chmod 700 /etc/ssl/OpenBSD_CA/root-ca/private
+</code></pre></div></div><p>Create a serial file to store subsequent incremental serial numbers. Using random serial numbers, rather than incremental serial numbers, is a recommended security practice.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# touch /etc/ssl/OpenBSD_CA/root-ca/db/index &amp;&amp; touch /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf
+ns3# openssl rand -hex 16 &gt; /etc/ssl/OpenBSD_CA/root-ca/db/serial
+ns3# echo "1001" &gt; /etc/ssl/OpenBSD_CA/root-ca/db/crlnumber
+</code></pre></div></div><p>The OpenSSL configuration for the root certificate authority is in the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf</code> file.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># OpenBSD root-ca.cnf --- unixwinbsd.site
+
+HOME			= .
+RANDFILE		= $ENV::HOME/.rnd
+#oid_file		= $ENV::HOME/.oid
+oid_section		= new_oids
+
+[ new_oids ]
+tsa_policy1 = 1.2.3.4.1
+tsa_policy2 = 1.2.3.4.5.6
+tsa_policy3 = 1.2.3.4.5.7
+
+[ default ]
+name		= root-ca
+
+[ ca ]
+default_ca	= CA_default	
+
+[ CA_default ]
+dir		= /etc/ssl/OpenBSD_CA/root-ca	
+certs		= $dir/certs	
+crl_dir		= $dir/crl	
+database	= $dir/db/index	
+unique_subject	= no		
+new_certs_dir	= $dir/newcerts
+revoked		= $dir/newcerts/$name.pem
+certificate	= $dir/certs/$name.crt
+serial		= $dir/db/serial
+crlnumber	= $dir/db/crlnumber
+crl		= $dir/crl/$name.crl	
+private_key	= $dir/private/$name.key
+RANDFILE	= $dir/private/.rnd
+x509_extensions	= usr_cert		
+name_opt 	= ca_default
+cert_opt 	= ca_default
+copy_extensions = none
+crl_extensions	= crl_ext
+default_days	= 3650	
+default_crl_days = 365	
+default_bits	= 2048
+default_md	= sha256
+preserve	= no	
+policy		= policy_match
+
+[ policy_match ]
+countryName		= match
+stateOrProvinceName	= match
+organizationName	= match
+organizationalUnitName	= optional
+commonName		= supplied
+emailAddress		= optional
+
+[ policy_anything ]
+countryName		= optional
+stateOrProvinceName	= optional
+localityName		= optional
+organizationName	= optional
+organizationalUnitName	= optional
+commonName		= supplied
+emailAddress		= optional
+
+[ req ]
+default_bits		= 2048
+default_keyfile 	= privkey.pem
+default_md		= sha256
+distinguished_name	= req_distinguished_name
+attributes		= req_attributes
+x509_extensions	= v3_ca	# The extentions to add to the self signed cert
+string_mask = utf8only
+req_extensions = v3_req # The extensions to add to a certificate request
+
+[ req_distinguished_name ]
+countryName			= Country Name (2 letter code)
+countryName_default		= US
+countryName_min			= 2
+countryName_max			= 2
+
+stateOrProvinceName		= State or Province Name (full name)
+stateOrProvinceName_default	= Texas
+
+localityName			= Locality Name (eg, city)
+localityName_default		= Austin
+
+0.organizationName		= Organization Name (eg, company)
+0.organizationName_default	= Internet Widgits Pty Ltd
+
+# we can do this but it is not needed normally :-)
+#1.organizationName		= Second Organization Name (eg, company)
+#1.organizationName_default	= World Wide Web Pty Ltd
+
+organizationalUnitName		= Organizational Unit Name (eg, section)
+organizationalUnitName_default	= Networking
+
+commonName			= Common Name (e.g. server FQDN or YOUR name)
+commonName_max			= 64
+commonName_default		= unixwinbsd.site
+
+emailAddress			= Email Address
+emailAddress_max		= 64
+emailAddress_default		= unixwinbsd@gmail.com
+
+[ req_attributes ]
+challengePassword		= A challenge password
+challengePassword_min		= 4
+challengePassword_max		= 20
+unstructuredName		= An optional company name
+
+[ usr_cert ]
+
+basicConstraints=CA:FALSE
+nsComment			= "OpenBSD Generated Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+[ v3_ca ]
+
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
+basicConstraints = critical,CA:true
+keyUsage = critical,cRLSign, keyCertSign
+nsCertType = sslCA, emailCA
+
+[ v3_sub_ca ]
+authorityKeyIdentifier	= keyid:always,issuer
+basicConstraints	= critical,CA:true,pathlen:0
+extendedKeyUsage	= clientAuth,serverAuth
+keyUsage		= critical,keyCertSign,cRLSign
+subjectKeyIdentifier	= hash
+
+[ name_constraints ]
+permitted;DNS.0	= example.org
+permitted;DNS.1	= example.com
+excluded;IP.0	= 0.0.0.0/0.0.0.0
+excluded;IP.1	= 0:0:0:0:0:0:0:0/0:0:0:0:0:0:0:0
+
+[ crl_ext ]
+authorityKeyIdentifier=keyid:always
+
+[ proxy_cert_ext ]
+basicConstraints=CA:FALSE
+nsComment			= "OpenBSD OpenSSL Generated Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
+
+[ tsa ]
+default_tsa = tsa_config1	
+
+[ tsa_config1 ]
+dir		= ./demoCA		
+serial		= $dir/tsaserial	
+crypto_device	= builtin		
+signer_cert	= $dir/tsacert.pem 	
+certs		= $dir/cacert.pem	
+signer_key	= $dir/private/tsakey.pem
+default_policy	= tsa_policy1		
+other_policies	= tsa_policy2, tsa_policy3	
+digests		= md5, sha1		
+accuracy	= secs:1, millisecs:500, microsecs:100
+clock_precision_digits  = 0	
+ordering		= yes	
+tsa_name		= yes	
+ess_cert_id_chain	= no
+</code></pre></div></div><h3 id="a-generate-a-new-csr-and-key">a. Generate a new CSR and Key</h3><p>The following command generates a new password-protected EC or RSA key and a certificate signing request for the root.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cd /etc/ssl/OpenBSD_CA/root-ca
+ns3# openssl ecparam -name secp384r1 -genkey | openssl ec -out /etc/ssl/OpenBSD_CA/root-ca/private/root-ca.key -aes256
+</code></pre></div></div><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl req -new \
+        -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \
+        -key /etc/ssl/OpenBSD_CA/root-ca/private/root-ca.key \
+        -out /etc/ssl/OpenBSD_CA/root-ca/root-ca.csr \
+        -sha512
+</code></pre></div></div><h3 id="b-self-signing-the-root-certificate">b. Self-Signing the Root Certificate</h3><p>If everything looks good, self-sign your request.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca \
+        -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \
+        -in /etc/ssl/OpenBSD_CA/root-ca/root-ca.csr \
+        -out /etc/ssl/OpenBSD_CA/root-ca/certs/root-ca.crt \
+        -md sha512 -selfsign -extensions v3_ca
+</code></pre></div></div><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl x509 -in /etc/ssl/OpenBSD_CA/root-ca/certs/root-ca.crt -out /etc/ssl/OpenBSD_CA/root-ca/certs/root-ca.notext
+</code></pre></div></div><h3 id="c-creating-a-certificate-revocation-list">c. Creating a Certificate Revocation List</h3><p>Root CAs publish Certificate Revocation Lists periodically or when a certificate is revoked. Root CAs are expected to only issue revocations of self-signed or Intermediate CA certificates. No revocations have occurred yet, but clients and servers verifying one of our certificates will request the latest CRL for the web address published in the certificate.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca -gencrl -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf -out /etc/ssl/OpenBSD_CA/root-ca/crl/root-ca.crl
+</code></pre></div></div><p>To create a certificate revocation list, navigate to the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/root-ca/db directory</code>. Find the index file and open the script’s contents.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cat /etc/ssl/OpenBSD_CA/root-ca/db/index
+V       340530094721Z           E4929714F26C79914F27932A76173963        unknown /C=US/ST=Texas/O=Internet Widgits Pty Ltd/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
+</code></pre></div></div><p>Next, navigate to the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/root-ca/newcerts</code> directory. Within that directory, you’ll find the file <code class="language-plaintext highlighter-rouge">"E4929714F26C79914F27932A76173963.pem"</code>. Then, run the revoke command with the target file <code class="language-plaintext highlighter-rouge">"E4929714F26C79914F27932A76173963.pem"</code>.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca \
+        -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \
+        -revoke /etc/ssl/OpenBSD_CA/root-ca/newcerts/9B9ECA2E94B2ADA9668785CD951C451E.pem \
+        -crl_reason keyCompromise
+</code></pre></div></div><p>Now take a look at the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/root-ca/db/index</code> script.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cat /etc/ssl/OpenBSD_CA/root-ca/db/index
+R	340530094721Z	240601102047Z,keyCompromise	E4929714F26C79914F27932A76173963	unknown	/C=US/ST=Texas/O=Internet Widgits Pty Ltd/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
+</code></pre></div></div><h2 id="2-create-a-signing-certificate-authority-ca">2. Create a Signing Certificate Authority (CA)</h2><p>Certificate authorities use a specific directory structure to secure keys, signed certificates, signing requests, and revocation lists. To setup a Signing CA, run the command below, which will generate the Signing CA’s private key.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# mkdir -p /etc/ssl/OpenBSD_CA/signing-ca
+ns3# cd /etc/ssl/OpenBSD_CA/signing-ca
+ns3# mkdir -p certs crl db newcerts private
+ns3# chmod 700 /etc/ssl/OpenBSD_CA/signing-ca/private
+</code></pre></div></div><p>Several data files are required to track issued certificates, their serial numbers, and revocations.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# touch /etc/ssl/OpenBSD_CA/signing-ca/db/index &amp;&amp; touch /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf
+ns3# openssl rand -hex 16 &gt; /etc/ssl/OpenBSD_CA/signing-ca/db/serial
+ns3# echo "1001" &gt; /etc/ssl/OpenBSD_CA/signing-ca/db/crlnumber
+</code></pre></div></div><p>The configuration for the signing certificate authority (Signing CA) is in the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf</code> file.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># OpenBSD signing-ca.cnf --- unixwinbsd.site
+HOME			= .
+RANDFILE		= $ENV::HOME/.rnd
+oid_section		= new_oids
+
+[ new_oids ]
+tsa_policy1 = 1.2.3.4.1
+tsa_policy2 = 1.2.3.4.5.6
+tsa_policy3 = 1.2.3.4.5.7
+
+[ default ]
+name		= signing-ca
+
+[ ca ]
+default_ca	= CA_default
+
+[ CA_default ]
+dir		= /etc/ssl/OpenBSD_CA/signing-ca		
+certs		= $dir/certs	
+crl_dir		= $dir/crl	
+database	= $dir/db/index	
+unique_subject	= no		
+new_certs_dir	= $dir/newcerts	
+certificate	= $dir/certs/$name.crt
+serial		= $dir/db/serial
+crlnumber	= $dir/db/crlnumber	
+crl		= $dir/crl/$name.crl	
+private_key	= $dir/private/$name.key
+RANDFILE	= $dir/private/.rand	
+x509_extensions	= usr_cert		
+name_opt 	= ca_default		
+cert_opt 	= ca_default		
+copy_extensions = copy
+crl_extensions	= crl_ext
+default_days	= 365			
+default_crl_days = 30			
+default_bits	= 2048
+default_md	= sha256		
+preserve	= no			
+policy		= policy_match
+
+[ policy_match ]
+countryName		= match
+stateOrProvinceName	= match
+organizationName	= match
+organizationalUnitName	= optional
+commonName		= supplied
+emailAddress		= optional
+
+[ policy_anything ]
+countryName		= optional
+stateOrProvinceName	= optional
+localityName		= optional
+organizationName	= optional
+organizationalUnitName	= optional
+commonName		= supplied
+emailAddress		= optional
+
+[ req ]
+default_bits		= 2048
+default_keyfile 	= privkey.pem
+default_md		= sha256
+distinguished_name	= req_distinguished_name
+attributes		= req_attributes
+x509_extensions	= v3_ca
+string_mask = utf8only
+req_extensions = v3_req
+
+[ req_distinguished_name ]
+countryName			= Country Name (2 letter code)
+countryName_default		= US
+countryName_min			= 2
+countryName_max			= 2
+
+stateOrProvinceName		= State or Province Name (full name)
+stateOrProvinceName_default	= Texas
+
+localityName			= Locality Name (eg, city)
+localityName_default		= Austin
+
+0.organizationName		= Organization Name (eg, company)
+0.organizationName_default	= Internet Widgits Pty Ltd
+
+# we can do this but it is not needed normally :-)
+#1.organizationName		= Second Organization Name (eg, company)
+#1.organizationName_default	= World Wide Web Pty Ltd
+
+organizationalUnitName		= Organizational Unit Name (eg, section)
+organizationalUnitName_default	= Education
+
+commonName			= Common Name (e.g. server FQDN or YOUR name)
+commonName_max			= 64
+commonName_default		= unixwinbsd.site
+
+emailAddress			= Email Address
+emailAddress_max		= 64
+emailAddress_default		= unixwinbsd@gmail.com
+
+[ req_attributes ]
+challengePassword		= A challenge password
+challengePassword_min		= 4
+challengePassword_max		= 20
+unstructuredName		= An optional company name
+
+[ usr_cert ]
+basicConstraints=CA:FALSE
+nsComment			= "OpenBSD Generated Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+[ v3_ca ]
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
+basicConstraints = critical,CA:true
+keyUsage = critical,cRLSign, keyCertSign
+nsCertType = sslCA, emailCA
+
+[ v3_sub_ca ]
+authorityKeyIdentifier	= keyid:always,issuer
+basicConstraints	= critical,CA:true,pathlen:0
+extendedKeyUsage	= clientAuth,serverAuth
+keyUsage		= critical,keyCertSign,cRLSign
+subjectKeyIdentifier	= hash
+
+[ name_constraints ]
+permitted;DNS.0	= example.org
+permitted;DNS.1	= example.com
+excluded;IP.0	= 0.0.0.0/0.0.0.0
+excluded;IP.1	= 0:0:0:0:0:0:0:0/0:0:0:0:0:0:0:0
+
+[ server_ext ]
+authorityKeyIdentifier	= keyid:always
+basicConstraints	= critical,CA:false
+extendedKeyUsage	= clientAuth,serverAuth
+keyUsage		= critical,digitalSignature,keyEncipherment
+nsCertType		= server
+subjectKeyIdentifier	= hash
+
+[ client_ext ]
+authorityKeyIdentifier	= keyid:always
+basicConstraints	= critical,CA:false
+extendedKeyUsage	= clientAuth
+keyUsage		= critical,digitalSignature,keyEncipherment,nonRepudiation
+nsCertType		= client
+subjectKeyIdentifier	= hash
+
+[ crl_ext ]
+authorityKeyIdentifier=keyid:always
+
+[ proxy_cert_ext ]
+basicConstraints=CA:FALSE
+nsComment			= "OpenSSL Generated Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
+
+[ tsa ]
+default_tsa = tsa_config1
+
+[ tsa_config1 ]
+dir		= ./demoCA	
+serial		= $dir/tsaserial
+crypto_device	= builtin	
+signer_cert	= $dir/tsacert.pem
+certs		= $dir/cacert.pem
+signer_key	= $dir/private/tsakey.pem 
+default_policy	= tsa_policy1		
+other_policies	= tsa_policy2, tsa_policy3	
+digests		= md5, sha1		
+accuracy	= secs:1, millisecs:500, microsecs:100	
+clock_precision_digits  = 0	
+ordering		= yes	
+tsa_name		= yes	
+ess_cert_id_chain	= no
+</code></pre></div></div><h3 id="a-generate-private-key-and-csr">a. Generate private key and CSR</h3><p>Again, you can choose between an EC key and an RSA key. The RSA private key from the intermediate signing certificate must have a strength of <code class="language-plaintext highlighter-rouge">3072</code> bits.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ecparam -name secp384r1 -genkey | openssl ec -out /etc/ssl/OpenBSD_CA/signing-ca/private/signing-ca.key -aes256
+</code></pre></div></div><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl req -new \
+        -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \
+        -key /etc/ssl/OpenBSD_CA/signing-ca/private/signing-ca.key \
+        -out /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.csr \
+        -sha512
+</code></pre></div></div><h3 id="b-signing-the-ca-certificate-with-the-root-ca">b. Signing the CA certificate with the Root CA</h3><p>The Signing CA certificate is <code class="language-plaintext highlighter-rouge">signing-ca.crt</code>. Run the command below to create the <code class="language-plaintext highlighter-rouge">signing-ca.crt</code> file.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca \
+        -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \
+        -in /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.csr \
+        -out /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt \
+        -md sha512 -extensions v3_sub_ca
+</code></pre></div></div><p>Remove descriptive text in certificate.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl x509 \
+        -in /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt \
+        -out /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.notext
+</code></pre></div></div><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca \
+        -gencrl \
+        -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \
+        -out /etc/ssl/OpenBSD_CA/signing-ca/crl/signing-ca.crl
+</code></pre></div></div><h3 id="c-revoking-certificates-from-private-certificate-authorities-cas-on-openbsd">c. Revoking Certificates from Private Certificate Authorities (CAs) on OpenBSD</h3><p>In the section on certificate issuance, we explained the procedure for issuing certificates using a private Certificate Authority (CA) on OpenBSD. When communicating between a server and a client, using a certificate allows us to verify that the other party (domain name) is indeed who they claim to be.</p><p>However, what if the private key used to create the certificate is lost or leaked? A malicious actor could use a leaked private key to forge certificates and impersonate someone. In such cases, the certificate can no longer be used to certify that the other party is the legitimate party. In such cases, the certificate must be revoked immediately.</p><p>In this article, in addition to issuing certificates, we will explain the other roles of a CA: processing certificate revocations and creating a revocation list. The following is an example of revoking a certificate issued by a Signing CA.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>R	340531023831Z	240602024009Z,keyCompromise	B214F9454080AD17279DDC32952E5DC5	unknown	/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Networking/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
+V	340531024205Z		B214F9454080AD17279DDC32952E5DC6	unknown	/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Education/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
+</code></pre></div></div><p>After that, you see the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/root-ca/newcerts</code> directory with the <strong>“ls”</strong> command.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cd /etc/ssl/OpenBSD_CA/root-ca/newcerts
+ns3# ls
+B214F9454080AD17279DDC32952E5DC5.pem  B214F9454080AD17279DDC32952E5DC6.pem
+</code></pre></div></div><p>Run the command to revoke the certificate issued by the CA Signer.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl ca \
+        -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \
+        -revoke /etc/ssl/OpenBSD_CA/root-ca/newcerts/B214F9454080AD17279DDC32952E5DC6.pem \
+        -crl_reason superseded
+</code></pre></div></div><p>Take another look at the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD)CA/root-ca/db/index</code> script.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>R	340531023831Z	240602024009Z,keyCompromise	B214F9454080AD17279DDC32952E5DC5	unknown	/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Networking/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
+R	340531024205Z	240602025145Z,superseded	B214F9454080AD17279DDC32952E5DC6	unknown	/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Education/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com
+</code></pre></div></div><p>The personal CA creation is now complete. You are now ready to sign server or client certificates.</p><h2 id="3-creating-serverclient-certificates">3. Creating server/client certificates</h2><p>The next step is to create certificates for the server and client. The server and client certificates will be used directly by users running applications like NGINX or Apache24.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# mkdir -p /etc/ssl/OpenBSD_CA/san
+ns3# cd /etc/ssl/OpenBSD_CA/san &amp;&amp; mkdir -p certs private
+ns3# touch /etc/ssl/OpenBSD_CA/san/openbsd-san.cnf
+</code></pre></div></div><p>Create a main configuration file script for server and client certificate generation.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># OpenBSD openbsd-san.cnf --- unixwinbsd.site
+HOME			= .
+RANDFILE		= $ENV::HOME/.rnd
+oid_section		= new_oids
+
+[ new_oids ]
+tsa_policy1 = 1.2.3.4.1
+tsa_policy2 = 1.2.3.4.5.6
+tsa_policy3 = 1.2.3.4.5.7
+
+[ ca ]
+default_ca	= CA_default
+
+[ CA_default ]
+dir		= ./demoCA	
+certs		= $dir/certs	
+crl_dir		= $dir/crl	
+database	= $dir/index.txt
+new_certs_dir	= $dir/newcerts	
+certificate	= $dir/cacert.pem 
+serial		= $dir/serial 	
+crlnumber	= $dir/crlnumber
+crl		= $dir/crl.pem 	
+private_key	= $dir/private/cakey.pem
+RANDFILE	= $dir/private/.rand	
+x509_extensions	= usr_cert		
+name_opt 	= ca_default		
+cert_opt 	= ca_default		
+default_days	= 365			
+default_crl_days= 30		
+default_md	= default		
+preserve	= no			
+policy		= policy_match
+
+[ policy_match ]
+countryName		= match
+stateOrProvinceName	= match
+organizationName	= match
+organizationalUnitName	= optional
+commonName		= supplied
+emailAddress		= optional
+
+[ policy_anything ]
+countryName		= optional
+stateOrProvinceName	= optional
+localityName		= optional
+organizationName	= optional
+organizationalUnitName	= optional
+commonName		= supplied
+emailAddress		= optional
+
+[ req ]
+default_bits		= 2048
+default_keyfile 	= privkey.pem
+distinguished_name	= req_distinguished_name
+attributes		= req_attributes
+x509_extensions	= v3_ca
+string_mask = utf8only
+
+[ req_distinguished_name ]
+countryName			= Country Name (2 letter code)
+countryName_default		= AU
+countryName_min			= 2
+countryName_max			= 2
+
+stateOrProvinceName		= State or Province Name (full name)
+stateOrProvinceName_default	= Mid North Coast
+
+localityName			= Locality Name (eg, city)
+localityName_default		= Coffs Harbour
+
+0.organizationName		= Organization Name (eg, company)
+0.organizationName_default	= Internet Certificate Service, Pty Ltd.
+
+# we can do this but it is not needed normally :-)
+#1.organizationName		= Second Organization Name (eg, company)
+#1.organizationName_default	= World Wide Web Pty Ltd
+
+organizationalUnitName		= Organizational Unit Name (eg, section)
+organizationalUnitName_default	= IT Networking
+
+commonName			= Common Name (e.g. server FQDN or YOUR name)
+commonName_max			= 64
+commonName_default		= kursor.my.id
+
+emailAddress			= Email Address
+emailAddress_max		= 64
+emailAddress_default		= cursor.com
+
+[ req_attributes ]
+challengePassword		= A challenge password
+challengePassword_min		= 4
+challengePassword_max		= 20
+unstructuredName		= An optional company name
+
+[ usr_cert ]
+basicConstraints=CA:FALSE
+nsComment			= "OpenBSD SAN Generated Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName	= $ENV::OPENSSL_SAN
+
+[ v3_ca ]
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
+basicConstraints = CA:true
+
+[ crl_ext ]
+authorityKeyIdentifier=keyid:always
+
+[ proxy_cert_ext ]
+basicConstraints=CA:FALSE
+nsComment			= "OpenBSD Generated Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
+
+[ tsa ]
+default_tsa = tsa_config1
+
+[ tsa_config1 ]
+dir		= ./demoCA	
+serial		= $dir/tsaserial
+crypto_device	= builtin	
+signer_cert	= $dir/tsacert.pem
+certs		= $dir/cacert.pem
+signer_key	= $dir/private/tsakey.pem
+default_policy	= tsa_policy1
+other_policies	= tsa_policy2, tsa_policy3	
+digests		= md5, sha1	
+accuracy	= secs:1, millisecs:500, microsecs:100
+clock_precision_digits  = 0	
+ordering		= yes	
+tsa_name		= yes	
+ess_cert_id_chain	= no
+</code></pre></div></div><p>The first command you have to run is <code class="language-plaintext highlighter-rouge">"exports"</code>. Notice the example below.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cd /etc/ssl/OpenBSD_CA/san
+ns3# export OPENSSL_SAN="IP:192.168.5.3"
+</code></pre></div></div><p>Create a private key file and place it in the <code class="language-plaintext highlighter-rouge">/etc/ssl/OpenBSD_CA/san/private</code> directory.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl genrsa \
+        -out /etc/ssl/OpenBSD_CA/san/private/example_nopass.key 2048
+ns3# openssl rsa \
+        -in /etc/ssl/OpenBSD_CA/san/private/example_nopass.key \
+        -out /etc/ssl/OpenBSD_CA/san/private/example.key -aes256
+ns3# openssl rsa \
+         -in /etc/ssl/OpenBSD_CA/san/private/example.key \
+         -pubout \
+         -out /etc/ssl/OpenBSD_CA/san/certs/example.pub \
+         -outform PEM
+</code></pre></div></div><p>Continue with the following commands.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl req -new \
+            -config /etc/ssl/OpenBSD_CA/san/openbsd-san.cnf \
+            -key /etc/ssl/OpenBSD_CA/san/private/example.key \
+            -out /etc/ssl/OpenBSD_CA/san/certs/example.csr \
+            -sha512 -reqexts v3_req
+</code></pre></div></div><h3 id="a-server-certificate">a. Server certificate</h3><p>In the first part, we will create a certificate for the server. Follow each command below.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cd /etc/ssl/OpenBSD_CA/signing-ca
+ns3# export OPENSSL_SAN="IP:192.168.5.3"
+ns3# openssl ca \
+        -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \
+        -policy policy_anything \
+        -in /etc/ssl/OpenBSD_CA/san/certs/example.csr \
+        -out /etc/ssl/OpenBSD_CA/san/certs/example.crt \
+        -md sha512 -extensions server_ext
+</code></pre></div></div><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl x509 \
+        -in /etc/ssl/OpenBSD_CA/san/certs/example.crt \
+        -out /etc/ssl/OpenBSD_CA/san/certs/example.crt.notext
+</code></pre></div></div><p>The last command is to merge multiple certificate files.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cat /etc/ssl/OpenBSD_CA/san/certs/example.crt.notext \
+/etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.notext &gt; /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.full
+</code></pre></div></div><h3 id="b-client-certificate">b. Client Certificate</h3><p>The process for creating a client certificate is almost the same as creating a server certificate, with only a few minor differences. Here are the commands you must run to create a client certificate.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cd /etc/ssl/OpenBSD_CA/signing-ca
+ns3# export OPENSSL_SAN="IP:192.168.5.3"
+ns3# openssl ca \
+        -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \
+        -policy policy_anything \
+        -in /etc/ssl/OpenBSD_CA/san/certs/example.csr \
+        -out /etc/ssl/OpenBSD_CA/san/certs/client.crt \
+        -md sha512 -extensions client_ext
+</code></pre></div></div><p>Delete descriptive text</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# openssl x509 \
+        -in /etc/ssl/OpenBSD_CA/san/certs/client.crt \
+        -out /etc/ssl/OpenBSD_CA/san/certs/client.crt.notext
+</code></pre></div></div><p>Combine certificate</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns3# cat /etc/ssl/OpenBSD_CA/san/certs/client.crt.notext \
+/etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.notext &gt; /etc/ssl/OpenBSD_CA/signing-ca/certs/client.crt.full
+</code></pre></div></div><p>If you’re running an OpenBSD server and need an SSL certificate for a secure connection, you can use the example we’ve described in this article.</p><div class="PageNavigation"><a class="prev" href="/freebsd/tutorials-freebsd-setup-apache-mod-ssl-tls-https/">&laquo; FreeBSD Tutorial - Setting up Apache mod OpenSSL for HTTPS</a> <a class="next" href="/freebsd/java-jsoup-scraping-extract-website-freebsd/">Using Java Jsoup Web Scraping to Extract Website Data with FreeBSD &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/", "name": "A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD", "headline": ["SysAdmin"], "keywords": "create, manage, private, rrot, ca, certificate, openbsd, openssl, ssl, key", "description": "The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate", "articleBody": "The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn’t easy to fully understand how to create an SSL certificate. Therefore, in this article, we will briefly describe the general configuration and processing flow of the system, including two-tier private certificate authorities (Root CA, Signing CA), servers and clients that use the certificates, and then explain how to create the CA. We will also outline the specific steps involved.\n\n\n\n\nAlthough the purposes for which certificates are issued and used by each party differ, the steps leading to certificate issuance are broadly as follows.\n\nThe party receiving the certificate:\n\n Generate a private key.\n Create a Certificate Signing Request (CSR) from the private key. (Include the X.509v3 extension if necessary).\n Submit the CSR to the CA.\n\n\nThe party issuing the certificate:\n\n Sign the CSR (the certificate is complete). Include the X.509v3 extensions in the certificate that correspond to the certificate’s purpose. Furthermore, in the case of a Signing CA, if the extensions included in the CSR are not included in the extensions above, copy them into the certificate.\n Send the certificate to the requester.\n\n\nCSRs and certificates are exchanged between entities, and as mentioned above, each can include X.509v3 extensions. There are various extensions, but the figure shows an example of an extension that specifies the purpose of the certificate. The section names in the OpenSSL configuration file are shown in the figure, so if you’d like to learn more, please refer to the relevant section of the configuration file.\n\n1. Create a root certificate authority (Root CA)\nFirst, make sure OpenSSL is installed on your OpenBSD server, check by running the openssl version command to see the OpenSSL version.\n\nroot@ns3:~# openssl version\nOpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)\n\n\nWe’ll place all OpenBSD certificate configuration files in the OpenBSD_ca directory. Create the directories and files we’ll use to configure the certificates.\n\nns3# mkdir -p /etc/ssl/OpenBSD_CA/root-ca\nns3# cd /etc/ssl/OpenBSD_CA/root-ca\nns3# mkdir -p certs crl db newcerts private\nns3# chmod 700 /etc/ssl/OpenBSD_CA/root-ca/private\n\nCreate a serial file to store subsequent incremental serial numbers. Using random serial numbers, rather than incremental serial numbers, is a recommended security practice.\n\nns3# touch /etc/ssl/OpenBSD_CA/root-ca/db/index &amp;&amp; touch /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf\nns3# openssl rand -hex 16 &gt; /etc/ssl/OpenBSD_CA/root-ca/db/serial\nns3# echo \"1001\" &gt; /etc/ssl/OpenBSD_CA/root-ca/db/crlnumber\n\nThe OpenSSL configuration for the root certificate authority is in the /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf file.\n\n# OpenBSD root-ca.cnf --- unixwinbsd.site\n\nHOME\t\t\t= .\nRANDFILE\t\t= $ENV::HOME/.rnd\n#oid_file\t\t= $ENV::HOME/.oid\noid_section\t\t= new_oids\n\n[ new_oids ]\ntsa_policy1 = 1.2.3.4.1\ntsa_policy2 = 1.2.3.4.5.6\ntsa_policy3 = 1.2.3.4.5.7\n\n[ default ]\nname\t\t= root-ca\n\n[ ca ]\ndefault_ca\t= CA_default\t\n\n[ CA_default ]\ndir\t\t= /etc/ssl/OpenBSD_CA/root-ca\t\ncerts\t\t= $dir/certs\t\ncrl_dir\t\t= $dir/crl\t\ndatabase\t= $dir/db/index\t\nunique_subject\t= no\t\t\nnew_certs_dir\t= $dir/newcerts\nrevoked\t\t= $dir/newcerts/$name.pem\ncertificate\t= $dir/certs/$name.crt\nserial\t\t= $dir/db/serial\ncrlnumber\t= $dir/db/crlnumber\ncrl\t\t= $dir/crl/$name.crl\t\nprivate_key\t= $dir/private/$name.key\nRANDFILE\t= $dir/private/.rnd\nx509_extensions\t= usr_cert\t\t\nname_opt \t= ca_default\ncert_opt \t= ca_default\ncopy_extensions = none\ncrl_extensions\t= crl_ext\ndefault_days\t= 3650\t\ndefault_crl_days = 365\t\ndefault_bits\t= 2048\ndefault_md\t= sha256\npreserve\t= no\t\npolicy\t\t= policy_match\n\n[ policy_match ]\ncountryName\t\t= match\nstateOrProvinceName\t= match\norganizationName\t= match\norganizationalUnitName\t= optional\ncommonName\t\t= supplied\nemailAddress\t\t= optional\n\n[ policy_anything ]\ncountryName\t\t= optional\nstateOrProvinceName\t= optional\nlocalityName\t\t= optional\norganizationName\t= optional\norganizationalUnitName\t= optional\ncommonName\t\t= supplied\nemailAddress\t\t= optional\n\n[ req ]\ndefault_bits\t\t= 2048\ndefault_keyfile \t= privkey.pem\ndefault_md\t\t= sha256\ndistinguished_name\t= req_distinguished_name\nattributes\t\t= req_attributes\nx509_extensions\t= v3_ca\t# The extentions to add to the self signed cert\nstring_mask = utf8only\nreq_extensions = v3_req # The extensions to add to a certificate request\n\n[ req_distinguished_name ]\ncountryName\t\t\t= Country Name (2 letter code)\ncountryName_default\t\t= US\ncountryName_min\t\t\t= 2\ncountryName_max\t\t\t= 2\n\nstateOrProvinceName\t\t= State or Province Name (full name)\nstateOrProvinceName_default\t= Texas\n\nlocalityName\t\t\t= Locality Name (eg, city)\nlocalityName_default\t\t= Austin\n\n0.organizationName\t\t= Organization Name (eg, company)\n0.organizationName_default\t= Internet Widgits Pty Ltd\n\n# we can do this but it is not needed normally :-)\n#1.organizationName\t\t= Second Organization Name (eg, company)\n#1.organizationName_default\t= World Wide Web Pty Ltd\n\norganizationalUnitName\t\t= Organizational Unit Name (eg, section)\norganizationalUnitName_default\t= Networking\n\ncommonName\t\t\t= Common Name (e.g. server FQDN or YOUR name)\ncommonName_max\t\t\t= 64\ncommonName_default\t\t= unixwinbsd.site\n\nemailAddress\t\t\t= Email Address\nemailAddress_max\t\t= 64\nemailAddress_default\t\t= unixwinbsd@gmail.com\n\n[ req_attributes ]\nchallengePassword\t\t= A challenge password\nchallengePassword_min\t\t= 4\nchallengePassword_max\t\t= 20\nunstructuredName\t\t= An optional company name\n\n[ usr_cert ]\n\nbasicConstraints=CA:FALSE\nnsComment\t\t\t= \"OpenBSD Generated Certificate\"\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid,issuer\n\n[ v3_req ]\nbasicConstraints = CA:FALSE\nkeyUsage = nonRepudiation, digitalSignature, keyEncipherment\n\n[ v3_ca ]\n\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid:always,issuer\nbasicConstraints = critical,CA:true\nkeyUsage = critical,cRLSign, keyCertSign\nnsCertType = sslCA, emailCA\n\n[ v3_sub_ca ]\nauthorityKeyIdentifier\t= keyid:always,issuer\nbasicConstraints\t= critical,CA:true,pathlen:0\nextendedKeyUsage\t= clientAuth,serverAuth\nkeyUsage\t\t= critical,keyCertSign,cRLSign\nsubjectKeyIdentifier\t= hash\n\n[ name_constraints ]\npermitted;DNS.0\t= example.org\npermitted;DNS.1\t= example.com\nexcluded;IP.0\t= 0.0.0.0/0.0.0.0\nexcluded;IP.1\t= 0:0:0:0:0:0:0:0/0:0:0:0:0:0:0:0\n\n[ crl_ext ]\nauthorityKeyIdentifier=keyid:always\n\n[ proxy_cert_ext ]\nbasicConstraints=CA:FALSE\nnsComment\t\t\t= \"OpenBSD OpenSSL Generated Certificate\"\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid,issuer\nproxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo\n\n[ tsa ]\ndefault_tsa = tsa_config1\t\n\n[ tsa_config1 ]\ndir\t\t= ./demoCA\t\t\nserial\t\t= $dir/tsaserial\t\ncrypto_device\t= builtin\t\t\nsigner_cert\t= $dir/tsacert.pem \t\ncerts\t\t= $dir/cacert.pem\t\nsigner_key\t= $dir/private/tsakey.pem\ndefault_policy\t= tsa_policy1\t\t\nother_policies\t= tsa_policy2, tsa_policy3\t\ndigests\t\t= md5, sha1\t\t\naccuracy\t= secs:1, millisecs:500, microsecs:100\nclock_precision_digits = 0\t\nordering\t\t= yes\t\ntsa_name\t\t= yes\t\ness_cert_id_chain\t= no\n\n\na. Generate a new CSR and Key\n\nThe following command generates a new password-protected EC or RSA key and a certificate signing request for the root.\n\nns3# cd /etc/ssl/OpenBSD_CA/root-ca\nns3# openssl ecparam -name secp384r1 -genkey | openssl ec -out /etc/ssl/OpenBSD_CA/root-ca/private/root-ca.key -aes256\n\nns3# openssl req -new \\\n -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \\\n -key /etc/ssl/OpenBSD_CA/root-ca/private/root-ca.key \\\n -out /etc/ssl/OpenBSD_CA/root-ca/root-ca.csr \\\n -sha512\n\n\nb. Self-Signing the Root Certificate\n\nIf everything looks good, self-sign your request.\n\nns3# openssl ca \\\n -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \\\n -in /etc/ssl/OpenBSD_CA/root-ca/root-ca.csr \\\n -out /etc/ssl/OpenBSD_CA/root-ca/certs/root-ca.crt \\\n -md sha512 -selfsign -extensions v3_ca\n\nns3# openssl x509 -in /etc/ssl/OpenBSD_CA/root-ca/certs/root-ca.crt -out /etc/ssl/OpenBSD_CA/root-ca/certs/root-ca.notext\n\n\nc. Creating a Certificate Revocation List\n\nRoot CAs publish Certificate Revocation Lists periodically or when a certificate is revoked. Root CAs are expected to only issue revocations of self-signed or Intermediate CA certificates. No revocations have occurred yet, but clients and servers verifying one of our certificates will request the latest CRL for the web address published in the certificate.\n\nns3# openssl ca -gencrl -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf -out /etc/ssl/OpenBSD_CA/root-ca/crl/root-ca.crl\n\nTo create a certificate revocation list, navigate to the /etc/ssl/OpenBSD_CA/root-ca/db directory. Find the index file and open the script’s contents.\n\nns3# cat /etc/ssl/OpenBSD_CA/root-ca/db/index\nV 340530094721Z E4929714F26C79914F27932A76173963 unknown /C=US/ST=Texas/O=Internet Widgits Pty Ltd/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com\n\nNext, navigate to the /etc/ssl/OpenBSD_CA/root-ca/newcerts directory. Within that directory, you’ll find the file \"E4929714F26C79914F27932A76173963.pem\". Then, run the revoke command with the target file \"E4929714F26C79914F27932A76173963.pem\".\n\nns3# openssl ca \\\n -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \\\n -revoke /etc/ssl/OpenBSD_CA/root-ca/newcerts/9B9ECA2E94B2ADA9668785CD951C451E.pem \\\n -crl_reason keyCompromise\n\nNow take a look at the /etc/ssl/OpenBSD_CA/root-ca/db/index script.\n\nns3# cat /etc/ssl/OpenBSD_CA/root-ca/db/index\nR\t340530094721Z\t240601102047Z,keyCompromise\tE4929714F26C79914F27932A76173963\tunknown\t/C=US/ST=Texas/O=Internet Widgits Pty Ltd/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com\n\n\n2. Create a Signing Certificate Authority (CA)\n\nCertificate authorities use a specific directory structure to secure keys, signed certificates, signing requests, and revocation lists. To setup a Signing CA, run the command below, which will generate the Signing CA’s private key.\n\nns3# mkdir -p /etc/ssl/OpenBSD_CA/signing-ca\nns3# cd /etc/ssl/OpenBSD_CA/signing-ca\nns3# mkdir -p certs crl db newcerts private\nns3# chmod 700 /etc/ssl/OpenBSD_CA/signing-ca/private\n\nSeveral data files are required to track issued certificates, their serial numbers, and revocations.\n\nns3# touch /etc/ssl/OpenBSD_CA/signing-ca/db/index &amp;&amp; touch /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf\nns3# openssl rand -hex 16 &gt; /etc/ssl/OpenBSD_CA/signing-ca/db/serial\nns3# echo \"1001\" &gt; /etc/ssl/OpenBSD_CA/signing-ca/db/crlnumber\n\nThe configuration for the signing certificate authority (Signing CA) is in the /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf file.\n\n# OpenBSD signing-ca.cnf --- unixwinbsd.site\nHOME\t\t\t= .\nRANDFILE\t\t= $ENV::HOME/.rnd\noid_section\t\t= new_oids\n\n[ new_oids ]\ntsa_policy1 = 1.2.3.4.1\ntsa_policy2 = 1.2.3.4.5.6\ntsa_policy3 = 1.2.3.4.5.7\n\n[ default ]\nname\t\t= signing-ca\n\n[ ca ]\ndefault_ca\t= CA_default\n\n[ CA_default ]\ndir\t\t= /etc/ssl/OpenBSD_CA/signing-ca\t\t\ncerts\t\t= $dir/certs\t\ncrl_dir\t\t= $dir/crl\t\ndatabase\t= $dir/db/index\t\nunique_subject\t= no\t\t\nnew_certs_dir\t= $dir/newcerts\t\ncertificate\t= $dir/certs/$name.crt\nserial\t\t= $dir/db/serial\ncrlnumber\t= $dir/db/crlnumber\t\ncrl\t\t= $dir/crl/$name.crl\t\nprivate_key\t= $dir/private/$name.key\nRANDFILE\t= $dir/private/.rand\t\nx509_extensions\t= usr_cert\t\t\nname_opt \t= ca_default\t\t\ncert_opt \t= ca_default\t\t\ncopy_extensions = copy\ncrl_extensions\t= crl_ext\ndefault_days\t= 365\t\t\t\ndefault_crl_days = 30\t\t\t\ndefault_bits\t= 2048\ndefault_md\t= sha256\t\t\npreserve\t= no\t\t\t\npolicy\t\t= policy_match\n\n[ policy_match ]\ncountryName\t\t= match\nstateOrProvinceName\t= match\norganizationName\t= match\norganizationalUnitName\t= optional\ncommonName\t\t= supplied\nemailAddress\t\t= optional\n\n[ policy_anything ]\ncountryName\t\t= optional\nstateOrProvinceName\t= optional\nlocalityName\t\t= optional\norganizationName\t= optional\norganizationalUnitName\t= optional\ncommonName\t\t= supplied\nemailAddress\t\t= optional\n\n[ req ]\ndefault_bits\t\t= 2048\ndefault_keyfile \t= privkey.pem\ndefault_md\t\t= sha256\ndistinguished_name\t= req_distinguished_name\nattributes\t\t= req_attributes\nx509_extensions\t= v3_ca\nstring_mask = utf8only\nreq_extensions = v3_req\n\n[ req_distinguished_name ]\ncountryName\t\t\t= Country Name (2 letter code)\ncountryName_default\t\t= US\ncountryName_min\t\t\t= 2\ncountryName_max\t\t\t= 2\n\nstateOrProvinceName\t\t= State or Province Name (full name)\nstateOrProvinceName_default\t= Texas\n\nlocalityName\t\t\t= Locality Name (eg, city)\nlocalityName_default\t\t= Austin\n\n0.organizationName\t\t= Organization Name (eg, company)\n0.organizationName_default\t= Internet Widgits Pty Ltd\n\n# we can do this but it is not needed normally :-)\n#1.organizationName\t\t= Second Organization Name (eg, company)\n#1.organizationName_default\t= World Wide Web Pty Ltd\n\norganizationalUnitName\t\t= Organizational Unit Name (eg, section)\norganizationalUnitName_default\t= Education\n\ncommonName\t\t\t= Common Name (e.g. server FQDN or YOUR name)\ncommonName_max\t\t\t= 64\ncommonName_default\t\t= unixwinbsd.site\n\nemailAddress\t\t\t= Email Address\nemailAddress_max\t\t= 64\nemailAddress_default\t\t= unixwinbsd@gmail.com\n\n[ req_attributes ]\nchallengePassword\t\t= A challenge password\nchallengePassword_min\t\t= 4\nchallengePassword_max\t\t= 20\nunstructuredName\t\t= An optional company name\n\n[ usr_cert ]\nbasicConstraints=CA:FALSE\nnsComment\t\t\t= \"OpenBSD Generated Certificate\"\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid,issuer\n\n[ v3_req ]\nbasicConstraints = CA:FALSE\nkeyUsage = nonRepudiation, digitalSignature, keyEncipherment\n\n[ v3_ca ]\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid:always,issuer\nbasicConstraints = critical,CA:true\nkeyUsage = critical,cRLSign, keyCertSign\nnsCertType = sslCA, emailCA\n\n[ v3_sub_ca ]\nauthorityKeyIdentifier\t= keyid:always,issuer\nbasicConstraints\t= critical,CA:true,pathlen:0\nextendedKeyUsage\t= clientAuth,serverAuth\nkeyUsage\t\t= critical,keyCertSign,cRLSign\nsubjectKeyIdentifier\t= hash\n\n[ name_constraints ]\npermitted;DNS.0\t= example.org\npermitted;DNS.1\t= example.com\nexcluded;IP.0\t= 0.0.0.0/0.0.0.0\nexcluded;IP.1\t= 0:0:0:0:0:0:0:0/0:0:0:0:0:0:0:0\n\n[ server_ext ]\nauthorityKeyIdentifier\t= keyid:always\nbasicConstraints\t= critical,CA:false\nextendedKeyUsage\t= clientAuth,serverAuth\nkeyUsage\t\t= critical,digitalSignature,keyEncipherment\nnsCertType\t\t= server\nsubjectKeyIdentifier\t= hash\n\n[ client_ext ]\nauthorityKeyIdentifier\t= keyid:always\nbasicConstraints\t= critical,CA:false\nextendedKeyUsage\t= clientAuth\nkeyUsage\t\t= critical,digitalSignature,keyEncipherment,nonRepudiation\nnsCertType\t\t= client\nsubjectKeyIdentifier\t= hash\n\n[ crl_ext ]\nauthorityKeyIdentifier=keyid:always\n\n[ proxy_cert_ext ]\nbasicConstraints=CA:FALSE\nnsComment\t\t\t= \"OpenSSL Generated Certificate\"\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid,issuer\nproxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo\n\n[ tsa ]\ndefault_tsa = tsa_config1\n\n[ tsa_config1 ]\ndir\t\t= ./demoCA\t\nserial\t\t= $dir/tsaserial\ncrypto_device\t= builtin\t\nsigner_cert\t= $dir/tsacert.pem\ncerts\t\t= $dir/cacert.pem\nsigner_key\t= $dir/private/tsakey.pem \ndefault_policy\t= tsa_policy1\t\t\nother_policies\t= tsa_policy2, tsa_policy3\t\ndigests\t\t= md5, sha1\t\t\naccuracy\t= secs:1, millisecs:500, microsecs:100\t\nclock_precision_digits = 0\t\nordering\t\t= yes\t\ntsa_name\t\t= yes\t\ness_cert_id_chain\t= no\n\n\na. Generate private key and CSR\n\nAgain, you can choose between an EC key and an RSA key. The RSA private key from the intermediate signing certificate must have a strength of 3072 bits.\n\nns3# openssl ecparam -name secp384r1 -genkey | openssl ec -out /etc/ssl/OpenBSD_CA/signing-ca/private/signing-ca.key -aes256\n\nns3# openssl req -new \\\n -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \\\n -key /etc/ssl/OpenBSD_CA/signing-ca/private/signing-ca.key \\\n -out /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.csr \\\n -sha512\n\n\nb. Signing the CA certificate with the Root CA\n\nThe Signing CA certificate is signing-ca.crt. Run the command below to create the signing-ca.crt file.\n\nns3# openssl ca \\\n -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \\\n -in /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.csr \\\n -out /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt \\\n -md sha512 -extensions v3_sub_ca\n\nRemove descriptive text in certificate.\n\nns3# openssl x509 \\\n -in /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt \\\n -out /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.notext\n\nns3# openssl ca \\\n -gencrl \\\n -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \\\n -out /etc/ssl/OpenBSD_CA/signing-ca/crl/signing-ca.crl\n\n\nc. Revoking Certificates from Private Certificate Authorities (CAs) on OpenBSD\n\nIn the section on certificate issuance, we explained the procedure for issuing certificates using a private Certificate Authority (CA) on OpenBSD. When communicating between a server and a client, using a certificate allows us to verify that the other party (domain name) is indeed who they claim to be.\n\nHowever, what if the private key used to create the certificate is lost or leaked? A malicious actor could use a leaked private key to forge certificates and impersonate someone. In such cases, the certificate can no longer be used to certify that the other party is the legitimate party. In such cases, the certificate must be revoked immediately.\n\nIn this article, in addition to issuing certificates, we will explain the other roles of a CA: processing certificate revocations and creating a revocation list. The following is an example of revoking a certificate issued by a Signing CA.\n\nR\t340531023831Z\t240602024009Z,keyCompromise\tB214F9454080AD17279DDC32952E5DC5\tunknown\t/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Networking/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com\nV\t340531024205Z\t\tB214F9454080AD17279DDC32952E5DC6\tunknown\t/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Education/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com\n\nAfter that, you see the /etc/ssl/OpenBSD_CA/root-ca/newcerts directory with the “ls” command.\n\nns3# cd /etc/ssl/OpenBSD_CA/root-ca/newcerts\nns3# ls\nB214F9454080AD17279DDC32952E5DC5.pem B214F9454080AD17279DDC32952E5DC6.pem\n\nRun the command to revoke the certificate issued by the CA Signer.\n\nns3# openssl ca \\\n -config /etc/ssl/OpenBSD_CA/root-ca/root-ca.cnf \\\n -revoke /etc/ssl/OpenBSD_CA/root-ca/newcerts/B214F9454080AD17279DDC32952E5DC6.pem \\\n -crl_reason superseded\n\nTake another look at the /etc/ssl/OpenBSD)CA/root-ca/db/index script.\n\nR\t340531023831Z\t240602024009Z,keyCompromise\tB214F9454080AD17279DDC32952E5DC5\tunknown\t/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Networking/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com\nR\t340531024205Z\t240602025145Z,superseded\tB214F9454080AD17279DDC32952E5DC6\tunknown\t/C=US/ST=Texas/O=Internet Widgits Pty Ltd/OU=Education/CN=unixwinbsd.site/emailAddress=unixwinbsd@gmail.com\n\nThe personal CA creation is now complete. You are now ready to sign server or client certificates.\n\n3. Creating server/client certificates\n\nThe next step is to create certificates for the server and client. The server and client certificates will be used directly by users running applications like NGINX or Apache24.\n\nns3# mkdir -p /etc/ssl/OpenBSD_CA/san\nns3# cd /etc/ssl/OpenBSD_CA/san &amp;&amp; mkdir -p certs private\nns3# touch /etc/ssl/OpenBSD_CA/san/openbsd-san.cnf\n\nCreate a main configuration file script for server and client certificate generation.\n\n# OpenBSD openbsd-san.cnf --- unixwinbsd.site\nHOME\t\t\t= .\nRANDFILE\t\t= $ENV::HOME/.rnd\noid_section\t\t= new_oids\n\n[ new_oids ]\ntsa_policy1 = 1.2.3.4.1\ntsa_policy2 = 1.2.3.4.5.6\ntsa_policy3 = 1.2.3.4.5.7\n\n[ ca ]\ndefault_ca\t= CA_default\n\n[ CA_default ]\ndir\t\t= ./demoCA\t\ncerts\t\t= $dir/certs\t\ncrl_dir\t\t= $dir/crl\t\ndatabase\t= $dir/index.txt\nnew_certs_dir\t= $dir/newcerts\t\ncertificate\t= $dir/cacert.pem \nserial\t\t= $dir/serial \t\ncrlnumber\t= $dir/crlnumber\ncrl\t\t= $dir/crl.pem \t\nprivate_key\t= $dir/private/cakey.pem\nRANDFILE\t= $dir/private/.rand\t\nx509_extensions\t= usr_cert\t\t\nname_opt \t= ca_default\t\t\ncert_opt \t= ca_default\t\t\ndefault_days\t= 365\t\t\t\ndefault_crl_days= 30\t\t\ndefault_md\t= default\t\t\npreserve\t= no\t\t\t\npolicy\t\t= policy_match\n\n[ policy_match ]\ncountryName\t\t= match\nstateOrProvinceName\t= match\norganizationName\t= match\norganizationalUnitName\t= optional\ncommonName\t\t= supplied\nemailAddress\t\t= optional\n\n[ policy_anything ]\ncountryName\t\t= optional\nstateOrProvinceName\t= optional\nlocalityName\t\t= optional\norganizationName\t= optional\norganizationalUnitName\t= optional\ncommonName\t\t= supplied\nemailAddress\t\t= optional\n\n[ req ]\ndefault_bits\t\t= 2048\ndefault_keyfile \t= privkey.pem\ndistinguished_name\t= req_distinguished_name\nattributes\t\t= req_attributes\nx509_extensions\t= v3_ca\nstring_mask = utf8only\n\n[ req_distinguished_name ]\ncountryName\t\t\t= Country Name (2 letter code)\ncountryName_default\t\t= AU\ncountryName_min\t\t\t= 2\ncountryName_max\t\t\t= 2\n\nstateOrProvinceName\t\t= State or Province Name (full name)\nstateOrProvinceName_default\t= Mid North Coast\n\nlocalityName\t\t\t= Locality Name (eg, city)\nlocalityName_default\t\t= Coffs Harbour\n\n0.organizationName\t\t= Organization Name (eg, company)\n0.organizationName_default\t= Internet Certificate Service, Pty Ltd.\n\n# we can do this but it is not needed normally :-)\n#1.organizationName\t\t= Second Organization Name (eg, company)\n#1.organizationName_default\t= World Wide Web Pty Ltd\n\norganizationalUnitName\t\t= Organizational Unit Name (eg, section)\norganizationalUnitName_default\t= IT Networking\n\ncommonName\t\t\t= Common Name (e.g. server FQDN or YOUR name)\ncommonName_max\t\t\t= 64\ncommonName_default\t\t= kursor.my.id\n\nemailAddress\t\t\t= Email Address\nemailAddress_max\t\t= 64\nemailAddress_default\t\t= cursor.com\n\n[ req_attributes ]\nchallengePassword\t\t= A challenge password\nchallengePassword_min\t\t= 4\nchallengePassword_max\t\t= 20\nunstructuredName\t\t= An optional company name\n\n[ usr_cert ]\nbasicConstraints=CA:FALSE\nnsComment\t\t\t= \"OpenBSD SAN Generated Certificate\"\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid,issuer\n\n[ v3_req ]\nbasicConstraints = CA:FALSE\nkeyUsage = nonRepudiation, digitalSignature, keyEncipherment\nsubjectAltName\t= $ENV::OPENSSL_SAN\n\n[ v3_ca ]\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid:always,issuer\nbasicConstraints = CA:true\n\n[ crl_ext ]\nauthorityKeyIdentifier=keyid:always\n\n[ proxy_cert_ext ]\nbasicConstraints=CA:FALSE\nnsComment\t\t\t= \"OpenBSD Generated Certificate\"\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid,issuer\nproxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo\n\n[ tsa ]\ndefault_tsa = tsa_config1\n\n[ tsa_config1 ]\ndir\t\t= ./demoCA\t\nserial\t\t= $dir/tsaserial\ncrypto_device\t= builtin\t\nsigner_cert\t= $dir/tsacert.pem\ncerts\t\t= $dir/cacert.pem\nsigner_key\t= $dir/private/tsakey.pem\ndefault_policy\t= tsa_policy1\nother_policies\t= tsa_policy2, tsa_policy3\t\ndigests\t\t= md5, sha1\t\naccuracy\t= secs:1, millisecs:500, microsecs:100\nclock_precision_digits = 0\t\nordering\t\t= yes\t\ntsa_name\t\t= yes\t\ness_cert_id_chain\t= no\n\nThe first command you have to run is \"exports\". Notice the example below.\n\nns3# cd /etc/ssl/OpenBSD_CA/san\nns3# export OPENSSL_SAN=\"IP:192.168.5.3\"\n\nCreate a private key file and place it in the /etc/ssl/OpenBSD_CA/san/private directory.\n\nns3# openssl genrsa \\\n -out /etc/ssl/OpenBSD_CA/san/private/example_nopass.key 2048\nns3# openssl rsa \\\n -in /etc/ssl/OpenBSD_CA/san/private/example_nopass.key \\\n -out /etc/ssl/OpenBSD_CA/san/private/example.key -aes256\nns3# openssl rsa \\\n -in /etc/ssl/OpenBSD_CA/san/private/example.key \\\n -pubout \\\n -out /etc/ssl/OpenBSD_CA/san/certs/example.pub \\\n -outform PEM\n\nContinue with the following commands.\n\nns3# openssl req -new \\\n -config /etc/ssl/OpenBSD_CA/san/openbsd-san.cnf \\\n -key /etc/ssl/OpenBSD_CA/san/private/example.key \\\n -out /etc/ssl/OpenBSD_CA/san/certs/example.csr \\\n -sha512 -reqexts v3_req\n\n\na. Server certificate\n\nIn the first part, we will create a certificate for the server. Follow each command below.\n\nns3# cd /etc/ssl/OpenBSD_CA/signing-ca\nns3# export OPENSSL_SAN=\"IP:192.168.5.3\"\nns3# openssl ca \\\n -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \\\n -policy policy_anything \\\n -in /etc/ssl/OpenBSD_CA/san/certs/example.csr \\\n -out /etc/ssl/OpenBSD_CA/san/certs/example.crt \\\n -md sha512 -extensions server_ext\n\nns3# openssl x509 \\\n -in /etc/ssl/OpenBSD_CA/san/certs/example.crt \\\n -out /etc/ssl/OpenBSD_CA/san/certs/example.crt.notext\n\nThe last command is to merge multiple certificate files.\n\nns3# cat /etc/ssl/OpenBSD_CA/san/certs/example.crt.notext \\\n/etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.notext &gt; /etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.full\n\n\nb. Client Certificate\n\nThe process for creating a client certificate is almost the same as creating a server certificate, with only a few minor differences. Here are the commands you must run to create a client certificate.\n\nns3# cd /etc/ssl/OpenBSD_CA/signing-ca\nns3# export OPENSSL_SAN=\"IP:192.168.5.3\"\nns3# openssl ca \\\n -config /etc/ssl/OpenBSD_CA/signing-ca/signing-ca.cnf \\\n -policy policy_anything \\\n -in /etc/ssl/OpenBSD_CA/san/certs/example.csr \\\n -out /etc/ssl/OpenBSD_CA/san/certs/client.crt \\\n -md sha512 -extensions client_ext\n\nDelete descriptive text\n\nns3# openssl x509 \\\n -in /etc/ssl/OpenBSD_CA/san/certs/client.crt \\\n -out /etc/ssl/OpenBSD_CA/san/certs/client.crt.notext\n\nCombine certificate\n\nns3# cat /etc/ssl/OpenBSD_CA/san/certs/client.crt.notext \\\n/etc/ssl/OpenBSD_CA/signing-ca/certs/signing-ca.crt.notext &gt; /etc/ssl/OpenBSD_CA/signing-ca/certs/client.crt.full\n\nIf you’re running an OpenBSD server and need an SSL certificate for a secure connection, you can use the example we’ve described in this article.\n", "dateCreated": "2025-08-11 11:01:33 +0300", "datePublished": "2025-08-11 11:01:33 +0300", "dateModified": "2025-08-11 09:01:33 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd", "name": "A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD", "description": "The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/", "headline": "A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD", "description": "The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "openbsd/#label", "url": "https://unixwinbsd.site/categories/#openbsd", "identifier": "categories", "name": "openbsd", "description": "The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/", "identifier": "judul", "name": "A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD", "description": "The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/create-and-manage-private-root-ca-ertificates-for-openbsd/", "name": "A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD", "description": "The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate", "dateCreated": "2025-08-11 11:01:33 +0300", "datePublished": "2025-08-11 11:01:33 +0300", "dateModified": "2025-08-11 09:01:33 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-08-11 11:01:33 +0300", "name": "A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD", "headline": "A Simple Way to Create and Manage Private Root CA Certificates for OpenBSD", "description": "The certificate system may seem complicated and difficult, but it is. While writing this article, I conducted numerous experiments, but it wasn't easy to fully understand how to create an SSL certificate", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

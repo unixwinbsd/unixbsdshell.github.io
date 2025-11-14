@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>Learn How to Install MySQL Server on FreeBSD Machine</title><meta name="description" content="The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases."><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="mysql, server, freebsd, database, sql, query, mariadb"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-mysql-server-freebsd/"><meta property="og:type" content="article"><meta property="og:title" content="Learn How to Install MySQL Server on FreeBSD Machine"><meta property="og:description"><meta property="og:image" content="https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-mysql-server-freebsd/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-mysql-server-freebsd/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-05-04 09:05:35 +0300"><meta property="og:image" content="/img/Logo.png"><meta property="og:title" content="Learn How to Install MySQL Server on FreeBSD Machine"><meta property="og:description" content="The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases."><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-mysql-server-freebsd/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="/img/Logo.png"><meta name="twitter:title" content="Learn How to Install MySQL Server on FreeBSD Machine"><meta name="twitter:description" content="The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases."><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">Learn How to Install MySQL Server on FreeBSD Machine</h1><div class="lead badge bg-primary text-wrap"><h6><p>The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.</p></h6></div><p class="meta"></p><h6><time>May 04, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=DataBase">DataBase</a> &middot; <span class="reading-time" title="Estimated read time">12 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-system-specifications">1. System Specifications</a></li><li><a href="#2-mysql-server-installation">2. MySQL Server installation</a></li><li><a href="#3-create-and-change-mysql-server-root-password">3. Create and Change MySQL Server Root Password</a><ul><li><a href="#31-creating-mysql-password">3.1. Creating MySQL Password</a></li><li><a href="#32-change-mysql-password">3.2. Change MySQL Password</a></li></ul></li><li><a href="#4-test-mysql-server">4. Test MySQL Server</a></li><li><a href="#5-create-database-username-and-password">5. Create database, Username and Password</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / Learn How to Install MySQL Server on FreeBSD Machine</div><div class="article"><p>MySQL is a relational database management system (RDBMS) that is distributed as free software. It is one of the most popular, as it is flexible, lightweight, and easy to use.</p><p>The word “relational” means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.</p><p>This article provides procedures for installing MySQL Server on FreeBSD Unix variants. The easiest way and many people like it is to install MySQL Sever using the mysql-server and mysql-client ports which are available in the <strong>/usr/ports/databases/mysql80-server</strong> and <strong>/usr/ports/databases/mysql80-client</strong> folders.</p><p>Installing MySQL Server using this port gives you the following benefits:</p><ul><li>Automatic configuration and build.</li><li>The startup script is installed directly in /usr/local/etc/rc.d.</li><li>Ability to use pkg_info -L to see which files are installed.</li><li>Ability to use pkg_delete to remove MySQL if you no longer want it on your machine.</li></ul><h2 id="1-system-specifications">1. System Specifications</h2><ul><li>OS: FreeBSD 13.2-STABLE</li><li>CPU: AMD Phenom II X4 965 3400 MHz</li><li>IP LAN: 192.168.5.2</li><li>Domain: unixexplore.com</li><li>Hostname: ns1</li><li>MySQL version: mysql80-server</li></ul><h2 id="2-mysql-server-installation">2. MySQL Server installation</h2><p>In this material we will practice how to install and configure MySQL Server on a FreeBSD 13.2 stable machine. OK, let’s just start the MySQL Server installation process:</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/ports/databases/mysql80-client
+root@router2:/usr/ports/databases/mysql80-client # make install clean
+root@router2:~ # cd /usr/ports/databases/mysql80-server
+root@router2:/usr/ports/databases/mysql80-server # make install clean
+</code></pre></div></div><p>To install MySQL Server on FreeBSD 13.2 using ports, it takes a long time for the installation process to complete. Alternatively, you can use the pkg package that comes with FreeBSD machines.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # pkg install mysql80-client
+root@router2:~ # pkg install mysql80-server
+</code></pre></div></div><p>After the installation process is complete, delete the files in the <strong>/var/db/mysql</strong> folder.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # rm -rf /var/db/mysql/
+</code></pre></div></div><p>Create ownership rights for files and folders.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # chown -R mysql:mysql /usr/local/etc/mysql
+</code></pre></div></div><p>The chown command will assign users and groups to the files in /usr/local/etc/mysql. The next step is to create a startup script in the rc.conf file. This script will run automatically when the computer is turned off or restarted.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/rc.conf
+mysql_enable="YES"
+mysql_dbdir="/var/db/mysql"
+mysql_confdir="/usr/local/etc/mysql"
+mysql_user="mysql"
+mysql_optfile="/usr/local/etc/mysql/my.cnf"
+mysql_rundir="/var/run/mysql"
+</code></pre></div></div><p>Restart/reboot the FreeBSD server machine computer. After the computer engine returns to normal, you continue by restarting the MySQL server with a script “service mysql-server restart”.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # reboot
+</code></pre></div></div><p>Once your computer is back to normal and ready to use, run the restart command once more. This is done to check whether MySQL is running on the FreeBSD server.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service mysql-server restart
+</code></pre></div></div><h2 id="3-create-and-change-mysql-server-root-password">3. Create and Change MySQL Server Root Password</h2><h3 id="31-creating-mysql-password">3.1. Creating MySQL Password</h3><p>The password is the most important thing on the MySQL Server, because to be able to enter the MySQL Server you need a password to open it. In the first discussion, we will try to create a new password on MySQL Server, use the mysql_secure_installation script to create and change the MySQL Server password.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # mysql_secure_installation
+mysql_secure_installation: [ERROR] unknown variable 'prompt=\u@\h [\d]&gt;\_'.
+
+Securing the MySQL server deployment.
+
+Connecting to MySQL using a blank password.
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No:    enter
+Please set the password for root here.
+
+New password:    enter a new password
+
+Re-enter new password:    The password must be the same as above
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : y
+ - Dropping test database...
+Success.
+
+ - Removing privileges on test database...
+Success.
+
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+All done!
+root@router2:~ #
+</code></pre></div></div><h3 id="32-change-mysql-password">3.2. Change MySQL Password</h3><p>After we have successfully created the MySQL server root password, now we continue with how to change the MySQL Server root password, the script is the same as above.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # mysql_secure_installation
+mysql_secure_installation: [ERROR] unknown variable 'prompt=\u@\h [\d]&gt;\_'.
+
+Securing the MySQL server deployment.
+
+Enter password for user root: enter the old password
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No:    enter
+Using existing password for root.
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : y
+
+New password: enter a new password
+
+Re-enter new password: Enter a new password, it must be the same as above
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : y
+ - Dropping test database...
+Success.
+
+ - Removing privileges on test database...
+Success.
+
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+All done!
+root@router2:~ #
+</code></pre></div></div><h2 id="4-test-mysql-server">4. Test MySQL Server</h2><p>Now we have to test whether the MySQL Server that we have configured can run well or there are still wrong scripts. See if the MySQL Server version has been read, if not, it means the configuration is wrong.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # mysql -V
+mysql  Ver 8.0.32 for FreeBSD13.2 on amd64 (Source distribution)
+root@router2:~ #
+</code></pre></div></div><p>We continue with the next test, using the MySQL Server root password that we created earlier.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # mysql -u root -p
+Enter password:  enter password
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.32 Source distribution
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+root@localhost [(none)]&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.06 sec)
+
+root@localhost [(none)]&gt;
+</code></pre></div></div><h2 id="5-create-database-username-and-password">5. Create database, Username and Password</h2><p>Once we have access to the MySQL server prompt, we can create a database, username and password. Use the command below to create a database, username and password to connect to the MySQL server.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns:~ # mysql -u root -p
+root@localhost [(none)]&gt; CREATE DATABASE kerinci;
+Query OK, 1 row affected (0.05 sec)
+
+root@localhost [(none)]&gt; CREATE DATABASE leuser;
+Query OK, 1 row affected (0.04 sec)
+
+root@localhost [(none)]&gt;
+</code></pre></div></div><p>The command above is used to create a kerinci and leuser database. Now we will create a username and password.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [(none)]&gt; CREATE USER 'pendaki'@'localhost' IDENTIFIED BY 'semeru';
+Query OK, 0 rows affected (0.05 sec)
+
+root@localhost [(none)]&gt; GRANT SELECT ON *.* TO 'pendaki'@'localhost';
+Query OK, 0 rows affected (0.04 sec)
+
+root@localhost [(none)]&gt; CREATE USER 'merbabu'@'192.168.5.2' IDENTIFIED BY 'sindoro';
+Query OK, 0 rows affected (0.05 sec)
+
+root@localhost [(none)]&gt; GRANT SELECT ON *.* TO 'merbabu'@'192.168.5.2';
+Query OK, 0 rows affected (0.04 sec)
+
+root@localhost [(none)]&gt; CREATE USER 'rinjani'@'ns1' IDENTIFIED BY 'kelimutu';
+Query OK, 0 rows affected (0.05 sec)
+
+root@localhost [(none)]&gt; GRANT SELECT ON *.* TO 'rinjani'@'ns1';
+Query OK, 0 rows affected (0.04 sec)
+
+root@localhost [(none)]&gt;
+</code></pre></div></div><p>The command above is used to create a username and password:</p><ul><li>Username: pendaki</li><li><p>Password: semeru</p></li><li>Username: merbabu</li><li><p>Password: sindoro</p></li><li>Username: rinjani</li><li>Password: kelimutu</li></ul><p>Localhost is the localhost IP, namely 127.0.0.1, ns1 is the host name of the computer we are using and 192.168.5.2 is the Private IP of the computer we are using.</p><p>If the display is exactly the same as above, congratulations, you have successfully installed MySQL Server on your FreeBSD 13.2 stable machine. Now you can use the MySQL program according to your needs and requirements.</p><div class="PageNavigation"><a class="prev" href="/freebsd/learn-install-nginx-web-server-freebsd/">&laquo; Learn How to Install NGINX Web Server on FreeBSD</a> <a class="next" href="/freebsd/connect-freebsd-windows-with-samba/">How to Connect FreeBSD to Windows with Samba &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-mysql-server-freebsd/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-mysql-server-freebsd/", "name": "Learn How to Install MySQL Server on FreeBSD Machine", "headline": ["DataBase"], "keywords": "mysql, server, freebsd, database, sql, query, mariadb", "description": "The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.", "articleBody": "MySQL is a relational database management system (RDBMS) that is distributed as free software. It is one of the most popular, as it is flexible, lightweight, and easy to use.\n\nThe word “relational” means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.\n\nThis article provides procedures for installing MySQL Server on FreeBSD Unix variants. The easiest way and many people like it is to install MySQL Sever using the mysql-server and mysql-client ports which are available in the /usr/ports/databases/mysql80-server and /usr/ports/databases/mysql80-client folders.\n\nInstalling MySQL Server using this port gives you the following benefits:\n\n Automatic configuration and build.\n The startup script is installed directly in /usr/local/etc/rc.d.\n Ability to use pkg_info -L to see which files are installed.\n Ability to use pkg_delete to remove MySQL if you no longer want it on your machine.\n\n\n1. System Specifications\n\n OS: FreeBSD 13.2-STABLE\n CPU: AMD Phenom II X4 965 3400 MHz\n IP LAN: 192.168.5.2\n Domain: unixexplore.com\n Hostname: ns1\n MySQL version: mysql80-server\n\n\n2. MySQL Server installation\nIn this material we will practice how to install and configure MySQL Server on a FreeBSD 13.2 stable machine. OK, let’s just start the MySQL Server installation process:\n\nroot@router2:~ # cd /usr/ports/databases/mysql80-client\nroot@router2:/usr/ports/databases/mysql80-client # make install clean\nroot@router2:~ # cd /usr/ports/databases/mysql80-server\nroot@router2:/usr/ports/databases/mysql80-server # make install clean\n\n\nTo install MySQL Server on FreeBSD 13.2 using ports, it takes a long time for the installation process to complete. Alternatively, you can use the pkg package that comes with FreeBSD machines.\n\nroot@router2:~ # pkg install mysql80-client\nroot@router2:~ # pkg install mysql80-server\n\n\nAfter the installation process is complete, delete the files in the /var/db/mysql folder.\n\nroot@router2:~ # rm -rf /var/db/mysql/\n\n\nCreate ownership rights for files and folders.\n\nroot@router2:~ # chown -R mysql:mysql /usr/local/etc/mysql\n\n\nThe chown command will assign users and groups to the files in /usr/local/etc/mysql. The next step is to create a startup script in the rc.conf file. This script will run automatically when the computer is turned off or restarted.\n\nroot@router2:~ # ee /etc/rc.conf\nmysql_enable=\"YES\"\nmysql_dbdir=\"/var/db/mysql\"\nmysql_confdir=\"/usr/local/etc/mysql\"\nmysql_user=\"mysql\"\nmysql_optfile=\"/usr/local/etc/mysql/my.cnf\"\nmysql_rundir=\"/var/run/mysql\"\n\n\nRestart/reboot the FreeBSD server machine computer. After the computer engine returns to normal, you continue by restarting the MySQL server with a script “service mysql-server restart”.\n\nroot@router2:~ # reboot\n\n\nOnce your computer is back to normal and ready to use, run the restart command once more. This is done to check whether MySQL is running on the FreeBSD server.\n\nroot@router2:~ # service mysql-server restart\n\n\n3. Create and Change MySQL Server Root Password\n\n3.1. Creating MySQL Password\nThe password is the most important thing on the MySQL Server, because to be able to enter the MySQL Server you need a password to open it. In the first discussion, we will try to create a new password on MySQL Server, use the mysql_secure_installation script to create and change the MySQL Server password.\n\nroot@router2:~ # mysql_secure_installation\nmysql_secure_installation: [ERROR] unknown variable 'prompt=\\u@\\h [\\d]&gt;\\_'.\n\nSecuring the MySQL server deployment.\n\nConnecting to MySQL using a blank password.\n\nVALIDATE PASSWORD COMPONENT can be used to test passwords\nand improve security. It checks the strength of password\nand allows the users to set only those passwords which are\nsecure enough. Would you like to setup VALIDATE PASSWORD component?\n\nPress y|Y for Yes, any other key for No: enter\nPlease set the password for root here.\n\nNew password: enter a new password\n\nRe-enter new password: The password must be the same as above\nBy default, a MySQL installation has an anonymous user,\nallowing anyone to log into MySQL without having to have\na user account created for them. This is intended only for\ntesting, and to make the installation go a bit smoother.\nYou should remove them before moving into a production\nenvironment.\n\nRemove anonymous users? (Press y|Y for Yes, any other key for No) : y\nSuccess.\n\n\nNormally, root should only be allowed to connect from\n'localhost'. This ensures that someone cannot guess at\nthe root password from the network.\n\nDisallow root login remotely? (Press y|Y for Yes, any other key for No) : y\nSuccess.\n\nBy default, MySQL comes with a database named 'test' that\nanyone can access. This is also intended only for testing,\nand should be removed before moving into a production\nenvironment.\n\n\nRemove test database and access to it? (Press y|Y for Yes, any other key for No) : y\n - Dropping test database...\nSuccess.\n\n - Removing privileges on test database...\nSuccess.\n\nReloading the privilege tables will ensure that all changes\nmade so far will take effect immediately.\n\nReload privilege tables now? (Press y|Y for Yes, any other key for No) : y\nSuccess.\n\nAll done!\nroot@router2:~ #\n\n\n3.2. Change MySQL Password\nAfter we have successfully created the MySQL server root password, now we continue with how to change the MySQL Server root password, the script is the same as above.\n\nroot@router2:~ # mysql_secure_installation\nmysql_secure_installation: [ERROR] unknown variable 'prompt=\\u@\\h [\\d]&gt;\\_'.\n\nSecuring the MySQL server deployment.\n\nEnter password for user root: enter the old password\n\nVALIDATE PASSWORD COMPONENT can be used to test passwords\nand improve security. It checks the strength of password\nand allows the users to set only those passwords which are\nsecure enough. Would you like to setup VALIDATE PASSWORD component?\n\nPress y|Y for Yes, any other key for No: enter\nUsing existing password for root.\nChange the password for root ? ((Press y|Y for Yes, any other key for No) : y\n\nNew password: enter a new password\n\nRe-enter new password: Enter a new password, it must be the same as above\nBy default, a MySQL installation has an anonymous user,\nallowing anyone to log into MySQL without having to have\na user account created for them. This is intended only for\ntesting, and to make the installation go a bit smoother.\nYou should remove them before moving into a production\nenvironment.\n\nRemove anonymous users? (Press y|Y for Yes, any other key for No) : y\nSuccess.\n\n\nNormally, root should only be allowed to connect from\n'localhost'. This ensures that someone cannot guess at\nthe root password from the network.\n\nDisallow root login remotely? (Press y|Y for Yes, any other key for No) : y\nSuccess.\n\nBy default, MySQL comes with a database named 'test' that\nanyone can access. This is also intended only for testing,\nand should be removed before moving into a production\nenvironment.\n\n\nRemove test database and access to it? (Press y|Y for Yes, any other key for No) : y\n - Dropping test database...\nSuccess.\n\n - Removing privileges on test database...\nSuccess.\n\nReloading the privilege tables will ensure that all changes\nmade so far will take effect immediately.\n\nReload privilege tables now? (Press y|Y for Yes, any other key for No) : y\nSuccess.\n\nAll done!\nroot@router2:~ #\n\n\n4. Test MySQL Server\n\nNow we have to test whether the MySQL Server that we have configured can run well or there are still wrong scripts. See if the MySQL Server version has been read, if not, it means the configuration is wrong.\n\nroot@router2:~ # mysql -V\nmysql Ver 8.0.32 for FreeBSD13.2 on amd64 (Source distribution)\nroot@router2:~ #\n\n\nWe continue with the next test, using the MySQL Server root password that we created earlier.\n\nroot@router2:~ # mysql -u root -p\nEnter password: enter password\nWelcome to the MySQL monitor. Commands end with ; or \\g.\nYour MySQL connection id is 12\nServer version: 8.0.32 Source distribution\n\nCopyright (c) 2000, 2023, Oracle and/or its affiliates.\n\nOracle is a registered trademark of Oracle Corporation and/or its\naffiliates. Other names may be trademarks of their respective\nowners.\n\nType 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.\n\nroot@localhost [(none)]&gt; show databases;\n+--------------------+\n| Database |\n+--------------------+\n| information_schema |\n| mysql |\n| performance_schema |\n| sys |\n+--------------------+\n4 rows in set (0.06 sec)\n\nroot@localhost [(none)]&gt;\n\n\n5. Create database, Username and Password\nOnce we have access to the MySQL server prompt, we can create a database, username and password. Use the command below to create a database, username and password to connect to the MySQL server.\n\nroot@ns:~ # mysql -u root -p\nroot@localhost [(none)]&gt; CREATE DATABASE kerinci;\nQuery OK, 1 row affected (0.05 sec)\n\nroot@localhost [(none)]&gt; CREATE DATABASE leuser;\nQuery OK, 1 row affected (0.04 sec)\n\nroot@localhost [(none)]&gt;\n\n\nThe command above is used to create a kerinci and leuser database. Now we will create a username and password.\n\nroot@localhost [(none)]&gt; CREATE USER 'pendaki'@'localhost' IDENTIFIED BY 'semeru';\nQuery OK, 0 rows affected (0.05 sec)\n\nroot@localhost [(none)]&gt; GRANT SELECT ON *.* TO 'pendaki'@'localhost';\nQuery OK, 0 rows affected (0.04 sec)\n\nroot@localhost [(none)]&gt; CREATE USER 'merbabu'@'192.168.5.2' IDENTIFIED BY 'sindoro';\nQuery OK, 0 rows affected (0.05 sec)\n\nroot@localhost [(none)]&gt; GRANT SELECT ON *.* TO 'merbabu'@'192.168.5.2';\nQuery OK, 0 rows affected (0.04 sec)\n\nroot@localhost [(none)]&gt; CREATE USER 'rinjani'@'ns1' IDENTIFIED BY 'kelimutu';\nQuery OK, 0 rows affected (0.05 sec)\n\nroot@localhost [(none)]&gt; GRANT SELECT ON *.* TO 'rinjani'@'ns1';\nQuery OK, 0 rows affected (0.04 sec)\n\nroot@localhost [(none)]&gt;\n\n\nThe command above is used to create a username and password:\n\n Username: pendaki\n \n Password: semeru\n \n Username: merbabu\n \n Password: sindoro\n \n Username: rinjani\n Password: kelimutu\n\n\nLocalhost is the localhost IP, namely 127.0.0.1, ns1 is the host name of the computer we are using and 192.168.5.2 is the Private IP of the computer we are using.\n\nIf the display is exactly the same as above, congratulations, you have successfully installed MySQL Server on your FreeBSD 13.2 stable machine. Now you can use the MySQL program according to your needs and requirements.\n", "dateCreated": "2025-05-04 09:05:35 +0300", "datePublished": "2025-05-04 09:05:35 +0300", "dateModified": "2025-05-04 07:05:35 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/learn-install-mysql-server-freebsd", "name": "Learn How to Install MySQL Server on FreeBSD Machine", "description": "The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-mysql-server-freebsd/", "headline": "Learn How to Install MySQL Server on FreeBSD Machine", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "Learn How to Install MySQL Server on FreeBSD Machine", "description": "The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/learn-install-mysql-server-freebsd/", "identifier": "judul", "name": "Learn How to Install MySQL Server on FreeBSD Machine", "description": "The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/learn-install-mysql-server-freebsd/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-mysql-server-freebsd/", "name": "Learn How to Install MySQL Server on FreeBSD Machine", "description": "The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.", "dateCreated": "2025-05-04 09:05:35 +0300", "datePublished": "2025-05-04 09:05:35 +0300", "dateModified": "2025-05-04 07:05:35 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-05-04 09:05:35 +0300", "name": "Learn How to Install MySQL Server on FreeBSD Machine", "headline": "Learn How to Install MySQL Server on FreeBSD Machine", "description": "The word relational means that the databases are presented as related information and are described as a set of relationships. MySQL works with the SQL query language, which is traditionally used in databases.", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>FreeBSD Tutorials To Create Web App With Node js</title><meta name="description" content="On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more"><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="tutorials, npm, nodeJS, node, js, javascript, install, freebsd, linux, openbsd"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/freebsd-tutorials-create-web-app-with-node-js/"><meta property="og:type" content="article"><meta property="og:title" content="FreeBSD Tutorials To Create Web App With Node js"><meta property="og:description"><meta property="og:image" content="https://unixwinbsd.github.io/unixbsdshell.github.io/img/oct-25/oct-25-52.jpg"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/freebsd-tutorials-create-web-app-with-node-js/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/freebsd-tutorials-create-web-app-with-node-js/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-10-02 15:29:52 +0300"><meta property="og:image" content="/img/oct-25/oct-25-52.jpg"><meta property="og:title" content="FreeBSD Tutorials To Create Web App With Node js"><meta property="og:description" content="On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more"><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/freebsd-tutorials-create-web-app-with-node-js/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="/img/oct-25/oct-25-52.jpg"><meta name="twitter:title" content="FreeBSD Tutorials To Create Web App With Node js"><meta name="twitter:description" content="On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more"><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">FreeBSD Tutorials To Create Web App With Node js</h1><div class="lead badge bg-primary text-wrap"><h6><p>On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more</p></h6></div><p class="meta"></p><h6><time>October 02, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=WebServer">WebServer</a> &middot; <span class="reading-time" title="Estimated read time">9 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-installing-npm-and-nodejs">1. Installing NPM and node.js</a></li><li><a href="#2-creating-a-web-app">2. Creating a Web App</a><ul><li><a href="#a-main-script-file">a. Main script file</a></li><li><a href="#b-module-requirements">b. Module Requirements</a></li></ul></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / FreeBSD Tutorials To Create Web App With Node js</div><div class="article"><p>Node.js is an application built on the Chrome JavaScript runtime, with Node.js it makes it easier for developers to create reliable, fast and scalable network applications. Node.js uses an event-driven, non-blocking I/O model, which makes it very lightweight and efficient, ideal for data-intensive real-time applications running on distributed devices.</p><p>Besides being able to build APIs, Node.js is great for creating standard web and static web applications. It has powerful tools to meet the needs of web developers. In this tutorial, you’ll learn how to create a simple web application with Node.js While building, you’ll learn several types of middleware, you’ll see how to handle form submissions in Node.js, and you’ll also be able to reference two models.</p><p>On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more.</p><noscript><img src="https://raw.githubusercontent.com/unixwinbsd/FreeBSD_NodeJS_WebApp/refs/heads/main/NodeJs%20Application%20Platform.jpg" alt="NodeJs Application Platform"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://raw.githubusercontent.com/unixwinbsd/FreeBSD_NodeJS_WebApp/refs/heads/main/NodeJs%20Application%20Platform.jpg" alt="NodeJs Application Platform" class="lazyload fade-in" loading="eager"></p><p>Full code in this tutorial, you can download the complete code at “https://github.com/unixwinbsd/FreeBSD_NodeJS_WebApp.git”</p><h2 id="1-installing-npm-and-nodejs">1. Installing NPM and node.js</h2><p>Before you start working with Node.js, make sure you have Node.js and NPM installed. If not, use the PKG FreeBSD package to start installing quickly.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install libuv &amp;&amp; pkg install brotli &amp;&amp; pkg install icu
+</code></pre></div></div><p>The above command is used to install Node.js dependencies, after installing dependencies continue with installing Node.js.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # pkg install node &amp;&amp; pkg install npm-10.2.5 &amp;&amp; pkg install npm-node18
+</code></pre></div></div><p>Check the NPM and Node.js versions.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # npm --version
+root@ns7:~ # node --version
+</code></pre></div></div><p>You can read the complete article on how to install Node.js at.</p><p><a href="https://unixwinbsd.site/openbsd/install-npm-node-js-openbsd">How To Install NPM NodeJS On FreeBSD</a></p><h2 id="2-creating-a-web-app">2. Creating a Web App</h2><p>Let’s just create a Web App with Node.JS, create a new folder for your Node.js project and navigate to that folder using the terminal.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:~ # cd /var
+root@ns7:/var # mkdir -p WebAppNode
+root@ns7:/var # cd WebAppNode
+root@ns7:/var/WebAppNode #
+</code></pre></div></div><p>The first thing you do is initialize our new module by running the init command from the npm utility. The <code class="language-plaintext highlighter-rouge">“npm init”</code> command will ask you a bunch of questions and then write the “package.json” file. This file is what will turn your code into a Node.js package.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/var/WebAppNode # npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help init` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install &lt;pkg&gt;` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (freebsd_nodejs_webapp)
+version: (1.0.0)
+description: Helping You To Do Learn Opensource UNIX BSD And Web Site With Blogger
+entry point: (app.js)
+test command: Success... Node.js test
+git repository: https://github.com/unixwinbsd/FreeBSD_NodeJS_WebApp.git
+keywords: FreeBSD Node.js Web App
+author: Jhon Smith
+license: (ISC)
+About to write to /root/.cache/pypoetry/index/reverseproxy/www/FreeBSD_NodeJS_WebApp/package.json:
+
+{
+  "name": "freebsd_nodejs_webapp",
+  "version": "1.0.0",
+  "description": "Helping You To Do Learn Opensource UNIX BSD And Web Site With Blogger",
+  "main": "app.js",
+  "dependencies": {
+    "accepts": "^1.3.8",
+    "array-flatten": "^1.1.1",
+    "body-parser": "^1.20.1",
+    "bytes": "^3.1.2",
+    "call-bind": "^1.0.5",
+    "content-disposition": "^0.5.4",
+    "content-type": "^1.0.5",
+    "cookie": "^0.5.0",
+    "cookie-signature": "^1.0.6",
+    "debug": "^2.6.9",
+    "define-data-property": "^1.1.1",
+    "depd": "^2.0.0",
+    "destroy": "^1.2.0",
+    "ee-first": "^1.1.1",
+    "encodeurl": "^1.0.2",
+    "escape-html": "^1.0.3",
+    "etag": "^1.8.1",
+    "express": "^4.18.2",
+    "finalhandler": "^1.2.0",
+    "forwarded": "^0.2.0",
+    "fresh": "^0.5.2",
+    "function-bind": "^1.1.2",
+    "get-intrinsic": "^1.2.2",
+    "gopd": "^1.0.1",
+    "has-property-descriptors": "^1.0.1",
+    "has-proto": "^1.0.1",
+    "has-symbols": "^1.0.3",
+    "hasown": "^2.0.0",
+    "http-errors": "^2.0.0",
+    "iconv-lite": "^0.4.24",
+    "inherits": "^2.0.4",
+    "ipaddr.js": "^1.9.1",
+    "media-typer": "^0.3.0",
+    "merge-descriptors": "^1.0.1",
+    "methods": "^1.1.2",
+    "mime": "^1.6.0",
+    "mime-db": "^1.52.0",
+    "mime-types": "^2.1.35",
+    "ms": "^2.0.0",
+    "negotiator": "^0.6.3",
+    "object-inspect": "^1.13.1",
+    "on-finished": "^2.4.1",
+    "parseurl": "^1.3.3",
+    "path-to-regexp": "^0.1.7",
+    "proxy-addr": "^2.0.7",
+    "qs": "^6.11.0",
+    "range-parser": "^1.2.1",
+    "raw-body": "^2.5.1",
+    "safe-buffer": "^5.2.1",
+    "safer-buffer": "^2.1.2",
+    "send": "^0.18.0",
+    "serve-static": "^1.15.0",
+    "set-function-length": "^1.1.1",
+    "setprototypeof": "^1.2.0",
+    "side-channel": "^1.0.4",
+    "statuses": "^2.0.1",
+    "toidentifier": "^1.0.1",
+    "type-is": "^1.6.18",
+    "unpipe": "^1.0.0",
+    "utils-merge": "^1.0.1",
+    "vary": "^1.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "Success... Node.js test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unixwinbsd/FreeBSD_NodeJS_WebApp.git"
+  },
+  "keywords": [
+    "FreeBSD",
+    "Node.js",
+    "Web",
+    "App"
+  ],
+  "author": "Jhon Smith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unixwinbsd/FreeBSD_NodeJS_WebApp/issues"
+  },
+  "homepage": "https://github.com/unixwinbsd/FreeBSD_NodeJS_WebApp#readme"
+}
+
+
+Is this OK? (yes) yes
+</code></pre></div></div><h3 id="a-main-script-file">a. Main script file</h3><p>The main Node.js script file is usually the starting point of a Node.js module. By default, the script name is index.js. In this example, we named it webapp.js, the file will start our Node.js project development test server. We will implement this later in the article.</p><p>Now we can start writing the script. Create an <code class="language-plaintext highlighter-rouge">"app.js"</code> file to store your web server code.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/var/WebAppNode # touch app.js
+</code></pre></div></div><p>The contents of the <code class="language-plaintext highlighter-rouge">"app.js"</code> file should look like this.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const express = require('express');
+const app = express();
+const path = require('path');
+
+
+app.get('/', (req,res) =&gt; {
+  res.sendFile(path.join(__dirname+'/index.html'));
+  
+});
+
+
+app.get('/about', (req,res) =&gt; {
+    res.sendFile(path.join(__dirname+'/about.html'));
+   
+  });
+
+app.listen(3000, () =&gt; {
+    console.log('Listening on port 3000');
+});
+</code></pre></div></div><p>This code creates a simple server that listens on port 3000 and responds to requests to the Node.js directory.</p><h3 id="b-module-requirements">b. Module Requirements</h3><p>Once the <code class="language-plaintext highlighter-rouge">“package.json”</code> and <code class="language-plaintext highlighter-rouge">"app.js"</code> file is ready, you can install the js package framework using <code class="language-plaintext highlighter-rouge">“npm install --save-dev express”</code>. In your terminal, run the following command.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/var/WebAppNode # npm install --save-dev express
+</code></pre></div></div><p>The command above will also create a node_modules folder in your project directory, then the Express dependencies will be included in the contents of the <code class="language-plaintext highlighter-rouge">"package.json"</code> file. the “npm install <code class="language-plaintext highlighter-rouge">--save-dev express"</code> command will also tell npm to save the dependency to the <code class="language-plaintext highlighter-rouge">"package.json"</code> file.</p><p>After that we create the files <code class="language-plaintext highlighter-rouge">"about.html"</code> and <code class="language-plaintext highlighter-rouge">"index.html"</code>.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/var/WebAppNode # touch index.html
+root@ns7:/var/WebAppNode # touch about.html
+</code></pre></div></div><p>The contents of the <code class="language-plaintext highlighter-rouge">"/var/about.html"</code> file should look like this.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!DOCTYPE html&gt;
+&lt;head&gt;
+    &lt;title&gt; About Us Page &lt;/title&gt;
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"&gt;
+    &lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css"&gt;
+    &lt;script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div style="margin:6px;"&gt;
+      &lt;nav class="navbar navbar-inverse navbar-static-top"&gt;
+    &lt;div class="container"&gt;
+      &lt;a class="navbar-brand" href="/"&gt; unixwinbsd.site &lt;/a&gt;
+      &lt;ul class="nav navbar-nav"&gt;
+        &lt;li&gt;
+          &lt;a href="/"&gt;Home&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class="active"&gt;
+          &lt;a href="/about"&gt;About&lt;/a&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/nav&gt;
+      &lt;div class="jumbotron"  style="padding:40px;"&gt;
+        &lt;h1&gt;About Us&lt;/h1&gt;
+        &lt;strong&gt;&lt;p&gt; Helping You To Do Learn Opensource UNIX BSD And Web Site With Blogger.&lt;/p&gt;&lt;/strong&gt;
+        &lt;p&gt;&lt;a class="btn btn-primary btn-lg" href="#" role="button"&gt;Click here to Join us&lt;/a&gt;&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div></div><p>The contents of the <code class="language-plaintext highlighter-rouge">"/var/index.html"</code> file should look like this.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!DOCTYPE html&gt;
+&lt;head&gt;
+    &lt;title&gt; DevOps HomePage &lt;/title&gt;
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"&gt;
+    &lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css"&gt;
+    &lt;script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div style="margin:6px;"&gt;
+      &lt;nav class="navbar navbar-inverse navbar-static-top"&gt;
+    &lt;div class="container"&gt;
+      &lt;a class="navbar-brand" href="/"&gt; unixwinbsd.site &lt;/a&gt;
+      &lt;ul class="nav navbar-nav"&gt;
+        &lt;li class="active"&gt;
+          &lt;a href="/"&gt; Home &lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;a href="/about"&gt; About &lt;/a&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/nav&gt;
+      &lt;div class="jumbotron"  style="padding:40px;"&gt;
+        &lt;h1&gt; Hello FreeBSD  &lt;span class="text-primary"&gt; The Power &lt;/span&gt;&lt;span class="text-danger"&gt; To Server &lt;/span&gt;&lt;/h1&gt;
+        &lt;p&gt; Subscribe to Channel for  &lt;span class="bg-info"&gt; More &lt;/span&gt; &amp; Interesting &lt;span class="bg-success"&gt; FreeBSD  Tutorials &lt;/span&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;a class="btn btn-primary btn-lg" href="#" role="button"&gt;What's New&lt;/a&gt;&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div></div><p>Now, run your Node.js <code class="language-plaintext highlighter-rouge">"Web App"</code> project with the following command.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns7:/var/WebAppNode # node app.js
+Listening on port 3000
+</code></pre></div></div><p>You can see the results by opening Google Chrome and entering the command <code class="language-plaintext highlighter-rouge">"127.0.0.1:3000"</code>.</p><noscript><img src="https://raw.githubusercontent.com/unixwinbsd/FreeBSD_NodeJS_WebApp/refs/heads/main/Resul%20WebApp%20NodeJS.jpg" alt="Resul WebApp NodeJS"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://raw.githubusercontent.com/unixwinbsd/FreeBSD_NodeJS_WebApp/refs/heads/main/Resul%20WebApp%20NodeJS.jpg" alt="Resul WebApp NodeJS" class="lazyload fade-in" loading="eager"></p><p>Now that you know how to create a standard web application in Node.js, you can take it a step further by extending the application—with add, delete and other commands. We hope this tutorial helps you get up and running with a simple Node.js application on a FreeBSD server.</p><div class="PageNavigation"><a class="prev" href="/freebsd/freebsd-packing-unpacking-winzip-winrar-tar-gz-gzip-tgz-bzip2-xz/">&laquo; FreeBSD Guide To Packing and Unpacking WinZip WinRAR tar gz gzip tgz bzip2 xz</a> <a class="next" href="/freebsd/install-intel-amd-vga-driver-on-freebsd/">How to Install Intel and AMD VGA Drivers on FreeBSD Systems &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/freebsd-tutorials-create-web-app-with-node-js/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/freebsd-tutorials-create-web-app-with-node-js/", "name": "FreeBSD Tutorials To Create Web App With Node js", "headline": ["WebServer"], "keywords": "tutorials, npm, nodeJS, node, js, javascript, install, freebsd, linux, openbsd", "description": "On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more", "articleBody": "Node.js is an application built on the Chrome JavaScript runtime, with Node.js it makes it easier for developers to create reliable, fast and scalable network applications. Node.js uses an event-driven, non-blocking I/O model, which makes it very lightweight and efficient, ideal for data-intensive real-time applications running on distributed devices.\n\nBesides being able to build APIs, Node.js is great for creating standard web and static web applications. It has powerful tools to meet the needs of web developers. In this tutorial, you’ll learn how to create a simple web application with Node.js While building, you’ll learn several types of middleware, you’ll see how to handle form submissions in Node.js, and you’ll also be able to reference two models.\n\nOn the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more.\n\n\n\n\nFull code in this tutorial, you can download the complete code at “https://github.com/unixwinbsd/FreeBSD_NodeJS_WebApp.git”\n\n1. Installing NPM and node.js\n\nBefore you start working with Node.js, make sure you have Node.js and NPM installed. If not, use the PKG FreeBSD package to start installing quickly.\n\nroot@ns7:~ # pkg install libuv &amp;&amp; pkg install brotli &amp;&amp; pkg install icu\n\n\nThe above command is used to install Node.js dependencies, after installing dependencies continue with installing Node.js.\n\nroot@ns7:~ # pkg install node &amp;&amp; pkg install npm-10.2.5 &amp;&amp; pkg install npm-node18\n\n\nCheck the NPM and Node.js versions.\n\nroot@ns7:~ # npm --version\nroot@ns7:~ # node --version\n\n\nYou can read the complete article on how to install Node.js at.\n\nHow To Install NPM NodeJS On FreeBSD\n\n2. Creating a Web App\n\nLet’s just create a Web App with Node.JS, create a new folder for your Node.js project and navigate to that folder using the terminal.\n\nroot@ns7:~ # cd /var\nroot@ns7:/var # mkdir -p WebAppNode\nroot@ns7:/var # cd WebAppNode\nroot@ns7:/var/WebAppNode #\n\n\nThe first thing you do is initialize our new module by running the init command from the npm utility. The “npm init” command will ask you a bunch of questions and then write the “package.json” file. This file is what will turn your code into a Node.js package.\n\nroot@ns7:/var/WebAppNode # npm init\nThis utility will walk you through creating a package.json file.\nIt only covers the most common items, and tries to guess sensible defaults.\n\nSee `npm help init` for definitive documentation on these fields\nand exactly what they do.\n\nUse `npm install &lt;pkg&gt;` afterwards to install a package and\nsave it as a dependency in the package.json file.\n\nPress ^C at any time to quit.\npackage name: (freebsd_nodejs_webapp)\nversion: (1.0.0)\ndescription: Helping You To Do Learn Opensource UNIX BSD And Web Site With Blogger\nentry point: (app.js)\ntest command: Success... Node.js test\ngit repository: https://github.com/unixwinbsd/FreeBSD_NodeJS_WebApp.git\nkeywords: FreeBSD Node.js Web App\nauthor: Jhon Smith\nlicense: (ISC)\nAbout to write to /root/.cache/pypoetry/index/reverseproxy/www/FreeBSD_NodeJS_WebApp/package.json:\n\n{\n \"name\": \"freebsd_nodejs_webapp\",\n \"version\": \"1.0.0\",\n \"description\": \"Helping You To Do Learn Opensource UNIX BSD And Web Site With Blogger\",\n \"main\": \"app.js\",\n \"dependencies\": {\n \"accepts\": \"^1.3.8\",\n \"array-flatten\": \"^1.1.1\",\n \"body-parser\": \"^1.20.1\",\n \"bytes\": \"^3.1.2\",\n \"call-bind\": \"^1.0.5\",\n \"content-disposition\": \"^0.5.4\",\n \"content-type\": \"^1.0.5\",\n \"cookie\": \"^0.5.0\",\n \"cookie-signature\": \"^1.0.6\",\n \"debug\": \"^2.6.9\",\n \"define-data-property\": \"^1.1.1\",\n \"depd\": \"^2.0.0\",\n \"destroy\": \"^1.2.0\",\n \"ee-first\": \"^1.1.1\",\n \"encodeurl\": \"^1.0.2\",\n \"escape-html\": \"^1.0.3\",\n \"etag\": \"^1.8.1\",\n \"express\": \"^4.18.2\",\n \"finalhandler\": \"^1.2.0\",\n \"forwarded\": \"^0.2.0\",\n \"fresh\": \"^0.5.2\",\n \"function-bind\": \"^1.1.2\",\n \"get-intrinsic\": \"^1.2.2\",\n \"gopd\": \"^1.0.1\",\n \"has-property-descriptors\": \"^1.0.1\",\n \"has-proto\": \"^1.0.1\",\n \"has-symbols\": \"^1.0.3\",\n \"hasown\": \"^2.0.0\",\n \"http-errors\": \"^2.0.0\",\n \"iconv-lite\": \"^0.4.24\",\n \"inherits\": \"^2.0.4\",\n \"ipaddr.js\": \"^1.9.1\",\n \"media-typer\": \"^0.3.0\",\n \"merge-descriptors\": \"^1.0.1\",\n \"methods\": \"^1.1.2\",\n \"mime\": \"^1.6.0\",\n \"mime-db\": \"^1.52.0\",\n \"mime-types\": \"^2.1.35\",\n \"ms\": \"^2.0.0\",\n \"negotiator\": \"^0.6.3\",\n \"object-inspect\": \"^1.13.1\",\n \"on-finished\": \"^2.4.1\",\n \"parseurl\": \"^1.3.3\",\n \"path-to-regexp\": \"^0.1.7\",\n \"proxy-addr\": \"^2.0.7\",\n \"qs\": \"^6.11.0\",\n \"range-parser\": \"^1.2.1\",\n \"raw-body\": \"^2.5.1\",\n \"safe-buffer\": \"^5.2.1\",\n \"safer-buffer\": \"^2.1.2\",\n \"send\": \"^0.18.0\",\n \"serve-static\": \"^1.15.0\",\n \"set-function-length\": \"^1.1.1\",\n \"setprototypeof\": \"^1.2.0\",\n \"side-channel\": \"^1.0.4\",\n \"statuses\": \"^2.0.1\",\n \"toidentifier\": \"^1.0.1\",\n \"type-is\": \"^1.6.18\",\n \"unpipe\": \"^1.0.0\",\n \"utils-merge\": \"^1.0.1\",\n \"vary\": \"^1.1.2\"\n },\n \"devDependencies\": {},\n \"scripts\": {\n \"test\": \"Success... Node.js test\"\n },\n \"repository\": {\n \"type\": \"git\",\n \"url\": \"git+https://github.com/unixwinbsd/FreeBSD_NodeJS_WebApp.git\"\n },\n \"keywords\": [\n \"FreeBSD\",\n \"Node.js\",\n \"Web\",\n \"App\"\n ],\n \"author\": \"Jhon Smith\",\n \"license\": \"ISC\",\n \"bugs\": {\n \"url\": \"https://github.com/unixwinbsd/FreeBSD_NodeJS_WebApp/issues\"\n },\n \"homepage\": \"https://github.com/unixwinbsd/FreeBSD_NodeJS_WebApp#readme\"\n}\n\n\nIs this OK? (yes) yes\n\n\na. Main script file\n\nThe main Node.js script file is usually the starting point of a Node.js module. By default, the script name is index.js. In this example, we named it webapp.js, the file will start our Node.js project development test server. We will implement this later in the article.\n\nNow we can start writing the script. Create an \"app.js\" file to store your web server code.\n\nroot@ns7:/var/WebAppNode # touch app.js\n\n\nThe contents of the \"app.js\" file should look like this.\n\nconst express = require('express');\nconst app = express();\nconst path = require('path');\n\n\napp.get('/', (req,res) =&gt; {\n res.sendFile(path.join(__dirname+'/index.html'));\n \n});\n\n\napp.get('/about', (req,res) =&gt; {\n res.sendFile(path.join(__dirname+'/about.html'));\n \n });\n\napp.listen(3000, () =&gt; {\n console.log('Listening on port 3000');\n});\n\n\nThis code creates a simple server that listens on port 3000 and responds to requests to the Node.js directory.\n\nb. Module Requirements\n\nOnce the “package.json” and \"app.js\" file is ready, you can install the js package framework using “npm install --save-dev express”. In your terminal, run the following command.\n\nroot@ns7:/var/WebAppNode # npm install --save-dev express\n\n\nThe command above will also create a node_modules folder in your project directory, then the Express dependencies will be included in the contents of the \"package.json\" file. the “npm install --save-dev express\" command will also tell npm to save the dependency to the \"package.json\" file.\n\nAfter that we create the files \"about.html\" and \"index.html\".\n\nroot@ns7:/var/WebAppNode # touch index.html\nroot@ns7:/var/WebAppNode # touch about.html\n\n\nThe contents of the \"/var/about.html\" file should look like this.\n\n&lt;!DOCTYPE html&gt;\n&lt;head&gt;\n &lt;title&gt; About Us Page &lt;/title&gt;\n &lt;script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js\"&gt;&lt;/script&gt;\n &lt;link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css\"&gt;\n &lt;link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css\"&gt;\n &lt;script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js\"&gt;&lt;/script&gt;\n &lt;/head&gt;\n &lt;body&gt;\n &lt;div style=\"margin:6px;\"&gt;\n &lt;nav class=\"navbar navbar-inverse navbar-static-top\"&gt;\n &lt;div class=\"container\"&gt;\n &lt;a class=\"navbar-brand\" href=\"/\"&gt; unixwinbsd.site &lt;/a&gt;\n &lt;ul class=\"nav navbar-nav\"&gt;\n &lt;li&gt;\n &lt;a href=\"/\"&gt;Home&lt;/a&gt;\n &lt;/li&gt;\n &lt;li class=\"active\"&gt;\n &lt;a href=\"/about\"&gt;About&lt;/a&gt;\n &lt;/li&gt;\n &lt;/ul&gt;\n &lt;/div&gt;\n &lt;/nav&gt;\n &lt;div class=\"jumbotron\" style=\"padding:40px;\"&gt;\n &lt;h1&gt;About Us&lt;/h1&gt;\n &lt;strong&gt;&lt;p&gt; Helping You To Do Learn Opensource UNIX BSD And Web Site With Blogger.&lt;/p&gt;&lt;/strong&gt;\n &lt;p&gt;&lt;a class=\"btn btn-primary btn-lg\" href=\"#\" role=\"button\"&gt;Click here to Join us&lt;/a&gt;&lt;/p&gt;\n &lt;/div&gt;\n &lt;/div&gt;\n &lt;/body&gt;\n&lt;/html&gt;\n\n\nThe contents of the \"/var/index.html\" file should look like this.\n\n&lt;!DOCTYPE html&gt;\n&lt;head&gt;\n &lt;title&gt; DevOps HomePage &lt;/title&gt;\n &lt;script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js\"&gt;&lt;/script&gt;\n &lt;link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css\"&gt;\n &lt;link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css\"&gt;\n &lt;script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js\"&gt;&lt;/script&gt;\n &lt;/head&gt;\n &lt;body&gt;\n &lt;div style=\"margin:6px;\"&gt;\n &lt;nav class=\"navbar navbar-inverse navbar-static-top\"&gt;\n &lt;div class=\"container\"&gt;\n &lt;a class=\"navbar-brand\" href=\"/\"&gt; unixwinbsd.site &lt;/a&gt;\n &lt;ul class=\"nav navbar-nav\"&gt;\n &lt;li class=\"active\"&gt;\n &lt;a href=\"/\"&gt; Home &lt;/a&gt;\n &lt;/li&gt;\n &lt;li&gt;\n &lt;a href=\"/about\"&gt; About &lt;/a&gt;\n &lt;/li&gt;\n &lt;/ul&gt;\n &lt;/div&gt;\n &lt;/nav&gt;\n &lt;div class=\"jumbotron\" style=\"padding:40px;\"&gt;\n &lt;h1&gt; Hello FreeBSD &lt;span class=\"text-primary\"&gt; The Power &lt;/span&gt;&lt;span class=\"text-danger\"&gt; To Server &lt;/span&gt;&lt;/h1&gt;\n &lt;p&gt; Subscribe to Channel for &lt;span class=\"bg-info\"&gt; More &lt;/span&gt; &amp; Interesting &lt;span class=\"bg-success\"&gt; FreeBSD Tutorials &lt;/span&gt;&lt;/p&gt;\n &lt;p&gt;&lt;a class=\"btn btn-primary btn-lg\" href=\"#\" role=\"button\"&gt;What's New&lt;/a&gt;&lt;/p&gt;\n &lt;/div&gt;\n &lt;/div&gt;\n &lt;/body&gt;\n&lt;/html&gt;\n\n\nNow, run your Node.js \"Web App\" project with the following command.\n\nroot@ns7:/var/WebAppNode # node app.js\nListening on port 3000\n\n\nYou can see the results by opening Google Chrome and entering the command \"127.0.0.1:3000\".\n\n\n\n\nNow that you know how to create a standard web application in Node.js, you can take it a step further by extending the application—with add, delete and other commands. We hope this tutorial helps you get up and running with a simple Node.js application on a FreeBSD server.\n", "dateCreated": "2025-10-02 15:29:52 +0300", "datePublished": "2025-10-02 15:29:52 +0300", "dateModified": "2025-10-02 13:29:52 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/freebsd-tutorials-create-web-app-with-node-js", "name": "FreeBSD Tutorials To Create Web App With Node js", "description": "On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/freebsd-tutorials-create-web-app-with-node-js/", "headline": "FreeBSD Tutorials To Create Web App With Node js", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "FreeBSD Tutorials To Create Web App With Node js", "description": "On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/freebsd-tutorials-create-web-app-with-node-js/", "identifier": "judul", "name": "FreeBSD Tutorials To Create Web App With Node js", "description": "On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/freebsd-tutorials-create-web-app-with-node-js/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/freebsd-tutorials-create-web-app-with-node-js/", "name": "FreeBSD Tutorials To Create Web App With Node js", "description": "On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more", "dateCreated": "2025-10-02 15:29:52 +0300", "datePublished": "2025-10-02 15:29:52 +0300", "dateModified": "2025-10-02 13:29:52 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-10-02 15:29:52 +0300", "name": "FreeBSD Tutorials To Create Web App With Node js", "headline": "FreeBSD Tutorials To Create Web App With Node js", "description": "On the FreeBSD operating system, Node.js is bundled with the npm utility, which is the official package manager for Node.js and provides a command line interface (CLI) for interacting with an online registry to open source Node.js projects, modules, resources, and more", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

@@ -1,0 +1,801 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web</title><meta name="description" content="phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer"><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="phpldapadmin, phpmyadmin, freebsd, ldap, php, web, web server, https, ssl"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/complete-guide-phpldapadmin-freebsd-ldap/"><meta property="og:type" content="article"><meta property="og:title" content="Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web"><meta property="og:description"><meta property="og:image" content="https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/complete-guide-phpldapadmin-freebsd-ldap/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/complete-guide-phpldapadmin-freebsd-ldap/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-01-20 16:01:10 +0200"><meta property="og:image" content="/img/Logo.png"><meta property="og:title" content="Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web"><meta property="og:description" content="phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer"><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/complete-guide-phpldapadmin-freebsd-ldap/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="/img/Logo.png"><meta name="twitter:title" content="Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web"><meta name="twitter:description" content="phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer"><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web</h1><div class="lead badge bg-primary text-wrap"><h6><p>phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer</p></h6></div><p class="meta"></p><h6><time>January 20, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=WebServer">WebServer</a> &middot; <span class="reading-time" title="Estimated read time">42 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-php-and-apache24-mod-installation">1. PHP and Apache24 Mod Installation</a></li><li><a href="#2-installing-phpldapadmin">2. Installing phpLDAPadmin</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web</div><div class="article"><p>phpLDAPadmin is an open source web-based LDAP (Lightweight Directory Access Protocol) administration tool written in PHP. Key features include template-based entry creation; ability to add, modify, rename and delete LDAP entries, user password management with hash support, LDIF (LDAP Data Interchange Format) import/export and browser LDAP schema.</p><p>phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer with a web browser. phpLDAPadmin was created by David Smith. Deon George currently maintains the phpLDAPadmin project with the help of various contributors.</p><p>If you are going to use phpLDAPadmin from an unsecured public network, start by ensuring that your Apache HTTP server is properly configured to accept HTTPS connections with SSL. If your Apache HTTP server does not have SSL support, your LDAP login and password will be transmitted over the network “in the clear” and could be exposed to unauthorized persons.</p><p>In this article we will learn how to install and configure phpLDAPadmin on a <a href="https://www.freebsd.org/">FreeBSD 13.2 system</a>.<br><br></p><h2 id="1-php-and-apache24-mod-installation">1. PHP and Apache24 Mod Installation</h2><p>mod_php is an Apache module that allows PHP code to be executed directly by the Apache web server. This means that when a client (such as a web browser) requests a PHP page, the server can execute the PHP code and return the resulting HTML to the client, without requiring a separate PHP language interpreter. This can improve the performance and scalability of PHP applications, as it reduces the costs of starting and managing separate PHP processes. However, this also means that all PHP code runs with the same permissions as the Apache24 web server, which can pose security issues.</p><p>In order for phpLDAPadmin to run on a web server, Apache is required with PHP mod. Below is the script to install Apache with PHP mod.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns1:~</span> <span class="c1"># pkg install apache24</span>
+<span class="s">root@ns1:~</span> <span class="c1"># pkg install php82 mod_php82 php82-mysqli</span>
+<span class="s">root@ns1:~</span> <span class="c1"># pkg install php82-gd php82-phar php82-ctype php82-filter php82-iconv php82-curl php82-mysqli php82-pdo php82-tokenizer php82-mbstring php82-session php82-simplexml php82-xml php82-zlib php82-zip php82-dom php82-pdo_mysql php82-ctype</span>
+</code></pre></div></div><p>In this article we will not discuss Apache24 installation. You can read my previous article which explains how to install Apache24 on FreeBSD. Let’s assume that Apache24 is installed properly on FreeBSD. So let’s continue by configuring the PHP mod.</p><p>The next step is to edit the <code class="language-plaintext highlighter-rouge">/usr/local/etc/apache24/httpd.conf</code> file and enter the PHP mod script, as in the following example.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">&lt;IfModule dir_module&gt;</span><span class="w">
+</span><span class="go">    DirectoryIndex index.php index.html
+</span><span class="gp">&lt;/IfModule&gt;</span><span class="w">
+</span><span class="go">
+LoadModule php_module         libexec/apache24/libphp.so
+
+</span><span class="gp">&lt;FilesMatch "\.php$</span><span class="s2">"&gt;
+</span><span class="go">    SetHandler application/x-httpd-php
+</span><span class="gp">&lt;/FilesMatch&gt;</span><span class="w">
+</span><span class="gp">&lt;FilesMatch "\.phps$</span><span class="s2">"&gt;
+</span><span class="go">    SetHandler application/x-httpd-php-source
+</span><span class="gp">&lt;/FilesMatch&gt;</span><span class="w">
+</span><span class="go">AddType application/x-compress .Z
+AddType application/x-gzip .gz .tgz
+
+AddType application/x-httpd-php .php
+AddType application/x-httpd-php .php .phtml .php3
+AddType application/x-httpd-php-source .phps
+</span></code></pre></div></div><p>You can put the script at the end/bottom of the <code class="language-plaintext highlighter-rouge">/usr/local/etc/apache24/httpd.conf</code> file. Still in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/apache24/httpd.conf</code> file, change the following script.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">&lt;IfModule dir_module&gt;</span><span class="w">
+</span><span class="go">    DirectoryIndex index.html
+</span><span class="gp">&lt;/IfModule&gt;</span><span class="w">
+</span><span class="go">
+Change to
+
+</span><span class="gp">&lt;IfModule dir_module&gt;</span><span class="w">
+</span><span class="go">    DirectoryIndex index.php index.html
+</span><span class="gp">&lt;/IfModule&gt;</span><span class="w">
+</span></code></pre></div></div><p>You also add the following script to the bottom of the <code class="language-plaintext highlighter-rouge">/usr/local/etc/apache24/httpd.conf</code> file.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">LoadModule php_module         libexec/apache24/libphp.so
+
+</span><span class="gp">&lt;FilesMatch "\.php$</span><span class="s2">"&gt;
+</span><span class="go">    SetHandler application/x-httpd-php
+</span><span class="gp">&lt;/FilesMatch&gt;</span><span class="w">
+</span><span class="gp">&lt;FilesMatch "\.phps$</span><span class="s2">"&gt;
+</span><span class="go">    SetHandler application/x-httpd-php-source
+</span><span class="gp">&lt;/FilesMatch&gt;</span><span class="w">
+</span></code></pre></div></div><p>After that, we create a php.ini file by copying php.ini-production to the php.ini file, here’s how to copy it.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">cp</span> /usr/local/etc/php.ini-production /usr/local/etc/php.ini
+</code></pre></div></div><p>After you have the /usr/local/etc/php.ini file, we add the following script.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">extension=mysqli.so
+</span></code></pre></div></div><p><br></p><h2 id="2-installing-phpldapadmin">2. Installing phpLDAPadmin</h2><p>To start installing phpLDAPadmin, you can follow the steps below.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns1:~</span> <span class="c1"># cd /usr/ports/net/php82-ldap</span>
+<span class="s">root@ns1:/usr/ports/net/php82-ldap</span> <span class="c1"># make install clean</span>
+<span class="s">root@ns1:/usr/ports/net/php82-ldap</span> <span class="c1"># cd /usr/ports/net/phpldapadmin</span>
+<span class="s">root@ns1:/usr/ports/net/phpldapadmin</span> <span class="c1"># make install clean</span>
+</code></pre></div></div><p>Now you open the <code class="language-plaintext highlighter-rouge">/usr/local/etc/apache24/httpd.conf</code> file again and enter the script below at the very bottom of the script file /usr/local/etc/apache24/httpd.conf.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">Alias /phpldapadmin "/usr/local/www/phpldapadmin/htdocs/"
+</span><span class="gp">&lt;Directory "/usr/local/www/phpldapadmin/htdocs"&gt;</span><span class="w">
+</span><span class="go">    AllowOverride None
+    Options None
+    Require all granted
+</span><span class="gp">&lt;/Directory&gt;</span><span class="w">
+</span></code></pre></div></div><p>After that, open and edit the file <code class="language-plaintext highlighter-rouge">/usr/local/www/phpldapadmin/config/config.php</code> and enter the following script.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">$servers-&gt;setValue('server','name','unixexplore.com');</span>
+<span class="s">$servers-&gt;setValue('server','host','192.168.5.2');</span>
+<span class="s">$servers-&gt;setValue('server','port',389);</span>
+<span class="s">$servers-&gt;setValue('server','base',array('dc=unixexplore,dc=com'));</span>
+<span class="s">$servers-&gt;setValue('login','bind_id','cn=Manager,dc=unixexplore,dc=com');</span>
+<span class="s">$servers-&gt;setValue('login','bind_pass','semeru');</span>
+</code></pre></div></div><p>The script above adapts to the settings of the OpenLDAP application program that you have installed and configured. For more details, below is the complete script from the file /usr/local/www/phpldapadmin/config/config.php.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">&lt;?php
+/** NOTE **
+ ** Make sure that &lt;?php is the FIRST line of this file!
+ ** IE: There should NOT be any blank lines or spaces BEFORE &lt;?php
+ **/
+
+/**
+ * The phpLDAPadmin config file
+ * See: http://phpldapadmin.sourceforge.net/wiki/index.php/Config.php
+ *
+ * This is where you can customise some of the phpLDAPadmin defaults
+ * that are defined in config_default.php.
+ *
+</span><span class="gp"> * To override a default, use the $</span>config-&gt;custom variable to <span class="k">do </span>so.
+<span class="go"> * For example, the default for defining the language in config_default.php
+ *
+</span><span class="gp"> * $</span>this-&gt;default-&gt;appearance[<span class="s1">'language'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">(</span>
+<span class="gp"> *  'desc'=&gt;</span><span class="s1">'Language'</span>,
+<span class="gp"> *  'default'=&gt;</span><span class="s1">'auto'</span><span class="o">)</span><span class="p">;</span>
+<span class="go"> *
+</span><span class="gp"> * to override this, use $</span>config-&gt;custom-&gt;appearance[<span class="s1">'language'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'en_EN'</span><span class="p">;</span>
+<span class="go"> *
+ * This file is also used to configure your LDAP server connections.
+ *
+ * You must specify at least one LDAP server there. You may add
+ * as many as you like. You can also specify your language, and
+ * many other options.
+ *
+ * NOTE: Commented out values in this file prefixed by //, represent the
+ * defaults that have been defined in config_default.php.
+</span><span class="gp"> * Commented out values prefixed by #</span>, dont reflect their default value, you can
+<span class="go"> * check config_default.php if you want to see what the default is.
+ *
+ * DONT change config_default.php, you changes will be lost by the next release
+ * of PLA. Instead change this file - as it will NOT be replaced by a new
+ * version of phpLDAPadmin.
+ */
+
+/*********************************************
+ * Useful important configuration overrides  *
+ *********************************************/
+
+/* If you are asked to put PLA in debug mode, this is how you do it: */
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;debug[<span class="s1">'level'</span><span class="o">]</span> <span class="o">=</span> 255<span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;debug[<span class="s1">'syslog'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="gp">$</span>config-&gt;custom-&gt;debug[<span class="s1">'file'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'/tmp/pla_debug.log'</span><span class="p">;</span>
+<span class="go">
+/* phpLDAPadmin can encrypt the content of sensitive cookies if you set this
+   to a big random string. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;session[<span class="s1">'blowfish'</span><span class="o">]</span> <span class="o">=</span> null<span class="p">;</span>
+<span class="go">
+/* If your auth_type is http, you can override your HTTP Authentication Realm. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;session[<span class="s1">'http_realm'</span><span class="o">]</span> <span class="o">=</span> sprintf<span class="o">(</span><span class="s1">'%s %s'</span>,app_name<span class="o">()</span>,<span class="s1">'login'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* The language setting. If you set this to 'auto', phpLDAPadmin will attempt
+   to determine your language automatically.
+   If PLA doesnt show (all) strings in your language, then you can do some
+   translation at http://translations.launchpad.net/phpldapadmin and download
+   the translation files, replacing those provided with PLA.
+   (We'll pick up the translations before making the next release too!) */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'language'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'auto'</span><span class="p">;</span>
+<span class="go">
+/* The temporary storage directory where we will put jpegPhoto data
+   This directory must be readable and writable by your web server. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;jpeg[<span class="s1">'tmpdir'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'/tmp'</span><span class="p">;</span>     // Example <span class="k">for </span>Unix systems
+<span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;jpeg[<span class="s1">'tmpdir'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'c:\\temp'</span><span class="p">;</span> // Example <span class="k">for </span>Windows systems
+<span class="go">
+/* Set this to (bool)true if you do NOT want a random salt used when
+   calling crypt().  Instead, use the first two letters of the user's
+   password.  This is insecure but unfortunately needed for some older
+   environments. */
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;password[<span class="s1">'no_random_crypt_salt'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="go">
+/* If you want to restrict password available types (encryption algorithms)
+	 Should be subset of:
+	 array(
+</span><span class="gp">		''=&gt;</span><span class="s1">'clear'</span>,
+<span class="gp">		'bcrypt'=&gt;</span><span class="s1">'bcrypt'</span>,
+<span class="gp">		'blowfish'=&gt;</span><span class="s1">'blowfish'</span>,
+<span class="gp">		'crypt'=&gt;</span><span class="s1">'crypt'</span>,
+<span class="gp">		'ext_des'=&gt;</span><span class="s1">'ext_des'</span>,
+<span class="gp">		'md5'=&gt;</span><span class="s1">'md5'</span>,
+<span class="gp">		'k5key'=&gt;</span><span class="s1">'k5key'</span>,
+<span class="gp">		'md5crypt'=&gt;</span><span class="s1">'md5crypt'</span>,
+<span class="gp">		'sha'=&gt;</span><span class="s1">'sha'</span>,
+<span class="gp">		'smd5'=&gt;</span><span class="s1">'smd5'</span>,
+<span class="gp">		'ssha'=&gt;</span><span class="s1">'ssha'</span>,
+<span class="gp">		'sha256'=&gt;</span><span class="s1">'sha256'</span>,
+<span class="gp">		'ssha256'=&gt;</span><span class="s1">'ssha256'</span>,
+<span class="gp">		'sha384'=&gt;</span><span class="s1">'sha384'</span>,
+<span class="gp">		'ssha384'=&gt;</span><span class="s1">'ssha384'</span>,
+<span class="gp">		'sha512'=&gt;</span><span class="s1">'sha512'</span>,
+<span class="gp">		'ssha512'=&gt;</span><span class="s1">'ssha512'</span>,
+<span class="gp">		'sha256crypt'=&gt;</span><span class="s1">'sha256crypt'</span>,
+<span class="gp">		'sha512crypt'=&gt;</span><span class="s1">'sha512crypt'</span>,
+<span class="gp">		'argon2i'=&gt;</span><span class="s1">'argon2i'</span>,
+<span class="gp">		'argon2id'=&gt;</span><span class="s1">'argon2id'</span>,
+<span class="go">	 )*/
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;password[<span class="s1">'available_types'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">(</span><span class="s1">''</span><span class="o">=&gt;</span><span class="s1">'clear'</span>,<span class="s1">'md5'</span><span class="o">=&gt;</span><span class="s1">'md5'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* PHP script timeout control. If php runs longer than this many seconds then
+   PHP will stop with an Maximum Execution time error. Increase this value from
+   the default if queries to your LDAP server are slow. The default is either
+   30 seconds or the setting of max_exection_time if this is null. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;session[<span class="s1">'timelimit'</span><span class="o">]</span> <span class="o">=</span> 30<span class="p">;</span>
+<span class="go">
+/* Our local timezone
+   This is to make sure that when we ask the system for the current time, we
+   get the right local time. If this is not set, all time() calculations will
+   assume UTC if you have not set PHP date.timezone. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'timezone'</span><span class="o">]</span> <span class="o">=</span> null<span class="p">;</span>
+<span class="gp">$</span>config-&gt;custom-&gt;appearance[<span class="s1">'timezone'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'Asia/Jakarta'</span><span class="p">;</span>
+<span class="go">
+/*********************************************
+ * Commands                                  *
+ *********************************************/
+
+</span><span class="gp">/* Command availability ;</span><span class="w"> </span><span class="k">if </span>you don<span class="s1">'t authorize a command the command
+</span><span class="go">   links will not be shown and the command action will not be permitted.
+   For better security, set also ACL in your ldap directory. */
+/*
+</span><span class="gp">$</span>config-&gt;custom-&gt;commands[<span class="s1">'cmd'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">(</span>
+<span class="gp">	'entry_internal_attributes_show' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'entry_refresh' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'oslinks' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'switch_template' =&gt;</span><span class="w"> </span><span class="nb">true</span>
+<span class="gp">);</span><span class="w">
+</span><span class="go">
+</span><span class="gp">$</span>config-&gt;custom-&gt;commands[<span class="s1">'script'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">(</span>
+<span class="gp">	'add_attr_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'add_oclass_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'add_value_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'collapse' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'compare' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'compare_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'copy' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'copy_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'create' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'create_confirm' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'delete' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'delete_attr' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'delete_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'draw_tree_node' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'expand' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'export' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'export_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'import' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'import_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'login' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'logout' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'login_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'mass_delete' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'mass_edit' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'mass_update' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'modify_member_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'monitor' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'purge_cache' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'query_engine' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'rename' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'rename_form' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'rdelete' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'refresh' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'schema' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'server_info' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'show_cache' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'template_engine' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'update_confirm' =&gt;</span><span class="w"> </span><span class="nb">true</span>,
+<span class="gp">	'update' =&gt;</span><span class="w"> </span><span class="nb">true</span>
+<span class="gp">);</span><span class="w">
+</span><span class="go">*/
+
+/*********************************************
+ * Appearance                                *
+ *********************************************/
+
+/* If you want to choose the appearance of the tree, specify a class name which
+   inherits from the Tree class. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'tree'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'AJAXTree'</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;appearance[<span class="s1">'tree'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'HTMLTree'</span><span class="p">;</span>
+<span class="go">
+/* Just show your custom templates. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'custom_templates_only'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="go">
+/* Disable the default template. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'disable_default_template'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="go">
+/* Hide the warnings for invalid objectClasses/attributes in templates. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'hide_template_warning'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="go">
+/* Set to true if you would like to hide header and footer parts. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'minimalMode'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="go">
+/* Configure what objects are shown in left hand tree */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'tree_filter'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'(objectclass=*)'</span><span class="p">;</span>
+<span class="go">
+/* The height and width of the tree. If these values are not set, then
+   no tree scroll bars are provided. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'tree_height'</span><span class="o">]</span> <span class="o">=</span> null<span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;appearance[<span class="s1">'tree_height'</span><span class="o">]</span> <span class="o">=</span> 600<span class="p">;</span>
+<span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'tree_width'</span><span class="o">]</span> <span class="o">=</span> null<span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;appearance[<span class="s1">'tree_width'</span><span class="o">]</span> <span class="o">=</span> 250<span class="p">;</span>
+<span class="go">
+/* Number of tree command icons to show, 0 = show all icons on 1 row. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'tree_icons'</span><span class="o">]</span> <span class="o">=</span> 0<span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;appearance[<span class="s1">'tree_icons'</span><span class="o">]</span> <span class="o">=</span> 4<span class="p">;</span>
+<span class="go">
+/* Confirm create and update operations, allowing you to review the changes
+   and optionally skip attributes during the create/update operation. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;confirm[<span class="s1">'create'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="gp">// $</span>config-&gt;custom-&gt;confirm[<span class="s1">'update'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="go">
+/* Confirm copy operations, and treat them like create operations. This allows
+   you to edit the attributes (thus changing any that might conflict with
+   uniqueness) before creating the new entry. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;confirm[<span class="s1">'copy'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="go">
+/*********************************************
+ * User-friendly attribute translation       *
+ *********************************************/
+
+/* Use this array to map attribute names to user friendly names. For example, if
+   you don't want to see "facsimileTelephoneNumber" but rather "Fax". */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'friendly_attrs'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">()</span><span class="p">;</span>
+<span class="gp">$</span>config-&gt;custom-&gt;appearance[<span class="s1">'friendly_attrs'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">(</span>
+<span class="gp">	'facsimileTelephoneNumber' =&gt;</span><span class="w"> </span><span class="s1">'Fax'</span>,
+<span class="gp">	'gid'                      =&gt;</span><span class="w"> </span><span class="s1">'Group'</span>,
+<span class="gp">	'mail'                     =&gt;</span><span class="w"> </span><span class="s1">'Email'</span>,
+<span class="gp">	'telephoneNumber'          =&gt;</span><span class="w"> </span><span class="s1">'Telephone'</span>,
+<span class="gp">	'uid'                      =&gt;</span><span class="w"> </span><span class="s1">'User Name'</span>,
+<span class="gp">	'userPassword'             =&gt;</span><span class="w"> </span><span class="s1">'Password'</span>
+<span class="gp">);</span><span class="w">
+</span><span class="go">
+/*********************************************
+ * Hidden attributes                         *
+ *********************************************/
+
+/* You may want to hide certain attributes from being edited. If you want to
+   hide attributes from the user, you should use your LDAP servers ACLs.
+   NOTE: The user must be able to read the hide_attrs_exempt entry to be
+   excluded. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'hide_attrs'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">()</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;appearance[<span class="s1">'hide_attrs'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">(</span><span class="s1">'objectClass'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Members of this list will be exempt from the hidden attributes. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'hide_attrs_exempt'</span><span class="o">]</span> <span class="o">=</span> null<span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;appearance[<span class="s1">'hide_attrs_exempt'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'cn=PLA UnHide,ou=Groups,c=AU'</span><span class="p">;</span>
+<span class="go">
+/*********************************************
+ * Read-only attributes                      *
+ *********************************************/
+
+/* You may want to phpLDAPadmin to display certain attributes as read only,
+   meaning that users will not be presented a form for modifying those
+   attributes, and they will not be allowed to be modified on the "back-end"
+   either. You may configure this list here:
+   NOTE: The user must be able to read the readonly_attrs_exempt entry to be
+   excluded. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'readonly_attrs'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">()</span><span class="p">;</span>
+<span class="go">
+/* Members of this list will be exempt from the readonly attributes. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'readonly_attrs_exempt'</span><span class="o">]</span> <span class="o">=</span> null<span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;appearance[<span class="s1">'readonly_attrs_exempt'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'cn=PLA ReadWrite,ou=Groups,c=AU'</span><span class="p">;</span>
+<span class="go">
+/*********************************************
+ * Group attributes                          *
+ *********************************************/
+
+/* Add "modify group members" link to the attribute. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;modify_member[<span class="s1">'groupattr'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">(</span><span class="s1">'member'</span>,<span class="s1">'uniqueMember'</span>,<span class="s1">'memberUid'</span>,<span class="s1">'sudoUser'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Configure filter for member search. This only applies to "modify group members" feature */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;modify_member[<span class="s1">'filter'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'(objectclass=Person)'</span><span class="p">;</span>
+<span class="go">
+/* Attribute that is added to the group member attribute. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;modify_member[<span class="s1">'attr'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'dn'</span><span class="p">;</span>
+<span class="go">
+/* For Posix attributes */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;modify_member[<span class="s1">'posixattr'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'uid'</span><span class="p">;</span>
+<span class="gp">// $</span>config-&gt;custom-&gt;modify_member[<span class="s1">'posixfilter'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'(uid=*)'</span><span class="p">;</span>
+<span class="gp">// $</span>config-&gt;custom-&gt;modify_member[<span class="s1">'posixgroupattr'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'memberUid'</span><span class="p">;</span>
+<span class="go">
+/*********************************************
+ * Support for attrs display order           *
+ *********************************************/
+
+/* Use this array if you want to have your attributes displayed in a specific
+   order. You can use default attribute names or their fridenly names.
+   For example, "sn" will be displayed right after "givenName". All the other
+   attributes that are not specified in this array will be displayed after in
+   alphabetical order. */
+</span><span class="gp">// $</span>config-&gt;custom-&gt;appearance[<span class="s1">'attr_display_order'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">()</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$config</span>-&gt;custom-&gt;appearance[<span class="s1">'attr_display_order'</span><span class="o">]</span> <span class="o">=</span> array<span class="o">(</span>
+<span class="gp">#</span><span class="w">   </span><span class="s1">'givenName'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'sn'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'cn'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'displayName'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'uid'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'uidNumber'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'gidNumber'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'homeDirectory'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'mail'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'userPassword'</span>
+<span class="gp">#</span><span class="w">  </span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/*********************************************
+ * Define your LDAP servers in this section  *
+ *********************************************/
+
+</span><span class="gp">$</span>servers <span class="o">=</span> new Datastore<span class="o">()</span><span class="p">;</span>
+<span class="go">
+</span><span class="gp">/* $</span>servers-&gt;NewServer<span class="o">(</span><span class="s1">'ldap_pla'</span><span class="o">)</span> must be called before each new LDAP server
+<span class="go">   declaration. */
+</span><span class="gp">$</span>servers-&gt;newServer<span class="o">(</span><span class="s1">'ldap_pla'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* A convenient name that will appear in the tree viewer and throughout
+   phpLDAPadmin to identify this LDAP server to users. */
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'name'</span>,<span class="s1">'unixexplore.com'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Examples:
+   'ldap.example.com',
+   'ldaps://ldap.example.com/',
+   'ldapi://%2fusr%local%2fvar%2frun%2fldapi'
+           (Unix socket at /usr/local/var/run/ldap) */
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'host'</span>,<span class="s1">'192.168.5.2'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* The port your LDAP server listens on (no quotes). 389 is standard. */
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'port'</span>,389<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Array of base DNs of your LDAP server. Leave this blank to have phpLDAPadmin
+   auto-detect it for you. */
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'base'</span>,array<span class="o">(</span><span class="s1">'dc=unixexplore,dc=com'</span><span class="o">))</span><span class="p">;</span>
+<span class="go">
+/* Five options for auth_type:
+   1. 'cookie': you will login via a web form, and a client-side cookie will
+      store your login dn and password.
+   2. 'session': same as cookie but your login dn and password are stored on the
+      web server in a persistent session variable.
+   3. 'http': same as session but your login dn and password are retrieved via
+      HTTP authentication.
+   4. 'config': specify your login dn and password here in this config file. No
+      login will be required to use phpLDAPadmin for this server.
+   5. 'sasl': login will be taken from the webserver's kerberos authentication.
+      Currently only GSSAPI has been tested (using mod_auth_kerb).
+   6. 'sasl_external': login will be taken from SASL external mechanism.
+
+   Choose wisely to protect your authentication information appropriately for
+   your situation. If you choose 'cookie', your cookie contents will be
+   encrypted using blowfish and the secret your specify above as
+   session['blowfish']. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'auth_type'</span>,<span class="s1">'session'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* The DN of the user for phpLDAPadmin to bind with. For anonymous binds or
+   'cookie','session' or 'sasl' auth_types, LEAVE THE LOGIN_DN AND LOGIN_PASS
+   BLANK. If you specify a login_attr in conjunction with a cookie or session
+   auth_type, then you can also specify the bind_id/bind_pass here for searching
+   the directory for users (ie, if your LDAP server does not allow anonymous
+   binds. */
+
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'bind_id'</span>,<span class="s1">'cn=Manager,dc=unixexplore,dc=com'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Your LDAP password. If you specified an empty bind_id above, this MUST also
+   be blank. */
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'bind_pass'</span>,<span class="s1">'semeru'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Use TLS (Transport Layer Security) to connect to the LDAP server. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'tls'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* TLS Certificate Authority file (overrides ldap.conf, PHP 7.1+) */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'tls_cacert'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'tls_cacert'</span>,<span class="s1">'/etc/openldap/certs/ca.crt'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* TLS Certificate Authority hashed directory (overrides ldap.conf, PHP 7.1+) */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'tls_cacertdir'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'tls_cacertdir'</span>,<span class="s1">'/etc/openldap/certs'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* TLS Client Certificate file (PHP 7.1+) */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'tls_cert'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'tls_cert'</span>,<span class="s1">'/etc/pki/tls/certs/ldap_user.crt'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* TLS Client Certificate Key file (PHP 7.1+) */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'tls_key'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'tls_key'</span>,<span class="s1">'/etc/pki/tls/private/ldap_user.key'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/************************************
+ *      SASL Authentication         *
+ ************************************/
+
+/* Enable SASL authentication LDAP SASL authentication requires PHP 5.x
+   configured with --with-ldap-sasl=DIR. If this option is disabled (ie, set to
+   false), then all other sasl options are ignored. */
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'auth_type'</span>,<span class="s1">'sasl'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* SASL GSSAPI auth mechanism (requires auth_type of sasl) */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'mech'</span>,<span class="s1">'GSSAPI'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* SASL PLAIN support... this mech converts simple binds to SASL
+   PLAIN binds using any auth_type (or other bind_id/pass) as credentials.
+   NOTE: auth_type must be simple auth compatible (ie not sasl) */
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'mech'</span>,<span class="s1">'PLAIN'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* SASL EXTERNAL support... really a different auth_type */
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'auth_type'</span>,<span class="s1">'sasl_external'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* SASL authentication realm name */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'realm'</span>,<span class="s1">''</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'realm'</span>,<span class="s1">'EXAMPLE.COM'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* SASL authorization ID name
+   If this option is undefined, authorization id will be computed from bind DN,
+   using authz_id_regex and authz_id_replacement. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'authz_id'</span>, null<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* SASL authorization id regex and replacement
+   When authz_id property is not set (default), phpLDAPAdmin will try to
+   figure out authorization id by itself from bind distinguished name (DN).
+
+   This procedure is done by calling preg_replace() php function in the
+   following way:
+
+</span><span class="gp">   $</span>authz_id <span class="o">=</span> preg_replace<span class="o">(</span><span class="nv">$sasl_authz_id_regex</span>,<span class="nv">$sasl_authz_id_replacement</span>,
+<span class="gp">    $</span>bind_dn<span class="o">)</span><span class="p">;</span>
+<span class="go">
+   For info about pcre regexes, see:
+   - pcre(3), perlre(3)
+   - http://www.php.net/preg_replace */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'authz_id_regex'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'authz_id_replacement'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'authz_id_regex'</span>,<span class="s1">'/^uid=([^,]+)(.+)/i'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'authz_id_replacement'</span>,<span class="s1">'$1'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* SASL auth security props.
+</span><span class="gp">   See http://beepcore-tcl.sourceforge.net/tclsasl.html#</span>anchor5 <span class="k">for </span>explanation. <span class="k">*</span>/
+<span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'props'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Default password hashing algorithm. One of md5, ssha, sha, md5crpyt, smd5,
+   blowfish, crypt or leave blank for now default algorithm. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'appearance'</span>,<span class="s1">'pla_password_hash'</span>,<span class="s1">'md5'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* If you specified 'cookie' or 'session' as the auth_type above, you can
+   optionally specify here an attribute to use when logging in. If you enter
+   'uid' and login as 'dsmith', phpLDAPadmin will search for (uid=dsmith)
+   and log in as that user.
+   Leave blank or specify 'dn' to use full DN for logging in. Note also that if
+   your LDAP server requires you to login to perform searches, you can enter the
+   DN to use when searching in 'bind_id' and 'bind_pass' above. */
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'attr'</span>,<span class="s1">'dn'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Base DNs to used for logins. If this value is not set, then the LDAP server
+   Base DNs are used. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'base'</span>,array<span class="o">())</span><span class="p">;</span>
+<span class="go">
+/* If 'login,attr' is used above such that phpLDAPadmin will search for your DN
+   at login, you may restrict the search to a specific objectClasses. EG, set this
+   to array('posixAccount') or array('inetOrgPerson',..), depending upon your
+   setup. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'class'</span>,array<span class="o">())</span><span class="p">;</span>
+<span class="go">
+/* If login_attr was set to 'dn', it is possible to specify a template string to
+   build the DN from. Use '%s' where user input should be inserted. A user may
+   still enter the complete DN. In this case the template will not be used. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'bind_dn_template'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'bind_dn_template'</span>,<span class="s1">'cn=%s,ou=people,dc=example,dc=com'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* If you specified something different from 'dn', for example 'uid', as the
+   login_attr above, you can optionally specify here to fall back to
+   authentication with dn.
+   This is useful, when users should be able to log in with their uid, but
+   the ldap administrator wants to log in with his root-dn, that does not
+   necessarily have the uid attribute.
+   When using this feature, login_class is ignored. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'fallback_dn'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Specify true If you want phpLDAPadmin to not display or permit any
+   modification to the LDAP server. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'read_only'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Specify false if you do not want phpLDAPadmin to draw the 'Create new' links
+   in the tree viewer. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'appearance'</span>,<span class="s1">'show_create'</span>,true<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Set to true if you would like to initially open the first level of each tree. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'appearance'</span>,<span class="s1">'open_tree'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Set to true to display authorization ID in place of login dn (PHP 7.2+) */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'appearance'</span>,<span class="s1">'show_authz'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* This feature allows phpLDAPadmin to automatically determine the next
+   available uidNumber for a new entry. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'enable'</span>,true<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* The mechanism to use when finding the next available uidNumber. Two possible
+   values: 'uidpool' or 'search'.
+   The 'uidpool' mechanism uses an existing uidPool entry in your LDAP server to
+   blindly lookup the next available uidNumber. The 'search' mechanism searches
+   for entries with a uidNumber value and finds the first available uidNumber
+   (slower). */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'mechanism'</span>,<span class="s1">'search'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* The DN of the search base when the 'search' mechanism is used above. */
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'search_base'</span>,<span class="s1">'ou=People,dc=example,dc=com'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* The minimum number to use when searching for the next available number
+   (only when 'search' is used for auto_number. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'min'</span>,array<span class="o">(</span><span class="s1">'uidNumber'</span><span class="o">=&gt;</span>1000,<span class="s1">'gidNumber'</span><span class="o">=&gt;</span>500<span class="o">))</span><span class="p">;</span>
+<span class="go">
+/* If you set this, then phpldapadmin will bind to LDAP with this user ID when
+   searching for the uidnumber. The idea is, this user id would have full
+   (readonly) access to uidnumber in your ldap directory (the logged in user
+   may not), so that you can be guaranteed to get a unique uidnumber for your
+   directory. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'dn'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* The password for the dn above. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'pass'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Enable anonymous bind login. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'anon_bind'</span>,true<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Use customized page with prefix when available. */
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'custom'</span>,<span class="s1">'pages_prefix'</span>,<span class="s1">'custom_'</span><span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* If you set this, then only these DNs are allowed to log in. This array can
+   contain individual users, groups or ldap search filter(s). Keep in mind that
+   the user has not authenticated yet, so this will be an anonymous search to
+   the LDAP server, so make your ACLs allow these searches to return results! */
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'allowed_dns'</span>,array<span class="o">(</span>
+<span class="gp">#</span><span class="w">   </span><span class="s1">'uid=stran,ou=People,dc=example,dc=com'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'(&amp;(gidNumber=811)(objectClass=groupOfNames))'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'(|(uidNumber=200)(uidNumber=201))'</span>,
+<span class="gp">#</span><span class="w">   </span><span class="s1">'cn=callcenter,ou=Group,dc=example,dc=com'</span><span class="o">))</span><span class="p">;</span>
+<span class="go">
+/* Set this if you dont want this LDAP server to show in the tree */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'visible'</span>,true<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Set this if you want to hide the base DNs that dont exist instead of
+   displaying the message "The base entry doesnt exist, create it?"
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'hide_noaccess_base'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'hide_noaccess_base'</span>,true<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* This is the time out value in minutes for the server. After as many minutes
+   of inactivity you will be automatically logged out. If not set, the default
+   value will be ( session_cache_expire()-1 ) */
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'timeout'</span>,30<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* Set this if you want phpldapadmin to perform rename operation on entry which
+   has children. Certain servers are known to allow it, certain are not. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'branch_rename'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* If you set this, then phpldapadmin will show these attributes as
+   internal attributes, even if they are not defined in your schema. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'custom_sys_attrs'</span>,array<span class="o">(</span><span class="s1">''</span><span class="o">))</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'custom_sys_attrs'</span>,array<span class="o">(</span><span class="s1">'passwordExpirationTime'</span>,<span class="s1">'passwordAllowChangeTime'</span><span class="o">))</span><span class="p">;</span>
+<span class="go">
+/* If you set this, then phpldapadmin will show these attributes on
+   objects, even if they are not defined in your schema. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'custom_attrs'</span>,array<span class="o">(</span><span class="s1">''</span><span class="o">))</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'custom_attrs'</span>,array<span class="o">(</span><span class="s1">'nsRoleDN'</span>,<span class="s1">'nsRole'</span>,<span class="s1">'nsAccountLock'</span><span class="o">))</span><span class="p">;</span>
+<span class="go">
+/* These attributes will be forced to MAY attributes and become option in the
+   templates. If they are not defined in the templates, then they wont appear
+   as per normal template processing. You may want to do this because your LDAP
+   server may automatically calculate a default value.
+   In Fedora Directory Server using the DNA Plugin one could ignore uidNumber,
+   gidNumber and sambaSID. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'force_may'</span>,array<span class="o">(</span><span class="s1">''</span><span class="o">))</span><span class="p">;</span>
+<span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'force_may'</span>,array<span class="o">(</span><span class="s1">'uidNumber'</span>,<span class="s1">'gidNumber'</span>,<span class="s1">'sambaSID'</span><span class="o">))</span><span class="p">;</span>
+<span class="go">
+/*********************************************
+ * Unique attributes                         *
+ *********************************************/
+
+/* You may want phpLDAPadmin to enforce some attributes to have unique values
+   (ie: not belong to other entries in your tree. This (together with
+   'unique','dn' and 'unique','pass' option will not let updates to
+   occur with other attributes have the same value. */
+</span><span class="gp">#</span><span class="w">  </span><span class="nv">$servers</span>-&gt;setValue<span class="o">(</span><span class="s1">'unique'</span>,<span class="s1">'attrs'</span>,array<span class="o">(</span><span class="s1">'mail'</span>,<span class="s1">'uid'</span>,<span class="s1">'uidNumber'</span><span class="o">))</span><span class="p">;</span>
+<span class="go">
+/* If you set this, then phpldapadmin will bind to LDAP with this user ID when
+   searching for attribute uniqueness. The idea is, this user id would have full
+   (readonly) access to your ldap directory (the logged in user may not), so
+   that you can be guaranteed to get a unique uidnumber for your directory. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'unique'</span>,<span class="s1">'dn'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/* The password for the dn above. */
+</span><span class="gp">// $</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'unique'</span>,<span class="s1">'pass'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="go">
+/**************************************************************************
+ * If you want to configure additional LDAP servers, do so below.         *
+ * Remove the commented lines and use this section as a template for all  *
+ * your other LDAP servers.                                               *
+ **************************************************************************/
+
+/*
+</span><span class="gp">$</span>servers-&gt;newServer<span class="o">(</span><span class="s1">'ldap_pla'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'name'</span>,<span class="s1">'LDAP Server'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'host'</span>,<span class="s1">'127.0.0.1'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'port'</span>,389<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'base'</span>,array<span class="o">(</span><span class="s1">''</span><span class="o">))</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'auth_type'</span>,<span class="s1">'cookie'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'bind_id'</span>,<span class="s1">''</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'bind_pass'</span>,<span class="s1">''</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'tls'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>SASL auth
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'auth_type'</span>,<span class="s1">'sasl'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'mech'</span>,<span class="s1">'GSSAPI'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'realm'</span>,<span class="s1">'EXAMPLE.COM'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'authz_id'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'authz_id_regex'</span>,<span class="s1">'/^uid=([^,]+)(.+)/i'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'authz_id_replacement'</span>,<span class="s1">'$1'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'sasl'</span>,<span class="s1">'props'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="go">
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'appearance'</span>,<span class="s1">'pla_password_hash'</span>,<span class="s1">'md5'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'attr'</span>,<span class="s1">'dn'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'fallback_dn'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'class'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'read_only'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'appearance'</span>,<span class="s1">'show_create'</span>,true<span class="o">)</span><span class="p">;</span>
+<span class="go">
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'enable'</span>,true<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'mechanism'</span>,<span class="s1">'search'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'search_base'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'min'</span>,array<span class="o">(</span><span class="s1">'uidNumber'</span><span class="o">=&gt;</span>1000,<span class="s1">'gidNumber'</span><span class="o">=&gt;</span>500<span class="o">))</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'dn'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'auto_number'</span>,<span class="s1">'pass'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="go">
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'anon_bind'</span>,true<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'custom'</span>,<span class="s1">'pages_prefix'</span>,<span class="s1">'custom_'</span><span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'unique'</span>,<span class="s1">'attrs'</span>,array<span class="o">(</span><span class="s1">'mail'</span>,<span class="s1">'uid'</span>,<span class="s1">'uidNumber'</span><span class="o">))</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'unique'</span>,<span class="s1">'dn'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'unique'</span>,<span class="s1">'pass'</span>,null<span class="o">)</span><span class="p">;</span>
+<span class="go">
+</span><span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'visible'</span>,true<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'login'</span>,<span class="s1">'timeout'</span>,30<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'branch_rename'</span>,false<span class="o">)</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'custom_sys_attrs'</span>,array<span class="o">(</span><span class="s1">'passwordExpirationTime'</span>,<span class="s1">'passwordAllowChangeTime'</span><span class="o">))</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'custom_attrs'</span>,array<span class="o">(</span><span class="s1">'nsRoleDN'</span>,<span class="s1">'nsRole'</span>,<span class="s1">'nsAccountLock'</span><span class="o">))</span><span class="p">;</span>
+<span class="gp">$</span>servers-&gt;setValue<span class="o">(</span><span class="s1">'server'</span>,<span class="s1">'force_may'</span>,array<span class="o">(</span><span class="s1">'uidNumber'</span>,<span class="s1">'gidNumber'</span>,<span class="s1">'sambaSID'</span><span class="o">))</span><span class="p">;</span>
+<span class="go">*/
+
+
+/***********************************************************************************
+ * If you want to configure Google reCAPTCHA on autentication form, do so below.   *
+ * Remove the commented lines and use this section as a template for all           *
+ * reCAPTCHA v2  Generate on https://www.google.com/recaptcha/                     *
+ *                                                                                 *
+ * IMPORTANT: Select reCAPTCHA v2   on  Type of reCAPTCHA                          *
+ ***********************************************************************************/
+
+
+</span><span class="gp">$</span>config-&gt;custom-&gt;session[<span class="s1">'reCAPTCHA-enable'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="gp">$</span>config-&gt;custom-&gt;session[<span class="s1">'reCAPTCHA-key-site'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'&lt;put-here-key-site&gt;'</span><span class="p">;</span>
+<span class="gp">$</span>config-&gt;custom-&gt;session[<span class="s1">'reCAPTCHA-key-server'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'&lt;put-here-key-server&gt;'</span><span class="p">;</span>
+<span class="go">
+</span><span class="gp">?&gt;</span><span class="w">
+</span></code></pre></div></div><p>The next step is to type the following command.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns1:~ # chown -R www:www /usr/local/www/phpldapadmin
+root@ns1:~ # service apache24 restart
+Performing sanity check on apache24 configuration:
+Syntax OK
+Stopping apache24.
+Waiting for PIDS: 44221.
+Performing sanity check on apache24 configuration:
+Syntax OK
+Starting apache24.
+</code></pre></div></div><p>After that, you can test, open the Yandex web browser, Google Chrome or Mozilla Firefox, type the following script in the browser.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">http://192.168.5.2/phpldapadmin/</span>
+</code></pre></div></div><p>If there is nothing wrong with the configuration above, the phpLDAPadmin dashboard will appear.</p><div class="PageNavigation"><a class="prev" href="/linux/checking-status-open-portson-windows-and-freebsd/">&laquo; Checking the Status of Open Ports on Windows and FreeBSD</a> <a class="next" href="/freebsd/setup-php-fpm-apache-freebsd/">Configuring PHP FPM and Apache24 on FreeBSD &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/complete-guide-phpldapadmin-freebsd-ldap/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/complete-guide-phpldapadmin-freebsd-ldap/", "name": "Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web", "headline": ["WebServer"], "keywords": "phpldapadmin, phpmyadmin, freebsd, ldap, php, web, web server, https, ssl", "description": "phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer", "articleBody": "phpLDAPadmin is an open source web-based LDAP (Lightweight Directory Access Protocol) administration tool written in PHP. Key features include template-based entry creation; ability to add, modify, rename and delete LDAP entries, user password management with hash support, LDIF (LDAP Data Interchange Format) import/export and browser LDAP schema.\n\nphpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer with a web browser. phpLDAPadmin was created by David Smith. Deon George currently maintains the phpLDAPadmin project with the help of various contributors.\n\nIf you are going to use phpLDAPadmin from an unsecured public network, start by ensuring that your Apache HTTP server is properly configured to accept HTTPS connections with SSL. If your Apache HTTP server does not have SSL support, your LDAP login and password will be transmitted over the network “in the clear” and could be exposed to unauthorized persons.\n\nIn this article we will learn how to install and configure phpLDAPadmin on a FreeBSD 13.2 system.\n1. PHP and Apache24 Mod Installation\nmod_php is an Apache module that allows PHP code to be executed directly by the Apache web server. This means that when a client (such as a web browser) requests a PHP page, the server can execute the PHP code and return the resulting HTML to the client, without requiring a separate PHP language interpreter. This can improve the performance and scalability of PHP applications, as it reduces the costs of starting and managing separate PHP processes. However, this also means that all PHP code runs with the same permissions as the Apache24 web server, which can pose security issues.\n\nIn order for phpLDAPadmin to run on a web server, Apache is required with PHP mod. Below is the script to install Apache with PHP mod.\n\nroot@ns1:~ # pkg install apache24\nroot@ns1:~ # pkg install php82 mod_php82 php82-mysqli\nroot@ns1:~ # pkg install php82-gd php82-phar php82-ctype php82-filter php82-iconv php82-curl php82-mysqli php82-pdo php82-tokenizer php82-mbstring php82-session php82-simplexml php82-xml php82-zlib php82-zip php82-dom php82-pdo_mysql php82-ctype\n\n\nIn this article we will not discuss Apache24 installation. You can read my previous article which explains how to install Apache24 on FreeBSD. Let’s assume that Apache24 is installed properly on FreeBSD. So let’s continue by configuring the PHP mod.\n\nThe next step is to edit the /usr/local/etc/apache24/httpd.conf file and enter the PHP mod script, as in the following example.\n\n&lt;IfModule dir_module&gt;\n DirectoryIndex index.php index.html\n&lt;/IfModule&gt;\n\nLoadModule php_module libexec/apache24/libphp.so\n\n&lt;FilesMatch \"\\.php$\"&gt;\n SetHandler application/x-httpd-php\n&lt;/FilesMatch&gt;\n&lt;FilesMatch \"\\.phps$\"&gt;\n SetHandler application/x-httpd-php-source\n&lt;/FilesMatch&gt;\nAddType application/x-compress .Z\nAddType application/x-gzip .gz .tgz\n\nAddType application/x-httpd-php .php\nAddType application/x-httpd-php .php .phtml .php3\nAddType application/x-httpd-php-source .phps\n\n\nYou can put the script at the end/bottom of the /usr/local/etc/apache24/httpd.conf file. Still in the /usr/local/etc/apache24/httpd.conf file, change the following script.\n\n&lt;IfModule dir_module&gt;\n DirectoryIndex index.html\n&lt;/IfModule&gt;\n\nChange to\n\n&lt;IfModule dir_module&gt;\n DirectoryIndex index.php index.html\n&lt;/IfModule&gt;\n\n\nYou also add the following script to the bottom of the /usr/local/etc/apache24/httpd.conf file.\n\nLoadModule php_module libexec/apache24/libphp.so\n\n&lt;FilesMatch \"\\.php$\"&gt;\n SetHandler application/x-httpd-php\n&lt;/FilesMatch&gt;\n&lt;FilesMatch \"\\.phps$\"&gt;\n SetHandler application/x-httpd-php-source\n&lt;/FilesMatch&gt;\n\n\nAfter that, we create a php.ini file by copying php.ini-production to the php.ini file, here’s how to copy it.\n\nroot@ns1:~ # cp /usr/local/etc/php.ini-production /usr/local/etc/php.ini\n\n\nAfter you have the /usr/local/etc/php.ini file, we add the following script.\n\nextension=mysqli.so\n\n\n\n2. Installing phpLDAPadmin\nTo start installing phpLDAPadmin, you can follow the steps below.\n\nroot@ns1:~ # cd /usr/ports/net/php82-ldap\nroot@ns1:/usr/ports/net/php82-ldap # make install clean\nroot@ns1:/usr/ports/net/php82-ldap # cd /usr/ports/net/phpldapadmin\nroot@ns1:/usr/ports/net/phpldapadmin # make install clean\n\n\nNow you open the /usr/local/etc/apache24/httpd.conf file again and enter the script below at the very bottom of the script file /usr/local/etc/apache24/httpd.conf.\n\nAlias /phpldapadmin \"/usr/local/www/phpldapadmin/htdocs/\"\n&lt;Directory \"/usr/local/www/phpldapadmin/htdocs\"&gt;\n AllowOverride None\n Options None\n Require all granted\n&lt;/Directory&gt;\n\n\nAfter that, open and edit the file /usr/local/www/phpldapadmin/config/config.php and enter the following script.\n\n$servers-&gt;setValue('server','name','unixexplore.com');\n$servers-&gt;setValue('server','host','192.168.5.2');\n$servers-&gt;setValue('server','port',389);\n$servers-&gt;setValue('server','base',array('dc=unixexplore,dc=com'));\n$servers-&gt;setValue('login','bind_id','cn=Manager,dc=unixexplore,dc=com');\n$servers-&gt;setValue('login','bind_pass','semeru');\n\n\nThe script above adapts to the settings of the OpenLDAP application program that you have installed and configured. For more details, below is the complete script from the file /usr/local/www/phpldapadmin/config/config.php.\n\n&lt;?php\n/** NOTE **\n ** Make sure that &lt;?php is the FIRST line of this file!\n ** IE: There should NOT be any blank lines or spaces BEFORE &lt;?php\n **/\n\n/**\n * The phpLDAPadmin config file\n * See: http://phpldapadmin.sourceforge.net/wiki/index.php/Config.php\n *\n * This is where you can customise some of the phpLDAPadmin defaults\n * that are defined in config_default.php.\n *\n * To override a default, use the $config-&gt;custom variable to do so.\n * For example, the default for defining the language in config_default.php\n *\n * $this-&gt;default-&gt;appearance['language'] = array(\n * 'desc'=&gt;'Language',\n * 'default'=&gt;'auto');\n *\n * to override this, use $config-&gt;custom-&gt;appearance['language'] = 'en_EN';\n *\n * This file is also used to configure your LDAP server connections.\n *\n * You must specify at least one LDAP server there. You may add\n * as many as you like. You can also specify your language, and\n * many other options.\n *\n * NOTE: Commented out values in this file prefixed by //, represent the\n * defaults that have been defined in config_default.php.\n * Commented out values prefixed by #, dont reflect their default value, you can\n * check config_default.php if you want to see what the default is.\n *\n * DONT change config_default.php, you changes will be lost by the next release\n * of PLA. Instead change this file - as it will NOT be replaced by a new\n * version of phpLDAPadmin.\n */\n\n/*********************************************\n * Useful important configuration overrides *\n *********************************************/\n\n/* If you are asked to put PLA in debug mode, this is how you do it: */\n# $config-&gt;custom-&gt;debug['level'] = 255;\n# $config-&gt;custom-&gt;debug['syslog'] = true;\n$config-&gt;custom-&gt;debug['file'] = '/tmp/pla_debug.log';\n\n/* phpLDAPadmin can encrypt the content of sensitive cookies if you set this\n to a big random string. */\n// $config-&gt;custom-&gt;session['blowfish'] = null;\n\n/* If your auth_type is http, you can override your HTTP Authentication Realm. */\n// $config-&gt;custom-&gt;session['http_realm'] = sprintf('%s %s',app_name(),'login');\n\n/* The language setting. If you set this to 'auto', phpLDAPadmin will attempt\n to determine your language automatically.\n If PLA doesnt show (all) strings in your language, then you can do some\n translation at http://translations.launchpad.net/phpldapadmin and download\n the translation files, replacing those provided with PLA.\n (We'll pick up the translations before making the next release too!) */\n// $config-&gt;custom-&gt;appearance['language'] = 'auto';\n\n/* The temporary storage directory where we will put jpegPhoto data\n This directory must be readable and writable by your web server. */\n// $config-&gt;custom-&gt;jpeg['tmpdir'] = '/tmp'; // Example for Unix systems\n# $config-&gt;custom-&gt;jpeg['tmpdir'] = 'c:\\\\temp'; // Example for Windows systems\n\n/* Set this to (bool)true if you do NOT want a random salt used when\n calling crypt(). Instead, use the first two letters of the user's\n password. This is insecure but unfortunately needed for some older\n environments. */\n# $config-&gt;custom-&gt;password['no_random_crypt_salt'] = true;\n\n/* If you want to restrict password available types (encryption algorithms)\n\t Should be subset of:\n\t array(\n\t\t''=&gt;'clear',\n\t\t'bcrypt'=&gt;'bcrypt',\n\t\t'blowfish'=&gt;'blowfish',\n\t\t'crypt'=&gt;'crypt',\n\t\t'ext_des'=&gt;'ext_des',\n\t\t'md5'=&gt;'md5',\n\t\t'k5key'=&gt;'k5key',\n\t\t'md5crypt'=&gt;'md5crypt',\n\t\t'sha'=&gt;'sha',\n\t\t'smd5'=&gt;'smd5',\n\t\t'ssha'=&gt;'ssha',\n\t\t'sha256'=&gt;'sha256',\n\t\t'ssha256'=&gt;'ssha256',\n\t\t'sha384'=&gt;'sha384',\n\t\t'ssha384'=&gt;'ssha384',\n\t\t'sha512'=&gt;'sha512',\n\t\t'ssha512'=&gt;'ssha512',\n\t\t'sha256crypt'=&gt;'sha256crypt',\n\t\t'sha512crypt'=&gt;'sha512crypt',\n\t\t'argon2i'=&gt;'argon2i',\n\t\t'argon2id'=&gt;'argon2id',\n\t )*/\n# $config-&gt;custom-&gt;password['available_types'] = array(''=&gt;'clear','md5'=&gt;'md5');\n\n/* PHP script timeout control. If php runs longer than this many seconds then\n PHP will stop with an Maximum Execution time error. Increase this value from\n the default if queries to your LDAP server are slow. The default is either\n 30 seconds or the setting of max_exection_time if this is null. */\n// $config-&gt;custom-&gt;session['timelimit'] = 30;\n\n/* Our local timezone\n This is to make sure that when we ask the system for the current time, we\n get the right local time. If this is not set, all time() calculations will\n assume UTC if you have not set PHP date.timezone. */\n// $config-&gt;custom-&gt;appearance['timezone'] = null;\n$config-&gt;custom-&gt;appearance['timezone'] = 'Asia/Jakarta';\n\n/*********************************************\n * Commands *\n *********************************************/\n\n/* Command availability ; if you don't authorize a command the command\n links will not be shown and the command action will not be permitted.\n For better security, set also ACL in your ldap directory. */\n/*\n$config-&gt;custom-&gt;commands['cmd'] = array(\n\t'entry_internal_attributes_show' =&gt; true,\n\t'entry_refresh' =&gt; true,\n\t'oslinks' =&gt; true,\n\t'switch_template' =&gt; true\n);\n\n$config-&gt;custom-&gt;commands['script'] = array(\n\t'add_attr_form' =&gt; true,\n\t'add_oclass_form' =&gt; true,\n\t'add_value_form' =&gt; true,\n\t'collapse' =&gt; true,\n\t'compare' =&gt; true,\n\t'compare_form' =&gt; true,\n\t'copy' =&gt; true,\n\t'copy_form' =&gt; true,\n\t'create' =&gt; true,\n\t'create_confirm' =&gt; true,\n\t'delete' =&gt; true,\n\t'delete_attr' =&gt; true,\n\t'delete_form' =&gt; true,\n\t'draw_tree_node' =&gt; true,\n\t'expand' =&gt; true,\n\t'export' =&gt; true,\n\t'export_form' =&gt; true,\n\t'import' =&gt; true,\n\t'import_form' =&gt; true,\n\t'login' =&gt; true,\n\t'logout' =&gt; true,\n\t'login_form' =&gt; true,\n\t'mass_delete' =&gt; true,\n\t'mass_edit' =&gt; true,\n\t'mass_update' =&gt; true,\n\t'modify_member_form' =&gt; true,\n\t'monitor' =&gt; true,\n\t'purge_cache' =&gt; true,\n\t'query_engine' =&gt; true,\n\t'rename' =&gt; true,\n\t'rename_form' =&gt; true,\n\t'rdelete' =&gt; true,\n\t'refresh' =&gt; true,\n\t'schema' =&gt; true,\n\t'server_info' =&gt; true,\n\t'show_cache' =&gt; true,\n\t'template_engine' =&gt; true,\n\t'update_confirm' =&gt; true,\n\t'update' =&gt; true\n);\n*/\n\n/*********************************************\n * Appearance *\n *********************************************/\n\n/* If you want to choose the appearance of the tree, specify a class name which\n inherits from the Tree class. */\n// $config-&gt;custom-&gt;appearance['tree'] = 'AJAXTree';\n# $config-&gt;custom-&gt;appearance['tree'] = 'HTMLTree';\n\n/* Just show your custom templates. */\n// $config-&gt;custom-&gt;appearance['custom_templates_only'] = false;\n\n/* Disable the default template. */\n// $config-&gt;custom-&gt;appearance['disable_default_template'] = false;\n\n/* Hide the warnings for invalid objectClasses/attributes in templates. */\n// $config-&gt;custom-&gt;appearance['hide_template_warning'] = false;\n\n/* Set to true if you would like to hide header and footer parts. */\n// $config-&gt;custom-&gt;appearance['minimalMode'] = false;\n\n/* Configure what objects are shown in left hand tree */\n// $config-&gt;custom-&gt;appearance['tree_filter'] = '(objectclass=*)';\n\n/* The height and width of the tree. If these values are not set, then\n no tree scroll bars are provided. */\n// $config-&gt;custom-&gt;appearance['tree_height'] = null;\n# $config-&gt;custom-&gt;appearance['tree_height'] = 600;\n// $config-&gt;custom-&gt;appearance['tree_width'] = null;\n# $config-&gt;custom-&gt;appearance['tree_width'] = 250;\n\n/* Number of tree command icons to show, 0 = show all icons on 1 row. */\n// $config-&gt;custom-&gt;appearance['tree_icons'] = 0;\n# $config-&gt;custom-&gt;appearance['tree_icons'] = 4;\n\n/* Confirm create and update operations, allowing you to review the changes\n and optionally skip attributes during the create/update operation. */\n// $config-&gt;custom-&gt;confirm['create'] = true;\n// $config-&gt;custom-&gt;confirm['update'] = true;\n\n/* Confirm copy operations, and treat them like create operations. This allows\n you to edit the attributes (thus changing any that might conflict with\n uniqueness) before creating the new entry. */\n// $config-&gt;custom-&gt;confirm['copy'] = true;\n\n/*********************************************\n * User-friendly attribute translation *\n *********************************************/\n\n/* Use this array to map attribute names to user friendly names. For example, if\n you don't want to see \"facsimileTelephoneNumber\" but rather \"Fax\". */\n// $config-&gt;custom-&gt;appearance['friendly_attrs'] = array();\n$config-&gt;custom-&gt;appearance['friendly_attrs'] = array(\n\t'facsimileTelephoneNumber' =&gt; 'Fax',\n\t'gid' =&gt; 'Group',\n\t'mail' =&gt; 'Email',\n\t'telephoneNumber' =&gt; 'Telephone',\n\t'uid' =&gt; 'User Name',\n\t'userPassword' =&gt; 'Password'\n);\n\n/*********************************************\n * Hidden attributes *\n *********************************************/\n\n/* You may want to hide certain attributes from being edited. If you want to\n hide attributes from the user, you should use your LDAP servers ACLs.\n NOTE: The user must be able to read the hide_attrs_exempt entry to be\n excluded. */\n// $config-&gt;custom-&gt;appearance['hide_attrs'] = array();\n# $config-&gt;custom-&gt;appearance['hide_attrs'] = array('objectClass');\n\n/* Members of this list will be exempt from the hidden attributes. */\n// $config-&gt;custom-&gt;appearance['hide_attrs_exempt'] = null;\n# $config-&gt;custom-&gt;appearance['hide_attrs_exempt'] = 'cn=PLA UnHide,ou=Groups,c=AU';\n\n/*********************************************\n * Read-only attributes *\n *********************************************/\n\n/* You may want to phpLDAPadmin to display certain attributes as read only,\n meaning that users will not be presented a form for modifying those\n attributes, and they will not be allowed to be modified on the \"back-end\"\n either. You may configure this list here:\n NOTE: The user must be able to read the readonly_attrs_exempt entry to be\n excluded. */\n// $config-&gt;custom-&gt;appearance['readonly_attrs'] = array();\n\n/* Members of this list will be exempt from the readonly attributes. */\n// $config-&gt;custom-&gt;appearance['readonly_attrs_exempt'] = null;\n# $config-&gt;custom-&gt;appearance['readonly_attrs_exempt'] = 'cn=PLA ReadWrite,ou=Groups,c=AU';\n\n/*********************************************\n * Group attributes *\n *********************************************/\n\n/* Add \"modify group members\" link to the attribute. */\n// $config-&gt;custom-&gt;modify_member['groupattr'] = array('member','uniqueMember','memberUid','sudoUser');\n\n/* Configure filter for member search. This only applies to \"modify group members\" feature */\n// $config-&gt;custom-&gt;modify_member['filter'] = '(objectclass=Person)';\n\n/* Attribute that is added to the group member attribute. */\n// $config-&gt;custom-&gt;modify_member['attr'] = 'dn';\n\n/* For Posix attributes */\n// $config-&gt;custom-&gt;modify_member['posixattr'] = 'uid';\n// $config-&gt;custom-&gt;modify_member['posixfilter'] = '(uid=*)';\n// $config-&gt;custom-&gt;modify_member['posixgroupattr'] = 'memberUid';\n\n/*********************************************\n * Support for attrs display order *\n *********************************************/\n\n/* Use this array if you want to have your attributes displayed in a specific\n order. You can use default attribute names or their fridenly names.\n For example, \"sn\" will be displayed right after \"givenName\". All the other\n attributes that are not specified in this array will be displayed after in\n alphabetical order. */\n// $config-&gt;custom-&gt;appearance['attr_display_order'] = array();\n# $config-&gt;custom-&gt;appearance['attr_display_order'] = array(\n# 'givenName',\n# 'sn',\n# 'cn',\n# 'displayName',\n# 'uid',\n# 'uidNumber',\n# 'gidNumber',\n# 'homeDirectory',\n# 'mail',\n# 'userPassword'\n# );\n\n/*********************************************\n * Define your LDAP servers in this section *\n *********************************************/\n\n$servers = new Datastore();\n\n/* $servers-&gt;NewServer('ldap_pla') must be called before each new LDAP server\n declaration. */\n$servers-&gt;newServer('ldap_pla');\n\n/* A convenient name that will appear in the tree viewer and throughout\n phpLDAPadmin to identify this LDAP server to users. */\n$servers-&gt;setValue('server','name','unixexplore.com');\n\n/* Examples:\n 'ldap.example.com',\n 'ldaps://ldap.example.com/',\n 'ldapi://%2fusr%local%2fvar%2frun%2fldapi'\n (Unix socket at /usr/local/var/run/ldap) */\n$servers-&gt;setValue('server','host','192.168.5.2');\n\n/* The port your LDAP server listens on (no quotes). 389 is standard. */\n$servers-&gt;setValue('server','port',389);\n\n/* Array of base DNs of your LDAP server. Leave this blank to have phpLDAPadmin\n auto-detect it for you. */\n$servers-&gt;setValue('server','base',array('dc=unixexplore,dc=com'));\n\n/* Five options for auth_type:\n 1. 'cookie': you will login via a web form, and a client-side cookie will\n store your login dn and password.\n 2. 'session': same as cookie but your login dn and password are stored on the\n web server in a persistent session variable.\n 3. 'http': same as session but your login dn and password are retrieved via\n HTTP authentication.\n 4. 'config': specify your login dn and password here in this config file. No\n login will be required to use phpLDAPadmin for this server.\n 5. 'sasl': login will be taken from the webserver's kerberos authentication.\n Currently only GSSAPI has been tested (using mod_auth_kerb).\n 6. 'sasl_external': login will be taken from SASL external mechanism.\n\n Choose wisely to protect your authentication information appropriately for\n your situation. If you choose 'cookie', your cookie contents will be\n encrypted using blowfish and the secret your specify above as\n session['blowfish']. */\n// $servers-&gt;setValue('login','auth_type','session');\n\n/* The DN of the user for phpLDAPadmin to bind with. For anonymous binds or\n 'cookie','session' or 'sasl' auth_types, LEAVE THE LOGIN_DN AND LOGIN_PASS\n BLANK. If you specify a login_attr in conjunction with a cookie or session\n auth_type, then you can also specify the bind_id/bind_pass here for searching\n the directory for users (ie, if your LDAP server does not allow anonymous\n binds. */\n\n$servers-&gt;setValue('login','bind_id','cn=Manager,dc=unixexplore,dc=com');\n\n/* Your LDAP password. If you specified an empty bind_id above, this MUST also\n be blank. */\n$servers-&gt;setValue('login','bind_pass','semeru');\n\n/* Use TLS (Transport Layer Security) to connect to the LDAP server. */\n// $servers-&gt;setValue('server','tls',false);\n\n/* TLS Certificate Authority file (overrides ldap.conf, PHP 7.1+) */\n// $servers-&gt;setValue('server','tls_cacert',null);\n# $servers-&gt;setValue('server','tls_cacert','/etc/openldap/certs/ca.crt');\n\n/* TLS Certificate Authority hashed directory (overrides ldap.conf, PHP 7.1+) */\n// $servers-&gt;setValue('server','tls_cacertdir',null);\n# $servers-&gt;setValue('server','tls_cacertdir','/etc/openldap/certs');\n\n/* TLS Client Certificate file (PHP 7.1+) */\n// $servers-&gt;setValue('server','tls_cert',null);\n# $servers-&gt;setValue('server','tls_cert','/etc/pki/tls/certs/ldap_user.crt');\n\n/* TLS Client Certificate Key file (PHP 7.1+) */\n// $servers-&gt;setValue('server','tls_key',null);\n# $servers-&gt;setValue('server','tls_key','/etc/pki/tls/private/ldap_user.key');\n\n/************************************\n * SASL Authentication *\n ************************************/\n\n/* Enable SASL authentication LDAP SASL authentication requires PHP 5.x\n configured with --with-ldap-sasl=DIR. If this option is disabled (ie, set to\n false), then all other sasl options are ignored. */\n# $servers-&gt;setValue('login','auth_type','sasl');\n\n/* SASL GSSAPI auth mechanism (requires auth_type of sasl) */\n// $servers-&gt;setValue('sasl','mech','GSSAPI');\n\n/* SASL PLAIN support... this mech converts simple binds to SASL\n PLAIN binds using any auth_type (or other bind_id/pass) as credentials.\n NOTE: auth_type must be simple auth compatible (ie not sasl) */\n# $servers-&gt;setValue('sasl','mech','PLAIN');\n\n/* SASL EXTERNAL support... really a different auth_type */\n# $servers-&gt;setValue('login','auth_type','sasl_external');\n\n/* SASL authentication realm name */\n// $servers-&gt;setValue('sasl','realm','');\n# $servers-&gt;setValue('sasl','realm','EXAMPLE.COM');\n\n/* SASL authorization ID name\n If this option is undefined, authorization id will be computed from bind DN,\n using authz_id_regex and authz_id_replacement. */\n// $servers-&gt;setValue('sasl','authz_id', null);\n\n/* SASL authorization id regex and replacement\n When authz_id property is not set (default), phpLDAPAdmin will try to\n figure out authorization id by itself from bind distinguished name (DN).\n\n This procedure is done by calling preg_replace() php function in the\n following way:\n\n $authz_id = preg_replace($sasl_authz_id_regex,$sasl_authz_id_replacement,\n $bind_dn);\n\n For info about pcre regexes, see:\n - pcre(3), perlre(3)\n - http://www.php.net/preg_replace */\n// $servers-&gt;setValue('sasl','authz_id_regex',null);\n// $servers-&gt;setValue('sasl','authz_id_replacement',null);\n# $servers-&gt;setValue('sasl','authz_id_regex','/^uid=([^,]+)(.+)/i');\n# $servers-&gt;setValue('sasl','authz_id_replacement','$1');\n\n/* SASL auth security props.\n See http://beepcore-tcl.sourceforge.net/tclsasl.html#anchor5 for explanation. */\n// $servers-&gt;setValue('sasl','props',null);\n\n/* Default password hashing algorithm. One of md5, ssha, sha, md5crpyt, smd5,\n blowfish, crypt or leave blank for now default algorithm. */\n// $servers-&gt;setValue('appearance','pla_password_hash','md5');\n\n/* If you specified 'cookie' or 'session' as the auth_type above, you can\n optionally specify here an attribute to use when logging in. If you enter\n 'uid' and login as 'dsmith', phpLDAPadmin will search for (uid=dsmith)\n and log in as that user.\n Leave blank or specify 'dn' to use full DN for logging in. Note also that if\n your LDAP server requires you to login to perform searches, you can enter the\n DN to use when searching in 'bind_id' and 'bind_pass' above. */\n$servers-&gt;setValue('login','attr','dn');\n\n/* Base DNs to used for logins. If this value is not set, then the LDAP server\n Base DNs are used. */\n// $servers-&gt;setValue('login','base',array());\n\n/* If 'login,attr' is used above such that phpLDAPadmin will search for your DN\n at login, you may restrict the search to a specific objectClasses. EG, set this\n to array('posixAccount') or array('inetOrgPerson',..), depending upon your\n setup. */\n// $servers-&gt;setValue('login','class',array());\n\n/* If login_attr was set to 'dn', it is possible to specify a template string to\n build the DN from. Use '%s' where user input should be inserted. A user may\n still enter the complete DN. In this case the template will not be used. */\n// $servers-&gt;setValue('login','bind_dn_template',null);\n# $servers-&gt;setValue('login','bind_dn_template','cn=%s,ou=people,dc=example,dc=com');\n\n/* If you specified something different from 'dn', for example 'uid', as the\n login_attr above, you can optionally specify here to fall back to\n authentication with dn.\n This is useful, when users should be able to log in with their uid, but\n the ldap administrator wants to log in with his root-dn, that does not\n necessarily have the uid attribute.\n When using this feature, login_class is ignored. */\n// $servers-&gt;setValue('login','fallback_dn',false);\n\n/* Specify true If you want phpLDAPadmin to not display or permit any\n modification to the LDAP server. */\n// $servers-&gt;setValue('server','read_only',false);\n\n/* Specify false if you do not want phpLDAPadmin to draw the 'Create new' links\n in the tree viewer. */\n// $servers-&gt;setValue('appearance','show_create',true);\n\n/* Set to true if you would like to initially open the first level of each tree. */\n// $servers-&gt;setValue('appearance','open_tree',false);\n\n/* Set to true to display authorization ID in place of login dn (PHP 7.2+) */\n// $servers-&gt;setValue('appearance','show_authz',false);\n\n/* This feature allows phpLDAPadmin to automatically determine the next\n available uidNumber for a new entry. */\n// $servers-&gt;setValue('auto_number','enable',true);\n\n/* The mechanism to use when finding the next available uidNumber. Two possible\n values: 'uidpool' or 'search'.\n The 'uidpool' mechanism uses an existing uidPool entry in your LDAP server to\n blindly lookup the next available uidNumber. The 'search' mechanism searches\n for entries with a uidNumber value and finds the first available uidNumber\n (slower). */\n// $servers-&gt;setValue('auto_number','mechanism','search');\n\n/* The DN of the search base when the 'search' mechanism is used above. */\n# $servers-&gt;setValue('auto_number','search_base','ou=People,dc=example,dc=com');\n\n/* The minimum number to use when searching for the next available number\n (only when 'search' is used for auto_number. */\n// $servers-&gt;setValue('auto_number','min',array('uidNumber'=&gt;1000,'gidNumber'=&gt;500));\n\n/* If you set this, then phpldapadmin will bind to LDAP with this user ID when\n searching for the uidnumber. The idea is, this user id would have full\n (readonly) access to uidnumber in your ldap directory (the logged in user\n may not), so that you can be guaranteed to get a unique uidnumber for your\n directory. */\n// $servers-&gt;setValue('auto_number','dn',null);\n\n/* The password for the dn above. */\n// $servers-&gt;setValue('auto_number','pass',null);\n\n/* Enable anonymous bind login. */\n// $servers-&gt;setValue('login','anon_bind',true);\n\n/* Use customized page with prefix when available. */\n# $servers-&gt;setValue('custom','pages_prefix','custom_');\n\n/* If you set this, then only these DNs are allowed to log in. This array can\n contain individual users, groups or ldap search filter(s). Keep in mind that\n the user has not authenticated yet, so this will be an anonymous search to\n the LDAP server, so make your ACLs allow these searches to return results! */\n# $servers-&gt;setValue('login','allowed_dns',array(\n# 'uid=stran,ou=People,dc=example,dc=com',\n# '(&amp;(gidNumber=811)(objectClass=groupOfNames))',\n# '(|(uidNumber=200)(uidNumber=201))',\n# 'cn=callcenter,ou=Group,dc=example,dc=com'));\n\n/* Set this if you dont want this LDAP server to show in the tree */\n// $servers-&gt;setValue('server','visible',true);\n\n/* Set this if you want to hide the base DNs that dont exist instead of\n displaying the message \"The base entry doesnt exist, create it?\"\n// $servers-&gt;setValue('server','hide_noaccess_base',false);\n# $servers-&gt;setValue('server','hide_noaccess_base',true);\n\n/* This is the time out value in minutes for the server. After as many minutes\n of inactivity you will be automatically logged out. If not set, the default\n value will be ( session_cache_expire()-1 ) */\n# $servers-&gt;setValue('login','timeout',30);\n\n/* Set this if you want phpldapadmin to perform rename operation on entry which\n has children. Certain servers are known to allow it, certain are not. */\n// $servers-&gt;setValue('server','branch_rename',false);\n\n/* If you set this, then phpldapadmin will show these attributes as\n internal attributes, even if they are not defined in your schema. */\n// $servers-&gt;setValue('server','custom_sys_attrs',array(''));\n# $servers-&gt;setValue('server','custom_sys_attrs',array('passwordExpirationTime','passwordAllowChangeTime'));\n\n/* If you set this, then phpldapadmin will show these attributes on\n objects, even if they are not defined in your schema. */\n// $servers-&gt;setValue('server','custom_attrs',array(''));\n# $servers-&gt;setValue('server','custom_attrs',array('nsRoleDN','nsRole','nsAccountLock'));\n\n/* These attributes will be forced to MAY attributes and become option in the\n templates. If they are not defined in the templates, then they wont appear\n as per normal template processing. You may want to do this because your LDAP\n server may automatically calculate a default value.\n In Fedora Directory Server using the DNA Plugin one could ignore uidNumber,\n gidNumber and sambaSID. */\n// $servers-&gt;setValue('server','force_may',array(''));\n# $servers-&gt;setValue('server','force_may',array('uidNumber','gidNumber','sambaSID'));\n\n/*********************************************\n * Unique attributes *\n *********************************************/\n\n/* You may want phpLDAPadmin to enforce some attributes to have unique values\n (ie: not belong to other entries in your tree. This (together with\n 'unique','dn' and 'unique','pass' option will not let updates to\n occur with other attributes have the same value. */\n# $servers-&gt;setValue('unique','attrs',array('mail','uid','uidNumber'));\n\n/* If you set this, then phpldapadmin will bind to LDAP with this user ID when\n searching for attribute uniqueness. The idea is, this user id would have full\n (readonly) access to your ldap directory (the logged in user may not), so\n that you can be guaranteed to get a unique uidnumber for your directory. */\n// $servers-&gt;setValue('unique','dn',null);\n\n/* The password for the dn above. */\n// $servers-&gt;setValue('unique','pass',null);\n\n/**************************************************************************\n * If you want to configure additional LDAP servers, do so below. *\n * Remove the commented lines and use this section as a template for all *\n * your other LDAP servers. *\n **************************************************************************/\n\n/*\n$servers-&gt;newServer('ldap_pla');\n$servers-&gt;setValue('server','name','LDAP Server');\n$servers-&gt;setValue('server','host','127.0.0.1');\n$servers-&gt;setValue('server','port',389);\n$servers-&gt;setValue('server','base',array(''));\n$servers-&gt;setValue('login','auth_type','cookie');\n$servers-&gt;setValue('login','bind_id','');\n$servers-&gt;setValue('login','bind_pass','');\n$servers-&gt;setValue('server','tls',false);\n\n# SASL auth\n$servers-&gt;setValue('login','auth_type','sasl');\n$servers-&gt;setValue('sasl','mech','GSSAPI');\n$servers-&gt;setValue('sasl','realm','EXAMPLE.COM');\n$servers-&gt;setValue('sasl','authz_id',null);\n$servers-&gt;setValue('sasl','authz_id_regex','/^uid=([^,]+)(.+)/i');\n$servers-&gt;setValue('sasl','authz_id_replacement','$1');\n$servers-&gt;setValue('sasl','props',null);\n\n$servers-&gt;setValue('appearance','pla_password_hash','md5');\n$servers-&gt;setValue('login','attr','dn');\n$servers-&gt;setValue('login','fallback_dn',false);\n$servers-&gt;setValue('login','class',null);\n$servers-&gt;setValue('server','read_only',false);\n$servers-&gt;setValue('appearance','show_create',true);\n\n$servers-&gt;setValue('auto_number','enable',true);\n$servers-&gt;setValue('auto_number','mechanism','search');\n$servers-&gt;setValue('auto_number','search_base',null);\n$servers-&gt;setValue('auto_number','min',array('uidNumber'=&gt;1000,'gidNumber'=&gt;500));\n$servers-&gt;setValue('auto_number','dn',null);\n$servers-&gt;setValue('auto_number','pass',null);\n\n$servers-&gt;setValue('login','anon_bind',true);\n$servers-&gt;setValue('custom','pages_prefix','custom_');\n$servers-&gt;setValue('unique','attrs',array('mail','uid','uidNumber'));\n$servers-&gt;setValue('unique','dn',null);\n$servers-&gt;setValue('unique','pass',null);\n\n$servers-&gt;setValue('server','visible',true);\n$servers-&gt;setValue('login','timeout',30);\n$servers-&gt;setValue('server','branch_rename',false);\n$servers-&gt;setValue('server','custom_sys_attrs',array('passwordExpirationTime','passwordAllowChangeTime'));\n$servers-&gt;setValue('server','custom_attrs',array('nsRoleDN','nsRole','nsAccountLock'));\n$servers-&gt;setValue('server','force_may',array('uidNumber','gidNumber','sambaSID'));\n*/\n\n\n/***********************************************************************************\n * If you want to configure Google reCAPTCHA on autentication form, do so below. *\n * Remove the commented lines and use this section as a template for all *\n * reCAPTCHA v2 Generate on https://www.google.com/recaptcha/ *\n * *\n * IMPORTANT: Select reCAPTCHA v2 on Type of reCAPTCHA *\n ***********************************************************************************/\n\n\n$config-&gt;custom-&gt;session['reCAPTCHA-enable'] = false;\n$config-&gt;custom-&gt;session['reCAPTCHA-key-site'] = '&lt;put-here-key-site&gt;';\n$config-&gt;custom-&gt;session['reCAPTCHA-key-server'] = '&lt;put-here-key-server&gt;';\n\n?&gt;\n\n\nThe next step is to type the following command.\n\nroot@ns1:~ # chown -R www:www /usr/local/www/phpldapadmin\nroot@ns1:~ # service apache24 restart\nPerforming sanity check on apache24 configuration:\nSyntax OK\nStopping apache24.\nWaiting for PIDS: 44221.\nPerforming sanity check on apache24 configuration:\nSyntax OK\nStarting apache24.\n\n\nAfter that, you can test, open the Yandex web browser, Google Chrome or Mozilla Firefox, type the following script in the browser.\n\nhttp://192.168.5.2/phpldapadmin/\n\n\nIf there is nothing wrong with the configuration above, the phpLDAPadmin dashboard will appear.\n", "dateCreated": "2025-01-20 16:01:10 +0200", "datePublished": "2025-01-20 16:01:10 +0200", "dateModified": "2025-01-20 15:01:10 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/complete-guide-phpldapadmin-freebsd-ldap", "name": "Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web", "description": "phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/complete-guide-phpldapadmin-freebsd-ldap/", "headline": "Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web", "description": "phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/complete-guide-phpldapadmin-freebsd-ldap/", "identifier": "judul", "name": "Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web", "description": "phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/complete-guide-phpldapadmin-freebsd-ldap/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/complete-guide-phpldapadmin-freebsd-ldap/", "name": "Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web", "description": "phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer", "dateCreated": "2025-01-20 16:01:10 +0200", "datePublished": "2025-01-20 16:01:10 +0200", "dateModified": "2025-01-20 15:01:10 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-01-20 16:01:10 +0200", "name": "Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web", "headline": "Complete Guide phpldapadmin PHP Application To Administrator LDAP Over The Web", "description": "phpLDAPadmin is popular among LDAP administrators because it is platform independent. As a web-based application, it allows administrators to maintain LDAP databases remotely from almost any computer", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

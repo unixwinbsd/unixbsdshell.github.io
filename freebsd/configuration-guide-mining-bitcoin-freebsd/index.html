@@ -1,0 +1,344 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin</title><meta name="description" content="Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges."><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="bitcoin, btc, minning, bitcoin, crypto, freebsd, tor, network, onion, proxy, install, configuration"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-guide-mining-bitcoin-freebsd/"><meta property="og:type" content="article"><meta property="og:title" content="FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin"><meta property="og:description"><meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaUx-YKo8_UjiPCOXDd3RqXFHp14-VCq0m6A&s"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-guide-mining-bitcoin-freebsd/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-guide-mining-bitcoin-freebsd/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-07-29 09:56:21 +0300"><meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaUx-YKo8_UjiPCOXDd3RqXFHp14-VCq0m6A&s"><meta property="og:title" content="FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin"><meta property="og:description" content="Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges."><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-guide-mining-bitcoin-freebsd/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaUx-YKo8_UjiPCOXDd3RqXFHp14-VCq0m6A&s"><meta name="twitter:title" content="FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin"><meta name="twitter:description" content="Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges."><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin</h1><div class="lead badge bg-primary text-wrap"><h6><p>Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.</p></h6></div><p class="meta"></p><h6><time>July 29, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=Anonymous">Anonymous</a> &middot; <span class="reading-time" title="Estimated read time">14 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-bitcoin-installation-process-on-freebsd">1. Bitcoin Installation Process on FreeBSD</a></li><li><a href="#2-how-to-configure-bitcoin">2. How to Configure Bitcoin</a></li><li><a href="#3-how-to-mine-bitcoin-on-freebsd">3. How to Mine Bitcoin on FreeBSD</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin</div><div class="article"><p>Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.</p><p>Bitcoin was introduced to the public in 2009 by an anonymous developer or group of developers using the name Satoshi Nakamoto. Since its introduction, Bitcoin has become the world’s most well-known cryptocurrency. Its popularity has inspired the development of many other cryptocurrencies. These competitors are trying to replace it as a payment system or are used as utility or security tokens in other blockchains and emerging financial technologies.</p><p>For FreeBSD systems, we rarely found articles covering Bitcoin installation, configuration, and mining. Bitcoin is more widely discussed on Linux systems like Ubuntu and Debian. We found numerous articles explaining how to install, configure, and mine Bitcoin.</p><p>From an operating system perspective, FreeBSD is very stable for running crypto wallets like <a href="https://unixwinbsd.site/freebsd/install-xmrig-and-cpuminer-crypto-mining-freebsd/">Bitcoin, DogeCoin, XMR RIG</a>, and others. Furthermore, when it comes to crypto mining, I prefer FreeBSD.</p><p>In this article, we’ll try to cover Bitcoin in more depth and detail, particularly regarding installation and configuration. This article will guide you through setting up Bitcoin on a FreeBSD system. In this case, the FreeBSD version used is FreeBSD 13.2 Stable.</p><p>Okay, let’s get started installing and configuring Bitcoin on a FreeBSD 13.2 Stable system.</p><h2 id="1-bitcoin-installation-process-on-freebsd">1. Bitcoin Installation Process on FreeBSD</h2><p>To run Bitcoin on FreeBSD, you’ll need to install the Bitcoin application. Before installing Bitcoin, make sure your FreeBSD system is up to date. If not, run the following command.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@router2:~ #</span><span class="w"> </span>pkg update
+<span class="go">Updating FreeBSD repository catalogue...
+FreeBSD repository is up to date.
+All repositories are up to date.
+</span><span class="gp">root@router2:~ #</span><span class="w"> </span>pkg upgrade <span class="nt">-y</span>
+<span class="go">Updating FreeBSD repository catalogue...
+FreeBSD repository is up to date.
+All repositories are up to date.
+Updating database digests format: 100%
+Checking for upgrades (203 candidates): 100%
+Processing candidates (203 candidates): 100%
+Checking integrity... done (0 conflicting)
+Your packages are up to date.
+</span><span class="gp">root@router2:~ #</span><span class="w">
+</span></code></pre></div></div><p>After the update and upgrade process is complete, install other supporting applications. These applications are crucial, as without them, Bitcoin will not run on a FreeBSD system.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@router2:~</span> <span class="c1"># pkg install autoconf automake boost-libs git libevent libtool pkgconf</span>
+<span class="s">root@router2:~</span> <span class="c1"># pkg install libzmq4  miniupnpc norm openpgm python39 sqlite3 db5 gmake</span>
+</code></pre></div></div><p>After that create an account for the user and group with the name <strong>“bitcoin”</strong>.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@router2:~ #</span><span class="w"> </span>adduser
+<span class="go">Username: bitcoin
+Full name: bitcoin wallet
+Uid (Leave empty for default):
+Login group [bitcoin]:
+Login group is bitcoin. Invite bitcoin into other groups? []:
+Login class [default]:
+Shell (sh csh tcsh bash rbash git-shell nologin) [sh]:
+Home directory [/home/bitcoin]:
+Home directory permissions (Leave empty for default):
+Use password-based authentication? [yes]: no
+Lock out the account after creation? [no]:
+Username   : bitcoin
+</span><span class="gp">Password   : &lt;disabled&gt;</span><span class="w">
+</span><span class="go">Full Name  : bitcoin wallet
+Uid        : 1018
+Class      :
+Groups     : bitcoin
+Home       : /home/bitcoin
+Home Mode  :
+Shell      : /bin/sh
+Locked     : no
+OK? (yes/no): yes
+adduser: INFO: Successfully added (bitcoin) to the user database.
+Add another user? (yes/no): no
+Goodbye!
+</span></code></pre></div></div><p>Once the Bitcoin user and group have been created, it’s time to install Bitcoin. Follow the script below to install Bitcoin. To install Bitcoin, you can copy the complete files from <code class="language-plaintext highlighter-rouge">https://github.com/bitcoin/bitcoin</code>.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@router2:~</span> <span class="c1"># cd /usr/local/etc</span>
+<span class="s">root@router2:/usr/local/etc/bitcoin</span> <span class="c1"># git clone https://github.com/bitcoin/bitcoin.git</span>
+<span class="s">root@router2:/usr/local/etc/bitcoin</span> <span class="c1"># cd bitcoin</span>
+<span class="s">root@router2:/usr/local/etc/bitcoin</span> <span class="c1"># ./autogen.sh</span>
+<span class="s">root@router2:/usr/local/etc/bitcoin</span> <span class="c1"># ./configure --disable-hardening MAKE="gmake" CFLAGS="-I/usr/local/include" CXXFLAGS="-I/usr/local/include -I/usr/local/include/db5" LDFLAGS="-L/usr/local/lib -L/usr/local/lib/db5"</span>
+<span class="s">root@router2:/usr/local/etc/bitcoin</span> <span class="c1"># gmake</span>
+<span class="s">root@router2:/usr/local/etc/bitcoin</span> <span class="c1"># gmake check</span>
+<span class="s">root@router2:/usr/local/etc/bitcoin</span> <span class="c1"># gmake install</span>
+</code></pre></div></div><p>At this point, if there are no errors when running the gmake syntax, Bitcoin should be installed on your FreeBSD system, but it won’t run yet. Let’s continue with configuring Bitcoin.</p><h2 id="2-how-to-configure-bitcoin">2. How to Configure Bitcoin</h2><p>The first step in the configuration process is to create a Bitcoin Start Up script. We add this script to the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file. Add the following script to the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">bitcoin_enable="YES"</span>
+<span class="s">bitcoin_user="bitcoin"</span>
+<span class="s">bitcoin_group="bitcoin"</span>
+<span class="s">bitcoin_config="/usr/home/bitcoin/.bitcoin/bitcoin.conf"</span>
+<span class="s">bitcoin_datadir="/usr/home/bitcoin/.bitcoin"</span>
+</code></pre></div></div><p>The next step is to create folders and files that are used to store Bitcoin blockchain files.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@router2:~</span> <span class="c1"># mkdir -p /usr/home/bitcoin/.bitcoin</span>
+<span class="s">root@router2:~</span> <span class="c1"># touch /usr/home/bitcoin/.bitcoin/bitcoin.conf</span>
+<span class="s">root@router2:~</span> <span class="c1"># touch /usr/home/bitcoin/.bitcoin/debug.log</span>
+<span class="s">root@router2:~</span> <span class="c1"># chmod -R +x /usr/home/bitcoin/.bitcoin/debug.log</span>
+<span class="s">root@router2:~</span> <span class="c1"># chown -R bitcoin:bitcoin /usr/home/bitcoin/.bitcoin/</span>
+</code></pre></div></div><p>Before we move on to the next step, create a symlink to the <code class="language-plaintext highlighter-rouge">/root</code> folder.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@router2:~</span> <span class="c1"># ln -s /usr/home/bitcoin/.bitcoin /root</span>
+</code></pre></div></div><p>Continue by creating the Start Up <code class="language-plaintext highlighter-rouge">rc.d</code> script. This script is useful for running commands to start, restart, and stop the Bitcoin daemon. Furthermore, the Start Up <code class="language-plaintext highlighter-rouge">rc.d</code> script is also used to autoload so that the Bitcoin daemon always runs when the server computer is shut down or restarted. In Start Up <code class="language-plaintext highlighter-rouge">rc.d</code>, we will name the file bitcoind. Follow these steps to create the <code class="language-plaintext highlighter-rouge">rc.d</code> script.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@router2:~</span> <span class="c1"># touch /usr/local/etc/rc.d/bitcoin</span>
+<span class="s">root@router2:~</span> <span class="c1"># chmod -R +x /usr/local/etc/rc.d/bitcoin</span>
+</code></pre></div></div><p>Type the script below in the file <code class="language-plaintext highlighter-rouge">"/usr/local/etc/rc.d/bitcoind"</code>.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="o">!</span>/bin/sh
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>PROVIDE: bitcoind
+<span class="gp">#</span><span class="w"> </span>REQUIRE: LOGIN cleanvar
+<span class="gp">#</span><span class="w"> </span>KEYWORD: shutdown
+<span class="go">
+</span><span class="gp">#</span><span class="w">
+</span><span class="gp">#</span><span class="w"> </span>Add the following lines to /etc/rc.conf to <span class="nb">enable</span> :
+<span class="gp">#</span><span class="w"> </span>bitcoind_enable <span class="o">(</span>bool<span class="o">)</span>:	Set to <span class="s2">"NO"</span> by default.
+<span class="gp">#</span><span class="w">				</span>Set it to <span class="s2">"YES"</span> to <span class="nb">enable </span>bitcoind
+<span class="gp">#</span><span class="w"> </span>bitcoind_user <span class="o">(</span>str<span class="o">)</span>		Set to <span class="s2">"bitcoin"</span> by default.
+<span class="gp">#</span><span class="w"> </span>bitcoind_group <span class="o">(</span>str<span class="o">)</span>		Set to <span class="s2">"bitcoin"</span> by default.
+<span class="gp">#</span><span class="w"> </span>bitcoind_conf <span class="o">(</span>str<span class="o">)</span>		Set to <span class="s2">"/usr/local/etc/bitcoind.conf"</span> by default.
+<span class="gp">#</span><span class="w"> </span>bitcoind_data_dir <span class="o">(</span>str<span class="o">)</span>	Set to <span class="s2">"/var/db/bitcoin"</span> by default.
+<span class="gp">#</span><span class="w"> </span>bitcoindlimits_enable <span class="o">(</span>bool<span class="o">)</span>	Set to <span class="s2">"NO"</span> by default.
+<span class="gp">#</span><span class="w">				</span>Set it to <span class="s2">"YES"</span> to <span class="nb">enable </span>bitcoindlimits
+<span class="gp">#</span><span class="w"> </span>bitcoindlimits_args		Set to <span class="s2">"-e -U </span><span class="k">${</span><span class="nv">bitcoind_user</span><span class="k">}</span><span class="s2">"</span> by default
+<span class="go">
+
+. /etc/rc.subr
+
+name="bitcoind"
+rcvar=bitcoind_enable
+
+start_precmd="bitcoind_precmd"
+start_cmd="bitcoind_start"
+restart_precmd="bitcoind_checkconfig"
+reload_precmd="bitcoind_checkconfig"
+configtest_cmd="bitcoind_checkconfig"
+status_cmd="bitcoind_status"
+stop_cmd="bitcoind_stop"
+stop_postcmd="bitcoind_wait"
+command="/usr/local/bin/bitcoind"
+daemon_command="/usr/sbin/daemon"
+</span><span class="gp">pidfile="/var/run/$</span><span class="o">{</span>name<span class="o">}</span>.pid<span class="s2">"
+</span><span class="go">extra_commands="configtest"
+
+
+</span><span class="gp">: $</span><span class="o">{</span>bitcoind_enable:<span class="o">=</span><span class="s2">"NO"</span><span class="o">}</span>
+<span class="gp">: $</span><span class="o">{</span>bitcoindlimits_enable:<span class="o">=</span><span class="s2">"NO"</span><span class="o">}</span>
+<span class="go">
+</span><span class="gp">load_rc_config $</span><span class="o">{</span>name<span class="o">}</span>
+<span class="go">
+</span><span class="gp">: $</span><span class="o">{</span>bitcoind_user:<span class="o">=</span><span class="s2">"bitcoin"</span><span class="o">}</span>
+<span class="gp">: $</span><span class="o">{</span>bitcoind_group:<span class="o">=</span><span class="s2">"bitcoin"</span><span class="o">}</span>
+<span class="gp">: $</span><span class="o">{</span>bitcoind_data_dir:<span class="o">=</span><span class="s2">"/var/db/bitcoin"</span><span class="o">}</span>
+<span class="gp">: $</span><span class="o">{</span>bitcoind_config_file:<span class="o">=</span><span class="s2">"/usr/local/etc/bitcoin.conf"</span><span class="o">}</span>
+<span class="gp">: $</span><span class="o">{</span>bitcoindlimits_args:<span class="o">=</span><span class="s2">"-e -U </span><span class="k">${</span><span class="nv">bitcoind_user</span><span class="k">}</span><span class="s2">"</span><span class="o">}</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span><span class="nb">set </span>up dependant variables
+<span class="gp">procname="$</span><span class="o">{</span><span class="nb">command</span><span class="o">}</span><span class="s2">"
+</span><span class="gp">required_files="$</span><span class="s2">{bitcoind_config_file}"</span>
+<span class="go">
+
+bitcoind_checkconfig()
+{
+  echo "Performing sanity check on bitcoind configuration:"
+</span><span class="gp">  if [ ! -d "$</span><span class="o">{</span>bitcoind_data_dir<span class="o">}</span><span class="s2">" ]
+</span><span class="go">  then
+</span><span class="gp">    echo "Missing data directory: $</span><span class="o">{</span>bitcoind_data_dir<span class="o">}</span><span class="s2">"
+</span><span class="go">    exit 1
+  fi
+</span><span class="gp">  chown -R "$</span><span class="o">{</span>bitcoind_user<span class="o">}</span>:<span class="k">${</span><span class="nv">bitcoind_group</span><span class="k">}</span><span class="s2">" "</span><span class="k">${</span><span class="nv">bitcoind_data_dir</span><span class="k">}</span><span class="s2">"
+</span><span class="go">
+</span><span class="gp">  if [ ! -f "$</span><span class="o">{</span>bitcoind_config_file<span class="o">}</span><span class="s2">" ]
+</span><span class="go">  then
+</span><span class="gp">    echo "Missing configuration file: $</span><span class="o">{</span>bitcoind_config_file<span class="o">}</span><span class="s2">"
+</span><span class="go">    exit 1
+  fi
+</span><span class="gp">  if [ ! -x "$</span><span class="o">{</span><span class="nb">command</span><span class="o">}</span><span class="s2">" ]
+</span><span class="go">  then
+</span><span class="gp">    echo "Missing executable: $</span><span class="o">{</span><span class="nb">command</span><span class="o">}</span><span class="s2">"
+</span><span class="go">    exit 1
+  fi
+  return 0
+}
+
+bitcoind_cleanup()
+{
+</span><span class="gp">  rm -f "$</span><span class="o">{</span>pidfile<span class="o">}</span><span class="s2">"
+</span><span class="go">}
+
+bitcoind_precmd()
+{
+  bitcoind_checkconfig
+
+</span><span class="gp">  pid=$</span><span class="o">(</span>check_pidfile <span class="s2">"</span><span class="k">${</span><span class="nv">pidfile</span><span class="k">}</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">procname</span><span class="k">}</span><span class="s2">"</span><span class="o">)</span>
+<span class="gp">  if [ -z "$</span><span class="o">{</span>pid<span class="o">}</span><span class="s2">" ]
+</span><span class="go">  then
+    echo "Bitcoind is not running"
+</span><span class="gp">    rm -f "$</span><span class="o">{</span>pidfile<span class="o">}</span><span class="s2">"
+</span><span class="go">  fi
+
+  if checkyesno bitcoindlimits_enable
+  then
+</span><span class="gp">    eval $</span><span class="o">(</span>/usr/bin/limits <span class="k">${</span><span class="nv">bitcoindlimits_args</span><span class="k">}</span><span class="o">)</span> 2&gt;/dev/null
+<span class="go">  else
+    return 0
+  fi
+}
+
+bitcoind_status()
+{
+  local pid
+</span><span class="gp">  pid=$</span><span class="o">(</span>check_pidfile <span class="s2">"</span><span class="k">${</span><span class="nv">pidfile</span><span class="k">}</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">procname</span><span class="k">}</span><span class="s2">"</span><span class="o">)</span>
+<span class="gp">  if [ -z "$</span><span class="o">{</span>pid<span class="o">}</span><span class="s2">" ]
+</span><span class="go">  then
+    echo "Bitcoind is not running"
+    return 1
+  else
+</span><span class="gp">    echo "Bitcoind running, pid: $</span><span class="o">{</span>pid<span class="o">}</span><span class="s2">"
+</span><span class="go">  fi
+}
+
+bitcoind_start()
+{
+  echo "Starting bitcoind:"
+</span><span class="gp">  cd "$</span><span class="o">{</span>bitcoind_data_dir<span class="o">}</span><span class="s2">" || return 1
+</span><span class="gp">  $</span><span class="s2">{daemon_command} -u "</span><span class="k">${</span><span class="nv">bitcoind_user</span><span class="k">}</span><span class="s2">" -p "</span><span class="k">${</span><span class="nv">pidfile</span><span class="k">}</span><span class="s2">" -f </span><span class="se">\</span><span class="s2">
+</span><span class="gp">    $</span><span class="s2">{command} </span><span class="se">\</span><span class="s2">
+</span><span class="gp">    -conf="$</span><span class="s2">{bitcoind_config_file}"</span> <span class="se">\</span>
+<span class="gp">    -datadir="$</span><span class="o">{</span>bitcoind_data_dir<span class="o">}</span><span class="s2">"
+</span><span class="go">}
+
+bitcoind_stop()
+{
+  echo "Stopping bitcoind:"
+</span><span class="gp">  pid=$</span><span class="o">(</span>check_pidfile <span class="s2">"</span><span class="k">${</span><span class="nv">pidfile</span><span class="k">}</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">procname</span><span class="k">}</span><span class="s2">"</span><span class="o">)</span>
+<span class="gp">  if [ -z "$</span><span class="o">{</span>pid<span class="o">}</span><span class="s2">" ]
+</span><span class="go">  then
+    echo "Bitcoind is not running"
+    return 1
+  else
+</span><span class="gp">    kill $</span><span class="o">{</span>pid<span class="o">}</span>
+<span class="go">  fi
+}
+
+bitcoind_wait()
+{
+  local n=60
+  echo "Waiting for bitcoind shutdown:"
+  while :
+  do
+    printf '.'
+</span><span class="gp">    pid=$</span><span class="o">(</span>check_pidfile <span class="s2">"</span><span class="k">${</span><span class="nv">pidfile</span><span class="k">}</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">procname</span><span class="k">}</span><span class="s2">"</span><span class="o">)</span>
+<span class="gp">    if [ -z "$</span><span class="o">{</span>pid<span class="o">}</span><span class="s2">" ]
+</span><span class="go">    then
+      printf '\n'
+      break
+    fi
+    sleep 1
+</span><span class="gp">    n=$</span><span class="o">((</span><span class="k">${</span><span class="nv">n</span><span class="k">}</span> - 1<span class="o">))</span>
+<span class="gp">    if [ $</span><span class="o">{</span>n<span class="o">}</span> <span class="nt">-eq</span> 0 <span class="nt">-a</span> <span class="nt">-f</span> <span class="s2">"</span><span class="k">${</span><span class="nv">pidfile</span><span class="k">}</span><span class="s2">"</span> <span class="o">]</span>
+<span class="go">    then
+      printf "\nForce shutdown"
+</span><span class="gp">      kill -9 $</span><span class="o">(</span><span class="nb">cat</span> <span class="s2">"</span><span class="k">${</span><span class="nv">pidfile</span><span class="k">}</span><span class="s2">"</span><span class="o">)</span>
+<span class="go">      for n in 1 2 3
+      do
+        printf '.'
+        sleep 1
+      done
+      printf '\n'
+      break
+    fi
+  done
+</span><span class="gp">  rm -f "$</span><span class="o">{</span>pidfile<span class="o">}</span><span class="s2">"
+</span><span class="go">  echo "Shutdown complete"
+}
+
+</span><span class="gp">run_rc_command "$</span>1<span class="s2">"
+</span></code></pre></div></div><p>Once you’ve finished creating the <code class="language-plaintext highlighter-rouge">rc.d</code> Start Up script, continue by creating a configuration file, which we’ll name bitcoind.conf. Place the <code class="language-plaintext highlighter-rouge">bitcoin.conf</code> file in the <code class="language-plaintext highlighter-rouge">/usr/home/bitcoin/.bitcoin</code> folder. The following is the script file <code class="language-plaintext highlighter-rouge">/usr/home/bitcoin/.bitcoin/bitcoin.conf</code>.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@router2:~ #</span><span class="w"> </span>ee /usr/home/bitcoin/.bitcoin/bitcoin.conf
+<span class="go">
+listen=1
+port=8333
+
+rpcallowip=192.168.9.3
+rpcpassword=jakasetiawan
+rpcuser=iwanse1212
+rpcport=8332
+
+conf=/usr/home/bitcoin/.bitcoin/bitcoin.conf
+daemon=1
+server=1
+
+debuglogfile=/usr/home/bitcoin/.bitcoin/debug.log
+datadir=/usr/home/bitcoin/.bitcoin
+pid=/usr/home/bitcoin/.bitcoin/bitcoin.pid
+addnode=seed.bitcoin.sipa.be
+addnode=54.38.85.30:8333
+addnode=46.19.137.74:8333
+addnode=141.98.219.12:8333
+addnode=50.107.158.135:8333
+addnode=76.150.98.135:8333
+addnode=166.70.145.151:8333
+addnode=96.74.179.132:8333
+addnode=34.75.215.83:8333
+</span></code></pre></div></div><p>IP 192.168.9.3 is the FreeBSD server’s LAN IP. You can change the IP to match your FreeBSD server’s IP. The next step is to restart/reboot the FreeBSD server.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@router2:~</span> <span class="c1"># reboot</span>
+</code></pre></div></div><p>Once the FreeBSD server computer is back to normal, start the Bitcoin daemon.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@router2:~</span> <span class="c1"># service bitcoin start</span>
+</code></pre></div></div><h2 id="3-how-to-mine-bitcoin-on-freebsd">3. How to Mine Bitcoin on FreeBSD</h2><p>To mine Bitcoin, you can use the CPUminer program. cpuminer is a simple daemon that runs Bitcoin or Litecoin. Cpuminer can be used for solo mining or pooled mining. Here’s how to install cpuminer on a FreeBSD system.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns1:~</span> <span class="c1"># cd /usr/ports/net-p2p/cpuminer</span>
+<span class="s">root@ns1:/usr/ports/net-p2p/cpuminer</span> <span class="c1"># make install clean</span>
+</code></pre></div></div><p>Cpuminer can also be installed with the FreeBSD native package.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns1:~</span> <span class="c1"># pkg install net-p2p/cpuminer</span>
+</code></pre></div></div><p>For now, if you’re considering Bitcoin mining, consider carefully. Besides the high cost of computer spare parts, the difficulty of obtaining Bitcoins through the mining process is also increasing.</p><div class="PageNavigation"><a class="prev" href="/freebsd/bitcoin-anonymous-wallet-on-freebsd-tor/">&laquo; How to Install an Anonymous Bitcoin Wallet with FeeBSD and TOR</a> <a class="next" href="/freebsd/setup-httrack-website-copier-on-freebsd/">Setup HTTrack Website Copier On FreeBSD &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-guide-mining-bitcoin-freebsd/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-guide-mining-bitcoin-freebsd/", "name": "FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin", "headline": ["Anonymous"], "keywords": "bitcoin, btc, minning, bitcoin, crypto, freebsd, tor, network, onion, proxy, install, configuration", "description": "Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.", "articleBody": "Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.\n\nBitcoin was introduced to the public in 2009 by an anonymous developer or group of developers using the name Satoshi Nakamoto. Since its introduction, Bitcoin has become the world’s most well-known cryptocurrency. Its popularity has inspired the development of many other cryptocurrencies. These competitors are trying to replace it as a payment system or are used as utility or security tokens in other blockchains and emerging financial technologies.\n\nFor FreeBSD systems, we rarely found articles covering Bitcoin installation, configuration, and mining. Bitcoin is more widely discussed on Linux systems like Ubuntu and Debian. We found numerous articles explaining how to install, configure, and mine Bitcoin.\n\nFrom an operating system perspective, FreeBSD is very stable for running crypto wallets like Bitcoin, DogeCoin, XMR RIG, and others. Furthermore, when it comes to crypto mining, I prefer FreeBSD.\n\nIn this article, we’ll try to cover Bitcoin in more depth and detail, particularly regarding installation and configuration. This article will guide you through setting up Bitcoin on a FreeBSD system. In this case, the FreeBSD version used is FreeBSD 13.2 Stable.\n\nOkay, let’s get started installing and configuring Bitcoin on a FreeBSD 13.2 Stable system.\n\n1. Bitcoin Installation Process on FreeBSD\nTo run Bitcoin on FreeBSD, you’ll need to install the Bitcoin application. Before installing Bitcoin, make sure your FreeBSD system is up to date. If not, run the following command.\n\nroot@router2:~ # pkg update\nUpdating FreeBSD repository catalogue...\nFreeBSD repository is up to date.\nAll repositories are up to date.\nroot@router2:~ # pkg upgrade -y\nUpdating FreeBSD repository catalogue...\nFreeBSD repository is up to date.\nAll repositories are up to date.\nUpdating database digests format: 100%\nChecking for upgrades (203 candidates): 100%\nProcessing candidates (203 candidates): 100%\nChecking integrity... done (0 conflicting)\nYour packages are up to date.\nroot@router2:~ #\n\n\nAfter the update and upgrade process is complete, install other supporting applications. These applications are crucial, as without them, Bitcoin will not run on a FreeBSD system.\n\nroot@router2:~ # pkg install autoconf automake boost-libs git libevent libtool pkgconf\nroot@router2:~ # pkg install libzmq4 miniupnpc norm openpgm python39 sqlite3 db5 gmake\n\n\nAfter that create an account for the user and group with the name “bitcoin”.\n\nroot@router2:~ # adduser\nUsername: bitcoin\nFull name: bitcoin wallet\nUid (Leave empty for default):\nLogin group [bitcoin]:\nLogin group is bitcoin. Invite bitcoin into other groups? []:\nLogin class [default]:\nShell (sh csh tcsh bash rbash git-shell nologin) [sh]:\nHome directory [/home/bitcoin]:\nHome directory permissions (Leave empty for default):\nUse password-based authentication? [yes]: no\nLock out the account after creation? [no]:\nUsername : bitcoin\nPassword : &lt;disabled&gt;\nFull Name : bitcoin wallet\nUid : 1018\nClass :\nGroups : bitcoin\nHome : /home/bitcoin\nHome Mode :\nShell : /bin/sh\nLocked : no\nOK? (yes/no): yes\nadduser: INFO: Successfully added (bitcoin) to the user database.\nAdd another user? (yes/no): no\nGoodbye!\n\n\nOnce the Bitcoin user and group have been created, it’s time to install Bitcoin. Follow the script below to install Bitcoin. To install Bitcoin, you can copy the complete files from https://github.com/bitcoin/bitcoin.\n\nroot@router2:~ # cd /usr/local/etc\nroot@router2:/usr/local/etc/bitcoin # git clone https://github.com/bitcoin/bitcoin.git\nroot@router2:/usr/local/etc/bitcoin # cd bitcoin\nroot@router2:/usr/local/etc/bitcoin # ./autogen.sh\nroot@router2:/usr/local/etc/bitcoin # ./configure --disable-hardening MAKE=\"gmake\" CFLAGS=\"-I/usr/local/include\" CXXFLAGS=\"-I/usr/local/include -I/usr/local/include/db5\" LDFLAGS=\"-L/usr/local/lib -L/usr/local/lib/db5\"\nroot@router2:/usr/local/etc/bitcoin # gmake\nroot@router2:/usr/local/etc/bitcoin # gmake check\nroot@router2:/usr/local/etc/bitcoin # gmake install\n\n\nAt this point, if there are no errors when running the gmake syntax, Bitcoin should be installed on your FreeBSD system, but it won’t run yet. Let’s continue with configuring Bitcoin.\n\n2. How to Configure Bitcoin\nThe first step in the configuration process is to create a Bitcoin Start Up script. We add this script to the /etc/rc.conf file. Add the following script to the /etc/rc.conf file.\n\nbitcoin_enable=\"YES\"\nbitcoin_user=\"bitcoin\"\nbitcoin_group=\"bitcoin\"\nbitcoin_config=\"/usr/home/bitcoin/.bitcoin/bitcoin.conf\"\nbitcoin_datadir=\"/usr/home/bitcoin/.bitcoin\"\n\n\nThe next step is to create folders and files that are used to store Bitcoin blockchain files.\n\nroot@router2:~ # mkdir -p /usr/home/bitcoin/.bitcoin\nroot@router2:~ # touch /usr/home/bitcoin/.bitcoin/bitcoin.conf\nroot@router2:~ # touch /usr/home/bitcoin/.bitcoin/debug.log\nroot@router2:~ # chmod -R +x /usr/home/bitcoin/.bitcoin/debug.log\nroot@router2:~ # chown -R bitcoin:bitcoin /usr/home/bitcoin/.bitcoin/\n\nBefore we move on to the next step, create a symlink to the /root folder.\n\nroot@router2:~ # ln -s /usr/home/bitcoin/.bitcoin /root\n\n\nContinue by creating the Start Up rc.d script. This script is useful for running commands to start, restart, and stop the Bitcoin daemon. Furthermore, the Start Up rc.d script is also used to autoload so that the Bitcoin daemon always runs when the server computer is shut down or restarted. In Start Up rc.d, we will name the file bitcoind. Follow these steps to create the rc.d script.\n\nroot@router2:~ # touch /usr/local/etc/rc.d/bitcoin\nroot@router2:~ # chmod -R +x /usr/local/etc/rc.d/bitcoin\n\n\nType the script below in the file \"/usr/local/etc/rc.d/bitcoind\".\n\n#!/bin/sh\n\n# PROVIDE: bitcoind\n# REQUIRE: LOGIN cleanvar\n# KEYWORD: shutdown\n\n#\n# Add the following lines to /etc/rc.conf to enable :\n# bitcoind_enable (bool):\tSet to \"NO\" by default.\n#\t\t\t\tSet it to \"YES\" to enable bitcoind\n# bitcoind_user (str)\t\tSet to \"bitcoin\" by default.\n# bitcoind_group (str)\t\tSet to \"bitcoin\" by default.\n# bitcoind_conf (str)\t\tSet to \"/usr/local/etc/bitcoind.conf\" by default.\n# bitcoind_data_dir (str)\tSet to \"/var/db/bitcoin\" by default.\n# bitcoindlimits_enable (bool)\tSet to \"NO\" by default.\n#\t\t\t\tSet it to \"YES\" to enable bitcoindlimits\n# bitcoindlimits_args\t\tSet to \"-e -U ${bitcoind_user}\" by default\n\n\n. /etc/rc.subr\n\nname=\"bitcoind\"\nrcvar=bitcoind_enable\n\nstart_precmd=\"bitcoind_precmd\"\nstart_cmd=\"bitcoind_start\"\nrestart_precmd=\"bitcoind_checkconfig\"\nreload_precmd=\"bitcoind_checkconfig\"\nconfigtest_cmd=\"bitcoind_checkconfig\"\nstatus_cmd=\"bitcoind_status\"\nstop_cmd=\"bitcoind_stop\"\nstop_postcmd=\"bitcoind_wait\"\ncommand=\"/usr/local/bin/bitcoind\"\ndaemon_command=\"/usr/sbin/daemon\"\npidfile=\"/var/run/${name}.pid\"\nextra_commands=\"configtest\"\n\n\n: ${bitcoind_enable:=\"NO\"}\n: ${bitcoindlimits_enable:=\"NO\"}\n\nload_rc_config ${name}\n\n: ${bitcoind_user:=\"bitcoin\"}\n: ${bitcoind_group:=\"bitcoin\"}\n: ${bitcoind_data_dir:=\"/var/db/bitcoin\"}\n: ${bitcoind_config_file:=\"/usr/local/etc/bitcoin.conf\"}\n: ${bitcoindlimits_args:=\"-e -U ${bitcoind_user}\"}\n\n# set up dependant variables\nprocname=\"${command}\"\nrequired_files=\"${bitcoind_config_file}\"\n\n\nbitcoind_checkconfig()\n{\n echo \"Performing sanity check on bitcoind configuration:\"\n if [ ! -d \"${bitcoind_data_dir}\" ]\n then\n echo \"Missing data directory: ${bitcoind_data_dir}\"\n exit 1\n fi\n chown -R \"${bitcoind_user}:${bitcoind_group}\" \"${bitcoind_data_dir}\"\n\n if [ ! -f \"${bitcoind_config_file}\" ]\n then\n echo \"Missing configuration file: ${bitcoind_config_file}\"\n exit 1\n fi\n if [ ! -x \"${command}\" ]\n then\n echo \"Missing executable: ${command}\"\n exit 1\n fi\n return 0\n}\n\nbitcoind_cleanup()\n{\n rm -f \"${pidfile}\"\n}\n\nbitcoind_precmd()\n{\n bitcoind_checkconfig\n\n pid=$(check_pidfile \"${pidfile}\" \"${procname}\")\n if [ -z \"${pid}\" ]\n then\n echo \"Bitcoind is not running\"\n rm -f \"${pidfile}\"\n fi\n\n if checkyesno bitcoindlimits_enable\n then\n eval $(/usr/bin/limits ${bitcoindlimits_args}) 2&gt;/dev/null\n else\n return 0\n fi\n}\n\nbitcoind_status()\n{\n local pid\n pid=$(check_pidfile \"${pidfile}\" \"${procname}\")\n if [ -z \"${pid}\" ]\n then\n echo \"Bitcoind is not running\"\n return 1\n else\n echo \"Bitcoind running, pid: ${pid}\"\n fi\n}\n\nbitcoind_start()\n{\n echo \"Starting bitcoind:\"\n cd \"${bitcoind_data_dir}\" || return 1\n ${daemon_command} -u \"${bitcoind_user}\" -p \"${pidfile}\" -f \\\n ${command} \\\n -conf=\"${bitcoind_config_file}\" \\\n -datadir=\"${bitcoind_data_dir}\"\n}\n\nbitcoind_stop()\n{\n echo \"Stopping bitcoind:\"\n pid=$(check_pidfile \"${pidfile}\" \"${procname}\")\n if [ -z \"${pid}\" ]\n then\n echo \"Bitcoind is not running\"\n return 1\n else\n kill ${pid}\n fi\n}\n\nbitcoind_wait()\n{\n local n=60\n echo \"Waiting for bitcoind shutdown:\"\n while :\n do\n printf '.'\n pid=$(check_pidfile \"${pidfile}\" \"${procname}\")\n if [ -z \"${pid}\" ]\n then\n printf '\\n'\n break\n fi\n sleep 1\n n=$((${n} - 1))\n if [ ${n} -eq 0 -a -f \"${pidfile}\" ]\n then\n printf \"\\nForce shutdown\"\n kill -9 $(cat \"${pidfile}\")\n for n in 1 2 3\n do\n printf '.'\n sleep 1\n done\n printf '\\n'\n break\n fi\n done\n rm -f \"${pidfile}\"\n echo \"Shutdown complete\"\n}\n\nrun_rc_command \"$1\"\n\n\nOnce you’ve finished creating the rc.d Start Up script, continue by creating a configuration file, which we’ll name bitcoind.conf. Place the bitcoin.conf file in the /usr/home/bitcoin/.bitcoin folder. The following is the script file /usr/home/bitcoin/.bitcoin/bitcoin.conf.\n\nroot@router2:~ # ee /usr/home/bitcoin/.bitcoin/bitcoin.conf\n\nlisten=1\nport=8333\n\nrpcallowip=192.168.9.3\nrpcpassword=jakasetiawan\nrpcuser=iwanse1212\nrpcport=8332\n\nconf=/usr/home/bitcoin/.bitcoin/bitcoin.conf\ndaemon=1\nserver=1\n\ndebuglogfile=/usr/home/bitcoin/.bitcoin/debug.log\ndatadir=/usr/home/bitcoin/.bitcoin\npid=/usr/home/bitcoin/.bitcoin/bitcoin.pid\naddnode=seed.bitcoin.sipa.be\naddnode=54.38.85.30:8333\naddnode=46.19.137.74:8333\naddnode=141.98.219.12:8333\naddnode=50.107.158.135:8333\naddnode=76.150.98.135:8333\naddnode=166.70.145.151:8333\naddnode=96.74.179.132:8333\naddnode=34.75.215.83:8333\n\n\nIP 192.168.9.3 is the FreeBSD server’s LAN IP. You can change the IP to match your FreeBSD server’s IP. The next step is to restart/reboot the FreeBSD server.\n\nroot@router2:~ # reboot\n\n\nOnce the FreeBSD server computer is back to normal, start the Bitcoin daemon.\n\nroot@router2:~ # service bitcoin start\n\n\n3. How to Mine Bitcoin on FreeBSD\nTo mine Bitcoin, you can use the CPUminer program. cpuminer is a simple daemon that runs Bitcoin or Litecoin. Cpuminer can be used for solo mining or pooled mining. Here’s how to install cpuminer on a FreeBSD system.\n\nroot@ns1:~ # cd /usr/ports/net-p2p/cpuminer\nroot@ns1:/usr/ports/net-p2p/cpuminer # make install clean\n\n\nCpuminer can also be installed with the FreeBSD native package.\n\nroot@ns1:~ # pkg install net-p2p/cpuminer\n\n\nFor now, if you’re considering Bitcoin mining, consider carefully. Besides the high cost of computer spare parts, the difficulty of obtaining Bitcoins through the mining process is also increasing.\n", "dateCreated": "2025-07-29 09:56:21 +0300", "datePublished": "2025-07-29 09:56:21 +0300", "dateModified": "2025-07-29 07:56:21 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/configuration-guide-mining-bitcoin-freebsd", "name": "FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin", "description": "Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-guide-mining-bitcoin-freebsd/", "headline": "FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin", "description": "Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/configuration-guide-mining-bitcoin-freebsd/", "identifier": "judul", "name": "FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin", "description": "Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/configuration-guide-mining-bitcoin-freebsd/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-guide-mining-bitcoin-freebsd/", "name": "FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin", "description": "Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.", "dateCreated": "2025-07-29 09:56:21 +0300", "datePublished": "2025-07-29 09:56:21 +0300", "dateModified": "2025-07-29 07:56:21 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-07-29 09:56:21 +0300", "name": "FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin", "headline": "FreeBSD Bitcoin BTC - Installation and Configuration Guide for Mining Bitcoin", "description": "Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act as money and a form of payment outside the control of any single person, group, or entity, eliminating the need for third-party involvement in financial transactions. Bitcoin is awarded to blockchain miners for their work verifying transactions and can be purchased on several exchanges.", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

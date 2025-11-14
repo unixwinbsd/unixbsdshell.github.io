@@ -1,0 +1,372 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>OpenBSD Varnish Cache Proxy With NGINX Backend</title><meta name="description" content="Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server"><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="varnish, cache, proxy, reverse, openbsd, nginx, web server, web browser, reverse proxy, install"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/setting-varnish-cache-proxy-nginx-openbsd/"><meta property="og:type" content="article"><meta property="og:title" content="OpenBSD Varnish Cache Proxy With NGINX Backend"><meta property="og:description"><meta property="og:image" content="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/NugetArticle/test%20varnish%20with%20google%20chrome.jpg&commit=b166c24f5da03ee34f8bfb1d6bcddad406173ad5"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/setting-varnish-cache-proxy-nginx-openbsd/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/setting-varnish-cache-proxy-nginx-openbsd/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-05-26 10:25:35 +0300"><meta property="og:image" content="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/NugetArticle/test%20varnish%20with%20google%20chrome.jpg&commit=b166c24f5da03ee34f8bfb1d6bcddad406173ad5"><meta property="og:title" content="OpenBSD Varnish Cache Proxy With NGINX Backend"><meta property="og:description" content="Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server"><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/setting-varnish-cache-proxy-nginx-openbsd/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/NugetArticle/test%20varnish%20with%20google%20chrome.jpg&commit=b166c24f5da03ee34f8bfb1d6bcddad406173ad5"><meta name="twitter:title" content="OpenBSD Varnish Cache Proxy With NGINX Backend"><meta name="twitter:description" content="Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server"><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">OpenBSD Varnish Cache Proxy With NGINX Backend</h1><div class="lead badge bg-primary text-wrap"><h6><p>Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else’s server or a remote web server</p></h6></div><p class="meta"></p><h6><time>May 26, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=SysAdmin">SysAdmin</a> &middot; <span class="reading-time" title="Estimated read time">14 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-system-specifications">1. System specifications</a></li><li><a href="#2-install-and-configure-nginx">2. Install and Configure NGINX</a></li><li><a href="#3-install-varnish">3. Install Varnish</a></li><li><a href="#4-configure-varnish-in-openbsd">4. Configure Varnish in OpenBSD</a></li><li><a href="#5-test-varnish-with-web-browser">5. Test Varnish With Web Browser</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / openbsd / OpenBSD Varnish Cache Proxy With NGINX Backend</div><div class="article"><p>Varnish is an HTTP proxy cache that can increase the speed of website access from your local network. Because, Varnish is one of the software that provides a very fast website hosting cache compared to standard web services. However, there is one major limitation, namely that it will not serve HTTPS content.</p><p>Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else’s server or a remote web server. The reverse proxy server is closely connected to the web server and can act on messages received from it. For example, a cached page can be refreshed with a purge command from the backend, something you can’t do with a cache that is closer to the client. This means that reverse proxy servers, in some cases, can store content longer than other types of caches.</p><p>In this tutorial, I will show you how to install Varnish on an <code class="language-plaintext highlighter-rouge">OpenBSD 7.5</code> server with <code class="language-plaintext highlighter-rouge">NGINX</code> as the backend.</p><h2 id="1-system-specifications">1. System specifications</h2><p>Make sure your server computer has the following operating system and software installed.</p><ul><li>OS: OpenBSD 7.5</li><li>Hostname: ns3</li><li>Domain: cursor.my.id</li><li>IP address: 192.168.5.3</li><li>Nginx version: nginx-1.24.0p0</li><li>Nginx port: 8080</li><li>Varnish version: varnish-7.4.2</li><li>Varnish port: 80</li></ul><h2 id="2-install-and-configure-nginx">2. Install and Configure NGINX</h2><p>Since we will be using NGINX as the Varnish backend, installing NGINX is the first step you should take. Here are the commands you should type to install NGINX.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>pkg_add nginx
+</code></pre></div></div><p>After that, open the <code class="language-plaintext highlighter-rouge">/etc/nginx/nginx.conf</code> file and type the following script in the file.</p><div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user  www;
+worker_processes  1;
+worker_rlimit_nofile 1024;
+events {
+    worker_connections  800;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    index         index.html index.htm;
+    keepalive_timeout  65;
+    server_tokens off;
+
+    server {
+        listen       8080;
+        listen       [::]:80;
+        server_name  localhost;
+        root         /var/www/htdocs;
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root  /var/www/htdocs;
+        }
+    }
+}
+</code></pre></div></div><p>Then create an <code class="language-plaintext highlighter-rouge">index.html</code> file to check the NGINX server. The <code class="language-plaintext highlighter-rouge">index.html</code> file is located in the <code class="language-plaintext highlighter-rouge">/var/www/htdocs</code> directory. In the <code class="language-plaintext highlighter-rouge">index.html</code> file, type the following script.</p><div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Nginx port 8080<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h1&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>Welcome to Nginx port HTTP<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>With Varnis Cache Proxy<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div><p>Then, run the command below, to create ownership and usage permissions for the file.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> www:www /var/www/htdocs/
+<span class="gp">ns3#</span><span class="w"> </span><span class="nb">chmod</span> <span class="nt">-R</span> 775 /var/www/htdocs/
+</code></pre></div></div><p>By default OpenBSD disables NGINX, to run NGINX, you must enable the NGINX server first. Run the following command to enable NGINX.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>rcctl <span class="nb">enable </span>nginx
+<span class="gp">ns3#</span><span class="w"> </span>rcctl restart nginx
+</code></pre></div></div><h2 id="3-install-varnish">3. Install Varnish</h2><p>Varnish fetches content from an Apache or NGINX backend server, which is the web server where your content is created. In this article, we will use the NGINX web server as the Varnish backend. Installing Varnish is very easy, because OpenBSD has provided the Varnish package, you can directly install and activate Varnish with just a few commands. To install Varnish, you can run the following command.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>pkg_add varnish
+</code></pre></div></div><p>After that you activate Varnish.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>rcctl <span class="nb">enable </span>varnishd
+</code></pre></div></div><h2 id="4-configure-varnish-in-openbsd">4. Configure Varnish in OpenBSD</h2><p>By default, the basic Varnish configuration file can run normally, but the configuration file cannot run if you do not set the flag for the daemon. In OpenBSD, setting the flag is very important, because this flag will set all Varnish configurations. In this section we will explain how to set the flag for Varnish. The first thing you have to do is add a script to the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file, as in the following example.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">varnishd_flags=
+</span></code></pre></div></div><p>After that, add another script in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf.local</code> file, with the rcctl command as in the example below.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>rcctl <span class="nb">set </span>varnishd flags <span class="s2">"-a http=192.168.5.3:80,HTTP -a proxy=192.168.5.3:6081,PROXY -j unix,user=_varnish,ccgroup=_varnish -f /etc/varnish/default.vcl -T localhost:9999 -p feature=+http2"</span>
+</code></pre></div></div><p>To configure Varnish, you need to edit the <code class="language-plaintext highlighter-rouge">/etc/varnish/default.vcl</code> file. By default, the default.vcl file only enables the backend. Here is a complete example script for the <code class="language-plaintext highlighter-rouge">/etc/varnish/default.vcl</code> file.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">vcl 4.1;</span><span class="w">
+</span><span class="go">
+backend default {
+</span><span class="gp">    .host = "192.168.5.3";</span><span class="w">
+</span><span class="gp">    .port = "8080";</span><span class="w">
+</span><span class="go">}
+
+sub vcl_recv {
+</span><span class="gp"> 	call vcl_builtin_recv;</span><span class="w">
+</span><span class="gp"> 	return (hash);</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_builtin_recv {
+</span><span class="gp"> 	call vcl_req_host;</span><span class="w">
+</span><span class="gp"> 	call vcl_req_method;</span><span class="w">
+</span><span class="gp"> 	call vcl_req_authorization;</span><span class="w">
+</span><span class="gp"> 	call vcl_req_cookie;</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_req_host {
+ 	if (req.http.host ~ "[[:upper:]]") {
+</span><span class="gp"> 		set req.http.host = req.http.host.lower();</span><span class="w">
+</span><span class="go"> 	}
+ 	if (!req.http.host &amp;&amp;
+ 	    req.esi_level == 0 &amp;&amp;
+ 	    req.proto == "HTTP/2") {
+</span><span class="gp"> 		return (synth(400));</span><span class="w">
+</span><span class="go"> 	}
+ }
+ 
+ sub vcl_req_method {
+ 	if (req.method == "PRI") {
+</span><span class="gp"> 		#</span><span class="w"> </span>This will never happen <span class="k">in </span>properly formed traffic.
+<span class="gp"> 		return (synth(405));</span><span class="w">
+</span><span class="go"> 	}
+ 	if (req.method != "GET" &amp;&amp;
+ 	    req.method != "HEAD" &amp;&amp;
+ 	    req.method != "PUT" &amp;&amp;
+ 	    req.method != "POST" &amp;&amp;
+ 	    req.method != "TRACE" &amp;&amp;
+ 	    req.method != "OPTIONS" &amp;&amp;
+ 	    req.method != "DELETE" &amp;&amp;
+ 	    req.method != "PATCH") {
+</span><span class="gp"> 		#</span><span class="w"> </span>Non-RFC2616 or CONNECT which is weird.
+<span class="gp"> 		return (pipe);</span><span class="w">
+</span><span class="go"> 	}
+ 	if (req.method != "GET" &amp;&amp; req.method != "HEAD") {
+</span><span class="gp"> 		#</span><span class="w"> </span>We only deal with GET and HEAD by default.
+<span class="gp"> 		return (pass);</span><span class="w">
+</span><span class="go"> 	}
+ }
+ 
+ sub vcl_req_authorization {
+ 	if (req.http.Authorization) {
+</span><span class="gp"> 		#</span><span class="w"> </span>Not cacheable by default.
+<span class="gp"> 		return (pass);</span><span class="w">
+</span><span class="go"> 	}
+ }
+ 
+ sub vcl_req_cookie {
+ 	if (req.http.Cookie) {
+</span><span class="gp"> 		#</span><span class="w"> </span>Risky to cache by default.
+<span class="gp"> 		return (pass);</span><span class="w">
+</span><span class="go"> 	}
+ }
+ 
+ sub vcl_pipe {
+</span><span class="gp"> 	call vcl_builtin_pipe;</span><span class="w">
+</span><span class="gp"> 	#</span><span class="w"> </span><span class="nb">unset </span>bereq.http.connection<span class="p">;</span>
+<span class="gp"> 	return (pipe);</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_builtin_pipe {
+ }
+ 
+ sub vcl_pass {
+</span><span class="gp"> 	call vcl_builtin_pass;</span><span class="w">
+</span><span class="gp"> 	return (fetch);</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_builtin_pass {
+ }
+ 
+ sub vcl_hash {
+</span><span class="gp"> 	call vcl_builtin_hash;</span><span class="w">
+</span><span class="gp"> 	return (lookup);</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_builtin_hash {
+</span><span class="gp"> 	hash_data(req.url);</span><span class="w">
+</span><span class="go"> 	if (req.http.host) {
+</span><span class="gp"> 		hash_data(req.http.host);</span><span class="w">
+</span><span class="go"> 	} else {
+</span><span class="gp"> 		hash_data(server.ip);</span><span class="w">
+</span><span class="go"> 	}
+ }
+ 
+ sub vcl_purge {
+</span><span class="gp"> 	call vcl_builtin_purge;</span><span class="w">
+</span><span class="gp"> 	return (synth(200, "Purged"));</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_builtin_purge {
+ }
+ 
+ sub vcl_hit {
+</span><span class="gp"> 	call vcl_builtin_hit;</span><span class="w">
+</span><span class="gp"> 	return (deliver);</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_builtin_hit {
+ }
+ 
+ sub vcl_miss {
+</span><span class="gp"> 	call vcl_builtin_miss;</span><span class="w">
+</span><span class="gp"> 	return (fetch);</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_builtin_miss {
+ }
+ 
+ sub vcl_deliver {
+</span><span class="gp"> 	call vcl_builtin_deliver;</span><span class="w">
+</span><span class="gp"> 	return (deliver);</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_builtin_deliver {
+ }
+
+sub vcl_synth {
+</span><span class="gp"> 	call vcl_builtin_synth;</span><span class="w">
+</span><span class="gp"> 	return (deliver);</span><span class="w">
+</span><span class="go"> }
+ 
+sub vcl_builtin_synth {
+</span><span class="gp"> 	set resp.http.Content-Type = "text/html;</span><span class="w"> </span><span class="nv">charset</span><span class="o">=</span>utf-8<span class="s2">";
+</span><span class="gp"> 	set resp.http.Retry-After = "5";</span><span class="w">
+</span><span class="gp"> 	set resp.body = {"&lt;!DOCTYPE html&gt;</span><span class="w">
+</span><span class="gp"> &lt;html&gt;</span><span class="w">
+</span><span class="gp">   &lt;head&gt;</span><span class="w">
+</span><span class="gp">     &lt;title&gt;</span><span class="s2">"</span><span class="o">}</span> + resp.status + <span class="s2">" "</span> + resp.reason + <span class="o">{</span><span class="s2">"&lt;/title&gt;
+</span><span class="gp">   &lt;/head&gt;</span><span class="w">
+</span><span class="gp">   &lt;body&gt;</span><span class="w">
+</span><span class="gp">     &lt;h1&gt;</span><span class="s2">Error "</span><span class="o">}</span> + resp.status + <span class="s2">" "</span> + resp.reason + <span class="o">{</span><span class="s2">"&lt;/h1&gt;
+</span><span class="gp">     &lt;p&gt;</span><span class="s2">"</span><span class="o">}</span> + resp.reason + <span class="o">{</span><span class="s2">"&lt;/p&gt;
+</span><span class="gp">     &lt;h3&gt;</span><span class="s2">Guru Meditation:&lt;/h3&gt;
+</span><span class="gp">     &lt;p&gt;</span><span class="s2">XID: "</span><span class="o">}</span> + req.xid + <span class="o">{</span><span class="s2">"&lt;/p&gt;
+</span><span class="gp">     &lt;hr&gt;</span><span class="w">
+</span><span class="gp">     &lt;p&gt;</span><span class="s2">Varnish cache server&lt;/p&gt;
+</span><span class="gp">   &lt;/body&gt;</span><span class="w">
+</span><span class="gp"> &lt;/html&gt;</span><span class="w">
+</span><span class="gp"> "};</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_backend_fetch {
+</span><span class="gp"> 	call vcl_builtin_backend_fetch;</span><span class="w">
+</span><span class="gp"> 	return (fetch);</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_builtin_backend_fetch {
+ 	if (bereq.method == "GET") {
+</span><span class="gp"> 		unset bereq.body;</span><span class="w">
+</span><span class="go"> 	}
+ }
+ 
+ sub vcl_backend_response {
+</span><span class="gp"> 	call vcl_builtin_backend_response;</span><span class="w">
+</span><span class="gp"> 	return (deliver);</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_builtin_backend_response {
+ 	if (bereq.uncacheable) {
+</span><span class="gp"> 		return (deliver);</span><span class="w">
+</span><span class="go"> 	}
+</span><span class="gp"> 	call vcl_beresp_stale;</span><span class="w">
+</span><span class="gp"> 	call vcl_beresp_cookie;</span><span class="w">
+</span><span class="gp"> 	call vcl_beresp_control;</span><span class="w">
+</span><span class="gp"> 	call vcl_beresp_vary;</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_beresp_stale {
+ 	if (beresp.ttl &lt;= 0s) {
+</span><span class="gp"> 		call vcl_beresp_hitmiss;</span><span class="w">
+</span><span class="go"> 	}
+ }
+ 
+ sub vcl_beresp_cookie {
+ 	if (beresp.http.Set-Cookie) {
+</span><span class="gp"> 		call vcl_beresp_hitmiss;</span><span class="w">
+</span><span class="go"> 	}
+ }
+ 
+ sub vcl_beresp_control {
+ 	if (beresp.http.Surrogate-control ~ "(?i)no-store" ||
+ 	    (!beresp.http.Surrogate-Control &amp;&amp;
+ 	      beresp.http.Cache-Control ~ "(?i:no-cache|no-store|private)")) {
+</span><span class="gp"> 		call vcl_beresp_hitmiss;</span><span class="w">
+</span><span class="go"> 	}
+ }
+ 
+ sub vcl_beresp_vary {
+ 	if (beresp.http.Vary == "*") {
+</span><span class="gp"> 		call vcl_beresp_hitmiss;</span><span class="w">
+</span><span class="go"> 	}
+ }
+ 
+ sub vcl_beresp_hitmiss {
+</span><span class="gp"> 	set beresp.ttl = 120s;</span><span class="w">
+</span><span class="gp"> 	set beresp.uncacheable = true;</span><span class="w">
+</span><span class="gp"> 	return (deliver);</span><span class="w">
+</span><span class="go"> }
+ 
+sub vcl_backend_error {
+</span><span class="gp"> 	call vcl_builtin_backend_error;</span><span class="w">
+</span><span class="gp"> 	return (deliver);</span><span class="w">
+</span><span class="go"> }
+ 
+sub vcl_builtin_backend_error {
+</span><span class="gp"> 	set beresp.http.Content-Type = "text/html;</span><span class="w"> </span><span class="nv">charset</span><span class="o">=</span>utf-8<span class="s2">";
+</span><span class="gp"> 	set beresp.http.Retry-After = "5";</span><span class="w">
+</span><span class="gp"> 	set beresp.body = {"&lt;!DOCTYPE html&gt;</span><span class="w">
+</span><span class="gp"> &lt;html&gt;</span><span class="w">
+</span><span class="gp">   &lt;head&gt;</span><span class="w">
+</span><span class="gp">     &lt;title&gt;</span><span class="s2">"</span><span class="o">}</span> + beresp.status + <span class="s2">" "</span> + beresp.reason + <span class="o">{</span><span class="s2">"&lt;/title&gt;
+</span><span class="gp">   &lt;/head&gt;</span><span class="w">
+</span><span class="gp">   &lt;body&gt;</span><span class="w">
+</span><span class="gp">     &lt;h1&gt;</span><span class="s2">Error "</span><span class="o">}</span> + beresp.status + <span class="s2">" "</span> + beresp.reason + <span class="o">{</span><span class="s2">"&lt;/h1&gt;
+</span><span class="gp">     &lt;p&gt;</span><span class="s2">"</span><span class="o">}</span> + beresp.reason + <span class="o">{</span><span class="s2">"&lt;/p&gt;
+</span><span class="gp">     &lt;h3&gt;</span><span class="s2">Guru Meditation:&lt;/h3&gt;
+</span><span class="gp">     &lt;p&gt;</span><span class="s2">XID: "</span><span class="o">}</span> + bereq.xid + <span class="o">{</span><span class="s2">"&lt;/p&gt;
+</span><span class="gp">     &lt;hr&gt;</span><span class="w">
+</span><span class="gp">     &lt;p&gt;</span><span class="s2">Varnish cache server&lt;/p&gt;
+</span><span class="gp">   &lt;/body&gt;</span><span class="w">
+</span><span class="gp"> &lt;/html&gt;</span><span class="w">
+</span><span class="gp"> "};</span><span class="w">
+</span><span class="go"> }
+
+sub vcl_init {
+</span><span class="gp"> 	return (ok);</span><span class="w">
+</span><span class="go"> }
+ 
+ sub vcl_fini {
+</span><span class="gp"> 	return (ok);</span><span class="w">
+</span><span class="go"> }
+</span></code></pre></div></div><p>The final step is to run Varnish with the rcctl command.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ns3#</span><span class="w"> </span>rcctl restart varnishd
+<span class="go">varnishd(ok)
+varnishd(ok)
+</span></code></pre></div></div><h2 id="5-test-varnish-with-web-browser">5. Test Varnish With Web Browser</h2><p>To be more sure whether varnis has worked as a proxy cache from Nginx, we have to do a test to prove it. You can do this test on the Google Chrome, Yandex or other web browsers.</p><p>In the Google Chrome address bar menu, type the varnis IP address, which is <code class="language-plaintext highlighter-rouge">http://192.168.5.3:8080/</code>. The results will be visible on your monitor screen as shown in the following image.</p><noscript><img src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/NugetArticle/test%20varnish%20with%20google%20chrome.jpg&amp;commit=b166c24f5da03ee34f8bfb1d6bcddad406173ad5" alt="test varnish with google chrome"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/NugetArticle/test%20varnish%20with%20google%20chrome.jpg&amp;commit=b166c24f5da03ee34f8bfb1d6bcddad406173ad5" alt="test varnish with google chrome" class="lazyload fade-in"></p><p>Congratulations, you have successfully installed Varnish on OpenBSD and now you have a simple setup to speed up your site. In this article, you learned the basics of Varnish, the process of installing and configuring Varnish, what Varnish is, and what the default settings are. We also briefly discussed VCL, Varnish’s configuration language.</p><p>VCL can be a bit tricky to understand, especially since it’s an unconventional way to do configuration, but it’s actually very easy to use once you read this article, and it’s also more flexible than configuration files. If you’d like to continue learning about Varnish, visit varnish-cache.org for more information.</p><div class="PageNavigation"><a class="prev" href="/freebsd/setting-env-path-java-composer-go-freebsd/">&laquo; Setting ENV Paths in Freebsd for Java and Go Composer</a> <a class="next" href="/freebsd/install-hugo-gohugo-freebsd-golang/">How to Install Hugo GoHugo on FreeBSD GoLang &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/setting-varnish-cache-proxy-nginx-openbsd/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/setting-varnish-cache-proxy-nginx-openbsd/", "name": "OpenBSD Varnish Cache Proxy With NGINX Backend", "headline": ["SysAdmin"], "keywords": "varnish, cache, proxy, reverse, openbsd, nginx, web server, web browser, reverse proxy, install", "description": "Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server", "articleBody": "Varnish is an HTTP proxy cache that can increase the speed of website access from your local network. Because, Varnish is one of the software that provides a very fast website hosting cache compared to standard web services. However, there is one major limitation, namely that it will not serve HTTPS content.\n\nVarnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else’s server or a remote web server. The reverse proxy server is closely connected to the web server and can act on messages received from it. For example, a cached page can be refreshed with a purge command from the backend, something you can’t do with a cache that is closer to the client. This means that reverse proxy servers, in some cases, can store content longer than other types of caches.\n\nIn this tutorial, I will show you how to install Varnish on an OpenBSD 7.5 server with NGINX as the backend.\n\n1. System specifications\n\nMake sure your server computer has the following operating system and software installed.\n\n OS: OpenBSD 7.5\n Hostname: ns3\n Domain: cursor.my.id\n IP address: 192.168.5.3\n Nginx version: nginx-1.24.0p0\n Nginx port: 8080\n Varnish version: varnish-7.4.2\n Varnish port: 80\n\n\n2. Install and Configure NGINX\nSince we will be using NGINX as the Varnish backend, installing NGINX is the first step you should take. Here are the commands you should type to install NGINX.\n\nns3# pkg_add nginx\n\nAfter that, open the /etc/nginx/nginx.conf file and type the following script in the file.\n\nuser www;\nworker_processes 1;\nworker_rlimit_nofile 1024;\nevents {\n worker_connections 800;\n}\n\nhttp {\n include mime.types;\n default_type application/octet-stream;\n index index.html index.htm;\n keepalive_timeout 65;\n server_tokens off;\n\n server {\n listen 8080;\n listen [::]:80;\n server_name localhost;\n root /var/www/htdocs;\n error_page 500 502 503 504 /50x.html;\n location = /50x.html {\n root /var/www/htdocs;\n }\n }\n}\n\n\nThen create an index.html file to check the NGINX server. The index.html file is located in the /var/www/htdocs directory. In the index.html file, type the following script.\n\n&lt;html&gt;\n&lt;head&gt;\n&lt;title&gt;Nginx port 8080&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n&lt;h1&gt;\n&lt;p align=\"center\"&gt;Welcome to Nginx port HTTP&lt;/p&gt;\n&lt;p align=\"center\"&gt;With Varnis Cache Proxy&lt;/p&gt;\n&lt;/h1&gt;\n&lt;/body&gt;\n&lt;/html&gt;\n\n\nThen, run the command below, to create ownership and usage permissions for the file.\n\nns3# chown -R www:www /var/www/htdocs/\nns3# chmod -R 775 /var/www/htdocs/\n\n\nBy default OpenBSD disables NGINX, to run NGINX, you must enable the NGINX server first. Run the following command to enable NGINX.\n\nns3# rcctl enable nginx\nns3# rcctl restart nginx\n\n\n3. Install Varnish\nVarnish fetches content from an Apache or NGINX backend server, which is the web server where your content is created. In this article, we will use the NGINX web server as the Varnish backend. Installing Varnish is very easy, because OpenBSD has provided the Varnish package, you can directly install and activate Varnish with just a few commands. To install Varnish, you can run the following command.\n\nns3# pkg_add varnish\n\n\nAfter that you activate Varnish.\n\nns3# rcctl enable varnishd\n\n\n4. Configure Varnish in OpenBSD\nBy default, the basic Varnish configuration file can run normally, but the configuration file cannot run if you do not set the flag for the daemon. In OpenBSD, setting the flag is very important, because this flag will set all Varnish configurations. In this section we will explain how to set the flag for Varnish. The first thing you have to do is add a script to the /etc/rc.conf file, as in the following example.\n\nvarnishd_flags=\n\n\nAfter that, add another script in the /etc/rc.conf.local file, with the rcctl command as in the example below.\n\nns3# rcctl set varnishd flags \"-a http=192.168.5.3:80,HTTP -a proxy=192.168.5.3:6081,PROXY -j unix,user=_varnish,ccgroup=_varnish -f /etc/varnish/default.vcl -T localhost:9999 -p feature=+http2\"\n\n\nTo configure Varnish, you need to edit the /etc/varnish/default.vcl file. By default, the default.vcl file only enables the backend. Here is a complete example script for the /etc/varnish/default.vcl file.\n\nvcl 4.1;\n\nbackend default {\n .host = \"192.168.5.3\";\n .port = \"8080\";\n}\n\nsub vcl_recv {\n \tcall vcl_builtin_recv;\n \treturn (hash);\n }\n \n sub vcl_builtin_recv {\n \tcall vcl_req_host;\n \tcall vcl_req_method;\n \tcall vcl_req_authorization;\n \tcall vcl_req_cookie;\n }\n \n sub vcl_req_host {\n \tif (req.http.host ~ \"[[:upper:]]\") {\n \t\tset req.http.host = req.http.host.lower();\n \t}\n \tif (!req.http.host &amp;&amp;\n \t req.esi_level == 0 &amp;&amp;\n \t req.proto == \"HTTP/2\") {\n \t\treturn (synth(400));\n \t}\n }\n \n sub vcl_req_method {\n \tif (req.method == \"PRI\") {\n \t\t# This will never happen in properly formed traffic.\n \t\treturn (synth(405));\n \t}\n \tif (req.method != \"GET\" &amp;&amp;\n \t req.method != \"HEAD\" &amp;&amp;\n \t req.method != \"PUT\" &amp;&amp;\n \t req.method != \"POST\" &amp;&amp;\n \t req.method != \"TRACE\" &amp;&amp;\n \t req.method != \"OPTIONS\" &amp;&amp;\n \t req.method != \"DELETE\" &amp;&amp;\n \t req.method != \"PATCH\") {\n \t\t# Non-RFC2616 or CONNECT which is weird.\n \t\treturn (pipe);\n \t}\n \tif (req.method != \"GET\" &amp;&amp; req.method != \"HEAD\") {\n \t\t# We only deal with GET and HEAD by default.\n \t\treturn (pass);\n \t}\n }\n \n sub vcl_req_authorization {\n \tif (req.http.Authorization) {\n \t\t# Not cacheable by default.\n \t\treturn (pass);\n \t}\n }\n \n sub vcl_req_cookie {\n \tif (req.http.Cookie) {\n \t\t# Risky to cache by default.\n \t\treturn (pass);\n \t}\n }\n \n sub vcl_pipe {\n \tcall vcl_builtin_pipe;\n \t# unset bereq.http.connection;\n \treturn (pipe);\n }\n \n sub vcl_builtin_pipe {\n }\n \n sub vcl_pass {\n \tcall vcl_builtin_pass;\n \treturn (fetch);\n }\n \n sub vcl_builtin_pass {\n }\n \n sub vcl_hash {\n \tcall vcl_builtin_hash;\n \treturn (lookup);\n }\n \n sub vcl_builtin_hash {\n \thash_data(req.url);\n \tif (req.http.host) {\n \t\thash_data(req.http.host);\n \t} else {\n \t\thash_data(server.ip);\n \t}\n }\n \n sub vcl_purge {\n \tcall vcl_builtin_purge;\n \treturn (synth(200, \"Purged\"));\n }\n \n sub vcl_builtin_purge {\n }\n \n sub vcl_hit {\n \tcall vcl_builtin_hit;\n \treturn (deliver);\n }\n \n sub vcl_builtin_hit {\n }\n \n sub vcl_miss {\n \tcall vcl_builtin_miss;\n \treturn (fetch);\n }\n \n sub vcl_builtin_miss {\n }\n \n sub vcl_deliver {\n \tcall vcl_builtin_deliver;\n \treturn (deliver);\n }\n \n sub vcl_builtin_deliver {\n }\n\nsub vcl_synth {\n \tcall vcl_builtin_synth;\n \treturn (deliver);\n }\n \nsub vcl_builtin_synth {\n \tset resp.http.Content-Type = \"text/html; charset=utf-8\";\n \tset resp.http.Retry-After = \"5\";\n \tset resp.body = {\"&lt;!DOCTYPE html&gt;\n &lt;html&gt;\n &lt;head&gt;\n &lt;title&gt;\"} + resp.status + \" \" + resp.reason + {\"&lt;/title&gt;\n &lt;/head&gt;\n &lt;body&gt;\n &lt;h1&gt;Error \"} + resp.status + \" \" + resp.reason + {\"&lt;/h1&gt;\n &lt;p&gt;\"} + resp.reason + {\"&lt;/p&gt;\n &lt;h3&gt;Guru Meditation:&lt;/h3&gt;\n &lt;p&gt;XID: \"} + req.xid + {\"&lt;/p&gt;\n &lt;hr&gt;\n &lt;p&gt;Varnish cache server&lt;/p&gt;\n &lt;/body&gt;\n &lt;/html&gt;\n \"};\n }\n \n sub vcl_backend_fetch {\n \tcall vcl_builtin_backend_fetch;\n \treturn (fetch);\n }\n \n sub vcl_builtin_backend_fetch {\n \tif (bereq.method == \"GET\") {\n \t\tunset bereq.body;\n \t}\n }\n \n sub vcl_backend_response {\n \tcall vcl_builtin_backend_response;\n \treturn (deliver);\n }\n \n sub vcl_builtin_backend_response {\n \tif (bereq.uncacheable) {\n \t\treturn (deliver);\n \t}\n \tcall vcl_beresp_stale;\n \tcall vcl_beresp_cookie;\n \tcall vcl_beresp_control;\n \tcall vcl_beresp_vary;\n }\n \n sub vcl_beresp_stale {\n \tif (beresp.ttl &lt;= 0s) {\n \t\tcall vcl_beresp_hitmiss;\n \t}\n }\n \n sub vcl_beresp_cookie {\n \tif (beresp.http.Set-Cookie) {\n \t\tcall vcl_beresp_hitmiss;\n \t}\n }\n \n sub vcl_beresp_control {\n \tif (beresp.http.Surrogate-control ~ \"(?i)no-store\" ||\n \t (!beresp.http.Surrogate-Control &amp;&amp;\n \t beresp.http.Cache-Control ~ \"(?i:no-cache|no-store|private)\")) {\n \t\tcall vcl_beresp_hitmiss;\n \t}\n }\n \n sub vcl_beresp_vary {\n \tif (beresp.http.Vary == \"*\") {\n \t\tcall vcl_beresp_hitmiss;\n \t}\n }\n \n sub vcl_beresp_hitmiss {\n \tset beresp.ttl = 120s;\n \tset beresp.uncacheable = true;\n \treturn (deliver);\n }\n \nsub vcl_backend_error {\n \tcall vcl_builtin_backend_error;\n \treturn (deliver);\n }\n \nsub vcl_builtin_backend_error {\n \tset beresp.http.Content-Type = \"text/html; charset=utf-8\";\n \tset beresp.http.Retry-After = \"5\";\n \tset beresp.body = {\"&lt;!DOCTYPE html&gt;\n &lt;html&gt;\n &lt;head&gt;\n &lt;title&gt;\"} + beresp.status + \" \" + beresp.reason + {\"&lt;/title&gt;\n &lt;/head&gt;\n &lt;body&gt;\n &lt;h1&gt;Error \"} + beresp.status + \" \" + beresp.reason + {\"&lt;/h1&gt;\n &lt;p&gt;\"} + beresp.reason + {\"&lt;/p&gt;\n &lt;h3&gt;Guru Meditation:&lt;/h3&gt;\n &lt;p&gt;XID: \"} + bereq.xid + {\"&lt;/p&gt;\n &lt;hr&gt;\n &lt;p&gt;Varnish cache server&lt;/p&gt;\n &lt;/body&gt;\n &lt;/html&gt;\n \"};\n }\n\nsub vcl_init {\n \treturn (ok);\n }\n \n sub vcl_fini {\n \treturn (ok);\n }\n\n\nThe final step is to run Varnish with the rcctl command.\n\nns3# rcctl restart varnishd\nvarnishd(ok)\nvarnishd(ok)\n\n\n5. Test Varnish With Web Browser\nTo be more sure whether varnis has worked as a proxy cache from Nginx, we have to do a test to prove it. You can do this test on the Google Chrome, Yandex or other web browsers.\n\nIn the Google Chrome address bar menu, type the varnis IP address, which is http://192.168.5.3:8080/. The results will be visible on your monitor screen as shown in the following image.\n\n\n\n\nCongratulations, you have successfully installed Varnish on OpenBSD and now you have a simple setup to speed up your site. In this article, you learned the basics of Varnish, the process of installing and configuring Varnish, what Varnish is, and what the default settings are. We also briefly discussed VCL, Varnish’s configuration language.\n\nVCL can be a bit tricky to understand, especially since it’s an unconventional way to do configuration, but it’s actually very easy to use once you read this article, and it’s also more flexible than configuration files. If you’d like to continue learning about Varnish, visit varnish-cache.org for more information.\n", "dateCreated": "2025-05-26 10:25:35 +0300", "datePublished": "2025-05-26 10:25:35 +0300", "dateModified": "2025-08-29 16:21:33 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/openbsd/setting-varnish-cache-proxy-nginx-openbsd", "name": "OpenBSD Varnish Cache Proxy With NGINX Backend", "description": "Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/setting-varnish-cache-proxy-nginx-openbsd/", "headline": "OpenBSD Varnish Cache Proxy With NGINX Backend", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "OpenBSD Varnish Cache Proxy With NGINX Backend", "description": "Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "openbsd/#label", "url": "https://unixwinbsd.site/categories/#openbsd", "identifier": "categories", "name": "openbsd", "description": "Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//openbsd/setting-varnish-cache-proxy-nginx-openbsd/", "identifier": "judul", "name": "OpenBSD Varnish Cache Proxy With NGINX Backend", "description": "Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//openbsd/setting-varnish-cache-proxy-nginx-openbsd/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/openbsd/setting-varnish-cache-proxy-nginx-openbsd/", "name": "OpenBSD Varnish Cache Proxy With NGINX Backend", "description": "Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server", "dateCreated": "2025-05-26 10:25:35 +0300", "datePublished": "2025-05-26 10:25:35 +0300", "dateModified": "2025-08-29 16:21:33 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-05-26 10:25:35 +0300", "name": "OpenBSD Varnish Cache Proxy With NGINX Backend", "headline": "OpenBSD Varnish Cache Proxy With NGINX Backend", "description": "Varnish is a very reliable reverse proxy server, its ability to work in front of your web server and serve content from your server, not someone else's server or a remote web server", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

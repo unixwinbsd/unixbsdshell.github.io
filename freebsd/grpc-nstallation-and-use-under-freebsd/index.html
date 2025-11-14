@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>GRPC Installation and Use Under FreeBSD</title><meta name="description" content="gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices."><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="grpc, awstats, framework, go, golang, freebsd, java, http2/2"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/grpc-nstallation-and-use-under-freebsd/"><meta property="og:type" content="article"><meta property="og:title" content="GRPC Installation and Use Under FreeBSD"><meta property="og:description"><meta property="og:image" content="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/oct-25-18.jpg"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/grpc-nstallation-and-use-under-freebsd/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/grpc-nstallation-and-use-under-freebsd/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-09-21 11:42:21 +0300"><meta property="og:image" content="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/oct-25-18.jpg"><meta property="og:title" content="GRPC Installation and Use Under FreeBSD"><meta property="og:description" content="gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices."><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/grpc-nstallation-and-use-under-freebsd/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/oct-25-18.jpg"><meta name="twitter:title" content="GRPC Installation and Use Under FreeBSD"><meta name="twitter:description" content="gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices."><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">GRPC Installation and Use Under FreeBSD</h1><div class="lead badge bg-primary text-wrap"><h6><p>gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.</p></h6></div><p class="meta"></p><h6><time>September 21, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=UnixShell">UnixShell</a> &middot; <span class="reading-time" title="Estimated read time">12 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-installing-grpc">1. Installing gRPC</a><ul><li><a href="#a-installing-with-pkg-package">a. Installing With PKG Package</a></li><li><a href="#b-installing-with-go-lang">b. Installing With Go Lang</a></li></ul></li><li><a href="#2-create-grpc-server">2. Create gRPC Server</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / GRPC Installation and Use Under FreeBSD</div><div class="article"><p>gRPC is a Remote Procedure Call (RPC) framework, this open source which was first released by Google, has high performance and was first introduced in August 2006.</p><p>gRPC is currently available in various programming languages such as C, Java and Go which are named GRPC, GRPC-Java, GRPC-GO. gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.</p><p>Apart from that, other interesting features are also available in gRPC, such as.</p><p><strong>1. Bi-directional streaming and integrated auth</strong></p><p>gRPC has bidirectional streaming with fully integrated pluggable authentication based on HTTP/2 transport.</p><p><strong>2. Start quickly and scale</strong></p><p>Installation of runtime and development environments with a single command line and also scaling to millions of RPCs per second with the gRPC framework.</p><p><strong>3. Simple service definition</strong></p><p>Can define services using Protocol Buffers, a sophisticated binary serialization tool and language that can make your work easier.</p><p><strong>4. Works across languages and platforms</strong></p><p>It can automatically generate idiomatic client and server stubs for your services in multiple languages and platforms.</p><p>Before we rush into gRPC, we should take a look at what Remote Procedure Calls (RPC) are. RPC is a form of Client-Server Communication that uses function calls instead of regular HTTP/2 calls. RPC uses IDL (Interface Definition Language) as a form of contract for the function that will be called as the data type.</p><p><br><img alt="GRPC FreeBSD" width="99%" class="lazyload" style="display: block; margin: auto" src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/oct-25-18.jpg"><br></p><p>Whereas in gRPC, client devices can directly call methods on server devices on different machines as if they were local objects, making it easier for you to create distributed and integrated applications and services. As with many RPC systems, gRPC is based on the idea of defining services, specifying methods that can be called remotely along with their parameters and return types. On the server side, the server can implement this interface and run a gRPC server to handle client calls. On the client side, the client has a stub that provides the same methods as the server.</p><p><br><img alt="installation GRPC FreeBSD" width="99%" class="lazyload" style="display: block; margin: auto" src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/oct-25-19.jpg"><br></p><p>gRPC clients and servers can run and communicate with each other in a variety of environments, from servers inside Google to your FreeBSD or Linux servers, because gRPC can be written in any language that gRPC supports. So, for example, you can easily create a gRPC server in Java with a client in Go, Python, or Ruby. Additionally, the latest Google API will have a gRPC version of the interface, so you can easily build Google functionality into your server computer.</p><h2 id="1-installing-grpc">1. Installing gRPC</h2><h3 id="a-installing-with-pkg-package">a. Installing With PKG Package</h3><p>Because FreeBSD is based on C++, gRPC is compiled using the C++ language. In order for gRPC to run normally on FreeBSD, we must first install the gRPC dependencies. Run the command below to install gRPC dependencies.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns7:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>devel/xxhash
+<span class="gp">root@ns7:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>devel/pkgconf
+<span class="gp">root@ns7:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>devel/cmake-core
+<span class="gp">root@ns7:~ #</span><span class="w"> </span>pkg <span class="nb">install </span>devel/ninja
+</code></pre></div></div><p>If you have finished installing all the dependencies above, you can continue installing gRPC. There are many options for installing gRPC, with binary files or PKG packages. The easiest way is to just use the PKG package.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns7:~</span> <span class="c1"># pkg install devel/grpc</span>
+</code></pre></div></div><p>You need to remember, in the C++ programming language, there is no universally accepted standard for managing project dependencies. You need to build and install gRPC before creating and running your project.</p><p>Therefore, if you want to create a client server project with gRPC on FreeBSD, make sure gRPC and its dependencies are completely installed.</p><h3 id="b-installing-with-go-lang">b. Installing With Go Lang</h3><p>We recommend running gRPC with a FreeBSD server, we recommend using gRPC Go. Because it’s probably made by Google, running gRPC with Go is easier and simpler. Not only that, sometimes when running gRPC with the PKG package, many library files are not installed completely.</p><p>Let’s start by creating a new directory for your gRPC project, initializing the Go modules, Go dependencies and installing gRPC.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns7:~</span> <span class="c1"># cd /usr/local/etc</span>
+<span class="s">root@ns7:/usr/local/etc</span> <span class="c1"># git clone -b v1.60.1 --depth 1 https://github.com/grpc/grpc-go</span>
+<span class="s">root@ns7:/usr/local/etc</span> <span class="c1"># cd grpc-go</span>
+</code></pre></div></div><p>With Go module support, replace the go mod feature to create an alias for the golang.org package in your project directory.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns7:/usr/local/etc/grpc-go</span> <span class="c1"># go mod edit -replace=google.golang.org/grpc=github.com/grpc/grpc-go@latest</span>
+<span class="s">root@ns7:/usr/local/etc/grpc-go</span> <span class="c1"># go mod tidy</span>
+<span class="s">root@ns7:/usr/local/etc/grpc-go</span> <span class="c1"># go mod vendor</span>
+<span class="s">root@ns7:/usr/local/etc/grpc-go</span> <span class="c1"># go build -mod=mod</span>
+</code></pre></div></div><h2 id="2-create-grpc-server">2. Create gRPC Server</h2><p>In this article we will create a simple gRPC project like <code class="language-plaintext highlighter-rouge">"Hello World"</code>. As a first step, we create a project working folder. We will place all the work project files in the <code class="language-plaintext highlighter-rouge">/var</code> folder. Use this command to create a simple gRPC project.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns7:~</span> <span class="c1"># mkdir -p /var/grpc_project</span>
+<span class="s">root@ns7:~</span> <span class="c1"># cd /var/grpc_project</span>
+</code></pre></div></div><p>Create <code class="language-plaintext highlighter-rouge">"client"</code>, <code class="language-plaintext highlighter-rouge">"helloworld"</code> and <code class="language-plaintext highlighter-rouge">"server"</code> directories.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns7:/var/grpc_project</span> <span class="c1"># mkdir client helloworld server</span>
+</code></pre></div></div><p>These 3 subdirectories will contain the Go client application, the Go server application, and the Hello World gRPC project.</p><p>In the directory <code class="language-plaintext highlighter-rouge">"/var/grpc project/hello world"</code>, Create the file <code class="language-plaintext highlighter-rouge">"helloworld.proto"</code>.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns7:/var/grpc_project</span> <span class="c1"># touch /var/grpc_project/helloworld/helloworld_grpc.pb.go</span>
+</code></pre></div></div><p>and add the following code.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">package helloworld
+
+import (
+	context "context"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
+)
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
+const _ = grpc.SupportPackageIsVersion7
+
+const (
+	Greeter_SayHello_FullMethodName = "/helloworld.Greeter/SayHello"
+)
+
+// GreeterClient is the client API for Greeter service.
+//
+</span><span class="gp">// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#</span>ClientConn.NewStream.
+<span class="go">type GreeterClient interface {
+	// Sends a greeting
+	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
+}
+
+type greeterClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGreeterClient(cc grpc.ClientConnInterface) GreeterClient {
+	return &amp;greeterClient{cc}
+}
+
+func (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
+	out := new(HelloReply)
+	err := c.cc.Invoke(ctx, Greeter_SayHello_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GreeterServer is the server API for Greeter service.
+// All implementations must embed UnimplementedGreeterServer
+// for forward compatibility
+type GreeterServer interface {
+	// Sends a greeting
+	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
+	mustEmbedUnimplementedGreeterServer()
+}
+
+// UnimplementedGreeterServer must be embedded to have forward compatible implementations.
+type UnimplementedGreeterServer struct {
+}
+
+func (UnimplementedGreeterServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+}
+func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
+
+// UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to GreeterServer will
+// result in compilation errors.
+type UnsafeGreeterServer interface {
+	mustEmbedUnimplementedGreeterServer()
+}
+
+func RegisterGreeterServer(s grpc.ServiceRegistrar, srv GreeterServer) {
+	s.RegisterService(&amp;Greeter_ServiceDesc, srv)
+}
+
+func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HelloRequest)
+</span><span class="gp">	if err := dec(in);</span><span class="w"> </span>err <span class="o">!=</span> nil <span class="o">{</span>
+<span class="go">		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).SayHello(ctx, in)
+	}
+	info := &amp;grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Greeter_SayHello_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).SayHello(ctx, req.(*HelloRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Greeter_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "helloworld.Greeter",
+	HandlerType: (*GreeterServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SayHello",
+			Handler:    _Greeter_SayHello_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "examples/helloworld/helloworld/helloworld.proto",
+}
+</span></code></pre></div></div><p>After that, we create the <code class="language-plaintext highlighter-rouge">"main.go"</code> file in the <code class="language-plaintext highlighter-rouge">"client and server"</code> directory.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns7:/var/grpc_project</span> <span class="c1"># touch server/main.go</span>
+<span class="s">root@ns7:/var/grpc_project</span> <span class="c1"># touch client/main.go</span>
+</code></pre></div></div><p>add the following code to the <code class="language-plaintext highlighter-rouge">"/var/grpc_project/server/main.go"</code> file.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">package main
+
+import (
+	"context"
+	"flag"
+	"fmt"
+	"log"
+	"net"
+
+	"google.golang.org/grpc"
+	pb "google.golang.org/grpc/examples/helloworld/helloworld"
+)
+
+var (
+	port = flag.Int("port", 50051, "The server port")
+)
+
+// server is used to implement helloworld.GreeterServer.
+type server struct {
+	pb.UnimplementedGreeterServer
+}
+
+// SayHello implements helloworld.GreeterServer
+func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+	log.Printf("Received: %v", in.GetName())
+	return &amp;pb.HelloReply{Message: "Hello " + in.GetName()}, nil
+}
+
+func main() {
+	flag.Parse()
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	s := grpc.NewServer()
+	pb.RegisterGreeterServer(s, &amp;server{})
+	log.Printf("server listening at %v", lis.Addr())
+</span><span class="gp">	if err := s.Serve(lis);</span><span class="w"> </span>err <span class="o">!=</span> nil <span class="o">{</span>
+<span class="go">		log.Fatalf("failed to serve: %v", err)
+	}
+}
+</span></code></pre></div></div><p>and add the following code to the <code class="language-plaintext highlighter-rouge">/var/grpc_project/client/main.go</code> file.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">package main
+
+import (
+	"context"
+	"flag"
+	"log"
+	"time"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	pb "google.golang.org/grpc/examples/helloworld/helloworld"
+)
+
+const (
+	defaultName = "world"
+)
+
+var (
+	addr = flag.String("addr", "localhost:50051", "the address to connect to")
+	name = flag.String("name", defaultName, "Name to greet")
+)
+
+func main() {
+	flag.Parse()
+	// Set up a connection to the server.
+	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewGreeterClient(conn)
+
+	// Contact the server and print out its response.
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	r, err := c.SayHello(ctx, &amp;pb.HelloRequest{Name: *name})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Greeting: %s", r.GetMessage())
+}
+</span></code></pre></div></div><p>Run this command to execute server and client files.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns7:/var/grpc_project</span> <span class="c1"># go get google.golang.org/grpc/examples/helloworld/greeter_client</span>
+<span class="s">root@ns7:/var/grpc_project</span> <span class="c1"># go get google.golang.org/grpc/examples/helloworld/greeter_server</span>
+</code></pre></div></div><p>In Putty shell, Run the <code class="language-plaintext highlighter-rouge">"/var/grpc_project/server/main.go"</code> file.</p><div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">root@ns7:/var/grpc_project</span> <span class="c1"># go run server/main.go</span>
+<span class="s">2024/01/03 19:49:43 server listening at [::]:50051</span>
+<span class="na">2024/01/03 19:49:54 Received</span><span class="pi">:</span> <span class="s">world</span>
+</code></pre></div></div><p>Shell Putty don’t close the main.go server. Open the PuTTY shell again and run the <code class="language-plaintext highlighter-rouge">"/var/grpc_project/client/main.go"</code> file.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns7:/var/grpc_project #</span><span class="w"> </span>go run client/main.go
+<span class="go">2024/01/03 19:49:54 Greeting: Hello world
+</span></code></pre></div></div><p>In this article we just created a simple <code class="language-plaintext highlighter-rouge">"Hello World"</code> project, stay tuned for our next article with more difficult and useful gRPC lessons.</p><div class="PageNavigation"><a class="prev" href="/freebsd/reinstall-ghostbsd-ghostbsd-without-lost-data/">&laquo; How to Reinstall GhostBSD Without Losing Data</a> <a class="next" href="/freebsd/creating-web-crawl-freebsd-and-python/">Creating a Web Crawler With FreeBSD And Python &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/grpc-nstallation-and-use-under-freebsd/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/grpc-nstallation-and-use-under-freebsd/", "name": "GRPC Installation and Use Under FreeBSD", "headline": ["UnixShell"], "keywords": "grpc, awstats, framework, go, golang, freebsd, java, http2/2", "description": "gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.", "articleBody": "gRPC is a Remote Procedure Call (RPC) framework, this open source which was first released by Google, has high performance and was first introduced in August 2006.\n\ngRPC is currently available in various programming languages such as C, Java and Go which are named GRPC, GRPC-Java, GRPC-GO. gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.\n\nApart from that, other interesting features are also available in gRPC, such as.\n\n1. Bi-directional streaming and integrated auth\n\ngRPC has bidirectional streaming with fully integrated pluggable authentication based on HTTP/2 transport.\n\n2. Start quickly and scale\n\nInstallation of runtime and development environments with a single command line and also scaling to millions of RPCs per second with the gRPC framework.\n\n3. Simple service definition\n\nCan define services using Protocol Buffers, a sophisticated binary serialization tool and language that can make your work easier.\n\n4. Works across languages and platforms\n\nIt can automatically generate idiomatic client and server stubs for your services in multiple languages and platforms.\n\nBefore we rush into gRPC, we should take a look at what Remote Procedure Calls (RPC) are. RPC is a form of Client-Server Communication that uses function calls instead of regular HTTP/2 calls. RPC uses IDL (Interface Definition Language) as a form of contract for the function that will be called as the data type.\n\n\n\n\n\nWhereas in gRPC, client devices can directly call methods on server devices on different machines as if they were local objects, making it easier for you to create distributed and integrated applications and services. As with many RPC systems, gRPC is based on the idea of defining services, specifying methods that can be called remotely along with their parameters and return types. On the server side, the server can implement this interface and run a gRPC server to handle client calls. On the client side, the client has a stub that provides the same methods as the server.\n\n\n\n\n\ngRPC clients and servers can run and communicate with each other in a variety of environments, from servers inside Google to your FreeBSD or Linux servers, because gRPC can be written in any language that gRPC supports. So, for example, you can easily create a gRPC server in Java with a client in Go, Python, or Ruby. Additionally, the latest Google API will have a gRPC version of the interface, so you can easily build Google functionality into your server computer.\n\n1. Installing gRPC\n\na. Installing With PKG Package\n\nBecause FreeBSD is based on C++, gRPC is compiled using the C++ language. In order for gRPC to run normally on FreeBSD, we must first install the gRPC dependencies. Run the command below to install gRPC dependencies.\n\nroot@ns7:~ # pkg install devel/xxhash\nroot@ns7:~ # pkg install devel/pkgconf\nroot@ns7:~ # pkg install devel/cmake-core\nroot@ns7:~ # pkg install devel/ninja\n\n\nIf you have finished installing all the dependencies above, you can continue installing gRPC. There are many options for installing gRPC, with binary files or PKG packages. The easiest way is to just use the PKG package.\n\nroot@ns7:~ # pkg install devel/grpc\n\n\nYou need to remember, in the C++ programming language, there is no universally accepted standard for managing project dependencies. You need to build and install gRPC before creating and running your project.\n\nTherefore, if you want to create a client server project with gRPC on FreeBSD, make sure gRPC and its dependencies are completely installed.\n\nb. Installing With Go Lang\n\nWe recommend running gRPC with a FreeBSD server, we recommend using gRPC Go. Because it’s probably made by Google, running gRPC with Go is easier and simpler. Not only that, sometimes when running gRPC with the PKG package, many library files are not installed completely.\n\nLet’s start by creating a new directory for your gRPC project, initializing the Go modules, Go dependencies and installing gRPC.\n\nroot@ns7:~ # cd /usr/local/etc\nroot@ns7:/usr/local/etc # git clone -b v1.60.1 --depth 1 https://github.com/grpc/grpc-go\nroot@ns7:/usr/local/etc # cd grpc-go\n\n\nWith Go module support, replace the go mod feature to create an alias for the golang.org package in your project directory.\n\nroot@ns7:/usr/local/etc/grpc-go # go mod edit -replace=google.golang.org/grpc=github.com/grpc/grpc-go@latest\nroot@ns7:/usr/local/etc/grpc-go # go mod tidy\nroot@ns7:/usr/local/etc/grpc-go # go mod vendor\nroot@ns7:/usr/local/etc/grpc-go # go build -mod=mod\n\n\n2. Create gRPC Server\n\nIn this article we will create a simple gRPC project like \"Hello World\". As a first step, we create a project working folder. We will place all the work project files in the /var folder. Use this command to create a simple gRPC project.\n\nroot@ns7:~ # mkdir -p /var/grpc_project\nroot@ns7:~ # cd /var/grpc_project\n\n\nCreate \"client\", \"helloworld\" and \"server\" directories.\n\nroot@ns7:/var/grpc_project # mkdir client helloworld server\n\n\nThese 3 subdirectories will contain the Go client application, the Go server application, and the Hello World gRPC project.\n\nIn the directory \"/var/grpc project/hello world\", Create the file \"helloworld.proto\".\n\nroot@ns7:/var/grpc_project # touch /var/grpc_project/helloworld/helloworld_grpc.pb.go\n\n\nand add the following code.\n\npackage helloworld\n\nimport (\n\tcontext \"context\"\n\tgrpc \"google.golang.org/grpc\"\n\tcodes \"google.golang.org/grpc/codes\"\n\tstatus \"google.golang.org/grpc/status\"\n)\n\n// This is a compile-time assertion to ensure that this generated file\n// is compatible with the grpc package it is being compiled against.\n// Requires gRPC-Go v1.32.0 or later.\nconst _ = grpc.SupportPackageIsVersion7\n\nconst (\n\tGreeter_SayHello_FullMethodName = \"/helloworld.Greeter/SayHello\"\n)\n\n// GreeterClient is the client API for Greeter service.\n//\n// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.\ntype GreeterClient interface {\n\t// Sends a greeting\n\tSayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)\n}\n\ntype greeterClient struct {\n\tcc grpc.ClientConnInterface\n}\n\nfunc NewGreeterClient(cc grpc.ClientConnInterface) GreeterClient {\n\treturn &amp;greeterClient{cc}\n}\n\nfunc (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {\n\tout := new(HelloReply)\n\terr := c.cc.Invoke(ctx, Greeter_SayHello_FullMethodName, in, out, opts...)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\treturn out, nil\n}\n\n// GreeterServer is the server API for Greeter service.\n// All implementations must embed UnimplementedGreeterServer\n// for forward compatibility\ntype GreeterServer interface {\n\t// Sends a greeting\n\tSayHello(context.Context, *HelloRequest) (*HelloReply, error)\n\tmustEmbedUnimplementedGreeterServer()\n}\n\n// UnimplementedGreeterServer must be embedded to have forward compatible implementations.\ntype UnimplementedGreeterServer struct {\n}\n\nfunc (UnimplementedGreeterServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {\n\treturn nil, status.Errorf(codes.Unimplemented, \"method SayHello not implemented\")\n}\nfunc (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}\n\n// UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.\n// Use of this interface is not recommended, as added methods to GreeterServer will\n// result in compilation errors.\ntype UnsafeGreeterServer interface {\n\tmustEmbedUnimplementedGreeterServer()\n}\n\nfunc RegisterGreeterServer(s grpc.ServiceRegistrar, srv GreeterServer) {\n\ts.RegisterService(&amp;Greeter_ServiceDesc, srv)\n}\n\nfunc _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {\n\tin := new(HelloRequest)\n\tif err := dec(in); err != nil {\n\t\treturn nil, err\n\t}\n\tif interceptor == nil {\n\t\treturn srv.(GreeterServer).SayHello(ctx, in)\n\t}\n\tinfo := &amp;grpc.UnaryServerInfo{\n\t\tServer: srv,\n\t\tFullMethod: Greeter_SayHello_FullMethodName,\n\t}\n\thandler := func(ctx context.Context, req interface{}) (interface{}, error) {\n\t\treturn srv.(GreeterServer).SayHello(ctx, req.(*HelloRequest))\n\t}\n\treturn interceptor(ctx, in, info, handler)\n}\n\n// Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.\n// It's only intended for direct use with grpc.RegisterService,\n// and not to be introspected or modified (even as a copy)\nvar Greeter_ServiceDesc = grpc.ServiceDesc{\n\tServiceName: \"helloworld.Greeter\",\n\tHandlerType: (*GreeterServer)(nil),\n\tMethods: []grpc.MethodDesc{\n\t\t{\n\t\t\tMethodName: \"SayHello\",\n\t\t\tHandler: _Greeter_SayHello_Handler,\n\t\t},\n\t},\n\tStreams: []grpc.StreamDesc{},\n\tMetadata: \"examples/helloworld/helloworld/helloworld.proto\",\n}\n\n\nAfter that, we create the \"main.go\" file in the \"client and server\" directory.\n\nroot@ns7:/var/grpc_project # touch server/main.go\nroot@ns7:/var/grpc_project # touch client/main.go\n\n\nadd the following code to the \"/var/grpc_project/server/main.go\" file.\n\npackage main\n\nimport (\n\t\"context\"\n\t\"flag\"\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\n\t\"google.golang.org/grpc\"\n\tpb \"google.golang.org/grpc/examples/helloworld/helloworld\"\n)\n\nvar (\n\tport = flag.Int(\"port\", 50051, \"The server port\")\n)\n\n// server is used to implement helloworld.GreeterServer.\ntype server struct {\n\tpb.UnimplementedGreeterServer\n}\n\n// SayHello implements helloworld.GreeterServer\nfunc (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {\n\tlog.Printf(\"Received: %v\", in.GetName())\n\treturn &amp;pb.HelloReply{Message: \"Hello \" + in.GetName()}, nil\n}\n\nfunc main() {\n\tflag.Parse()\n\tlis, err := net.Listen(\"tcp\", fmt.Sprintf(\":%d\", *port))\n\tif err != nil {\n\t\tlog.Fatalf(\"failed to listen: %v\", err)\n\t}\n\ts := grpc.NewServer()\n\tpb.RegisterGreeterServer(s, &amp;server{})\n\tlog.Printf(\"server listening at %v\", lis.Addr())\n\tif err := s.Serve(lis); err != nil {\n\t\tlog.Fatalf(\"failed to serve: %v\", err)\n\t}\n}\n\n\nand add the following code to the /var/grpc_project/client/main.go file.\n\npackage main\n\nimport (\n\t\"context\"\n\t\"flag\"\n\t\"log\"\n\t\"time\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials/insecure\"\n\tpb \"google.golang.org/grpc/examples/helloworld/helloworld\"\n)\n\nconst (\n\tdefaultName = \"world\"\n)\n\nvar (\n\taddr = flag.String(\"addr\", \"localhost:50051\", \"the address to connect to\")\n\tname = flag.String(\"name\", defaultName, \"Name to greet\")\n)\n\nfunc main() {\n\tflag.Parse()\n\t// Set up a connection to the server.\n\tconn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))\n\tif err != nil {\n\t\tlog.Fatalf(\"did not connect: %v\", err)\n\t}\n\tdefer conn.Close()\n\tc := pb.NewGreeterClient(conn)\n\n\t// Contact the server and print out its response.\n\tctx, cancel := context.WithTimeout(context.Background(), time.Second)\n\tdefer cancel()\n\tr, err := c.SayHello(ctx, &amp;pb.HelloRequest{Name: *name})\n\tif err != nil {\n\t\tlog.Fatalf(\"could not greet: %v\", err)\n\t}\n\tlog.Printf(\"Greeting: %s\", r.GetMessage())\n}\n\n\nRun this command to execute server and client files.\n\nroot@ns7:/var/grpc_project # go get google.golang.org/grpc/examples/helloworld/greeter_client\nroot@ns7:/var/grpc_project # go get google.golang.org/grpc/examples/helloworld/greeter_server\n\n\nIn Putty shell, Run the \"/var/grpc_project/server/main.go\" file.\n\nroot@ns7:/var/grpc_project # go run server/main.go\n2024/01/03 19:49:43 server listening at [::]:50051\n2024/01/03 19:49:54 Received: world\n\n\nShell Putty don’t close the main.go server. Open the PuTTY shell again and run the \"/var/grpc_project/client/main.go\" file.\n\nroot@ns7:/var/grpc_project # go run client/main.go\n2024/01/03 19:49:54 Greeting: Hello world\n\n\nIn this article we just created a simple \"Hello World\" project, stay tuned for our next article with more difficult and useful gRPC lessons.\n", "dateCreated": "2025-09-21 11:42:21 +0300", "datePublished": "2025-09-21 11:42:21 +0300", "dateModified": "2025-09-21 09:42:21 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/grpc-nstallation-and-use-under-freebsd", "name": "GRPC Installation and Use Under FreeBSD", "description": "gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/grpc-nstallation-and-use-under-freebsd/", "headline": "GRPC Installation and Use Under FreeBSD", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "GRPC Installation and Use Under FreeBSD", "description": "gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/grpc-nstallation-and-use-under-freebsd/", "identifier": "judul", "name": "GRPC Installation and Use Under FreeBSD", "description": "gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/grpc-nstallation-and-use-under-freebsd/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/grpc-nstallation-and-use-under-freebsd/", "name": "GRPC Installation and Use Under FreeBSD", "description": "gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.", "dateCreated": "2025-09-21 11:42:21 +0300", "datePublished": "2025-09-21 11:42:21 +0300", "dateModified": "2025-09-21 09:42:21 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-09-21 11:42:21 +0300", "name": "GRPC Installation and Use Under FreeBSD", "headline": "GRPC Installation and Use Under FreeBSD", "description": "gRPC is based on the HTTP/2 standard design, presenting a wide range of requests such as bidirectional flow, head compression, flow control, single TCP connection, etc. With these features, it makes it better, more power efficient and saves space on mobile devices.", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

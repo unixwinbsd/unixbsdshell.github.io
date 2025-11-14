@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>Learn How to Install NGINX Web Server on FreeBSD</title><meta name="description" content="Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility"><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="nginx, mod_jk, modul, java, apache, server, install, freebsd, learn, web, http, https"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-nginx-web-server-freebsd/"><meta property="og:type" content="article"><meta property="og:title" content="Learn How to Install NGINX Web Server on FreeBSD"><meta property="og:description"><meta property="og:image" content="https://unixwinbsd.github.io/unixbsdshell.github.io/img/oct-25/Learn-nginx-freebsd.png"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-nginx-web-server-freebsd/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-nginx-web-server-freebsd/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-05-03 21:05:35 +0300"><meta property="og:image" content="/img/oct-25/Learn-nginx-freebsd.png"><meta property="og:title" content="Learn How to Install NGINX Web Server on FreeBSD"><meta property="og:description" content="Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility"><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-nginx-web-server-freebsd/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="/img/oct-25/Learn-nginx-freebsd.png"><meta name="twitter:title" content="Learn How to Install NGINX Web Server on FreeBSD"><meta name="twitter:description" content="Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility"><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">Learn How to Install NGINX Web Server on FreeBSD</h1><div class="lead badge bg-primary text-wrap"><h6><p>Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It’s known for its high performance, low resource utilization, and flexibility</p></h6></div><p class="meta"></p><h6><time>May 03, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=WebServer">WebServer</a> &middot; <span class="reading-time" title="Estimated read time">7 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#a-spesifikasi-sistem">A. Spesifikasi Sistem:</a></li><li><a href="#1-step-1-installation">1. Step 1 Installation</a></li><li><a href="#2-step-2-file-ownership-and-permissions">2. Step 2 File Ownership and Permissions</a></li><li><a href="#3-step-3-enable-nginx-at-boot-time">3. Step 3 Enable Nginx at Boot Time</a></li><li><a href="#4-step-4-server-block-configuration">4. Step 4 Server Block Configuration</a></li><li><a href="#5-step-5-test-nginx">5. Step 5 Test NGINX</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / Learn How to Install NGINX Web Server on FreeBSD</div><div class="article"><p>In this discussion, we will try to install and configure the Nginx application. I will not explain what Nginx is, its uses and functions. Regarding Nginx, you can search for information on the internet. Here we will focus on how Nginx can run on FreeBSD.</p><p>We write this tutorial simply and systematically, to make it easier for readers to understand the contents of this article.</p><h2 id="a-spesifikasi-sistem">A. Spesifikasi Sistem:</h2><ul><li>OS: FreeBSD 13.2 Stable</li><li>CPU: AMD Phenom(tm) II X4 955 Processor</li><li>IP Server: 192.168.9.3</li><li>Hostname: router2</li><li>Domain: unixexplore.com</li><li>nginx version: nginx/1.24.0 (nginx-quic)</li></ul><h2 id="1-step-1-installation">1. Step 1 Installation</h2><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/ports/www/nginx
+root@router2:~ # make install clean
+</code></pre></div></div><p>The installation is declared complete when the following image appears:</p><p><br></p><noscript><img src="https://unixwinbsd.github.io/unixbsdshell.github.io/img/oct-25/Learn-nginx-freebsd.png"></noscript><p><img data-src="https://unixwinbsd.github.io/unixbsdshell.github.io/img/oct-25/Learn-nginx-freebsd.png" src="https://unixwinbsd.github.io/unixbsdshell.github.io/img/oct-25/Learn-nginx-freebsd.png" alt="command how to install nginx on freebsd" class="lazyload fade-in"><br></p><p>In the final installation message in the image above it says the Nginx user and group are “www”</p><h2 id="2-step-2-file-ownership-and-permissions">2. Step 2 File Ownership and Permissions</h2><p>According to the instructions in the image above, we will grant file ownership rights to:</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # chown -R www:www /var/log/nginx
+root@router2:~ # chown -R www:www /usr/local/www
+root@router2:~ # chown -R www:www /usr/local/www/
+root@router2:~ # chown -R www:www /usr/local/etc/nginx
+</code></pre></div></div><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # chmod -R 755 /var/log/nginx
+root@router2:~ # chmod -R 755 /usr/local/www
+root@router2:~ # chmod -R 755 /usr/local/www/
+</code></pre></div></div><h2 id="3-step-3-enable-nginx-at-boot-time">3. Step 3 Enable Nginx at Boot Time</h2><p>Add the following script to the /etc/rc.conf file:</p><blockquote><p>nginx_enable=”YES”</p></blockquote><blockquote><p>nginx_pid_prefix=”/var/run”</p></blockquote><blockquote><p>nginx_reload_quiet=”YES”</p></blockquote><p>The function of this script is so that Nginx can be loaded when our server computer is turned off or rebooted.</p><noscript><img src="https://gitea.com/iwanse1212/Nginx-Web-Server-On-FreeBSD-Port-80-443/raw/branch/main/edit%20file%20rc.conf.jpg" alt="edit file rc.conf"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://gitea.com/iwanse1212/Nginx-Web-Server-On-FreeBSD-Port-80-443/raw/branch/main/edit%20file%20rc.conf.jpg" alt="edit file rc.conf" class="lazyload fade-in"></p><p>After that restart Nginx.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service nginx restart
+Stopping nginx.
+Waiting for PIDS: 9962.
+Starting nginx.
+root@router2:~ # nginx -t
+nginx: the configuration file /usr/local/etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /usr/local/etc/nginx/nginx.conf test is successful
+root@router2:~ #
+</code></pre></div></div><h2 id="4-step-4-server-block-configuration">4. Step 4 Server Block Configuration</h2><p>When using a web server, Nginx server blocks (similar to Apache virtual hosts) can be used to encapsulate configuration details and host multiple domains from a single server. We will create a domain called unixexplore.com, which corresponds to the domain on my server system. However, you should replace it with your own domain name.</p><p>Before configuring the Server Block, we edit the /etc/hosts file and insert the following script:</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/hosts
+127.0.0.1		localhost localhost.unixexplore.com
+192.168.9.3		router2 router2.unixexplore.com
+</code></pre></div></div><p>router 2 is the hostname of the FreeBSD server unixexplore.com is the domain name of the FreeBSD server 192.168.9.3 is the FreeBSD server IP Address (see specifications above)</p><p>By default, the server block for Nginx is located at /usr/local/www/nginx-dist. You don’t need to create a server block again, just create file ownership and access rights.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # chown -R www:www /usr/local/www/nginx-dist
+root@router2:~ # chmod -R 755 /usr/local/www/nginx-dist
+</code></pre></div></div><p>Restart Nginx.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service nginx restart
+Stopping nginx.
+Waiting for PIDS: 9986.
+Starting nginx.
+root@router2:~ #
+</code></pre></div></div><h2 id="5-step-5-test-nginx">5. Step 5 Test NGINX</h2><p>The final step is to test Nginx. Open a Web Browser program on Windows such as Yandex, Firefox, Opera or others.</p><p>We will try to test Nginx in the Yandex browser, type our FreeBSD server IP, namely 192.168.9.3, continue by pressing the enter key on the keyboard. If you successfully install Nginx the results will be like the following image.</p><noscript><img src="https://gitea.com/iwanse1212/Nginx-Web-Server-On-FreeBSD-Port-80-443/raw/branch/main/nginx%20dashboard%20page.png" alt="nginx dashboard page"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://gitea.com/iwanse1212/Nginx-Web-Server-On-FreeBSD-Port-80-443/raw/branch/main/nginx%20dashboard%20page.png" alt="nginx dashboard page" class="lazyload fade-in"></p><p>If it looks like the image above, it means your Nginx server is RUNNING.</p><p>In practice, there are many uses for Nginx, not only as a web server. Nginx can be used as a gateway for DNS Over TLS or can even be used as a forward or reverse proxy.</p><p>Following is the complete source code of the file nginx.conf.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#user  nobody;
+worker_processes  1;
+
+# This default error log path is compiled-in to make sure configuration parsing
+# errors are logged somewhere, especially during unattended boot when stderr
+# isn't normally logged anywhere. This path will be touched on every nginx
+# start regardless of error log location configured here. See
+# https://trac.nginx.org/nginx/ticket/147 for more info. 
+#
+#error_log  /var/log/nginx/error.log;
+#
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location / {
+            root   /usr/local/www/nginx;
+            index  index.html index.htm;
+        }
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/local/www/nginx-dist;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+
+
+    # another virtual host using mix of IP-, name-, and port-based configuration
+    #
+    #server {
+    #    listen       8000;
+    #    listen       somename:8080;
+    #    server_name  somename  alias  another.alias;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+
+    # HTTPS server
+    #
+    #server {
+    #    listen       443 ssl;
+    #    server_name  localhost;
+
+    #    ssl_certificate      cert.pem;
+    #    ssl_certificate_key  cert.key;
+
+    #    ssl_session_cache    shared:SSL:1m;
+    #    ssl_session_timeout  5m;
+
+    #    ssl_ciphers  HIGH:!aNULL:!MD5;
+    #    ssl_prefer_server_ciphers  on;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+}
+</code></pre></div></div><p>Nginx is a powerful and versatile web server that has become a cornerstone of modern web infrastructure. From its beginnings as a solution to the C10K problem, Nginx is capable of handling thousands of concurrent connections. Today, Nginx has evolved into a versatile tool that can act as a reverse proxy, load balancer, and even a caching server. Its lightweight architecture, coupled with high performance and reliability, makes Nginx the preferred choice for many of the world’s largest and most trafficked websites.</p><div class="PageNavigation"><a class="prev" href="/freebsd/index-url-blogger-freebsd-python/">&laquo; How to Index Blogger URLs With FreeBSD and Python</a> <a class="next" href="/freebsd/learn-install-mysql-server-freebsd/">Learn How to Install MySQL Server on FreeBSD Machine &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-nginx-web-server-freebsd/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-nginx-web-server-freebsd/", "name": "Learn How to Install NGINX Web Server on FreeBSD", "headline": ["WebServer"], "keywords": "nginx, mod_jk, modul, java, apache, server, install, freebsd, learn, web, http, https", "description": "Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility", "articleBody": "In this discussion, we will try to install and configure the Nginx application. I will not explain what Nginx is, its uses and functions. Regarding Nginx, you can search for information on the internet. Here we will focus on how Nginx can run on FreeBSD.\n\nWe write this tutorial simply and systematically, to make it easier for readers to understand the contents of this article.\n\nA. Spesifikasi Sistem:\n\n OS: FreeBSD 13.2 Stable\n CPU: AMD Phenom(tm) II X4 955 Processor\n IP Server: 192.168.9.3\n Hostname: router2\n Domain: unixexplore.com\n nginx version: nginx/1.24.0 (nginx-quic)\n\n\n1. Step 1 Installation\nroot@router2:~ # cd /usr/ports/www/nginx\nroot@router2:~ # make install clean\n\nThe installation is declared complete when the following image appears:\n\n\n\n\n\n\n\nIn the final installation message in the image above it says the Nginx user and group are “www”\n\n2. Step 2 File Ownership and Permissions\n\nAccording to the instructions in the image above, we will grant file ownership rights to:\n\nroot@router2:~ # chown -R www:www /var/log/nginx\nroot@router2:~ # chown -R www:www /usr/local/www\nroot@router2:~ # chown -R www:www /usr/local/www/\nroot@router2:~ # chown -R www:www /usr/local/etc/nginx\n\nroot@router2:~ # chmod -R 755 /var/log/nginx\nroot@router2:~ # chmod -R 755 /usr/local/www\nroot@router2:~ # chmod -R 755 /usr/local/www/\n\n\n3. Step 3 Enable Nginx at Boot Time\nAdd the following script to the /etc/rc.conf file:\n\n\n nginx_enable=”YES”\n\n\n\n nginx_pid_prefix=”/var/run”\n\n\n\n nginx_reload_quiet=”YES”\n\n\nThe function of this script is so that Nginx can be loaded when our server computer is turned off or rebooted.\n\n\n\n\nAfter that restart Nginx.\n\nroot@router2:~ # service nginx restart\nStopping nginx.\nWaiting for PIDS: 9962.\nStarting nginx.\nroot@router2:~ # nginx -t\nnginx: the configuration file /usr/local/etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /usr/local/etc/nginx/nginx.conf test is successful\nroot@router2:~ #\n\n\n4. Step 4 Server Block Configuration\nWhen using a web server, Nginx server blocks (similar to Apache virtual hosts) can be used to encapsulate configuration details and host multiple domains from a single server. We will create a domain called unixexplore.com, which corresponds to the domain on my server system. However, you should replace it with your own domain name.\n\nBefore configuring the Server Block, we edit the /etc/hosts file and insert the following script:\n\nroot@router2:~ # ee /etc/hosts\n127.0.0.1\t\tlocalhost localhost.unixexplore.com\n192.168.9.3\t\trouter2 router2.unixexplore.com\n\nrouter 2 is the hostname of the FreeBSD server\nunixexplore.com is the domain name of the FreeBSD server\n192.168.9.3 is the FreeBSD server IP Address (see specifications above)\n\nBy default, the server block for Nginx is located at /usr/local/www/nginx-dist. You don’t need to create a server block again, just create file ownership and access rights.\n\nroot@router2:~ # chown -R www:www /usr/local/www/nginx-dist\nroot@router2:~ # chmod -R 755 /usr/local/www/nginx-dist\n\nRestart Nginx.\n\nroot@router2:~ # service nginx restart\nStopping nginx.\nWaiting for PIDS: 9986.\nStarting nginx.\nroot@router2:~ #\n\n\n5. Step 5 Test NGINX\nThe final step is to test Nginx. Open a Web Browser program on Windows such as Yandex, Firefox, Opera or others.\n\nWe will try to test Nginx in the Yandex browser, type our FreeBSD server IP, namely 192.168.9.3, continue by pressing the enter key on the keyboard. If you successfully install Nginx the results will be like the following image.\n\n\n\n\nIf it looks like the image above, it means your Nginx server is RUNNING.\n\nIn practice, there are many uses for Nginx, not only as a web server. Nginx can be used as a gateway for DNS Over TLS or can even be used as a forward or reverse proxy.\n\nFollowing is the complete source code of the file nginx.conf.\n\n\n#user nobody;\nworker_processes 1;\n\n# This default error log path is compiled-in to make sure configuration parsing\n# errors are logged somewhere, especially during unattended boot when stderr\n# isn't normally logged anywhere. This path will be touched on every nginx\n# start regardless of error log location configured here. See\n# https://trac.nginx.org/nginx/ticket/147 for more info. \n#\n#error_log /var/log/nginx/error.log;\n#\n\n#pid logs/nginx.pid;\n\n\nevents {\n worker_connections 1024;\n}\n\n\nhttp {\n include mime.types;\n default_type application/octet-stream;\n\n #log_format main '$remote_addr - $remote_user [$time_local] \"$request\" '\n # '$status $body_bytes_sent \"$http_referer\" '\n # '\"$http_user_agent\" \"$http_x_forwarded_for\"';\n\n #access_log logs/access.log main;\n\n sendfile on;\n #tcp_nopush on;\n\n #keepalive_timeout 0;\n keepalive_timeout 65;\n\n #gzip on;\n\n server {\n listen 80;\n server_name localhost;\n\n #charset koi8-r;\n\n #access_log logs/host.access.log main;\n\n location / {\n root /usr/local/www/nginx;\n index index.html index.htm;\n }\n\n #error_page 404 /404.html;\n\n # redirect server error pages to the static page /50x.html\n #\n error_page 500 502 503 504 /50x.html;\n location = /50x.html {\n root /usr/local/www/nginx-dist;\n }\n\n # proxy the PHP scripts to Apache listening on 127.0.0.1:80\n #\n #location ~ \\.php$ {\n # proxy_pass http://127.0.0.1;\n #}\n\n # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000\n #\n #location ~ \\.php$ {\n # root html;\n # fastcgi_pass 127.0.0.1:9000;\n # fastcgi_index index.php;\n # fastcgi_param SCRIPT_FILENAME /scripts$fastcgi_script_name;\n # include fastcgi_params;\n #}\n\n # deny access to .htaccess files, if Apache's document root\n # concurs with nginx's one\n #\n #location ~ /\\.ht {\n # deny all;\n #}\n }\n\n\n # another virtual host using mix of IP-, name-, and port-based configuration\n #\n #server {\n # listen 8000;\n # listen somename:8080;\n # server_name somename alias another.alias;\n\n # location / {\n # root html;\n # index index.html index.htm;\n # }\n #}\n\n\n # HTTPS server\n #\n #server {\n # listen 443 ssl;\n # server_name localhost;\n\n # ssl_certificate cert.pem;\n # ssl_certificate_key cert.key;\n\n # ssl_session_cache shared:SSL:1m;\n # ssl_session_timeout 5m;\n\n # ssl_ciphers HIGH:!aNULL:!MD5;\n # ssl_prefer_server_ciphers on;\n\n # location / {\n # root html;\n # index index.html index.htm;\n # }\n #}\n\n}\n\n\nNginx is a powerful and versatile web server that has become a cornerstone of modern web infrastructure. From its beginnings as a solution to the C10K problem, Nginx is capable of handling thousands of concurrent connections. Today, Nginx has evolved into a versatile tool that can act as a reverse proxy, load balancer, and even a caching server. Its lightweight architecture, coupled with high performance and reliability, makes Nginx the preferred choice for many of the world’s largest and most trafficked websites.\n", "dateCreated": "2025-05-03 21:05:35 +0300", "datePublished": "2025-05-03 21:05:35 +0300", "dateModified": "2025-05-03 19:05:35 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/learn-install-nginx-web-server-freebsd", "name": "Learn How to Install NGINX Web Server on FreeBSD", "description": "Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-nginx-web-server-freebsd/", "headline": "Learn How to Install NGINX Web Server on FreeBSD", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "Learn How to Install NGINX Web Server on FreeBSD", "description": "Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/learn-install-nginx-web-server-freebsd/", "identifier": "judul", "name": "Learn How to Install NGINX Web Server on FreeBSD", "description": "Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/learn-install-nginx-web-server-freebsd/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/learn-install-nginx-web-server-freebsd/", "name": "Learn How to Install NGINX Web Server on FreeBSD", "description": "Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility", "dateCreated": "2025-05-03 21:05:35 +0300", "datePublished": "2025-05-03 21:05:35 +0300", "dateModified": "2025-05-03 19:05:35 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-05-03 21:05:35 +0300", "name": "Learn How to Install NGINX Web Server on FreeBSD", "headline": "Learn How to Install NGINX Web Server on FreeBSD", "description": "Nginx pronounced engine-x is a powerful and versatile open-source software used as a web server, reverse proxy, load balancer, and more. It's known for its high performance, low resource utilization, and flexibility", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

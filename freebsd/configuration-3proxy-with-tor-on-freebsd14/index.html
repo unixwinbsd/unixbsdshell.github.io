@@ -1,0 +1,302 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>Configuring 3Proxy with TOR Onion on FreeBSD</title><meta name="description" content="Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443."><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="3proxy, polipo, proxy, server, tor, sock, sock5, port, freebsd, http, anonymous, internet, access, configuration"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-3proxy-with-tor-on-freebsd14/"><meta property="og:type" content="article"><meta property="og:title" content="Configuring 3Proxy with TOR Onion on FreeBSD"><meta property="og:description"><meta property="og:image" content="https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/oct-25-87.jpg"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-3proxy-with-tor-on-freebsd14/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-3proxy-with-tor-on-freebsd14/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-10-16 16:15:24 +0300"><meta property="og:image" content="https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/oct-25-87.jpg"><meta property="og:title" content="Configuring 3Proxy with TOR Onion on FreeBSD"><meta property="og:description" content="Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443."><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-3proxy-with-tor-on-freebsd14/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/oct-25-87.jpg"><meta name="twitter:title" content="Configuring 3Proxy with TOR Onion on FreeBSD"><meta name="twitter:description" content="Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443."><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">Configuring 3Proxy with TOR Onion on FreeBSD</h1><div class="lead badge bg-primary text-wrap"><h6><p>Here, I’ll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer’s security, especially on ports 80 and 443.</p></h6></div><p class="meta"></p><h6><time>October 16, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=Anonymous">Anonymous</a> &middot; <span class="reading-time" title="Estimated read time">14 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#a-system-specifications">A. System specifications:</a></li><li><a href="#b-what-is-3proxy">B. What is 3Proxy</a></li><li><a href="#c-3proxy-installation-process">C. 3Proxy Installation Process</a></li><li><a href="#c-test-3proxy">C. Test 3Proxy</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / Configuring 3Proxy with TOR Onion on FreeBSD</div><div class="article"><p>It’s considered impossible to achieve maximum security when surfing the internet, as spam, ads, and bots can spy on our data and identity. However, we can minimize the level of online crime. Several tools and software can help achieve at least a level of anonymity and privacy that approaches perfect security. Here, I’ll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer’s security, especially on ports 80 and 443.</p><p>I won’t explain installing TOR and Privoxy in this tutorial. We’ll focus on installing and configuring 3Proxy. You can read articles about installing TOR and Privoxy elsewhere online.</p><h2 id="a-system-specifications">A. System specifications:</h2><ul><li>OS: FreeBSD 13.2 Stable</li><li>CPU: AMD Phenom(tm) II X4 955 Processor</li><li>IP Server: 192.168.9.3</li><li>Interface: em0 ( 1 Land Card )</li><li>Hostname: router2</li><li>Domain: unixexplore.com</li></ul><p><br></p><noscript><img src="https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/oct-25-87.jpg" alt="3proxy with tor"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://gitea.com/UnixBSDShell/OpenBSD-Web-APP/raw/branch/main/image/oct-25-87.jpg" alt="3proxy with tor" class="lazyload fade-in"></p><p><br></p><h2 id="b-what-is-3proxy">B. What is 3Proxy</h2><p>Three Proxy is a Unix-based proxy server system that can run on HTTP, HTTPS, and FTP ports. It also supports <a href="https://forums.freebsd.org/threads/howto-use-tor-network-and-web-proxy.40307/">SOCKSv4, SOCKSv5, POP3, and SMTP proxies</a>. 3Proxy works on both TCP and UDP ports. You can use each proxy as a standalone program (socks, proxy, tcppm, udppm, pop3p) or use a combined program (3proxy).</p><p>The federated proxy also supports features such as access control, bandwidth throttling, daily/weekly/monthly traffic restrictions, proxy chains, log rotation, sylog and ODBC logging, etc.</p><h2 id="c-3proxy-installation-process">C. 3Proxy Installation Process</h2><p>To perform the installation, we’ll need to use FreeBSD Ports. First, log in as root on the FreeBSD server. Once logged in, type the following script to <a href="https://unixwinbsd.site/freebsd/polipo-proxy-server-with-tor-sock-on-freebsd">install 3PRoxy</a>.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # cd /usr/ports/net/3proxy
+root@router2:/usr/ports/net/3proxy # make install clean
+</code></pre></div></div><p>Next, we add the script in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # ee /etc/rc.conf
+threeproxy_enable="YES"
+threeproxy_flags="/usr/local/etc/3proxy.cfg"
+</code></pre></div></div><p>This script is useful for the boot process. If our FreeBSD server is rebooted or shut down, 3Proxy will automatically start because the rc.conf file is enabled.</p><p>Then, we restart our FreeBSD server.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # reboot
+</code></pre></div></div><p>After rebooting your FreeBSD Server, open the log file and note which ports 3Proxy is running on. Here’s an example of a 3Proxy log file.</p><p>It turns out that 3Proxy supports multiple ports, including one that supports DNS, port 53. Once you know which ports 3Proxy is running on, edit the 3proxy.cfg file in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/3proxy.cfg</code> folder.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nserver 1.1.1.1:53/tcp
+nserver 1.0.0.1:53/tcp
+nscache 65536
+daemon
+log /var/log/3proxy/log D
+logformat "- +_L%t.%.  %N.%p %E %U %C:%c %R:%r %O %I %h %T"
+rotate 30
+</code></pre></div></div><p>The parent is the BACKEND proxy IP and Port. In this tutorial, we will use the TOR and Privoxy BACKENDs.</p><p>The TOR IP/Port is 192.168.9.3 9050, and the Privoxy IP/Port is 192.168.9.3 8008.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>parent 500 socks5 192.168.9.3 9050
+parent 1000 connect 192.168.9.3 8008
+</code></pre></div></div><p>What you need to pay attention to is filling in the external and internal IP, if your FreeBSD server computer only uses 1 interface or 1 landcard then the internal and external IP must be the same.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>external 192.168.9.3
+internal 192.168.9.3
+</code></pre></div></div><p>For the complete source code for the 3proxy.cfg file, you can copy and paste it at the end of this article.</p><p>Once the 3proxy.cfg file is configured, restart 3PRoxy.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@router2:~ # service 3proxy restart
+</code></pre></div></div><h2 id="c-test-3proxy">C. Test 3Proxy</h2><p>The 3Proxy test will be conducted on the Mozilla Firefox browser. You can also do it on other browsers such as Yandex, Opera, Comodo, etc.</p><p>Open the Firefox browser, click the settings menu, and if you have configured everything above, you can now open your web browser.</p><p>Complete the installation and configuration of 3Proxy with the TOR and Privoxy backends. Now… you have your own proxy server. Enjoy and experience the sensation of safe and comfortable surfing, without annoying ads or hackers tracking your identity data.</p><p>Example of the complete source code from the 3proxy.cfg file located in the <code class="language-plaintext highlighter-rouge">/usr/local/etc/3proxy.cfg</code> folder. You can copy and paste this source code directly, as this tutorial uses this source code. You only need to set the internal IP, external IP, and parent IP.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/local/bin/3proxy
+# Yes, 3proxy.cfg can be executable, in this case you should place
+# something like
+#config /usr/local/3proxy/3proxy.cfg
+# to show which configuration 3proxy should re-read on realod.
+
+#system "echo Hello world!"
+# you may use system to execute some external command if proxy starts
+
+# We can configure nservers to avoid unsafe gethostbyname() usage
+#nserver 1.1.1.1
+#nserver 1.0.0.1
+nserver 1.1.1.1:53/tcp
+nserver 1.0.0.1:53/tcp
+# nscache is good to save speed, traffic and bandwidth
+nscache 65536
+
+#nsrecord porno.security.nnov.ru 0.0.0.0
+# nobody will be able to access porno.security.nnov.ru by the name.
+#nsrecord wpad.security.nnov.ru www.security.nnov.ru
+# wpad.security.nnov.ru will resolve to www.security.nnov.ru for
+# clients
+
+
+timeouts 1 5 30 60 180 1800 15 60
+# Here we can change timeout values
+
+users 3APA3A:CL:3apa3a "test:CR:$1$qwer$CHFTUFGqkjue9HyhcMHEe1"
+# note that "" required, overvise $... is treated as include file name.
+# $1$qwer$CHFTUFGqkjue9HyhcMHEe1 is 'test' in MD5 crypt format.
+#users $/usr/local/etc/3proxy/passwd
+# this example shows you how to include passwd file. For included files
+# &lt;CR&gt; and &lt;LF&gt; are treated as field separators.
+
+daemon
+# now we will not depend on any console (daemonize). daemon must be given
+# before any significant command on *nix.
+
+#service
+# service is required under NT if you want 3proxy to start as service
+
+log /var/log/3proxy/log D
+#log c:\3proxy\logs\3proxy.log D
+# log allows to specify log file location and rotation, D means logfile
+# is created daily
+
+#logformat "L%d-%m-%Y %H:%M:%S %z %N.%p %E %U %C:%c %R:%r %O %I %h %T"
+#logformat "Linsert into log (l_date, l_user, l_service, l_in, l_out, l_descr) values ('%d-%m-%Y %H:%M:%S', '%U', '%N', %I, %O, '%T')"
+#Compatible with Squid access.log:
+#
+#"- +_G%t.%. %D %C TCP_MISS/200 %I %1-1T %2-2T %U DIRECT/%R application/unknown"
+#or, more compatible format without %D
+#"- +_G%t.%.      1 %C TCP_MISS/200 %I %1-1T %2-2T %U DIRECT/%R application/unknown"
+#
+#Compatible with ISA 2000 proxy WEBEXTD.LOG (fields are TAB-delimited):
+#
+#"-	+ L%C	%U	Unknown	Y	%Y-%m-%d	%H:%M:%S	w3proxy	3PROXY	-	%n	%R	%r	%D	%O	%I	http	TCP	%1-1T	%2-2T	-	-	%E	-	-	-"
+#
+#Compatible with ISA 2004 proxy WEB.w3c
+#
+#"-	+ L%C	%U	Unknown	%Y-%m-%d	%H:%M:%S	3PROXY	-	%n	%R	%r	%D	%O	%I	http	%1-1T	%2-2T	-	%E	-	-	Internal	External	0x0	Allowed"
+#
+#Compatible with ISA 2000/2004 firewall FWSEXTD.log (fields are TAB-delimited):
+#
+#"-	+ L%C	%U	unnknown:0:0.0	N	%Y-%m-%d	%H:%M:%S	fwsrv	3PROXY	-	%n	%R	%r	%D	%O	%I	%r	TCP	Connect	-	-	-	%E	-	-	-	-	-"
+#
+#Compatible with HTTPD standard log (Apache and others)
+#
+#"-""+_L%C - %U [%d/%o/%Y:%H:%M:%S %z] ""%T"" %E %I"
+#or more compatible without error code
+#"-""+_L%C - %U [%d/%o/%Y:%H:%M:%S %z] ""%T"" 200 %I"
+
+# in log file we want to have underscores instead of spaces
+logformat "- +_L%t.%.  %N.%p %E %U %C:%c %R:%r %O %I %h %T"
+
+
+archiver gz /usr/bin/gzip %F
+#archiver zip zip -m -qq %A %F
+#archiver zip pkzipc -add -silent -move %A %F
+#archiver rar rar a -df -inul %A %F
+# if archiver specified log file will be compressed after closing.
+# you should specify extension, path to archiver and command line, %A will be
+# substituted with archive file name, %f - with original file name.
+# Original file will not be removed, so archiver should care about it.
+
+rotate 30
+# We will keep last 30 log files
+
+#auth iponly
+#auth nbname
+#auth strong
+# auth specifies type of user authentication. If you specify none proxy
+# will not do anything to check name of the user. If you specify
+# nbname proxy will send NetBIOS name request packet to UDP/137 of
+# client and parse request for NetBIOS name of messanger service.
+# Strong means that proxy will check password. For strong authentication
+# unknown user will not be allowed to use proxy regardless of ACL.
+# If you do not want username to be checked but wanna ACL to work you should
+# specify auth iponly.
+
+
+#allow ADMINISTRATOR,root
+#allow * 127.0.0.1,192.168.1.1 * *
+allow * 192.168.9.3 * *
+#allow * 192.168.9.3/24 * 25,53,110,20-21,1024-65535
+parent 500 socks5 192.168.9.3 9050
+parent 1000 connect 192.168.9.3 8008
+# we will allow everything if username matches ADMINISTRATOR or root or
+# client ip is 127.0.0.1 or 192.168.1.1. Overwise we will redirect any request
+# to port 80 to our Web-server 192.168.0.2.
+# We will allow any outgoing connections from network 192.168.1.0/24 to
+# SMTP, POP3, FTP, DNS and unprivileged ports.
+# Note, that redirect may also be used with proxy or portmapper. It will
+# allow you to redirect requests to different ports or different server
+# for different clients.
+
+#  sharing access to internet
+
+external 192.168.9.3
+# external is address 3proxy uses for outgoing connections. 0.0.0.0 means any
+# interface. Using 0.0.0.0 is not good because it allows to connect to 127.0.0.1
+
+internal 192.168.9.3
+# internal is address of interface proxy will listen for incoming requests
+# 127.0.0.1 means only localhost will be able to use this proxy. This is
+# address you should specify for clients as proxy IP.
+# You MAY use 0.0.0.0 but you shouldn't, because it's a chance for you to
+# have open proxy in your network in this case.
+
+auth none
+# no authentication is requires
+
+dnspr
+#fakeresolve
+
+# dnsproxy listens on UDP/53 to answer client's DNS requests. It requires
+# nserver/nscache configuration.
+
+
+#external $./external.ip
+#internal $./internal.ip
+# this is just an alternative form fo giving external and internal address
+# allows you to read this addresses from files
+
+#auth strong
+# We want to protect internal interface
+deny * * 127.0.0.1,192.168.1.1
+# and llow HTTP and HTTPS traffic.
+allow * * * 80-88,8080-8088 HTTP
+allow * * * 443,8443 HTTPS
+proxy -n
+
+auth none
+# pop3p will be used without any authentication. It's bad choice
+# because it's possible to use pop3p to access any port
+pop3p
+
+tcppm 25 mail.my.provider 25
+#udppm -s 53 ns.my.provider 53
+# we can portmap port TCP/25 to provider's SMTP server and UDP/53
+# to provider's DNS.
+# Now we can use our proxy as SMTP and DNS server.
+# -s switch for UDP means "single packet" service - instead of setting
+# association for period of time association will only be set for 1 packet.
+# It's very userfull for services like DNS but not for some massive services
+# like multimedia streams or online games.
+
+#auth strong
+flush
+allow 3APA3A,test
+maxconn 20
+socks
+# for socks we will use password authentication and different access control -
+# we flush previously configured ACL list and create new one to allow users
+# test and 3APA3A to connect from any location
+
+
+#auth strong
+flush
+internal 127.0.0.1
+allow 3APA3A 127.0.0.1
+maxconn 3
+admin
+#only allow acces to admin interface for user 3APA3A from 127.0.0.1 address
+#via 127.0.0.1 address.
+
+# map external 80 and 443 ports to internal Web server
+# examples below show how to use 3proxy to publish Web server in internal
+# network to Internet. We must switch internal and external addresses and
+# flush any ACLs
+
+#auth none
+#flush
+#external $./internal.ip
+#internal $./external.ip
+#maxconn 300
+#tcppm 80 websrv 80
+#tcppm 443 websrv 443
+
+
+#chroot /usr/local/jail
+#setgid 65535
+#setuid 65535
+# now we needn't any root rights. We can chroot and setgid/setuid.
+</code></pre></div></div><p>You can use the complete script example from the <code class="language-plaintext highlighter-rouge">/usr/local/etc/3proxy.cfg</code> file above as a guide for installation and configuration.</p><div class="PageNavigation"><a class="prev" href="/openbsd/configuration-nsd-master-slave-server-on-openbsd/">&laquo; How to Configure NSD Master and Slave Servers on OpenBSD</a> <a class="next" href="/openbsd/openbsd-cloudflare-cfssl-certificate-pki-tls/">OpenBSD CloudFlare CFSSL Certificate - Creating a CA Private PKI TLS Certificate For DNS Server Clients &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-3proxy-with-tor-on-freebsd14/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-3proxy-with-tor-on-freebsd14/", "name": "Configuring 3Proxy with TOR Onion on FreeBSD", "headline": ["Anonymous"], "keywords": "3proxy, polipo, proxy, server, tor, sock, sock5, port, freebsd, http, anonymous, internet, access, configuration", "description": "Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443.", "articleBody": "It’s considered impossible to achieve maximum security when surfing the internet, as spam, ads, and bots can spy on our data and identity. However, we can minimize the level of online crime. Several tools and software can help achieve at least a level of anonymity and privacy that approaches perfect security. Here, I’ll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer’s security, especially on ports 80 and 443.\n\nI won’t explain installing TOR and Privoxy in this tutorial. We’ll focus on installing and configuring 3Proxy. You can read articles about installing TOR and Privoxy elsewhere online.\n\nA. System specifications:\n\n OS: FreeBSD 13.2 Stable\n CPU: AMD Phenom(tm) II X4 955 Processor\n IP Server: 192.168.9.3\n Interface: em0 ( 1 Land Card )\n Hostname: router2\n Domain: unixexplore.com\n\n\n\n\n\n\n\n\n\nB. What is 3Proxy\n\nThree Proxy is a Unix-based proxy server system that can run on HTTP, HTTPS, and FTP ports. It also supports SOCKSv4, SOCKSv5, POP3, and SMTP proxies. 3Proxy works on both TCP and UDP ports. You can use each proxy as a standalone program (socks, proxy, tcppm, udppm, pop3p) or use a combined program (3proxy).\n\nThe federated proxy also supports features such as access control, bandwidth throttling, daily/weekly/monthly traffic restrictions, proxy chains, log rotation, sylog and ODBC logging, etc.\n\nC. 3Proxy Installation Process\n\nTo perform the installation, we’ll need to use FreeBSD Ports. First, log in as root on the FreeBSD server. Once logged in, type the following script to install 3PRoxy.\n\nroot@router2:~ # cd /usr/ports/net/3proxy\nroot@router2:/usr/ports/net/3proxy # make install clean\n\n\nNext, we add the script in the /etc/rc.conf file.\n\nroot@router2:~ # ee /etc/rc.conf\nthreeproxy_enable=\"YES\"\nthreeproxy_flags=\"/usr/local/etc/3proxy.cfg\"\n\n\nThis script is useful for the boot process. If our FreeBSD server is rebooted or shut down, 3Proxy will automatically start because the rc.conf file is enabled.\n\nThen, we restart our FreeBSD server.\n\nroot@router2:~ # reboot\n\n\nAfter rebooting your FreeBSD Server, open the log file and note which ports 3Proxy is running on. Here’s an example of a 3Proxy log file.\n\nIt turns out that 3Proxy supports multiple ports, including one that supports DNS, port 53. Once you know which ports 3Proxy is running on, edit the 3proxy.cfg file in the /usr/local/etc/3proxy.cfg folder.\n\nnserver 1.1.1.1:53/tcp\nnserver 1.0.0.1:53/tcp\nnscache 65536\ndaemon\nlog /var/log/3proxy/log D\nlogformat \"- +_L%t.%. %N.%p %E %U %C:%c %R:%r %O %I %h %T\"\nrotate 30\n\n\nThe parent is the BACKEND proxy IP and Port. In this tutorial, we will use the TOR and Privoxy BACKENDs.\n\nThe TOR IP/Port is 192.168.9.3 9050, and the Privoxy IP/Port is 192.168.9.3 8008.\n\nparent 500 socks5 192.168.9.3 9050\nparent 1000 connect 192.168.9.3 8008\n\n\nWhat you need to pay attention to is filling in the external and internal IP, if your FreeBSD server computer only uses 1 interface or 1 landcard then the internal and external IP must be the same.\n\nexternal 192.168.9.3\ninternal 192.168.9.3\n\n\nFor the complete source code for the 3proxy.cfg file, you can copy and paste it at the end of this article.\n\nOnce the 3proxy.cfg file is configured, restart 3PRoxy.\n\nroot@router2:~ # service 3proxy restart\n\n\nC. Test 3Proxy\n\nThe 3Proxy test will be conducted on the Mozilla Firefox browser. You can also do it on other browsers such as Yandex, Opera, Comodo, etc.\n\nOpen the Firefox browser, click the settings menu, and if you have configured everything above, you can now open your web browser.\n\nComplete the installation and configuration of 3Proxy with the TOR and Privoxy backends. Now… you have your own proxy server. Enjoy and experience the sensation of safe and comfortable surfing, without annoying ads or hackers tracking your identity data.\n\nExample of the complete source code from the 3proxy.cfg file located in the /usr/local/etc/3proxy.cfg folder. You can copy and paste this source code directly, as this tutorial uses this source code. You only need to set the internal IP, external IP, and parent IP.\n\n#!/usr/local/bin/3proxy\n# Yes, 3proxy.cfg can be executable, in this case you should place\n# something like\n#config /usr/local/3proxy/3proxy.cfg\n# to show which configuration 3proxy should re-read on realod.\n\n#system \"echo Hello world!\"\n# you may use system to execute some external command if proxy starts\n\n# We can configure nservers to avoid unsafe gethostbyname() usage\n#nserver 1.1.1.1\n#nserver 1.0.0.1\nnserver 1.1.1.1:53/tcp\nnserver 1.0.0.1:53/tcp\n# nscache is good to save speed, traffic and bandwidth\nnscache 65536\n\n#nsrecord porno.security.nnov.ru 0.0.0.0\n# nobody will be able to access porno.security.nnov.ru by the name.\n#nsrecord wpad.security.nnov.ru www.security.nnov.ru\n# wpad.security.nnov.ru will resolve to www.security.nnov.ru for\n# clients\n\n\ntimeouts 1 5 30 60 180 1800 15 60\n# Here we can change timeout values\n\nusers 3APA3A:CL:3apa3a \"test:CR:$1$qwer$CHFTUFGqkjue9HyhcMHEe1\"\n# note that \"\" required, overvise $... is treated as include file name.\n# $1$qwer$CHFTUFGqkjue9HyhcMHEe1 is 'test' in MD5 crypt format.\n#users $/usr/local/etc/3proxy/passwd\n# this example shows you how to include passwd file. For included files\n# &lt;CR&gt; and &lt;LF&gt; are treated as field separators.\n\ndaemon\n# now we will not depend on any console (daemonize). daemon must be given\n# before any significant command on *nix.\n\n#service\n# service is required under NT if you want 3proxy to start as service\n\nlog /var/log/3proxy/log D\n#log c:\\3proxy\\logs\\3proxy.log D\n# log allows to specify log file location and rotation, D means logfile\n# is created daily\n\n#logformat \"L%d-%m-%Y %H:%M:%S %z %N.%p %E %U %C:%c %R:%r %O %I %h %T\"\n#logformat \"Linsert into log (l_date, l_user, l_service, l_in, l_out, l_descr) values ('%d-%m-%Y %H:%M:%S', '%U', '%N', %I, %O, '%T')\"\n#Compatible with Squid access.log:\n#\n#\"- +_G%t.%. %D %C TCP_MISS/200 %I %1-1T %2-2T %U DIRECT/%R application/unknown\"\n#or, more compatible format without %D\n#\"- +_G%t.%. 1 %C TCP_MISS/200 %I %1-1T %2-2T %U DIRECT/%R application/unknown\"\n#\n#Compatible with ISA 2000 proxy WEBEXTD.LOG (fields are TAB-delimited):\n#\n#\"-\t+ L%C\t%U\tUnknown\tY\t%Y-%m-%d\t%H:%M:%S\tw3proxy\t3PROXY\t-\t%n\t%R\t%r\t%D\t%O\t%I\thttp\tTCP\t%1-1T\t%2-2T\t-\t-\t%E\t-\t-\t-\"\n#\n#Compatible with ISA 2004 proxy WEB.w3c\n#\n#\"-\t+ L%C\t%U\tUnknown\t%Y-%m-%d\t%H:%M:%S\t3PROXY\t-\t%n\t%R\t%r\t%D\t%O\t%I\thttp\t%1-1T\t%2-2T\t-\t%E\t-\t-\tInternal\tExternal\t0x0\tAllowed\"\n#\n#Compatible with ISA 2000/2004 firewall FWSEXTD.log (fields are TAB-delimited):\n#\n#\"-\t+ L%C\t%U\tunnknown:0:0.0\tN\t%Y-%m-%d\t%H:%M:%S\tfwsrv\t3PROXY\t-\t%n\t%R\t%r\t%D\t%O\t%I\t%r\tTCP\tConnect\t-\t-\t-\t%E\t-\t-\t-\t-\t-\"\n#\n#Compatible with HTTPD standard log (Apache and others)\n#\n#\"-\"\"+_L%C - %U [%d/%o/%Y:%H:%M:%S %z] \"\"%T\"\" %E %I\"\n#or more compatible without error code\n#\"-\"\"+_L%C - %U [%d/%o/%Y:%H:%M:%S %z] \"\"%T\"\" 200 %I\"\n\n# in log file we want to have underscores instead of spaces\nlogformat \"- +_L%t.%. %N.%p %E %U %C:%c %R:%r %O %I %h %T\"\n\n\narchiver gz /usr/bin/gzip %F\n#archiver zip zip -m -qq %A %F\n#archiver zip pkzipc -add -silent -move %A %F\n#archiver rar rar a -df -inul %A %F\n# if archiver specified log file will be compressed after closing.\n# you should specify extension, path to archiver and command line, %A will be\n# substituted with archive file name, %f - with original file name.\n# Original file will not be removed, so archiver should care about it.\n\nrotate 30\n# We will keep last 30 log files\n\n#auth iponly\n#auth nbname\n#auth strong\n# auth specifies type of user authentication. If you specify none proxy\n# will not do anything to check name of the user. If you specify\n# nbname proxy will send NetBIOS name request packet to UDP/137 of\n# client and parse request for NetBIOS name of messanger service.\n# Strong means that proxy will check password. For strong authentication\n# unknown user will not be allowed to use proxy regardless of ACL.\n# If you do not want username to be checked but wanna ACL to work you should\n# specify auth iponly.\n\n\n#allow ADMINISTRATOR,root\n#allow * 127.0.0.1,192.168.1.1 * *\nallow * 192.168.9.3 * *\n#allow * 192.168.9.3/24 * 25,53,110,20-21,1024-65535\nparent 500 socks5 192.168.9.3 9050\nparent 1000 connect 192.168.9.3 8008\n# we will allow everything if username matches ADMINISTRATOR or root or\n# client ip is 127.0.0.1 or 192.168.1.1. Overwise we will redirect any request\n# to port 80 to our Web-server 192.168.0.2.\n# We will allow any outgoing connections from network 192.168.1.0/24 to\n# SMTP, POP3, FTP, DNS and unprivileged ports.\n# Note, that redirect may also be used with proxy or portmapper. It will\n# allow you to redirect requests to different ports or different server\n# for different clients.\n\n# sharing access to internet\n\nexternal 192.168.9.3\n# external is address 3proxy uses for outgoing connections. 0.0.0.0 means any\n# interface. Using 0.0.0.0 is not good because it allows to connect to 127.0.0.1\n\ninternal 192.168.9.3\n# internal is address of interface proxy will listen for incoming requests\n# 127.0.0.1 means only localhost will be able to use this proxy. This is\n# address you should specify for clients as proxy IP.\n# You MAY use 0.0.0.0 but you shouldn't, because it's a chance for you to\n# have open proxy in your network in this case.\n\nauth none\n# no authentication is requires\n\ndnspr\n#fakeresolve\n\n# dnsproxy listens on UDP/53 to answer client's DNS requests. It requires\n# nserver/nscache configuration.\n\n\n#external $./external.ip\n#internal $./internal.ip\n# this is just an alternative form fo giving external and internal address\n# allows you to read this addresses from files\n\n#auth strong\n# We want to protect internal interface\ndeny * * 127.0.0.1,192.168.1.1\n# and llow HTTP and HTTPS traffic.\nallow * * * 80-88,8080-8088 HTTP\nallow * * * 443,8443 HTTPS\nproxy -n\n\nauth none\n# pop3p will be used without any authentication. It's bad choice\n# because it's possible to use pop3p to access any port\npop3p\n\ntcppm 25 mail.my.provider 25\n#udppm -s 53 ns.my.provider 53\n# we can portmap port TCP/25 to provider's SMTP server and UDP/53\n# to provider's DNS.\n# Now we can use our proxy as SMTP and DNS server.\n# -s switch for UDP means \"single packet\" service - instead of setting\n# association for period of time association will only be set for 1 packet.\n# It's very userfull for services like DNS but not for some massive services\n# like multimedia streams or online games.\n\n#auth strong\nflush\nallow 3APA3A,test\nmaxconn 20\nsocks\n# for socks we will use password authentication and different access control -\n# we flush previously configured ACL list and create new one to allow users\n# test and 3APA3A to connect from any location\n\n\n#auth strong\nflush\ninternal 127.0.0.1\nallow 3APA3A 127.0.0.1\nmaxconn 3\nadmin\n#only allow acces to admin interface for user 3APA3A from 127.0.0.1 address\n#via 127.0.0.1 address.\n\n# map external 80 and 443 ports to internal Web server\n# examples below show how to use 3proxy to publish Web server in internal\n# network to Internet. We must switch internal and external addresses and\n# flush any ACLs\n\n#auth none\n#flush\n#external $./internal.ip\n#internal $./external.ip\n#maxconn 300\n#tcppm 80 websrv 80\n#tcppm 443 websrv 443\n\n\n#chroot /usr/local/jail\n#setgid 65535\n#setuid 65535\n# now we needn't any root rights. We can chroot and setgid/setuid.\n\n\nYou can use the complete script example from the /usr/local/etc/3proxy.cfg file above as a guide for installation and configuration.\n", "dateCreated": "2025-10-16 16:15:24 +0300", "datePublished": "2025-10-16 16:15:24 +0300", "dateModified": "2025-10-16 14:15:24 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/configuration-3proxy-with-tor-on-freebsd14", "name": "Configuring 3Proxy with TOR Onion on FreeBSD", "description": "Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443.", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-3proxy-with-tor-on-freebsd14/", "headline": "Configuring 3Proxy with TOR Onion on FreeBSD", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "Configuring 3Proxy with TOR Onion on FreeBSD", "description": "Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443.", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443.", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/configuration-3proxy-with-tor-on-freebsd14/", "identifier": "judul", "name": "Configuring 3Proxy with TOR Onion on FreeBSD", "description": "Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/configuration-3proxy-with-tor-on-freebsd14/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/configuration-3proxy-with-tor-on-freebsd14/", "name": "Configuring 3Proxy with TOR Onion on FreeBSD", "description": "Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443.", "dateCreated": "2025-10-16 16:15:24 +0300", "datePublished": "2025-10-16 16:15:24 +0300", "dateModified": "2025-10-16 14:15:24 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-10-16 16:15:24 +0300", "name": "Configuring 3Proxy with TOR Onion on FreeBSD", "headline": "Configuring 3Proxy with TOR Onion on FreeBSD", "description": "Here, I'll explain how to set up a secure internet environment using a robust FreeBSD server equipped with 3Proxy, Tor, and Privoxy. Combining these three applications can enhance your computer's security, especially on ports 80 and 443.", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

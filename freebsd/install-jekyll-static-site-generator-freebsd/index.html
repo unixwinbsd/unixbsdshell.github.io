@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>How to Install Jekyll Static Website Generator with FreeBSD</title><meta name="description" content="In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll."><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="jekyll, ruby, static, site, generator, freebsd"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-jekyll-static-site-generator-freebsd/"><meta property="og:type" content="article"><meta property="og:title" content="How to Install Jekyll Static Website Generator with FreeBSD"><meta property="og:description"><meta property="og:image" content="https://unixwinbsd.github.io/unixbsdshell.github.io/img/oct-25/oct-25-63.jpg"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-jekyll-static-site-generator-freebsd/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-jekyll-static-site-generator-freebsd/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-10-11 17:03:21 +0300"><meta property="og:image" content="/img/oct-25/oct-25-63.jpg"><meta property="og:title" content="How to Install Jekyll Static Website Generator with FreeBSD"><meta property="og:description" content="In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll."><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-jekyll-static-site-generator-freebsd/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="/img/oct-25/oct-25-63.jpg"><meta name="twitter:title" content="How to Install Jekyll Static Website Generator with FreeBSD"><meta name="twitter:description" content="In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll."><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">How to Install Jekyll Static Website Generator with FreeBSD</h1><div class="lead badge bg-primary text-wrap"><h6><p>In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.</p></h6></div><p class="meta"></p><h6><time>October 11, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=WebServer">WebServer</a> &middot; <span class="reading-time" title="Estimated read time">9 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-system-requirements">1. System Requirements</a></li><li><a href="#2-install-jekyll">2. Install Jekyll</a></li><li><a href="#3-setup-jekyll">3. Setup Jekyll</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / How to Install Jekyll Static Website Generator with FreeBSD</div><div class="article"><p>We know that there are two types of websites, namely dynamic and static. On dynamic websites, for example those created using CMS such as WordPress, Joomla, Drupal and Blogger or Blogspot. All information or content on a dynamic website to fill a web page is stored in a database which will then be retrieved when there is an order or query.</p><p>Meanwhile, static websites do not use a database. All the information that will be displayed on a web page is already in the HTML file. No more query processing. These HTML files can be written one by one using a text editor such as Notepad or Sublime Text, or can also be generated automatically using a <code class="language-plaintext highlighter-rouge">"static site generator"</code> such as Jekyll, Hugo or others.</p><p>Jekyll, according to its tagline <code class="language-plaintext highlighter-rouge">"a simple, blog-aware, static site generator"</code> is software for creating static blogs. To produce a blog, Jekyll only needs a template, article files written in Markdown format and a configuration file. Then we upload the results to the server. That’s our blog. As simple as that?. Jekyll and other static blogs have many advantages over WordPress, Joomla, Drupal and others, among the advantages of Jekyll are:</p><ul><li>As I said, WordPress is overkill. Too much, at least for my needs in creating a blog. Meanwhile, Jekyll is specifically intended as a blogging platform. Even though it is much simpler, Jekyll is still rich in the features needed to create a blog.</li><li>Jekyll is much faster, because all the pages displayed are actually finished. No more queries to the database. In addition, loading static files on website pages requires much smaller resources on the server side.</li><li>Because the server only contains static files, Jekyll is safer from irresponsible hacker attacks. There is nothing that hackers can target, unless they have the username and password.</li><li>Jekyll is one of the engines behind Github. Therefore, we can easily publish blogs on Github for free. With Github, every change to our blog will be recorded, even if it only changes one letter. Yes, Github is one of the most popular versioning control services. Apart from that, Github makes it easier for us to collaborate.</li><li>Jekyll uses Markdown. This means you can create articles containing R scripts with R Markdown.<br></li></ul><noscript><img src="/img/oct-25/oct-25-63.jpg" alt="jekyll static site generator"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="/img/oct-25/oct-25-63.jpg" alt="jekyll static site generator" class="lazyload fade-in"></p><p>Jekyll is a static site creation utility, or SSG. With Jekyll the process of building a fast, safe and scalable website becomes easier. In short, SSG is the process of generating a website consisting of pre-built static HTML pages. Jekyll can eliminate the need for server-side processing, so creating static sites can result in faster load times and high scalability.</p><h2 id="1-system-requirements">1. System Requirements</h2><ul><li>Operating System: FreeBSD 13.3</li><li>Hostname: ns3</li><li>IP Address: 192.168.5.2</li><li>Ruby version: ruby 3.1.4p223 (2023-03-30 revision 957bb7cb81) [amd64-freebsd13]</li><li>Gem version: gems 3.5.7</li><li>Bundler version: Bundler 2.3.6</li><li>Web Server: Apache24</li><li>Database: Postgresql15-server</li></ul><p>In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.</p><h2 id="2-install-jekyll">2. Install Jekyll</h2><p>To simplify the process of creating a Jekyll project, we will create a working directory for Jekyll. This directory will store all Jekyll files and information. Run the mkdir command to create a new directory.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # mkdir -p /var/jekyll-static
+root@ns3:~ # cd /var/jekyll-static
+root@ns3:/var/jekyll-static #
+</code></pre></div></div><p>Now we will install Jekyll in the directory you created above.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/var/jekyll-static # pkg install rubygem-jekyll rubygem-jekyll-sitemap rubygem-bundler
+</code></pre></div></div><p>After that, you download Jekyll from the Github repository.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/var/jekyll-static # git clone https://github.com/jekyll/jekyll.git
+</code></pre></div></div><h2 id="3-setup-jekyll">3. Setup Jekyll</h2><p>Bundler is one of Jekyll’s indispensable utilities, as it tracks dependencies per project, very useful if you need to run different versions of Jekyll in different projects.</p><p>After you have finished downloading Jekyll from Github, you can continue with this bundle command. This command will generate a new Bundler project (by creating an empty Gemfile).</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/var/jekyll-static # cd jekyll
+root@ns3:/var/jekyll-static/jekyll # rm Gemfile
+root@ns3:/var/jekyll-static/jekyll # bundle init
+Writing new Gemfile to /var/jekyll-static/jekyll/Gemfile
+</code></pre></div></div><p>In the <code class="language-plaintext highlighter-rouge">Gemfile file</code>, type the script below.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/var/jekyll-static/jekyll # ee Gemfile
+source "https://rubygems.org"
+
+gem 'jekyll', '~&gt; 4.3.2'
+gem 'bundler', '~&gt; 2.3.7'
+gem 'faraday-retry'
+gem 'backports', '~&gt; 3.23'
+gem 'kramdown'
+gem 'puma'
+
+
+# If you want to use GitHub Pages, remove the "gem "jekyll"" above and
+# uncomment the line below. To upgrade, run `bundle update github-pages`.
+# gem "github-pages", group: :jekyll_plugins
+
+# Plugins
+group :jekyll_plugins do
+    # gem 'devlopr', '~&gt; 0.4.5'
+    gem 'jgd', '~&gt; 1.12'
+    gem 'jekyll-feed', '~&gt; 0.17.0'
+    gem 'jekyll-paginate', '~&gt; 1.1.0'
+    gem 'jekyll-gist', '~&gt; 1.5.0'
+    gem 'jekyll-seo-tag', '~&gt; 2.8.0'
+    gem 'jekyll-sitemap', '~&gt; 1.4.0'
+    gem 'jekyll-admin', '~&gt; 0.11.1'
+end
+
+
+# Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
+# and associated library.
+install_if -&gt; { RUBY_PLATFORM =~ %r!mingw|mswin|java! } do
+  gem "tzinfo", "~&gt; 2.0"
+  gem "tzinfo-data"
+end
+
+# Performance-booster for watching directories on Windows
+gem "wdm", "~&gt; 0.1.1", :install_if =&gt; Gem.win_platform?
+gem "webrick", "~&gt; 1.7"
+</code></pre></div></div><p>In the <code class="language-plaintext highlighter-rouge">Gemfile.lock</code> file, type the script below.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/var/jekyll-static/jekyll # ee Gemfile.lock
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.8.1)
+      public_suffix (&gt;= 2.0.2, &lt; 6.0)
+    backports (3.23.0)
+    colorator (1.1.0)
+    concurrent-ruby (1.2.0)
+    em-websocket (0.5.3)
+      eventmachine (&gt;= 0.12.9)
+      http_parser.rb (~&gt; 0)
+    eventmachine (1.2.7)
+    faraday (2.7.4)
+      faraday-net_http (&gt;= 2.0, &lt; 3.1)
+      ruby2_keywords (&gt;= 0.0.4)
+    faraday-net_http (3.0.2)
+    faraday-retry (2.0.0)
+      faraday (~&gt; 2.0)
+    ffi (1.15.5)
+    forwardable-extended (2.6.0)
+    google-protobuf (3.21.12-x86_64-darwin)
+    google-protobuf (3.21.12-x86_64-linux)
+    http_parser.rb (0.8.0)
+    i18n (1.12.0)
+      concurrent-ruby (~&gt; 1.0)
+    jekyll (4.3.2)
+      addressable (~&gt; 2.4)
+      colorator (~&gt; 1.0)
+      em-websocket (~&gt; 0.5)
+      i18n (~&gt; 1.0)
+      jekyll-sass-converter (&gt;= 2.0, &lt; 4.0)
+      jekyll-watch (~&gt; 2.0)
+      kramdown (~&gt; 2.3, &gt;= 2.3.1)
+      kramdown-parser-gfm (~&gt; 1.0)
+      liquid (~&gt; 4.0)
+      mercenary (&gt;= 0.3.6, &lt; 0.5)
+      pathutil (~&gt; 0.9)
+      rouge (&gt;= 3.0, &lt; 5.0)
+      safe_yaml (~&gt; 1.0)
+      terminal-table (&gt;= 1.8, &lt; 4.0)
+      webrick (~&gt; 1.7)
+    jekyll-admin (0.11.1)
+      jekyll (&gt;= 3.7, &lt; 5.0)
+      sinatra (&gt;= 1.4)
+      sinatra-contrib (&gt;= 1.4)
+    jekyll-feed (0.17.0)
+      jekyll (&gt;= 3.7, &lt; 5.0)
+    jekyll-gist (1.5.0)
+      octokit (~&gt; 4.2)
+    jekyll-paginate (1.1.0)
+    jekyll-sass-converter (3.0.0)
+      sass-embedded (~&gt; 1.54)
+    jekyll-seo-tag (2.8.0)
+      jekyll (&gt;= 3.8, &lt; 5.0)
+    jekyll-sitemap (1.4.0)
+      jekyll (&gt;= 3.7, &lt; 5.0)
+    jekyll-watch (2.2.1)
+      listen (~&gt; 3.0)
+    jgd (1.12)
+      jekyll (&gt;= 1.5.1)
+      trollop (= 2.9.9)
+    kramdown (2.4.0)
+      rexml
+    kramdown-parser-gfm (1.1.0)
+      kramdown (~&gt; 2.0)
+    liquid (4.0.4)
+    listen (3.8.0)
+      rb-fsevent (~&gt; 0.10, &gt;= 0.10.3)
+      rb-inotify (~&gt; 0.9, &gt;= 0.9.10)
+    mercenary (0.4.0)
+    multi_json (1.15.0)
+    mustermann (3.0.0)
+      ruby2_keywords (~&gt; 0.0.1)
+    nio4r (2.5.8)
+    octokit (4.25.1)
+      faraday (&gt;= 1, &lt; 3)
+      sawyer (~&gt; 0.9)
+    pathutil (0.16.2)
+      forwardable-extended (~&gt; 2.6)
+    public_suffix (5.0.1)
+    puma (6.0.2)
+      nio4r (~&gt; 2.0)
+    rack (2.2.6.2)
+    rack-protection (3.0.5)
+      rack
+    rake (13.0.6)
+    rb-fsevent (0.11.2)
+    rb-inotify (0.10.1)
+      ffi (~&gt; 1.0)
+    rexml (3.2.5)
+    rouge (4.0.1)
+    ruby2_keywords (0.0.5)
+    safe_yaml (1.0.5)
+    sass-embedded (1.58.0)
+      google-protobuf (~&gt; 3.21)
+      rake (&gt;= 10.0.0)
+    sawyer (0.9.2)
+      addressable (&gt;= 2.3.5)
+      faraday (&gt;= 0.17.3, &lt; 3)
+    sinatra (3.0.5)
+      mustermann (~&gt; 3.0)
+      rack (~&gt; 2.2, &gt;= 2.2.4)
+      rack-protection (= 3.0.5)
+      tilt (~&gt; 2.0)
+    sinatra-contrib (3.0.5)
+      multi_json
+      mustermann (~&gt; 3.0)
+      rack-protection (= 3.0.5)
+      sinatra (= 3.0.5)
+      tilt (~&gt; 2.0)
+    terminal-table (3.0.2)
+      unicode-display_width (&gt;= 1.1.1, &lt; 3)
+    tilt (2.0.11)
+    trollop (2.9.9)
+    tzinfo (2.0.6)
+      concurrent-ruby (~&gt; 1.0)
+    tzinfo-data (1.2022.7)
+      tzinfo (&gt;= 1.0.0)
+    unicode-display_width (2.4.2)
+    wdm (0.1.1)
+    webrick (1.8.1)
+
+PLATFORMS
+  universal-darwin-21
+  x86_64-linux
+
+DEPENDENCIES
+  backports (~&gt; 3.23)
+  bundler (~&gt; 2.3.7)
+  faraday-retry
+  jekyll (~&gt; 4.3.2)
+  jekyll-admin (~&gt; 0.11.1)
+  jekyll-feed (~&gt; 0.17.0)
+  jekyll-gist (~&gt; 1.5.0)
+  jekyll-paginate (~&gt; 1.1.0)
+  jekyll-seo-tag (~&gt; 2.8.0)
+  jekyll-sitemap (~&gt; 1.4.0)
+  jgd (~&gt; 1.12)
+  kramdown
+  puma
+  tzinfo (~&gt; 2.0)
+  tzinfo-data
+  wdm (~&gt; 0.1.1)
+  webrick (~&gt; 1.7)
+
+BUNDLED WITH
+   2.3.7
+</code></pre></div></div><p>Now you install Jekyll with the bundler.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/var/jekyll-static/jekyll # bundle install
+root@ns3:/var/jekyll-static/jekyll # bundle update
+</code></pre></div></div><p>The final step is to run Jekyll.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/var/jekyll-static/jekyll # rails s -b 192.168.5.2
+</code></pre></div></div><p>Installing and configuring static sites with Jekyll on FreeBSD 13.3 Stable is easy and improves your ability to maintain fast, secure, and easily scalable websites. Jekyll.</p><div class="PageNavigation"><a class="prev" href="/linux/node-js-npm-installation-guide-ubuntu/">&laquo; Node JS and NPM Installation Guide on Ubuntu</a> <a class="next" href="/openbsd/create-database-table-and-columns-mysql-mariadb/">How to Create Database Tables and Columns in MySql and MariaDB &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-jekyll-static-site-generator-freebsd/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-jekyll-static-site-generator-freebsd/", "name": "How to Install Jekyll Static Website Generator with FreeBSD", "headline": ["WebServer"], "keywords": "jekyll, ruby, static, site, generator, freebsd", "description": "In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.", "articleBody": "We know that there are two types of websites, namely dynamic and static. On dynamic websites, for example those created using CMS such as WordPress, Joomla, Drupal and Blogger or Blogspot. All information or content on a dynamic website to fill a web page is stored in a database which will then be retrieved when there is an order or query.\n\nMeanwhile, static websites do not use a database. All the information that will be displayed on a web page is already in the HTML file. No more query processing. These HTML files can be written one by one using a text editor such as Notepad or Sublime Text, or can also be generated automatically using a \"static site generator\" such as Jekyll, Hugo or others.\n\nJekyll, according to its tagline \"a simple, blog-aware, static site generator\" is software for creating static blogs. To produce a blog, Jekyll only needs a template, article files written in Markdown format and a configuration file. Then we upload the results to the server. That’s our blog. As simple as that?. Jekyll and other static blogs have many advantages over WordPress, Joomla, Drupal and others, among the advantages of Jekyll are:\n\n\n As I said, WordPress is overkill. Too much, at least for my needs in creating a blog. Meanwhile, Jekyll is specifically intended as a blogging platform. Even though it is much simpler, Jekyll is still rich in the features needed to create a blog.\n Jekyll is much faster, because all the pages displayed are actually finished. No more queries to the database. In addition, loading static files on website pages requires much smaller resources on the server side.\n Because the server only contains static files, Jekyll is safer from irresponsible hacker attacks. There is nothing that hackers can target, unless they have the username and password.\n Jekyll is one of the engines behind Github. Therefore, we can easily publish blogs on Github for free. With Github, every change to our blog will be recorded, even if it only changes one letter. Yes, Github is one of the most popular versioning control services. Apart from that, Github makes it easier for us to collaborate.\n Jekyll uses Markdown. This means you can create articles containing R scripts with R Markdown.\n\n\n\n\n\n\nJekyll is a static site creation utility, or SSG. With Jekyll the process of building a fast, safe and scalable website becomes easier. In short, SSG is the process of generating a website consisting of pre-built static HTML pages. Jekyll can eliminate the need for server-side processing, so creating static sites can result in faster load times and high scalability.\n\n1. System Requirements\n\n\n Operating System: FreeBSD 13.3\n Hostname: ns3\n IP Address: 192.168.5.2\n Ruby version: ruby 3.1.4p223 (2023-03-30 revision 957bb7cb81) [amd64-freebsd13]\n Gem version: gems 3.5.7\n Bundler version: Bundler 2.3.6\n Web Server: Apache24\n Database: Postgresql15-server\n\n\nIn this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.\n\n2. Install Jekyll\n\nTo simplify the process of creating a Jekyll project, we will create a working directory for Jekyll. This directory will store all Jekyll files and information. Run the mkdir command to create a new directory.\n\nroot@ns3:~ # mkdir -p /var/jekyll-static\nroot@ns3:~ # cd /var/jekyll-static\nroot@ns3:/var/jekyll-static #\n\nNow we will install Jekyll in the directory you created above.\n\nroot@ns3:/var/jekyll-static # pkg install rubygem-jekyll rubygem-jekyll-sitemap rubygem-bundler\n\nAfter that, you download Jekyll from the Github repository.\n\nroot@ns3:/var/jekyll-static # git clone https://github.com/jekyll/jekyll.git\n\n\n3. Setup Jekyll\n\nBundler is one of Jekyll’s indispensable utilities, as it tracks dependencies per project, very useful if you need to run different versions of Jekyll in different projects.\n\nAfter you have finished downloading Jekyll from Github, you can continue with this bundle command. This command will generate a new Bundler project (by creating an empty Gemfile).\n\nroot@ns3:/var/jekyll-static # cd jekyll\nroot@ns3:/var/jekyll-static/jekyll # rm Gemfile\nroot@ns3:/var/jekyll-static/jekyll # bundle init\nWriting new Gemfile to /var/jekyll-static/jekyll/Gemfile\n\nIn the Gemfile file, type the script below.\n\nroot@ns3:/var/jekyll-static/jekyll # ee Gemfile\nsource \"https://rubygems.org\"\n\ngem 'jekyll', '~&gt; 4.3.2'\ngem 'bundler', '~&gt; 2.3.7'\ngem 'faraday-retry'\ngem 'backports', '~&gt; 3.23'\ngem 'kramdown'\ngem 'puma'\n\n\n# If you want to use GitHub Pages, remove the \"gem \"jekyll\"\" above and\n# uncomment the line below. To upgrade, run `bundle update github-pages`.\n# gem \"github-pages\", group: :jekyll_plugins\n\n# Plugins\ngroup :jekyll_plugins do\n # gem 'devlopr', '~&gt; 0.4.5'\n gem 'jgd', '~&gt; 1.12'\n gem 'jekyll-feed', '~&gt; 0.17.0'\n gem 'jekyll-paginate', '~&gt; 1.1.0'\n gem 'jekyll-gist', '~&gt; 1.5.0'\n gem 'jekyll-seo-tag', '~&gt; 2.8.0'\n gem 'jekyll-sitemap', '~&gt; 1.4.0'\n gem 'jekyll-admin', '~&gt; 0.11.1'\nend\n\n\n# Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem\n# and associated library.\ninstall_if -&gt; { RUBY_PLATFORM =~ %r!mingw|mswin|java! } do\n gem \"tzinfo\", \"~&gt; 2.0\"\n gem \"tzinfo-data\"\nend\n\n# Performance-booster for watching directories on Windows\ngem \"wdm\", \"~&gt; 0.1.1\", :install_if =&gt; Gem.win_platform?\ngem \"webrick\", \"~&gt; 1.7\"\n\n\nIn the Gemfile.lock file, type the script below.\n\nroot@ns3:/var/jekyll-static/jekyll # ee Gemfile.lock\nGEM\n remote: https://rubygems.org/\n specs:\n addressable (2.8.1)\n public_suffix (&gt;= 2.0.2, &lt; 6.0)\n backports (3.23.0)\n colorator (1.1.0)\n concurrent-ruby (1.2.0)\n em-websocket (0.5.3)\n eventmachine (&gt;= 0.12.9)\n http_parser.rb (~&gt; 0)\n eventmachine (1.2.7)\n faraday (2.7.4)\n faraday-net_http (&gt;= 2.0, &lt; 3.1)\n ruby2_keywords (&gt;= 0.0.4)\n faraday-net_http (3.0.2)\n faraday-retry (2.0.0)\n faraday (~&gt; 2.0)\n ffi (1.15.5)\n forwardable-extended (2.6.0)\n google-protobuf (3.21.12-x86_64-darwin)\n google-protobuf (3.21.12-x86_64-linux)\n http_parser.rb (0.8.0)\n i18n (1.12.0)\n concurrent-ruby (~&gt; 1.0)\n jekyll (4.3.2)\n addressable (~&gt; 2.4)\n colorator (~&gt; 1.0)\n em-websocket (~&gt; 0.5)\n i18n (~&gt; 1.0)\n jekyll-sass-converter (&gt;= 2.0, &lt; 4.0)\n jekyll-watch (~&gt; 2.0)\n kramdown (~&gt; 2.3, &gt;= 2.3.1)\n kramdown-parser-gfm (~&gt; 1.0)\n liquid (~&gt; 4.0)\n mercenary (&gt;= 0.3.6, &lt; 0.5)\n pathutil (~&gt; 0.9)\n rouge (&gt;= 3.0, &lt; 5.0)\n safe_yaml (~&gt; 1.0)\n terminal-table (&gt;= 1.8, &lt; 4.0)\n webrick (~&gt; 1.7)\n jekyll-admin (0.11.1)\n jekyll (&gt;= 3.7, &lt; 5.0)\n sinatra (&gt;= 1.4)\n sinatra-contrib (&gt;= 1.4)\n jekyll-feed (0.17.0)\n jekyll (&gt;= 3.7, &lt; 5.0)\n jekyll-gist (1.5.0)\n octokit (~&gt; 4.2)\n jekyll-paginate (1.1.0)\n jekyll-sass-converter (3.0.0)\n sass-embedded (~&gt; 1.54)\n jekyll-seo-tag (2.8.0)\n jekyll (&gt;= 3.8, &lt; 5.0)\n jekyll-sitemap (1.4.0)\n jekyll (&gt;= 3.7, &lt; 5.0)\n jekyll-watch (2.2.1)\n listen (~&gt; 3.0)\n jgd (1.12)\n jekyll (&gt;= 1.5.1)\n trollop (= 2.9.9)\n kramdown (2.4.0)\n rexml\n kramdown-parser-gfm (1.1.0)\n kramdown (~&gt; 2.0)\n liquid (4.0.4)\n listen (3.8.0)\n rb-fsevent (~&gt; 0.10, &gt;= 0.10.3)\n rb-inotify (~&gt; 0.9, &gt;= 0.9.10)\n mercenary (0.4.0)\n multi_json (1.15.0)\n mustermann (3.0.0)\n ruby2_keywords (~&gt; 0.0.1)\n nio4r (2.5.8)\n octokit (4.25.1)\n faraday (&gt;= 1, &lt; 3)\n sawyer (~&gt; 0.9)\n pathutil (0.16.2)\n forwardable-extended (~&gt; 2.6)\n public_suffix (5.0.1)\n puma (6.0.2)\n nio4r (~&gt; 2.0)\n rack (2.2.6.2)\n rack-protection (3.0.5)\n rack\n rake (13.0.6)\n rb-fsevent (0.11.2)\n rb-inotify (0.10.1)\n ffi (~&gt; 1.0)\n rexml (3.2.5)\n rouge (4.0.1)\n ruby2_keywords (0.0.5)\n safe_yaml (1.0.5)\n sass-embedded (1.58.0)\n google-protobuf (~&gt; 3.21)\n rake (&gt;= 10.0.0)\n sawyer (0.9.2)\n addressable (&gt;= 2.3.5)\n faraday (&gt;= 0.17.3, &lt; 3)\n sinatra (3.0.5)\n mustermann (~&gt; 3.0)\n rack (~&gt; 2.2, &gt;= 2.2.4)\n rack-protection (= 3.0.5)\n tilt (~&gt; 2.0)\n sinatra-contrib (3.0.5)\n multi_json\n mustermann (~&gt; 3.0)\n rack-protection (= 3.0.5)\n sinatra (= 3.0.5)\n tilt (~&gt; 2.0)\n terminal-table (3.0.2)\n unicode-display_width (&gt;= 1.1.1, &lt; 3)\n tilt (2.0.11)\n trollop (2.9.9)\n tzinfo (2.0.6)\n concurrent-ruby (~&gt; 1.0)\n tzinfo-data (1.2022.7)\n tzinfo (&gt;= 1.0.0)\n unicode-display_width (2.4.2)\n wdm (0.1.1)\n webrick (1.8.1)\n\nPLATFORMS\n universal-darwin-21\n x86_64-linux\n\nDEPENDENCIES\n backports (~&gt; 3.23)\n bundler (~&gt; 2.3.7)\n faraday-retry\n jekyll (~&gt; 4.3.2)\n jekyll-admin (~&gt; 0.11.1)\n jekyll-feed (~&gt; 0.17.0)\n jekyll-gist (~&gt; 1.5.0)\n jekyll-paginate (~&gt; 1.1.0)\n jekyll-seo-tag (~&gt; 2.8.0)\n jekyll-sitemap (~&gt; 1.4.0)\n jgd (~&gt; 1.12)\n kramdown\n puma\n tzinfo (~&gt; 2.0)\n tzinfo-data\n wdm (~&gt; 0.1.1)\n webrick (~&gt; 1.7)\n\nBUNDLED WITH\n 2.3.7\n\nNow you install Jekyll with the bundler.\n\nroot@ns3:/var/jekyll-static/jekyll # bundle install\nroot@ns3:/var/jekyll-static/jekyll # bundle update\n\nThe final step is to run Jekyll.\n\nroot@ns3:/var/jekyll-static/jekyll # rails s -b 192.168.5.2\n\nInstalling and configuring static sites with Jekyll on FreeBSD 13.3 Stable is easy and improves your ability to maintain fast, secure, and easily scalable websites. Jekyll.\n", "dateCreated": "2025-10-11 17:03:21 +0300", "datePublished": "2025-10-11 17:03:21 +0300", "dateModified": "2025-10-11 15:03:21 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/install-jekyll-static-site-generator-freebsd", "name": "How to Install Jekyll Static Website Generator with FreeBSD", "description": "In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-jekyll-static-site-generator-freebsd/", "headline": "How to Install Jekyll Static Website Generator with FreeBSD", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "How to Install Jekyll Static Website Generator with FreeBSD", "description": "In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/install-jekyll-static-site-generator-freebsd/", "identifier": "judul", "name": "How to Install Jekyll Static Website Generator with FreeBSD", "description": "In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/install-jekyll-static-site-generator-freebsd/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-jekyll-static-site-generator-freebsd/", "name": "How to Install Jekyll Static Website Generator with FreeBSD", "description": "In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.", "dateCreated": "2025-10-11 17:03:21 +0300", "datePublished": "2025-10-11 17:03:21 +0300", "dateModified": "2025-10-11 15:03:21 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-10-11 17:03:21 +0300", "name": "How to Install Jekyll Static Website Generator with FreeBSD", "headline": "How to Install Jekyll Static Website Generator with FreeBSD", "description": "In this article we assume that all the applications above have been installed properly and are running smoothly on the FreeBSD server. So, we will not discuss the application installation process above. We will focus on the core discussion of Jekyll.", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

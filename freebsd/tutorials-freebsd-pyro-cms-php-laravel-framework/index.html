@@ -1,0 +1,299 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework</title><meta name="description" content="Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP."><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="freebsd, apache, pyro cms, cms, php, laravel, framework, pyrocms, pyro"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework/"><meta property="og:type" content="article"><meta property="og:title" content="FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework"><meta property="og:description"><meta property="og:image" content="https://unixwinbsd.github.io/unixbsdshell.github.io/img/oct-25/Pengetesan%20PyroCMS.jpg"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-10-14 11:42:51 +0300"><meta property="og:image" content="/img/oct-25/Pengetesan PyroCMS.jpg"><meta property="og:title" content="FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework"><meta property="og:description" content="Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP."><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="/img/oct-25/Pengetesan PyroCMS.jpg"><meta name="twitter:title" content="FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework"><meta name="twitter:description" content="Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP."><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework</h1><div class="lead badge bg-primary text-wrap"><h6><p>Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP.</p></h6></div><p class="meta"></p><h6><time>October 14, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=WebServer">WebServer</a> &middot; <span class="reading-time" title="Estimated read time">12 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-system-requirements">1. System requirements</a></li><li><a href="#2-enable-mod_php-in-apache">2. Enable mod_PHP in Apache</a></li><li><a href="#3-how-to-install-php-composer">3. How to Install PHP Composer</a></li><li><a href="#4-creating-a-mysql-database">4. Creating a MySQL Database</a></li><li><a href="#5-how-to-install-pyrocms">5. How to Install PyroCMS</a></li><li><a href="#6-run-pyrocms-test">6. Run PyroCMS Test</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework</div><div class="article"><p>Laravel is one of the most popular web application frameworks for the PHP programming language. It boasts an expressive and elegant syntax, making development a seamless experience. With Laravel, developers can easily build websites quickly and efficiently.</p><p>Meanwhile, PyroCMS, built with Laravel, feels like an extension, making it easy to build better websites and applications quickly. PyroCMS is not only a content management system but also a powerful and modern development engine and platform.</p><p>This Content Management System (CMS) is often used by bloggers from beginners to professionals. PyroCMS uses a popular framework, making it easy to understand.</p><p>PyroCMS is an open-source object-oriented content management system application built using PHP and Laravel. PyroCMS is easy to use, looks great, and uses some intelligent caching to keep everything running smoothly. PyroCMS is easily extendable with Modules, Widgets, and Plugins that are easy to create and can be customized with Themes.</p><p>According to the official PyroCMS website, here are the main features of this CMS.</p><ul><li>Built with the proven PHP language.</li><li>Open Source application.</li><li>A very simple control panel interface built on standard patterns and principles, such as APIs.</li><li>Responsive control panel with easy content management.</li><li>Multilingual support.</li><li>Rapid development.</li></ul><h2 id="1-system-requirements">1. System requirements</h2><p>To run PyroCMS on FreeBSD, you need to meet several conditions.</p><ul><li>OS: FreeBSD 13.2.</li><li>Apache version: Apache24.</li><li>PHP-FPM.</li><li>PHP version: PHP82.</li><li>mod PHP82 dan PHP82 extension.</li><li>php82-xmlwriter, php82-xmlreader, php82-fileinfo.</li><li>mysql80-server.</li></ul><h2 id="2-enable-mod_php-in-apache">2. Enable mod_PHP in Apache</h2><p>Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server.</p><p>Use the following command to enable mod_PHP.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/ports/lang/php82
+root@ns3:/usr/ports/lang/php82 # make install clean
+root@ns3:/usr/ports/lang/php82 # cd /usr/ports/www/mod_php82
+root@ns3:/usr/ports/www/mod_php82 # make install clean
+root@ns3:/usr/ports/www/mod_php82 # cd /usr/ports/databases/php82-mysqli
+root@ns3:/usr/ports/databases/php82-mysqli # make install clean
+</code></pre></div></div><p><br></p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install php82-xmlwriter
+root@ns3:~ # pkg install php82-xmlreader
+root@ns3:~ # pkg install php82-fileinfo
+</code></pre></div></div><p>After that, type the following script into the file <code class="language-plaintext highlighter-rouge">"/usr/local/etc/apache24/httpd.conf"</code>.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LoadModule php_module         libexec/apache24/libphp.so
+
+&lt;IfModule dir_module&gt;
+    DirectoryIndex index.php index.html
+&lt;/IfModule&gt;
+
+AddType application/x-httpd-php .php
+AddType application/x-httpd-php .php .phtml .php3
+AddType application/x-httpd-php-source .phps
+</code></pre></div></div><p>Proceed by creating a php.ini file, just copy it from the existing one.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/ports/databases/php82-mysqli # cp /usr/local/etc/php.ini-production /usr/local/etc/php.ini
+</code></pre></div></div><p>Then you activate the following script.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cgi.fix_pathinfo=0
+</code></pre></div></div><p>In this article, we’ll enable PHP-FPM to speed up PHP file reading. We won’t cover the PHP-FPM installation process. You can read the previous article.. <a href="https://unixwinbsd.site/freebsd/setup-php-fpm-apache-freebsd/">Configuring PHP FPM and Apache24 on FreeBSD</a></p><p>Restart PHP-FPM and Apache24, so that all PHP modules can be read by Apache.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service apache24 restart
+root@ns3:~ # service php-fpm restart
+</code></pre></div></div><h2 id="3-how-to-install-php-composer">3. How to Install PHP Composer</h2><p>Before we install PHP Composer, first enable the SSL mod in the <code class="language-plaintext highlighter-rouge">"/usr/local/etc/php.ini"</code> file. Use the command below to create the SSL mod.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /etc/ssl
+root@ns3:/etc/ssl # wget http://curl.haxx.se/ca/cacert.pem
+</code></pre></div></div><p>Enter the SSL file that we created above into the file <code class="language-plaintext highlighter-rouge">"/usr/local/etc/php.ini"</code>.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>openssl.cafile=/etc/ssl/cacert.pem
+</code></pre></div></div><p>On FreeBSD, PHP Composer can be installed in two ways: via the PKG package and via curl.</p><p>For simplicity, we can simply use curl.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/etc/ssl # cd /tmp
+root@ns3:/tmp # curl -sS https://getcomposer.org/installer -o composer-setup.php
+root@ns3:/tmp # php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+</code></pre></div></div><p>Check the Composer version.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/tmp # composer --version
+Composer version 2.6.6 2023-12-08 18:32:26
+</code></pre></div></div><h2 id="4-creating-a-mysql-database">4. Creating a MySQL Database</h2><p>For PyroCMS to run properly, it needs a database to support it. Okay, now let’s move on to creating a database for PyroCMS. Since our FreeBSD server is running MySQL, we’ll use MySQL as the database.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/tmp # mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.35 Source distribution
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+root@localhost [(none)]&gt;
+</code></pre></div></div><p><strong>Creating a database:</strong></p><ul><li>Database name: <strong>pyrocma</strong></li><li>Username: <strong>userpyrocms</strong></li><li>Password: <strong>router123</strong></li></ul><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost [(none)]&gt; CREATE DATABASE pyrocms CHARACTER SET utf8;
+Query OK, 1 row affected, 1 warning (0.13 sec)
+
+root@localhost [(none)]&gt; CREATE USER 'userpyrocms'@'localhost' IDENTIFIED BY 'router123';
+Query OK, 0 rows affected (0.20 sec)
+
+root@localhost [(none)]&gt; GRANT ALL PRIVILEGES ON pyrocms.* TO 'userpyrocms'@'localhost';
+Query OK, 0 rows affected (0.09 sec)
+
+root@localhost [(none)]&gt; FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.02 sec)
+</code></pre></div></div><h2 id="5-how-to-install-pyrocms">5. How to Install PyroCMS</h2><p>The final installation we need to do is PyroCMS. Since we’ll be using Apache24 in this article, place the PyroCMS folder in <code class="language-plaintext highlighter-rouge">/usr/local/www</code>.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/www
+root@ns3:/usr/local/www # git clone https://github.com/pyrocms/pyrocms.git
+</code></pre></div></div><p>Update Composer.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www # cd pyrocms
+root@ns3:/usr/local/www/pyrocms # composer update
+root@ns3:/usr/local/www/pyrocms # composer install
+</code></pre></div></div><p>Use the following command to install PyroCMS.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/pyrocms # php artisan install
+The MIT License (MIT)
+Copyright (c) 2018 AnomalyLabs, Inc.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &amp;quot;Software&amp;quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED &amp;quot;AS IS&amp;quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+Other Licenses
+All add-ons are offered under their own license. Most of the add-ons available and
+in our marketplace are either completely free and licensed under MIT as well, or
+they are commercial add-ons and offered under our standard commercial license.
+These add-ons are sold on a &amp;quot;per-instance&amp;quot; basis. This means one add-on purchase
+per live site. Development copies and stages are included.
+
+ Do you agree to the provided license and terms of service? (yes/no) [no]:
+ &gt; yes
+
+ What database driver would you like to use? [mysql, pgsql, sqlite, sqlsrv] [mysql]:
+ &gt;
+
+ What is the hostname of your database? [localhost]:
+ &gt;
+
+ What is the name of your database?:
+ &gt; pyrocms
+
+ Enter the username for your database connection [root]:
+ &gt; userpyrocms
+
+ Enter the password for your database connection:
+ &gt; router123
+
+ Enter the name of your application [Default]:
+ &gt;
+
+ Enter the reference slug for your application [default]:
+ &gt;
+
+ Enter the primary domain for your application [localhost]:
+ &gt;
+
+ Enter the desired username for the admin user [admin]:
+ &gt;
+
+ Enter the desired email for the admin user:
+ &gt; datainchi@gmail.com
+
+ Enter the desired password for the admin user:
+ &gt; router123456
+
+ Enter the default locale [en]:
+ &gt;
+
+ Enter the default timezone [UTC]:
+ &gt;
+
+1/61 Running core migrations.
+2/61 Running application migrations.
+3/61 Installing: Navigation Module
+4/61 Installing: Users Module
+5/61 Installing: Configuration Module
+6/61 Installing: Preferences Module
+7/61 Installing: Settings Module
+8/61 Installing: Blocks Module
+9/61 Installing: Files Module
+10/61 Installing: Search Module
+11/61 Installing: Pages Module
+12/61 Installing: Repeaters Module
+13/61 Installing: Addons Module
+14/61 Installing: Dashboard Module
+15/61 Installing: Posts Module
+16/61 Installing: Streams Module
+17/61 Installing: Variables Module
+18/61 Installing: Redirects Module
+19/61 Installing: XML Feed Dashboard Widget
+20/61 Installing: HTML Block Extension
+21/61 Installing: Throttle Security Check Extension
+22/61 Installing: Default Authenticator Extension
+23/61 Installing: Private Storage Adapter Extension
+24/61 Installing: User Security Check Extension
+25/61 Installing: Default Page Handler Extension
+26/61 Installing: Page Link Type
+27/61 Installing: Robots Extension
+28/61 Installing: URL Link Type Extension
+29/61 Installing: WYSIWYG Block Extension
+30/61 Installing: Sitemap Extension
+31/61 Reloading application.
+32/61 Seeding: Navigation Module
+33/61 Seeding: Users Module
+34/61 Seeding: Configuration Module
+35/61 Seeding: Preferences Module
+36/61 Seeding: Settings Module
+37/61 Seeding: Blocks Module
+38/61 Seeding: Files Module
+39/61 Seeding: Search Module
+40/61 Seeding: Pages Module
+41/61 Seeding: Repeaters Module
+42/61 Seeding: Addons Module
+43/61 Seeding: Dashboard Module
+44/61 Seeding: Posts Module
+45/61 Seeding: Streams Module
+46/61 Seeding: Variables Module
+47/61 Seeding: Redirects Module
+48/61 Seeding: XML Feed Dashboard Widget
+49/61 Seeding: HTML Block Extension
+50/61 Seeding: Throttle Security Check Extension
+51/61 Seeding: Default Authenticator Extension
+52/61 Seeding: Private Storage Adapter Extension
+53/61 Seeding: User Security Check Extension
+54/61 Seeding: Default Page Handler Extension
+55/61 Seeding: Page Link Type
+56/61 Seeding: Robots Extension
+57/61 Seeding: URL Link Type Extension
+58/61 Seeding: WYSIWYG Block Extension
+59/61 Seeding: Sitemap Extension
+60/61 Running other migrations.
+61/61 Running project seeds.
+root@ns3:/usr/local/www/pyrocms #
+</code></pre></div></div><p>View the result by opening the file <code class="language-plaintext highlighter-rouge">/usr/local/www/pyrocms/.env</code>.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/pyrocms # ee .env
+APP_ENV=local
+INSTALLED="true"
+APP_KEY=17gYmbMPAwfq0OYAwjLdOpVNXp9oYd1a
+APP_DEBUG=true
+DEBUG_BAR=false
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_DATABASE=pyrocms
+DB_USERNAME=userpyrocms
+DB_PASSWORD=router123
+APPLICATION_NAME=Default
+APPLICATION_REFERENCE=default
+APPLICATION_DOMAIN=localhost
+ADMIN_USERNAME=admin
+ADMIN_EMAIL=datainchi@gmail.com
+ADMIN_PASSWORD=router123456
+APP_LOCALE=en
+APP_TIMEZONE=UTC
+</code></pre></div></div><p>Run the chown and chmod commands, for ownership and access rights to files.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/www/pyrocms # chown -R www:www /usr/local/www/pyrocms/
+root@ns3:/usr/local/www/pyrocms # chmod -R 775 /usr/local/www/pyrocms/
+</code></pre></div></div><p>The final configuration is to type the following command in the file <code class="language-plaintext highlighter-rouge">"/usr/local/etc/apache24/httpd.conf"</code>.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Alias /pyrocms "/usr/local/www/pyrocms/"
+&lt;Directory "/usr/local/www/pyrocms"&gt;
+    Options Indexes MultiViews FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;
+</code></pre></div></div><p>Restart PHP-FPM and Apache24.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service apache24 restart
+root@ns3:~ # service php-fpm restart
+</code></pre></div></div><h2 id="6-run-pyrocms-test">6. Run PyroCMS Test</h2><p>In this step, we’ll test PyroCMS. Is there anything wrong with the configuration above?</p><p>Open the Google Chrome web browser and type <code class="language-plaintext highlighter-rouge">"http://192.168.5.2/pyrocms/"</code>.</p><p><br></p><noscript><img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/Cara_Test_PyroCMS.jpg" alt="How to Test PyroCMS"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/Cara_Test_PyroCMS.jpg" alt="How to Test PyroCMS" class="lazyload fade-in"></p><p><br></p><p>and <code class="language-plaintext highlighter-rouge">http://192.168.5.2/pyrocms/public/</code>.</p><p><br></p><noscript><img src="/img/Pengetesan PyroCMS.jpg" alt="PyroCMS Testing"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="/img/Pengetesan PyroCMS.jpg" alt="PyroCMS Testing" class="lazyload fade-in"></p><p><br></p><p>By following the guide in this article, you can learn more about PyroCMS, how to install it, and how to use it on Apache24. Once you understand it, you can use PyroCMS to create a website or blog.</p><div class="PageNavigation"><a class="prev" href="/freebsd/freebsd-installation-apache-ofbiz-crm-erp-platform/">&laquo; FreeBSD Installation and Configuration of Apache OFBiz CRM and Erp Platform</a> <a class="next" href="/freebsd/how-to-use-shadowsock-libev-freebsd14/">How to Use Shadowsocks-libev on FreeBSD 14 &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework/", "name": "FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework", "headline": ["WebServer"], "keywords": "freebsd, apache, pyro cms, cms, php, laravel, framework, pyrocms, pyro", "description": "Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP.", "articleBody": "Laravel is one of the most popular web application frameworks for the PHP programming language. It boasts an expressive and elegant syntax, making development a seamless experience. With Laravel, developers can easily build websites quickly and efficiently.\n\nMeanwhile, PyroCMS, built with Laravel, feels like an extension, making it easy to build better websites and applications quickly. PyroCMS is not only a content management system but also a powerful and modern development engine and platform.\n\nThis Content Management System (CMS) is often used by bloggers from beginners to professionals. PyroCMS uses a popular framework, making it easy to understand.\n\nPyroCMS is an open-source object-oriented content management system application built using PHP and Laravel. PyroCMS is easy to use, looks great, and uses some intelligent caching to keep everything running smoothly. PyroCMS is easily extendable with Modules, Widgets, and Plugins that are easy to create and can be customized with Themes.\n\nAccording to the official PyroCMS website, here are the main features of this CMS.\n\n\n Built with the proven PHP language.\n Open Source application.\n A very simple control panel interface built on standard patterns and principles, such as APIs.\n Responsive control panel with easy content management.\n Multilingual support.\n Rapid development.\n\n\n1. System requirements\n\nTo run PyroCMS on FreeBSD, you need to meet several conditions.\n\n\n OS: FreeBSD 13.2.\n Apache version: Apache24.\n PHP-FPM.\n PHP version: PHP82.\n mod PHP82 dan PHP82 extension.\n php82-xmlwriter, php82-xmlreader, php82-fileinfo.\n mysql80-server.\n\n\n2. Enable mod_PHP in Apache\n\nSince PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server.\n\nUse the following command to enable mod_PHP.\n\nroot@ns3:~ # cd /usr/ports/lang/php82\nroot@ns3:/usr/ports/lang/php82 # make install clean\nroot@ns3:/usr/ports/lang/php82 # cd /usr/ports/www/mod_php82\nroot@ns3:/usr/ports/www/mod_php82 # make install clean\nroot@ns3:/usr/ports/www/mod_php82 # cd /usr/ports/databases/php82-mysqli\nroot@ns3:/usr/ports/databases/php82-mysqli # make install clean\n\n\n\n\nroot@ns3:~ # pkg install php82-xmlwriter\nroot@ns3:~ # pkg install php82-xmlreader\nroot@ns3:~ # pkg install php82-fileinfo\n\n\nAfter that, type the following script into the file \"/usr/local/etc/apache24/httpd.conf\".\n\nLoadModule php_module libexec/apache24/libphp.so\n\n&lt;IfModule dir_module&gt;\n DirectoryIndex index.php index.html\n&lt;/IfModule&gt;\n\nAddType application/x-httpd-php .php\nAddType application/x-httpd-php .php .phtml .php3\nAddType application/x-httpd-php-source .phps\n\n\nProceed by creating a php.ini file, just copy it from the existing one.\n\nroot@ns3:/usr/ports/databases/php82-mysqli # cp /usr/local/etc/php.ini-production /usr/local/etc/php.ini\n\n\nThen you activate the following script.\n\ncgi.fix_pathinfo=0\n\n\nIn this article, we’ll enable PHP-FPM to speed up PHP file reading. We won’t cover the PHP-FPM installation process. You can read the previous article.. Configuring PHP FPM and Apache24 on FreeBSD\n\nRestart PHP-FPM and Apache24, so that all PHP modules can be read by Apache.\n\nroot@ns3:~ # service apache24 restart\nroot@ns3:~ # service php-fpm restart\n\n\n3. How to Install PHP Composer\n\nBefore we install PHP Composer, first enable the SSL mod in the \"/usr/local/etc/php.ini\" file. Use the command below to create the SSL mod.\n\nroot@ns3:~ # cd /etc/ssl\nroot@ns3:/etc/ssl # wget http://curl.haxx.se/ca/cacert.pem\n\n\nEnter the SSL file that we created above into the file \"/usr/local/etc/php.ini\".\n\nopenssl.cafile=/etc/ssl/cacert.pem\n\n\nOn FreeBSD, PHP Composer can be installed in two ways: via the PKG package and via curl.\n\nFor simplicity, we can simply use curl.\n\nroot@ns3:/etc/ssl # cd /tmp\nroot@ns3:/tmp # curl -sS https://getcomposer.org/installer -o composer-setup.php\nroot@ns3:/tmp # php composer-setup.php --install-dir=/usr/local/bin --filename=composer\n\n\nCheck the Composer version.\n\nroot@ns3:/tmp # composer --version\nComposer version 2.6.6 2023-12-08 18:32:26\n\n\n4. Creating a MySQL Database\nFor PyroCMS to run properly, it needs a database to support it. Okay, now let’s move on to creating a database for PyroCMS. Since our FreeBSD server is running MySQL, we’ll use MySQL as the database.\n\nroot@ns3:/tmp # mysql -u root -p\nEnter password:\nWelcome to the MySQL monitor. Commands end with ; or \\g.\nYour MySQL connection id is 12\nServer version: 8.0.35 Source distribution\n\nCopyright (c) 2000, 2023, Oracle and/or its affiliates.\n\nOracle is a registered trademark of Oracle Corporation and/or its\naffiliates. Other names may be trademarks of their respective\nowners.\n\nType 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.\n\nroot@localhost [(none)]&gt;\n\n\nCreating a database:\n\n Database name: pyrocma\n Username: userpyrocms\n Password: router123\n\n\nroot@localhost [(none)]&gt; CREATE DATABASE pyrocms CHARACTER SET utf8;\nQuery OK, 1 row affected, 1 warning (0.13 sec)\n\nroot@localhost [(none)]&gt; CREATE USER 'userpyrocms'@'localhost' IDENTIFIED BY 'router123';\nQuery OK, 0 rows affected (0.20 sec)\n\nroot@localhost [(none)]&gt; GRANT ALL PRIVILEGES ON pyrocms.* TO 'userpyrocms'@'localhost';\nQuery OK, 0 rows affected (0.09 sec)\n\nroot@localhost [(none)]&gt; FLUSH PRIVILEGES;\nQuery OK, 0 rows affected (0.02 sec)\n\n\n5. How to Install PyroCMS\n\nThe final installation we need to do is PyroCMS. Since we’ll be using Apache24 in this article, place the PyroCMS folder in /usr/local/www.\n\nroot@ns3:~ # cd /usr/local/www\nroot@ns3:/usr/local/www # git clone https://github.com/pyrocms/pyrocms.git\n\n\nUpdate Composer.\n\nroot@ns3:/usr/local/www # cd pyrocms\nroot@ns3:/usr/local/www/pyrocms # composer update\nroot@ns3:/usr/local/www/pyrocms # composer install\n\n\nUse the following command to install PyroCMS.\n\nroot@ns3:/usr/local/www/pyrocms # php artisan install\nThe MIT License (MIT)\nCopyright (c) 2018 AnomalyLabs, Inc.\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the &amp;quot;Software&amp;quot;), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED &amp;quot;AS IS&amp;quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.\nOther Licenses\nAll add-ons are offered under their own license. Most of the add-ons available and\nin our marketplace are either completely free and licensed under MIT as well, or\nthey are commercial add-ons and offered under our standard commercial license.\nThese add-ons are sold on a &amp;quot;per-instance&amp;quot; basis. This means one add-on purchase\nper live site. Development copies and stages are included.\n\n Do you agree to the provided license and terms of service? (yes/no) [no]:\n &gt; yes\n\n What database driver would you like to use? [mysql, pgsql, sqlite, sqlsrv] [mysql]:\n &gt;\n\n What is the hostname of your database? [localhost]:\n &gt;\n\n What is the name of your database?:\n &gt; pyrocms\n\n Enter the username for your database connection [root]:\n &gt; userpyrocms\n\n Enter the password for your database connection:\n &gt; router123\n\n Enter the name of your application [Default]:\n &gt;\n\n Enter the reference slug for your application [default]:\n &gt;\n\n Enter the primary domain for your application [localhost]:\n &gt;\n\n Enter the desired username for the admin user [admin]:\n &gt;\n\n Enter the desired email for the admin user:\n &gt; datainchi@gmail.com\n\n Enter the desired password for the admin user:\n &gt; router123456\n\n Enter the default locale [en]:\n &gt;\n\n Enter the default timezone [UTC]:\n &gt;\n\n1/61 Running core migrations.\n2/61 Running application migrations.\n3/61 Installing: Navigation Module\n4/61 Installing: Users Module\n5/61 Installing: Configuration Module\n6/61 Installing: Preferences Module\n7/61 Installing: Settings Module\n8/61 Installing: Blocks Module\n9/61 Installing: Files Module\n10/61 Installing: Search Module\n11/61 Installing: Pages Module\n12/61 Installing: Repeaters Module\n13/61 Installing: Addons Module\n14/61 Installing: Dashboard Module\n15/61 Installing: Posts Module\n16/61 Installing: Streams Module\n17/61 Installing: Variables Module\n18/61 Installing: Redirects Module\n19/61 Installing: XML Feed Dashboard Widget\n20/61 Installing: HTML Block Extension\n21/61 Installing: Throttle Security Check Extension\n22/61 Installing: Default Authenticator Extension\n23/61 Installing: Private Storage Adapter Extension\n24/61 Installing: User Security Check Extension\n25/61 Installing: Default Page Handler Extension\n26/61 Installing: Page Link Type\n27/61 Installing: Robots Extension\n28/61 Installing: URL Link Type Extension\n29/61 Installing: WYSIWYG Block Extension\n30/61 Installing: Sitemap Extension\n31/61 Reloading application.\n32/61 Seeding: Navigation Module\n33/61 Seeding: Users Module\n34/61 Seeding: Configuration Module\n35/61 Seeding: Preferences Module\n36/61 Seeding: Settings Module\n37/61 Seeding: Blocks Module\n38/61 Seeding: Files Module\n39/61 Seeding: Search Module\n40/61 Seeding: Pages Module\n41/61 Seeding: Repeaters Module\n42/61 Seeding: Addons Module\n43/61 Seeding: Dashboard Module\n44/61 Seeding: Posts Module\n45/61 Seeding: Streams Module\n46/61 Seeding: Variables Module\n47/61 Seeding: Redirects Module\n48/61 Seeding: XML Feed Dashboard Widget\n49/61 Seeding: HTML Block Extension\n50/61 Seeding: Throttle Security Check Extension\n51/61 Seeding: Default Authenticator Extension\n52/61 Seeding: Private Storage Adapter Extension\n53/61 Seeding: User Security Check Extension\n54/61 Seeding: Default Page Handler Extension\n55/61 Seeding: Page Link Type\n56/61 Seeding: Robots Extension\n57/61 Seeding: URL Link Type Extension\n58/61 Seeding: WYSIWYG Block Extension\n59/61 Seeding: Sitemap Extension\n60/61 Running other migrations.\n61/61 Running project seeds.\nroot@ns3:/usr/local/www/pyrocms #\n\n\nView the result by opening the file /usr/local/www/pyrocms/.env.\n\nroot@ns3:/usr/local/www/pyrocms # ee .env\nAPP_ENV=local\nINSTALLED=\"true\"\nAPP_KEY=17gYmbMPAwfq0OYAwjLdOpVNXp9oYd1a\nAPP_DEBUG=true\nDEBUG_BAR=false\nDB_CONNECTION=mysql\nDB_HOST=localhost\nDB_DATABASE=pyrocms\nDB_USERNAME=userpyrocms\nDB_PASSWORD=router123\nAPPLICATION_NAME=Default\nAPPLICATION_REFERENCE=default\nAPPLICATION_DOMAIN=localhost\nADMIN_USERNAME=admin\nADMIN_EMAIL=datainchi@gmail.com\nADMIN_PASSWORD=router123456\nAPP_LOCALE=en\nAPP_TIMEZONE=UTC\n\n\nRun the chown and chmod commands, for ownership and access rights to files.\n\nroot@ns3:/usr/local/www/pyrocms # chown -R www:www /usr/local/www/pyrocms/\nroot@ns3:/usr/local/www/pyrocms # chmod -R 775 /usr/local/www/pyrocms/\n\n\nThe final configuration is to type the following command in the file \"/usr/local/etc/apache24/httpd.conf\".\n\nAlias /pyrocms \"/usr/local/www/pyrocms/\"\n&lt;Directory \"/usr/local/www/pyrocms\"&gt;\n Options Indexes MultiViews FollowSymLinks\n AllowOverride All\n Require all granted\n&lt;/Directory&gt;\n\n\nRestart PHP-FPM and Apache24.\n\nroot@ns3:~ # service apache24 restart\nroot@ns3:~ # service php-fpm restart\n\n\n6. Run PyroCMS Test\n\nIn this step, we’ll test PyroCMS. Is there anything wrong with the configuration above?\n\nOpen the Google Chrome web browser and type \"http://192.168.5.2/pyrocms/\".\n\n\n\n\n\n\n\n\nand http://192.168.5.2/pyrocms/public/.\n\n\n\n\n\n\n\n\nBy following the guide in this article, you can learn more about PyroCMS, how to install it, and how to use it on Apache24. Once you understand it, you can use PyroCMS to create a website or blog.\n", "dateCreated": "2025-10-14 11:42:51 +0300", "datePublished": "2025-10-14 11:42:51 +0300", "dateModified": "2025-10-14 09:42:51 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework", "name": "FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework", "description": "Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP.", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework/", "headline": "FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework", "description": "Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP.", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP.", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework/", "identifier": "judul", "name": "FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework", "description": "Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/tutorials-freebsd-pyro-cms-php-laravel-framework/", "name": "FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework", "description": "Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP.", "dateCreated": "2025-10-14 11:42:51 +0300", "datePublished": "2025-10-14 11:42:51 +0300", "dateModified": "2025-10-14 09:42:51 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-10-14 11:42:51 +0300", "name": "FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework", "headline": "FreeBSD Tutorial Setting Up PyroCMS PHP CMS For Laravel Framework", "description": "Since PyroCMS is built in PHP, the main topic of this article will be enabling mod_PHP on the Apache24 web server. Use the following command to enable mod_PHP.", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

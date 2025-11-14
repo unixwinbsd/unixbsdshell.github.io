@@ -1,0 +1,322 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop</title><meta name="description" content="In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System."><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="freebsd, tutorials, google, chrome, microsoft, edge, ghostbsd, desktop, embed"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd/"><meta property="og:type" content="article"><meta property="og:title" content="How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop"><meta property="og:description"><meta property="og:image" content="https://unixwinbsd.github.io/unixbsdshell.github.io/img/oct-25/oct-25-58.jpg"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-10-08 10:09:33 +0300"><meta property="og:image" content="/img/oct-25/oct-25-58.jpg"><meta property="og:title" content="How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop"><meta property="og:description" content="In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System."><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="/img/oct-25/oct-25-58.jpg"><meta name="twitter:title" content="How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop"><meta name="twitter:description" content="In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System."><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop</h1><div class="lead badge bg-primary text-wrap"><h6><p>In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven’t read this article, don’t continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System.</p></h6></div><p class="meta"></p><h6><time>October 08, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=SysAdmin">SysAdmin</a> &middot; <span class="reading-time" title="Estimated read time">11 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-ubuntu-configuration">1. Ubuntu Configuration</a></li><li><a href="#2-google-chrome-installation-and-configuration">2. Google Chrome Installation and Configuration</a></li><li><a href="#3-microsoft-edge-installation-and-configuration">3. Microsoft Edge Installation and Configuration</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop</div><div class="article"><p>By default the FreeBSD system does not include the Google Chrome and Microsoft Edge repositories in system ports or pkg packages. Both programs can be run on FreeBSD with the help of Linux Binary.</p><p>In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven’t read this article, don’t continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 “A simple, elegant desktop BSD Operating System”.</p><h2 id="1-ubuntu-configuration">1. Ubuntu Configuration</h2><p>By default, GhostBSD has Binary Linux and Ubuntu programs installed, so just adjust a few scripts so that Google Chrome and Microsoft Edge can run on GhostBSD. The first step that must be taken is to replace the script file <code class="language-plaintext highlighter-rouge">/usr/local/etc/rc.d/ubuntu</code>.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /usr/local/etc/rc.d
+root@ns3:/usr/local/etc/rc.d # cp ubuntu ubuntu.back
+root@ns3:/usr/local/etc/rc.d # rm -f ubuntu
+</code></pre></div></div><p>The script above is to backup ubuntu files with ubuntu.back and delete ubuntu files. After you delete the default Ubuntu file from GhostBSD, create a new Ubuntu file and enter the script below.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/usr/local/etc/rc.d # touch ubuntu
+root@ns3:/usr/local/etc/rc.d # ee ubuntu
+
+#!/bin/sh
+#
+# PROVIDE: ubuntu
+# REQUIRE: archdep mountlate
+# KEYWORD: nojail
+#
+# This is a modified version of /etc/rc.d/linux from FreeBSD 12.2-RELEASE
+#
+. /etc/rc.subr
+
+name="ubuntu"
+desc="Enable Ubuntu chroot, and Linux ABI"
+rcvar="ubuntu_enable"
+start_cmd="${name}_start"
+stop_cmd=":"
+
+unmounted()
+{
+	[ `stat -f "%d" "$1"` == `stat -f "%d" "$1/.."` -a \
+	  `stat -f "%i" "$1"` != `stat -f "%i" "$1/.."` ]
+}
+
+ubuntu_start()
+{
+	local _emul_path _tmpdir
+
+	load_kld -e 'linux(aout|elf)' linux
+	case `sysctl -n hw.machine_arch` in
+	amd64)
+		load_kld -e 'linux64elf' linux64
+		;;
+	esac
+	if [ -x @CHROOT_PATH@/sbin/ldconfigDisabled ]; then
+		_tmpdir=`mktemp -d -t linux-ldconfig`
+		@CHROOT_PATH@/sbin/ldconfig -C ${_tmpdir}/ld.so.cache
+		if ! cmp -s ${_tmpdir}/ld.so.cache @CHROOT_PATH@/etc/ld.so.cache; then
+			cat ${_tmpdir}/ld.so.cache &gt; @CHROOT_PATH@/etc/ld.so.cache
+		fi
+		rm -rf ${_tmpdir}
+	fi
+
+	# Linux uses the pre-pts(4) tty naming scheme.
+	load_kld pty
+
+	# Handle unbranded ELF executables by defaulting to ELFOSABI_LINUX.
+	if [ `sysctl -ni kern.elf64.fallback_brand` -eq "-1" ]; then
+		sysctl kern.elf64.fallback_brand=3 &gt; /dev/null
+	fi
+
+	if [ `sysctl -ni kern.elf32.fallback_brand` -eq "-1" ]; then
+		sysctl kern.elf32.fallback_brand=3 &gt; /dev/null
+	fi
+	sysctl compat.linux.emul_path=/compat/ubuntu
+
+	_emul_path="/compat/ubuntu"
+	unmounted "${_emul_path}/proc" &amp;&amp; (mount -t linprocfs linprocfs "${_emul_path}/proc" || exit 1)
+	unmounted "${_emul_path}/sys" &amp;&amp; (mount -t linsysfs linsysfs "${_emul_path}/sys" || exit 1)
+	unmounted "${_emul_path}/dev" &amp;&amp; (mount -t devfs devfs "${_emul_path}/dev" || exit 1)
+	unmounted "${_emul_path}/dev/fd" &amp;&amp; (mount -o linrdlnk -t fdescfs fdescfs "${_emul_path}/dev/fd" || exit 1)
+	unmounted "${_emul_path}/dev/shm" &amp;&amp; (mount -o mode=1777 -t tmpfs tmpfs "${_emul_path}/dev/shm" || exit 1)
+	unmounted "${_emul_path}/tmp" &amp;&amp; (mount -t nullfs /tmp "${_emul_path}/tmp" || exit 1)
+	unmounted /dev/fd &amp;&amp; (mount -t fdescfs null /dev/fd || exit 1)
+	unmounted /proc &amp;&amp; (mount -t procfs procfs /proc || exit 1)
+	true
+}
+
+load_rc_config $name
+run_rc_command "$1"
+</code></pre></div></div><p>After that create a directory for ubuntu.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # mkdir -p /compat/ubuntu/dev/fd &amp;&amp; mkdir /compat/ubuntu/dev/shm &amp;&amp; mkdir /compat/ubuntu/proc &amp;&amp; mkdir /compat/ubuntu/sys &amp;&amp; mkdir /compat/ubuntu/home &amp;&amp; mkdir /compat/ubuntu/tmp
+</code></pre></div></div><p>Then install the file system in the directory created above.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # mount -t linprocfs linprocfs /compat/ubuntu/proc
+root@ns3:~ # mount -t linsysfs linsysfs /compat/ubuntu/sys
+root@ns3:~ # mount -t devfs devfs /compat/ubuntu/dev
+root@ns3:~ # mount -o linrdlnk -t fdescfs fdescfs /compat/ubuntu/dev/fd
+root@ns3:~ # mount -o mode=1777 -t tmpfs tmpfs /compat/ubuntu/dev/shm
+root@ns3:~ # mount -t nullfs /home /compat/ubuntu/home
+root@ns3:~ # mount -t nullfs /tmp /compat/ubuntu/tmp
+</code></pre></div></div><p>Continue by installing debootstrap linux-steam-utils.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # pkg install debootstrap linux-steam-utils
+</code></pre></div></div><p>After that, you can proceed to install and configure an Ubuntu-based Linux environment (bionic or focal version).</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # debootstrap --arch=amd64 --no-check-gpg focal /compat/ubuntu
+root@ns3:~ # printf 'deb http://archive.ubuntu.com/ubuntu/ focal multiverse main universe restricted\n' &gt; /compat/ubuntu/etc/apt/sources.list
+root@ns3:~ # printf 'deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse\n' &gt;&gt; /compat/ubuntu/etc/apt/sources.list
+root@ns3:~ # printf 'deb http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse\n' &gt;&gt; /compat/ubuntu/etc/apt/sources.list
+root@ns3:~ # printf '0.0 0 0.0\n0\nUTC\n' &gt; /compat/ubuntu/etc/adjtime
+</code></pre></div></div><p>After that, continue with the script below to make corrections to the Ubuntu repository.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # cd /compat/ubuntu/lib64/
+root@ns3:/compat/ubuntu/lib64 # rm ./ld-linux-x86-64.so.2
+root@ns3:/compat/ubuntu/lib64 # ln -s ../lib/x86_64-linux-gnu/ld-2.31.so ld-linux-x86-64.so.2
+</code></pre></div></div><p>Create an rc.d startup file in the <code class="language-plaintext highlighter-rouge">/etc/rc.conf</code> file, so that the Ubuntu daemon can run automatically when the computer is turned off or restarted.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # sysrc ubuntu_enable=YES
+</code></pre></div></div><p>Give file permissions to the /usr/local/etc/rc.d/ubuntu file and restart Ubuntu.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chmod +x /usr/local/etc/rc.d/ubuntu
+</code></pre></div></div><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # service ubuntu restart
+compat.linux.emul_path: /compat/ubuntu -&gt; /compat/ubuntu
+</code></pre></div></div><p>The next step is to update and upgrade and install several Ubuntu programs.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/compat/ubuntu/lib64 # chroot /compat/ubuntu /bin/bash
+root@ns3:/# dpkg-reconfigure locales
+root@ns3:/# dpkg-reconfigure tzdata
+Current default time zone: 'Asia/Jakarta'
+Local time is now:      Sat Aug 19 13:30:37 WIB 2023.
+Universal Time is now:  Sat Aug 19 06:30:37 UTC 2023.
+root@ns3:/# apt update
+root@ns3:/# apt upgrade
+root@ns3:/# apt install -y pulseaudio
+root@ns3:/# apt install -y fonts-symbola
+root@ns3:/# apt install -y gnupg
+root@ns3:/# exit
+</code></pre></div></div><p>For sound to work in applications installed in the Ubuntu environment, you must use the pulseaudio server. Create the following script in the file /compat/ubuntu/usr/local/bin/pulseaudio.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /compat/ubuntu/usr/local/bin/pulseaudio
+#!/bin/sh
+
+get_pa_sock_path()
+{
+    PA_SOCK_PATH=$(sockstat | awk -v me=$(whoami) -F'[ \t]+' '
+        $1 == me &amp;&amp; $2 == "pulseaudio" &amp;&amp; $6 ~ /native/ {
+            print $6;
+            exit 0
+        }'
+    )
+}
+
+get_pa_sock_path
+if [ ! -S "$PA_SOCK_PATH" ]; then
+    while killall pulseaudio; do
+        sleep 0.5
+    done
+    pulseaudio --start
+    get_pa_sock_path
+fi
+[ -S "$PA_SOCK_PATH" ] &amp;&amp; export PULSE_SERVER=unix:$PA_SOCK_PATH
+
+START_SCRIPT=$1
+shift
+$START_SCRIPT $*
+
+root@ns3:~ # chmod +x /compat/ubuntu/usr/local/bin/pulseaudio
+</code></pre></div></div><p>At this point, the Ubuntu installation on FreeBSD is complete. Now you can install various Ubuntu applications on FreeBSD.</p><h2 id="2-google-chrome-installation-and-configuration">2. Google Chrome Installation and Configuration</h2><p>The first step to installing Google Chrome is to download the program. Follow the instructions below to download Google Chrome.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # printf "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" &gt; /compat/ubuntu/etc/apt/sources.list.d/google-chrome.list
+root@ns3:~ # fetch -o /tmp/ https://dl.google.com/linux/linux_signing_key.pub
+/tmp/linux_signing_key.pub                              14 kB 3016 kBps    00s
+</code></pre></div></div><p>After that, install the file in the Ubuntu environment.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:/# chroot /compat/ubuntu /bin/bash
+root@ns3:/# apt-key add /tmp//linux_signing_key.pub
+OK
+root@ns3:/# apt update
+root@ns3:/# apt install -y google-chrome-stable
+root@ns3:/# exit
+</code></pre></div></div><p>After that, create a script in the file /usr/local/share/applications/linux-chrome.desktop.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /usr/local/share/applications/linux-chrome.desktop
+
+[Desktop Entry]
+Type=Application
+Version=1.0
+Encoding=UTF-8
+Name=Google Chrome
+Comment=unixwinbsd.blogspot.com
+Icon=/compat/ubuntu/opt/google/chrome/product_logo_16.png
+Exec=/usr/local/bin/linux-chrome
+Categories=Application;Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
+StartupNotify=true
+</code></pre></div></div><p>Create another script in the /usr/local/bin/linux-chrome file.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /usr/local/bin/linux-chrome
+
+#!/bin/sh
+
+chroot_path=/compat/ubuntu
+
+get_pa_sock_path()
+{
+        PA_SOCK_PATH=$(sockstat | awk -v me=$(whoami) -F'[ \t]+' '
+                $1 == me &amp;&amp; $2 == "pulseaudio" &amp;&amp; $6 ~ /native/ {
+                        print $6;
+                        exit 0
+                }'
+        )
+}
+
+get_pa_sock_path
+if [ ! -S "$PA_SOCK_PATH" ]; then
+        while killall pulseaudio; do
+                sleep 0.5
+        done
+        pulseaudio --start
+        get_pa_sock_path
+fi
+[ -S "$PA_SOCK_PATH" ] &amp;&amp; export PULSE_SERVER=unix:$PA_SOCK_PATH
+${chroot_path}/bin/chrome
+</code></pre></div></div><p>Create file permissions on the file.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chmod +x /usr/local/share/applications/linux-chrome.desktop
+root@ns3:~ # chmod +x /usr/local/bin/linux-chrome
+</code></pre></div></div><p>Finally, finished installing Google Chrome on GhostBSD. To run Google Chrome, you just click on the application menu on the GhostBSD desktop.</p><h2 id="3-microsoft-edge-installation-and-configuration">3. Microsoft Edge Installation and Configuration</h2><p>Edge web browser is a program made by Microsoft, Inc. This program was created to replace Internet Explorer, which has long accompanied Microsoft Windows 95 and Windows XP. Similar to the Google Chrome program, Microsoft Edge can only be installed on Linux-based systems.</p><p>For FreeBSD lovers, don’t worry, with the help of Linux binary this program can run normally and smoothly. The following is how to install Microsoft Edge on GhostBSD.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # chroot /compat/ubuntu /bin/bash
+root@ns3:/# apt install -y apt-transport-https curl pgp
+root@ns3:/# apt install software-properties-common apt-transport-https wget
+root@ns3:/# wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+OK
+root@ns3:/# add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
+root@ns3:/# apt update
+root@ns3:/# apt install microsoft-edge-stable
+root@ns3:/# exit
+</code></pre></div></div><p>After that, enter the following script in the file /usr/local/share/applications/linux-edge.desktop.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /usr/local/share/applications/linux-edge.desktop
+[Desktop Entry]
+Type=Application
+Version=1.0
+Encoding=UTF-8
+Name=Microsoft Edge
+Comment=unixwinbsd.blogspot.com
+Icon=/compat/ubuntu/opt/microsoft/msedge/product_logo_128.png
+Exec=/usr/local/bin/linux-edge
+Categories=Application;Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
+StartupNotify=true
+</code></pre></div></div><p>Then create a file <code class="language-plaintext highlighter-rouge">/usr/local/bin/linux-edge</code>, and enter the script below.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /usr/local/bin/linux-edge
+#!/bin/sh
+
+chroot_path=/compat/ubuntu
+
+get_pa_sock_path()
+{
+	PA_SOCK_PATH=$(sockstat | awk -v me=$(whoami) -F'[ \t]+' '
+		$1 == me &amp;&amp; $2 == "pulseaudio" &amp;&amp; $6 ~ /native/ {
+			print $6;
+			exit 0
+		}'
+	)
+}
+
+get_pa_sock_path
+if [ ! -S "$PA_SOCK_PATH" ]; then
+	while killall pulseaudio; do
+		sleep 0.5
+	done
+	pulseaudio --start
+	get_pa_sock_path
+fi
+[ -S "$PA_SOCK_PATH" ] &amp;&amp; export PULSE_SERVER=unix:$PA_SOCK_PATH
+${chroot_path}/opt/microsoft/msedge/msedge
+</code></pre></div></div><p>The final step is to <code class="language-plaintext highlighter-rouge">restart/reboot</code> your computer.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # reboot
+</code></pre></div></div><p>Run Microsoft Edge, until the image like the one below appears.</p><noscript><img src="/img/oct-25/oct-25-58.jpg" alt="oct-25-58"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="/img/oct-25/oct-25-58.jpg" alt="oct-25-58" class="lazyload fade-in"></p><p>If it appears like the image above, it means Microsoft Edge is running. If the image above does not appear, replace the <strong><code class="language-plaintext highlighter-rouge">/usr/local/bin/linux-edge</code></strong> script with the script below.</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ns3:~ # ee /usr/local/bin/linux-edge
+#!/compat/ubuntu/bin/bash
+
+export START_PATH="/opt/microsoft/msedge/msedge"
+export CHROME_WRAPPER="`readlink -f "$0"`"
+export LD_LIBRARY_PATH=/usr/local/steam-utils/lib64/fakeudev
+export LD_PRELOAD=/usr/local/steam-utils/lib64/webfix/webfix.so
+export LIBGL_DRI3_DISABLE=1
+
+exec -a "$0" "$START_PATH" --no-sandbox --no-zygote --test-type --v=0 "$@"
+</code></pre></div></div><p>The installation and configuration of Microsoft Edge is complete. Now your FreeBSD server can run Ubuntu programs, namely Microsoft Edge and Google Chrome. So for those of you who love FreeBSD, don’t be discouraged, one of the advantages of FreeBSD is that it can run Ubuntu applications with the help of Linux Binaries.</p><div class="PageNavigation"><a class="prev" href="/freebsd/freebsd-tutorials-create-xml-sitemap-generator-with-bash/">&laquo; FreeBSD Tutorials Create XML Sitemap Generator With Bash</a> <a class="next" href="/freebsd/ultimate-guide-freebsd-shopware-ecommerce-platform/">The Ultimate Guide FreeBSD To Shopware Ecommerce Platform - Installation and configuration of Shopware 6 &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd/", "name": "How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop", "headline": ["SysAdmin"], "keywords": "freebsd, tutorials, google, chrome, microsoft, edge, ghostbsd, desktop, embed", "description": "In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System.", "articleBody": "By default the FreeBSD system does not include the Google Chrome and Microsoft Edge repositories in system ports or pkg packages. Both programs can be run on FreeBSD with the help of Linux Binary.\n\nIn this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven’t read this article, don’t continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 “A simple, elegant desktop BSD Operating System”.\n\n1. Ubuntu Configuration\n\nBy default, GhostBSD has Binary Linux and Ubuntu programs installed, so just adjust a few scripts so that Google Chrome and Microsoft Edge can run on GhostBSD. The first step that must be taken is to replace the script file /usr/local/etc/rc.d/ubuntu.\n\nroot@ns3:~ # cd /usr/local/etc/rc.d\nroot@ns3:/usr/local/etc/rc.d # cp ubuntu ubuntu.back\nroot@ns3:/usr/local/etc/rc.d # rm -f ubuntu\n\n\nThe script above is to backup ubuntu files with ubuntu.back and delete ubuntu files. After you delete the default Ubuntu file from GhostBSD, create a new Ubuntu file and enter the script below.\n\nroot@ns3:/usr/local/etc/rc.d # touch ubuntu\nroot@ns3:/usr/local/etc/rc.d # ee ubuntu\n\n#!/bin/sh\n#\n# PROVIDE: ubuntu\n# REQUIRE: archdep mountlate\n# KEYWORD: nojail\n#\n# This is a modified version of /etc/rc.d/linux from FreeBSD 12.2-RELEASE\n#\n. /etc/rc.subr\n\nname=\"ubuntu\"\ndesc=\"Enable Ubuntu chroot, and Linux ABI\"\nrcvar=\"ubuntu_enable\"\nstart_cmd=\"${name}_start\"\nstop_cmd=\":\"\n\nunmounted()\n{\n\t[ `stat -f \"%d\" \"$1\"` == `stat -f \"%d\" \"$1/..\"` -a \\\n\t `stat -f \"%i\" \"$1\"` != `stat -f \"%i\" \"$1/..\"` ]\n}\n\nubuntu_start()\n{\n\tlocal _emul_path _tmpdir\n\n\tload_kld -e 'linux(aout|elf)' linux\n\tcase `sysctl -n hw.machine_arch` in\n\tamd64)\n\t\tload_kld -e 'linux64elf' linux64\n\t\t;;\n\tesac\n\tif [ -x @CHROOT_PATH@/sbin/ldconfigDisabled ]; then\n\t\t_tmpdir=`mktemp -d -t linux-ldconfig`\n\t\t@CHROOT_PATH@/sbin/ldconfig -C ${_tmpdir}/ld.so.cache\n\t\tif ! cmp -s ${_tmpdir}/ld.so.cache @CHROOT_PATH@/etc/ld.so.cache; then\n\t\t\tcat ${_tmpdir}/ld.so.cache &gt; @CHROOT_PATH@/etc/ld.so.cache\n\t\tfi\n\t\trm -rf ${_tmpdir}\n\tfi\n\n\t# Linux uses the pre-pts(4) tty naming scheme.\n\tload_kld pty\n\n\t# Handle unbranded ELF executables by defaulting to ELFOSABI_LINUX.\n\tif [ `sysctl -ni kern.elf64.fallback_brand` -eq \"-1\" ]; then\n\t\tsysctl kern.elf64.fallback_brand=3 &gt; /dev/null\n\tfi\n\n\tif [ `sysctl -ni kern.elf32.fallback_brand` -eq \"-1\" ]; then\n\t\tsysctl kern.elf32.fallback_brand=3 &gt; /dev/null\n\tfi\n\tsysctl compat.linux.emul_path=/compat/ubuntu\n\n\t_emul_path=\"/compat/ubuntu\"\n\tunmounted \"${_emul_path}/proc\" &amp;&amp; (mount -t linprocfs linprocfs \"${_emul_path}/proc\" || exit 1)\n\tunmounted \"${_emul_path}/sys\" &amp;&amp; (mount -t linsysfs linsysfs \"${_emul_path}/sys\" || exit 1)\n\tunmounted \"${_emul_path}/dev\" &amp;&amp; (mount -t devfs devfs \"${_emul_path}/dev\" || exit 1)\n\tunmounted \"${_emul_path}/dev/fd\" &amp;&amp; (mount -o linrdlnk -t fdescfs fdescfs \"${_emul_path}/dev/fd\" || exit 1)\n\tunmounted \"${_emul_path}/dev/shm\" &amp;&amp; (mount -o mode=1777 -t tmpfs tmpfs \"${_emul_path}/dev/shm\" || exit 1)\n\tunmounted \"${_emul_path}/tmp\" &amp;&amp; (mount -t nullfs /tmp \"${_emul_path}/tmp\" || exit 1)\n\tunmounted /dev/fd &amp;&amp; (mount -t fdescfs null /dev/fd || exit 1)\n\tunmounted /proc &amp;&amp; (mount -t procfs procfs /proc || exit 1)\n\ttrue\n}\n\nload_rc_config $name\nrun_rc_command \"$1\"\n\n\nAfter that create a directory for ubuntu.\n\nroot@ns3:~ # mkdir -p /compat/ubuntu/dev/fd &amp;&amp; mkdir /compat/ubuntu/dev/shm &amp;&amp; mkdir /compat/ubuntu/proc &amp;&amp; mkdir /compat/ubuntu/sys &amp;&amp; mkdir /compat/ubuntu/home &amp;&amp; mkdir /compat/ubuntu/tmp\n\n\nThen install the file system in the directory created above.\n\nroot@ns3:~ # mount -t linprocfs linprocfs /compat/ubuntu/proc\nroot@ns3:~ # mount -t linsysfs linsysfs /compat/ubuntu/sys\nroot@ns3:~ # mount -t devfs devfs /compat/ubuntu/dev\nroot@ns3:~ # mount -o linrdlnk -t fdescfs fdescfs /compat/ubuntu/dev/fd\nroot@ns3:~ # mount -o mode=1777 -t tmpfs tmpfs /compat/ubuntu/dev/shm\nroot@ns3:~ # mount -t nullfs /home /compat/ubuntu/home\nroot@ns3:~ # mount -t nullfs /tmp /compat/ubuntu/tmp\n\n\nContinue by installing debootstrap linux-steam-utils.\n\nroot@ns3:~ # pkg install debootstrap linux-steam-utils\n\n\nAfter that, you can proceed to install and configure an Ubuntu-based Linux environment (bionic or focal version).\n\nroot@ns3:~ # debootstrap --arch=amd64 --no-check-gpg focal /compat/ubuntu\nroot@ns3:~ # printf 'deb http://archive.ubuntu.com/ubuntu/ focal multiverse main universe restricted\\n' &gt; /compat/ubuntu/etc/apt/sources.list\nroot@ns3:~ # printf 'deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse\\n' &gt;&gt; /compat/ubuntu/etc/apt/sources.list\nroot@ns3:~ # printf 'deb http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse\\n' &gt;&gt; /compat/ubuntu/etc/apt/sources.list\nroot@ns3:~ # printf '0.0 0 0.0\\n0\\nUTC\\n' &gt; /compat/ubuntu/etc/adjtime\n\n\nAfter that, continue with the script below to make corrections to the Ubuntu repository.\n\nroot@ns3:~ # cd /compat/ubuntu/lib64/\nroot@ns3:/compat/ubuntu/lib64 # rm ./ld-linux-x86-64.so.2\nroot@ns3:/compat/ubuntu/lib64 # ln -s ../lib/x86_64-linux-gnu/ld-2.31.so ld-linux-x86-64.so.2\n\n\nCreate an rc.d startup file in the /etc/rc.conf file, so that the Ubuntu daemon can run automatically when the computer is turned off or restarted.\n\nroot@ns3:~ # sysrc ubuntu_enable=YES\n\n\nGive file permissions to the /usr/local/etc/rc.d/ubuntu file and restart Ubuntu.\n\nroot@ns3:~ # chmod +x /usr/local/etc/rc.d/ubuntu\n\n\nroot@ns3:~ # service ubuntu restart\ncompat.linux.emul_path: /compat/ubuntu -&gt; /compat/ubuntu\n\n\nThe next step is to update and upgrade and install several Ubuntu programs.\n\nroot@ns3:/compat/ubuntu/lib64 # chroot /compat/ubuntu /bin/bash\nroot@ns3:/# dpkg-reconfigure locales\nroot@ns3:/# dpkg-reconfigure tzdata\nCurrent default time zone: 'Asia/Jakarta'\nLocal time is now: Sat Aug 19 13:30:37 WIB 2023.\nUniversal Time is now: Sat Aug 19 06:30:37 UTC 2023.\nroot@ns3:/# apt update\nroot@ns3:/# apt upgrade\nroot@ns3:/# apt install -y pulseaudio\nroot@ns3:/# apt install -y fonts-symbola\nroot@ns3:/# apt install -y gnupg\nroot@ns3:/# exit\n\n\nFor sound to work in applications installed in the Ubuntu environment, you must use the pulseaudio server. Create the following script in the file /compat/ubuntu/usr/local/bin/pulseaudio.\n\nroot@ns3:~ # ee /compat/ubuntu/usr/local/bin/pulseaudio\n#!/bin/sh\n\nget_pa_sock_path()\n{\n PA_SOCK_PATH=$(sockstat | awk -v me=$(whoami) -F'[ \\t]+' '\n $1 == me &amp;&amp; $2 == \"pulseaudio\" &amp;&amp; $6 ~ /native/ {\n print $6;\n exit 0\n }'\n )\n}\n\nget_pa_sock_path\nif [ ! -S \"$PA_SOCK_PATH\" ]; then\n while killall pulseaudio; do\n sleep 0.5\n done\n pulseaudio --start\n get_pa_sock_path\nfi\n[ -S \"$PA_SOCK_PATH\" ] &amp;&amp; export PULSE_SERVER=unix:$PA_SOCK_PATH\n\nSTART_SCRIPT=$1\nshift\n$START_SCRIPT $*\n\nroot@ns3:~ # chmod +x /compat/ubuntu/usr/local/bin/pulseaudio\n\n\nAt this point, the Ubuntu installation on FreeBSD is complete. Now you can install various Ubuntu applications on FreeBSD.\n\n2. Google Chrome Installation and Configuration\n\nThe first step to installing Google Chrome is to download the program. Follow the instructions below to download Google Chrome.\n\nroot@ns3:~ # printf \"deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main\" &gt; /compat/ubuntu/etc/apt/sources.list.d/google-chrome.list\nroot@ns3:~ # fetch -o /tmp/ https://dl.google.com/linux/linux_signing_key.pub\n/tmp/linux_signing_key.pub 14 kB 3016 kBps 00s\n\n\nAfter that, install the file in the Ubuntu environment.\n\nroot@ns3:/# chroot /compat/ubuntu /bin/bash\nroot@ns3:/# apt-key add /tmp//linux_signing_key.pub\nOK\nroot@ns3:/# apt update\nroot@ns3:/# apt install -y google-chrome-stable\nroot@ns3:/# exit\n\n\nAfter that, create a script in the file /usr/local/share/applications/linux-chrome.desktop.\n\nroot@ns3:~ # ee /usr/local/share/applications/linux-chrome.desktop\n\n[Desktop Entry]\nType=Application\nVersion=1.0\nEncoding=UTF-8\nName=Google Chrome\nComment=unixwinbsd.blogspot.com\nIcon=/compat/ubuntu/opt/google/chrome/product_logo_16.png\nExec=/usr/local/bin/linux-chrome\nCategories=Application;Network;WebBrowser;\nMimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;\nStartupNotify=true\n\n\nCreate another script in the /usr/local/bin/linux-chrome file.\n\nroot@ns3:~ # ee /usr/local/bin/linux-chrome\n\n#!/bin/sh\n\nchroot_path=/compat/ubuntu\n\nget_pa_sock_path()\n{\n PA_SOCK_PATH=$(sockstat | awk -v me=$(whoami) -F'[ \\t]+' '\n $1 == me &amp;&amp; $2 == \"pulseaudio\" &amp;&amp; $6 ~ /native/ {\n print $6;\n exit 0\n }'\n )\n}\n\nget_pa_sock_path\nif [ ! -S \"$PA_SOCK_PATH\" ]; then\n while killall pulseaudio; do\n sleep 0.5\n done\n pulseaudio --start\n get_pa_sock_path\nfi\n[ -S \"$PA_SOCK_PATH\" ] &amp;&amp; export PULSE_SERVER=unix:$PA_SOCK_PATH\n${chroot_path}/bin/chrome\n\n\nCreate file permissions on the file.\n\nroot@ns3:~ # chmod +x /usr/local/share/applications/linux-chrome.desktop\nroot@ns3:~ # chmod +x /usr/local/bin/linux-chrome\n\n\nFinally, finished installing Google Chrome on GhostBSD. To run Google Chrome, you just click on the application menu on the GhostBSD desktop.\n\n3. Microsoft Edge Installation and Configuration\n\nEdge web browser is a program made by Microsoft, Inc. This program was created to replace Internet Explorer, which has long accompanied Microsoft Windows 95 and Windows XP. Similar to the Google Chrome program, Microsoft Edge can only be installed on Linux-based systems.\n\nFor FreeBSD lovers, don’t worry, with the help of Linux binary this program can run normally and smoothly. The following is how to install Microsoft Edge on GhostBSD.\n\nroot@ns3:~ # chroot /compat/ubuntu /bin/bash\nroot@ns3:/# apt install -y apt-transport-https curl pgp\nroot@ns3:/# apt install software-properties-common apt-transport-https wget\nroot@ns3:/# wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -\nOK\nroot@ns3:/# add-apt-repository \"deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main\"\nroot@ns3:/# apt update\nroot@ns3:/# apt install microsoft-edge-stable\nroot@ns3:/# exit\n\n\nAfter that, enter the following script in the file /usr/local/share/applications/linux-edge.desktop.\n\nroot@ns3:~ # ee /usr/local/share/applications/linux-edge.desktop\n[Desktop Entry]\nType=Application\nVersion=1.0\nEncoding=UTF-8\nName=Microsoft Edge\nComment=unixwinbsd.blogspot.com\nIcon=/compat/ubuntu/opt/microsoft/msedge/product_logo_128.png\nExec=/usr/local/bin/linux-edge\nCategories=Application;Network;WebBrowser;\nMimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;\nStartupNotify=true\n\n\nThen create a file /usr/local/bin/linux-edge, and enter the script below.\n\nroot@ns3:~ # ee /usr/local/bin/linux-edge\n#!/bin/sh\n\nchroot_path=/compat/ubuntu\n\nget_pa_sock_path()\n{\n\tPA_SOCK_PATH=$(sockstat | awk -v me=$(whoami) -F'[ \\t]+' '\n\t\t$1 == me &amp;&amp; $2 == \"pulseaudio\" &amp;&amp; $6 ~ /native/ {\n\t\t\tprint $6;\n\t\t\texit 0\n\t\t}'\n\t)\n}\n\nget_pa_sock_path\nif [ ! -S \"$PA_SOCK_PATH\" ]; then\n\twhile killall pulseaudio; do\n\t\tsleep 0.5\n\tdone\n\tpulseaudio --start\n\tget_pa_sock_path\nfi\n[ -S \"$PA_SOCK_PATH\" ] &amp;&amp; export PULSE_SERVER=unix:$PA_SOCK_PATH\n${chroot_path}/opt/microsoft/msedge/msedge\n\n\nThe final step is to restart/reboot your computer.\n\nroot@ns3:~ # reboot\n\n\nRun Microsoft Edge, until the image like the one below appears.\n\n\n\n\nIf it appears like the image above, it means Microsoft Edge is running. If the image above does not appear, replace the /usr/local/bin/linux-edge script with the script below.\n\nroot@ns3:~ # ee /usr/local/bin/linux-edge\n#!/compat/ubuntu/bin/bash\n\nexport START_PATH=\"/opt/microsoft/msedge/msedge\"\nexport CHROME_WRAPPER=\"`readlink -f \"$0\"`\"\nexport LD_LIBRARY_PATH=/usr/local/steam-utils/lib64/fakeudev\nexport LD_PRELOAD=/usr/local/steam-utils/lib64/webfix/webfix.so\nexport LIBGL_DRI3_DISABLE=1\n\nexec -a \"$0\" \"$START_PATH\" --no-sandbox --no-zygote --test-type --v=0 \"$@\"\n\n\nThe installation and configuration of Microsoft Edge is complete. Now your FreeBSD server can run Ubuntu programs, namely Microsoft Edge and Google Chrome. So for those of you who love FreeBSD, don’t be discouraged, one of the advantages of FreeBSD is that it can run Ubuntu applications with the help of Linux Binaries.\n", "dateCreated": "2025-10-08 10:09:33 +0300", "datePublished": "2025-10-08 10:09:33 +0300", "dateModified": "2025-10-08 08:09:33 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd", "name": "How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop", "description": "In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System.", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd/", "headline": "How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop", "description": "In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System.", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System.", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd/", "identifier": "judul", "name": "How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop", "description": "In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System.", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/install-google-chrome-microsoft-edge-ghostbsd-freebsd/", "name": "How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop", "description": "In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System.", "dateCreated": "2025-10-08 10:09:33 +0300", "datePublished": "2025-10-08 10:09:33 +0300", "dateModified": "2025-10-08 08:09:33 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-10-08 10:09:33 +0300", "name": "How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop", "headline": "How to Install Google Chrome and Microsoft Edge on GhostBSD FreeBSD Desktop", "description": "In this article we will learn how to install and configure the Google Chrome and Microsoft Edge web browsers. Because these two programs can only be run on Linux, it is recommended that you read the previous article about installing Linux Binary on FreeBSD. If you haven't read this article, don't continue reading it. The entire contents of this article run with FreeBSD Desktop GhostBSD 23.06.01 A simple, elegant desktop BSD Operating System.", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

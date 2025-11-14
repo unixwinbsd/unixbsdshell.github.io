@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta content="yes" name="apple-mobile-web-app-capable"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="UnixBSDShell"><meta name="application-name" content="UnixBSDShell"><meta http-equiv="x-dns-prefetch-control" content="on"><meta http-equiv="Cache-control" content="public"><meta http-equiv="Expires" content="31536000"><meta name="revisit-after" content="7 days"><link rel="dns-prefetch" href="//unixwinbsd.github.io"><link rel="dns-prefetch" href="//prohoster.info"><title>How to Install IPFS Peer to Peer Networking on FreeBSD</title><meta name="description" content="If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering"><meta name="robots" content="index, follow"><meta name="author" content="Iwan Setiawan"><meta name="keywords" content="ipfs, peer to peer, peer, network, freensd, torrent, web3, connection"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/ipfs-peer-to-peer-network-freebsd/"><meta property="og:type" content="article"><meta property="og:title" content="How to Install IPFS Peer to Peer Networking on FreeBSD"><meta property="og:description"><meta property="og:image" content="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/20http-vs-ipfs%20on%20freebsd.jpg&commit=ca2dd5f899232a3c6599934133a9cb99a3ca0ef1"><meta name="google-site-verification" content="RT2u0cL3NCPK3ydcuewM50F8hvklo6JxBJGxu0zypiw"><meta name="language" content="english"><meta name="generator" content="Jekyll v3.10.0"><meta name="facebook-domain-verification" content="f9a3j5173owdv9zxyzk39py9lncg0g"><meta name="owner" content="Iwan Setiawan"><meta name="copyright" content="Copyright 2023-2025 UnixBSDShell's Blog"><meta content="Inchimediatama Nusantara" name="publisher"><link rel="preconnect" href="http://45.83.122.137/" crossorigin="crossorigin"><link rel="dns-prefetch" href="http://45.83.122.137/"><link href="https://www.googletagmanager.com" rel="dns-prefetch"><link rel="dns-prefetch" href="//www.google-analytics.com"><link href="https://mc.yandex.ru" rel="dns-prefetch"><link href="https://schema.org" rel="dns-prefetch preconnect"><link href="https://cdn.jsdelivr.net" rel="dns-prefetch preconnect"><link href="https://ajax.googleapis.com" rel="dns-prefetch preconnect"><link href="https://img.youtube.com" rel="dns-prefetch preconnect"><link href="https://drive.google.com/drive/u/0/home" rel="dns-prefetch preconnect"><link href="https://feedburner.google.com/manage/25990a45-17a6-47cd-8ea5-feb032eb7143" rel="dns-prefetch preconnect"><link href="https://unixwinbsd.site/about/" rel="me"><link href="https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu" rel="publisher"><link rel="alternate" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="self" type="application/rss+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/atom.xml"><link rel="alternate" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="self" type="application/atom+xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/rssyandex.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap.xml"><link rel="sitemap" type="application/xml" title="UnixBSDShell - A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others" href="https://unixwinbsd.github.io/unixbsdshell.github.io/sitemap_google.xml"><link rel="canonical" href="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/ipfs-peer-to-peer-network-freebsd/"><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" type="image/x-icon" href="https://unixwinbsd.github.io/unixbsdshell.github.io/favicon.ico"><link href="https://unixwinbsd.github.io/unixbsdshell.github.io/" rel="alternate" type="text/html"><link rel="stylesheet" href="/assets/theme/css/main.css"><link rel="stylesheet" href="/assets/theme/css/pygments.css"><link rel="stylesheet" href="/assets/theme/css/fontawesome-all.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/theme/css/bootstrap-icons.min.css"><link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet"><link href="https://unixwinbsd.site" hreflang="en" rel="alternate"><link href="https://unixwinbsd.site" hreflang="x-default" rel="alternate"><link href="https://unixwinbsd.site" media="only screen and (max-width: 640px)" rel="alternate"><link href="http://pubsubhubbub.appspot.com/" rel="hub"><script src="/assets/theme/js/jquery.min.js"></script><script src="/assets/theme/js/popper.min.js"></script><script src="/assets/theme/js/bootstrap.min.js"></script><script src="/assets/theme/js/anchor.min.js"></script><script src="/assets/theme/js/lazysizes.min.js"></script><link rel="preload" href="/assets/theme/css/main.css" as="style"><link rel="preload" href="/assets/theme/css/pygments.css" as="style"><link rel="preload" href="/assets/theme/css/fontawesome-all.min.css" as="style"><link rel="preload" href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" as="style"><link rel="preload" href="/assets/theme/css/bootstrap.min.css" as="style"><link rel="preload" href="/assets/theme/css/bootstrap-icons.min.css" as="style"><link rel="preload" href="/assets/theme/js/jquery.min.js" as="script"><link rel="preload" href="/assets/theme/js/popper.min.js" as="script"><link rel="preload" href="/assets/theme/js/bootstrap.min.js" as="script"><link rel="preload" href="/assets/theme/js/anchor.min.js" as="script"><link rel="preload" href="/assets/theme/js/lazysizes.min.js" as="script"><meta property="og:site_name" content="UnixBSDShell"><meta property="og:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/ipfs-peer-to-peer-network-freebsd/"><meta property="og:type" content="website"><meta property="og:locale" content="en-US"><meta property="og:published_time" content="2025-06-02 10:23:11 +0300"><meta property="og:image" content="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/20http-vs-ipfs%20on%20freebsd.jpg&commit=ca2dd5f899232a3c6599934133a9cb99a3ca0ef1"><meta property="og:title" content="How to Install IPFS Peer to Peer Networking on FreeBSD"><meta property="og:description" content="If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering"><meta name="twitter:card" content="summary"><meta property="twitter:domain" content="unixwinbsd.github.io"><meta property="twitter:url" content="https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/ipfs-peer-to-peer-network-freebsd/"><meta name="twitter:site" content="@"><meta name="twitter:creator" content="@"><meta name="twitter:image" content="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/20http-vs-ipfs%20on%20freebsd.jpg&commit=ca2dd5f899232a3c6599934133a9cb99a3ca0ef1"><meta name="twitter:title" content="How to Install IPFS Peer to Peer Networking on FreeBSD"><meta name="twitter:description" content="If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering"><script type="text/javascript">(function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(95812963, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/95812963" style="position:absolute; left:-9999px"></div></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=GT-TNPXBWRM"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-TNPXBWRM');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RWLWYNFRW0"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWLWYNFRW0');</script><script>gtag('set', 'user_data', {
+"email": datainchi@gmail.com,
+"phone_number": +6281289065249,
+"address": {
+"first_name": Iwan,
+"last_name": Setiawan,
+"street": Kp. Warung Bongkok RT. 002/01,
+"city": Kabupaten Bekasi,
+"region": Jawa Barat,
+"postal_code": 17841,
+"country": Indonesia
+}
+});</script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7TLZSRG');</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520", "name": "Iwan Setiawan", "inLanguage": "en", "abstract": "WARNET DAPURNET leverages open-source Linux to provide educational services in Cikarang Barat, Indonesia.", "relatedLink": "httpss://www.github.com/unixbsdshell", "mainEntity": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqh8vZc2N7xq6HwBNgFgZynTrc43VgxNpj8vNY0cQoLg_WHTc5x8iUCDDC-lwLsRvqMbo6pid86kb-ZbDZYxaUoAOdxonZmo3kLGbzL4g-UvxmvUv2IkjMacwGi2M2OZjgJk4RS8-NUTmjNldxRxfnBVEf2fOxGtiL8eoI0DwjEjDtwQ/s220/jaka.jpg" } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "name": "UnixBSDShell", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "description": "A Blog That Focuses On UNIX Systems, Such As FreeBSD OpenBSD NetBSD and Others", "headline": "UnixBSDShell's Blog", "inLanguage": "en", "sourceOrganization": "WARNET DAPURNET", "disambiguatingDescription": "Education Blog of UnixBSDShell", "copyrightNotice": "Seluruh isi artikel pada blog ini dikeluarkan dan diterbitkan oleh Inchimediatama Nusantara", "isFamilyFriendly": "http://schema.org/True", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "url": "https://www.blogger.com/profile/08958087252392329520" }, "image": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/img/Logo.png" } }</script></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><img class="me-3" src="/img/Logo.png" alt="UnixBSDShell" rel="index follow"><h1 class="py-0 mb-0 fw-bold text-primary">UnixBSDShell</h1></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">Menu <i class="fa-solid fa-bars"></i></button><div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto"><li class="navbar-item"><a class="nav-link" href="/">Home</a></li><li class="navbar-item"><a class="nav-link" href="/about/">About</a></li><li class="navbar-item"><a class="nav-link" href="/blog/">Blog</a></li><li class="navbar-item"><a class="nav-link" href="https://github.com/unixwinbsd/unixbsdshell.github.io" target="_blank">GitHub</a></li></ul></div><form class="d-flex me-1 my-1" action="/search/" method="get"><div class="input-group"><input type="text" class="form-control" id="search-box" name="query" maxlength="255" placeholder="Search via Lunr.js"> <button class="btn btn-primary ml-2" data-bs-placement="bottom" data-bs-toggle="tooltip" title="search With Lunr JS" type="submit"><svg class="bi bi-search" fill="white" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg></button></div></form></div></nav><main><header><div class="container"><div class="row p-4"><div class="text-wrap text-center"><h1 class="fw-bold text-danger">How to Install IPFS Peer to Peer Networking on FreeBSD</h1><div class="lead badge bg-primary text-wrap"><h6><p>If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering</p></h6></div><p class="meta"></p><h6><time>June 02, 2025</time>&bull; Iwan Setiawan <a class="badge tags text-bg-secondary rounded-pill" href="/blog/?tag=Anonymous">Anonymous</a> &middot; <span class="reading-time" title="Estimated read time">11 mins read</span></h6><p></p></div></div></div></header><div class="container content"><div class="row"><div class="col-md-10 col-lg-3 mx-auto"><h3 class="fs-5 fw-bold text-primary">Organization</h3><img alt="Organization" width="50%" class="lazyload img-fluid rounded-circle" src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/Logo.png"><h3 class="fs-3 entry-title fw-bold text-muted">UnixBSDShell</h3><br><div class="toc"><span class="fs-5 fw-bold text-primary">Table Of Content</span><ul><li><a href="#1-what-is-inter-planetary-file-system-ipfs">1. What is Inter Planetary File System (IPFS)</a></li><li><a href="#2-how-to-install-and-configure-ipfs">2. How to Install and Configure IPFS</a><ul><li><a href="#21-create-go-lang-symlink">2.1 Create Go lang symlink.</a></li><li><a href="#22-install-ipfs-with-the-freebsd-ports-system">2.2. Install IPFS with the FreeBSD ports system.</a></li><li><a href="#23-run-ipfs-with-the-rcd-script-add-the-script-below-to-the-etcrcconf-file">2.3. Run IPFS with the rc.d script, add the script below to the /etc/rc.conf file.</a></li></ul></li><li><a href="#3-test-ipfs">3. Test IPFS</a></li></ul></div></div><div class="col-md-10 col-lg-8 order-lg-first mx-auto"><div class="mb-4 text-danger" id="breadcrumbs"><a class="fw-bold" href="https://unixwinbsd.github.io/unixbsdshell.github.io">Home</a> / freebsd / How to Install IPFS Peer to Peer Networking on FreeBSD</div><div class="article"><p>Using a copy of the data CID or content identifier, IPFS helps you request data from each IPFS node. This process usually involves searching a distributed hash table and may also require creating a new connection to the node that holds the content.</p><p>If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering. The Peering process will tell IPFS which peers to prioritize by editing the Peering configuration in your IPFS configuration file.</p><p>IPFS offers several advantages including faster data transfer, reduced fault tolerance, and reduced server load. Not only that, IPFS also has the ability to access data even when disconnected from the Internet or when the data server is unavailable.</p><p>In this article, we will learn how to install and use IPFS on a FreeBSD server. Before discussing IPFS further, it doesn’t hurt to get to know IPFS first.</p><h2 id="1-what-is-inter-planetary-file-system-ipfs">1. What is Inter Planetary File System (IPFS)</h2><p>IPFS (InterPlanetary File System) is a modular protocol suite that builds a peer-to-peer network with resources addressed by their content, rather than physical location as in HTTP. IPFS can organize and transfer data, designed from the ground up with the principles of content addressing and peer-to-peer networking.</p><p>Since IPFS is open source, there are several implementations of IPFS. Although IPFS has more than one use case, its primary use case is for publishing data (files, directories, and websites) in a decentralized manner. IPFS provides us with some of the blockchain guarantees such as decentralization and immutable storage at a much lower price than the transaction fees and participation in the free IPFS network.</p><p><br></p><noscript><img src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/20http-vs-ipfs%20on%20freebsd.jpg&amp;commit=ca2dd5f899232a3c6599934133a9cb99a3ca0ef1" alt="http vs ipfs on freebsd"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://gitflic.ru/project/unixbsdshell/ruby-static-page-jekyll-rb-openbsd/blob/raw?file=assets/images/20http-vs-ipfs%20on%20freebsd.jpg&amp;commit=ca2dd5f899232a3c6599934133a9cb99a3ca0ef1" alt="http vs ipfs on freebsd" class="lazyload fade-in"><br></p><p>The important thing to understand about IPFS is that when you add files through an IPFS node, the IPFS network does not store your files. The files you add remain on your computer and others can read your files. However, when you turn off your computer or turn off an IPFS node on your local network, others cannot read your files until you come back online. Unless you store your files on an external IPFS node, any files you add will remain unreadable to others.</p><p>While there are storage providers that are built with IPFS support (often known as embedding services), IPFS itself is a protocol, not a provider. IPFS can be used and complements cloud infrastructure, but IPFS itself is not a cloud service provider.</p><h2 id="2-how-to-install-and-configure-ipfs">2. How to Install and Configure IPFS</h2><p>On FreeBSD, IPFS runs in GO, so before you install IPFS on a FreeBSD server, the GO Lang application must be installed first. Read the previous article about <a href="https://unixwinbsd.site/en/freebsd/2024/12/24/go-lang-freebsd14-golang-install/">“How to Install GOLANG GO Language on FreeBSD 14”</a>.</p><p>IPFS on FreeBSD 13.2 can only run with the Go language version: go119.</p><p>After you read the article above, we continue with installing IPFS. If you are using PUTTY, type the command below in the PuTTY shell menu.</p><h3 id="21-create-go-lang-symlink">2.1 Create Go lang symlink.</h3><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">rm</span> <span class="nt">-R</span> <span class="nt">-f</span> /usr/local/bin/go
+<span class="gp">root@ns1:~ #</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-s</span> /usr/local/bin/go119 /usr/local/bin/go
+</code></pre></div></div><p><br></p><h3 id="22-install-ipfs-with-the-freebsd-ports-system">2.2. Install IPFS with the FreeBSD ports system.</h3><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:~ #</span><span class="w"> </span><span class="nb">cd</span> /usr/ports/sysutils/ipfs-go
+<span class="gp">root@ns6:/usr/ports/sysutils/ipfs-go #</span><span class="w"> </span>make <span class="nb">install </span>clean
+</code></pre></div></div><p><br></p><h3 id="23-run-ipfs-with-the-rcd-script-add-the-script-below-to-the-etcrcconf-file">2.3. Run IPFS with the rc.d script, add the script below to the /etc/rc.conf file.</h3><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/usr/ports/sysutils/ipfs-go #</span><span class="w"> </span>ee /etc/rc.conf
+<span class="go">
+ipfs_go_enable="YES"
+ipfs_go_user="ipfs-go"
+ipfs_go_group="ipfs-go"
+ipfs_go_path="/var/db/ipfs-go/.ipfs"
+ipfs_go_syslog_priority="info"
+ipfs_go_syslog_facility="daemon"
+ipfs_go_syslog_tag="ipfs-go"
+</span></code></pre></div></div><p>The script above is used to run IPFS automatically on a local computer. Take a look at the script above, in the script we can see that the IPFS configuration file is in the <code class="language-plaintext highlighter-rouge">/var/db/ipfs-go</code> folder. To make editing easier, use WINSCP, open the folder with WINSCP. See the image below.</p><p><br></p><noscript><img src="https://cdn.publish0x.com/prod/fs/cachedimages/1981597517-b409ac9a52d2f321659f0b73b52a92839a84e3022670e68fa320046fc1e73669.webp" alt="directory ipfs on freebsd"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://cdn.publish0x.com/prod/fs/cachedimages/1981597517-b409ac9a52d2f321659f0b73b52a92839a84e3022670e68fa320046fc1e73669.webp" alt="directory ipfs on freebsd" class="lazyload fade-in"><br></p><p>Open the configuration file <code class="language-plaintext highlighter-rouge">/var/db/ipfs-go/.ipfs/config</code>, and edit its contents according to the script below.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">{
+  "API": {
+    "HTTPHeaders": {
+      "Access-Control-Allow-Methods": [
+        "PUT",
+        "POST"
+      ],
+      "Access-Control-Allow-Origin": [
+        "http://192.168.5.2:5001",
+        "http://localhost:3000",
+        "http://127.0.0.1:5001",
+        "https://webui.ipfs.io"
+      ]
+    }
+  },
+  "Addresses": {
+    "API": "/ip4/192.168.5.2/tcp/5001",
+    "Announce": [],
+    "AppendAnnounce": [],
+    "Gateway": "/ip4/192.168.5.2/tcp/8080",
+    "NoAnnounce": [],
+    "Swarm": [
+      "/ip4/0.0.0.0/tcp/4001",
+      "/ip6/::/tcp/4001",
+      "/ip4/0.0.0.0/udp/4001/quic",
+      "/ip4/0.0.0.0/udp/4001/quic-v1",
+      "/ip4/0.0.0.0/udp/4001/quic-v1/webtransport",
+      "/ip6/::/udp/4001/quic",
+      "/ip6/::/udp/4001/quic-v1",
+      "/ip6/::/udp/4001/quic-v1/webtransport"
+    ]
+  },
+  "AutoNAT": {},
+  "Bootstrap": [
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt",
+    "/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+    "/ip4/104.131.131.82/udp/4001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+  ],
+  "DNS": {
+    "Resolvers": {}
+  },
+  "Datastore": {
+    "BloomFilterSize": 0,
+    "GCPeriod": "1h",
+    "HashOnRead": false,
+    "Spec": {
+      "mounts": [
+        {
+          "child": {
+            "path": "blocks",
+            "shardFunc": "/repo/flatfs/shard/v1/next-to-last/2",
+            "sync": true,
+            "type": "flatfs"
+          },
+          "mountpoint": "/blocks",
+          "prefix": "flatfs.datastore",
+          "type": "measure"
+        },
+        {
+          "child": {
+            "compression": "none",
+            "path": "datastore",
+            "type": "levelds"
+          },
+          "mountpoint": "/",
+          "prefix": "leveldb.datastore",
+          "type": "measure"
+        }
+      ],
+      "type": "mount"
+    },
+    "StorageGCWatermark": 90,
+    "StorageMax": "10GB"
+  },
+  "Discovery": {
+    "MDNS": {
+      "Enabled": true
+    }
+  },
+  "Experimental": {
+    "AcceleratedDHTClient": true,
+    "FilestoreEnabled": false,
+    "GraphsyncEnabled": false,
+    "Libp2pStreamMounting": false,
+    "P2pHttpProxy": false,
+    "StrategicProviding": false,
+    "UrlstoreEnabled": false
+  },
+  "Gateway": {
+    "APICommands": [],
+    "HTTPHeaders": {
+      "Access-Control-Allow-Headers": [
+        "X-Requested-With",
+        "Range",
+        "User-Agent"
+      ],
+      "Access-Control-Allow-Methods": [
+        "GET"
+      ],
+      "Access-Control-Allow-Origin": [
+        "*"
+      ]
+    },
+    "NoDNSLink": false,
+    "NoFetch": false,
+    "PathPrefixes": [],
+    "PublicGateways": {
+      "https://ipfs.io/": {
+        "Paths": [
+          "/ipfs",
+          "/ipns"
+        ],
+        "UseSubdomains": true
+      }
+    },
+    "RootRedirect": ""
+  },
+  "Identity": {
+    "PeerID": "12D3KooWQkFkABHUCULXkPyRfrLA81dHXgC8evRhdYHWdMRrVcMX",
+    "PrivKey": "CAESQNAw3t1E9zNXln5PV5RsoKpK6ewLYMmkNjm0m+5XRNys3dG3lvylqCjlHt88TbEkZDmu5n71YG9JLGMj1gbm5AI="
+  },
+  "Internal": {},
+  "Ipns": {
+    "RecordLifetime": "",
+    "RepublishPeriod": "",
+    "ResolveCacheSize": 128
+  },
+  "Migration": {
+    "DownloadSources": [],
+    "Keep": ""
+  },
+  "Mounts": {
+    "FuseAllowOther": false,
+    "IPFS": "/ipfs",
+    "IPNS": "/ipns"
+  },
+  "Peering": {
+    "Peers": null
+  },
+  "Pinning": {
+    "RemoteServices": {}
+  },
+  "Plugins": {
+    "Plugins": null
+  },
+  "Provider": {
+    "Strategy": ""
+  },
+  "Pubsub": {
+    "DisableSigning": false,
+    "Router": ""
+  },
+  "Reprovider": {},
+  "Routing": {
+    "Methods": null,
+    "Routers": null
+  },
+  "Swarm": {
+    "AddrFilters": null,
+    "ConnMgr": {},
+    "DisableBandwidthMetrics": false,
+    "DisableNatPortMap": false,
+    "RelayClient": {},
+    "RelayService": {},
+    "ResourceMgr": {
+      "Limits": {}
+    },
+    "Transports": {
+      "Multiplexers": {},
+      "Network": {},
+      "Security": {}
+    }
+  }
+}
+</span></code></pre></div></div><p>Note the blue writing, the number <code class="language-plaintext highlighter-rouge">192.168.5.2</code> is your computer’s local IP address. After that we run the <code class="language-plaintext highlighter-rouge">ipfs-go init</code> command.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:~ #</span><span class="w"> </span>ipfs-go init
+<span class="gp">root@ns6:~ #</span><span class="w"> </span>ipfs-go config <span class="nt">--json</span> API.HTTPHeaders.Access-Control-Allow-Origin <span class="s1">'["http://192.168.5.2:5001", "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"]'</span>
+<span class="gp">root@ns6:~ #</span><span class="w"> </span>ipfs-go config <span class="nt">--json</span> API.HTTPHeaders.Access-Control-Allow-Methods <span class="s1">'["PUT", "POST"]'</span>
+</code></pre></div></div><p>Then you continue by creating an IPFS symlink file to <code class="language-plaintext highlighter-rouge">/root</code>.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:~ #</span><span class="w"> </span><span class="nb">rm</span> <span class="nt">-rf</span> /root/.ipfs
+<span class="gp">root@ns6:~ #</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-s</span> /var/db/ipfs-go/.ipfs /root
+</code></pre></div></div><p>After that, you create another file <code class="language-plaintext highlighter-rouge">/var/db/ipfs-go/.ipfs/api</code>.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span><span class="nb">touch</span> /var/db/ipfs-go/.ipfs/api
+<span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>ee /var/db/ipfs-go/.ipfs/api
+<span class="go">
+/ip4/192.168.5.2/tcp/5001
+</span></code></pre></div></div><p>After that we continue by running IPFS.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>service ipfs-go restart
+</code></pre></div></div><p><br></p><h2 id="3-test-ipfs">3. Test IPFS</h2><p>Once everything is configured, the last step is to test whether the IPFS server is running or not. Basic proof that ‘ipfs is working’ locally. The first step is to create a folder <code class="language-plaintext highlighter-rouge">/var/db/ipfs-go/.ipfs/ipfs</code> to store all IPFS data.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:~ #</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /var/db/ipfs-go/.ipfs/ipfs
+<span class="gp">root@ns6:~ #</span><span class="w"> </span><span class="nb">cd</span> /var/db/ipfs-go/.ipfs/ipfs
+<span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w">
+</span></code></pre></div></div><p>After that we create IPFS data, this data will later be used on the peer to peer network via the IPFS Node.</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"FreeBSD IPFS local server"</span> <span class="o">&gt;</span> TestIPFS
+<span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>ipfs-go add TestIPFS
+<span class="go">added QmNeCaGW44nddxLZGQmk6GagSafb8gZwcou8YbvhW1wt5b TestIPFS
+ 26 B / 26 B [==========================================================================================================================================================] 100.00%
+</span><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>ipfs-go <span class="nb">cat </span>QmNeCaGW44nddxLZGQmk6GagSafb8gZwcou8YbvhW1wt5b
+<span class="go">FreeBSD IPFS local server
+</span><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w">
+</span></code></pre></div></div><p><br></p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"Test IPFS on FreeBSD"</span> <span class="o">&gt;</span> FreeBSDTest.txt
+<span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>ipfs-go add FreeBSDTest.txt
+<span class="go">added QmZiaPkqkAsgcCyc84wLnbQnweSj9s2CuJbBSXVzyihshk FreeBSDTest.txt
+ 21 B / 21 B [==========================================================================================================================================================] 100.00%
+</span><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>ipfs-go <span class="nb">cat </span>QmZiaPkqkAsgcCyc84wLnbQnweSj9s2CuJbBSXVzyihshk
+<span class="go">Test IPFS on FreeBSD
+</span><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w">
+</span></code></pre></div></div><p>Restart IPFS</p><div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span><span class="nb">chown</span> <span class="nt">-R</span> ipfs-go:ipfs-go /var/db/ipfs-go/.ipfs/
+<span class="gp">root@ns6:/var/db/ipfs-go/.ipfs/ipfs #</span><span class="w"> </span>service ipfs-go restart
+</code></pre></div></div><p>Now let’s try to connect to the http port on the web browser. Open Google Chrome or Yandex web browser, type <code class="language-plaintext highlighter-rouge">http://192.168.5.2:5001/webui</code>.</p><p><br></p><noscript><img src="https://cdn.publish0x.com/prod/fs/cachedimages/258001144-95e0edde55e76fcac82a70f10bf9c8b743df18f6ba3e901a161ac169564675cb.webp" alt="testipfs"></noscript><p><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://cdn.publish0x.com/prod/fs/cachedimages/258001144-95e0edde55e76fcac82a70f10bf9c8b743df18f6ba3e901a161ac169564675cb.webp" alt="testipfs" class="lazyload fade-in"><br></p><p>Once you are connected to the IPFS Node, now try typing the CIDS from the <code class="language-plaintext highlighter-rouge">FreeBSDTest.txt and TestIPFS</code> files we created earlier, notice the CIDS in blue above.</p><p>In <code class="language-plaintext highlighter-rouge">Yandex Browser</code> or <code class="language-plaintext highlighter-rouge">Google Chrome</code> enter the following command:</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://192.168.5.2:8080/ipfs/QmNeCaGW44nddxLZGQmk6GagSafb8gZwcou8YbvhW1wt5b
+http://192.168.5.2:8080/ipfs/QmZiaPkqkAsgcCyc84wLnbQnweSj9s2CuJbBSXVzyihshk
+</code></pre></div></div><p>I run an IPFS node on a FreeBSD 13.2 machine and I have no major issues with it, everything works fine. For programmatic access, you can make the IPFS gateway scriptable and use the IPFS HTTP API. There are many creative use cases for IPFS.</p><div class="PageNavigation"><a class="prev" href="/freebsd/dnscrypt-proxy-knot-resolver-dns-freebssd/">&laquo; Setup DNSCrypt Proxy With Knot Reolver Kresd On FreeBSD</a> <a class="next" href="/freebsd/complete-guide-using-openssl-freebsd/">Guide to Using OpenSSL Commands in FreeBSD &raquo;</a></div><style>.PageNavigation {
+  font-size: 14px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: right;
+}</style></div><div id="disqus_thread"></div><script>// Configuration variables: https://disqus.com/admin/universalcode/#configuration-variables
+        var disqus_config = function () {
+          this.page.url = "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/ipfs-peer-to-peer-network-freebsd/";
+        };
+        (function() { // Don't edit below this line
+          var d = document, s = d.createElement("script");
+          s.src = "https://disqus_sitename.disqus.com/embed.js";
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div></div><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "BlogPosting", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/ipfs-peer-to-peer-network-freebsd/", "name": "How to Install IPFS Peer to Peer Networking on FreeBSD", "headline": ["Anonymous"], "keywords": "ipfs, peer to peer, peer, network, freensd, torrent, web3, connection", "description": "If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering", "articleBody": "Using a copy of the data CID or content identifier, IPFS helps you request data from each IPFS node. This process usually involves searching a distributed hash table and may also require creating a new connection to the node that holds the content.\n\nIf you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering. The Peering process will tell IPFS which peers to prioritize by editing the Peering configuration in your IPFS configuration file.\n\nIPFS offers several advantages including faster data transfer, reduced fault tolerance, and reduced server load. Not only that, IPFS also has the ability to access data even when disconnected from the Internet or when the data server is unavailable.\n\nIn this article, we will learn how to install and use IPFS on a FreeBSD server. Before discussing IPFS further, it doesn’t hurt to get to know IPFS first.\n\n1. What is Inter Planetary File System (IPFS)\nIPFS (InterPlanetary File System) is a modular protocol suite that builds a peer-to-peer network with resources addressed by their content, rather than physical location as in HTTP. IPFS can organize and transfer data, designed from the ground up with the principles of content addressing and peer-to-peer networking.\n\nSince IPFS is open source, there are several implementations of IPFS. Although IPFS has more than one use case, its primary use case is for publishing data (files, directories, and websites) in a decentralized manner. IPFS provides us with some of the blockchain guarantees such as decentralization and immutable storage at a much lower price than the transaction fees and participation in the free IPFS network.\n\n\n\n\n\n\nThe important thing to understand about IPFS is that when you add files through an IPFS node, the IPFS network does not store your files. The files you add remain on your computer and others can read your files. However, when you turn off your computer or turn off an IPFS node on your local network, others cannot read your files until you come back online. Unless you store your files on an external IPFS node, any files you add will remain unreadable to others.\n\nWhile there are storage providers that are built with IPFS support (often known as embedding services), IPFS itself is a protocol, not a provider. IPFS can be used and complements cloud infrastructure, but IPFS itself is not a cloud service provider.\n\n2. How to Install and Configure IPFS\nOn FreeBSD, IPFS runs in GO, so before you install IPFS on a FreeBSD server, the GO Lang application must be installed first. Read the previous article about “How to Install GOLANG GO Language on FreeBSD 14”.\n\nIPFS on FreeBSD 13.2 can only run with the Go language version: go119.\n\nAfter you read the article above, we continue with installing IPFS. If you are using PUTTY, type the command below in the PuTTY shell menu.\n\n2.1 Create Go lang symlink.\nroot@ns1:~ # rm -R -f /usr/local/bin/go\nroot@ns1:~ # ln -s /usr/local/bin/go119 /usr/local/bin/go\n\n\n2.2. Install IPFS with the FreeBSD ports system.\n\nroot@ns6:~ # cd /usr/ports/sysutils/ipfs-go\nroot@ns6:/usr/ports/sysutils/ipfs-go # make install clean\n\n\n\n2.3. Run IPFS with the rc.d script, add the script below to the /etc/rc.conf file.\n\nroot@ns6:/usr/ports/sysutils/ipfs-go # ee /etc/rc.conf\n\nipfs_go_enable=\"YES\"\nipfs_go_user=\"ipfs-go\"\nipfs_go_group=\"ipfs-go\"\nipfs_go_path=\"/var/db/ipfs-go/.ipfs\"\nipfs_go_syslog_priority=\"info\"\nipfs_go_syslog_facility=\"daemon\"\nipfs_go_syslog_tag=\"ipfs-go\"\n\n\nThe script above is used to run IPFS automatically on a local computer. Take a look at the script above, in the script we can see that the IPFS configuration file is in the /var/db/ipfs-go folder. To make editing easier, use WINSCP, open the folder with WINSCP. See the image below.\n\n\n\n\n\n\nOpen the configuration file /var/db/ipfs-go/.ipfs/config, and edit its contents according to the script below.\n\n{\n \"API\": {\n \"HTTPHeaders\": {\n \"Access-Control-Allow-Methods\": [\n \"PUT\",\n \"POST\"\n ],\n \"Access-Control-Allow-Origin\": [\n \"http://192.168.5.2:5001\",\n \"http://localhost:3000\",\n \"http://127.0.0.1:5001\",\n \"https://webui.ipfs.io\"\n ]\n }\n },\n \"Addresses\": {\n \"API\": \"/ip4/192.168.5.2/tcp/5001\",\n \"Announce\": [],\n \"AppendAnnounce\": [],\n \"Gateway\": \"/ip4/192.168.5.2/tcp/8080\",\n \"NoAnnounce\": [],\n \"Swarm\": [\n \"/ip4/0.0.0.0/tcp/4001\",\n \"/ip6/::/tcp/4001\",\n \"/ip4/0.0.0.0/udp/4001/quic\",\n \"/ip4/0.0.0.0/udp/4001/quic-v1\",\n \"/ip4/0.0.0.0/udp/4001/quic-v1/webtransport\",\n \"/ip6/::/udp/4001/quic\",\n \"/ip6/::/udp/4001/quic-v1\",\n \"/ip6/::/udp/4001/quic-v1/webtransport\"\n ]\n },\n \"AutoNAT\": {},\n \"Bootstrap\": [\n \"/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN\",\n \"/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa\",\n \"/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb\",\n \"/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt\",\n \"/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ\",\n \"/ip4/104.131.131.82/udp/4001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ\"\n ],\n \"DNS\": {\n \"Resolvers\": {}\n },\n \"Datastore\": {\n \"BloomFilterSize\": 0,\n \"GCPeriod\": \"1h\",\n \"HashOnRead\": false,\n \"Spec\": {\n \"mounts\": [\n {\n \"child\": {\n \"path\": \"blocks\",\n \"shardFunc\": \"/repo/flatfs/shard/v1/next-to-last/2\",\n \"sync\": true,\n \"type\": \"flatfs\"\n },\n \"mountpoint\": \"/blocks\",\n \"prefix\": \"flatfs.datastore\",\n \"type\": \"measure\"\n },\n {\n \"child\": {\n \"compression\": \"none\",\n \"path\": \"datastore\",\n \"type\": \"levelds\"\n },\n \"mountpoint\": \"/\",\n \"prefix\": \"leveldb.datastore\",\n \"type\": \"measure\"\n }\n ],\n \"type\": \"mount\"\n },\n \"StorageGCWatermark\": 90,\n \"StorageMax\": \"10GB\"\n },\n \"Discovery\": {\n \"MDNS\": {\n \"Enabled\": true\n }\n },\n \"Experimental\": {\n \"AcceleratedDHTClient\": true,\n \"FilestoreEnabled\": false,\n \"GraphsyncEnabled\": false,\n \"Libp2pStreamMounting\": false,\n \"P2pHttpProxy\": false,\n \"StrategicProviding\": false,\n \"UrlstoreEnabled\": false\n },\n \"Gateway\": {\n \"APICommands\": [],\n \"HTTPHeaders\": {\n \"Access-Control-Allow-Headers\": [\n \"X-Requested-With\",\n \"Range\",\n \"User-Agent\"\n ],\n \"Access-Control-Allow-Methods\": [\n \"GET\"\n ],\n \"Access-Control-Allow-Origin\": [\n \"*\"\n ]\n },\n \"NoDNSLink\": false,\n \"NoFetch\": false,\n \"PathPrefixes\": [],\n \"PublicGateways\": {\n \"https://ipfs.io/\": {\n \"Paths\": [\n \"/ipfs\",\n \"/ipns\"\n ],\n \"UseSubdomains\": true\n }\n },\n \"RootRedirect\": \"\"\n },\n \"Identity\": {\n \"PeerID\": \"12D3KooWQkFkABHUCULXkPyRfrLA81dHXgC8evRhdYHWdMRrVcMX\",\n \"PrivKey\": \"CAESQNAw3t1E9zNXln5PV5RsoKpK6ewLYMmkNjm0m+5XRNys3dG3lvylqCjlHt88TbEkZDmu5n71YG9JLGMj1gbm5AI=\"\n },\n \"Internal\": {},\n \"Ipns\": {\n \"RecordLifetime\": \"\",\n \"RepublishPeriod\": \"\",\n \"ResolveCacheSize\": 128\n },\n \"Migration\": {\n \"DownloadSources\": [],\n \"Keep\": \"\"\n },\n \"Mounts\": {\n \"FuseAllowOther\": false,\n \"IPFS\": \"/ipfs\",\n \"IPNS\": \"/ipns\"\n },\n \"Peering\": {\n \"Peers\": null\n },\n \"Pinning\": {\n \"RemoteServices\": {}\n },\n \"Plugins\": {\n \"Plugins\": null\n },\n \"Provider\": {\n \"Strategy\": \"\"\n },\n \"Pubsub\": {\n \"DisableSigning\": false,\n \"Router\": \"\"\n },\n \"Reprovider\": {},\n \"Routing\": {\n \"Methods\": null,\n \"Routers\": null\n },\n \"Swarm\": {\n \"AddrFilters\": null,\n \"ConnMgr\": {},\n \"DisableBandwidthMetrics\": false,\n \"DisableNatPortMap\": false,\n \"RelayClient\": {},\n \"RelayService\": {},\n \"ResourceMgr\": {\n \"Limits\": {}\n },\n \"Transports\": {\n \"Multiplexers\": {},\n \"Network\": {},\n \"Security\": {}\n }\n }\n}\n\n\nNote the blue writing, the number 192.168.5.2 is your computer’s local IP address. After that we run the ipfs-go init command.\n\nroot@ns6:~ # ipfs-go init\nroot@ns6:~ # ipfs-go config --json API.HTTPHeaders.Access-Control-Allow-Origin '[\"http://192.168.5.2:5001\", \"http://localhost:3000\", \"http://127.0.0.1:5001\", \"https://webui.ipfs.io\"]'\nroot@ns6:~ # ipfs-go config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"POST\"]'\n\n\nThen you continue by creating an IPFS symlink file to /root.\n\nroot@ns6:~ # rm -rf /root/.ipfs\nroot@ns6:~ # ln -s /var/db/ipfs-go/.ipfs /root\n\n\nAfter that, you create another file /var/db/ipfs-go/.ipfs/api.\n\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # touch /var/db/ipfs-go/.ipfs/api\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # ee /var/db/ipfs-go/.ipfs/api\n\n/ip4/192.168.5.2/tcp/5001\n\n\nAfter that we continue by running IPFS.\n\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # service ipfs-go restart\n\n\n\n3. Test IPFS\nOnce everything is configured, the last step is to test whether the IPFS server is running or not. Basic proof that ‘ipfs is working’ locally. The first step is to create a folder /var/db/ipfs-go/.ipfs/ipfs to store all IPFS data.\n\nroot@ns6:~ # mkdir -p /var/db/ipfs-go/.ipfs/ipfs\nroot@ns6:~ # cd /var/db/ipfs-go/.ipfs/ipfs\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs #\n\n\nAfter that we create IPFS data, this data will later be used on the peer to peer network via the IPFS Node.\n\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # echo \"FreeBSD IPFS local server\" &gt; TestIPFS\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # ipfs-go add TestIPFS\nadded QmNeCaGW44nddxLZGQmk6GagSafb8gZwcou8YbvhW1wt5b TestIPFS\n 26 B / 26 B [==========================================================================================================================================================] 100.00%\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # ipfs-go cat QmNeCaGW44nddxLZGQmk6GagSafb8gZwcou8YbvhW1wt5b\nFreeBSD IPFS local server\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs #\n\n\n\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # echo \"Test IPFS on FreeBSD\" &gt; FreeBSDTest.txt\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # ipfs-go add FreeBSDTest.txt\nadded QmZiaPkqkAsgcCyc84wLnbQnweSj9s2CuJbBSXVzyihshk FreeBSDTest.txt\n 21 B / 21 B [==========================================================================================================================================================] 100.00%\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # ipfs-go cat QmZiaPkqkAsgcCyc84wLnbQnweSj9s2CuJbBSXVzyihshk\nTest IPFS on FreeBSD\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs #\n\n\nRestart IPFS\n\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # chown -R ipfs-go:ipfs-go /var/db/ipfs-go/.ipfs/\nroot@ns6:/var/db/ipfs-go/.ipfs/ipfs # service ipfs-go restart\n\n\nNow let’s try to connect to the http port on the web browser. Open Google Chrome or Yandex web browser, type http://192.168.5.2:5001/webui.\n\n\n\n\n\n\nOnce you are connected to the IPFS Node, now try typing the CIDS from the FreeBSDTest.txt and TestIPFS files we created earlier, notice the CIDS in blue above.\n\nIn Yandex Browser or Google Chrome enter the following command:\n\nhttp://192.168.5.2:8080/ipfs/QmNeCaGW44nddxLZGQmk6GagSafb8gZwcou8YbvhW1wt5b\nhttp://192.168.5.2:8080/ipfs/QmZiaPkqkAsgcCyc84wLnbQnweSj9s2CuJbBSXVzyihshk\n\n\nI run an IPFS node on a FreeBSD 13.2 machine and I have no major issues with it, everything works fine. For programmatic access, you can make the IPFS gateway scriptable and use the IPFS HTTP API. There are many creative use cases for IPFS.\n\n", "dateCreated": "2025-06-02 10:23:11 +0300", "datePublished": "2025-06-02 10:23:11 +0300", "dateModified": "2025-09-10 11:45:03 +0100", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame", "image": { "@type": "ImageObject", "caption": "Photo Kecil", "name": "Iwan Setiawan", "alternateName": "Iwan Sting", "description": "Phtoto Saya Waktu Masih Kecil", "height": 50, "width": 50, "url": "https://unixwinbsd.site/img/jaka.jpg" } }, "publisher": { "@type": "Organization", "name": "WARNET DAPURNET", "url": "https://www.google.com/maps/place/WARNET+DAPURNET/@-6.2697727,107.1165375,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69854270602ca7:0x71e63dfb53b7b95!8m2!3d-6.2697727!4d107.1165375!16s%2Fg%2F11fx88pw2p?entry=ttu", "logo": { "@type": "ImageObject", "width": 32, "height": 32, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/Logo.png" } }, "image": { "@type": "ImageObject", "caption": "/freebsd/ipfs-peer-to-peer-network-freebsd", "name": "How to Install IPFS Peer to Peer Networking on FreeBSD", "description": "If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering", "height": 350, "width": 350, "url": "https://unixwinbsd.github.io/unixbsdshell.github.io" }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/ipfs-peer-to-peer-network-freebsd/", "headline": "How to Install IPFS Peer to Peer Networking on FreeBSD", "author": { "@type": "ProfilePage", "@id": "https://unixwinbsd.site/#profileauthor", "name": "Iwan Setiawan", "url": "https://www.blogger.com/profile/08958087252392329520" }, "breadcrumb": { "@type": "BreadcrumbList", "@id": "https://unixwinbsd.site/#bs_breadcrumb", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "name": "How to Install IPFS Peer to Peer Networking on FreeBSD", "description": "If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering", "itemListElement": [ { "@type": "ListItem", "position": 1, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#home", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io", "identifier": "Home", "description": "If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering", "name": "Home", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io" } }, { "@type": "ListItem", "position": 2, "item": { "@type": "WebPage", "@id": "freebsd/#label", "url": "https://unixwinbsd.site/categories/#freebsd", "identifier": "categories", "name": "freebsd", "description": "If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd" } }, {"@type": "ListItem", "position": 3, "item": { "@type": "WebPage", "@id": "https://unixwinbsd.site/#judul", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/ipfs-peer-to-peer-network-freebsd/", "identifier": "judul", "name": "How to Install IPFS Peer to Peer Networking on FreeBSD", "description": "If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering", "sameAs": "https://unixwinbsd.github.io/unixbsdshell.github.io//freebsd/ipfs-peer-to-peer-network-freebsd/" }} ]} } }</script><script type="application/ld+json">{ "@context": "https://schema.org", "@type": "CreativeWorkSeries", "url": "https://unixwinbsd.github.io/unixbsdshell.github.io/freebsd/ipfs-peer-to-peer-network-freebsd/", "name": "How to Install IPFS Peer to Peer Networking on FreeBSD", "description": "If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering", "dateCreated": "2025-06-02 10:23:11 +0300", "datePublished": "2025-06-02 10:23:11 +0300", "dateModified": "2025-09-10 11:45:03 +0100", "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.94", "bestRating": "5", "ratingCount": "169" }, "review": { "@type": "Review", "author": { "@type": "Person", "name": "Iwan Setiawan", "givenName": "Bata", "familyName": "Iwan Setiawan", "email": "iwanse1212@yandex.com", "url": "https://www.blogger.com/profile/08958087252392329520", "gender": "male", "description": "Linux and BSD are operating systems for various platforms that focus on features, speed, and stability. These systems are derived from UNIX versions", "alternateName": "Iwan Sting", "additionalName": "Setiawan", "birthDate": "1977", "birthPlace": "Kabupaten Bekasi, Provinsi Jawa Barat, Indonesia", "jobTitle": "Blogger Writer", "spouse": "Siti Umaroh", "award": "Navigasi Darat", "seeks": "Fame" }, "datePublished": "2025-06-02 10:23:11 +0300", "name": "How to Install IPFS Peer to Peer Networking on FreeBSD", "headline": "How to Install IPFS Peer to Peer Networking on FreeBSD", "description": "If you are running an IPFS node that serves many requests, such as a public HTTP gateway, IPFS can speed up queries by maintaining long-term connections to IPFS nodes that serve many CIDs. Using IPFS, you can prioritize connections to specific peers called Peering", "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "3", "worstRating": "1" } } }</script></div></main><button id="scroll-to-top" type="button" class="btn btn-link btn-lg" onclick="scrollToTop()" title="Back to Top" aria-label="Back to Top"><i class="bi-arrow-up-square"></i></button><script>// When the user scrolls down from the top of the document, show the button
+    window.onscroll = function () {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+            document.getElementById("scroll-to-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-to-top").style.display = "none";
+        }
+    }
+    // scroll to top function
+    function scrollToTop() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }</script><style>/* scroll to top */
+#scroll-to-top {
+    display: none; 
+    position: fixed; 
+    bottom: 35px; 
+    right: 20px; 
+    z-index: 99;
+    font-size: 40px; 
+}</style><footer class="d-print-none"><div class="container"><div class="row"><div class="col-lg"><ul class="list-inline"><li class="list-inline-item mb-2"><a href="mailto:iwanse1212@yandex.com"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://twitter.com/twitter_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-x-twitter fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://linkedin.com/company/project_name/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://facebook.com/groups/group_id/"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://github.com/github_username"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i></span></a></li><li class="list-inline-item mb-2"><a href="https://unixwinbsd.github.io/unixbsdshell.github.io/feed.xml"><span class="fa-stack fa-lg"><i class="fa-solid fa-circle fa-stack-2x"></i> <i class="fa-solid fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul></div></div><div class="small mt-2"><p>Copyright 2023-2025 UnixBSDShell's Blog</p>- Content on this site is licensed under a CC BY 4.0 License. | Theme: Petridish</div></div></footer></body></html>

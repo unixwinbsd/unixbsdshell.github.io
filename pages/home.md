@@ -7,7 +7,7 @@ excerpt: UnixBSDShell's Blog - A Blog That Focuses On UNIX Systems, Such As Free
 permalink: /
 ---
 
-[UnixBSDShell's Blog](https://unixwinbsd.site/) is a Jekyll theme for research project websites. Or your personal blog or lab website. 👩‍🔬 It's mobile-friendly (thanks to [Bootstrap 5](https://getbootstrap.com/docs/5.3/)), free, easy to customize, and designed to work well with [Prohoster](https://prohoster.info/).
+[UnixBSDShell's Blog](https://unixwinbsd.github.io) is a Jekyll theme for research project websites. Or your personal blog or lab website. 👩‍🔬 It's mobile-friendly (thanks to [Bootstrap 5](https://getbootstrap.com/docs/5.3/)), free, easy to customize, and designed to work well with [Prohoster](https://prohoster.info/).
 
 <br/>
 

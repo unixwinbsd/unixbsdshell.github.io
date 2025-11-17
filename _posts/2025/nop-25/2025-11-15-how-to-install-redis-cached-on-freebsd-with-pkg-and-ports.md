@@ -7,7 +7,7 @@ lang: en
 author: Iwan Setiawan
 robots: index, follow
 categories: freebsd
-tags: DNSServer
+tags: SysAdmin
 background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-010.jpg
 toc: true
 comments: true
@@ -20,7 +20,7 @@ Redis (Remote Dictionary Server) is an in-memory data structure store, used as a
 
 The Redis project began when `Salvatore Sanfilippo`, the original developer of Redis, wanted to improve the scalability of his Italian startup. From there, he developed Redis, which is now used as [a database, cache, message broker, and queue](https://meta.stackexchange.com/questions/110320/stack-overflow-db-performance-and-redis-cache). Redis delivers sub-millisecond response times, enabling millions of requests per second for real-time applications in industries like gaming, ad tech, financial services, healthcare, and IoT.
 
-Redis is currently one of the most popular and beloved open-source database engines. [Stack Overflow](https://stackoverflow.com/questions/66979102/redis-database-vs-redis-cache) even named it the "Most Loved" database for five consecutive years. Due to its fast performance, Redis is a popular choice for caching, session management, gaming, leaderboards, real-time analytics, geospatial, ride-hailing, chat/messaging, media streaming, and pub/sub applications.
+Redis is currently one of the most popular and beloved open-source database engines. [Stack Overflow](https://stackoverflow.com/questions/66979102/redis-database-vs-redis-cache) even named it the `Most Loved` database for five consecutive years. Due to its fast performance, Redis is a popular choice for caching, session management, gaming, leaderboards, real-time analytics, geospatial, ride-hailing, chat/messaging, media streaming, and pub/sub applications.
 
 <img alt="How to Install Redis Cached on FreeBSD with PKG and Ports" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-010.jpg' | relative_url }}">
 <br/>
@@ -31,7 +31,7 @@ In this article, we'll cover how to install and configure Redis on a FreeBSD 13.
 
 ## A. Redis Installation Process
 
-[To install Redis](https://unixwinbsd.site/freebsd/how-to-install-unbound-dns-with-redis-cached-module/), this article will only explain how to install Redis using the ports system. Before installing Redis, first update the FreeBSD ports system. Here's how to update ports and PKGs on FreeBSD.
+[To install Redis](https://unixwinbsd.site/freebsd/how-to-install-unbound-dns-with-redis-cached-module/), this article will only explain how to install Redis using the ports system. Before installing Redis, first update the FreeBSD ports system. Here's how to `update ports and PKGs on FreeBSD`.
 
 ```yml
 root@ns1:~ # portmaster -af
@@ -87,7 +87,7 @@ Using existing user 'redis'.
 
 ## B. Redis Configuration
 
-After successfully installing Redis, the next step to ensure it's fully functional is to configure it. The Redis configuration file is located at /usr/local/etc/redis.conf. The redis.conf file is where we'll edit the scripts within it. The following are the scripts you'll need to modify in the /usr/local/etc/redis.conf file.
+After successfully installing Redis, the next step to ensure it's fully functional is to configure it. The Redis configuration file is located at `/usr/local/etc/redis.conf`. The redis.conf file is where we'll edit the scripts within it. The following are the scripts you'll need to modify in the `/usr/local/etc/redis.conf` file.
 
 ```console
 bind 127.0.0.1
@@ -98,9 +98,9 @@ maxmemory-policy volatile-lru
 maxmemory 64mb
 ```
 
-The script above is the one you must activate in the `/usr/local/etc/redis.conf` file by removing the `"#"` symbol in front of the script. This means the IP address used by Redis is 127.0.0.1 on port 6379 with the password "mountainrinjani."
+The script above is the one you must activate in the `/usr/local/etc/redis.conf` file by removing the `"#"` symbol in front of the script. This means the IP address used by Redis is 127.0.0.1 on port 6379 with the password `mountainrinjani`.
 
-Once the "redis.conf" configuration file is configured, the next step is to create a Startup script in the /etc/rc.conf file. This script is useful for automatically activating Redis, so you don't have to do it manually. To activate Redis, simply type the script below. Redis will automatically activate. The following is the Redis script you must type in the `/etc/rc.conf` file.
+Once the `redis.conf` configuration file is configured, the next step is to create a Startup script in the `/etc/rc.conf` file. This script is useful for automatically activating Redis, so you don't have to do it manually. To activate Redis, simply type the script below. Redis will automatically activate. The following is the Redis script you must type in the `/etc/rc.conf` file.
 
 ```console
 root@ns1:~ # ee /etc/rc.conf
@@ -125,7 +125,7 @@ root@ns1:~ # redis-cli
 127.0.0.1:6379>
 ```
 
-c.2. Password Authentication
+### c.2. Password Authentication
 
 ```console
 root@ns1:~ # redis-cli

@@ -20,7 +20,7 @@ In today's digital age, privacy and security are more important than ever. When 
 
 This guide will explain another way to download torrent files through a FreeBSD server using Tor. With Tor, your downloads are guaranteed to be undetectable, as everything is done anonymously.
 
-Before reading this article, we recommend reading the previous articles, "Setting Up Tor and Privoxy for Anonymous Internet Surfing" and "Installing and Configuring TOR on a FreeBSD Server," as each article is related to the other. In the previous article, we discussed how to install TOR and Privoxy on a FreeBSD Server computer.
+Before reading this article, we recommend reading the previous articles, ["Setting Up Tor and Privoxy for Anonymous Internet Surfing"](https://unixwinbsd.site/freebsd/rotating-public-ip-with-tor-privoxyfreebsd/) and ["Installing and Configuring TOR on a FreeBSD Server"](https://unixwinbsd.site/freebsd/guide-to-installing-tor-network-on-openbsd/) as each article is related to the other. In the previous article, we discussed how to install TOR and Privoxy on a FreeBSD Server computer.
 
 Currently, my Windows client computer uses proxies from TOR and Privoxy. The results are quite impressive: no sites are blocked anymore, and my public IP address uses a random public IP from the TOR server. So when accessing the internet, I no longer use my Indihome public IP address.
 

@@ -7,7 +7,7 @@ lang: en
 author: Iwan Setiawan
 robots: index, follow
 categories: freebsd
-tags: Anonymous
+tags: UnixShell
 background: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTPpAJ1SrvxAeVWkTUUJIQp7u9qbsXWuIeBw&s
 toc: true
 comments: true
@@ -64,7 +64,7 @@ Once Pandoc is installed on your FreeBSD system, it's ready to be used to conver
 
 ## B. How to Use Pandoc File Converter
 
-Below, we'll provide some examples of how to use Pandoc as a file converter. Create a biblio.bib file in the `/root` folder. We'll convert this file to an HTML file and name it `example24a.html`. The script below is an example of a biblio.bib file.
+Below, we'll provide some examples of how to use Pandoc as a file converter. Create a biblio.bib file in the `/root` folder. We'll convert this file to an HTML file and name it `example24a.html`. The script below is an example of a `biblio.bib` file.
 
 ```console
 @Book{item1,

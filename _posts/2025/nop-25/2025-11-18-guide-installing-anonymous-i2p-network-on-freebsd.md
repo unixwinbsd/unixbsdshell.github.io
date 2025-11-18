@@ -8,7 +8,7 @@ author: Iwan Setiawan
 robots: index, follow
 categories: freebsd
 tags: Anonymous
-background: 
+background: https://cdn.publish0x.com/prod/fs/images/053f3ed0b58ef7f9d91134a45a542373251552629581a7564cc87df0f5336fdf.jpg
 toc: true
 comments: true
 published: true
@@ -21,6 +21,8 @@ I2P is the Tor network's twin, but its creators often use the opposite approach 
 I2P is encrypted from everyone on the I2P network, so website owners don't know who is visiting them, and clients don't know who they are actually targeting for internet content.
 
 I2P, also often referred to as the Invisible Internet Project, its scalable, self-organizing network distributes packets among layers of an anonymous network that can run any number of applications while maintaining a high level of security and anonymity.
+
+<img alt="Guide to Installing the Anonymous I2P Network on FreeBSD" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://cdn.publish0x.com/prod/fs/images/053f3ed0b58ef7f9d91134a45a542373251552629581a7564cc87df0f5336fdf.jpg' | relative_url }}">
 
 This article discusses installing and configuring I2P on a FreeBSD machine. The specifications used in this article are as follows.
 

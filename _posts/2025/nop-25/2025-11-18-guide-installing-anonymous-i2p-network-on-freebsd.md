@@ -91,9 +91,11 @@ i2p_enable="YES"
 i2p_user="i2p"
 ```
 
-Open the `/usr/local/etc/rc.d` folder and look for the i2p file. Once you find it, open it. Delete the command="/usr/local/sbin/i2prouter" script and replace it with the command="/usr/home/i2p/i2p/runplain.sh" script.
+Open the `/usr/local/etc/rc.d` folder and look for the i2p file. Once you find it, open it. Delete the `command="/usr/local/sbin/i2prouter"` script and replace it with the `command="/usr/home/i2p/i2p/runplain.sh"` script.
 
-Next, use Putty to open the `/usr/local/sbin` folder. Don't forget to use the su i2p syntax, as otherwise, the i2p program will be installed as root. Keep in mind that the i2p program will not run as root; it can only run under the i2p user and group. Therefore, the i2p syntax is to enter the i2p user and group. Ending with exit will leave the i2p user and group.
+Next, use Putty to open the `/usr/local/sbin` folder. Don't forget to use the su i2p syntax, as otherwise, the i2p program will be installed as root. Keep in mind that the i2p program will not run as root; it can only run under the i2p user and group.
+
+Therefore, the i2p syntax is to enter the i2p user and group. Ending with exit will leave the i2p user and group.
 
 ```yml
 root@router2:~ # su i2p
@@ -102,7 +104,7 @@ root@router2:~ # su i2p
 # exit
 ```
 
-The next step is to edit the runplain.sh file in the /usr/home/i2p/i2p folder. Remove or add the "#" at the beginning of the script and add the script I2PTEMP="/usr/home/i2p/i2p". The following is an example of the contents of the runplain.sh script file.
+The next step is to edit the `runplain.sh` file in the `/usr/home/i2p/i2p` folder. Remove or add the **"#"** at the beginning of the script and add the script `I2PTEMP="/usr/home/i2p/i2p"`. The following is an example of the contents of the `runplain.sh` script file.
 
 ```console
 #!/bin/sh

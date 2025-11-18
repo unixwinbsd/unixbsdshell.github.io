@@ -1,14 +1,14 @@
 ---
 title: Bash Command in FreeBSD - Advanced String Operations - Building Custom Functions
 date: "2025-02-08 11:17:10 +0300"
-updated: "2025-02-08 11:17:10 +0300"
+updated: "2025-11-17 11:17:10 +0300"
 id: bash-command-freebsd-string-opeartion
 lang: en
 author: Iwan Setiawan
 robots: index, follow
 categories: freebsd
 tags: UnixShell
-background: https://gitflic.ru/project/iwanse1212/unixwinbsd/blob/raw?file=Bash%20Command%20on%20FreeBSD%2014.jpg
+background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/feb-23/feb-25-001.jpg
 toc: true
 comments: true
 published: true
@@ -22,7 +22,7 @@ Whether you are a beginner or an experienced shell scripter with Bash commands, 
 
 In this article we have written on blogger, we'll dive into the world of Bash scripting and explore how to create custom string functions to perform advanced string operations. We cover important functions like ltrim, rtrim, trim, reverse, and len, and provide code examples to help you build these functions into your Bash scripts. By the end of this article, you willl have a better understanding of how to create custom functions to save time and streamline your Bash scripting workflow.
 
-![Bash Command on FreeBSD 14](https://gitflic.ru/project/iwanse1212/unixwinbsd/blob/raw?file=Bash%20Command%20on%20FreeBSD%2014.jpg)
+<img alt="Bash Command in FreeBSD - Advanced String Operations - Building Custom Functions" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/feb-23/feb-25-001.jpg' | relative_url }}">
 
 ## 1. What is Bash Scripting?
 
@@ -63,7 +63,7 @@ function rtrim {
 ```
 
 ### c. TRIM
-This function is like the love child of the ltrim and rtrim functions we talked about earlier. It takes your input string and removes both leading and trailing whitespace characters, leaving you with a clean and tidy string that’s ready to use.
+This function is like the love child of the ltrim and rtrim functions we talked about earlier. It takes your input string and removes both leading and trailing whitespace characters, leaving you with a clean and tidy string thatâ€™s ready to use.
 
 Below is an example script for the ltrim function.
 
@@ -107,7 +107,7 @@ function len {
 ```
 
 ### f. UPPERCASE
-This function takes an input string and converts it to all uppercase characters. It is like a big, bold statement saying They, look at me, I am using ALL CAPS!”
+This function takes an input string and converts it to all uppercase characters. It is like a big, bold statement saying They, look at me, I am using ALL CAPS!â€
 
 The uppercase function uses a Bash built-in command called's. This command is like an interpreter, taking your input string and replacing all lowercase characters with their uppercase equivalents.
 
@@ -183,7 +183,7 @@ function split {
 ```
 
 ### l. CAPITALIZE
-This function is like a stylist that can give your input string a brand new look by capitalizing the first letter of each word. It’s like putting on a fancy hat or a snazzy pair of shoes - it just makes your string look more polished and put together!
+This function is like a stylist that can give your input string a brand new look by capitalizing the first letter of each word. Itâ€™s like putting on a fancy hat or a snazzy pair of shoes - it just makes your string look more polished and put together!
 
 So, how does it work? Well, the capitalize function uses a Bash built-in command called's. This command is like a fashion designer that can make subtle changes to your input string, based on a pattern that you provide.
 

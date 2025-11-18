@@ -2,7 +2,7 @@
 title: How to Use Pandoc File Converter on FreeBSD
 date: "2025-11-17 21:39:21 +0000"
 updated: "2025-11-17 21:39:21 +0000"
-id: install-bittorrent-utorrent-for-high-speed-anonymous-file-download
+id: how-to-use-pandoc-file-converter-on-freebsd
 lang: en
 author: Iwan Setiawan
 robots: index, follow

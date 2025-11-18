@@ -93,7 +93,7 @@ i2p_user="i2p"
 
 Open the `/usr/local/etc/rc.d` folder and look for the i2p file. Once you find it, open it. Delete the `command="/usr/local/sbin/i2prouter"` script and replace it with the `command="/usr/home/i2p/i2p/runplain.sh"` script.
 
-Next, use Putty to open the `/usr/local/sbin` folder. Don't forget to use the su i2p syntax, as otherwise, the i2p program will be installed as root. Keep in mind that the i2p program will not run as root; it can only run under the i2p user and group.
+Next, use Putty to open the `/usr/local/sbin` folder. Don't forget to use the su i2p syntax, as otherwise, the i2p program will be installed as root. Keep in mind that the i2p program will not run as root, it can only run under the i2p user and group.
 
 Therefore, the i2p syntax is to enter the i2p user and group. Ending with exit will leave the i2p user and group.
 
@@ -137,24 +137,24 @@ My suggestion, it's better to just reboot/restart your server computer.
 root@router2:~ # reboot
 ```
 
-After the I2P program is restarted or the server is rebooted, all I2P settings will be moved to the hidden folder /usr/home/i2p/.i2p. Notice the dot in front of "i2p"; it indicates the folder is hidden.
+After the I2P program is restarted or the server is rebooted, all I2P settings will be moved to the hidden folder `/usr/home/i2p/.i2p`. Notice the dot in front of **"i2p"**, it indicates the folder is hidden.
 
 Now, open the hidden folder `/usr/home/i2p/.i2p.` In this article, I will provide the I2P console address as the same as the FreeBSD Server IP address, which is 192.168.9.3. To open the I2P browser console with the IP address 192.168.9.3:7657, edit the following file:
 
-In the clients.config.bak file, in the clientApp.0.args=7657::1,127.0.0.1 ./webapps/ and clientApp.4.args=http://127.0.0.1:7657/ scripts, replace .
+In the `clients.config.bak` file, in the `clientApp.0.args=7657::1,127.0.0.1 ./webapps/ and clientApp.4.args=http://127.0.0.1:7657/` scripts, replace .
 
 ```console
 clientApp.0.args=7657 ::1,192.168.9.3 ./webapps/
 clientApp.4.args=http://192.168.9.3:7657/
 ```
 
-Next, open the /usr/home/i2p/.i2p/clients.config.d folder, edit the 00-net.i2p.router.web.RouterConsoleRunner-clients.config file.
+Next, open the `/usr/home/i2p/.i2p/clients.config.d` folder, edit the `00-net.i2p.router.web.RouterConsoleRunner-clients.config` file.
 
 ```console
 clientApp.0.args=7657 ::1,192.168.9.3 ./webapps/
 ```
 
-You also edit the 04-net.i2p.apps.systray.UrlLauncher-clients.config file.
+You also edit the `04-net.i2p.apps.systray.UrlLauncher-clients.config` file.
 
 ```console
 clientApp.0.args=http://192.168.9.3:7657/
@@ -166,12 +166,12 @@ Once we have finished configuring everything, restart the server computer.
 root@router2:~ # reboot
 ```
 
-B. Perform I2P Testing
+## B. Perform I2P Testing
 
 Once the reboot process is complete and your computer returns to normal, you can remotely connect with Putty. Open your Yandex, Firefox, or Chrome web browser. Simply open Yandex to perform a TEST. If the I2P router configuration menu opens, you have successfully installed the I2P program on your FreeBSD server.
 
-Open your Google Chrome web browser, type "Server IP http://192.168.9.3:7657" in the address bar, and view the results on your monitor.
+Open your Google Chrome web browser, type `"Server IP http://192.168.9.3:7657"` in the address bar, and view the results on your monitor.
 
-If the display looks like the image above, you have successfully installed the I2P program on your FreeBSD server. Installing I2P isn't difficult, I had some initial difficulties, but I eventually succeeded. It's certainly easier to install TOR than I2P, but if you follow the steps outlined above, you should be able to install I2P successfully.
+If the display looks like the image above, you have successfully installed the I2P program on your FreeBSD server. Installing I2P isn't difficult, I had some initial difficulties, but I eventually succeeded.
 
-
+It's certainly easier to install TOR than I2P, but if you follow the steps outlined above, you should be able to install I2P successfully.

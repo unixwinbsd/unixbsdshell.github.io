@@ -36,7 +36,7 @@ This article discusses installing and configuring I2P on a FreeBSD machine. The 
 
 On FreeBSD, I2P can be installed in two ways: via `FreeBSD Ports and via the PKG package`. We tried both methods:
 
-### a.1. Install melalui FreeBSD Ports
+### a.1. Install via FreeBSD Ports
 
 ```yml
 root@router2:~ # cd /usr/ports/java/openjdk8
@@ -46,7 +46,7 @@ root@router2:~ # cd /usr/ports/security/i2p
 root@router2:/usr/ports/security/i2p # make install clean
 ```
 
-### a.2. Install melalui Paket PKG
+### a.2. Install via PKG Package
 
 ```yml
 root@router2:~ # pkg install openjdk8

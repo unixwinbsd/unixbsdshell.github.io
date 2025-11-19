@@ -54,7 +54,7 @@ $ sudo apt install xkcdpass
 
 Even if you don't need to remember another passphrase, I still recommend generating some passphrases using the Diceware method, rather than KeePassXC's built-in generator. This isn't because passphrases are easy to remember, but because they're easy to type.
 
-Passphrase generators, like the one in KeePassXC, can generate secure passwords, but they typically look something like this:
+Passphrase generators, like the one in `KeePassXC`, can generate secure passwords, but they typically look something like this:
 
 ```console
 svkUi]jw?Ue_E&3 Y4/'H;-RYD)vb ?P
@@ -66,7 +66,7 @@ However, what if you're not working on your own computer? You can still use your
 
 Another scenario is if something is damaged, stolen, or lost. You might need to access data (e.g., backups) without having access to your usual comfortable work environment.
 
-The examples above, timid bingle heath js duck and qvkUj]jw?Ud_E&3 Y4/'H;-RYD)vb ?R, are both equally strong at 208 bits. However, while the former is easy for checking webmail or downloading something from your cloud while at a friend's house, the latter is nearly impossible to read correctly.
+The examples above, timid bingle heath js duck and `qvkUj]jw?Ud_E&3 Y4/'H;-RYD)vb ?R`, are both equally strong at `208 bits`. However, while the former is easy for checking webmail or downloading something from your cloud while at a friend's house, the latter is nearly impossible to read correctly.
 
 Some passphrases that might fall into this category:
 
@@ -78,7 +78,7 @@ Some passphrases that might fall into this category:
 - Server administrator login (root user).
 - Database management (MySQL server root user).
 
-D. How many words?
+## D. How many words?
 
 Each additional word used in a passphrase increases security.
 

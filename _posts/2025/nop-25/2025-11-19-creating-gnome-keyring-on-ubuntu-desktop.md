@@ -6,8 +6,8 @@ id: creating-gnome-keyring-on-ubuntu-desktop
 lang: en
 author: Iwan Setiawan
 robots: index, follow
-categories: freebsd
-tags: Anonymous
+categories: linux
+tags: WebServer
 background: https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/nop-25-0019.jpg
 toc: true
 comments: true
@@ -39,7 +39,7 @@ Gnome Keyring also manages access to your SSH keys, certificates, and TLS (x.509
 - You can't remove these keys, even with ssh-add -D, and
 - The agent doesn't respect certain important restrictions on added keys, such as the -c option, which requires me to confirm the use of loaded keys.
 
-The agent is started automatically at each login by the desktop file gnome-keyring-ssh.desktop in the system configuration folder /etc/xdg/autostart/. You can disable this by copying the desktop file to the user configuration folder ~/.config/autostart and then adding a configuration command to disable autostart.
+The agent is started automatically at each login by the desktop file gnome-keyring-ssh.desktop in the system configuration folder `/etc/xdg/autostart/`. You can disable this by copying the desktop file to the user configuration folder `~/.config/autostart` and then adding a configuration command to disable autostart.
 
 Because user-specific configurations take precedence over system-wide settings, only your personal desktop file will be used.
 
@@ -69,7 +69,7 @@ The best thing a computer can do is store information.
 
 You don't have to waste time trying to remember and type passwords. KeePassXC can securely store your passwords and automatically type them into your everyday websites and applications.
 
-KeePassXC is perhaps the single most important software program and personal database.
+`KeePassXC` is perhaps the single most important software program and personal database.
 
 It's primarily designed for secure password storage, but it can be used for any information that needs to be kept confidential. Such as:
 

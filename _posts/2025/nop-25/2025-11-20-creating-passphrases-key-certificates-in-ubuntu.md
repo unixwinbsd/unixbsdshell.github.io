@@ -6,7 +6,7 @@ id: creating-passphrases-key-certificates-in-ubuntu
 lang: en
 author: Iwan Setiawan
 robots: index, follow
-categories: freebsd
+categories: linux
 tags: Anonymous
 background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-020.jpg
 toc: true

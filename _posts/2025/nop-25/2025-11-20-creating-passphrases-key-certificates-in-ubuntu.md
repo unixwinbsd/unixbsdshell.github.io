@@ -1,7 +1,7 @@
 ---
 title: Creating Passphrases Keys and Certificates in Ubuntu
-date: "2025-11-20 07:21:11 +0000"
-updated: "2025-11-20 07:21:11 +0000"
+date: "2025-11-20 05:21:11 +0000"
+updated: "2025-11-20 05:21:11 +0000"
 id: creating-passphrases-key-certificates-in-ubuntu
 lang: en
 author: Iwan Setiawan
@@ -84,30 +84,142 @@ Each additional word used in a passphrase increases security.
 
 The following table is based on estimates of the computing power available to a large government organization. Keep in mind that we don't know for sure and that new technologies can change the game at any time.
 
-| Words       | Entropy          | Time to Crack        |  Safe until        |
-| ----------- | -----------   | ----------- | ----------- |
-| 4          | 51.6 bits          | less than a day          | Not safe          |
-| 5          | 	64.6 bits      | less then 6 months          | 2013          |
-| 6          | 77.5 bits          | 	3,505 years          | 2020          |
-| 7          | 	90.4 bits      | 	27 million years          | 2030          |
-| 8          | 	103.0 bits          | Unknown          | 2050          |
+<table class="table table-bordered">
+<thead>
+<tr class="table-primary">
+<th>Words</th>
+<th>Entropy</th>
+<th>Time to Crack</th>
+<th>Safe until</th>
+</tr>
+</thead>
+<tbody>
+<tr class="table-info">
+<th scope="row">4</th>
+<td>51.6 bits</td>
+<td>less than a day</td>
+<td>Not safe</td>
+
+</tr>
+<tr class="table-info">
+    <th scope="row">5</th>
+<td>64.6 bits</td>
+<td>less then 6 months</td>
+<td>2013</td>
+
+</tr>
+<tr class="table-info">
+<th scope="row">6</th>
+<td>77.5 bits</td>
+<td>3,505 years</td>
+<td>2020</td>
+
+</tr>
+<tr class="table-info">
+<th scope="row">7</th>
+<td>90.4 bits</td>
+<td>27 million years</td>
+<td>2030</td>
+
+</tr>
+<tr class="table-info">
+<th scope="row">8</th>
+<td>103.0 bits</td>
+<td>Unknown</td>
+<td>2050</td>
+
+</tr>
+</tbody>
+</table>
 
 Based on these assumptions, the following are suggested to balance convenience, ease of use and security.
 
-| User for       | Entropy          | Word        | 
-| ----------- | -----------   | ----------- |
-| Password Safe (KeePass)          | Highest          | 7          |
-| GPG Private Key          | Highest      | 7          |
-| Administrator Login          | Highest     | 7          |
-| CA Root Key          | Highest          | 7          |
-| CA Intermediate Key          | High          | 6          |
-| Storage Encryption          | High          | 6          |
-| SSH Private Key          | High          | 6          |
-| TLS Client Certificates          | High          | 6          |
-| User Login          | Medium          | 5          |
-| Mail & IM Accounts          | Medium          | 5          |
-| Cloud Storage          | Medium          | 5          |
-| Wireless Network          | Moderate          | 4          |
+
+<table class="table table-bordered">
+<thead>
+<tr class="table-primary">
+<th>User for</th>
+<th>Entropy</th>
+<th>Word</th>
+</tr>
+</thead>
+<tbody>
+
+<tr class="table-info">
+<td>Password Safe (KeePass)</td>
+<td>Highest</td>
+<td>7</td>
+</tr>
+
+<tr class="table-info">
+<td>GPG Private Key</td>
+<td>Highest</td>
+<td>7</td>
+</tr>
+
+<tr class="table-info">
+<td>5Administrator Login</td>
+<td>Highest</td>
+<td>7</td>
+</tr>
+
+<tr class="table-info">
+<td>CA Root Key</td>
+<td>Highest</td>
+<td>7</td>
+</tr>
+
+<tr class="table-info">
+<td>CA Intermediate Key</td>
+<td>High</td>
+<td>6</td>
+</tr>
+
+<tr class="table-info">
+<td>Storage Encryption</td>
+<td>High</td>
+<td>6</td>
+</tr>
+
+<tr class="table-info">
+<td>SSH Private Key</td>
+<td>High</td>
+<td>6</td>
+</tr>
+
+<tr class="table-info">
+<td>TLS Client Certificates</td>
+<td>High</td>
+<td>6</td>
+</tr>
+
+<tr class="table-info">
+<td>User Login</td>
+<td>Medium</td>
+<td>5</td>
+</tr>
+
+<tr class="table-info">
+<td>Mail & IM Accounts</td>
+<td>Medium</td>
+<td>5</td>
+</tr>
+
+<tr class="table-info">
+<td>Cloud Storage</td>
+<td>Medium</td>
+<td>5</td>
+</tr>
+
+<tr class="table-info">
+<td>Wireless Network</td>
+<td>Moderate</td>
+<td>4</td>
+</tr>
+
+</tbody>
+</table>
+
 
 Of course, the higher the better, and you're welcome to use more words. However, this document is intended primarily for personal use and is less intended for terrorist organizations, activists, large corporations, or government agencies.
 
@@ -384,3 +496,4 @@ $ openssl verify -issuer_checks -policy_print -verbose \
 ```
 
 We feel that this discussion is sufficient. You can apply the above material to your favorite Ubuntu server, whether Desktop or Server.
+

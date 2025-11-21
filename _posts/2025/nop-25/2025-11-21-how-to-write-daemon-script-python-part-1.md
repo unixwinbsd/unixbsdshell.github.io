@@ -40,6 +40,17 @@ Since the first daemons appeared in Python, the Python library introduced a daem
 
 It's true that DaemonRunner extends the functionality of DaemonContext, but it does so in a very outdated way (e.g., it doesn't use argparse). This may be the reason why it was eventually deprecated. Without further ado, DaemonContext makes it easy to start daemon jobs with just a context manager.
 
+<script type="text/javascript">
+	atOptions = {
+		'key' : '88e2ead0fd62d24dc3871c471a86374c',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/88e2ead0fd62d24dc3871c471a86374c/invoke.js"></script>
+
 ## 2. How to Create a Python Daemon
 
 The first step to using Python Daemon is to install the Python Daemon application. The following command is used to install the python daemon.

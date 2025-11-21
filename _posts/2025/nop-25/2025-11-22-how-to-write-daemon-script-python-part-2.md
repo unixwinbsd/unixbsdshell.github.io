@@ -16,7 +16,7 @@ excerpt: Since the first Python daemon appeared, the Python library has introduc
 keywords: script, python, daemon, freebsd, unix, bsd, command, shell, write
 ---
 
-This article is a continuation of the previous article on how to write daemons with Python on FreeBSD. This article will discuss Init, often called rc.d in FreeBSD.
+This article is a continuation of the previous article on how to write daemons with Python on FreeBSD. This article will discuss Init, often called `rc.d` in FreeBSD.
 
 ## 1. Init
 

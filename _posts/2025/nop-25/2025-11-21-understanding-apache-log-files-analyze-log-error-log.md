@@ -6,8 +6,8 @@ id: understanding-apache-log-files-analyze-log-error-log
 lang: en
 author: Iwan Setiawan
 robots: index, follow
-categories: openbsd
-tags: DNSServer
+categories: linux
+tags: SysAdmin
 background: 
 toc: true
 comments: true

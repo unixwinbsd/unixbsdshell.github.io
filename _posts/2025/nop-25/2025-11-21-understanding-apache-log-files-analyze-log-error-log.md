@@ -133,7 +133,7 @@ This format is also defined in the `/etc/apache2/apache2.conf` configuration fil
 
 ## D. Creating a custom log format
 
-You can define a custom log format in the `/etc/apache2/apache2.conf` file by using the LogFormat command followed by the actual output format and a nickname to be used as an identifier for the format. After defining a custom format, you will pass its nickname to the CustomLog command and restart the apache2 service.
+You can define a custom log format in the `/etc/apache2/apache2.conf` file by using the LogFormat command followed by the actual output format and a nickname to be used as an identifier for the format. After defining a custom format, you will pass its nickname to the CustomLog command and restart the `apache2 service`.
 
 In this example, we will create a custom log format that looks like this:
 
@@ -141,7 +141,7 @@ In this example, we will create a custom log format that looks like this:
 LogFormat "%t %H %m %U %q %I %>s %O %{ms}T" custom
 ```
 
-Open your /etc/apache2/apache2.conf file and place the above line below the other LogFormat lines. This will generate an access log entry with the following details:
+Open your `/etc/apache2/apache2.conf` file and place the above line below the other LogFormat lines. This will generate an access log entry with the following details:
 
 - **%t:** date and time of the request.
 - **%H:** request protocol.

@@ -1,7 +1,7 @@
 ---
 title: How to Configure NSD with dnssec on OpenBSD
-date: "2025-11-21 10:21:53 +0000"
-updated: "2025-11-21 10:21:53 +0000"
+date: "2025-11-21 07:21:53 +0000"
+updated: "2025-11-21 07:21:53 +0000"
 id: configure-nsd-with-dnssec-on-openbsd
 lang: en
 author: Iwan Setiawan

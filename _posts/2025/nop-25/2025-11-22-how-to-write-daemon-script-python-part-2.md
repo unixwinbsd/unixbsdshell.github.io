@@ -47,6 +47,17 @@ What is rcvar? Well, by entering `“bdaemon_enable=YES”` into `/etc/rc.conf`,
 
 Then the command to be executed and the arguments for that command are specified. And finally, two helper functions from rc.subr are called, which do all the complicated magic that's thankfully hidden from us.
 
+<script type="text/javascript">
+	atOptions = {
+		'key' : '88e2ead0fd62d24dc3871c471a86374c',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/88e2ead0fd62d24dc3871c471a86374c/invoke.js"></script>
+
 Okay, but what is `/usr/sbin/daemon?` FreeBSD comes with a very useful little utility that handles daemonization processes for others. This can be helpful if we want to use something as a background service but don't want to handle the actual daemonization ourselves.
 
 The **"-p"** argument tells the daemon utility to handle the PID file for that process as well. This is necessary for the init system to control the daemon. Even though our little example program is short-lived, we can still do something while it's running. Consider the onestatus and onestop services, for example.

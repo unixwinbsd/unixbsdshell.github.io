@@ -8,7 +8,7 @@ author: Iwan Setiawan
 robots: index, follow
 categories: freebsd
 tags: UnixShell
-background: /img/Logo.png
+background: https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/Unix_system_startup_procedure.jpg
 toc: true
 comments: true
 published: true
@@ -44,6 +44,8 @@ Of course, of all these actions, only the actual loading of the kernel is absolu
 Moreover, understanding the loading and initialization processes will not be superfluous when it comes to interrupting these processes manually. And the need for such intervention - unfortunately - arises from time to time in emergency situations...
 
 So, let's go through the main stages of starting and initializing DragonFly and see what needs to be configured in it, as well as where and how (and most importantly, why) you can interfere with it.
+
+<img alt="Unix system startup procedure" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/Unix_system_startup_procedure.jpg' | absolute_url }}">
 
 ## 2. Regarding booting and bootloader
 

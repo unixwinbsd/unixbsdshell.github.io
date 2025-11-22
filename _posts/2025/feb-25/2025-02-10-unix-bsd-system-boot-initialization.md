@@ -156,9 +156,9 @@ The loader built-in commands can be divided into three parts according to their 
 -   to configure the bootloader.
 -   actually to manage the loading process.
 
-From the first group of commands, we highlight the following: ls, lsdev, lsmod, show, more. The first is intended to view the root file system and its subdirectories, although only those that are not located in separate subsections. However, since all the files needed for loading are located in subdirectories of the root itself (in /boot, /dev, /modules), this limitation is not significant. The ls -l variant of the command displays a list of files (and directories) indicating their sizes; without this option, directories are simply marked with letters.
+From the first group of commands, we highlight the following: ls, lsdev, lsmod, show, more. The first is intended to view the root file system and its subdirectories, although only those that are not located in separate subsections. However, since all the files needed for loading are located in subdirectories of the root itself `(in /boot, /dev, /modules)`, this limitation is not significant.
 
-The lsdev command lists the disk devices present on the machine, its primary partitions and subpartitions (the latter only for partitions marked according to BSD label rules). The -v option provides output details.
+The ls -l variant of the command displays a list of files (and directories) indicating their sizes; without this option, directories are simply marked with letters. The lsdev command lists the disk devices present on the machine, its primary partitions and subpartitions (the latter only for partitions marked according to BSD label rules). The -v option provides output details.
 
 The lsmod command provides a display of the loaded modules of the loader before the menu (or command line) appears. As in the previous case, there is a verbose option - -v.
 
@@ -166,6 +166,8 @@ The show command performs the same function, but with respect to loader variable
 
 Well, this command performs more of the same function as its name suggests among Unix utilities. This command allows viewing the contents of a text file, i.e., being in the loader's command interpreter, we can familiarize ourselves with the settings that are important for loading (and others).
 
-Configuration commands allow you to define or clear bootloader variables, load or remove kernel modules. As already mentioned, the kernel itself with a set of predefined modules and variables is loaded before the loader and command interpreter menu. So, using the appropriate commands, this predefined set can be slightly adjusted (or changed completely). This may be necessary if the default kernel configuration is not loaded for some reason (a common case is a conflict between the laptop's power-saving system and the ACPI system module), for debugging purposes, or just to satisfy curiosity.
+Configuration commands allow you to define or clear bootloader variables, load or remove kernel modules. As already mentioned, the kernel itself with a set of predefined modules and variables is loaded before the loader and command interpreter menu. So, using the appropriate commands, this predefined set can be slightly adjusted (or changed completely).
 
-First, let's look at the module management commands. This is a pair of load commands for unloading and removing modules. The first one is used with the argument, which can be searched (using ls) in the /modules directory if necessary; the name in the argument is given without the *.ko suffix. An unload command with similar arguments will remove the specified module, without arguments; it will remove all modules completely, allowing you to start configuring from scratch.
+This may be necessary if the default kernel configuration is not loaded for some reason (a common case is a conflict between the laptop's power-saving system and the ACPI system module), for debugging purposes, or just to satisfy curiosity.
+
+First, let's look at the module management commands. This is a pair of load commands for unloading and removing modules. The first one is used with the argument, which can be searched (using ls) in the `/modules` directory if necessary; the name in the argument is given without the *.ko suffix. An unload command with similar arguments will remove the specified module, without arguments; it will remove all modules completely, allowing you to start configuring from scratch.

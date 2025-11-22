@@ -8,7 +8,7 @@ author: Iwan Setiawan
 robots: index, follow
 categories: linux
 tags: SysAdmin
-background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-022.jpg
+background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-023.jpg
 toc: true
 comments: true
 published: true

@@ -41,7 +41,7 @@ root@ns6:/usr/ports/www/youtube_dl # make config
 
 <img alt="Install Dependency Youtube DL" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/instal_dependensi.jpg' | absolute_url }}">
 
-If you want to use MP3 audio conversion, make sure multimedia/ffmpeg was created with the "LAME" option enabled. Use the "make clean" command to start the installation.
+If you want to use MP3 audio conversion, make sure multimedia/ffmpeg was created with the "LAME" option enabled. Use the `"make clean"` command to start the installation.
 
 ```yml
 root@ns6:/usr/ports/www/youtube_dl # make install clean
@@ -53,24 +53,24 @@ To successfully use this utility, you must correctly type the command in the ter
 
 > youtube-dl [OPTIONS] URL [URL...]
 
-Main options:
+**Main options:**
 
--**-h, --help:** Print this help text and exit.
--**--version:** Print the program version and exit.
--**-U, --update:** Update this program to the latest version.
--**-i, --ignore-errors:** Continue on download errors.
--**--abort-on-error:** Cancel any subsequent video downloads.
--**--dump-user-agent:** Display the current browser identifier.
--**--list-extractors:** List all supported extractors.
--**--extractor-descriptions:** Descriptions of the output from all supported extractors.
--**--force-generic-extractor:** Force extraction to use a generic extractor.
--**--default-search:** Use this prefix for unqualified URLs.
--**--ignore-config:** Do not read the configuration file.
--**--config-location:** The path to the configuration file.
--**--flat-playlist:** Do not extract videos from playlists, just list them.
--**--mark-watched:** Mark videos as watched (YouTube only).
--**--no-mark-watched:** Don't mark videos as watched (YouTube only).
--**--no-color:** Don't emit color codes in the output.
+- **-h, --help:** Print this help text and exit.
+- **--version:** Print the program version and exit.
+- **-U, --update:** Update this program to the latest version.
+- **-i, --ignore-errors:** Continue on download errors.
+- **--abort-on-error:** Cancel any subsequent video downloads.
+- **--dump-user-agent:** Display the current browser identifier.
+- **--list-extractors:** List all supported extractors.
+- **--extractor-descriptions:** Descriptions of the output from all supported extractors.
+- **--force-generic-extractor:** Force extraction to use a generic extractor.
+- **--default-search:** Use this prefix for unqualified URLs.
+- **--ignore-config:** Do not read the configuration file.
+- **--config-location:** The path to the configuration file.
+- **--flat-playlist:** Do not extract videos from playlists, just list them.
+- **--mark-watched:** Mark videos as watched (YouTube only).
+- **--no-mark-watched:** Don't mark videos as watched (YouTube only).
+- **--no-color:** Don't emit color codes in the output.
 
 To download videos, the first step is to create a download folder `"/tmp/YTDownload"`.
 

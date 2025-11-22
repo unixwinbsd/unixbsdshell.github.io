@@ -20,7 +20,7 @@ Have you ever wanted to save your favorite video or audio from the internet to y
 
 The youtube-dl application is a small command-line program for downloading videos from YouTube.com, Metacafe.com, Google Videos, Photobucket Videos, Yahoo Video, Dailymotion, and more. youtube-dl is a Python-based utility for downloading videos from various websites. It can be run on Linux, FreeBSD, or Windows operating systems.
 
-This article will discuss how to use youtube-dl, what capabilities this utility provides to users, and what useful features the developer has included. We're using the FreeBSD operating system for this article.
+This article will discuss how to use `youtube-dl`, what capabilities this utility provides to users, and what useful features the developer has included. We're using the FreeBSD operating system for this article.
 
 ## 1. Installing YouTube-dl
 

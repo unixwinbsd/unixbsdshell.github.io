@@ -12,7 +12,7 @@ background: /img/Logo.png
 toc: true
 comments: true
 published: true
-excerpt: So, what is sudo and what does it do? If you prefix sudo to any FreeBSD command, it will run with elevated privileges. Elevated privileges are required to perform certain administrative tasks. One day
+excerpt: Manajemen pengguna yang efektif pada sistem Linux sering kali melibatkan penggunaan sudo untuk menambahkan pengguna baru dengan aman. Perintah sudo adduser menyederhanakan proses ini, sehingga administrator sistem dapat menangani akun pengguna secara bertanggung jawab
 keywords: linux, ubuntu, sudo, sudoer, user, command, group, create, permission, add, chmod, chown, freebsd, wheel, all, debian
 ---
 

@@ -1,10 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light d-print-none" id="main-nav">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="{{'/' | relative_url }}">
-      {% if site.logo %}
-        <img class="me-3" src="{{ site.logo | relative_url }}" alt="{{ site.title }}" rel='index follow'>
-      {% endif %}
-<h1 class='py-0 mb-0 fw-bold text-primary'>{{site.title | rel='index follow'}}  </h1>
+    <a class="navbar-brand d-flex align-items-center" href="{{'https://unixwinbsd.site' | absolute_url }}">
+    {% if site.logo %}
+    <img class="me-3" src="{{ site.logo | relative_url }}" alt="{{ site.title }}" title="Logo UnixBSDShell">
+    {% endif %} 
+     
+ <h1 class='py-0 mb-0 fw-bold text-primary' alt="{{ site.title }}" title="{{ site.title }}">{{site.title}}</h1> 
     </a>
 
     {% if page.navigation and site.data[page.navigation] %}

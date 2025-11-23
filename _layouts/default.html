@@ -4,7 +4,7 @@ excerpt: Default template for pages and posts, with contained width.
 ---
 
 <div class="row">
-  {% if page.toc %}
+<!--  {% if page.toc %} -->
   <div class="col-md-10 col-lg-3 mx-auto">
 
 <h3 class='fs-5 fw-bold text-primary'>Organization</h3>
@@ -12,6 +12,7 @@ excerpt: Default template for pages and posts, with contained width.
 <h3 class='fs-3 entry-title fw-bold text-muted'>UnixBSDShell</h3>
 <br/> 
 
+{% if page.toc %}
     <div class="toc">
       <span class='fs-5 fw-bold text-primary'>Table Of Content</span>
       {% include toc.html
@@ -20,10 +21,27 @@ excerpt: Default template for pages and posts, with contained width.
         h_min=2
         h_max=3
       %}
+
+<!-- adsterra -->
+<script type="text/javascript">
+	atOptions = {
+		'key' : 'c66ec0cde5966a0d40ca9469a79cf785',
+		'format' : 'iframe',
+		'height' : 300,
+		'width' : 160,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/c66ec0cde5966a0d40ca9469a79cf785/invoke.js"></script>
+
+
     </div>
+{% endif %}
 
   </div>
-  {% endif %}
+<!--  {% endif %} -->
+
+
 
 
   <div class="col-md-10 col-lg-8 order-lg-first mx-auto">
@@ -42,6 +60,23 @@ excerpt: Default template for pages and posts, with contained width.
 {% endfor %}
 </div>
   {% endif %}
+
+<!-- <iframe src="//ads.coinserom.com/pub?adsunit=313138&size=468x60" style="width:468px;height:60px;border:0px;padding:0;background-color: transparent;overflow: auto;">
+</iframe>
+<a style="display: block;text-align:right;font-size:12px;width:468px;" href="https://coinserom.com/?affiliate=3533303931" target="_blank">Advertise here</a> -->
+
+<script type="text/javascript">
+	atOptions = {
+		'key' : '329d56cfc4cbe44960e74720241619dc',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/329d56cfc4cbe44960e74720241619dc/invoke.js"></script>
+
+
 
 <div class="article">
     {{ content }}

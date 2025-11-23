@@ -5,11 +5,24 @@
 
     <div class="container">
       <div class="row p-4">
-        <div class="text-wrap text-center">
-      <h1 class="fw-bold text-danger" {% if page.layout == 'home' %} class="home" {% endif %}> {{ page.title | rel='index follow' }} </h1>
-          
-          <div class="lead badge bg-primary text-wrap">
-<h6>{{ page.excerpt | markdownify }}</h6>
+
+<script type="text/javascript">
+	atOptions = {
+		'key' : '74afba8d2a9da902e3d7019da65974c0',
+		'format' : 'iframe',
+		'height' : 90,
+		'width' : 728,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/74afba8d2a9da902e3d7019da65974c0/invoke.js"></script>
+
+<div class="text-wrap text-center">
+<a href="{{'https://unixwinbsd.site/blog/' | absolute_url }}">
+<h1 class="head fw-bold text-primary mt-4 mb-3" alt="{{ page.title }}" title="{{ page.title }}" {% if page.layout == 'home' %} class="home" {% endif %}> {{ page.title }} </h1>
+</a>
+          <div class="badge bg-primary text-wrap">
+<h2 class="lead fs-6" alt="{{ page.excerpt }}" title="Snippet">{{ page.excerpt | markdownify }}</h2>
 </div>
           
           {% if page.collection == 'posts' %}

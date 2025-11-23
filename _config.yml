@@ -10,7 +10,7 @@ author: Iwan Setiawan
 owner_name: Iwan Setiawan
 email: iwanse1212@yandex.com
 baseurl: "" 
-url: "https://unixwinbsd.github.io"
+url: "https://unixwinbsd.site"
 tweets_on_home: true
 search: true
 search_full_content: true
@@ -19,6 +19,7 @@ dnsPrefetch: "on"
 dns:
       - "//unixwinbsd.github.io"
       - "//prohoster.info"
+      - "//dns.he.net"
 robots: index, follow
 copyright: Copyright 2023-2025 UnixBSDShell's Blog
 keywords: freebsd, openbsd, netbsd, linux, ubuntu, debian, unix, pfsense, centos, command, shell, opnsense, router, firewall, web design, web development, server, client, ruby, database, dns server, web server, jekyll, wordpress, html, css
@@ -29,9 +30,9 @@ social:
   bluesky: bluesky_username.bsky.social
   mastodon: https://mastodon.social/@mastodon_username
   twitter: twitter_username
-  linkedin: https://linkedin.com/company/project_name/
+  linkedin: https://www.linkedin.com/in/iwan-setiawan-943659164/
   facebook: https://facebook.com/groups/group_id/
-  github: github_username               # Can also be a github_username/repository
+  github: unixwinbsd
   disqus: disqus_sitename               # Enable Disqus comments from disqus_sitename.disqus.com
 
 # THEME SETTINGS (ALL OPTIONAL)
@@ -87,6 +88,7 @@ keep_files:
   - _site/sass/css
   - _site/assets/theme/js
 
+include: [_redirects]
 
 # search: https://www.stephanmiller.com/static-site-search/
 # lazysize.min.js:  https://github.com/aFarkas/lazysizes/tree/gh-pages

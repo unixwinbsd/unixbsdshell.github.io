@@ -7,7 +7,7 @@ lang: en
 author: Iwan Setiawan
 robots: index, follow
 categories: freebsd
-tags: SysAdmin
+tags: DNSServer
 background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-026.jpg
 toc: true
 comments: true

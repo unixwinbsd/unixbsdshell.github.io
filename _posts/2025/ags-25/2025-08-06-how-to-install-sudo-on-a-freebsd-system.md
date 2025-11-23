@@ -1,5 +1,5 @@
 ---
-title: How to Install Sudo on a FreeBSD System
+title: Learn Sudo - A Complete Guide to Practicing Using Sudo Commands
 date: "2025-08-06 07:15:25 +0100"
 updated: "2025-08-06 07:15:25 +0100"
 id: how-to-install-sudo-on-a-freebsd-system
@@ -13,7 +13,7 @@ toc: true
 comments: true
 published: true
 excerpt: So, what is sudo and what does it do? If you prefix sudo to any FreeBSD command, it will run with elevated privileges. Elevated privileges are required to perform certain administrative tasks. One day
-keywords: sudo, sudoer, user, group, create, permission, add, chmod, chown, freebsd, wheel, all
+keywords: linux, ubuntu, sudo, sudoer, user, command, group, create, permission, add, chmod, chown, freebsd, wheel, all, debian
 ---
 
 Sudo is a command-line utility for Unix-based operating systems such as FreeBSD, OpenBSD, DragonFLY BSD, Linux, and macOS. The sudo utility provides an efficient way to grant privileged access to system resources to a user or group of users, allowing them to run commands they wouldn't otherwise be able to run under their regular account. Users can even be granted permission to run commands under the root account, the most powerful account on Unix-like systems. Sudo also logs all commands and arguments so administrators can track which users use sudo.

@@ -45,7 +45,7 @@ One advantage of using Cron is that the cron process never needs to be restarted
 
 ## 2. Crontab File
 
-By default, FreeBSD places the Crontab file in `/etc/crontab`. This file contains the scheduled jobs run by the system, and a dedicated /var/cron/tabs directory allows individual users to create their own crontab queue files.
+By default, FreeBSD places the Crontab file in `/etc/crontab`. This file contains the scheduled jobs run by the system, and a dedicated `/var/cron/tabs` directory allows individual users to create their own crontab queue files.
 
 If possible, it's best not to edit the `/etc/crontab` file, but to create a separate queue file. Each crontab file is placed in the /var/cron/tabs directory. This security mechanism allows users to create and edit their own files without interfering with other users' files. This mechanism is the crontab utility.
 
@@ -98,7 +98,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 
 ## 3. How to Use the Crontab File
 
-To better understand the crontab command, here are some examples of writing commands in the /etc/crontab file.
+To better understand the crontab command, here are some examples of writing commands in the `/etc/crontab` file.
 
 ### a. Running an unbound program
 

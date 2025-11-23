@@ -36,8 +36,12 @@ A newer version of bashtop is now available written in the Python programming la
 13.  Easy switching between sorting options.
 14.  Auto scaling graph for network usage.
 
-Using Bashtop, you can sort processes and easily switch between various sorting options. Additionally, Bashtop can also send SIGKILL, SIGTERM and SIGINT to the required processes. This tool runs very fast and perfect system monitoring. This tool reaches users with a responsive terminal interface with a customizable menu. Monitoring various system metrics is made easy by the neat arrangement of the various display sections.<br><br/>
+Using Bashtop, you can sort processes and easily switch between various sorting options. Additionally, Bashtop can also send SIGKILL, SIGTERM and SIGINT to the required processes. This tool runs very fast and perfect system monitoring. This tool reaches users with a responsive terminal interface with a customizable menu. Monitoring various system metrics is made easy by the neat arrangement of the various display sections.<br>
+
+<img alt="Configuration Bashtop - System Monitoring resources On FreeBSD 14" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/Bashtop1.jpg' | absolute_url }}">
+
 ## 1. Installing Bashtop on FreeBSD
+
 To install Bashtop on FreeBSD, you make sure Bash is installed on your FreeBSD server. If not, run the following command to install Bash.
 
 ```

@@ -8,7 +8,7 @@ author: Iwan Setiawan
 robots: index, follow
 categories: freebsd
 tags: SysAdmin
-background: /img/Logo.png
+background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/ags-25/ags-25-001.jpg
 toc: true
 comments: true
 published: true
@@ -36,7 +36,9 @@ So, the next time you type a sudo command, remember, you're not just executing c
 
 Okay, enough nostalgia. Let's roll up our sleeves and get to work. What is sudo, and why should you care? If you've ever used a Unix or Linux system (and hey, macOS is included too), you've probably encountered this magical command. It's like a golden ticket that grants you temporary access to the Wonderland of Administrative Privileges.
 
-In complicated terms, sudo allows authorized users to run commands as another user (usually the root user). That's right; it's your secret access to the system, allowing you to bypass security restrictions. However, this isn't a "no questions asked" situation. Your name must be on the VIP list, aka the /etc/sudoers file, which we'll discuss in more depth later. Just remember, with great power comes great responsibility. No, seriously. You can break your system if you're not careful.
+In complicated terms, sudo allows authorized users to run commands as another user (usually the root user). That's right; it's your secret access to the system, allowing you to bypass security restrictions. However, this isn't a "no questions asked" situation. Your name must be on the VIP list, aka the `/etc/sudoers` file, which we'll discuss in more depth later. Just remember, with great power comes great responsibility. No, seriously. You can break your system if you're not careful.
+
+<img alt="Learn Sudo - A Complete Guide to Practicing Using Sudo Commands" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ '[/img/oct-25/oct-25-126.jpg](https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/ags-25/ags-25-001.jpg)' | relative_url }}">
 
 So, what are some common uses for sudo? Wow, the possibilities are endless:
 

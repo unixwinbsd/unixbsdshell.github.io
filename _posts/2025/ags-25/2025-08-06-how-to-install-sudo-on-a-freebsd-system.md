@@ -258,4 +258,48 @@ NOPASS=${3:-""}  # Default to requiring a password if not specified
 add_sudo_rule "$USERNAME" "$COMMAND" "$NOPASS"
 ```
 
+Understanding and implementing the /etc/sudoers file is like having a VIP pass to your system. This pass unlocks incredible capabilities and control, making it essential for those who want to harness the full potential of their system's administrative powers. Therefore, it is crucial that this power be handled with the utmost care and responsibility, reflecting a thorough understanding of the system's operational and security requirements.
 
+## F. Sudo Best Practices
+
+Let's be serious—sudo is a really powerful command. However, if you're not careful, you can turn it into a speeding train very quickly. Here are some best practices to ensure your sudo experience is smoother than a roller coaster ride.
+
+### f.1. Limit Access
+
+First of all, not everyone should have sudo access. Seriously, you wouldn't give everyone the keys to your house, would you? Adjust your /etc/sudoers file to ensure only trusted users can run certain commands. The more granular, the better.
+
+To restrict access to only specific users or groups, you can edit the `/etc/sudoers` file to specify which commands each user or group can run. Here's how you can give only the user alice the ability to manage the Apache service.
+
+```yml
+# Example entry in /etc/sudoers file
+alice ALL=/bin/systemctl start apache2, /bin/systemctl stop apache2, /bin/systemctl restart apache2
+```
+
+### f.2. Use Strong Passwords
+
+Come on, guys, `"password123"` won't cut it. Using strong, unique passwords is like putting an extra lock on your door. It may seem tedious, but it's a small price to pay for security.
+
+While you can't directly enforce password strength with sudo, you can configure a system-wide password policy using PAM (Pluggable Authentication Module). Here's a snippet you can add to `/etc/pam.d/common-password` to enforce strong passwords.
+
+```yml
+password requisite pam_pwquality.so retry=3 minlen=12 difok=4
+```
+
+The example script above will force users to choose a password that is at least 12 characters long and significantly different from their old password.
+
+### f.3. Enable Two-Factor Authentication (2FA)
+
+Increase your security by enabling two-factor authentication. It's like having a guard dog alongside an extra lock on your door. It may seem excessive, but when it comes to security, there's no such thing as `'too much'`.
+
+To enable 2FA for sudo access, you can integrate Google Authenticator. First, you need to install the Google Authenticator PAM module.
+
+```yml
+sudo apt-get install libpam-google-authenticator
+```
+
+Then, you need to edit the `/etc/pam.d/sudo` file to include the module.
+
+```yml
+# Add at the top of the file
+auth required pam_google_authenticator.so
+```

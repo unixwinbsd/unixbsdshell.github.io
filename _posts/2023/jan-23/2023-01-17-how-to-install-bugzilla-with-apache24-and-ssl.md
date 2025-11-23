@@ -1,7 +1,7 @@
 ---
 title: FreeBSD How to Install Bugzilla with Apache24 and SSL
-date: "2025-11-22 18:45:02 +0000"
-updated: "2025-11-22 18:45:02 +0000"
+date: "2023-01-17 18:45:02 +0000"
+updated: "2025-11-15 17:21:02 +0000"
 id: how-to-install-bugzilla-with-apache24-and-ssl
 lang: en
 author: Iwan Setiawan

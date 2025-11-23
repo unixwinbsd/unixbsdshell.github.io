@@ -55,12 +55,89 @@ See an example of a `six-column` crontab file below.
 
 ```yml
 root@ns1:~ # ee /etc/crontab
-#minute   hour    mday    month   wday    who     command
+#minutes   hours    daysofthemonth    months   daysoftheweek    user     commands
 ```
 
-If we translate, the 6 fields of the crontab file are as follows.
+How to fill in each column is as follows:
+- Minutes: Range from 0 to 59.
+- Hour: Range from 0 to 23.
+- Day of the month: Range from 1 to 31.
+- Months: Range from 1 to 12.
+- Day of the week: Range from 0 to 6, where 0 = Sunday.
+- who: root.
+- Command: newsyslog.
+
+See an example crontab file below.
 
 ```console
 root@ns1:~ # ee /etc/crontab
-#menit   jam   haridalamsebulan  bulan  haridalamseminggu   user  perintah
+# /etc/crontab - root's crontab for FreeBSD
+#
+# $FreeBSD$
+#
+SHELL=/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
+#
+#minute hour    mday    month   wday    who     command
+#
+# Save some entropy so that /dev/random can re-seed on boot.
+*/11    *       *       *       *       operator /usr/libexec/save-entropy
+#
+# Rotate log files every hour, if necessary.
+0       *       *       *       *       root    newsyslog
+#
+# Perform daily/weekly/monthly maintenance.
+1       3       *       *       *       root    periodic daily
+15      4       *       *       6       root    periodic weekly
+30      5       1       *       *       root    periodic monthly
+#
+# Adjust the time zone if the CMOS clock keeps local time, as opposed to
+# UTC time.  See adjkerntz(8) for details.
+1,31    0-5     *       *       *       root    adjkerntz -a
 ```
+
+## 3. How to Use the Crontab File
+
+To better understand the crontab command, here are some examples of writing commands in the /etc/crontab file.
+
+### a. Running an unbound program
+
+```console
+59 12 * * * gunungrinjani /usr/local/bin/unbound
+```
+
+The script above explains that the Gunungrinjani user will run the unbound program every day at 12:59 PM.
+
+### b. Running the redist-cli program
+
+```console
+0 21 * * * root /usr/local/bin/redis-cli
+```
+
+The script above explains that the root user will run the redis-cli program every day at 9:00 PM.
+
+### c. Restart the apache24 program.
+
+```yml
+0 1 * * 2-7 root root /usr/local/etc/rc.d/apache24 restart
+```
+
+The script above explains that the root user will restart the Apache24 program every Tuesday through Saturday at 1:00 AM.
+
+### d. Shut down the Apache24 program.
+
+```yml
+30 07,09,13,15 * * * /usr/local/etc/rc.d/apache24 stop
+```
+
+The script above will shut down the apach24 program at 7:30, 9:30, 1:30, and 3:30 PM.
+
+### e. Starting unbound programs
+
+```yml
+*/10 * * * * /usr/local/etc/rc.d/unbound start
+```
+
+The script above will activate an unbound program every 10 minutes.
+
+In conclusion, Crontab can be a powerful tool for automating repetitive tasks, but it can also cause problems if not managed effectively. By following best practices for monitoring and managing cron jobs, developers can ensure their applications continue to run smoothly and efficiently.

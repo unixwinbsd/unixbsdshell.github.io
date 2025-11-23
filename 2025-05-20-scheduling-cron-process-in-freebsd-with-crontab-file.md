@@ -8,7 +8,7 @@ author: Iwan Setiawan
 robots: index, follow
 categories: freebsd
 tags: SysAdmin
-background: /img/Logo.png
+background: https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/cron_crontab.jpg
 toc: true
 comments: true
 published: true
@@ -26,7 +26,7 @@ Cron is a standard utility on the FreeBSD operating system that enables task aut
 
 A cron job is a command executed by the cron daemon at regularly scheduled intervals. It's also known as a cron schedule because it contains specific instructions about which commands to run and when they should start.
 
-gambar
+<img alt="Scheduling Cron Process in FreeBSD With Crontab File" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/images/cron_crontab.jpg' | absolute_url }}">
 
 Users can submit cron jobs by specifying the crontab command with the `-e flag or the -e option`. This command invokes an editing session so users can create a crontab file and add entries for each cron job to it. All entries must be in a format acceptable to the cron daemon.
 

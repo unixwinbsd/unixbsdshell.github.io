@@ -6,7 +6,7 @@ id: bash-bashtop-freebsd-system-monitoring
 lang: en
 author: Iwan Setiawan
 robots: index, follow
-categories: openbsd
+categories: freebsd
 tags: UnixShell
 background: https://www.opencode.net/unixbsdshell/freebsd-golang-mysql-crud/-/raw/main/template/bashtop_system_monitoring_tool_on_freebsd.jpg
 toc: true

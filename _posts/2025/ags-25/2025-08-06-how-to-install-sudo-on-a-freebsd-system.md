@@ -98,10 +98,75 @@ sudo apt upgrade -y && echo "Packages upgraded."
 echo "System update completed successfully."
 ```
 
-e.2. File Permissions
+### e.2. File Permissions
 
 Handling file permissions with sudo allows for secure management of system files, which is crucial for maintaining the integrity of your system. The `sudo rm /path/to/your/file` command is very powerful and should be used with caution to delete files that require elevated privileges. This approach is highly trusted among Linux users due to its effectiveness in managing access and ensuring system stability.
 
+```console
+#!/bin/bash
+# Script to remove a specific system file with elevated privileges.
 
+FILE_PATH="/path/to/your/file"
+if [ -f "$FILE_PATH" ]; then
+    echo "Removing file: $FILE_PATH"
+    sudo rm "$FILE_PATH"
+    echo "File removed successfully."
+else
+    echo "Error: File does not exist or has already been removed."
+fi
+```
+
+### e.3. User Management
+
+Effective user management on Linux systems often involves using sudo to safely add new users. The sudo adduser command simplifies this process, allowing system administrators to manage user accounts responsibly. This method is not only trusted for its transparency and security, but also reflects a deep understanding of Linux administrative practices. The script below illustrates how to add a new user.
+
+```console
+#!/bin/bash
+# Script to add a new user to the system with superuser privileges.
+
+NEW_USER="john"
+if id "$NEW_USER" &>/dev/null; then
+    echo "User $NEW_USER already exists."
+else
+    echo "Adding new user: $NEW_USER"
+    sudo adduser --gecos "" $NEW_USER
+    echo "User $NEW_USER added successfully."
+fi
+```
+
+### e.4. Networking
+
+For those experiencing network connectivity issues, a quick system reboot of the networking service using sudo systemctl restart networking can often be the solution. This command is a straightforward and effective method trusted by Linux administrators to quickly resolve many common network issues. This command demonstrates an authoritative and experienced approach to managing and troubleshooting networks smoothly.
+
+```console
+#!/bin/bash
+# Script to restart network services on a system using systemd.
+
+echo "Attempting to restart network services..."
+sudo systemctl restart networking && echo "Network services restarted successfully."
+echo "Please check your connectivity to confirm resolution of network issues."
+```
+
+### e.5. System Debugging and Monitoring
+
+For tech enthusiasts who enjoy delving into the details of system processes, sudo strace -p [PID] is an invaluable tool. This command allows administrators to connect to a running process and monitor its system calls, offering insight into the operation and potential issues of the application. This is a powerful tool that reflects deep expertise in system monitoring and debugging, providing a transparent and reliable method for diagnosing complex issues.
+
+```console
+#!/bin/bash
+# Script to attach to a running process and monitor its system calls using strace.
+
+if [ $# -eq 0 ]; then
+    echo "Please provide a process ID (PID)."
+    exit 1
+fi
+
+PID=$1
+echo "Attaching to process $PID to monitor system calls..."
+sudo strace -p $PID
+```
+
+### e.6. Custom Sudo Commands
+
+Advanced system administrators often need to customize system permissions to suit specific needs, and sudo facilitates this by customizing the `/etc/sudoers` file. The ability to define precise user and command permissions demonstrates a strong understanding of system security and user management. Custom sudo commands allow administrators to enforce security policies while maintaining the flexibility to meet various operational requirements.
 
 

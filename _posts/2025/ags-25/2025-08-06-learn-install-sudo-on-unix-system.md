@@ -2,7 +2,7 @@
 title: Learn Sudo - A Complete Guide to Practicing Using Sudo Commands
 date: "2025-08-06 07:15:25 +0100"
 updated: "2025-08-06 07:15:25 +0100"
-id: how-to-install-sudo-on-a-freebsd-system
+id: learn-install-sudo-on-unix-system
 lang: en
 author: Iwan Setiawan
 robots: index, follow

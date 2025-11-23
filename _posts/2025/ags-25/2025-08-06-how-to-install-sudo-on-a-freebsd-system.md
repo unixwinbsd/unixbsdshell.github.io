@@ -303,3 +303,45 @@ Then, you need to edit the `/etc/pam.d/sudo` file to include the module.
 # Add at the top of the file
 auth required pam_google_authenticator.so
 ```
+Each user must also run google-authenticator to prepare an authentication token for login.
+
+### f.4. Log and Audit Regularly
+
+Remember how sudo logs? Take advantage of those logs. Check the logs periodically to see who did what. If you see something suspicious, you can trace it back to the user and the commands they ran. It's like having a security camera inside your system.
+
+Make sure sudo usage is logged for auditing. This is generally the default setting, but you can explicitly define it in the `/etc/sudoers` file.
+
+```yml
+Defaults    logfile="/var/log/sudo.log"
+```
+
+This setting specifies that all sudo activity should be logged to `/var/log/sudo.log`.
+
+### f.5. Use Timeout
+
+By default, sudo gives you a 5-minute grace period after entering your password. However, if you're particularly security conscious, you can change this setting. A shorter timeout means you'll have to enter your password more often, but it also reduces the chance of errors.
+
+You can configure sudo to have a specific timeout after which it will prompt you for your password again. This setting is also managed in the `/etc/sudoers` file.
+
+```yml
+Defaults    timestamp_timeout=2
+```
+
+This sets the timeout to 2 minutes. After this period, sudo will prompt the user to re-authenticate.
+
+### f.6. Think Twice, Type Once
+
+And last, but most importantly, always think twice before pressing Enter. The power of sudo is both its strength and its weakness. A single command can improve your system or damage it beyond repair. So be careful, young Padawan.
+
+There's no direct code example for this practice, as it's more about user behavior. However, you can implement a simple shell script that alerts the user every time they invoke sudo.
+
+```console
+#!/bin/bash
+echo "Warning: You are entering a protected area of the system. Please double-check your command for accuracy:"
+read -p "Press Enter to continue or Ctrl+C to abort."
+sudo "$@"
+```
+
+In conclusion, adding users to the sudoers file is a fundamental task for system administrators, allowing them to responsibly grant elevated privileges. Understanding the sudo mechanism, following best practices, and addressing common issues ensures a secure and well-managed environment.
+
+By following the steps outlined in this guide, administrators can seamlessly manage user access to privileged commands, maintaining a good balance between security and operational efficiency on Linux systems.

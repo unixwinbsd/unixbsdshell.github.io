@@ -40,6 +40,17 @@ Other computers on the network can connect to your device without realizing the 
 
 HeNet is a service that provides a variety of security and optimization services that help both small and large sites. Using HeNet, you can protect your website from DDoS attacks, manage website optimization, perform caching, secure connections, analyze traffic, and much more. We'll cover many of these features in this article.
 
+<script type="text/javascript">
+	atOptions = {
+		'key' : '88e2ead0fd62d24dc3871c471a86374c',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/88e2ead0fd62d24dc3871c471a86374c/invoke.js"></script>
+
 To create a third-level domain from my second-level domain and bind this third-level domain to HE.net, you can assign this domain name to the HE.net nameservers. (This must be done on the second-level domain nameservers.)
 
 The first step is to log in to the H.Net website. Then, add a domain by clicking the `"Add new domain"` menu.

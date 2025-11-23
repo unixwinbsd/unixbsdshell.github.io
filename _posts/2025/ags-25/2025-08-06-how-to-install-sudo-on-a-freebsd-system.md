@@ -16,136 +16,54 @@ excerpt: Manajemen pengguna yang efektif pada sistem Linux sering kali melibatka
 keywords: linux, ubuntu, sudo, sudoer, user, command, group, create, permission, add, chmod, chown, freebsd, wheel, all, debian
 ---
 
-Sudo is a command-line utility for Unix-based operating systems such as FreeBSD, OpenBSD, DragonFLY BSD, Linux, and macOS. The sudo utility provides an efficient way to grant privileged access to system resources to a user or group of users, allowing them to run commands they wouldn't otherwise be able to run under their regular account. Users can even be granted permission to run commands under the root account, the most powerful account on Unix-like systems. Sudo also logs all commands and arguments so administrators can track which users use sudo.
+The sudo (superuser do) command is a powerful tool that allows an authorized user to run commands with the privileges of another user, typically the superuser (root). To grant these elevated privileges to a user, they need to be added to the sudoers file on a Linux system. In this comprehensive guide, we'll explore the step-by-step process for adding a user to the sudoers file, understand the mechanics of sudo, and address related considerations.
+
+## A. History and Origins
+
+Stay alert, folks, because we're about to jump into a time machine and reminisce. Have you ever wondered who we should credit for the creation of sudo? Well, this question has its roots in the 80s. The first version was written by Bob Coggeshall and Cliff Spencer around 1980. Yes, the same decade that gave us neon leggings and hair metal also gave us this great command.
+
+Coggeshall and Spencer were working in the Computer Science Department at SUNY/Buffalo, trying to solve a fundamental problem: How could sysadmins perform privileged tasks without revealing the top-secret root password to everyone and their grandmother? Voila! sudo was born to fill that gap.
+
+But here's where things get interesting. In 1985, a man named Todd C. Miller took the initiative to rewrite sudo to make it even better. He added many new features and has been the project's maintainer ever since. The man is a rock star in the UNIX world—think of him as the Slash of sudo. ??
+
+And know this: the name "sudo" itself is quite legendary. While "SuperUser DO" is the full form people often use, its creators cheekily noted that it's also short for "substitute user, and do." See what they did there? That's not just a command, it's a play on words! What do you think about adding a little spice to your command-line soup?
+
+What's truly fascinating is the open-source ethos surrounding sudo. It developed and grew, not in secret corporate labs, but in the realm of the vast open-source community. Like a garden receiving love and sunshine from developers around the world, sudo has grown into a versatile tool that's integral to today's UNIX-based systems. Its source code is available for anyone to research, improve, or fork, embodying the true spirit of community-driven development.
+
+So, the next time you type a sudo command, remember, you're not just executing code. You're part of an epic story that spans decades and reflects the collaborative spirit of humankind.
+
+## B. What is Sudo?
+
+Okay, enough nostalgia. Let's roll up our sleeves and get to work. What is sudo, and why should you care? If you've ever used a Unix or Linux system (and hey, macOS is included too), you've probably encountered this magical command. It's like a golden ticket that grants you temporary access to the Wonderland of Administrative Privileges.
+
+In complicated terms, sudo allows authorized users to run commands as another user (usually the root user). That's right; it's your secret access to the system, allowing you to bypass security restrictions. However, this isn't a "no questions asked" situation. Your name must be on the VIP list, aka the /etc/sudoers file, which we'll discuss in more depth later. Just remember, with great power comes great responsibility. No, seriously. You can break your system if you're not careful.
+
+So, what are some common uses for sudo? Wow, the possibilities are endless:
+
+` Want to install a new software package? sudo apt-get install [package-name]
+` Need to edit a protected file? sudo nano [file-path]
+` Want to show off your superuser status to your friends? sudo make me a sandwich (okay, maybe that last one doesn't actually work, but you get the point!)
+
+But here's a little secret: sudo isn't just about escalating your user's privileges; it's also about auditing and controlling them. Every sudo command is logged, so system administrators can keep tabs on who's doing what. It's like Gandalf in your system, allowing you to get away with it but always keeping a close eye on you.
+
+Sudo is also highly customizable. You can set specific permissions for different users or even commands. Imagine if your backstage permissions only allowed you access to the dressing room but not the stage itself. That level of precision is entirely possible with sudo.
+
+So yes, sudo is more than just four letters you type before a command. It's a powerful and versatile tool that allows you to perform a wide range of system functions you wouldn't have access to before. But before we get carried away, remember: this isn't a toy. It's a tool, and like any tool, you need to know how to use it properly.
+
+C. The Philosophy Behind Sudo
+
+Time for a little thought. Have you ever wondered why sudo exists? I mean, sure, having superpowers and all that is cool, but there's a deeper reason here, rooted in Unix philosophy. Unix is ​​like a wise old man who values ​​minimalism, modularity, and, most importantly, giving power with caution.
+
+The Unix philosophy is about "Do One Thing and Do It Well." Every program, every command is designed to perform one task effectively. But hey, just because a program can do one thing well doesn't mean it should have the power to do everything. That would just create chaos. Imagine if every app on your phone had full access to all your data. Not so fun, huh?
+
+Enter sudo. It acts as a gatekeeper, ensuring that the powers (or in this case, powers) are only granted to those who really need them, when they really need them. So, sudo isn't just about lifting restrictions; It's about implementing a more nuanced and layered form of security that aligns perfectly with the Unix philosophy of 'less is more.'
+
+Ken Thompson, one of the founders of Unix, once said, "You can't trust code you didn't write yourself." While this may be a bit extreme, the concept emphasizes caution and restraint, unless absolutely necessary. This sentiment is also reflected in how sudo operates. You are only given the 'keys to the palace' temporarily, and often for a very specific reason. It's like your parents giving you the keys to the car but reminding you that it's only for going to the library to study (but we all know that detour to the ice cream shop is tempting).
+
+Furthermore, the original Unix designers emphasized the importance of creating things that are not only useful but also beautiful in their simplicity. sudo is a masterpiece in this sense—so simple yet so impactful. It's not just a command; it's a mini-course in Unix philosophy every time you use it.
+
+So the next time you escalate privileges using sudo, remember that it's more than just a quick way to bypass restrictions. It is the embodiment of a deeper design philosophy that values ​​care, responsibility, and the elegant distribution of power.
 
 
-So, what is sudo and what does it do? If you prefix "sudo" to any FreeBSD command, it will run with elevated privileges. Elevated privileges are required to perform certain administrative tasks. One day, you might want to run a LAMP (Linux, Apache, MySQL, PHP) server and have to manually edit your configuration files. You might also need to restart or reset the Apache web server or other service daemons.
-
-Or you might even need elevated privileges to shut down or restart your computer. **"Hey, who shut this thing down?!"** If you're familiar with Windows, this is very similar to the Windows User Account Control dialog box that appears when you're trying to do something important, only not as user-friendly.
-
-On Windows, if you try to perform an administrative task, a dialog box will ask you if you want to continue ("Are you sure you want to run the program you just clicked?"). The task is then executed. On a Mac, a security dialog box will appear, prompting you to enter your password and click OK. This is a more dramatic scenario on FreeBSD.
-
-Many sources state that `sudo` stands for superuser do. However, the group that developed sudo stopped using that description over 10 years ago. According to the group's website, sudo now stands for su `"does"` indicating a tool that provides su-like capabilities. Su is a command-line utility and stands for switch user or alternate user. Like sudo, it allows users to run commands under different accounts. However, sudo has several important advantages over `su`.
-
-## 1. How Sudo Works
-
-With the sudo command, you must enter "sudo" before each command. This means you don't have to remember to switch back to regular user mode, and fewer errors will occur.
-
-With sudo, when a user runs a command, they will be prompted to enter their password to log in. After entering the password correctly, the user can then run other commands without providing the password each time, but there is a limit to how long this will last. By default, the session expires after five minutes of inactivity, and the user must re-enter the password. However, administrators can set a time other than five minutes when configuring sudo.
-
-Sudo allows regular users to run commands with elevated privileges. This is a great way to temporarily grant administrative privileges to users without sharing root account credentials. But how does sudo management work? What best practices should you follow before adding a user to sudo?
-
-There are two ways to escalate your privileges on a Unix system like FreeBSD. You can log in as root or the superuser, or you can use sudo. The first method is not recommended, as it violates the principle of least privilege. The second method is a safer approach, as it allows for fine-grained access control and individual accountability.
-
-Sudo management is a technique for limiting and managing privileged access, using sudo configuration files. Administrators can use a single configuration file `(/usr/local/etc)` or create multiple configuration files per user in the `/usr/local/etc/sudoers.d` directory.
-
-This configuration file contains rules that govern which users can run which commands with root privileges. It also contains other configurable parameters, such as whether to require a password for authentication, a list of valid hostnames and networks, and where to report incorrect password attempts.
-
-## 2. How to Install Sudo on FreeBSD
-
-This article will discuss how to use the sudo utility on a FreeBSD system. This article uses **FreeBSD 13.2**.
-
-Okay, let's practice using sudo on a FreeBSD system. By default, FreeBSD doesn't include sudo in its system. For sudo to run on FreeBSD, it must be installed first. Here's how to install sudo on FreeBSD.
 
 
-```
-root@ns1:~ # cd /usr/ports/security/sudo
-root@ns1:/usr/ports/security/sudo # make install clean
-===> SECURITY REPORT: 
-      This port has installed the following binaries which execute with
-      increased privileges.
-/usr/local/bin/sudo
-
-      This port has installed the following files which may act as network
-      servers and may therefore pose a remote security risk to the system.
-/usr/local/bin/sudo
-/usr/local/sbin/sudo_logsrvd
-
-      If there are vulnerabilities in these programs there may be a security
-      risk to the system. FreeBSD makes no guarantee about the security of
-      ports included in the Ports Collection. Please type 'make deinstall'
-      to deinstall the port if this is a concern.
-
-      For more information, and contact details about the security
-      status of this software, see the following webpage: 
-https://www.sudo.ws/
-===>  Cleaning for sudo-1.9.14p3
-```
-
-From the installation process above, we can see that the sudo version used is sudo-1.9.14p3. The main file for sudo configuration is called sudoers which is located in the `/usr/local/etc` and `/usr/local/etc/sudoers.d` folders. Why... why are there two sudo configuration file folders? As explained above, these two folders have different functions. In this article, we will configure sudo in the `/usr/local/etc/sudoers` folder, because we will be using multiple users to configure sudo.
-
-In this article, we'll create several users that can access the FreeBSD system. For more details on creating users in FreeBSD, please read the previous article, ["How to Create Users and Groups in FreeBSD"](https://unixwinbsd.site/freebsd/how-to-create-users-and-groups-in-freebsd/)
-
-For example, let's say we've created users named bromo, rinjani, semeru, argopuro, and so on. Now, let's edit the `/usr/local/etc/sudoers` configuration file. In the `/usr/local/etc/sudoers` file, remove the **"#"** symbol before the script. The following script must be activated.
-
-
-```console
-root@ns1:~ # ee /usr/local/etc/sudoers
-Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-root ALL=(ALL:ALL) ALL
-semeru ALL=(ALL:ALL) ALL
-rinjani ALL=(ALL:ALL) ALL
-bitcoin ALL=(ALL:ALL) ALL
-argopuro ALL=(ALL) ALL
-%wheel ALL=(ALL:ALL) ALL
-```
-
-In the example script above, semeru, rinjani, bitcoin and argopuro are users.
-
-## 3. How to Run Sudo on FreeBSD
-
-After completing the sudo configuration, we will now test sudo by updating pkg and installing unbound.
-
-
-```
-root@ns1:~ # su semeru
-$ pkg update
-pkg: Insufficient privileges to update the repository catalogue.
-$ pkg install unbound
-pkg: Insufficient privileges to install packages
-```
-
-In the above script, the Semeru user cannot update pkg and cannot install unbundled applications. Now let's add the sudo command.
-
-```
-root@ns1:~ # su semeru
-$ sudo pkg upgrade
-Updating FreeBSD repository catalogue...
-FreeBSD repository is up to date.
-All repositories are up to date.
-Checking for upgrades (0 candidates): 100%
-Processing candidates (0 candidates): 100%
-Checking integrity... done (0 conflicting)
-Your packages are up to date.
-$ sudo pkg install unbound
-Updating FreeBSD repository catalogue...
-FreeBSD repository is up to date.
-All repositories are up to date.
-The following 1 package(s) will be affected (of 0 checked):
-
-New packages to be INSTALLED:
-	unbound: 1.17.1_2
-
-Number of packages to be installed: 1
-
-The process will require 8 MiB more space.
-2 MiB to be downloaded.
-
-Proceed with this action? [y/N]: y
-```
-
-Adding sudo allows the update and installation process to run. Here's an example of another sudo command routinely run by system administrators.
-
-```
-root@ns1:~ # su semeru
-$ su argopuro
-Password: masukkan password
-$ sudo su
-root@ns1:~ # 
-```
-
-In the first script, we log in as the Semeru user, then in the second script, we log in as the Argopuro user. For the Argopuro user, we must enter a password. And in the final script, we log in as the root user.
-
-We often need to run various commands as the root user to perform operations on Unix-based systems. However, we don't always have root access, and thanks to sudo, we can do that.
-
-Getting familiar with sudo is easy, although it takes time. Hopefully, this tutorial is enough to help you get started with sudo.

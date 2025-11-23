@@ -8,7 +8,7 @@ author: Iwan Setiawan
 robots: index, follow
 categories: freebsd
 tags: SysAdmin
-background: 
+background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/jan-23/bugzilla.jpg
 toc: true
 comments: true
 published: true
@@ -25,6 +25,8 @@ This article will explain the installation and configuration procedures for Bugz
 ## 1. Configure Apache24 using the Perl mod
 
 To run Bugzilla with the Apache24 web server, you must use the Perl mod. For a complete discussion of how to install Apache24 in Perl mode, you can read our previous article on installing Apache24 on FreeBSD.
+
+<img alt="FreeBSD How to Install Bugzilla with Apache24 and SSL" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/jan-23/bugzilla.jpg' | absolute_url }}">
 
 In this article, we will focus on configuring Apache24 for Bugzilla, and we will assume that you have already enabled Apache24 with the Perl mod. First, enable the Apache24 modules required by Bugzilla. Open the `/usr/local/etc/httpd.conf` file and remove the **"#"** symbol from the following modules.
 

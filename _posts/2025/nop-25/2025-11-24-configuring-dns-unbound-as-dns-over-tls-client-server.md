@@ -7,7 +7,7 @@ lang: en
 author: Iwan Setiawan
 robots: index, follow
 categories: freebsd
-tags: SysAdmin
+tags: DNSServer
 background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-031.jpg
 toc: true
 comments: true
@@ -26,16 +26,16 @@ In this article, we'll discuss how to install and configure an Unbound DNS serve
 
 ## A. System Specifications:
 
-OS: FreeBSD 13.2-STABLE
-CPU: AMD Phenom II X4 965 3400 MHz
-LAN IP: 192.168.9.3/24
-Domain: unixexplore.com
-Unbound IP: 192.168.9.3
-Unbound Port: 53
-TLS Unbound Port: 853
-Unbound Version: 1.17.1
-control-interface: 127.0.0.1
-control-port: 8951
+- OS: FreeBSD 13.2-STABLE
+- CPU: AMD Phenom II X4 965 3400 MHz
+- LAN IP: 192.168.9.3/24
+- Domain: unixexplore.com
+- Unbound IP: 192.168.9.3
+- Unbound Port: 53
+- TLS Unbound Port: 853
+- Unbound Version: 1.17.1
+- control-interface: 127.0.0.1
+- control-port: 8951
 
 The Domain Name System (DNS) that modern computers use to find resources on the internet was designed 35 years ago without user privacy in mind. This system is vulnerable to security risks and attacks such as DNS Hijacking. It also allows ISPs to intercept queries.
 
@@ -143,7 +143,7 @@ Just like DNSCrypt, it assumes that the DNS client, which is usually the same lo
 
 Unbound, as mentioned above, has built-in support for this protocol, so no additional software layer is required to use it, as is the case with DNSCrypt.
 
-To make unbound a DNS Over-TLS client, in the unbound.conf script above, we only need to change the last line:
+To make unbound a DNS Over-TLS client, in the `unbound.conf` script above, we only need to change the last line:
 
 ```console
 forward-zone:

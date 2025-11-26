@@ -26,7 +26,7 @@ This tutorial explains how to configure Apache to serve a mobile version of your
 
 This step-by-step guide will help you configure Apache to run the mobile version of your website if visitors are accessing it on a mobile device, and the standard version for visitors using a personal computer. The entire process can be done using the Apache rewrite module.
 
-In this tutorial, we'll split two URLs (website addresses): one for the standard version and one for the mobile version. For the standard/desktop version, the URL we'll use is http://www.example.com, and for the mobile version, http://m.example.com.
+In this tutorial, we'll split two URLs (website addresses): one for the standard version and one for the mobile version. For the standard/desktop version, the URL we'll use is http://www.example.com, and for the mobile version, `http://m.example.com`.
 
 <img alt="Apache mod_rewrite - How to Redirect Users to a Mobile Website" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-033.jpg' | absolute_url }}">
 

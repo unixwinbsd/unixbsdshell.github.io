@@ -63,6 +63,7 @@ Mod_rewrite rules can be configured either in the Apache configuration file `(de
 </script>
 <script type="text/javascript" src="//www.highperformanceformat.com/88e2ead0fd62d24dc3871c471a86374c/invoke.js"></script>
 
+
 Now let's create a rewrite rule for the regular website `"www.example.com"` and we'll also create a rule that will redirect all mobile users to the mobile version of `m.example.com`. We'll focus on the relevant devices/user agents here: Android, Blackberry, Googlebot-mobile (Google's mobile search bot), IE Mobile, iPad, iPhone, iPod, Opera Mobile, PalmOS, and WebOS.
 
 Starting with a regular/desktop site, open the .htaccess file and type the script as shown below.

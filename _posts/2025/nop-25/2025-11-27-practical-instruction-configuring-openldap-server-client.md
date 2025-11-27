@@ -8,7 +8,7 @@ author: Iwan Setiawan
 robots: index, follow
 categories: linux
 tags: WebServer
-background: 
+background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-034.jpg
 toc: true
 comments: true
 published: true
@@ -32,6 +32,8 @@ OpenLDAP adheres to the X.500 series of directory service standards developed by
 LDAP was created by Tim Howes, `Steve Kille, and Wengyik Yeong` in 1992. Initially, LDAP was a project to provide a directory service alongside the University of Michigan's email system. A company called Net Boolean Inc. was formed to provide email services to businesses in early 1998. Commercially available LDAP implementations were too expensive for the fledgling company.
 
 Net Boolean created Boolean LDAP from open-source LDAP software provided by the University of Michigan. Kurt Zeilenga of Net Boolean then founded the OpenLDAP Foundation and project in August 1998. OpenLDAP development currently consists of a core team that includes founders Kurt Zeilenga, Howard Chu, and Pierangelo Masarati.
+
+<img alt="FreeBSD Practical Instructions For Configuring OpenLDAP Server and Client" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-034.jpg' | absolute_url }}">
 
 This time, we will try installing OpenLDAP on a FreeBSD 13.2 system. To begin installing OpenLDAP on FreeBSD, you must be logged in as the superuser or root user. To install all OpenLDAP dependencies, you must use the FreeBSD ports system to install OpenLDAP.
 
@@ -65,6 +67,17 @@ In the slapd.conf file located in the `/usr/local/etc/openldap` folder, under th
 include /usr/local/etc/openldap/schema/cosine.schema
 include /usr/local/etc/openldap/schema/inetorgperson.schema
 ```
+
+  <script type="text/javascript">
+	atOptions = {
+		'key' : '88e2ead0fd62d24dc3871c471a86374c',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/88e2ead0fd62d24dc3871c471a86374c/invoke.js"></script>
 
 Now we continue by copying the `cosine.schema.sample` file to `cosine.schema`.
 

@@ -6,8 +6,8 @@ id: practical-instruction-configuring-openldap-server-client
 lang: en
 author: Iwan Setiawan
 robots: index, follow
-categories: linux
-tags: WebServer
+categories: freebsd
+tags: SysAdmin
 background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-034.jpg
 toc: true
 comments: true

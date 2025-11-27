@@ -127,11 +127,11 @@ root@router2:~ #
 
 The meaning of the example script above is:
 
-*Waiting for PIDS: 47346.*
+> *Waiting for PIDS: 47346.*
 
-*Performing sanity check on slap configuration: OK*
+> *Performing sanity check on slap configuration: OK*
 
-*Starting slapd*
+> *Starting slapd*
 <br/>
 
 This means your OpenLDAP server is running or has been RUNNING on your FreeBSD system.

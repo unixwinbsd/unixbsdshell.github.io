@@ -8,7 +8,7 @@ author: Iwan Setiawan
 robots: index, follow
 categories: linux
 tags: WebServer
-background: 
+background: https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-035.jpg
 toc: true
 comments: true
 published: true
@@ -27,6 +27,8 @@ This guide will cover just a few of the many commands. The entire content of thi
 Drush is built in the PHP programming language and can run in a terminal shell. Drush is used to support Drupal projects, allowing you to easily interact with one or more Drupal projects. The Drush core includes commands for performing common tasks such as managing configurations, performing database updates, and clearing caches. Drush also provides utilities for running SQL queries and migrations, and generating scaffolding code for frequently used Drupal core APIs.
 
 Drush can automate many Drupal tasks. Users typically perform various steps in the Drupal UI, which can be time-consuming. With Drush, everything can be easily executed with just a CLI command.
+
+<img alt="FreeBSD Tutorial - Managing Drupal CMS with Drush CLI" width="99%" class="lazyload" style="display: block; margin: auto;" src="{{ 'https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-035.jpg' | absolute_url }}">
 
 For example, a website may require updates for various reasons, such as security issues or updated modules. Choosing to update modules through conventional methods can be a time-consuming task, requiring numerous clicks and other settings. However, Drush makes things easier and saves you time by allowing you to update your website with just one command line.
 
@@ -68,6 +70,17 @@ root@ns3:~ # drush status
  Drush configuration    :
  Drush alias files      :
  ```
+
+  <script type="text/javascript">
+	atOptions = {
+		'key' : '88e2ead0fd62d24dc3871c471a86374c',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/88e2ead0fd62d24dc3871c471a86374c/invoke.js"></script>
 
  ## 3. How to Use Drush
 

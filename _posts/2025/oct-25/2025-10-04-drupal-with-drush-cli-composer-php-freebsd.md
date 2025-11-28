@@ -33,19 +33,19 @@ In this article we try to explain the Drupal update process using the Drush CLI 
 ## 1. System Specifications
 
 OS: FreeBSD 13.2
-Drupal version: Drupal 10.0.0
-Drush version: Drush 12.4.3.0
-Apache version: apache24-2.4.58_1
-PHP cersion: php82-8.2.14
-PHP-FPM
-MySQL-Server version: mysql80-server-8.0.35
+- Drupal version: Drupal 10.0.0
+- Drush version: Drush 12.4.3.0
+- Apache version: apache24-2.4.58_1
+- PHP cersion: php82-8.2.14
+- PHP-FPM
+- MySQL-Server version: mysql80-server-8.0.35
 
 
 ## 2. Drupal Update Process
 
 Before you update Drupal, first check the Drupal version, so that the update process can be seen whether it was successful or not. Use the "drush status" command to see which versions of Drupal and Drush are active on your FreeBSD server.
 
-```
+```console
 root@ns3:~ # drush status
 Drupal version   : 10.0.0
 Site URI         : http://default
@@ -76,11 +76,22 @@ Files, Temp      : /tmp
 
 We will update Drupal version 10.0.0 to version 10.2.2. Follow the guide below which will update Drupal to the latest version.
 
-### a. Update Drupal Database
+  <script type="text/javascript">
+	atOptions = {
+		'key' : '88e2ead0fd62d24dc3871c471a86374c',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/88e2ead0fd62d24dc3871c471a86374c/invoke.js"></script>
+
+### 2.1. Update Drupal Database
 
 As we know, all Drupal data is stored on the MySQL database server. The first step you have to do is update the Drupal database with the command below.
 
-```
+```yml
 root@ns3:~ # drush updatedb
 root@ns3:~ # drush cache:rebuild
 root@ns3:~ # drush config:export --diff
@@ -89,65 +100,65 @@ root@ns3:~ # drush config:export --diff
 Apart from using the drush command above, you can also update the database with a web browser. Type the following command in Google Chrome `"http://192.168.5.2/drupal/update.php"`.
 
 
-### b. Backup Drupal Database
+### 2.2. Backup Drupal Database
 
 Before you update Drupal, make a habit of always doing a `"backup"` first. This backup file really helps you if an error occurs during the update process. Follow these steps to backup a Drupal database.
 
-```
+```yml
 root@ns3:~ # drush sql:dump --debug
 root@ns3:~ # drush archive-dump --exclude-code-paths=sites/default/settings.php --debug
 ```
 
 After that, you have to activate maintenance mode, the goal is that all your Drupal website data cannot be opened temporarily.
 
-```
+```yml
 root@ns3:~ # drush state:set system.maintenance_mode 1
 ```
 
 The final step is to do the `"rebuild cache"` command.
 
-```
+```yml
 root@ns3:~ # drush cache:rebuild
 ```
 
-### c. Update With Composer PHP
+### 2.3. Update With Composer PHP
 
 After the Drupal database has been updated and backed up, you can continue with the update process. Use composer to carry out the Drupal update process.
 
-```
+```yml
 root@ns3:~ # cd /usr/local/www/drupal10
 root@ns3:/usr/local/www/drupal10 # composer update "drupal/core-*" --with-all-dependencies
 ```
 
 Next, you update the Drupal database again then clear the cache.
 
-```
+```yml
 root@ns3:/usr/local/www/drupal10 # drush updatedb
 root@ns3:/usr/local/www/drupal10 # drush cache:rebuild
 ```
 
 If you use configuration management to deploy Drupal configurations, be sure to export the configuration. Run the following command to export the configuration.
 
-```
+```yml
 root@ns3:/usr/local/www/drupal10 # drush config:export --diff
 ```
 
 After you have carried out all the processes above, normalize your Drupal website again with the following command.
 
-```
+```yml
 root@ns3:/usr/local/www/drupal10 # drush state:set system.maintenance_mode 0
 root@ns3:/usr/local/www/drupal10 # drush cache:rebuild
 ```
 
 Before you see the results, run the following command.
 
-```
+```yml
 root@ns3:/usr/local/www/drupal10 # composer install --no-dev
 ```
 
-Nach, now let's see the results of all the commands you have done above. Run the command `"drush staus"`, have you succeeded in changing the Drupal version?
+Nach, now let's see the results of all the commands you have done above. Run the command `"drush staus"`, have you succeeded in changing the Drupal version?.
 
-```
+```yml
 root@ns3:/usr/local/www/drupal10 # drush status
 ```
 

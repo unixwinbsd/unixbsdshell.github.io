@@ -1,7 +1,7 @@
 ---
 title: Pure FTPD Installation Process Dissection on Ubuntu Linux Server
-date: "2025-11-29 06:40:37 +0000"
-updated: "2025-11-29 06:40:37 +0000"
+date: "2025-11-29 06:05:37 +0000"
+updated: "2025-11-29 06:05:37 +0000"
 id: fure-ftpd-installation-process-dissection-on-ubuntu
 lang: en
 author: Iwan Setiawan

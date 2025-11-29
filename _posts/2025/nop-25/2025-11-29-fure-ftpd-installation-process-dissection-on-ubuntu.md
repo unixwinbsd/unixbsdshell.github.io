@@ -24,7 +24,7 @@ This server software is admired for its lightweight nature and compatibility wit
 
 <figure class="figure">
  <img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/nop-25-036.jpg" class="figure-img lazyload rounded shadow-lg" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
- <figcaption class="figure-caption <br/>">
+ <figcaption class="figure-caption text-center">
  Fure FTPD Free FTP server with high level security system
  </figcaption>
  </figure>

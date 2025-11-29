@@ -24,10 +24,12 @@ This server software is admired for its lightweight nature and compatibility wit
 
 <figure class="figure">
  <img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/nop-25-036.jpg" class="figure-img lazyload rounded shadow-lg" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
- <figcaption class="figure-caption">
+ <figcaption class="figure-caption <br/>">
  Fure FTPD Free FTP server with high level security system
  </figcaption>
  </figure>
+
+ <br/>
 
 ## 1. Pure-FTPd Features
 
@@ -189,10 +191,12 @@ Next, you need to connect to the Pure FTPd server from the client machine using 
 
 <figure class="figure">
  <img src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-037.jpg" class="figure-img lazyload rounded shadow-lg" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
- <figcaption class="figure-caption">
+ <figcaption class="figure-caption text-center">
  Process of Connecting FTPD Server with Client
  </figcaption>
  </figure>
+
+<br/>
 
 Provide your Pure FTPd server IP address, select the FTP protocol, select `"Require explicit FTP over TLS"` provide your FTP username and password, and click the Connect button. You will be prompted to accept the certificate, after which you can simply click the OK button.
 

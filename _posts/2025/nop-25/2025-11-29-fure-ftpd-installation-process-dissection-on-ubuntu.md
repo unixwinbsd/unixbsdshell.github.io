@@ -23,7 +23,7 @@ Its configuration options are flexible, making it suitable for both personal and
 This server software is admired for its lightweight nature and compatibility with a wide range of operating systems, including various Linux distributions like Ubuntu. Installing PureFTPd is a straightforward process. For those using Ubuntu Server, the command sudo apt install pure-ftpd will start the process. But before we discuss the Pure-FTPD installation process, it's a good idea to first get to know some of the features it has.
 
 <figure class="figure">
- <img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/nop-25-036.jpg" class="figure-img lazyload rounded shadow-lg text-center" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
+ <img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/nop-25-036.jpg" class="figure-img lazyload rounded" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
  <figcaption class="figure-caption text-center">
  Fure FTPD Free FTP server with high level security system
  </figcaption>

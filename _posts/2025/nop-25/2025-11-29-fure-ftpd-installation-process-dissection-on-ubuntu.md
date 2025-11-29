@@ -23,7 +23,7 @@ Its configuration options are flexible, making it suitable for both personal and
 This server software is admired for its lightweight nature and compatibility with a wide range of operating systems, including various Linux distributions like Ubuntu. Installing PureFTPd is a straightforward process. For those using Ubuntu Server, the command sudo apt install pure-ftpd will start the process. But before we discuss the Pure-FTPD installation process, it's a good idea to first get to know some of the features it has.
 
 <figure class="figure">
- <img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/nop-25-036.jpg" class="figure-img lazyload rounded" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
+ <img src="https://gitlab.com/unixbsdshell/unixbsdshell.gitlab.io/-/raw/main/img/nop-25-036.jpg" class="figure-img lazyload img-fluid rounded" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
  <figcaption class="figure-caption text-center">
  Fure FTPD Free FTP server with high level security system
  </figcaption>
@@ -98,11 +98,11 @@ We can run the command below to configure Pure-FTPd and enable basic security. T
 
 ```yml
 $ sudo bash
-$ echo “yes” > /etc/pure-ftpd/conf/Daemonize
-$ echo “yes” > /etc/pure-ftpd/conf/NoAnonymous
-$ echo “yes” > /etc/pure-ftpd/conf/ChrootEveryone
-$ echo “yes” > /etc/pure-ftpd/conf/IPV4Only
-$ echo “yes” > /etc/pure-ftpd/conf/ProhibitDotFilesWrite
+$ echo â€œyesâ€ > /etc/pure-ftpd/conf/Daemonize
+$ echo â€œyesâ€ > /etc/pure-ftpd/conf/NoAnonymous
+$ echo â€œyesâ€ > /etc/pure-ftpd/conf/ChrootEveryone
+$ echo â€œyesâ€ > /etc/pure-ftpd/conf/IPV4Only
+$ echo â€œyesâ€ > /etc/pure-ftpd/conf/ProhibitDotFilesWrite
 ```
 
 After you run the command above, the individual files below will be created in the default `conf` directory.
@@ -122,29 +122,29 @@ $ sudo systemctl restart pure-ftpd
 Now, we can connect using the server's hostname or IP address. Here are some configuration files we can create.
 
 ```yml
-$ echo ‘yes’ > BrokenClientsCompatibility
-$ echo ’50’ > MaxClientsNumber
-$ echo ‘5’ > MaxClientsPerIP
-$ echo ‘no’ > VerboseLog
-$ echo ‘yes’ > DisplayDotFiles
-$ echo ‘yes’ > NoChmod
-$ echo ‘no’ > AnonymousOnly
-$ echo ‘no’ > PAMAuthentication
-$ echo ‘no’ > UnixAuthentication
-$ echo ‘/etc/pure-ftpd/pureftpd.pdb’ > PureDB
-$ echo ‘yes’ > DontResolve
-$ echo ’15’ > MaxIdleTime
-$ echo ‘2000 8’ > LimitRecursion
-$ echo ‘yes’ > AntiWarez
-$ echo ‘no’ > AnonymousCanCreateDirs
-$ echo ‘4’ > MaxLoad
-$ echo ‘no’ > AllowUserFXP
-$ echo ‘no’ > AllowAnonymousFXP
-$ echo ‘no’ > AutoRename
-$ echo ‘yes’ > AnonymousCantUpload
-$ echo ‘yes’ > NoChmod
-$ echo ’80’ > MaxDiskUsage
-$ echo ‘yes’ > CustomerProof
+$ echo â€˜yesâ€™ > BrokenClientsCompatibility
+$ echo â€™50â€™ > MaxClientsNumber
+$ echo â€˜5â€™ > MaxClientsPerIP
+$ echo â€˜noâ€™ > VerboseLog
+$ echo â€˜yesâ€™ > DisplayDotFiles
+$ echo â€˜yesâ€™ > NoChmod
+$ echo â€˜noâ€™ > AnonymousOnly
+$ echo â€˜noâ€™ > PAMAuthentication
+$ echo â€˜noâ€™ > UnixAuthentication
+$ echo â€˜/etc/pure-ftpd/pureftpd.pdbâ€™ > PureDB
+$ echo â€˜yesâ€™ > DontResolve
+$ echo â€™15â€™ > MaxIdleTime
+$ echo â€˜2000 8â€™ > LimitRecursion
+$ echo â€˜yesâ€™ > AntiWarez
+$ echo â€˜noâ€™ > AnonymousCanCreateDirs
+$ echo â€˜4â€™ > MaxLoad
+$ echo â€˜noâ€™ > AllowUserFXP
+$ echo â€˜noâ€™ > AllowAnonymousFXP
+$ echo â€˜noâ€™ > AutoRename
+$ echo â€˜yesâ€™ > AnonymousCantUpload
+$ echo â€˜yesâ€™ > NoChmod
+$ echo â€™80â€™ > MaxDiskUsage
+$ echo â€˜yesâ€™ > CustomerProof
 ```
 
   <script type="text/javascript">
@@ -190,7 +190,7 @@ Next, you need to connect to the Pure FTPd server from the client machine using 
 
 
 <figure class="figure">
- <img src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-037.jpg" class="figure-img lazyload rounded" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
+ <img src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-037.jpg" class="figure-img lazyload img-fluid rounded" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
  <figcaption class="figure-caption text-center">
  Process of Connecting FTPD Server with Client
  </figcaption>

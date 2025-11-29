@@ -190,7 +190,7 @@ Next, you need to connect to the Pure FTPd server from the client machine using 
 
 
 <figure class="figure">
- <img src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-037.jpg" class="figure-img lazyload rounded shadow-lg" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
+ <img src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-037.jpg" class="figure-img lazyload rounded" alt="Fure FTPD Installation Process Dissection on Ubuntu Linux Server">
  <figcaption class="figure-caption text-center">
  Process of Connecting FTPD Server with Client
  </figcaption>

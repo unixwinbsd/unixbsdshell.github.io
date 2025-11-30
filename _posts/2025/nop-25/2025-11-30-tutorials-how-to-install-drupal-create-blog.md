@@ -100,10 +100,9 @@ Server version: 8.0.35 Source distribution</i></span>
 root@localhost [(none)]&gt;</span></span></pre>
 
 Once you're connected to the MySQL server, we'll create:
-
-Database name: **drupal**
-User Name: **userdrupal**
-User Password: **router123**
+- Database name: **drupal**
+- User Name: **userdrupal**
+- User Password: **router123**
 
 <div class="fw-bold fw-light fs-6" style="background: rgb(231, 239, 3); border: 0px; font-family: Verdana, Geneva, sans-serif; margin: 0px; padding: 0px 10px;">Create a username and password</div>
 <pre class="pre-cmd" style="background: rgb(238, 238, 238); border: 1px solid rgb(212, 212, 212); line-height: 12.24px; margin-bottom: 1.5em; margin-top: 0px; max-width: 100%; overflow: auto; padding: 10px;"><span style="font-family: Times New Roman;"><span style="font-size: 14.4px;">root@localhost [(none)]&gt; <span style="color: red;">CREATE DATABASE drupal CHARACTER SET utf8;</span>

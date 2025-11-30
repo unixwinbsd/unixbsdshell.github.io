@@ -25,7 +25,7 @@ Drupal is a Content Management System (CMS) developed in 2000 by Belgian student
 Compared to other CMSs like WordPress, Drupal is arguably more feature-rich and easier to develop. Due to its wide range of available features, people sometimes mistake Drupal for a confusing CMS. However, Drupal's features are far more comprehensive and easier to develop.
 
 <figure class="figure">
- <img src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-038.jpg" class="FreeBSD Tutorial - How to Install Drupal to Create a Blog" title="FreeBSD Tutorial - How to Install Drupal to Create a Blog">
+ <img src="https://raw.githubusercontent.com/unixwinbsd/unixbsdshell.github.io/refs/heads/main/img/nop-25/nop-25-038.jpg" class="figure-img img-fluid rounded" alt="FreeBSD Tutorial - How to Install Drupal to Create a Blog" title="Welcome To Drupal (localhost)"/>
  <figcaption class="figure-caption text-center mt-2">
 Welcome To Drupal (localhost)
  </figcaption>

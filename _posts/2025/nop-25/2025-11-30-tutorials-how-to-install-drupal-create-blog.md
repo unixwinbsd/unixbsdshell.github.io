@@ -39,15 +39,15 @@ In this article, we'll explain how to install and configure Drupal with `Apache2
 
 <blockquote class="blockquote">
 <p>
-OS: FreeBSD 13.2
-Hostname: ns3
-Domain: datainchi@gmail.com
-IP Address: 192.168.5.2
-php82-opcache
-Database: mysql80-server
-PHP version: PHP82
-Apache version: apache24
-PHP-FPM
+OS: FreeBSD 13.2<br/>
+Hostname: ns3<br/>
+Domain: datainchi.com<br/>
+IP Address: 192.168.5.2<br/>
+php82-opcache<br/>
+Database: mysql80-server<br/>
+PHP version: PHP82<br/>
+Apache version: apache24<br/>
+PHP-FPM<br/>
 mod PHP82 dan PHP82 extension
 </p>
 </blockquote>
